@@ -6,10 +6,10 @@
 <meta name="theme-color" content="#101512">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="sb_publishable_Zh0X51iGMFY6d9eZaLSErw_ra-p7-Xf">
+<meta name="apple-mobile-web-app-title" content="Renzo Hub">
 <link rel="apple-touch-icon" href="/assets/icon-180.png">
 <link rel="manifest" href="/manifest.webmanifest">
-<title>sb_publishable_Zh0X51iGMFY6d9eZaLSErw_ra-p7-Xf</title>
+<title>Renzo Hub</title>
 <style>
 :root{--bg:#101512;--card:#171d19;--card2:#202822;--text:#f5f7f5;--muted:#9da79f;--accent:#a8c4ae;--accent2:#d7eadb;--line:#2b352e;--danger:#db8f86;--ok:#8ec9a2}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -45,7 +45,7 @@ textarea,input{width:100%;background:#111713;color:white;border:1px solid var(--
     <div class="authlogo">R</div>
     <div class="authcard">
       <div class="ey">Acceso privado</div>
-      <h1>sb_publishable_Zh0X51iGMFY6d9eZaLSErw_ra-p7-Xf</h1>
+      <h1>Renzo Hub</h1>
       <p class="small">Inicia sesión para sincronizar tus microapps entre móvil y portátil.</p>
       <form id="loginForm">
         <label for="email">Email</label>
@@ -65,7 +65,7 @@ textarea,input{width:100%;background:#111713;color:white;border:1px solid var(--
 <div id="appShell" class="shell hidden">
 <section id="home" class="page active">
 <div id="worldHome"></div>
-<div class="top"><div><div class="ey">Personal microapps</div><h1>sb_publishable_Zh0X51iGMFY6d9eZaLSErw_ra-p7-Xf</h1></div><div class="avatar">R</div></div>
+<div class="top"><div><div class="ey">Personal microapps</div><h1>Renzo Hub</h1></div><div class="avatar">R</div></div>
 <div class="hero"><h2 id="greeting">Tu día, en un solo sitio.</h2><p>Tu hub privado y sincronizado.</p>
 <div class="quick"><div><b id="skinPct">0%</b><span class="small">Skin hoy</span></div><div><b>3</b><span class="small">Apps activas</span></div><div><b id="streak">0</b><span class="small">Días seguidos</span></div></div></div>
 <div class="section"><h3>Mis apps</h3><span class="small">Cloud V2</span></div>
@@ -145,9 +145,13 @@ textarea,input{width:100%;background:#111713;color:white;border:1px solid var(--
 <script type="module">
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/+esm";
 
-const SUPABASE_URL="https://zpueziugbezqxompwsol.supabase.co";
-const SUPABASE_KEY="sb_publishable__1RzWgnl6E2tOnqaZK_knQ_Bz-M9eAU";
-const supabase=createClient(SUPABASE_URL,SUPABASE_KEY);
+// Config comes from the Vercel function so each deployment can target its
+// own Supabase environment. Fail closed: never fall back to production.
+const configResponse=await fetch("/api/supabase-config",{cache:"no-store"});
+if(!configResponse.ok)throw new Error("Falta configurar Supabase para este entorno.");
+const supabaseConfig=await configResponse.json();
+if(!supabaseConfig.supabaseUrl||!supabaseConfig.publishableKey)throw new Error("La configuración Supabase de este entorno está incompleta.");
+const supabase=createClient(supabaseConfig.supabaseUrl,supabaseConfig.publishableKey);
 import {mountGym} from "./gym.js";
 import {mountNews} from "./news.js";
 import {mountWorld} from "./world.js";
