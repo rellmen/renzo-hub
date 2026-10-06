@@ -1,0 +1,25 @@
+{
+  "name": "Renzo Hub",
+  "short_name": "R Hub",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#101512",
+  "theme_color": "#101512",
+  "description": "Hub privado de microapps personales sincronizado con Supabase.",
+  "icons": [
+    {
+      "src": "/assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
