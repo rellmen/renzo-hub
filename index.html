@@ -157,7 +157,7 @@ if(!supabaseConfig.supabaseUrl||!supabaseConfig.publishableKey)throw new Error("
 const supabase=createClient(supabaseConfig.supabaseUrl,supabaseConfig.publishableKey);
 import {mountGym} from "./gym.js";
 import {mountNews} from "./news.js";
-import {mountWorld} from "./world.js";
+import {mountWorld} from "./world.js"; import {mountJarvis} from "./jarvis-ui.js"; import {mountWorldExtensions} from "./world-extensions.js";
 const news=mountNews(document.getElementById("news"),supabase,()=>user);
 const gym=mountGym(document.getElementById("gym"),supabase,()=>user);
 const world=mountWorld({home:document.getElementById("worldHome"),body:document.getElementById("worldBody"),work:document.getElementById("worldWork"),money:document.getElementById("worldMoney"),system:document.getElementById("worldSystem")},()=>user,supabase);
@@ -180,7 +180,7 @@ let now=new Date();
 const localDate=d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,"0"),String(d.getDate()).padStart(2,"0")].join("-");
 let dateKey=localDate(now);
 let mode=now.getHours()>=18?"pm":"am";
-let user=null;
+let user=null;mountJarvis(supabase,()=>user);mountWorldExtensions(supabase,()=>user);mountJarvis(supabase,()=>user);mountWorldExtensions(supabase,()=>user);
 let cloudState={am:[],pm:[]};
 let noteTimer=null;
 let selectedDay=null;
