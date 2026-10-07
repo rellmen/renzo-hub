@@ -5,6 +5,8 @@
 - **Preview (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/)
 - **Fuente canónica:** esta carpeta, `renzo-hub-news/`
 - **Última edición:** 7 de octubre de 2026
+- **Despliegue Producción:** `dpl_BgZatJo16sZRsitXoJMpQ4Ppkety` · READY
+- **Despliegue Preview:** `dpl_HbtHMBRX7vgu29cdPmP4XacxMmrW` · READY
 - **Proyectos Vercel:** `renzo-hub` (prod) y `renzo-hub-2-1-staging` (preview)
 
 ## Cambios del release 2.3.1
