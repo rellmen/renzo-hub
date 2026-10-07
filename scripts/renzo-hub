@@ -1,0 +1,43 @@
+#!/bin/sh
+set -eu
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+CMD=${1:-status}
+case "$CMD" in
+  source)
+    printf 'Fuente canónica: %s\n' "$ROOT"
+    cat "$ROOT/RENZO-HUB-CURRENT.md"
+    ;;
+  status|latest)
+    python3 - "$ROOT" <<'PY'
+import json, sys, urllib.request
+from pathlib import Path
+root = Path(sys.argv[1])
+local = json.loads((root / "release.json").read_text())
+print(f"Fuente local: {root}")
+print(f"Release local: {local['release']}")
+for label, base in (("Producción", local["production"]), ("Preview", local["preview"])):
+    try:
+        req = urllib.request.Request(base + "/release.json", headers={"Cache-Control": "no-cache"})
+        with urllib.request.urlopen(req, timeout=12) as response:
+            live = json.load(response)
+        info_req = urllib.request.Request(base + "/api/deployment-info", headers={"Cache-Control": "no-cache"})
+        with urllib.request.urlopen(info_req, timeout=12) as response:
+            info = json.load(response)
+        status = "al día" if live.get("release") == local.get("release") else "DIFERENTE: revisar antes de editar o publicar"
+        print(f"{label}: {base} · release {live.get('release')} · {info.get('environment')} · {status}")
+    except Exception as exc:
+        print(f"{label}: no disponible para comprobar ({exc})")
+try:
+    import subprocess
+    result = subprocess.run(["git", "-C", str(root), "status", "--short", "--branch"], capture_output=True, text=True, check=False)
+    print("Git:")
+    print(result.stdout.strip() or "  limpio")
+except Exception:
+    print("Git: no disponible")
+PY
+    ;;
+  *)
+    printf 'Uso: %s {status|latest|source}\n' "$0" >&2
+    exit 2
+    ;;
+esac
