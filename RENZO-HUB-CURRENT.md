@@ -5,8 +5,8 @@
 - **Preview (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/)
 - **Fuente canónica:** esta carpeta, `renzo-hub-news/`
 - **Última edición:** 7 de octubre de 2026
-- **Despliegue Producción:** `dpl_BgZatJo16sZRsitXoJMpQ4Ppkety` · READY
-- **Despliegue Preview:** `dpl_HbtHMBRX7vgu29cdPmP4XacxMmrW` · READY
+- **Despliegue Producción:** `dpl_EWXjpSkKxmWQpn9SDCxeHjmg4a86` · READY
+- **Despliegue Preview:** `dpl_8BY4qELMH3bQnEoce8ndzg27HXwd` · READY
 - **Despliegue Producción:** `dpl_EWXjpSkKxmWQpn9SDCxeHjmg4a86` · READY
 - **Despliegue Preview:** `dpl_8BY4qELMH3bQnEoce8ndzg27HXwd` · READY
 - **Proyectos Vercel:** `renzo-hub` (prod) y `renzo-hub-2-1-staging` (preview)
