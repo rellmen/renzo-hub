@@ -152,3 +152,12 @@ Esta sección actualiza el estado anterior, que reflejaba una versión intermedi
 - **Publicación en Preview:** los commits `ca62b76` (aplicación e informe) y `c324c8f` (migración reproducible) están en la rama privada `renzo-hub-2-1-preview`. El primero activó deployment Preview Ready `https://renzo-hub-2-1-staging-7wsz1mvov-renzojesus99-1996.vercel.app/`. Se verificó que `main` y producción no recibieron el commit.
 - **Límites externos:** la API de GitHub de este entorno sigue conectada como otra identidad y devuelve 404 para el repo privado. La API Vercel sigue devolviendo 403 para el equipo `renzojesus99-1996`. Ambos cambios sí se enviaron mediante las sesiones web autorizadas; el webhook GitHub→Vercel generó el Preview. Las APIs de los conectores siguen pendientes de reconexión para facilitar futuras actualizaciones.
 - **Pendiente de la usuaria:** crear una cuenta propia en el Supabase de staging y confirmar el email si se solicita. Después se podrá validar login real, persistencia en Supabase, RLS de usuario y carga privada de documentos. Producción permanece intacta y no se ha promovido la rama.
+
+
+## 13. Preview y estado Jarvis (7 de octubre de 2026)
+
+- La rama privada `renzo-hub-2-1-preview` contiene `/api/jarvis`, `jarvis-ui.js` y `world-extensions.js`, además de la inicialización única de los módulos y la nueva caché PWA. Commits comprobados: `1dd14c3`, `1435be7` y `e619e82`.
+- Vercel muestra el Preview más reciente como `Ready` y la pantalla privada de inicio carga. `GET /api/jarvis` devuelve `outboundConfigured:false` e `inboundConfigured:false`: no hay webhooks conectados y no se ha enviado ningún dato a n8n.
+- En Safari del portátil está abierto el workflow `Payroll Agent · Entrada`; no está publicado, conserva valores `PEGAR_` y su webhook recibe un archivo binario, no el JSON que emite el Hub. No se modificó ni activó.
+- La entrada preparada exige token separado, guarda en Supabase staging bajo propietario configurado y deja cada evento en `needs_review`; nómina y calendario no se aplican automáticamente. Falta conectar un flujo JSON de n8n al endpoint del Hub y configurar secretos de Preview.
+- Pendiente: crear/iniciar sesión con usuario de staging y validar RLS y ambos sentidos con datos ficticios. Publicar el webhook protegido hará accesible una URL pública autenticada; confirmaré esa activación justo antes de realizarla. Producción no recibió estos commits.
