@@ -1,17 +1,15 @@
 # Renzo Hub · versión vigente
 
-- **Release:** 2.3.0
+- **Release:** 2.3.1
 - **Producción (uso diario):** [renzo-hub.vercel.app](https://renzo-hub.vercel.app/)
 - **Preview (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/)
 - **Fuente canónica:** esta carpeta, `renzo-hub-news/`
 - **Última edición:** 7 de octubre de 2026
-- **Despliegue Producción:** `dpl_m41s3rKdKEvgWUidaneMdZChd1YG` · READY
-- **Despliegue Preview:** `dpl_3KSBd8EdEShrfDdaS8pNMvMJKbDG` · READY
 - **Proyectos Vercel:** `renzo-hub` (prod) y `renzo-hub-2-1-staging` (preview)
 
-## Cambios del release 2.3.0
+## Cambios del release 2.3.1
 - Iconos de microapps y navegación con respuesta animada, brillo y selección accesible; se respeta reducir movimiento.
-- Indicador visible de Producción, Preview o entorno sin verificar.
+- Indicador visible de Producción, Preview o entorno sin verificar, colocado en el flujo de la página en móvil para que no tape el contenido.
 - Arranque recuperable: fallo de CDN/configuración muestra un mensaje claro y un botón de reintento; fallos de carga de módulos no ocultan la app.
 - Lectura tolerante a datos de navegación local dañados.
 - Nombre de caché PWA actualizado para que móviles reciban la nueva versión.

@@ -1,4 +1,4 @@
-const CACHE='renzo-hub-cloud-v4.0-environments-auth-recovery';
+const CACHE='renzo-hub-cloud-v4.0.1-mobile-env-badge';
 const CORE=['/','/gym.js','/news.js','/world.js','/world-extensions.js','/jarvis-ui.js','/manifest.webmanifest','/release.json','/assets/renzo-hub-icon.svg','/assets/icon-180.png','/assets/icon-192.png','/assets/icon-512.png'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE)).then(()=>fetch('/api/supabase-config',{cache:'no-store'}).then(r=>r.ok?caches.open(CACHE).then(c=>c.put('/api/supabase-config',r)):null).catch(()=>null))));
 self.addEventListener('message',e=>{if(e.data?.type==='SKIP_WAITING')self.skipWaiting();});

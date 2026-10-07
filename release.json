@@ -1,6 +1,6 @@
 {
-  "release": "2.3.0",
-  "name": "Renzo Hub · Entornos claros y acceso recuperable",
+  "release": "2.3.1",
+  "name": "Renzo Hub · entorno claro en móvil",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "renzo-hub-news",
