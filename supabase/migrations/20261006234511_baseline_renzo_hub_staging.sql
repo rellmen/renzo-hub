@@ -37,3 +37,6 @@ create policy system_records_owner on public.system_records for all to authentic
 create policy system_preferences_owner on public.system_preferences for all to authenticated using((select auth.uid())=user_id) with check((select auth.uid())=user_id);
 revoke all on table public.profiles,public.skin_notes,public.skin_routine_logs,public.user_settings,public.gym_sessions,public.gym_plans,public.news_briefs,public.system_records,public.system_preferences from anon,public;
 grant select,insert,update,delete on table public.profiles,public.skin_notes,public.skin_routine_logs,public.user_settings,public.gym_sessions,public.gym_plans,public.news_briefs,public.system_records,public.system_preferences to authenticated;
+
+revoke all privileges on table public.profiles, public.skin_notes, public.skin_routine_logs, public.user_settings, public.gym_sessions, public.gym_plans, public.news_briefs, public.system_records, public.system_preferences from authenticated;
+grant select, insert, update, delete on table public.profiles, public.skin_notes, public.skin_routine_logs, public.user_settings, public.gym_sessions, public.gym_plans, public.news_briefs, public.system_records, public.system_preferences to authenticated;
