@@ -1,4 +1,4 @@
-import { timingSafeEqual, randomUUID } from "node:crypto";
+import { createHash, timingSafeEqual, randomUUID } from "node:crypto";
 
 const json = (res, status, body) => {
   res.setHeader("Cache-Control", "no-store, max-age=0");
@@ -14,6 +14,14 @@ const sameSecret = (provided, expected) => {
 
 const text = (value, max) => typeof value === "string" ? value.trim().slice(0, max) : "";
 const validDate = value => /^\d{4}-\d{2}-\d{2}$/.test(value || "") ? value : new Date().toISOString().slice(0, 10);
+function stableEventId(ownerId, externalId) {
+  if (!externalId) return randomUUID();
+  const bytes = createHash("sha256").update(`${ownerId}:${externalId}`).digest().subarray(0, 16);
+  bytes[6] = (bytes[6] & 0x0f) | 0x50;
+  bytes[8] = (bytes[8] & 0x3f) | 0x80;
+  const hex = bytes.toString("hex");
+  return `${hex.slice(0,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}-${hex.slice(16,20)}-${hex.slice(20)}`;
+}
 const allowedInboundTypes = new Set([
   "task", "note", "idea", "expense", "study", "reminder", "project",
   "document", "food", "weight", "workout", "calendar_event", "payslip", "receipt"
@@ -116,9 +124,48 @@ async function receiveFromJarvis(req, res) {
   let extractedJson;
   try { extractedJson = JSON.stringify(extracted); } catch { return json(res, 400, { error: "Invalid extracted fields" }); }
   if (extractedJson.length > 8000) return json(res, 413, { error: "Extracted fields exceed 8 KB" });
-  const id = randomUUID();
+  const externalId = text(body.eventId || body.messageId, 180);
+  const id = stableEventId(ownerId, externalId);
   const date = validDate(body.date);
   const confidence = Number(body.confidence);
+  const confidenceValue = Number.isFinite(confidence) ? Math.max(0, Math.min(1, confidence)) : null;
+  const amountCandidate = extracted.amount ?? body.amount ?? extracted.net ?? body.net;
+  const amount = Number(amountCandidate);
+  const net = Number(extracted.net ?? body.net ?? (type === "payslip" ? amountCandidate : NaN));
+  const gross = Number(extracted.gross ?? body.gross);
+  const expenseCategory = text(body.expenseCategory || extracted.expenseCategory, 32).toLowerCase();
+  const payPeriod = text(body.period || extracted.period, 16);
+  const financialKind = type === "payslip" ? "payslip" : "expense";
+  const financialAmount = type === "payslip" ? net : amount;
+  const completeFinancialData = Number.isFinite(financialAmount) && financialAmount > 0 &&
+    (type !== "payslip" || (Number.isFinite(gross) && gross >= net && !!payPeriod));
+  const autoRecord = ["expense", "receipt", "payslip"].includes(type) && completeFinancialData && confidenceValue !== null && confidenceValue >= 0.9;
+  const category = type === "payslip" ? "Salary" : expenseCategory === "car" ? "Car" : text(body.category || extracted.category, 40) || "Other";
+  const financialPayload = {
+    id,
+    kind: financialKind,
+    amount: Math.round(financialAmount * 100) / 100,
+    date,
+    category,
+    expenseCategory: expenseCategory || (category === "Car" ? "car" : undefined),
+    note,
+    source: "jarvis",
+    reviewed: true,
+    importedConfidence: confidenceValue,
+    ...(type === "payslip" ? {
+      net: Math.round(net * 100) / 100,
+      gross: Math.round(gross * 100) / 100,
+      baseHours: Number(extracted.baseHours ?? body.baseHours) || 0,
+      overtimeHours: Number(extracted.overtimeHours ?? body.overtimeHours) || 0,
+      overtimeIncome: Number(extracted.overtimeIncome ?? body.overtimeIncome) || 0,
+      allowances: Number(extracted.allowances ?? body.allowances) || 0,
+      bonus: Number(extracted.bonus ?? body.bonus) || 0,
+      deductions: Number(extracted.deductions ?? body.deductions) || 0,
+      fuel: Number(extracted.fuel ?? body.fuel) || 0,
+      period: payPeriod,
+      validatedByUser: false
+    } : {})
+  };
   const payload = {
     id,
     title,
@@ -129,12 +176,25 @@ async function receiveFromJarvis(req, res) {
     status: "needs_review",
     source: "jarvis",
     requiresReview: true,
-    confidence: Number.isFinite(confidence) ? Math.max(0, Math.min(1, confidence)) : null,
+    confidence: confidenceValue,
     reviewReason: type === "payslip" || type === "expense" || type === "receipt" || type === "calendar_event"
-      ? "Requiere revisión humana antes de pasar a Money, Shift o calendario."
+      ? "Confianza baja o campos financieros incompletos; revisar antes de registrar en Money."
       : "Entrada de Jarvis pendiente de revisión."
   };
   try {
+    const financialRow = autoRecord ? {
+      id,
+      owner_id: ownerId,
+      domain: "money",
+      record_type: "renzo_money",
+      title: title.slice(0, 500),
+      status: "active",
+      occurred_at: `${date}T12:00:00.000Z`,
+      payload: financialPayload,
+      source: "automation",
+      confidence: confidenceValue,
+      requires_review: false
+    } : null;
     const response = await fetch(`${projectUrl.replace(/\/$/, "")}/rest/v1/hub_records`, {
       method: "POST",
       headers: {
@@ -146,21 +206,21 @@ async function receiveFromJarvis(req, res) {
       body: JSON.stringify({
         id,
         owner_id: ownerId,
-        domain: type === "payslip" || type === "expense" || type === "receipt" ? "money" : type === "calendar_event" ? "personal" : "system",
-        record_type: "renzo_inbox",
-        title,
-        status: "needs_review",
-        occurred_at: `${date}T12:00:00.000Z`,
-        payload,
-        source: "jarvis",
-        confidence: payload.confidence,
-        requires_review: true
+        domain: financialRow?.domain || (type === "payslip" || type === "expense" || type === "receipt" ? "money" : type === "calendar_event" ? "personal" : "system"),
+        record_type: financialRow?.record_type || "renzo_inbox",
+        title: financialRow?.title || title,
+        status: financialRow?.status || "needs_review",
+        occurred_at: financialRow?.occurred_at || `${date}T12:00:00.000Z`,
+        payload: financialRow?.payload || payload,
+        source: financialRow?.source || "automation",
+        confidence: financialRow?.confidence ?? payload.confidence,
+        requires_review: financialRow?.requires_review ?? true
       }),
       signal: AbortSignal.timeout(10000),
       redirect: "error"
     });
     if (!response.ok) return json(res, 502, { error: "Hub could not store the incoming item" });
-    return json(res, 201, { ok: true, id, status: "needs_review" });
+    return json(res, 201, { ok: true, id, status: autoRecord ? "saved_to_money" : "needs_review", requiresReview: !autoRecord });
   } catch {
     return json(res, 502, { error: "Hub could not store the incoming item" });
   }
