@@ -107,7 +107,7 @@ async function receiveFromJarvis(req, res) {
   if (!sameSecret(provided, process.env.JARVIS_INBOUND_TOKEN)) return json(res, 401, { error: "Unauthorized" });
 
   const projectUrl = process.env.SUPABASE_URL;
-  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const serviceKey = process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
   const ownerId = process.env.JARVIS_OWNER_ID;
   if (!projectUrl || !serviceKey || !ownerId) return json(res, 503, { error: "Jarvis inbound storage is not configured" });
   if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(ownerId)) {
@@ -125,6 +125,9 @@ async function receiveFromJarvis(req, res) {
   try { extractedJson = JSON.stringify(extracted); } catch { return json(res, 400, { error: "Invalid extracted fields" }); }
   if (extractedJson.length > 8000) return json(res, 413, { error: "Extracted fields exceed 8 KB" });
   const externalId = text(body.eventId || body.messageId, 180);
+  if (["expense", "receipt", "payslip"].includes(type) && !externalId) {
+    return json(res, 400, { error: "Financial events need a stable eventId or messageId for safe retries" });
+  }
   const id = stableEventId(ownerId, externalId);
   const date = validDate(body.date);
   const confidence = Number(body.confidence);
@@ -195,13 +198,17 @@ async function receiveFromJarvis(req, res) {
       confidence: confidenceValue,
       requires_review: false
     } : null;
-    const response = await fetch(`${projectUrl.replace(/\/$/, "")}/rest/v1/hub_records`, {
+    const authHeaders = { apikey: serviceKey };
+    // New sb_secret keys are API keys, not JWTs; legacy service_role keys are JWTs.
+    if (!serviceKey.startsWith("sb_secret_")) authHeaders.authorization = `Bearer ${serviceKey}`;
+    const response = await fetch(`${projectUrl.replace(/\/$/, "")}/rest/v1/hub_records?on_conflict=id`, {
       method: "POST",
       headers: {
-        apikey: serviceKey,
-        authorization: `Bearer ${serviceKey}`,
+        ...authHeaders,
         "content-type": "application/json",
-        prefer: "return=minimal"
+        // Telegram and workflow retries may deliver the same event more than once.
+        // Keep the first accepted record; don't duplicate or overwrite a user correction.
+        prefer: "resolution=ignore-duplicates,return=minimal"
       },
       body: JSON.stringify({
         id,
@@ -230,7 +237,7 @@ export default async function handler(req, res) {
   if (req.method === "GET") {
     return json(res, 200, {
       outboundConfigured: Boolean(process.env.JARVIS_WEBHOOK_URL && process.env.JARVIS_OUTBOUND_TOKEN),
-      inboundConfigured: Boolean(process.env.JARVIS_INBOUND_TOKEN && process.env.SUPABASE_SERVICE_ROLE_KEY && process.env.JARVIS_OWNER_ID),
+      inboundConfigured: Boolean(process.env.JARVIS_INBOUND_TOKEN && (process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY) && process.env.JARVIS_OWNER_ID),
       inboundPath: "/api/jarvis"
     });
   }

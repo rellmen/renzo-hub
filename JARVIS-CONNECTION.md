@@ -4,7 +4,7 @@ La entrada de Jarvis está en `POST /api/jarvis` y requiere `Authorization: Bear
 
 ## Gasto
 
-Enviar la extracción normalizada de Telegram con un identificador estable del mensaje para que los reintentos no dupliquen movimientos:
+Enviar la extracción normalizada de Telegram con un identificador estable del mensaje. Los eventos financieros sin `eventId` o `messageId` se rechazan; los reintentos con el mismo identificador conservan el primer registro y no duplican ni sobrescriben correcciones:
 
 ```json
 {
@@ -30,7 +30,8 @@ El agente debe enviar `type: "payslip"`, `eventId`, título, fecha de pago, conf
 
 ## Configuración de producción pendiente
 
-- La configuración segura requiere `JARVIS_INBOUND_TOKEN`, `SUPABASE_SERVICE_ROLE_KEY` y `JARVIS_OWNER_ID` en Vercel Production.
+- La configuración segura requiere `JARVIS_INBOUND_TOKEN`, `SUPABASE_SECRET_KEY` y `JARVIS_OWNER_ID` en Vercel Production. `SUPABASE_SECRET_KEY` es la clave de servidor nueva `sb_secret_…`; solo como compatibilidad se acepta la clave JWT legacy `SUPABASE_SERVICE_ROLE_KEY`.
+- La clave nueva `sb_secret_…` se envía solo en el encabezado `apikey`; nunca como Bearer. Mantén estas claves fuera del navegador, n8n y el repositorio.
 - El workflow de Telegram debe estar publicado y llamar a `/api/jarvis` con el token de entrada.
-- `GET /api/jarvis` confirma el estado sin revelar secretos. En la última comprobación, entrada y salida estaban desactivadas en Producción.
+- `GET /api/jarvis` confirma el estado sin revelar secretos. Después de publicar el release 2.4.1, debe mostrar `inboundConfigured: true` cuando las tres variables de entrada estén presentes.
 - No enviar nóminas reales para probar. Primero verificar el recorrido con un gasto y una nómina ficticios.
