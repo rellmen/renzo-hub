@@ -44,3 +44,17 @@ Release local 2.8.0 y caché `renzo-hub-cloud-v5.7-payroll`. Sin despliegue ni P
 ### Revisión aprobada de Tarea 1
 
 Singular «1 corrección», etiquetas con mayúscula inicial y bloques Horas/Saldos al cierre plegables hasta 640 px: inicialmente abiertos solo en el mes más reciente del año seleccionado. En escritorio siguen visibles. Release de trabajo 2.8.0; caché v5.8-payroll.
+
+## Tarea 2 · smoke por entorno
+
+El smoke espera `production` cuando `BASE_URL` tiene exactamente el hostname `renzo-hub.vercel.app`; para cualquier otro host espera `preview`. `EXPECT_ENV=production` o `EXPECT_ENV=preview` tiene prioridad y permite aliases personalizados. Un valor distinto se rechaza antes de abrir el navegador. No inicia sesión ni modifica datos.
+
+```sh
+BASE_URL=https://renzo-hub.vercel.app node tests/e2e/smoke.mjs
+BASE_URL=http://localhost:4173 node tests/e2e/smoke.mjs
+EXPECT_ENV=production BASE_URL=https://alias.example node tests/e2e/smoke.mjs
+```
+
+Si Playwright está instalado en un runner externo, se puede añadir `PLAYWRIGHT_ROOT=/ruta/al/runner` (directorio con package.json), igual que en las pruebas de nóminas.
+
+Verificado el 2026-10-09 contra producción: **15/15** (Chromium, 390 y 1366 px), sin iniciar sesión. Solo cambia el test y su documentación; no cambia el código publicado ni la versión de la aplicación.
