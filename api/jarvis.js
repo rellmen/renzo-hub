@@ -142,7 +142,10 @@ async function receiveFromJarvis(req, res) {
   const financialAmount = type === "payslip" ? net : amount;
   const completeFinancialData = Number.isFinite(financialAmount) && financialAmount > 0 &&
     (type !== "payslip" || (Number.isFinite(gross) && gross >= net && !!payPeriod));
-  const autoRecord = ["expense", "receipt", "payslip"].includes(type) && completeFinancialData && confidenceValue !== null && confidenceValue >= 0.9;
+  // Fase 1: ninguna operación financiera importada se registra sin revisión humana en AI Inbox,
+  // aunque la extracción tenga confianza alta. La aprobación se hace en Renzo Hub (System → Inbox).
+  const autoRecord = false;
+  void completeFinancialData;
   const category = type === "payslip" ? "Salary" : expenseCategory === "car" ? "Car" : text(body.category || extracted.category, 40) || "Other";
   const financialPayload = {
     id,
@@ -153,7 +156,7 @@ async function receiveFromJarvis(req, res) {
     expenseCategory: expenseCategory || (category === "Car" ? "car" : undefined),
     note,
     source: "jarvis",
-    reviewed: true,
+    reviewed: false,
     importedConfidence: confidenceValue,
     ...(type === "payslip" ? {
       net: Math.round(net * 100) / 100,
@@ -181,7 +184,7 @@ async function receiveFromJarvis(req, res) {
     requiresReview: true,
     confidence: confidenceValue,
     reviewReason: type === "payslip" || type === "expense" || type === "receipt" || type === "calendar_event"
-      ? "Confianza baja o campos financieros incompletos; revisar antes de registrar en Money."
+      ? (completeFinancialData ? "Documento financiero importado: confirma los importes antes de registrarlo en Money." : "Campos financieros incompletos o dudosos; revisar antes de registrar en Money.")
       : "Entrada de Jarvis pendiente de revisión."
   };
   try {

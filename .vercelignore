@@ -1,0 +1,17 @@
+# Solo se publica la app. Documentación interna, SQL, scripts e integraciones no se suben a Vercel.
+*.md
+docs/
+supabase/
+scripts/
+integrations/
+os-core/
+tests/
+tools/
+.github/
+package.json
+package-lock.json
+tsconfig.json
+node_modules/
+.env*
+.gitignore
+.vercelignore

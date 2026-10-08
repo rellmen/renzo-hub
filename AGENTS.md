@@ -1,21 +1,34 @@
 # Renzo Hub: instrucciones para cualquier IA
 
+## Qué es
+Renzo HUB es la plataforma personal y privada de Renzo. **No forma parte de Nodalys**: no compartir código, datos, credenciales, documentación ni agentes con Nodalys.
+
 ## Fuente vigente
-- La fuente canónica de Renzo Hub es esta carpeta (`renzo-hub-news/`). Lee este archivo y `RENZO-HUB-CURRENT.md` antes de editar.
-- Ejecuta `./scripts/renzo-hub status` al empezar. La salida compara el release local con Producción y Preview.
-- No copies código desde una conversación antigua, una captura, Figma ni una preview. Parte siempre de los archivos actuales de esta carpeta.
-- El release local incluye exactamente la versión que se sube a ambos proyectos; Vercel separa las variables y los datos de cada entorno.
-- En esta copia no hay remoto Git configurado. Si trabajas fuera del workspace compartido, primero consigue acceso a esta carpeta o a un repositorio actualizado; no declares otra copia como fuente canónica.
+- Repositorio Git `~/Projects/RENZO-HUB/repo` (remoto previsto `rellmen/renzo-hub`). Lee este archivo y `RENZO-HUB-CURRENT.md` antes de editar.
+- Ejecuta `./scripts/renzo-hub status` al empezar.
+- No copies código desde conversaciones antiguas, capturas, Figma ni previews. No uses la carpeta espejo de ChatGPT como fuente.
+
+## Ramas
+- `main` = producción. Solo se actualiza mediante Pull Request aprobado por Renzo.
+- `staging` = pruebas en `renzo-hub-2-1-staging`.
+- `feature/*` = desarrollo; una rama por tarea, PR hacia `staging`.
+- `experimental/os-core` = arquitectura futura; no se despliega.
+- Nunca reescribir historia publicada (sin `push --force`, sin `rebase` de ramas compartidas).
 
 ## Entornos: no confundir
-- **Producción / uso diario:** https://renzo-hub.vercel.app — proyecto Vercel `renzo-hub`, con Supabase de producción.
-- **Preview / revisión:** https://renzo-hub-2-1-staging.vercel.app — proyecto Vercel `renzo-hub-2-1-staging`, rama `renzo-hub-2-1-preview`, con Supabase separado.
-- Los datos/configuración de un entorno no se deben copiar al otro. El indicador de entorno de la app debe mostrar `PRODUCCIÓN` o `PREVIEW`; no publiques si aparece `ENTORNO SIN VERIFICAR`.
-- Para un cambio normal, actualiza ambos entornos desde los mismos archivos actuales, conservando en cada despliegue su objetivo y configuración Vercel. Comprueba las dos URLs después.
+- **Producción:** https://renzo-hub.vercel.app · Vercel `renzo-hub` · Supabase `mgncykyrhavpepfggmng`.
+- **Staging:** https://renzo-hub-2-1-staging.vercel.app · Vercel `renzo-hub-2-1-staging` · Supabase `zpueziugbezqxompwsol`.
+- Los datos y la configuración de un entorno no se copian al otro.
 
-## Edición y publicación
-- Mantén el diseño móvil y escritorio, el acceso Supabase, las microapps Study y Dutch y la instalación PWA.
-- No guardes claves de servicio ni credenciales en el código, documentación o comandos. La publishable key solo se sirve desde `/api/supabase-config` por entorno.
-- Después de editar, incrementa `release.json`, actualiza `RENZO-HUB-CURRENT.md`, cambia la caché de `sw.js` e incluye esos archivos en el release.
-- En Vercel, despliega `renzo-hub-news` al proyecto existente correcto. Para Preview usa target `preview` y la rama `renzo-hub-2-1-preview`; para Producción usa target `production`. Comprueba deployments y URLs sin forzar un team distinto del workspace conectado.
-- No afirmes que algo está publicado hasta comprobar que ambas despliegues estén `READY` y que `/release.json` y `/api/deployment-info` respondan con el release y entorno esperados.
+## Publicación
+- **Prohibido desplegar a producción sin autorización explícita de Renzo.** Todo cambio pasa antes por staging.
+- No desplegar por CLI desde carpetas sin commit: cada despliegue debe corresponder a un commit.
+- Tras editar: incrementa `release.json`, actualiza `RENZO-HUB-CURRENT.md` (tabla de progreso) y cambia la caché de `sw.js`.
+- No afirmes que algo está publicado hasta comprobar `READY` y que `/release.json` y `/api/deployment-info` respondan lo esperado.
+
+## Seguridad y datos
+- Nunca pongas claves, tokens ni contraseñas en código, documentación, commits o comandos. La publishable key solo se sirve desde `/api/supabase-config`.
+- Migraciones Supabase solo aditivas; primero en staging; las de producción requieren autorización de Renzo.
+- No inventar datos en estadísticas: mostrar "sin datos" cuando falten.
+- Registros financieros importados (Jarvis) siempre pasan por revisión humana.
+- Mantén el diseño móvil y escritorio, el acceso Supabase, las microapps existentes y la instalación PWA.
