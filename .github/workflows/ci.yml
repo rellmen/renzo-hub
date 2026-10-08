@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main, staging]
+  push:
+    branches: [staging, "feature/**"]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Sintaxis JS
+        run: npm run check
+      - name: Tests unitarios
+        run: npm test
+      - name: Smoke test de navegador (sin datos reales)
+        env:
+          # Valores ficticios: el smoke test no inicia sesión ni toca Supabase real.
+          SUPABASE_URL: https://ci-placeholder.supabase.co
+          SUPABASE_PUBLISHABLE_KEY: sb_publishable_ci_placeholder
+          BASE_URL: http://localhost:4173
+        run: |
+          npx playwright install --with-deps chromium
+          node tools/dev-server.mjs 4173 &
+          sleep 1
+          node tests/e2e/smoke.mjs

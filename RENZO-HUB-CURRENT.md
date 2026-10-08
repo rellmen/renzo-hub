@@ -1,7 +1,7 @@
 # Renzo Hub · versión vigente
 
 - **Producción (uso diario):** [renzo-hub.vercel.app](https://renzo-hub.vercel.app/) · release **2.4.1** · `dpl_HBnDnZqawHuTC9nUFcCsxoLnDeTs` · rama `main`, tag `v2.4.1`
-- **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.5.0** · `dpl_4i9kbXSiLiSm8WpXtXmiWah9SLJU` · rama `staging`, tag `v2.5.0`
+- **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · alias en **2.5.0**; release **2.5.1** (Bloque 1) en preview `dpl_25mHhkFSz6FzqLU9of7GskmPpZWH` · `dpl_4i9kbXSiLiSm8WpXtXmiWah9SLJU` · rama `staging`, tag `v2.5.0`
 - **Experimental:** 2.6.0 Microapp OS Core · rama `experimental/os-core` (no se despliega)
 - **Fuente canónica:** repositorio Git en `~/Projects/RENZO-HUB/repo` (remoto previsto: `github.com/rellmen/renzo-hub`, pendiente de acceso)
 - **Copias de seguridad:** `~/Projects/RENZO-HUB/backups/` y versiones verificadas en `~/Projects/RENZO-HUB/releases/`
@@ -20,8 +20,17 @@
 | 2026-10-08 | T0.5 Historia limpia (local) | Historia original conservada (7 commits); `main`=2.4.1, `staging`=2.5.0, `experimental/os-core`=2.6.0 | todo el árbol | Verificación de hashes en cada commit; `npm test` os-core 6/6 | `d7cdf75` v2.4.1 · `6c45462` v2.5.0 · `a05849b` v2.6.0-experimental |
 | 2026-10-08 | T0.9 Script status | `scripts/renzo-hub` usa curl; detecta staging protegido por SSO | `scripts/renzo-hub` | Ejecutado: producción 2.4.1 detectada | rama `feature/block0-tooling` |
 | 2026-10-08 | T0.3/T0.4/T0.7/T0.8 | **Bloqueado:** sin acceso al repo privado `rellmen/renzo-hub` | n/a | n/a | Pendiente de Renzo |
+| 2026-10-08 | Bloque 1 · fixes críticos (2.5.1) | `dbSource` + sync tolerante (B-01, B-02); Jarvis siempre a revisión (B-06); script externo `app.js` + CSP y cabeceras (S-07); sin registro público en la UI (S-02 código); `.vercelignore` (S-01); perfil corporal en `user_settings` (F-06) | `world.js`, `world-extensions.js`, `api/jarvis.js`, `index.html`, `app.js`, `profile.js`, `vercel.json`, `.vercelignore`, `sw.js`, `release.json` | `npm test` 8/8; smoke navegador 15/15 (móvil y escritorio, sin errores CSP); hashes del deployment = commit | `ecbdb2e` · staging preview `dpl_25mHhkFSz6FzqLU9of7GskmPpZWH` |
+| 2026-10-08 | Tests y CI | Smoke Playwright, e2e con sesión (solo staging), servidor local con cabeceras Vercel, GitHub Actions | `tests/`, `tools/dev-server.mjs`, `.github/workflows/ci.yml`, `package.json` | Smoke 15/15 local y con valores ficticios de CI | rama `feature/block1-critical-fixes` |
 
-**Siguiente tarea:** Bloque 1 en `feature/block1-critical-fixes` (en paralelo al bloqueo de GitHub).
+**Problemas encontrados:**
+- Vercel (plan Hobby) bloquea despliegues CLI con commits cuyo autor no es la cuenta de Renzo (`BLOCKED`, "team configuration"). Solución aplicada: desplegar desde `git archive` del commit, sin `.git`. Con GitHub conectado se usará despliegue Git.
+- El alias estable `renzo-hub-2-1-staging.vercel.app` sigue apuntando a 2.5.0; la 2.5.1 está en su URL de preview propia. Staging está protegido por Vercel SSO.
+- El e2e con sesión necesita confirmar el usuario de pruebas de staging (email enviado a `renzojesus99+rhstaging@icloud.com`).
+- En el Mac `NODE_ENV=production` hace que `npm install` omita devDependencies; para pruebas locales se usa `~/Projects/RENZO-HUB/tools/e2e-runner`.
+
+**Siguiente tarea:** e2e con sesión en staging (tras confirmar usuario), alias de staging a 2.5.1, y Bloque 2 (esquema reproducible) en paralelo al acceso a GitHub.
+
 
 ## Cambios del release 2.5.0
 - Las herramientas finales funcionan como microapps enfocadas: ocultan la navegación global mientras están abiertas.
