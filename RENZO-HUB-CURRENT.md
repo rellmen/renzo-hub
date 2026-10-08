@@ -1,7 +1,7 @@
 # Renzo Hub · versión vigente
 
 - **Producción (uso diario):** [renzo-hub.vercel.app](https://renzo-hub.vercel.app/) · release **2.4.1** · `dpl_HBnDnZqawHuTC9nUFcCsxoLnDeTs` · rama de producción actual `renzo-hub-2-1-production` (pasará a `main` al promocionar 2.6.0)
-- **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.6.0** (`dpl_DqxmaXsHC6tKFqCqQ9AWAibcZkx7`, commit `2becc17`); despliegue Git desde la rama `staging` (hoy 2.5.0 hasta fusionar el PR #2). La rama `feature/fase1` ya va por **2.6.1** (estabilización, sin funciones nuevas)
+- **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.6.0** (`dpl_DqxmaXsHC6tKFqCqQ9AWAibcZkx7`, commit `2becc17`); despliegue Git desde la rama `staging` (hoy 2.5.0 hasta fusionar el PR #2). La rama `feature/fase1` va por **2.6.2** (estabilización y correcciones del E2E, sin funciones nuevas)
 - **Experimental:** 2.6.0 Microapp OS Core · rama `experimental/os-core` (no se despliega)
 - **Fuente canónica:** `github.com/rellmen/renzo-hub` (privado). `main` = 2.4.1, `staging` = 2.5.0, `feature/fase1` = Bloques 0 a 4. PR #1 (`sync/main-2.4.1` → `main`) y PR #2 (`feature/fase1` → `staging`) con CI en verde, pendientes de que Renzo los fusione
 - **Copias de seguridad:** `~/Projects/RENZO-HUB/backups/` y versiones verificadas en `~/Projects/RENZO-HUB/releases/`
@@ -11,9 +11,9 @@
 
 > La carpeta `~/.codex/.chatgpt-projects/.../renzo-hub-news` queda como espejo histórico de solo lectura. No editar ni desplegar desde ella.
 
-## Estado verificable de Fase 1 (2026-10-08, 10:55)
+## Estado verificable de Fase 1 (2026-10-08, 11:25)
 
-**Fase 1 NO está completada.** Faltan: E2E autenticado en navegador, fusión de PRs y controles de Supabase que requieren a Renzo.
+**Fase 1: desarrollo y pruebas completados en staging (E2E autenticado 22/22, dos ejecuciones seguidas). No se declara cerrada** hasta que Renzo complete los controles de seguridad de Supabase Auth (registro público y contraseñas filtradas) y fusione los PR. Producción sigue en 2.4.1.
 
 ### Funciona (verificado)
 | Qué | Evidencia |
@@ -29,7 +29,7 @@
 | Migraciones pendientes | Probadas en réplica: no tocan filas, son idempotentes y el rollback deja los privilegios idénticos a producción |
 | Jarvis activo intacto | `WH0kGpw0dg83yvdM` activo = versión `adbc67d5` (7 oct, anterior a esta fase). Nodalys LinkedIn activo = `517bcda9`. Todos los workflows nuevos están inactivos |
 
-### Diagnóstico del E2E autenticado (2026-10-08 11:05)
+### Diagnóstico del E2E autenticado (2026-10-08 11:05) y corrección (2.6.2, autorizada)
 | Fallo | Causa verificada | Tipo | Corrección propuesta |
 |---|---|---|---|
 | Sincronización con registro de Jarvis | El test pulsa el primer `[data-open="system"]`, que es el botón oculto "← System". Con el botón visible: `Sincronizado con Supabase` con el registro de Jarvis presente | Error del test | Seleccionar el botón de la barra de navegación |
@@ -37,12 +37,14 @@
 | Progreso y XP tras recargar | Sin duplicados: 4 eventos con id distinto (comida, 2 pesos, portfolio). El de portfolio se crea al recargar porque el XP solo se recalcula al abrir la app | Comportamiento: XP de Portfolio diferido | Recalcular XP al guardar en Portfolio, o ajustar el test |
 | Sin errores JS | Solo `404 /api/jarvis`: el servidor local de pruebas no implementa la función de Vercel | Entorno de prueba | Simular `/api/jarvis` en `tools/dev-server.mjs` |
 
-Hallazgo adicional: el texto de la tarjeta Jarvis en System dice que Jarvis "registra en Money" con confianza alta; ya no es cierto (todo va a revisión).
+Hallazgo adicional: el texto de la tarjeta Jarvis en System decía que Jarvis "registra en Money" con confianza alta; corregido en 2.6.2.
+
+Correcciones aplicadas en `feature/fase1` (2.6.2, commits `ae786a8` y `c25cbda`, CI verde): aviso de hábitos visible; evento `renzo:synced` desde world.js y Portfolio para que el XP se registre al guardar; texto de Jarvis; test con el botón visible de System; `GET /api/jarvis` simulado en el servidor local.
 
 ### No funciona o no verificado
 | Qué | Motivo |
 |---|---|
-| E2E autenticado en navegador (11:03, Mac, app local + Supabase staging) | **18/22 OK, proceso detenido para diagnóstico.** OK: login, navegación de 12 secciones, perfil corporal, Portfolio, Nutrición, Peso. FALLAN 4 (ver diagnóstico abajo) |
+| E2E autenticado (Mac, app 2.6.2 servida en local + Supabase staging real) | 11:03 → 18/22 (diagnóstico abajo). Tras las correcciones: **22/22** a las 11:16 y **22/22** a las 11:20, smoke 15/15. Login, 12 secciones, perfil corporal, Portfolio, Nutrición, Peso, Hábitos, Progreso/XP sin duplicados, sin errores JS. Archivos probados idénticos (hash git) al commit `c25cbda`. En la base: 4 ejecuciones dejan 2 pesos (uno por día), 1 hábito y 8 eventos XP con id distinto (sin duplicados) |
 | Inspección de los deployments de Vercel | El conector de Vercel de esta sesión no ve ningún equipo (`list_teams` vacío, `403` en el equipo `renzojesus99-1996`). Staging responde 302 (protección de Vercel activa) |
 | Respuestas de IA de Jarvis/Nodalys | n8n sin créditos de IA ("Payment required") |
 | Protección de `main` | GitHub exige plan Pro para ramas protegidas o rulesets en repos privados |
@@ -83,6 +85,7 @@ Hallazgo adicional: el texto de la tarjeta Jarvis en System dice que Jarvis "reg
 | 2026-10-08 | Bloque 2 · staging | Migración `harden_grants_and_functions` aplicada en Supabase staging | `supabase/pending/` | Privilegios extra 51 → 0; advisors: solo queda "leaked password protection" | n/a |
 | 2026-10-08 | Bloque 4 · Jarvis/Nodalys implementado | Jarvis personal sin herramientas Nodalys + aprobación técnica + gastos a revisión; agente Nodalys en el flujo del bot Nodalys con aprobación por botones (CAS de un solo uso). Todo en borrador o inactivo | `docs/JARVIS-SEPARATION.md` | Ver checklist en `docs/JARVIS-SEPARATION.md`; respuestas del modelo bloqueadas por créditos de IA agotados | n8n `WH0kGpw0dg83yvdM`, `CHOL3mZnIrtM3rPy`, `v9C8W9OtTw1bSzFJ` (borradores) |
 | 2026-10-08 | Estabilización (2.6.1) | Verificación GitHub, superficie publicada, migraciones en réplica PG17, rollback exacto, `hub_financial_ingest` al repo, revisión obligatoria preparada | `.vercelignore`, `release.json`, `sw.js`, `.github/workflows/ci.yml`, `supabase/`, `tests/db/`, `tests/deploy-surface.test.mjs`, `tools/db-replica/`, `docs/SUPABASE-SCHEMA.md` | unit 15/15; réplica: todo OK; E2E autenticado **pendiente** | rama `feature/fase1` |
+| 2026-10-08 | Staging: migraciones y E2E | Copia verificada; `staging_revoke_maintain` y `financial_ingest_always_review` aplicadas en staging; correcciones 2.6.2; E2E autenticado 22/22 (x2) | `phase1.js`, `world.js`, `world-extensions.js`, `jarvis-ui.js`, `tools/dev-server.mjs`, `tests/e2e/authenticated.mjs`, `release.json`, `sw.js`, `docs/SUPABASE-SCHEMA.md` | Permisos y sincronización en staging `TEST_OK`; E2E 22/22; smoke 15/15; unit 15/15; CI verde | `d542ce9`…`c25cbda` |
 
 **Problemas encontrados:**
 - Vercel (plan Hobby) bloquea despliegues con commits cuyo autor no es la cuenta de Renzo. Solución: commits con autor `rellmen` y coautor Claude.
@@ -94,7 +97,7 @@ Hallazgo adicional: el texto de la tarjeta Jarvis en System dice que Jarvis "reg
 
 **Pendiente de Renzo:** ver "Necesita autorización o acción de Renzo" arriba.
 
-**Siguiente tarea:** tras fusionar el PR #2, comprobar que staging (Git) sirve 2.6.0 y ejecutar `npm run test:e2e`; con tests en verde y autorización: migración de permisos en producción y promoción de 2.6.0 (PR `staging` → `main`).
+**Siguiente tarea:** Renzo: Supabase Auth (desactivar registro público y activar contraseñas filtradas, ambos entornos) y fusionar PR #1 y PR #2. Después: comprobar que el despliegue Git de staging sirve 2.6.2. Producción (migraciones `20261008120000` + `20261008140000` y promoción a `main`) solo con autorización expresa.
 
 
 ## Cambios del release 2.5.0
