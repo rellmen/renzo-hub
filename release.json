@@ -1,8 +1,8 @@
 {
-  "release": "2.7.1",
+  "release": "2.8.0",
   "name": "Renzo Hub · Nóminas",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",
-  "updated": "2026-10-08"
+  "updated": "2026-10-09"
 }

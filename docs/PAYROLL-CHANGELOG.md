@@ -32,3 +32,11 @@ Producción queda pendiente del OK explícito de Renzo tras revisar staging. El 
 2. Usuario de pruebas de staging: pendiente de Renzo (confirmar el correo `renzojesus99+rhstaging@icloud.com`). No se copian datos de producción.
 3. Rechazo: `payroll_apply_review` con `p_decision='rejected'` deja el documento en `failed` y la nómina en `review_status='rejected'`, `validation_status='failed'`; no cuenta en KPIs. Con `approved` el documento pasa a `processed`.
 4. Despliegue: preview en el proyecto staging `dpl_8XKdRN3ke2Q8ZH2W9zT34HmTvFLB` desde `git archive` de `9f18902`. Para mover el dominio `renzo-hub-2-1-staging.vercel.app` a esta versión hace falta `vercel deploy --prod` en el proyecto de staging (requiere confirmación de Renzo).
+
+## 2.8.0 en desarrollo · Tarea 1 (2026-10-09)
+
+Pestaña Mensual entre Nóminas y Alertas. Consulta `payroll_v_monthly_nl` con el cliente de sesión, filtro por usuario y meses descendentes. Selector con año actual si tiene datos, o el último disponible; total anual de importes y horas, desglose del bruto, retenciones, saldos y equivalente mensual. La evolución mensual antigua de Resumen se conserva. No hay migraciones.
+
+Tres meses sintéticos independientes en demo: corrección, revisión pendiente y horas extra. Estos agregados sirven para probar Mensual y no se recalculan al editar una nómina individual de la demo.
+
+Release local 2.8.0 y caché `renzo-hub-cloud-v5.7-payroll`. Sin despliegue ni PR. Tareas 2 (smoke de producción) y 3 (Año) pendientes de revisión de Renzo. Ver [resumen y capturas](PAYROLL-2.8-TAREA-1.md).
