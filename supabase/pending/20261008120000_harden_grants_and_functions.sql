@@ -7,12 +7,13 @@ begin;
 -- S-03: el rol anon no necesita privilegios directos en tablas (RLS ya lo bloquea; esto es defensa en profundidad).
 revoke all privileges on table public.profiles, public.skin_notes, public.skin_routine_logs, public.user_settings from anon;
 
--- S-04: authenticated solo necesita CRUD. Quita TRUNCATE/REFERENCES/TRIGGER (TRUNCATE no respeta RLS).
+-- S-04: authenticated solo necesita CRUD. Quita TRUNCATE/REFERENCES/TRIGGER/MAINTAIN (TRUNCATE no respeta RLS;
+-- MAINTAIN existe desde PostgreSQL 17 y la app no lo usa).
 do $$
 declare r record;
 begin
   for r in select c.relname from pg_class c where c.relnamespace = 'public'::regnamespace and c.relkind in ('r','v') loop
-    execute format('revoke truncate, references, trigger on table public.%I from authenticated', r.relname);
+    execute format('revoke truncate, references, trigger, maintain on table public.%I from authenticated', r.relname);
   end loop;
 end $$;
 
@@ -39,3 +40,5 @@ commit;
 -- Verificación esperada tras aplicar:
 --   select * from information_schema.role_table_grants where table_schema='public' and grantee='anon';  -> 0 filas
 --   get_advisors(security): sin 0011 ni 0028/0029 para payroll_*
+--   select relname, relacl from pg_class where relnamespace='public'::regnamespace and relkind in ('r','v');
+--     -> authenticated solo con arwd (tablas) o r (vistas payroll) y sin entrada anon

@@ -1,7 +1,7 @@
 # Renzo Hub · versión vigente
 
 - **Producción (uso diario):** [renzo-hub.vercel.app](https://renzo-hub.vercel.app/) · release **2.4.1** · `dpl_HBnDnZqawHuTC9nUFcCsxoLnDeTs` · rama de producción actual `renzo-hub-2-1-production` (pasará a `main` al promocionar 2.6.0)
-- **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.6.0** (`dpl_DqxmaXsHC6tKFqCqQ9AWAibcZkx7`, commit `2becc17`); despliegue Git desde la rama `staging` (hoy 2.5.0 hasta fusionar el PR #2)
+- **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.6.0** (`dpl_DqxmaXsHC6tKFqCqQ9AWAibcZkx7`, commit `2becc17`); despliegue Git desde la rama `staging` (hoy 2.5.0 hasta fusionar el PR #2). La rama `feature/fase1` ya va por **2.6.1** (estabilización, sin funciones nuevas)
 - **Experimental:** 2.6.0 Microapp OS Core · rama `experimental/os-core` (no se despliega)
 - **Fuente canónica:** `github.com/rellmen/renzo-hub` (privado). `main` = 2.4.1, `staging` = 2.5.0, `feature/fase1` = Bloques 0 a 4. PR #1 (`sync/main-2.4.1` → `main`) y PR #2 (`feature/fase1` → `staging`) con CI en verde, pendientes de que Renzo los fusione
 - **Copias de seguridad:** `~/Projects/RENZO-HUB/backups/` y versiones verificadas en `~/Projects/RENZO-HUB/releases/`
@@ -10,6 +10,50 @@
 - **Referencias:** `RENZO_HUB_TECHNICAL_AUDIT.md` y `PHASE_1_EXECUTION_PLAN.md` (bóveda del proyecto y `~/Documents/HUB`)
 
 > La carpeta `~/.codex/.chatgpt-projects/.../renzo-hub-news` queda como espejo histórico de solo lectura. No editar ni desplegar desde ella.
+
+## Estado verificable de Fase 1 (2026-10-08, 10:30)
+
+**Fase 1 NO está completada.** Faltan: E2E autenticado en navegador, fusión de PRs y controles de Supabase que requieren a Renzo.
+
+### Funciona (verificado)
+| Qué | Evidencia |
+|---|---|
+| Producción intacta en 2.4.1 | Ningún cambio en Vercel ni en la base de producción en esta fase (solo lecturas) |
+| GitHub `rellmen/renzo-hub` | Acceso admin. Historial comparado: `main` ⊂ `staging` ⊂ `feature/fase1`; ramas antiguas de producción y preview contenidas en `sync/main-2.4.1`. Sin force-push. `feature/fase1` integra `staging` con un merge sin cambios de archivos |
+| CI (GitHub Actions) | Verde en `feature/fase1` (check, unit, smoke). Nuevos: `tests/deploy-surface.test.mjs` (15/15 en local) y job `db-migrations` |
+| Superficie publicada | Test: según `.vercelignore` no se publica ningún `.md`, `.sql`, script, test, `docs/`, `supabase/`, `.github/` ni `package.json`; tampoco claves secretas. Se añadieron `.gitignore` y `.vercelignore` a la lista (2.6.1) |
+| Supabase staging: permisos | Advisors de seguridad: solo "leaked password protection". anon sin privilegios en tablas |
+| Microapps a nivel de base de datos | Réplica local PostgreSQL 17 con los privilegios reales: comidas, peso (sin duplicar), hábitos, XP sin duplicados, progreso, ajustes, RLS entre usuarios, CHECK de `source`, anon denegado (`tools/db-replica/run.sh`, todo OK) |
+| Migraciones pendientes | Probadas en réplica: no tocan filas, son idempotentes y el rollback deja los privilegios idénticos a producción |
+| Jarvis activo intacto | `WH0kGpw0dg83yvdM` activo = versión `adbc67d5` (7 oct, anterior a esta fase). Nodalys LinkedIn activo = `517bcda9`. Todos los workflows nuevos están inactivos |
+
+### No funciona o no verificado
+| Qué | Motivo |
+|---|---|
+| E2E autenticado en navegador (Nutrition, Body, Habits, XP, Progress) | Usuario de pruebas de staging **sin confirmar** y el Mac offline; desde la nube Supabase y `*.vercel.app` están bloqueados por el proxy |
+| Prueba RLS directamente en Supabase staging | La ejecución se canceló (requiere aprobación); se verificó en la réplica local |
+| Inspección de los deployments de Vercel | El conector de Vercel ha perdido acceso al equipo (`403 forbidden`); hay que reautorizarlo |
+| Respuestas de IA de Jarvis/Nodalys | n8n sin créditos de IA ("Payment required") |
+| Protección de `main` | GitHub exige plan Pro para ramas protegidas o rulesets en repos privados |
+
+### Solo preparado (no aplicado)
+- `supabase/pending/20261008120000_harden_grants_and_functions.sql` (producción) con rollback exacto.
+- `supabase/pending/20261008130000_staging_revoke_maintain.sql` (staging).
+- `supabase/pending/20261008140000_financial_ingest_always_review.sql`: hoy `hub_financial_ingest` puede escribir directo en Money si la confianza es ≥ 0,90. Ningún workflow activo la llama, pero contradice la regla de revisión humana.
+- Workflows nuevos de Jarvis personal y Nodalys (borradores/inactivos, ver `docs/JARVIS-SEPARATION.md`).
+
+### Necesita autorización o acción de Renzo
+1. **Confirmar el usuario de pruebas** de staging (o autorizar confirmarlo por SQL) y tener el Mac encendido para el E2E.
+2. **Fusionar PR #1 y PR #2** (CI en verde).
+3. **Reautorizar el conector de Vercel** para el equipo `renzojesus99-1996`.
+4. Supabase (ambos entornos): **desactivar registros públicos** y **activar leaked password protection** (Dashboard → Authentication).
+5. OK para aplicar en staging `20261008130000` y `20261008140000`; después OK para producción.
+6. Créditos de IA en n8n y OK para publicar los workflows nuevos.
+7. Opcional: GitHub Pro para proteger `main`. Alternativa sin coste: regla de trabajo "solo Renzo fusiona" (ya aplicada en la práctica) o hacer el repo público (no recomendado: datos personales en el historial).
+
+### Hallazgos menores
+- `assets/skin_*.jpeg` (fotos de productos de skincare) son públicas en Vercel. No contienen datos personales sensibles; si se prefiere privacidad total, moverlas al bucket privado.
+- El webhook de prueba de Jarvis (`jarvis-hub-test-…`) está protegido por la comprobación de ejecución manual.
 
 ## Progreso Fase 1
 
@@ -28,6 +72,7 @@
 | 2026-10-08 | Bloque 0 · GitHub y Vercel | Historial de GitHub integrado sin reescribir (merge `-s ours`, árbol = 2.4.1); ramas `staging`, `feature/fase1`, `experimental/os-core`, `legacy/chatgpt-local-main`; Vercel: staging construye solo `staging`, producción solo `main` | `.github/workflows/ci.yml` | CI en verde en PR #1 y PR #2 (check + 12 unit + smoke) | `d622776`, `6ae2bf2`, PR #1, PR #2 |
 | 2026-10-08 | Bloque 2 · staging | Migración `harden_grants_and_functions` aplicada en Supabase staging | `supabase/pending/` | Privilegios extra 51 → 0; advisors: solo queda "leaked password protection" | n/a |
 | 2026-10-08 | Bloque 4 · Jarvis/Nodalys implementado | Jarvis personal sin herramientas Nodalys + aprobación técnica + gastos a revisión; agente Nodalys en el flujo del bot Nodalys con aprobación por botones (CAS de un solo uso). Todo en borrador o inactivo | `docs/JARVIS-SEPARATION.md` | Ver checklist en `docs/JARVIS-SEPARATION.md`; respuestas del modelo bloqueadas por créditos de IA agotados | n8n `WH0kGpw0dg83yvdM`, `CHOL3mZnIrtM3rPy`, `v9C8W9OtTw1bSzFJ` (borradores) |
+| 2026-10-08 | Estabilización (2.6.1) | Verificación GitHub, superficie publicada, migraciones en réplica PG17, rollback exacto, `hub_financial_ingest` al repo, revisión obligatoria preparada | `.vercelignore`, `release.json`, `sw.js`, `.github/workflows/ci.yml`, `supabase/`, `tests/db/`, `tests/deploy-surface.test.mjs`, `tools/db-replica/`, `docs/SUPABASE-SCHEMA.md` | unit 15/15; réplica: todo OK; E2E autenticado **pendiente** | rama `feature/fase1` |
 
 **Problemas encontrados:**
 - Vercel (plan Hobby) bloquea despliegues con commits cuyo autor no es la cuenta de Renzo. Solución: commits con autor `rellmen` y coautor Claude.
@@ -37,7 +82,7 @@
 - El e2e con sesión necesita confirmar el usuario de pruebas de staging (email enviado a `renzojesus99+rhstaging@icloud.com`).
 - En el Mac `NODE_ENV=production` hace que `npm install` omita devDependencies; para pruebas locales se usa `~/Projects/RENZO-HUB/tools/e2e-runner`.
 
-**Pendiente de Renzo:** fusionar PR #1 y PR #2; confirmar el usuario de pruebas de staging (email); recargar créditos de IA de n8n; en Supabase (ambos entornos) desactivar registros y activar "leaked password protection"; OK para publicar los workflows de Jarvis/Nodalys.
+**Pendiente de Renzo:** ver "Necesita autorización o acción de Renzo" arriba.
 
 **Siguiente tarea:** tras fusionar el PR #2, comprobar que staging (Git) sirve 2.6.0 y ejecutar `npm run test:e2e`; con tests en verde y autorización: migración de permisos en producción y promoción de 2.6.0 (PR `staging` → `main`).
 
