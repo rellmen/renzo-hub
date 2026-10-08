@@ -1,4 +1,4 @@
-// Datos sintéticos. Se activan exclusivamente en el hostname de staging con ?demo=1.
+// Datos sintéticos. Se activan exclusivamente en los dos hostnames de staging (renzo-hub-2-1-staging y renzo-hub-2-1-staging-renzojesus99-1996) con ?demo=1.
 export function createPayrollDemo(user_id){
  const year=new Date().getFullYear(),id=n=>`00000000-0000-4000-8000-${String(n).padStart(12,'0')}`;
  const f={documents:[],payslips:[],employers:[{id:id(900),name:'Empresa de demostración',normalized_code:'DEMO'}],anomalies:[],events:[],lines:[],validations:[],versions:[],rates:[{employer_code:'DEMO',hourly_rate:18,from_period:`${year}-W30`,to_period:`${year}-W41`,payslips:12}],queue:[]};

@@ -154,7 +154,7 @@ export function mountPayroll(root, db, getUser, go){
   const uid=getUser()?.id;if(!uid)return;
   if(active&&owner===uid){if(id){if(!ready)pendingId=id;else await loadDetail('payslip',id);}return;}
   reset();active=true;owner=uid;const e=epoch;
-  demo=location.hostname==='renzo-hub-2-1-staging.vercel.app'&&new URLSearchParams(location.search).get('demo')==='1';
+  demo=['renzo-hub-2-1-staging.vercel.app','renzo-hub-2-1-staging-renzojesus99-1996.vercel.app'].includes(location.hostname)&&new URLSearchParams(location.search).get('demo')==='1';
   if(demo){try{const module=await import('./payroll-demo.js');if(!alive(uid,e))return;fixture=module.createPayrollDemo(uid);}catch{if(!alive(uid,e))return;demo=false;error='No se pudo cargar la demostración.';}}
   connect();await load();if(!alive(uid,e))return;if(id||pendingId){const target=id||pendingId;pendingId=null;await loadDetail('payslip',target);}
  },close,reset};
