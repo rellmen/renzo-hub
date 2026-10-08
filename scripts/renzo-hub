@@ -1,43 +1,38 @@
 #!/bin/sh
+# Renzo HUB: comprueba el release local frente a Producción y Preview.
+# Usa curl (certificados del sistema) para evitar fallos SSL del Python de python.org en macOS.
 set -eu
 ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 CMD=${1:-status}
+json_field() { # $1 = campo; lee JSON por stdin
+  /usr/bin/python3 -c 'import json,sys
+try: print(json.load(sys.stdin).get(sys.argv[1],"?"))
+except Exception: print("?")' "$1"
+}
 case "$CMD" in
   source)
     printf 'Fuente canónica: %s\n' "$ROOT"
     cat "$ROOT/RENZO-HUB-CURRENT.md"
     ;;
   status|latest)
-    python3 - "$ROOT" <<'PY'
-import json, sys, urllib.request
-from pathlib import Path
-root = Path(sys.argv[1])
-local = json.loads((root / "release.json").read_text())
-print(f"Fuente local: {root}")
-print(f"Release local: {local['release']}")
-for label, base in (("Producción", local["production"]), ("Preview", local["preview"])):
-    try:
-        req = urllib.request.Request(base + "/release.json", headers={"Cache-Control": "no-cache"})
-        with urllib.request.urlopen(req, timeout=12) as response:
-            live = json.load(response)
-        info_req = urllib.request.Request(base + "/api/deployment-info", headers={"Cache-Control": "no-cache"})
-        with urllib.request.urlopen(info_req, timeout=12) as response:
-            info = json.load(response)
-        status = "al día" if live.get("release") == local.get("release") else "DIFERENTE: revisar antes de editar o publicar"
-        print(f"{label}: {base} · release {live.get('release')} · {info.get('environment')} · {status}")
-    except Exception as exc:
-        print(f"{label}: no disponible para comprobar ({exc})")
-try:
-    import subprocess
-    result = subprocess.run(["git", "-C", str(root), "status", "--short", "--branch"], capture_output=True, text=True, check=False)
-    print("Git:")
-    print(result.stdout.strip() or "  limpio")
-except Exception:
-    print("Git: no disponible")
-PY
+    LOCAL=$(json_field release < "$ROOT/release.json")
+    PROD=$(json_field production < "$ROOT/release.json")
+    PREV=$(json_field preview < "$ROOT/release.json")
+    printf 'Fuente local: %s\nRelease local: %s\n' "$ROOT" "$LOCAL"
+    for pair in "Producción|$PROD" "Preview|$PREV"; do
+      label=${pair%%|*}; base=${pair#*|}
+      if body=$(curl -sf --max-time 12 -H 'Cache-Control: no-cache' "$base/release.json" 2>/dev/null); then
+        live=$(printf '%s' "$body" | json_field release)
+        env=$(curl -sf --max-time 12 "$base/api/deployment-info" 2>/dev/null | json_field environment || echo "?")
+        if [ "$live" = "?" ]; then st="no verificable (respuesta no JSON: probablemente protección Vercel SSO)"
+        elif [ "$live" = "$LOCAL" ]; then st="al día"; else st="DIFERENTE: revisar antes de editar o publicar"; fi
+        printf '%s: %s · release %s · %s · %s\n' "$label" "$base" "$live" "$env" "$st"
+      else
+        printf '%s: %s · no accesible (¿protección Vercel/SSO o sin red?)\n' "$label" "$base"
+      fi
+    done
+    printf 'Git:\n'; git -C "$ROOT" status --short --branch 2>/dev/null || echo "  no disponible"
     ;;
   *)
-    printf 'Uso: %s {status|latest|source}\n' "$0" >&2
-    exit 2
-    ;;
+    printf 'Uso: %s {status|latest|source}\n' "$0" >&2; exit 2 ;;
 esac

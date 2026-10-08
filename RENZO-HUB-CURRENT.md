@@ -1,13 +1,27 @@
 # Renzo Hub · versión vigente
 
-- **Release:** 2.5.0
-- **Producción (uso diario):** [renzo-hub.vercel.app](https://renzo-hub.vercel.app/)
-- **Preview (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/)
-- **Fuente canónica:** esta carpeta, `renzo-hub-news/`
-- **Última edición:** 7 de octubre de 2026
-- **Despliegue Producción:** `dpl_HBnDnZqawHuTC9nUFcCsxoLnDeTs` · READY · release 2.4.1
-- **Despliegue Preview:** `dpl_4i9kbXSiLiSm8WpXtXmiWah9SLJU` · READY · release 2.5.0
-- **Proyectos Vercel:** `renzo-hub` (prod) y `renzo-hub-2-1-staging` (preview)
+- **Producción (uso diario):** [renzo-hub.vercel.app](https://renzo-hub.vercel.app/) · release **2.4.1** · `dpl_HBnDnZqawHuTC9nUFcCsxoLnDeTs` · rama `main`, tag `v2.4.1`
+- **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.5.0** · `dpl_4i9kbXSiLiSm8WpXtXmiWah9SLJU` · rama `staging`, tag `v2.5.0`
+- **Experimental:** 2.6.0 Microapp OS Core · rama `experimental/os-core` (no se despliega)
+- **Fuente canónica:** repositorio Git en `~/Projects/RENZO-HUB/repo` (remoto previsto: `github.com/rellmen/renzo-hub`, pendiente de acceso)
+- **Copias de seguridad:** `~/Projects/RENZO-HUB/backups/` y versiones verificadas en `~/Projects/RENZO-HUB/releases/`
+- **Proyectos Vercel:** `renzo-hub` (producción) y `renzo-hub-2-1-staging` (staging)
+- **Supabase:** "Renzo Hub" `mgncykyrhavpepfggmng` (producción) y "Renzo Hub Staging" `zpueziugbezqxompwsol`
+- **Referencias:** `RENZO_HUB_TECHNICAL_AUDIT.md` y `PHASE_1_EXECUTION_PLAN.md` (bóveda del proyecto y `~/Documents/HUB`)
+
+> La carpeta `~/.codex/.chatgpt-projects/.../renzo-hub-news` queda como espejo histórico de solo lectura. No editar ni desplegar desde ella.
+
+## Progreso Fase 1
+
+| Fecha | Tarea | Resultado | Archivos | Pruebas | Commit / PR |
+|---|---|---|---|---|---|
+| 2026-10-08 | T0.1 Backup | Copias tar.gz de `renzo-hub-news` y `renzo-microapp-os-core-v1` + manifiestos SHA-256; config local separada (700/600) | n/a (fuera del repo) | Extracción y `shasum -c` OK (142 y 72 archivos); sin secretos en archivos | n/a |
+| 2026-10-08 | T0.2 Recuperar versiones | 2.4.1 reconstruida desde Vercel; 2.5.0 y 2.6.0 desde local | `releases/` | 2.4.1: 35/35 SHA-1 = uid Vercel. 2.5.0: 37/38 (excepción doc `RENZO-HUB-CURRENT.md`) | n/a |
+| 2026-10-08 | T0.5 Historia limpia (local) | Historia original conservada (7 commits); `main`=2.4.1, `staging`=2.5.0, `experimental/os-core`=2.6.0 | todo el árbol | Verificación de hashes en cada commit; `npm test` os-core 6/6 | `d7cdf75` v2.4.1 · `6c45462` v2.5.0 · `a05849b` v2.6.0-experimental |
+| 2026-10-08 | T0.9 Script status | `scripts/renzo-hub` usa curl; detecta staging protegido por SSO | `scripts/renzo-hub` | Ejecutado: producción 2.4.1 detectada | rama `feature/block0-tooling` |
+| 2026-10-08 | T0.3/T0.4/T0.7/T0.8 | **Bloqueado:** sin acceso al repo privado `rellmen/renzo-hub` | n/a | n/a | Pendiente de Renzo |
+
+**Siguiente tarea:** Bloque 1 en `feature/block1-critical-fixes` (en paralelo al bloqueo de GitHub).
 
 ## Cambios del release 2.5.0
 - Las herramientas finales funcionan como microapps enfocadas: ocultan la navegación global mientras están abiertas.
@@ -29,4 +43,4 @@
 - Caché PWA renovada para que los móviles reciban los nuevos iconos.
 
 ## Comprobación rápida
-Desde cualquier IA que tenga abierto el workspace, ejecutar `./scripts/renzo-hub status`. Una IA que no tenga acceso a esta carpeta no debe editar otra copia como si fuera la vigente.
+Ejecutar `./scripts/renzo-hub status` desde el repositorio. Ninguna IA debe editar otra copia como si fuera la vigente.
