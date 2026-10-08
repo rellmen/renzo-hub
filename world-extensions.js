@@ -34,7 +34,7 @@ export function mountWorldExtensions(supabase, getUser) {
       const item = { id, title:values.title.trim(), area:values.area, related:values.related.trim(), skills:values.skills.trim(), summary:values.summary.trim(), url, date, source:"manual" };
       const rowsToSave = [
         { id, owner_id:user.id, domain:"work", record_type:"renzo_portfolio", title:item.title, status:"active", occurred_at:`${date}T12:00:00.000Z`, payload:item, source:"manual", requires_review:false },
-        { id:crypto.randomUUID(), owner_id:user.id, domain:"system", record_type:"renzo_event", title:item.title, status:"active", occurred_at:`${date}T12:00:00.000Z`, payload:{id:crypto.randomUUID(),kind:"output",title:item.title,date,source:"portfolio"}, source:"portfolio", requires_review:false }
+        { id:crypto.randomUUID(), owner_id:user.id, domain:"system", record_type:"renzo_event", title:item.title, status:"active", occurred_at:`${date}T12:00:00.000Z`, payload:{id:crypto.randomUUID(),kind:"output",title:item.title,date,source:"portfolio"}, source:"manual", requires_review:false }
       ];
       const {error:saveError}=await supabase.from("hub_records").upsert(rowsToSave,{onConflict:"id"});
       if(saveError){status.textContent="No se pudo guardar. Revisa la conexión de Supabase.";button.disabled=false;return;}

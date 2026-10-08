@@ -1,4 +1,7 @@
 const esc = value => String(value ?? "").replace(/[&<>\"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+// hub_records.source solo admite estos valores (CHECK en Supabase). El origen real se conserva en payload.source.
+export const DB_SOURCES = new Set(["manual","capture","import","automation","ai_draft"]);
+export const dbSource = value => { const v=String(value||"").toLowerCase(); if (DB_SOURCES.has(v)) return v; if (v==="jarvis"||v==="telegram"||v==="n8n") return "automation"; return "manual"; };
 const today = () => { const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`; };
 const dateOf = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
 const blank = () => ({profile:{limit:2,coolingHours:48},shifts:{},shiftTemplates:{},projects:[],ideas:[],entries:[],money:[],tasks:[],sprint:{},feedback:[],inbox:[],vocabulary:[],learningSkills:{},_modifiedAt:null});
@@ -50,11 +53,13 @@ export function mountWorld(roots,getUser,supabase){
   for(const name of Object.keys(COLLECTIONS))for(const item of data[name]){
    if(!item.id)item.id=crypto.randomUUID();
    const date=item.date||today();
-   records.push({id:item.id,owner_id:owner,domain:DOMAINS[name],record_type:COLLECTIONS[name],title:String(item.title||item.name||item.kind||name).slice(0,500),status:String(item.status||item.recordStatus||"active").slice(0,100),occurred_at:`${date}T12:00:00.000Z`,payload:item,source:item.source||"manual",confidence:typeof item.confidence==="number"?item.confidence:null,requires_review:!!item.requiresReview});
+   records.push({id:item.id,owner_id:owner,domain:DOMAINS[name],record_type:COLLECTIONS[name],title:String(item.title||item.name||item.kind||name).slice(0,500),status:String(item.status||item.recordStatus||"active").slice(0,100),occurred_at:`${date}T12:00:00.000Z`,payload:item,source:dbSource(item.source),confidence:typeof item.confidence==="number"?item.confidence:null,requires_review:!!item.requiresReview});
   }
-  if(records.length){const {error}=await supabase.from("hub_records").upsert(records,{onConflict:"id"});if(error){setCloudStatus(`Estado guardado; registros pendientes: ${error.message}`,"err");return;}}
+  if(records.length){const {error}=await supabase.from("hub_records").upsert(records,{onConflict:"id"});if(error){const failed=await upsertIndividually(records);if(failed.length){setCloudStatus(`Sincronizado salvo ${failed.length} registro(s) rechazado(s): ${failed[0].message}`,"err");return;}}}
   setCloudStatus("Sincronizado con Supabase");
  }
+ // Si el lote falla, guarda registro a registro para que uno inválido no bloquee el resto.
+ async function upsertIndividually(records){const failed=[];for(let i=0;i<records.length;i+=25){const chunk=records.slice(i,i+25);const {error}=await supabase.from("hub_records").upsert(chunk,{onConflict:"id"});if(!error)continue;for(const record of chunk){const r=await supabase.from("hub_records").upsert(record,{onConflict:"id"});if(r.error)failed.push({id:record.id,record_type:record.record_type,message:r.error.message});}}if(failed.length)console.warn("[renzo-hub] registros no sincronizados",failed);return failed;}
  function save(){localSave();saveQueue=saveQueue.then(sync).catch(error=>setCloudStatus(`Error de sincronización: ${error.message}`,"err"));return saveQueue;}
  function audit(action,previousValue,newValue){data.entries.push({id:crypto.randomUUID(),kind:"audit",title:action,date:today(),source:"manual",actor:owner,previousValue,newValue});}
  function renderAll(){for(const k of Object.keys(roots))render(k);}
