@@ -211,10 +211,10 @@ export function mountPhase1(supabase, getUser) {
     });
   }
 
-  function renderHabitSettings() {
+  function renderHabitSettings(statusText = "") {
     const box = $("habitsCard"); if (!box) return;
     box.innerHTML = `<b>Hábitos</b><p class="small">Un hábito por línea (máx. 12). Aparecen como checklist diario en Home.</p>
-      <form class="worldform" data-habits-form><textarea name="habits" rows="4" maxlength="600">${esc(habitNames.join("\n"))}</textarea><button type="submit">Guardar hábitos</button><span class="small" role="status"></span></form>`;
+      <form class="worldform" data-habits-form><textarea name="habits" rows="4" maxlength="600">${esc(habitNames.join("\n"))}</textarea><button type="submit">Guardar hábitos</button><span class="small" role="status">${esc(statusText)}</span></form>`;
     box.querySelector("[data-habits-form]").onsubmit = async e => {
       e.preventDefault(); const f = e.currentTarget, st = f.querySelector("[role=status]"), user = getUser(); if (!user) return;
       const list = [...new Set(String(new FormData(f).get("habits")).split("\n").map(s => s.trim().slice(0, 60)).filter(Boolean))].slice(0, 12);
@@ -222,10 +222,15 @@ export function mountPhase1(supabase, getUser) {
         const current = await readSettings(user.id); // leer-modificar-escribir: no pisa el perfil corporal
         const { error } = await supabase.from("user_settings").upsert({ user_id: user.id, settings: { ...current, habits: list }, updated_at: new Date().toISOString() }, { onConflict: "user_id" });
         if (error) throw error;
-        habitNames = list; st.textContent = "Hábitos guardados."; renderHome(); renderHabitSettings();
+        habitNames = list; renderHome(); renderHabitSettings("Hábitos guardados.");
       } catch (err) { st.textContent = `No se pudo guardar: ${err.message}`; }
     };
   }
+
+  // world.js avisa cuando termina de guardar (Portfolio, vocabulario, Money): se recalcula el XP sin esperar a recargar.
+  let rerun = false;
+  async function refresh() { if (loading) { rerun = true; return; } await load(); if (rerun) { rerun = false; await load(); } }
+  if (typeof document !== "undefined") document.addEventListener("renzo:synced", () => { if (getUser()) refresh().catch(e => console.warn("[renzo-hub] XP", e.message)); });
 
   function reset() { data = {}; habitNames = []; for (const id of ["p1Food", "p1Weight", "p1Home", "habitsCard"]) { const n = $(id); if (n) n.replaceChildren(); } }
   return { load, reset };

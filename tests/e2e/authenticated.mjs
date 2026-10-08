@@ -47,7 +47,7 @@ await check("login en la UI", async () => {
 });
 
 await check("sincronización world con registro de Jarvis presente (B-02)", async () => {
-  await page.click('[data-open="system"]');
+  await page.locator('[data-open="system"]:visible').first().click();
   await page.waitForFunction(() => /Sincronizado con Supabase|Sincronizado salvo/.test(document.getElementById("worldSyncStatus")?.textContent || ""), null, { timeout: 15000 });
   const status = await page.textContent("#worldSyncStatus");
   assert.match(status, /^Sincronizado con Supabase$/, status);

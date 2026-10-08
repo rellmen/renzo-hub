@@ -33,6 +33,11 @@ createServer(async (req, res) => {
     res.setHeader("Content-Type", "application/json");
     return res.end(JSON.stringify({ environment: "preview", project: "local-dev", branch: "local" }));
   }
+  if (path === "/api/jarvis" && req.method === "GET") {
+    // Simulación local: sin secretos configurados (igual que un despliegue sin variables de Jarvis).
+    res.setHeader("Content-Type", "application/json");
+    return res.end(JSON.stringify({ outboundConfigured: false, inboundConfigured: false, local: true }));
+  }
   if (path.startsWith("/api/")) { res.statusCode = 404; return res.end("{}"); }
   if (blocked.some(re => re.test(path))) { res.statusCode = 404; return res.end("Not found"); }
   if (path === "/") path = "/index.html";
