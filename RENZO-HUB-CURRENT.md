@@ -11,7 +11,7 @@
 
 > La carpeta `~/.codex/.chatgpt-projects/.../renzo-hub-news` queda como espejo histórico de solo lectura. No editar ni desplegar desde ella.
 
-## Estado verificable de Fase 1 (2026-10-08, 10:30)
+## Estado verificable de Fase 1 (2026-10-08, 10:55)
 
 **Fase 1 NO está completada.** Faltan: E2E autenticado en navegador, fusión de PRs y controles de Supabase que requieren a Renzo.
 
@@ -22,7 +22,9 @@
 | GitHub `rellmen/renzo-hub` | Acceso admin. Historial comparado: `main` ⊂ `staging` ⊂ `feature/fase1`; ramas antiguas de producción y preview contenidas en `sync/main-2.4.1`. Sin force-push. `feature/fase1` integra `staging` con un merge sin cambios de archivos |
 | CI (GitHub Actions) | Verde en `feature/fase1` (check, unit, smoke). Nuevos: `tests/deploy-surface.test.mjs` (15/15 en local) y job `db-migrations` |
 | Superficie publicada | Test: según `.vercelignore` no se publica ningún `.md`, `.sql`, script, test, `docs/`, `supabase/`, `.github/` ni `package.json`; tampoco claves secretas. Se añadieron `.gitignore` y `.vercelignore` a la lista (2.6.1) |
-| Supabase staging: permisos | Advisors de seguridad: solo "leaked password protection". anon sin privilegios en tablas |
+| Supabase staging: permisos | Migraciones `staging_revoke_maintain` y `financial_ingest_always_review` **aplicadas en staging** (autorizado) tras copia verificada (`backups/supabase-staging-2026-10-08T0845Z`, SHA-256 OK en el Mac). Datos idénticos antes y después. authenticated solo CRUD, anon sin acceso. Advisors: solo "leaked password protection" |
+| Permisos y sincronización en staging real | Prueba en transacción revertida (`TEST_OK`): comida, peso sin duplicar, hábitos, XP sin duplicar, progreso, ajustes, CHECK de `source`, RLS entre usuarios, anon denegado, gasto importado → `needs_review`, reenvío → `duplicate`, nada directo en Money. No quedó ningún dato de prueba |
+| Smoke test en el Mac contra Supabase staging | 15/15 (móvil y escritorio, cabeceras, sin registro público, sin errores CSP) |
 | Microapps a nivel de base de datos | Réplica local PostgreSQL 17 con los privilegios reales: comidas, peso (sin duplicar), hábitos, XP sin duplicados, progreso, ajustes, RLS entre usuarios, CHECK de `source`, anon denegado (`tools/db-replica/run.sh`, todo OK) |
 | Migraciones pendientes | Probadas en réplica: no tocan filas, son idempotentes y el rollback deja los privilegios idénticos a producción |
 | Jarvis activo intacto | `WH0kGpw0dg83yvdM` activo = versión `adbc67d5` (7 oct, anterior a esta fase). Nodalys LinkedIn activo = `517bcda9`. Todos los workflows nuevos están inactivos |
@@ -30,24 +32,22 @@
 ### No funciona o no verificado
 | Qué | Motivo |
 |---|---|
-| E2E autenticado en navegador (Nutrition, Body, Habits, XP, Progress) | Usuario de pruebas de staging **sin confirmar** y el Mac offline; desde la nube Supabase y `*.vercel.app` están bloqueados por el proxy |
-| Prueba RLS directamente en Supabase staging | La ejecución se canceló (requiere aprobación); se verificó en la réplica local |
-| Inspección de los deployments de Vercel | El conector de Vercel ha perdido acceso al equipo (`403 forbidden`); hay que reautorizarlo |
+| E2E autenticado en navegador (Nutrition, Body, Habits, XP, Progress) | Usuario de pruebas de staging **sin confirmar** (email reenviado a las 10:50). El Mac ya está online y el entorno de prueba listo |
+| Inspección de los deployments de Vercel | El conector de Vercel de esta sesión no ve ningún equipo (`list_teams` vacío, `403` en el equipo `renzojesus99-1996`). Staging responde 302 (protección de Vercel activa) |
 | Respuestas de IA de Jarvis/Nodalys | n8n sin créditos de IA ("Payment required") |
 | Protección de `main` | GitHub exige plan Pro para ramas protegidas o rulesets en repos privados |
 
 ### Solo preparado (no aplicado)
 - `supabase/pending/20261008120000_harden_grants_and_functions.sql` (producción) con rollback exacto.
-- `supabase/pending/20261008130000_staging_revoke_maintain.sql` (staging).
-- `supabase/pending/20261008140000_financial_ingest_always_review.sql`: hoy `hub_financial_ingest` puede escribir directo en Money si la confianza es ≥ 0,90. Ningún workflow activo la llama, pero contradice la regla de revisión humana.
+- `supabase/pending/20261008140000_financial_ingest_always_review.sql` en **producción** (en staging ya aplicada): en producción `hub_financial_ingest` aún puede escribir directo en Money si la confianza es ≥ 0,90. Ningún workflow activo la llama.
 - Workflows nuevos de Jarvis personal y Nodalys (borradores/inactivos, ver `docs/JARVIS-SEPARATION.md`).
 
 ### Necesita autorización o acción de Renzo
 1. **Confirmar el usuario de pruebas** de staging (o autorizar confirmarlo por SQL) y tener el Mac encendido para el E2E.
 2. **Fusionar PR #1 y PR #2** (CI en verde).
-3. **Reautorizar el conector de Vercel** para el equipo `renzojesus99-1996`.
+3. **Conector de Vercel**: al autorizarlo, incluir el equipo `renzojesus99-1996` (esta sesión no ve ningún equipo).
 4. Supabase (ambos entornos): **desactivar registros públicos** y **activar leaked password protection** (Dashboard → Authentication).
-5. OK para aplicar en staging `20261008130000` y `20261008140000`; después OK para producción.
+5. Producción: no autorizado por ahora (migraciones `20261008120000` y `20261008140000` listas).
 6. Créditos de IA en n8n y OK para publicar los workflows nuevos.
 7. Opcional: GitHub Pro para proteger `main`. Alternativa sin coste: regla de trabajo "solo Renzo fusiona" (ya aplicada en la práctica) o hacer el repo público (no recomendado: datos personales en el historial).
 
