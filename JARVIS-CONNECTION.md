@@ -33,5 +33,5 @@ El agente debe enviar `type: "payslip"`, `eventId`, título, fecha de pago, conf
 - La configuración segura requiere `JARVIS_INBOUND_TOKEN`, `SUPABASE_SECRET_KEY` y `JARVIS_OWNER_ID` en Vercel Production. `SUPABASE_SECRET_KEY` es la clave de servidor nueva `sb_secret_…`; solo como compatibilidad se acepta la clave JWT legacy `SUPABASE_SERVICE_ROLE_KEY`.
 - La clave nueva `sb_secret_…` se envía solo en el encabezado `apikey`; nunca como Bearer. Mantén estas claves fuera del navegador, n8n y el repositorio.
 - El workflow de Telegram debe estar publicado y llamar a `/api/jarvis` con el token de entrada.
-- `GET /api/jarvis` confirma el estado sin revelar secretos. Después de publicar el release 2.4.1, debe mostrar `inboundConfigured: true` cuando las tres variables de entrada estén presentes.
+- `GET /api/jarvis` confirma el estado sin revelar secretos. En Producción, el release 2.4.1 muestra `inboundConfigured: true`; `outboundConfigured: false` porque Hub → Jarvis no está configurado.
 - No enviar nóminas reales para probar. Primero verificar el recorrido con un gasto y una nómina ficticios.
