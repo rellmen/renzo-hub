@@ -22,6 +22,8 @@
 | 2026-10-08 | T0.3/T0.4/T0.7/T0.8 | **Bloqueado:** sin acceso al repo privado `rellmen/renzo-hub` | n/a | n/a | Pendiente de Renzo |
 | 2026-10-08 | Bloque 1 · fixes críticos (2.5.1) | `dbSource` + sync tolerante (B-01, B-02); Jarvis siempre a revisión (B-06); script externo `app.js` + CSP y cabeceras (S-07); sin registro público en la UI (S-02 código); `.vercelignore` (S-01); perfil corporal en `user_settings` (F-06) | `world.js`, `world-extensions.js`, `api/jarvis.js`, `index.html`, `app.js`, `profile.js`, `vercel.json`, `.vercelignore`, `sw.js`, `release.json` | `npm test` 8/8; smoke navegador 15/15 (móvil y escritorio, sin errores CSP); hashes del deployment = commit | `ecbdb2e` · staging preview `dpl_25mHhkFSz6FzqLU9of7GskmPpZWH` |
 | 2026-10-08 | Tests y CI | Smoke Playwright, e2e con sesión (solo staging), servidor local con cabeceras Vercel, GitHub Actions | `tests/`, `tools/dev-server.mjs`, `.github/workflows/ci.yml`, `package.json` | Smoke 15/15 local y con valores ficticios de CI | rama `feature/block1-critical-fixes` |
+| 2026-10-08 | Bloque 2 (preparación) | Migración de endurecimiento de permisos + rollback (**no aplicada**, requiere autorización); procedimiento de dump de `payroll_*` | `supabase/pending/`, `docs/SUPABASE-SCHEMA.md` | Revisión de firmas de funciones en staging | `5986a42` |
+| 2026-10-08 | Bloque 3 · microapps Fase 1 (2.6.0) | Nutrición (comidas, kcal, proteína), Peso (registro diario + evolución), Hábitos (checklist en Home, configurable en Ajustes), Progreso 7 días con datos reales, XP con libro `xp_event` de ids deterministas | `phase1.js`, `index.html`, `app.js`, `profile.js`, `sw.js`, `release.json`, `tests/phase1.test.mjs`, `tests/e2e/authenticated.mjs` | `npm test` 12/12; smoke 15/15; e2e con sesión pendiente de usuario de staging | rama `feature/block3-microapps` |
 
 **Problemas encontrados:**
 - Vercel (plan Hobby) bloquea despliegues CLI con commits cuyo autor no es la cuenta de Renzo (`BLOCKED`, "team configuration"). Solución aplicada: desplegar desde `git archive` del commit, sin `.git`. Con GitHub conectado se usará despliegue Git.
@@ -29,7 +31,7 @@
 - El e2e con sesión necesita confirmar el usuario de pruebas de staging (email enviado a `renzojesus99+rhstaging@icloud.com`).
 - En el Mac `NODE_ENV=production` hace que `npm install` omita devDependencies; para pruebas locales se usa `~/Projects/RENZO-HUB/tools/e2e-runner`.
 
-**Siguiente tarea:** e2e con sesión en staging (tras confirmar usuario), alias de staging a 2.5.1, y Bloque 2 (esquema reproducible) en paralelo al acceso a GitHub.
+**Siguiente tarea:** ejecutar `npm run test:e2e` en staging (tras confirmar el usuario de pruebas); Bloque 4 (separación Jarvis/Nodalys) en borrador; promoción a producción solo con autorización.
 
 
 ## Cambios del release 2.5.0

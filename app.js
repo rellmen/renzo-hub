@@ -4,6 +4,7 @@ import {mountWorld} from "./world.js";
 import {mountJarvis} from "./jarvis-ui.js";
 import {mountWorldExtensions} from "./world-extensions.js";
 import {mountProfile} from "./profile.js";
+import {mountPhase1} from "./phase1.js";
 
 function showStartupError(error){
   const message=error instanceof Error?error.message:String(error||"");
@@ -57,6 +58,7 @@ let user=null;
 mountJarvis(supabase,()=>user);
 mountWorldExtensions(supabase,()=>user);
 const profile=mountProfile(supabase,()=>user);
+const phase1=mountPhase1(supabase,()=>user);
 let cloudState={am:[],pm:[]};
 let noteTimer=null;
 let selectedDay=null;
@@ -293,15 +295,15 @@ $("logoutBtn").addEventListener("click",async()=>{await supabase.auth.signOut();
 
 supabase.auth.onAuthStateChange((event,session)=>{
   user=session?.user||null;
-  if(user){showApp();setTimeout(()=>{Promise.allSettled([loadCloudState(),gym.load(),world.load(),profile.load()]).then(results=>{if(results.some(result=>result.status==="rejected"))setSync("Conectado · algunos datos no se pudieron cargar","err");});},0);}
-  else{gym.reset();world.reset();profile.reset();loadSequence++;selectedDay=null;weekRows=[];gentle=false;cloudState={am:[],pm:[]};clearTimeout(noteTimer);$("note").value="";showAuth();}
+  if(user){showApp();setTimeout(()=>{Promise.allSettled([loadCloudState(),gym.load(),world.load(),profile.load(),phase1.load()]).then(results=>{if(results.some(result=>result.status==="rejected"))setSync("Conectado · algunos datos no se pudieron cargar","err");});},0);}
+  else{gym.reset();world.reset();profile.reset();phase1.reset();loadSequence++;selectedDay=null;weekRows=[];gentle=false;cloudState={am:[],pm:[]};clearTimeout(noteTimer);$("note").value="";showAuth();}
 });
 
 let session=null;
 try{const {data,error}=await supabase.auth.getSession();if(error)throw error;session=data?.session||null;}
 catch(error){console.warn("Could not restore Renzo Hub session; keeping sign-in available",error);showAuth("No se pudo restaurar la sesión. Puedes volver a iniciar sesión.","err");}
 user=session?.user||null;
-if(user){showApp();const results=await Promise.allSettled([loadCloudState(),gym.load(),world.load(),profile.load()]);if(results.some(result=>result.status==="rejected"))setSync("Conectado · algunos datos no se pudieron cargar","err");}else if(!document.getElementById("authMessage").textContent){showAuth();}
+if(user){showApp();const results=await Promise.allSettled([loadCloudState(),gym.load(),world.load(),profile.load(),phase1.load()]);if(results.some(result=>result.status==="rejected"))setSync("Conectado · algunos datos no se pudieron cargar","err");}else if(!document.getElementById("authMessage").textContent){showAuth();}
 
 window.addEventListener("focus",()=>{if(user)loadCloudState();});
 if("serviceWorker" in navigator){

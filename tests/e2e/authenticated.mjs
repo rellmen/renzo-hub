@@ -84,6 +84,50 @@ await check("Portfolio: guardar caso (B-01) y comprobar en Supabase", async () =
   assert.equal(r.body[0].source, "manual");
 });
 
+await page.evaluate(() => { window.__RH_CONFIRM__ = () => true; });
+
+await check("Nutrición: registrar comida con kcal y proteína", async () => {
+  await page.evaluate(() => document.querySelector('[data-open="food"]')?.click());
+  const f = page.locator("[data-food-form]"); await f.waitFor({ timeout: 10000 });
+  await f.locator("[name=description]").fill(`E2E avena ${run}`); await f.locator("[name=kcal]").fill("450"); await f.locator("[name=protein]").fill("30");
+  await f.locator("button[type=submit]").click();
+  await page.waitForFunction(r => document.getElementById("p1Food")?.textContent.includes(`E2E avena ${r}`), run, { timeout: 10000 });
+  const r = await rest(`/rest/v1/hub_records?owner_id=eq.${uid}&record_type=eq.food_log&select=payload&order=created_at.desc&limit=1`, tok.access_token);
+  assert.equal(r.body[0].payload.kcal, 450); assert.equal(r.body[0].payload.protein, 30);
+});
+
+await check("Peso: guardar dos días y ver evolución", async () => {
+  await page.evaluate(() => document.querySelector('[data-open="body"]')?.click());
+  for (const [date, value] of [["2026-10-01", "81.2"], [new Date().toISOString().slice(0, 10), "80.6"]]) {
+    const f = page.locator("[data-weight-form]"); await f.waitFor({ timeout: 10000 });
+    await f.locator("[name=value]").fill(value); await f.locator("[name=date]").fill(date); await f.locator("button[type=submit]").click();
+    await page.waitForTimeout(1200);
+  }
+  await page.waitForSelector("#p1Weight svg", { timeout: 10000 });
+});
+
+await check("Hábitos: definir en Ajustes y marcar en Home", async () => {
+  await page.evaluate(() => document.querySelector('[data-open="settings"]')?.click());
+  const f = page.locator("[data-habits-form]"); await f.waitFor({ timeout: 10000 });
+  await f.locator("[name=habits]").fill("Beber 2 L de agua\nLeer 10 minutos"); await f.locator("button[type=submit]").click();
+  await page.waitForFunction(() => document.querySelector("[data-habits-form] [role=status]")?.textContent === "Hábitos guardados.", null, { timeout: 10000 });
+  const s = await rest(`/rest/v1/user_settings?user_id=eq.${uid}&select=settings`, tok.access_token);
+  assert.equal(s.body[0].settings.habits.length, 2);
+  assert.equal(s.body[0].settings.bodyProfile?.kcalMin, 2000, "el perfil corporal no se pisó");
+  await page.evaluate(() => document.querySelector('[data-open="home"]')?.click());
+  const cb = page.locator('[data-habit="Beber 2 L de agua"]'); await cb.waitFor(); await cb.check();
+  await page.waitForTimeout(1500);
+  assert.equal(await page.locator('[data-habit="Beber 2 L de agua"]').isChecked(), true);
+});
+
+await check("Progreso y XP: datos reales y sin duplicados tras recargar", async () => {
+  const count = async () => (await rest(`/rest/v1/hub_records?owner_id=eq.${uid}&record_type=eq.xp_event&select=id`, tok.access_token)).body.length;
+  const before = await count(); assert.ok(before > 0, "hay eventos de XP");
+  await page.reload({ waitUntil: "networkidle" }); await page.waitForSelector("#appShell:not(.hidden)"); await page.waitForTimeout(3000);
+  assert.equal(await count(), before, "recargar no duplica XP");
+  const txt = await page.textContent("#p1Home"); assert.match(txt, /Nivel \d+/); assert.match(txt, /Días con comidas registradas/);
+});
+
 await check("sin errores JS en la sesión", async () => assert.deepEqual(errors, []));
 await page.screenshot({ path: "/tmp/renzo-hub-e2e-auth.png" });
 await browser.close();

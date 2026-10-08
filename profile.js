@@ -76,7 +76,11 @@ export function mountProfile(supabase, getUser) {
     const status = $("bodyProfileStatus"), button = form.querySelector("button");
     button.disabled = true; status.textContent = "Guardando…";
     const bodyProfile = sanitizeBodyProfile(Object.fromEntries(new FormData(form)));
-    const next = { ...settings, bodyProfile: { ...bodyProfile, updatedAt: new Date().toISOString() } };
+    // Leer-modificar-escribir: conserva otras claves (p. ej. hábitos) guardadas desde otro módulo o dispositivo.
+    const fresh = await supabase.from("user_settings").select("settings").eq("user_id", user.id).maybeSingle();
+    if (fresh.error) { button.disabled = false; status.textContent = `No se pudo guardar: ${fresh.error.message}`; return; }
+    const current = fresh.data?.settings && typeof fresh.data.settings === "object" ? fresh.data.settings : {};
+    const next = { ...current, bodyProfile: { ...bodyProfile, updatedAt: new Date().toISOString() } };
     const { error } = await supabase.from("user_settings").upsert({ user_id: user.id, settings: next, updated_at: new Date().toISOString() }, { onConflict: "user_id" });
     button.disabled = false;
     if (error) { status.textContent = `No se pudo guardar: ${error.message}`; return; }
