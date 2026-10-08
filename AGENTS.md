@@ -1,5 +1,10 @@
 # Renzo Hub: instrucciones para cualquier IA
 
+## Esta copia de trabajo
+- Esta carpeta es una copia local aislada para desarrollar Renzo Microapp OS Core v1. No es la fuente canónica ni debe publicarse o conectarse a Vercel/Supabase.
+- Los cambios aquí no autorizan push, deploy ni modificaciones en `main` o Producción. Conserva la funcionalidad actual y usa esta copia para validación local.
+- Se excluyeron `.env.local`, `.vercel/` y `.git/` de la carpeta de origen para no copiar credenciales ni estado de despliegue.
+
 ## Fuente vigente
 - La fuente canónica de Renzo Hub es esta carpeta (`renzo-hub-news/`). Lee este archivo y `RENZO-HUB-CURRENT.md` antes de editar.
 - Ejecuta `./scripts/renzo-hub status` al empezar. La salida compara el release local con Producción y Preview.

@@ -1,12 +1,12 @@
 # Renzo Hub · versión vigente
 
-- **Release:** 2.5.0
+- **Release local:** 2.6.0 · Renzo Microapp OS Core v1
 - **Producción (uso diario):** [renzo-hub.vercel.app](https://renzo-hub.vercel.app/)
 - **Preview (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/)
-- **Fuente canónica:** esta carpeta, `renzo-hub-news/`
-- **Última edición:** 7 de octubre de 2026
-- **Despliegue Producción:** `dpl_HBnDnZqawHuTC9nUFcCsxoLnDeTs` · READY · release 2.4.1
-- **Despliegue Preview:** `dpl_4i9kbXSiLiSm8WpXtXmiWah9SLJU` · READY · release 2.5.0
+- **Fuente canónica de Renzo Hub:** `renzo-hub-news/` en el proyecto local
+- **Copia de trabajo:** `renzo-microapp-os-core-v1/` · rama local `renzo-os-core-v1`
+- **Última edición de esta copia:** 8 de octubre de 2026
+- **Despliegue Producción/Preview de este cambio:** ninguno; estado remoto no comprobable sin red
 - **Proyectos Vercel:** `renzo-hub` (prod) y `renzo-hub-2-1-staging` (preview)
 
 ## Cambios del release 2.5.0
@@ -15,6 +15,14 @@
 - Gym, Food y Skin regresan a Body; News y Ajustes regresan a System; Car vuelve a Home.
 - El layout de escritorio se expande al abrir una microapp y conserva el comportamiento móvil/PWA.
 - Se preservan autenticación, Supabase y los cambios locales de integración Jarvis del release anterior.
+
+## Cambios locales del release 2.6.0 · no desplegado
+- Añadidos contratos TypeScript y App Registry para microapps.
+- Añadidos Event Bus tipado, permisos default-deny y frontera de persistencia por namespaces.
+- Añadidas APIs headless de widgets, herramientas de IA, comandos, notificaciones y Universal Inbox.
+- Documentado el plan de integración gradual sin migrar datos ni conectar servicios.
+- Pruebas y build local: `npm run build` (6 pruebas superadas).
+- El núcleo es una base aditiva; las pantallas actuales aún no lo consumen.
 
 ## Cambios del release 2.4.1
 - La API de Jarvis acepta la clave Supabase `SUPABASE_SECRET_KEY` y conserva compatibilidad con `SUPABASE_SERVICE_ROLE_KEY`.

@@ -1,0 +1,11 @@
+{
+  "name": "renzo-hub-microapp-os-core",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Local-first TypeScript core contracts for Renzo Hub microapps",
+  "scripts": {
+    "test": "node --experimental-strip-types --test os-core/test/*.test.ts",
+    "build": "node --experimental-strip-types --check os-core/src/index.ts && node --experimental-strip-types --test os-core/test/*.test.ts"
+  }
+}
