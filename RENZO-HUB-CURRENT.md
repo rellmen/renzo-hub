@@ -29,10 +29,20 @@
 | Migraciones pendientes | Probadas en réplica: no tocan filas, son idempotentes y el rollback deja los privilegios idénticos a producción |
 | Jarvis activo intacto | `WH0kGpw0dg83yvdM` activo = versión `adbc67d5` (7 oct, anterior a esta fase). Nodalys LinkedIn activo = `517bcda9`. Todos los workflows nuevos están inactivos |
 
+### Diagnóstico del E2E autenticado (2026-10-08 11:05)
+| Fallo | Causa verificada | Tipo | Corrección propuesta |
+|---|---|---|---|
+| Sincronización con registro de Jarvis | El test pulsa el primer `[data-open="system"]`, que es el botón oculto "← System". Con el botón visible: `Sincronizado con Supabase` con el registro de Jarvis presente | Error del test | Seleccionar el botón de la barra de navegación |
+| Hábitos: definir y marcar | Los hábitos **sí se guardan** (Supabase: 2 hábitos y el perfil corporal intacto). El mensaje "Hábitos guardados." se escribe y se borra al instante porque el formulario se vuelve a dibujar | **Error de la app** (feedback invisible) | Mostrar el mensaje después de redibujar |
+| Progreso y XP tras recargar | Sin duplicados: 4 eventos con id distinto (comida, 2 pesos, portfolio). El de portfolio se crea al recargar porque el XP solo se recalcula al abrir la app | Comportamiento: XP de Portfolio diferido | Recalcular XP al guardar en Portfolio, o ajustar el test |
+| Sin errores JS | Solo `404 /api/jarvis`: el servidor local de pruebas no implementa la función de Vercel | Entorno de prueba | Simular `/api/jarvis` en `tools/dev-server.mjs` |
+
+Hallazgo adicional: el texto de la tarjeta Jarvis en System dice que Jarvis "registra en Money" con confianza alta; ya no es cierto (todo va a revisión).
+
 ### No funciona o no verificado
 | Qué | Motivo |
 |---|---|
-| E2E autenticado en navegador (Nutrition, Body, Habits, XP, Progress) | Usuario de pruebas de staging **sin confirmar** (email reenviado a las 10:50). El Mac ya está online y el entorno de prueba listo |
+| E2E autenticado en navegador (11:03, Mac, app local + Supabase staging) | **18/22 OK, proceso detenido para diagnóstico.** OK: login, navegación de 12 secciones, perfil corporal, Portfolio, Nutrición, Peso. FALLAN 4 (ver diagnóstico abajo) |
 | Inspección de los deployments de Vercel | El conector de Vercel de esta sesión no ve ningún equipo (`list_teams` vacío, `403` en el equipo `renzojesus99-1996`). Staging responde 302 (protección de Vercel activa) |
 | Respuestas de IA de Jarvis/Nodalys | n8n sin créditos de IA ("Payment required") |
 | Protección de `main` | GitHub exige plan Pro para ramas protegidas o rulesets en repos privados |
