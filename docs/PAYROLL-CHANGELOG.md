@@ -26,3 +26,9 @@ Rama `feature/payroll`, basada en el último commit de Fase 1 `2cc8ca6`. No incl
 3. Confirmar semántica del rechazo: el contrato indica que la RPC pone el documento en processed incluso al rechazar. La interfaz muestra por separado estado del documento y review_status; no reescribe la lógica del backend.
 
 Producción queda pendiente del OK explícito de Renzo tras revisar staging. El repositorio exige PR aprobado antes de actualizar main.
+
+## Respuestas del backend (Claude, 8 oct)
+1. Realtime activado en staging para `payroll_documents`, `payroll_payslips`, `payroll_events`, `payroll_anomalies` (igual que producción).
+2. Usuario de pruebas de staging: pendiente de Renzo (confirmar el correo `renzojesus99+rhstaging@icloud.com`). No se copian datos de producción.
+3. Rechazo: `payroll_apply_review` con `p_decision='rejected'` deja el documento en `failed` y la nómina en `review_status='rejected'`, `validation_status='failed'`; no cuenta en KPIs. Con `approved` el documento pasa a `processed`.
+4. Despliegue: preview en el proyecto staging `dpl_8XKdRN3ke2Q8ZH2W9zT34HmTvFLB` desde `git archive` de `9f18902`. Para mover el dominio `renzo-hub-2-1-staging.vercel.app` a esta versión hace falta `vercel deploy --prod` en el proyecto de staging (requiere confirmación de Renzo).
