@@ -1,7 +1,7 @@
 # Renzo Hub · versión vigente
 
 - **Producción (uso diario):** [renzo-hub.vercel.app](https://renzo-hub.vercel.app/) · release **2.4.1** · `dpl_HBnDnZqawHuTC9nUFcCsxoLnDeTs` · rama de producción actual `renzo-hub-2-1-production` (pasará a `main` al promocionar 2.6.0)
-- **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.6.0** (`dpl_DqxmaXsHC6tKFqCqQ9AWAibcZkx7`, commit `2becc17`); despliegue Git desde la rama `staging` (hoy 2.5.0 hasta fusionar el PR #2). La rama `feature/fase1` va por **2.6.2** (estabilización y correcciones del E2E, sin funciones nuevas)
+- **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.6.2** · `dpl_Dq4qcEqQUmNB1WsQEHzSK8A1HibM` · rama `staging`, commit `cc183cf` (merge del PR #2) · **validado 2026-10-08 12:15**
 - **Experimental:** 2.6.0 Microapp OS Core · rama `experimental/os-core` (no se despliega)
 - **Fuente canónica:** `github.com/rellmen/renzo-hub` (privado). `main` = 2.4.1, `staging` = 2.5.0, `feature/fase1` = Bloques 0 a 4. PR #1 (`sync/main-2.4.1` → `main`) y PR #2 (`feature/fase1` → `staging`) con CI en verde, pendientes de que Renzo los fusione
 - **Copias de seguridad:** `~/Projects/RENZO-HUB/backups/` y versiones verificadas en `~/Projects/RENZO-HUB/releases/`
@@ -11,9 +11,9 @@
 
 > La carpeta `~/.codex/.chatgpt-projects/.../renzo-hub-news` queda como espejo histórico de solo lectura. No editar ni desplegar desde ella.
 
-## Estado verificable de Fase 1 (2026-10-08, 11:25)
+## Estado verificable de Fase 1 (2026-10-08, 12:15)
 
-**Fase 1: desarrollo y pruebas completados en staging (E2E autenticado 22/22, dos ejecuciones seguidas). No se declara cerrada** hasta que Renzo complete los controles de seguridad de Supabase Auth (registro público y contraseñas filtradas) y fusione los PR. Producción sigue en 2.4.1.
+**Fase 1: 2.6.2 publicada y validada en staging** (smoke 15/15 y E2E autenticado 22/22 contra la URL desplegada). No se declara cerrada hasta completar los controles de Supabase Auth (registro público y contraseñas filtradas). Producción sigue en 2.4.1 sin cambios.
 
 ### Funciona (verificado)
 | Qué | Evidencia |
@@ -30,10 +30,22 @@
 | Jarvis activo intacto | `WH0kGpw0dg83yvdM` activo = versión `adbc67d5` (7 oct, anterior a esta fase). Nodalys LinkedIn activo = `517bcda9`. Todos los workflows nuevos están inactivos |
 
 ### Despliegue de staging 2.6.2 (autorizado, 2026-10-08)
-- PR #2 (`feature/fase1` → `staging`) fusionado por Renzo a las 11:48 (merge `cc183cf`, contiene `c25cbda`; árbol idéntico al commit aprobado `5c2df42`).
-- Antes del merge: CI verde; Vercel staging usa solo variables *preview* con `SUPABASE_URL` = `zpueziugbezqxompwsol` (staging), sin clave de servicio; staging construye solo `staging`; producción ignora todo salvo `main`. Ninguna migración repetida.
-- GitHub: estado "Vercel – renzo-hub-2-1-staging: success" (`dpl_Dq4qcEqQUmNB1WsQEHzSK8A1HibM`); "Vercel – renzo-hub" (producción) marcado success por la regla de ignorar. Actions en `staging`: verde.
-- **Pendiente de verificar** (Mac sin conexión desde las 11:50): estado READY y commit del deployment, `release.json` = 2.6.2, pruebas contra la URL desplegada, documentos internos no expuestos, autenticación con Supabase staging. Staging tiene protección de Vercel (302 sin sesión): las pruebas se harán con `vercel curl` desde el Mac.
+| Comprobación | Resultado |
+|---|---|
+| PR #2 | Fusionado por Renzo 11:48, merge `cc183cf`; contiene `c25cbda`; árbol idéntico a `5c2df42` (aprobado). Destino `staging` |
+| GitHub Actions | Verde antes del merge (`5c2df42`) y en el push a `staging` |
+| Vercel staging | `dpl_Dq4qcEqQUmNB1WsQEHzSK8A1HibM` **READY**, rama `staging`, commit `cc183cf`, alias `renzo-hub-2-1-staging.vercel.app` |
+| Supabase usado por staging | Variables solo *preview*; `SUPABASE_URL` y `/api/supabase-config` = `zpueziugbezqxompwsol` (staging), clave publishable. Sin clave de servicio |
+| Producción durante el merge | El proyecto `renzo-hub` canceló su build (regla: solo `main`). `renzo-hub.vercel.app` sigue en **2.4.1**; migraciones de producción sin cambios |
+| Migraciones | Ninguna repetida ni aplicada (staging sin integración de ramas) |
+| URL desplegada: `release.json` y `deployment-info` | 2.6.2 · `preview` · `renzo-hub-2-1-staging` · `staging` |
+| Cabeceras | CSP `script-src 'self' cdn.jsdelivr.net`, HSTS, `nosniff`, `X-Frame-Options: DENY`, Referrer-Policy, Permissions-Policy |
+| Documentos internos | 19 rutas (`*.md`, `docs/`, `supabase/`, `scripts/`, `tests/`, `tools/`, `.github/`, `package*.json`, `.env`, `.vercelignore`, `.gitignore`, `integrations/`, `os-core/`) → **404**; app (8 rutas) → 200 |
+| Protección de Vercel | Sin sesión → 302 (login de Vercel) |
+| Smoke contra la URL desplegada | **15/15** (móvil y escritorio) |
+| E2E autenticado contra la URL desplegada | **22/22** (login, 12 secciones, perfil, Portfolio, Nutrición, Peso, Hábitos, Progreso/XP sin duplicados, sin errores JS) |
+
+Las pruebas contra la URL protegida usan el secreto *automation-bypass* que ya existía en el proyecto (creado el 7 oct); se lee en memoria y nunca se escribe ni se muestra.
 
 ### Riesgo antes de producción: PR #1
 El PR #1 (`sync/main-2.4.1` → `main`) añade `supabase/migrations/` a `main`. Producción tiene activadas las ramas de Supabase (branch `main`). Si el proyecto de producción está conectado al repo por la integración de GitHub de Supabase, fusionar en `main` podría aplicar esas migraciones (baseline de staging) en producción. No hay checks de Supabase en ningún commit, lo que sugiere que no está conectado, pero **hay que comprobarlo** en Supabase → Project Settings → Integrations → GitHub antes de fusionar nada en `main`.
@@ -76,6 +88,24 @@ Correcciones aplicadas en `feature/fase1` (2.6.2, commits `ae786a8` y `c25cbda`,
 - `assets/skin_*.jpeg` (fotos de productos de skincare) son públicas en Vercel. No contienen datos personales sensibles; si se prefiere privacidad total, moverlas al bucket privado.
 - El webhook de prueba de Jarvis (`jarvis-hub-test-…`) está protegido por la comprobación de ejecución manual.
 
+## Informe de preparación para producción (no autorizado aún)
+
+**Por qué conviene promocionar pronto:** producción 2.4.1 publica hoy documentos internos: `/AGENTS.md`, `/JARVIS-CONNECTION.md`, `/RENZO-HUB-CURRENT.md`, `/RENZO-HUB-2.1-IMPLEMENTACION-Y-VALIDACION.md`, `/scripts/renzo-hub` y `/supabase/migrations/…baseline….sql` responden 200 (comprobado 12:15). Además, en 2.4.1 `/api/jarvis` puede registrar gastos directo en Money y `hub_financial_ingest` también. 2.6.2 corrige todo esto.
+
+| # | Paso | Quién | Estado |
+|---|---|---|---|
+| 1 | Supabase Auth en producción y staging: desactivar registro público, activar contraseñas filtradas | Renzo (Dashboard) | Pendiente |
+| 2 | Comprobar en Supabase producción → Integrations → GitHub si `rellmen/renzo-hub` está conectado (producción tiene ramas de Supabase, branch `main`). Si lo está, desconectarlo o confirmar que no aplica migraciones al fusionar en `main` | Renzo | Pendiente, **bloquea el PR #1** |
+| 3 | Copia de seguridad de producción: Dashboard → Database → Backups (descargar la última) y, si es posible, `supabase db dump` con la contraseña de la base | Renzo | Pendiente |
+| 4 | Aplicar en producción `20261008120000_harden_grants_and_functions.sql` y `20261008140000_financial_ingest_always_review.sql` (probadas en réplica con los privilegios reales de producción; rollback exacto) | Claude con OK de Renzo | Preparado |
+| 5 | PR `staging` → `main` (sustituye al PR #1) con 2.6.2; Renzo fusiona | Claude prepara, Renzo fusiona | Preparado |
+| 6 | Vercel `renzo-hub`: cambiar rama de producción de `renzo-hub-2-1-production` a `main` (las variables de producción ya existen: `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY`, `JARVIS_INBOUND_TOKEN`, `JARVIS_OWNER_ID`) | Claude con OK de Renzo | Preparado |
+| 7 | Verificación en producción: READY, commit, `release.json` 2.6.2, documentos internos 404, smoke; E2E autenticado **no** se ejecuta en producción | Claude | Preparado |
+| 8 | Rollback: Vercel "Instant Rollback" a `dpl_HBnDnZqawHuTC9nUFcCsxoLnDeTs` (2.4.1) y `*.rollback.sql` | Claude con OK | Preparado |
+| 9 | Jarvis/Nodalys: publicación de workflows (decisión aparte, requiere créditos de IA en n8n) | Renzo | Fuera de este despliegue |
+
+Riesgos conocidos: el XP se calcula también para datos antiguos la primera vez que Renzo abra 2.6.2 en producción (eventos con id determinista, sin duplicados); el perfil corporal de Renzo debe rellenarse en Ajustes (2.6 ya no lo trae escrito en el código).
+
 ## Progreso Fase 1
 
 | Fecha | Tarea | Resultado | Archivos | Pruebas | Commit / PR |
@@ -95,6 +125,7 @@ Correcciones aplicadas en `feature/fase1` (2.6.2, commits `ae786a8` y `c25cbda`,
 | 2026-10-08 | Bloque 4 · Jarvis/Nodalys implementado | Jarvis personal sin herramientas Nodalys + aprobación técnica + gastos a revisión; agente Nodalys en el flujo del bot Nodalys con aprobación por botones (CAS de un solo uso). Todo en borrador o inactivo | `docs/JARVIS-SEPARATION.md` | Ver checklist en `docs/JARVIS-SEPARATION.md`; respuestas del modelo bloqueadas por créditos de IA agotados | n8n `WH0kGpw0dg83yvdM`, `CHOL3mZnIrtM3rPy`, `v9C8W9OtTw1bSzFJ` (borradores) |
 | 2026-10-08 | Estabilización (2.6.1) | Verificación GitHub, superficie publicada, migraciones en réplica PG17, rollback exacto, `hub_financial_ingest` al repo, revisión obligatoria preparada | `.vercelignore`, `release.json`, `sw.js`, `.github/workflows/ci.yml`, `supabase/`, `tests/db/`, `tests/deploy-surface.test.mjs`, `tools/db-replica/`, `docs/SUPABASE-SCHEMA.md` | unit 15/15; réplica: todo OK; E2E autenticado **pendiente** | rama `feature/fase1` |
 | 2026-10-08 | Staging: migraciones y E2E | Copia verificada; `staging_revoke_maintain` y `financial_ingest_always_review` aplicadas en staging; correcciones 2.6.2; E2E autenticado 22/22 (x2) | `phase1.js`, `world.js`, `world-extensions.js`, `jarvis-ui.js`, `tools/dev-server.mjs`, `tests/e2e/authenticated.mjs`, `release.json`, `sw.js`, `docs/SUPABASE-SCHEMA.md` | Permisos y sincronización en staging `TEST_OK`; E2E 22/22; smoke 15/15; unit 15/15; CI verde | `d542ce9`…`c25cbda` |
+| 2026-10-08 | Despliegue staging 2.6.2 | PR #2 fusionado; deployment READY con `cc183cf`; validación contra la URL desplegada | `tests/e2e/smoke.mjs`, `tests/e2e/authenticated.mjs` (bypass por variable de entorno) | smoke 15/15, E2E 22/22, 19 rutas internas 404, Supabase staging confirmado | `cc183cf`, `477443b` |
 
 **Problemas encontrados:**
 - Vercel (plan Hobby) bloquea despliegues con commits cuyo autor no es la cuenta de Renzo. Solución: commits con autor `rellmen` y coautor Claude.
@@ -106,7 +137,7 @@ Correcciones aplicadas en `feature/fase1` (2.6.2, commits `ae786a8` y `c25cbda`,
 
 **Pendiente de Renzo:** ver "Necesita autorización o acción de Renzo" arriba.
 
-**Siguiente tarea:** Renzo: Supabase Auth (desactivar registro público y activar contraseñas filtradas, ambos entornos) y fusionar PR #1 y PR #2. Después: comprobar que el despliegue Git de staging sirve 2.6.2. Producción (migraciones `20261008120000` + `20261008140000` y promoción a `main`) solo con autorización expresa.
+**Siguiente tarea:** pasos 1 a 3 del informe de preparación para producción (Renzo). Después, con autorización expresa, pasos 4 a 8.
 
 
 ## Cambios del release 2.5.0
