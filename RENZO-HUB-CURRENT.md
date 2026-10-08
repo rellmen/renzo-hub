@@ -74,3 +74,5 @@ Ver `docs/PAYROLL-CHANGELOG.md` para limitaciones y peticiones a Claude. No se i
 | 2026-10-09 | Tarea 1 · Mensual | Vista mensual por fecha de pago, selector de año, total anual, desglose, retenciones, horas y saldos; demo sintética. Revisión local completada; sin publicar. | payroll.js, payroll.css, payroll-demo.js, release.json, sw.js, tests, docs | check OK; 19/19 unitarias; E2E Chromium y WebKit OK; capturas 390 y 1440 px | feature/payroll-2.8; sin PR |
 
 Worktree: `/Users/Nodalys/Renzo HUB/payroll-2.8`, creado desde `main` en `7c110eb`. El checkout `e2e/fase1-2.6.2` conserva sus cambios. Tareas 2 y 3 pendientes. No se han comprobado ni cambiado las versiones remotas durante esta tarea. Detalles en `docs/PAYROLL-2.8-TAREA-1.md`.
+
+| 2026-10-09 | Ajustes de Tarea 1 aprobada | Singular, etiquetas y bloques plegables en móvil; abiertos inicialmente solo en el mes más reciente. | payroll.js, payroll.css, tests/e2e/payroll.mjs, sw.js | check, 19 unitarias y E2E Chromium/WebKit | feature/payroll-2.8; commit separado |

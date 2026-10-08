@@ -3,3 +3,5 @@
 
 #payroll .pay-tabs{flex-wrap:wrap;overflow:visible}#payroll .pay-monthly{color:#f5f0ff;min-width:0}#payroll .pay-monthly .pay-grid{grid-template-columns:repeat(auto-fit,minmax(min(145px,100%),1fr))}#payroll .pay-month-metrics dd{margin:6px 0 0;text-align:left;font-size:1.15rem;font-weight:700}#payroll .pay-month-metrics>div{min-width:0;overflow-wrap:anywhere}#payroll .pay-muted{color:#c4bdcf;font-size:.875rem}#payroll .pay-bank strong{display:block;font-size:clamp(28px,7vw,40px);margin:8px 0 18px}#payroll .pay-monthly h2{font-size:1.5rem}#payroll .pay-monthly summary{box-sizing:border-box}
 #payroll [data-monthly-year]{appearance:none;-webkit-appearance:none;height:48px;font:inherit}
+
+#payroll .pay-month-mobile{display:none}@media(max-width:640px){#payroll .pay-month-desktop{display:none}#payroll .pay-month-mobile{display:block}#payroll .pay-month-mobile>summary{font-weight:700}}

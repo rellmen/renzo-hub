@@ -49,14 +49,19 @@ for(const engine of [chromium,webkit]){
  assert.match(await page.locator('[data-monthly-total]').innerText(),/Total del año/);
  assert.match(await page.locator('[data-month]').first().innerText(),/Ingresado en el banco/);
  assert.equal(await page.locator('[data-month]').count(),3);
- assert.match(await page.locator('[data-month]').first().innerText(),/1 correcciones.*1 por revisar/s);
+ assert.match(await page.locator('[data-month]').first().innerText(),/1 corrección.*1 por revisar/s);
  await page.locator('[data-month]').first().locator('summary').filter({hasText:'Desglose del bruto'}).click();
  assert.ok(!(await page.locator('[data-month]').first().locator('details').first().innerText()).includes('Baja'));
- await mkdir('docs/screenshots',{recursive:true});
+ assert.equal(await page.locator('[data-month]').first().locator('.pay-month-mobile[open]').count(),2);
+ assert.equal(await page.locator('[data-month]').nth(1).locator('.pay-month-mobile[open]').count(),0);
+ const olderHours=page.locator('[data-month]').nth(1).locator('.pay-month-mobile').first();
+ await olderHours.locator('summary').click();assert.equal(await olderHours.getAttribute('open'),'');await olderHours.locator('summary').click();
+ await mkdir('docs/screenshots' ,{recursive:true});
  for(const [label,width,height] of [['mobile',390,844],['desktop',1440,1000]]){
   await page.setViewportSize({width,height});
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
-  const undersized=await page.locator('.pay-tabs button, [data-monthly-year], .pay-monthly summary').evaluateAll(els=>els.filter(el=>el.getBoundingClientRect().height<44).map(el=>({text:el.textContent,height:el.getBoundingClientRect().height})));assert.deepEqual(undersized,[]);
+  const undersized=await page.locator('.pay-tabs button, [data-monthly-year], .pay-monthly summary').filter({visible:true}).evaluateAll(els=>els.filter(el=>el.getBoundingClientRect().height<44).map(el=>({text:el.textContent,height:el.getBoundingClientRect().height})));assert.deepEqual(undersized,[]);
+  assert.equal(await page.locator('.pay-month-desktop:visible').count(),width>640?6:0);
   await page.screenshot({path:`docs/screenshots/payroll-monthly-${engine.name()}-${label}.png`,fullPage:true});
  }
  // Exercise the actual view-loading adapter (mocked transport), including isolated failure.

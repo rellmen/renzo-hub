@@ -40,3 +40,7 @@ Pestaña Mensual entre Nóminas y Alertas. Consulta `payroll_v_monthly_nl` con e
 Tres meses sintéticos independientes en demo: corrección, revisión pendiente y horas extra. Estos agregados sirven para probar Mensual y no se recalculan al editar una nómina individual de la demo.
 
 Release local 2.8.0 y caché `renzo-hub-cloud-v5.7-payroll`. Sin despliegue ni PR. Tareas 2 (smoke de producción) y 3 (Año) pendientes de revisión de Renzo. Ver [resumen y capturas](PAYROLL-2.8-TAREA-1.md).
+
+### Revisión aprobada de Tarea 1
+
+Singular «1 corrección», etiquetas con mayúscula inicial y bloques Horas/Saldos al cierre plegables hasta 640 px: inicialmente abiertos solo en el mes más reciente del año seleccionado. En escritorio siguen visibles. Release de trabajo 2.8.0; caché v5.8-payroll.
