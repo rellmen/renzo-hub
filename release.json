@@ -1,6 +1,6 @@
 {
-  "release": "2.6.0",
-  "name": "Renzo Hub · Fase 1 microapps (Nutrición, Peso, Hábitos, Progreso, XP)",
+  "release": "2.7.0",
+  "name": "Renzo Hub · Nóminas",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",

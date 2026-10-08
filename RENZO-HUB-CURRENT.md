@@ -56,3 +56,11 @@
 
 ## Comprobación rápida
 Ejecutar `./scripts/renzo-hub status` desde el repositorio. Ninguna IA debe editar otra copia como si fuera la vigente.
+
+## Nóminas · trabajo preparado para staging (2.7.0)
+
+| Fecha | Tarea | Resultado | Archivos | Pruebas | Commit / PR |
+|---|---|---|---|---|---|
+| 2026-10-08 | Módulo Nóminas | Bandeja, detalle/PDF, revisión, KPIs, alertas, Realtime y demo aislada. Producción pendiente de OK. | payroll.js, payroll.css, payroll-demo.js, app.js, index.html, sw.js, release.json | 15 unitarias; contrato Supabase solo lectura; integración de navegador | feature/payroll |
+
+Ver `docs/PAYROLL-CHANGELOG.md` para limitaciones y peticiones a Claude. No se incorporan los cambios locales sin commit de la tarea e2e/fase1-2.6.2.
