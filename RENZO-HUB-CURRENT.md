@@ -67,14 +67,13 @@ Ejecutar `./scripts/renzo-hub status` desde el repositorio. Ninguna IA debe edit
 
 Ver `docs/PAYROLL-CHANGELOG.md` para limitaciones y peticiones a Claude. No se incorporan los cambios locales sin commit de la tarea e2e/fase1-2.6.2.
 
-## Nóminas 2.8.0 · desarrollo local, solo Tarea 1
+## Nóminas 2.8.0 · desarrollo local (Tareas 1, 2 y 3)
 
 | Fecha | Tarea | Resultado | Archivos | Pruebas | Commit / PR |
 |---|---|---|---|---|---|
-| 2026-10-09 | Tarea 1 · Mensual | Vista mensual por fecha de pago, selector de año, total anual, desglose, retenciones, horas y saldos; demo sintética. Revisión local completada; sin publicar. | payroll.js, payroll.css, payroll-demo.js, release.json, sw.js, tests, docs | check OK; 19/19 unitarias; E2E Chromium y WebKit OK; capturas 390 y 1440 px | feature/payroll-2.8; sin PR |
+| 2026-10-09 | Tarea 1 · Mensual | Vista mensual por fecha de pago, selector de año, total anual, desglose, retenciones, horas y saldos; demo sintética. | payroll.js, payroll.css, payroll-demo.js, release.json, sw.js, tests, docs | check OK; unitarias; E2E Chromium y WebKit; capturas 390 y 1440 px | c708679; sin PR |
+| 2026-10-09 | Ajustes de Tarea 1 | Singular, etiquetas con mayúscula y bloques Horas/Saldos plegables en móvil. | payroll.js, payroll.css, tests/e2e/payroll.mjs, sw.js | check, unitarias y E2E Chromium/WebKit | dd261c8 |
+| 2026-10-09 | Tarea 2 · smoke por entorno | Entorno esperado derivado de BASE_URL, con override EXPECT_ENV; solo lectura. | tests/e2e/smoke.mjs, docs | Smoke real producción 15/15, sin login | 1663313 |
+| 2026-10-09 | Tarea 3 · Año (jaaropgave) | Pestaña Año: aviso de completitud arriba, valores oficiales de la última nómina separados de lo registrado, demo con año incompleto y completo. Aviso específico si lo registrado supera el oficial o falta el acumulado. | payroll.js, payroll.css, payroll-demo.js, sw.js, tests, docs | check OK; 21/21 unitarias; E2E Chromium y WebKit; smoke producción 15/15; cifras reales verificadas en la vista | commit Tarea 3; sin PR ni despliegue |
 
-Worktree: `/Users/Nodalys/Renzo HUB/payroll-2.8`, creado desde `main` en `7c110eb`. El checkout `e2e/fase1-2.6.2` conserva sus cambios. Tareas 2 y 3 pendientes. No se han comprobado ni cambiado las versiones remotas durante esta tarea. Detalles en `docs/PAYROLL-2.8-TAREA-1.md`.
-
-| 2026-10-09 | Ajustes de Tarea 1 aprobada | Singular, etiquetas y bloques plegables en móvil; abiertos inicialmente solo en el mes más reciente. | payroll.js, payroll.css, tests/e2e/payroll.mjs, sw.js | check, 19 unitarias y E2E Chromium/WebKit | feature/payroll-2.8; commit separado |
-
-| 2026-10-09 | Tarea 2 · smoke por entorno | Entorno esperado derivado de BASE_URL, con override EXPECT_ENV; solo lectura. | tests/e2e/smoke.mjs, docs/PAYROLL-CHANGELOG.md | Smoke real producción: 15/15, sin login | feature/payroll-2.8; sin PR ni despliegue |
+Worktree: `/Users/Nodalys/Renzo HUB/payroll-2.8`, creado desde `main` en `7c110eb`. El checkout `e2e/fase1-2.6.2` conserva sus cambios. Caché `renzo-hub-cloud-v5.9-payroll`. Pendiente: revisión de Renzo, PR y despliegue con su OK. Detalles en `docs/PAYROLL-2.8-TAREA-1.md` y `docs/PAYROLL-2.8-TAREA-2-3.md`.

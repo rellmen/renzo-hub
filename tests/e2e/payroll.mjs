@@ -7,9 +7,9 @@ const {chromium,webkit}=require('playwright');
 const base='https://renzo-hub-2-1-staging.vercel.app';
 const mock=`import {createPayrollDemo} from '${base}/payroll-demo.js';
 export function createClient(){
- let user=null,authCb;const f=createPayrollDemo('11111111-1111-4111-8111-111111111111');window.fixture=f;window.calls=[];window.removed=0;
- const map={payroll_documents:'documents',payroll_payslips:'payslips',payroll_employers:'employers',payroll_anomalies:'anomalies',payroll_events:'events',payroll_line_items:'lines',payroll_validations:'validations',payroll_payslip_versions:'versions',payroll_v_ytd:'ytd',payroll_v_monthly:'monthly',payroll_v_monthly_nl:'monthly_nl',payroll_v_confirmed:'confirmed',payroll_v_rate_history:'rates',payroll_v_queue:'queue'};
- const db={from(table){let filters=[],single=false,mutation=null;const q=new Proxy({}, {get(_,key){if(key==='then')return (ok,bad)=>Promise.resolve().then(()=>{if(table==='payroll_v_monthly_nl'&&window.failMonthly)return {data:null,error:{message:'Fallo mensual simulado'}};let data=(f[map[table]]||[]).filter(r=>filters.every(([k,v])=>r[k]===v));if(mutation)data.forEach(r=>Object.assign(r,mutation));return {data:single?data[0]||null:data,error:null};}).then(ok,bad);return (...args)=>{if(key==='eq')filters.push(args);if(key==='maybeSingle'||key==='single')single=true;if(key==='update')mutation=args[0];return q;};}});return q;},
+ let user=null,authCb;const f=createPayrollDemo('11111111-1111-4111-8111-111111111111');window.fixture=f;window.calls=[];window.queries=[];window.removed=0;
+ const map={payroll_documents:'documents',payroll_payslips:'payslips',payroll_employers:'employers',payroll_anomalies:'anomalies',payroll_events:'events',payroll_line_items:'lines',payroll_validations:'validations',payroll_payslip_versions:'versions',payroll_v_ytd:'ytd',payroll_v_monthly:'monthly',payroll_v_monthly_nl:'monthly_nl',payroll_v_jaaropgave_nl:'year_nl',payroll_v_confirmed:'confirmed',payroll_v_rate_history:'rates',payroll_v_queue:'queue'};
+ const db={from(table){let filters=[],orders=[],single=false,mutation=null;const q=new Proxy({}, {get(_,key){if(key==='then')return (ok,bad)=>Promise.resolve().then(()=>{window.queries.push({table,filters,orders});if(table==='payroll_v_jaaropgave_nl'&&window.failYear)return {data:null,error:{message:'Fallo anual simulado'}};if(table==='payroll_v_monthly_nl'&&window.failMonthly)return {data:null,error:{message:'Fallo mensual simulado'}};let data=(f[map[table]]||[]).filter(r=>filters.every(([k,v])=>r[k]===v));if(mutation)data.forEach(r=>Object.assign(r,mutation));return {data:single?data[0]||null:data,error:null};}).then(ok,bad);return (...args)=>{if(key==='eq')filters.push(args);if(key==='order')orders.push(args);if(key==='maybeSingle'||key==='single')single=true;if(key==='update')mutation=args[0];return q;};}});return q;},
  channel(){let handlers=[];const ch={on(_,filter,cb){handlers.push(cb);return ch;},subscribe(cb){window.rtStatus=cb;window.emitPayroll=()=>handlers.forEach(fn=>fn());setTimeout(()=>cb('SUBSCRIBED'),0);return ch;}};return ch;},removeChannel(){window.removed++;},
  rpc:async(name,args)=>{window.calls.push({name,args});f.applyReview(args.p_payslip_id,args.p_changes,args.p_decision);return {data:null,error:null};},storage:{from:()=>({download:async()=>({data:new Blob([f.pdf],{type:'application/pdf'}),error:null})})},
  auth:{onAuthStateChange(cb){authCb=cb;return {data:{subscription:{unsubscribe(){}}}};},getSession:async()=>({data:{session:user?{user}:null}}),signInWithPassword:async()=>{user={id:'11111111-1111-4111-8111-111111111111',email:'demo@example.test'};authCb('SIGNED_IN',{user});return {};},signOut:async()=>{user=null;authCb('SIGNED_OUT',null);return {};}}};window.testDb=db;return db;}`;
@@ -64,6 +64,22 @@ for(const engine of [chromium,webkit]){
   assert.equal(await page.locator('.pay-month-desktop:visible').count(),width>640?6:0);
   await page.screenshot({path:`docs/screenshots/payroll-monthly-${engine.name()}-${label}.png`,fullPage:true});
  }
+ // Annual demo: official figures must remain separate from the registered totals.
+ await page.locator('.pay-tabs [data-tab=year]').click();
+ assert.equal(await page.locator('[data-year-card]').count(),2);
+ const annual=page.locator('[data-year-card]').first();
+ assert.match(await annual.locator('[data-official]').innerText(),/8350,00/);
+ assert.match(await annual.locator('[data-official]').innerText(),/1085,00/);
+ assert.match(await annual.locator('[data-recorded]').innerText(),/8100,00/);
+ assert.match(await annual.locator('[data-completeness]').innerText(),/Faltan nóminas.*250,00/s);
+ assert.equal(await page.locator('[data-completeness=complete]').count(),1);
+ assert.match(await annual.innerText(),/La jaaropgave oficial la emite SD Worx/);
+ for(const [label,width,height] of [['mobile',390,844],['desktop',1440,1000]]){
+  await page.setViewportSize({width,height});
+  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
+  assert.ok(await page.locator('.pay-tabs button').evaluateAll(els=>els.every(el=>el.getBoundingClientRect().height>=44)));
+  await page.screenshot({path:`docs/screenshots/payroll-year-${engine.name()}-${label}.png`,fullPage:true});
+ }
  // Exercise the actual view-loading adapter (mocked transport), including isolated failure.
  await page.goto(base+'/?app=payroll');await page.locator('#email').fill('demo@example.test');await page.locator('#password').fill('fake-test-password');await page.locator('#loginForm button[type=submit]').click();
  await page.locator('.pay-tabs [data-tab=monthly]').click();await page.locator('[data-month]').first().waitFor();
@@ -73,6 +89,17 @@ for(const engine of [chromium,webkit]){
  await page.evaluate(()=>{window.fixture.monthly_nl=[];});await page.locator('[data-refresh]').click();await page.getByText('Sin datos mensuales.',{exact:true}).waitFor();
  await page.evaluate(()=>{window.failMonthly=true;});await page.locator('[data-refresh]').click();await page.getByText('No se pudieron cargar los datos mensuales. Pulsa Actualizar para reintentar.',{exact:true}).waitFor();
  await page.locator('.pay-tabs [data-tab=summary]').click();assert.ok(await page.getByText('Evolución mensual',{exact:true}).isVisible());
- await browser.close();console.log(engine.name()+': login, deep link, review RPC, realtime, PDF, KPIs, mobile, modules, logout and isolated demo OK');
+ await page.locator('.pay-tabs [data-tab=year]').click();await page.locator('[data-year-card]').first().waitFor();
+ const yearQuery=await page.evaluate(()=>window.queries.find(q=>q.table==='payroll_v_jaaropgave_nl'));
+ assert.deepEqual(yearQuery.filters,[['user_id','11111111-1111-4111-8111-111111111111']]);assert.deepEqual(yearQuery.orders,[['jaar',{ascending:false}]]);
+ const yearIds=await page.locator('[data-year-card]').evaluateAll(els=>els.map(el=>Number(el.dataset.yearCard)));assert.ok(yearIds[0]>yearIds[1]);
+ await page.evaluate(()=>{window.failYear=true;});await page.locator('[data-refresh]').click();await page.getByText(/year_nl: Fallo anual simulado/).waitFor();assert.equal(await page.locator('[data-year-card]').count(),2);
+ await page.locator('.pay-tabs [data-tab=payslips]').click();assert.ok(await page.locator('[data-payslip]').count()>0);
+ await page.evaluate(()=>{window.failYear=false;window.fixture.year_nl=[{jaar:2000,user_id:'11111111-1111-4111-8111-111111111111',completo:null,bruto_registrado:999}];});await page.locator('[data-refresh]').click();await page.locator('.pay-tabs [data-tab=year]').click();await page.locator('[data-year-card="2000"]').waitFor();
+ assert.match(await page.locator('[data-official]').innerText(),/Sin datos/);assert.ok(!(await page.locator('[data-official]').innerText()).includes('999'));
+ assert.equal(await page.locator('[data-completeness=unknown]').count(),1);
+ await page.evaluate(()=>{window.fixture.year_nl=[];});await page.locator('[data-refresh]').click();await page.getByText('Sin datos anuales.',{exact:true}).waitFor();
+ await page.evaluate(()=>{window.failYear=true;});await page.locator('[data-refresh]').click();await page.getByText('No se pudieron cargar los datos anuales. Pulsa Actualizar para reintentar.',{exact:true}).waitFor();
+ await browser.close();console.log(engine.name()+': login, deep link, review RPC, realtime, PDF, KPIs, mobile, modules, logout isolated demo, monthly folds and annual statements OK');
 }
 assert.deepEqual(errors,[]);

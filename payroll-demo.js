@@ -22,6 +22,14 @@ export function createPayrollDemo(user_id){
    horas_trabajadas:144+extra,horas_normales:136,horas_ort:8,horas_extra:extra,salario_base:bruto-200-extra*25,toeslagen:200,pago_horas_extra:extra*25,feestdagen:0,vakantiegeld_pagado:0,verlof_pagado:0,ziekte_pagado:0,otros_ingresos:0,
    neto_por_hora:neto/(144+extra),bruto_por_hora:bruto/(144+extra),tipo_retencion:loonheffing/bruto,bruto_mensual_equivalente:bruto/4*13/3,neto_mensual_equivalente:neto/4*13/3,vakantiegeld_reservado:600-i*100,vakantiedagen_uren:48-i*8,keuzebudget_saldo:150-i*25};
  });
+ // La jaaropgave ficticia distingue lo registrado del acumulado oficial.
+ const demoYear=(jaar,months,completo)=>{
+  const sum=key=>months.reduce((total,m)=>total+Number(m[key]||0),0),bruto=sum('bruto'),tax=sum('loonheffing'),difference=completo?0:250;
+  return {user_id,jaar,nominas:sum('pagos'),correcciones:sum('correcciones'),pendientes_revision:sum('pendientes_revision'),primer_pago:`${jaar}-07-03`,ultimo_pago:`${jaar}-09-25`,
+   bruto_registrado:bruto,loon_lh_registrado:bruto,loonheffing_registrada:tax,bruto_acumulado_oficial:bruto+difference,loon_lh_acumulado_oficial:bruto+difference,loonheffing_acumulada_oficial:tax+(completo?0:35),diferencia_bruto:difference,
+   neto:sum('neto'),cobrado_banco:sum('cobrado_banco'),reiskosten_onbelast:sum('allowances_netas'),pensioen:sum('pensioen'),premies:sum('premies'),horas:sum('horas_trabajadas'),horas_extra:sum('horas_extra'),pago_horas_extra:sum('pago_horas_extra'),toeslagen:sum('toeslagen'),vakantiegeld_pagado:sum('vakantiegeld_pagado'),vakantiegeld_reservado:months[0].vakantiegeld_reservado,completo};
+ };
+ f.year_nl=[demoYear(year,f.monthly_nl,false),demoYear(year-1,f.monthly_nl.slice(1),true)];
  // PDF mínimo válido con tabla xref calculada; no contiene información real.
  const objects=['<< /Type /Catalog /Pages 2 0 R >>','<< /Type /Pages /Kids [3 0 R] /Count 1 >>','<< /Type /Page /Parent 2 0 R /MediaBox [0 0 400 200] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>','<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>'];const content='BT /F1 18 Tf 30 140 Td (Nomina DEMO - sin datos reales) Tj ET';objects.push(`<< /Length ${content.length} >>\nstream\n${content}\nendstream`);let pdf='%PDF-1.4\n',offsets=[0];objects.forEach((o,i)=>{offsets.push(pdf.length);pdf+=`${i+1} 0 obj\n${o}\nendobj\n`;});const xref=pdf.length;pdf+=`xref\n0 6\n0000000000 65535 f \n${offsets.slice(1).map(o=>String(o).padStart(10,'0')+' 00000 n ').join('\n')}\ntrailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF`;f.pdf=pdf;recalculate();return f;
 }

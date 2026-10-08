@@ -35,3 +35,22 @@ test('monthly demo has coherent fictitious amounts, corrections and overtime',()
  for(const m of rows){assert.equal(m.bruto-m.loonheffing-m.pensioen-m.premies,m.neto);assert.equal(m.neto+m.allowances_netas,m.cobrado_banco);assert.equal(m.salario_base+m.toeslagen+m.pago_horas_extra,m.bruto);}
  assert.ok(rows.some(m=>m.correcciones===1&&m.pendientes_revision===1));assert.ok(rows.some(m=>m.horas_extra>0));assert.equal(monthlyTotals(rows).bruto,8100);
 });
+
+import {yearCompleteness} from '../payroll.js';
+test('year completeness uses the view flag and does not invent official amounts',()=>{
+ assert.deepEqual(yearCompleteness({completo:true}),{state:'complete',text:'Completo: lo registrado cuadra con el acumulado oficial.'});
+ const missing=yearCompleteness({completo:false,bruto_acumulado_oficial:'1000',diferencia_bruto:'250.50'});assert.equal(missing.state,'incomplete');assert.match(missing.text,/250,50/);
+ assert.match(yearCompleteness({completo:false,bruto_acumulado_oficial:'1000',diferencia_bruto:null}).text,/sin datos/);
+ assert.equal(yearCompleteness({completo:null,diferencia_bruto:0}).state,'unknown');
+ assert.equal(yearCompleteness({completo:false,bruto_acumulado_oficial:null,diferencia_bruto:'-500'}).state,'unknown');
+ const over=yearCompleteness({completo:false,bruto_acumulado_oficial:'1000',diferencia_bruto:'-12.5'});assert.equal(over.state,'incomplete');assert.match(over.text,/supera el acumulado oficial en 12,50/);
+});
+test('annual demo distinguishes official accumulations and reconciles recorded sums with monthly demo',()=>{
+ const f=createPayrollDemo('test'),current=f.year_nl[0],previous=f.year_nl[1];
+ assert.equal(current.completo,false);assert.equal(previous.completo,true);
+ assert.equal(current.bruto_registrado,monthlyTotals(f.monthly_nl).bruto);
+ assert.equal(current.bruto_acumulado_oficial-current.bruto_registrado,current.diferencia_bruto);
+ assert.ok(current.loonheffing_acumulada_oficial>current.loonheffing_registrada);
+ for(const y of f.year_nl){assert.equal(y.bruto_registrado-y.loonheffing_registrada-y.pensioen-y.premies,y.neto);assert.equal(y.neto+y.reiskosten_onbelast,y.cobrado_banco);}
+ assert.equal(previous.diferencia_bruto,0);assert.equal(previous.bruto_acumulado_oficial,previous.bruto_registrado);
+});

@@ -58,3 +58,7 @@ EXPECT_ENV=production BASE_URL=https://alias.example node tests/e2e/smoke.mjs
 Si Playwright está instalado en un runner externo, se puede añadir `PLAYWRIGHT_ROOT=/ruta/al/runner` (directorio con package.json), igual que en las pruebas de nóminas.
 
 Verificado el 2026-10-09 contra producción: **15/15** (Chromium, 390 y 1366 px), sin iniciar sesión. Solo cambia el test y su documentación; no cambia el código publicado ni la versión de la aplicación.
+
+## Tarea 3 · pestaña Año (jaaropgave)
+
+Nueva pestaña «Año» tras «Mensual», alimentada por `payroll_v_jaaropgave_nl` (filtro `user_id`, orden `jaar` descendente). Cada año muestra primero el control de completitud y después el bloque «Para tu jaaropgave / aangifte» con los acumulados oficiales de la última nómina (Loon voor de loonheffing, Ingehouden loonheffing, Bruto acumulado), separado de «Lo registrado en el Hub». Si falta el acumulado oficial el estado es «sin datos» en lugar de un aviso engañoso; si lo registrado supera el oficial, se sugiere revisar duplicados o correcciones. Demo con un año incompleto (diferencia 250 €) y otro completo. Caché v5.9-payroll; release 2.8.0. Detalles en [PAYROLL-2.8-TAREA-2-3.md](PAYROLL-2.8-TAREA-2-3.md).
