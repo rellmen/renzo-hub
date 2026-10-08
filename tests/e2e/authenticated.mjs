@@ -38,6 +38,10 @@ const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
 const errors = [];
 page.on("pageerror", e => errors.push(String(e)));
 page.on("console", m => { if (m.type() === "error" && !/favicon/.test(m.text())) errors.push(m.text()); });
+// Deployments protegidos de Vercel: si VERCEL_PROTECTION_BYPASS está definido (nunca en el repo),
+// la primera visita fija la cookie de bypass y el resto de peticiones van sin cabeceras extra.
+const bypass = async (page, base) => { const s = process.env.VERCEL_PROTECTION_BYPASS; if (s) await page.goto(`${base}/?x-vercel-protection-bypass=${encodeURIComponent(s)}&x-vercel-set-bypass-cookie=true`); };
+await bypass(page, BASE_URL);
 await page.goto(BASE_URL + "/", { waitUntil: "networkidle" });
 
 await check("login en la UI", async () => {

@@ -5,12 +5,16 @@ import { chromium } from "playwright";
 import assert from "node:assert/strict";
 
 const base = process.env.BASE_URL || "http://localhost:4173";
+// Deployments protegidos de Vercel: si VERCEL_PROTECTION_BYPASS está definido (nunca en el repo),
+// la primera visita fija la cookie de bypass y el resto de peticiones van sin cabeceras extra.
+const bypass = async (page, base) => { const s = process.env.VERCEL_PROTECTION_BYPASS; if (s) await page.goto(`${base}/?x-vercel-protection-bypass=${encodeURIComponent(s)}&x-vercel-set-bypass-cookie=true`); };
 const browser = await chromium.launch();
 const results = [];
 const check = async (name, fn) => { try { await fn(); results.push(["ok", name]); } catch (e) { results.push(["FAIL", name, e.message]); } };
 
 for (const vp of [{ name: "móvil", width: 390, height: 844 }, { name: "escritorio", width: 1366, height: 900 }]) {
   const page = await browser.newPage({ viewport: { width: vp.width, height: vp.height } });
+  await bypass(page, base);
   const errors = [];
   page.on("console", m => { if (m.type() === "error") errors.push(m.text()); });
   page.on("pageerror", e => errors.push(String(e)));
@@ -47,6 +51,7 @@ for (const vp of [{ name: "móvil", width: 390, height: 844 }, { name: "escritor
 }
 await check("documentos internos no publicados", async () => {
   const page = await browser.newPage();
+  await bypass(page, base);
   for (const p of ["/AGENTS.md", "/supabase/migrations/20261006234511_baseline_renzo_hub_staging.sql", "/scripts/renzo-hub"]) {
     const r = await page.goto(base + p); assert.equal(r.status(), 404, p);
   }
