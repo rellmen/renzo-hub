@@ -29,6 +29,15 @@
 | Migraciones pendientes | Probadas en réplica: no tocan filas, son idempotentes y el rollback deja los privilegios idénticos a producción |
 | Jarvis activo intacto | `WH0kGpw0dg83yvdM` activo = versión `adbc67d5` (7 oct, anterior a esta fase). Nodalys LinkedIn activo = `517bcda9`. Todos los workflows nuevos están inactivos |
 
+### Despliegue de staging 2.6.2 (autorizado, 2026-10-08)
+- PR #2 (`feature/fase1` → `staging`) fusionado por Renzo a las 11:48 (merge `cc183cf`, contiene `c25cbda`; árbol idéntico al commit aprobado `5c2df42`).
+- Antes del merge: CI verde; Vercel staging usa solo variables *preview* con `SUPABASE_URL` = `zpueziugbezqxompwsol` (staging), sin clave de servicio; staging construye solo `staging`; producción ignora todo salvo `main`. Ninguna migración repetida.
+- GitHub: estado "Vercel – renzo-hub-2-1-staging: success" (`dpl_Dq4qcEqQUmNB1WsQEHzSK8A1HibM`); "Vercel – renzo-hub" (producción) marcado success por la regla de ignorar. Actions en `staging`: verde.
+- **Pendiente de verificar** (Mac sin conexión desde las 11:50): estado READY y commit del deployment, `release.json` = 2.6.2, pruebas contra la URL desplegada, documentos internos no expuestos, autenticación con Supabase staging. Staging tiene protección de Vercel (302 sin sesión): las pruebas se harán con `vercel curl` desde el Mac.
+
+### Riesgo antes de producción: PR #1
+El PR #1 (`sync/main-2.4.1` → `main`) añade `supabase/migrations/` a `main`. Producción tiene activadas las ramas de Supabase (branch `main`). Si el proyecto de producción está conectado al repo por la integración de GitHub de Supabase, fusionar en `main` podría aplicar esas migraciones (baseline de staging) en producción. No hay checks de Supabase en ningún commit, lo que sugiere que no está conectado, pero **hay que comprobarlo** en Supabase → Project Settings → Integrations → GitHub antes de fusionar nada en `main`.
+
 ### Diagnóstico del E2E autenticado (2026-10-08 11:05) y corrección (2.6.2, autorizada)
 | Fallo | Causa verificada | Tipo | Corrección propuesta |
 |---|---|---|---|
@@ -56,7 +65,7 @@ Correcciones aplicadas en `feature/fase1` (2.6.2, commits `ae786a8` y `c25cbda`,
 
 ### Necesita autorización o acción de Renzo
 1. **Confirmar el usuario de pruebas** de staging (o autorizar confirmarlo por SQL) y tener el Mac encendido para el E2E.
-2. **Fusionar PR #1 y PR #2** (CI en verde).
+2. PR #2 fusionado. **No fusionar PR #1** hasta comprobar la integración GitHub de Supabase en producción (ver riesgo arriba).
 3. **Conector de Vercel**: al autorizarlo, incluir el equipo `renzojesus99-1996` (esta sesión no ve ningún equipo).
 4. Supabase (ambos entornos): **desactivar registros públicos** y **activar leaked password protection** (Dashboard → Authentication).
 5. Producción: no autorizado por ahora (migraciones `20261008120000` y `20261008140000` listas).
