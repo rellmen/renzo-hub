@@ -40,6 +40,7 @@ export function mountWorldExtensions(supabase, getUser) {
       if(saveError){status.textContent="No se pudo guardar. Revisa la conexión de Supabase.";button.disabled=false;return;}
       section.remove();
       addPortfolio();
+      document.dispatchEvent(new CustomEvent("renzo:synced")); // phase1 recalcula el XP de Portfolio al momento
     };
   }
 
