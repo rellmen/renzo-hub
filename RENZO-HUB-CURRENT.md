@@ -1,7 +1,7 @@
 # Renzo Hub · versión vigente
 
 - **Producción (uso diario):** [renzo-hub.vercel.app](https://renzo-hub.vercel.app/) · release **2.8.0 "Nóminas"** (comprobado 2026-10-09 17:35). Publicada por CLI desde el Mac; su código es exactamente el commit `e35f64a` (13 archivos comparados por hash), ya subido a GitHub como rama `import/nominas-2.8.0`. Antes: 2.4.1 `dpl_HBnDnZqawHuTC9nUFcCsxoLnDeTs`
-- **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.6.2** · `dpl_Dq4qcEqQUmNB1WsQEHzSK8A1HibM` · rama `staging`, commit `cc183cf` (merge del PR #2) · **validado 2026-10-08 12:15**
+- **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.8.1** (Nóminas + Fase 1) · `dpl_D2cYRMTwxHAz3uZ4uY3QnHSmUAq5` · rama `staging`, commit `9f7643a` (merge del PR #3) · **validado 2026-10-10 00:50**: READY, `release.json` 2.8.1, `deployment-info` preview/staging, documentos internos 404, smoke 15/15 y E2E autenticado 22/22 contra la URL desplegada
 - **Experimental:** 2.6.0 Microapp OS Core · rama `experimental/os-core` (no se despliega)
 - **Fuente canónica:** `github.com/rellmen/renzo-hub` (privado). `main` = 2.4.1, `staging` = 2.5.0, `feature/fase1` = Bloques 0 a 4. PR #1 (`sync/main-2.4.1` → `main`) y PR #2 (`feature/fase1` → `staging`) con CI en verde, pendientes de que Renzo los fusione
 - **Copias de seguridad:** `~/Projects/RENZO-HUB/backups/` y versiones verificadas en `~/Projects/RENZO-HUB/releases/`
