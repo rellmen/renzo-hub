@@ -1,7 +1,7 @@
 # Renzo Hub · versión vigente
 
-- **Producción (uso diario):** [renzo-hub.vercel.app](https://renzo-hub.vercel.app/) · release **2.4.1** · `dpl_HBnDnZqawHuTC9nUFcCsxoLnDeTs` · rama de producción actual `renzo-hub-2-1-production` (pasará a `main` al promocionar 2.6.0)
-- **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.6.0** (`dpl_DqxmaXsHC6tKFqCqQ9AWAibcZkx7`, commit `2becc17`); despliegue Git desde la rama `staging` (hoy 2.5.0 hasta fusionar el PR #2). La rama `feature/fase1` va por **2.6.2** (estabilización y correcciones del E2E, sin funciones nuevas)
+- **Producción (uso diario):** [renzo-hub.vercel.app](https://renzo-hub.vercel.app/) · release **2.8.0 "Nóminas"** (comprobado 2026-10-09 17:35). Publicada por CLI desde el Mac; su código es exactamente el commit `e35f64a` (13 archivos comparados por hash), ya subido a GitHub como rama `import/nominas-2.8.0`. Antes: 2.4.1 `dpl_HBnDnZqawHuTC9nUFcCsxoLnDeTs`
+- **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.6.2** · `dpl_Dq4qcEqQUmNB1WsQEHzSK8A1HibM` · rama `staging`, commit `cc183cf` (merge del PR #2) · **validado 2026-10-08 12:15**
 - **Experimental:** 2.6.0 Microapp OS Core · rama `experimental/os-core` (no se despliega)
 - **Fuente canónica:** `github.com/rellmen/renzo-hub` (privado). `main` = 2.4.1, `staging` = 2.5.0, `feature/fase1` = Bloques 0 a 4. PR #1 (`sync/main-2.4.1` → `main`) y PR #2 (`feature/fase1` → `staging`) con CI en verde, pendientes de que Renzo los fusione
 - **Copias de seguridad:** `~/Projects/RENZO-HUB/backups/` y versiones verificadas en `~/Projects/RENZO-HUB/releases/`
@@ -11,9 +11,9 @@
 
 > La carpeta `~/.codex/.chatgpt-projects/.../renzo-hub-news` queda como espejo histórico de solo lectura. No editar ni desplegar desde ella.
 
-## Estado verificable de Fase 1 (2026-10-08, 11:25)
+## Estado verificable de Fase 1 (2026-10-08, 12:15)
 
-**Fase 1: desarrollo y pruebas completados en staging (E2E autenticado 22/22, dos ejecuciones seguidas). No se declara cerrada** hasta que Renzo complete los controles de seguridad de Supabase Auth (registro público y contraseñas filtradas) y fusione los PR. Producción sigue en 2.4.1.
+**Fase 1: 2.6.2 publicada y validada en staging** (smoke 15/15 y E2E autenticado 22/22 contra la URL desplegada). No se declara cerrada hasta completar los controles de Supabase Auth (registro público y contraseñas filtradas). Producción sigue en 2.4.1 sin cambios.
 
 ### Funciona (verificado)
 | Qué | Evidencia |
@@ -28,6 +28,27 @@
 | Microapps a nivel de base de datos | Réplica local PostgreSQL 17 con los privilegios reales: comidas, peso (sin duplicar), hábitos, XP sin duplicados, progreso, ajustes, RLS entre usuarios, CHECK de `source`, anon denegado (`tools/db-replica/run.sh`, todo OK) |
 | Migraciones pendientes | Probadas en réplica: no tocan filas, son idempotentes y el rollback deja los privilegios idénticos a producción |
 | Jarvis activo intacto | `WH0kGpw0dg83yvdM` activo = versión `adbc67d5` (7 oct, anterior a esta fase). Nodalys LinkedIn activo = `517bcda9`. Todos los workflows nuevos están inactivos |
+
+### Despliegue de staging 2.6.2 (autorizado, 2026-10-08)
+| Comprobación | Resultado |
+|---|---|
+| PR #2 | Fusionado por Renzo 11:48, merge `cc183cf`; contiene `c25cbda`; árbol idéntico a `5c2df42` (aprobado). Destino `staging` |
+| GitHub Actions | Verde antes del merge (`5c2df42`) y en el push a `staging` |
+| Vercel staging | `dpl_Dq4qcEqQUmNB1WsQEHzSK8A1HibM` **READY**, rama `staging`, commit `cc183cf`, alias `renzo-hub-2-1-staging.vercel.app` |
+| Supabase usado por staging | Variables solo *preview*; `SUPABASE_URL` y `/api/supabase-config` = `zpueziugbezqxompwsol` (staging), clave publishable. Sin clave de servicio |
+| Producción durante el merge | El proyecto `renzo-hub` canceló su build (regla: solo `main`). `renzo-hub.vercel.app` sigue en **2.4.1**; migraciones de producción sin cambios |
+| Migraciones | Ninguna repetida ni aplicada (staging sin integración de ramas) |
+| URL desplegada: `release.json` y `deployment-info` | 2.6.2 · `preview` · `renzo-hub-2-1-staging` · `staging` |
+| Cabeceras | CSP `script-src 'self' cdn.jsdelivr.net`, HSTS, `nosniff`, `X-Frame-Options: DENY`, Referrer-Policy, Permissions-Policy |
+| Documentos internos | 19 rutas (`*.md`, `docs/`, `supabase/`, `scripts/`, `tests/`, `tools/`, `.github/`, `package*.json`, `.env`, `.vercelignore`, `.gitignore`, `integrations/`, `os-core/`) → **404**; app (8 rutas) → 200 |
+| Protección de Vercel | Sin sesión → 302 (login de Vercel) |
+| Smoke contra la URL desplegada | **15/15** (móvil y escritorio) |
+| E2E autenticado contra la URL desplegada | **22/22** (login, 12 secciones, perfil, Portfolio, Nutrición, Peso, Hábitos, Progreso/XP sin duplicados, sin errores JS) |
+
+Las pruebas contra la URL protegida usan el secreto *automation-bypass* que ya existía en el proyecto (creado el 7 oct); se lee en memoria y nunca se escribe ni se muestra.
+
+### Riesgo antes de producción: PR #1
+El PR #1 (`sync/main-2.4.1` → `main`) añade `supabase/migrations/` a `main`. Producción tiene activadas las ramas de Supabase (branch `main`). Si el proyecto de producción está conectado al repo por la integración de GitHub de Supabase, fusionar en `main` podría aplicar esas migraciones (baseline de staging) en producción. No hay checks de Supabase en ningún commit, lo que sugiere que no está conectado, pero **hay que comprobarlo** en Supabase → Project Settings → Integrations → GitHub antes de fusionar nada en `main`.
 
 ### Diagnóstico del E2E autenticado (2026-10-08 11:05) y corrección (2.6.2, autorizada)
 | Fallo | Causa verificada | Tipo | Corrección propuesta |
@@ -56,7 +77,7 @@ Correcciones aplicadas en `feature/fase1` (2.6.2, commits `ae786a8` y `c25cbda`,
 
 ### Necesita autorización o acción de Renzo
 1. **Confirmar el usuario de pruebas** de staging (o autorizar confirmarlo por SQL) y tener el Mac encendido para el E2E.
-2. **Fusionar PR #1 y PR #2** (CI en verde).
+2. PR #2 fusionado. **No fusionar PR #1** hasta comprobar la integración GitHub de Supabase en producción (ver riesgo arriba).
 3. **Conector de Vercel**: al autorizarlo, incluir el equipo `renzojesus99-1996` (esta sesión no ve ningún equipo).
 4. Supabase (ambos entornos): **desactivar registros públicos** y **activar leaked password protection** (Dashboard → Authentication).
 5. Producción: no autorizado por ahora (migraciones `20261008120000` y `20261008140000` listas).
@@ -66,6 +87,37 @@ Correcciones aplicadas en `feature/fase1` (2.6.2, commits `ae786a8` y `c25cbda`,
 ### Hallazgos menores
 - `assets/skin_*.jpeg` (fotos de productos de skincare) son públicas en Vercel. No contienen datos personales sensibles; si se prefiere privacidad total, moverlas al bucket privado.
 - El webhook de prueba de Jarvis (`jarvis-hub-test-…`) está protegido por la comprobación de ejecución manual.
+
+## Comprobaciones previas a producción (2026-10-09) · RESULTADO: BLOQUEADO
+
+| Comprobación | Resultado |
+|---|---|
+| Integración GitHub de Supabase | **No conectada** en producción ni en staging (panel Integrations: "Connect GitHub"). Fusionar en `main` no aplica migraciones |
+| Registro público | **Activado** en producción y staging ("Allow new users to sign up" = on). Pendiente de Renzo |
+| Contraseñas filtradas | **No disponible**: Supabase lo limita al plan Pro. Alternativa: longitud mínima 12 (hoy 6) y requisitos de caracteres |
+| Backup de Supabase | El plan Free **no tiene copias** ni PITR. Copia propia de solo lectura: 20 tablas, 648 filas, permisos, funciones, políticas, usuarios y lista de storage (sin el contenido de los archivos). SHA-256 `e9bb3e26…` verificado en el Mac (`~/Documents/HUB/supabase-prod-2026-10-09.tgz`; Desktop Commander offline, pendiente moverla a `~/Projects/RENZO-HUB/backups/`). Restauración no destructiva `tools/backup/snapshot_to_sql.py` probada en réplica (tablas no payroll; payroll requiere su esquema real, T2.1) |
+| Migraciones | `20261008140000` idéntica a la probada y aplicada en staging (sha256 `f45f7966…`). `20261008120000` **actualizada** porque producción cambió: 2 vistas nuevas (`payroll_v_monthly_nl`, `payroll_v_jaaropgave_nl`, creadas el 8 oct fuera del repo, también en staging) con todos los privilegios para anon (sin fuga real: `security_invoker` y anon sin acceso a las tablas base). Nueva versión: revoca anon en todo `public`, vistas solo lectura y quita anon de los privilegios por defecto. Réplica con privilegios de producción del 9 oct: todo OK y rollback idéntico |
+| Producción | **Ya no es 2.4.1: sirve 2.8.0 "Nóminas"** sin commit en GitHub. Contiene la base de Fase 1 (CSP, sin registro, documentos internos 404) + `payroll.js`, pero **no** las correcciones 2.6.2 (`phase1.js`, `world.js`, `world-extensions.js`, `jarvis-ui.js` difieren; `gym.js`, `news.js`, `profile.js` iguales) |
+
+**Consecuencia:** el plan "promocionar 2.6.2 a producción" ya no es válido: sustituiría 2.8.0 y **quitaría el módulo de Nóminas**. Antes hay que llevar el código de 2.8.0 a GitHub, integrarlo con 2.6.2 y validarlo en staging. No se ha creado el PR `staging → main` ni se ha tocado producción.
+
+## Informe de preparación para producción (no autorizado aún, OBSOLETO desde 2026-10-09)
+
+**Por qué conviene promocionar pronto:** producción 2.4.1 publica hoy documentos internos: `/AGENTS.md`, `/JARVIS-CONNECTION.md`, `/RENZO-HUB-CURRENT.md`, `/RENZO-HUB-2.1-IMPLEMENTACION-Y-VALIDACION.md`, `/scripts/renzo-hub` y `/supabase/migrations/…baseline….sql` responden 200 (comprobado 12:15). Además, en 2.4.1 `/api/jarvis` puede registrar gastos directo en Money y `hub_financial_ingest` también. 2.6.2 corrige todo esto.
+
+| # | Paso | Quién | Estado |
+|---|---|---|---|
+| 1 | Supabase Auth en producción y staging: desactivar registro público, activar contraseñas filtradas | Renzo (Dashboard) | Pendiente |
+| 2 | Comprobar en Supabase producción → Integrations → GitHub si `rellmen/renzo-hub` está conectado (producción tiene ramas de Supabase, branch `main`). Si lo está, desconectarlo o confirmar que no aplica migraciones al fusionar en `main` | Renzo | Pendiente, **bloquea el PR #1** |
+| 3 | Copia de seguridad de producción: Dashboard → Database → Backups (descargar la última) y, si es posible, `supabase db dump` con la contraseña de la base | Renzo | Pendiente |
+| 4 | Aplicar en producción `20261008120000_harden_grants_and_functions.sql` y `20261008140000_financial_ingest_always_review.sql` (probadas en réplica con los privilegios reales de producción; rollback exacto) | Claude con OK de Renzo | Preparado |
+| 5 | PR `staging` → `main` (sustituye al PR #1) con 2.6.2; Renzo fusiona | Claude prepara, Renzo fusiona | Preparado |
+| 6 | Vercel `renzo-hub`: cambiar rama de producción de `renzo-hub-2-1-production` a `main` (las variables de producción ya existen: `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY`, `JARVIS_INBOUND_TOKEN`, `JARVIS_OWNER_ID`) | Claude con OK de Renzo | Preparado |
+| 7 | Verificación en producción: READY, commit, `release.json` 2.6.2, documentos internos 404, smoke; E2E autenticado **no** se ejecuta en producción | Claude | Preparado |
+| 8 | Rollback: Vercel "Instant Rollback" a `dpl_HBnDnZqawHuTC9nUFcCsxoLnDeTs` (2.4.1) y `*.rollback.sql` | Claude con OK | Preparado |
+| 9 | Jarvis/Nodalys: publicación de workflows (decisión aparte, requiere créditos de IA en n8n) | Renzo | Fuera de este despliegue |
+
+Riesgos conocidos: el XP se calcula también para datos antiguos la primera vez que Renzo abra 2.6.2 en producción (eventos con id determinista, sin duplicados); el perfil corporal de Renzo debe rellenarse en Ajustes (2.6 ya no lo trae escrito en el código).
 
 ## Progreso Fase 1
 
@@ -86,6 +138,7 @@ Correcciones aplicadas en `feature/fase1` (2.6.2, commits `ae786a8` y `c25cbda`,
 | 2026-10-08 | Bloque 4 · Jarvis/Nodalys implementado | Jarvis personal sin herramientas Nodalys + aprobación técnica + gastos a revisión; agente Nodalys en el flujo del bot Nodalys con aprobación por botones (CAS de un solo uso). Todo en borrador o inactivo | `docs/JARVIS-SEPARATION.md` | Ver checklist en `docs/JARVIS-SEPARATION.md`; respuestas del modelo bloqueadas por créditos de IA agotados | n8n `WH0kGpw0dg83yvdM`, `CHOL3mZnIrtM3rPy`, `v9C8W9OtTw1bSzFJ` (borradores) |
 | 2026-10-08 | Estabilización (2.6.1) | Verificación GitHub, superficie publicada, migraciones en réplica PG17, rollback exacto, `hub_financial_ingest` al repo, revisión obligatoria preparada | `.vercelignore`, `release.json`, `sw.js`, `.github/workflows/ci.yml`, `supabase/`, `tests/db/`, `tests/deploy-surface.test.mjs`, `tools/db-replica/`, `docs/SUPABASE-SCHEMA.md` | unit 15/15; réplica: todo OK; E2E autenticado **pendiente** | rama `feature/fase1` |
 | 2026-10-08 | Staging: migraciones y E2E | Copia verificada; `staging_revoke_maintain` y `financial_ingest_always_review` aplicadas en staging; correcciones 2.6.2; E2E autenticado 22/22 (x2) | `phase1.js`, `world.js`, `world-extensions.js`, `jarvis-ui.js`, `tools/dev-server.mjs`, `tests/e2e/authenticated.mjs`, `release.json`, `sw.js`, `docs/SUPABASE-SCHEMA.md` | Permisos y sincronización en staging `TEST_OK`; E2E 22/22; smoke 15/15; unit 15/15; CI verde | `d542ce9`…`c25cbda` |
+| 2026-10-08 | Despliegue staging 2.6.2 | PR #2 fusionado; deployment READY con `cc183cf`; validación contra la URL desplegada | `tests/e2e/smoke.mjs`, `tests/e2e/authenticated.mjs` (bypass por variable de entorno) | smoke 15/15, E2E 22/22, 19 rutas internas 404, Supabase staging confirmado | `cc183cf`, `477443b` |
 
 **Problemas encontrados:**
 - Vercel (plan Hobby) bloquea despliegues con commits cuyo autor no es la cuenta de Renzo. Solución: commits con autor `rellmen` y coautor Claude.
@@ -97,7 +150,7 @@ Correcciones aplicadas en `feature/fase1` (2.6.2, commits `ae786a8` y `c25cbda`,
 
 **Pendiente de Renzo:** ver "Necesita autorización o acción de Renzo" arriba.
 
-**Siguiente tarea:** Renzo: Supabase Auth (desactivar registro público y activar contraseñas filtradas, ambos entornos) y fusionar PR #1 y PR #2. Después: comprobar que el despliegue Git de staging sirve 2.6.2. Producción (migraciones `20261008120000` + `20261008140000` y promoción a `main`) solo con autorización expresa.
+**Siguiente tarea:** pasos 1 a 3 del informe de preparación para producción (Renzo). Después, con autorización expresa, pasos 4 a 8.
 
 
 ## Cambios del release 2.5.0
@@ -121,3 +174,39 @@ Correcciones aplicadas en `feature/fase1` (2.6.2, commits `ae786a8` y `c25cbda`,
 
 ## Comprobación rápida
 Ejecutar `./scripts/renzo-hub status` desde el repositorio. Ninguna IA debe editar otra copia como si fuera la vigente.
+
+## Nóminas · trabajo preparado para staging (2.7.0)
+
+| Fecha | Tarea | Resultado | Archivos | Pruebas | Commit / PR |
+|---|---|---|---|---|---|
+| 2026-10-08 | Módulo Nóminas | Bandeja, detalle/PDF, revisión, KPIs, alertas, Realtime y demo aislada. Producción pendiente de OK. | payroll.js, payroll.css, payroll-demo.js, app.js, index.html, sw.js, release.json | 15 unitarias; contrato Supabase solo lectura; integración de navegador | feature/payroll |
+| 2026-10-08 | Nóminas · cierre y staging (Claude) | Test e2e corregido (contraseña del paso demo). Preview en proyecto staging `dpl_8XKdRN3ke2Q8ZH2W9zT34HmTvFLB` READY, `/release.json` 2.7.0, `/api/deployment-info` preview. Realtime activado en staging. Producción sin tocar (2.4.1). | tests/e2e/payroll.mjs | unit 15/15; e2e nóminas Chromium y WebKit OK; smoke 15/15 | `9f18902` · https://renzo-hub-2-1-staging-ous87m050-renzojesus99-1996.vercel.app |
+| 2026-10-08 | Nóminas 2.7.1 · demo en segundo enlace de staging | El dominio renzo-hub-2-1-staging.vercel.app queda con la 2.6.2 de la tarea de estabilización (decisión de Renzo). Demo ?demo=1 habilitada también en renzo-hub-2-1-staging-renzojesus99-1996.vercel.app. | payroll.js, payroll-demo.js, sw.js, release.json | unit 15/15; e2e Chromium y WebKit OK | ver commit siguiente |
+
+Ver `docs/PAYROLL-CHANGELOG.md` para limitaciones y peticiones a Claude. No se incorporan los cambios locales sin commit de la tarea e2e/fase1-2.6.2.
+
+## Unificación 2.8.1 (2026-10-09): Nóminas 2.8.0 + estabilización 2.6.2
+
+Rama `feature/unificacion-2.8.1` = `feature/fase1` + merge de `e35f64a` (Nóminas 2.8.0, lo que sirve producción). Conflictos solo en `release.json`, `sw.js` y `tests/e2e/smoke.mjs`, resueltos conservando ambos lados (bypass de Vercel + comprobación de entorno). Caché `renzo-hub-cloud-v6.0-unificada`.
+
+| Prueba (código unificado, servidor local + Supabase staging) | Resultado |
+|---|---|
+| `npm run check` / `npm test` | OK / 24/24 |
+| deploy-surface | 3/3 |
+| Réplica de base de datos (`tools/db-replica/run.sh`) | TODO OK |
+| Smoke | 15/15 |
+| E2E autenticado Fase 1 | 22/22 |
+| E2E Nóminas (demo) | Chromium OK (contenedor) · Chromium + WebKit OK en el Mac (worktree `~/Projects/RENZO-HUB/unificacion-2.8.1`, 2026-10-09 21:30) |
+
+PR #3 hacia `staging` abierto (CI verde). Mac: copia de producción movida a `backups/supabase-prod-2026-10-09/` (sha256 verificado); cambios sin commit de `e2e/fase1-2.6.2` guardados como parche en `backups/`; ramas de Nóminas del Mac sin commits fuera de la unificación. Pendiente:, despliegue y validación en staging; después, autorización de Renzo para producción. Aviso: `docs/PAYROLL-2.8-TAREA-2-3.md` contiene una cifra salarial real (repositorio privado); decidir si se anonimiza.
+
+## Nóminas 2.8.0 · desarrollo local (Tareas 1, 2 y 3)
+
+| Fecha | Tarea | Resultado | Archivos | Pruebas | Commit / PR |
+|---|---|---|---|---|---|
+| 2026-10-09 | Tarea 1 · Mensual | Vista mensual por fecha de pago, selector de año, total anual, desglose, retenciones, horas y saldos; demo sintética. | payroll.js, payroll.css, payroll-demo.js, release.json, sw.js, tests, docs | check OK; unitarias; E2E Chromium y WebKit; capturas 390 y 1440 px | c708679; sin PR |
+| 2026-10-09 | Ajustes de Tarea 1 | Singular, etiquetas con mayúscula y bloques Horas/Saldos plegables en móvil. | payroll.js, payroll.css, tests/e2e/payroll.mjs, sw.js | check, unitarias y E2E Chromium/WebKit | dd261c8 |
+| 2026-10-09 | Tarea 2 · smoke por entorno | Entorno esperado derivado de BASE_URL, con override EXPECT_ENV; solo lectura. | tests/e2e/smoke.mjs, docs | Smoke real producción 15/15, sin login | 1663313 |
+| 2026-10-09 | Tarea 3 · Año (jaaropgave) | Pestaña Año: aviso de completitud arriba, valores oficiales de la última nómina separados de lo registrado, demo con año incompleto y completo. Aviso específico si lo registrado supera el oficial o falta el acumulado. | payroll.js, payroll.css, payroll-demo.js, sw.js, tests, docs | check OK; 21/21 unitarias; E2E Chromium y WebKit; smoke producción 15/15; cifras reales verificadas en la vista | commit Tarea 3; sin PR ni despliegue |
+
+Worktree: `/Users/Nodalys/Renzo HUB/payroll-2.8`, creado desde `main` en `7c110eb`. El checkout `e2e/fase1-2.6.2` conserva sus cambios. Caché `renzo-hub-cloud-v5.9-payroll`. Pendiente: revisión de Renzo, PR y despliegue con su OK. Detalles en `docs/PAYROLL-2.8-TAREA-1.md` y `docs/PAYROLL-2.8-TAREA-2-3.md`.

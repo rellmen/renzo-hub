@@ -1,3 +1,4 @@
+import {mountPayroll} from "./payroll.js";
 import {mountGym} from "./gym.js";
 import {mountNews} from "./news.js";
 import {mountWorld} from "./world.js";
@@ -55,6 +56,11 @@ const localDate=d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,"0"),Strin
 let dateKey=localDate(now);
 let mode=now.getHours()>=18?"pm":"am";
 let user=null;
+const payroll=mountPayroll(document.getElementById("payroll"),supabase,()=>user,go);
+const payrollQuery=new URLSearchParams(location.search);
+let payrollIntent=payrollQuery.get("app")==="payroll"?{id:payrollQuery.get("payslip")}:null;
+if(payrollIntent){const clean=new URL(location.href);clean.searchParams.delete("app");clean.searchParams.delete("payslip");history.replaceState(null,"",clean);}
+
 mountJarvis(supabase,()=>user);
 mountWorldExtensions(supabase,()=>user);
 const profile=mountProfile(supabase,()=>user);
@@ -83,8 +89,9 @@ function showApp(){
   $("appShell").classList.remove("hidden");
   $("bottomNav").classList.remove("hidden");
   $("userEmail").textContent=user?.email||"";
+  if(payrollIntent){const intent=payrollIntent;payrollIntent=null;go("payroll");if(intent.id)payroll.open(intent.id);return;}
   const saved=readJSON(`renzo-nav:${user?.id}`,null);
-  if(saved&&["home","body","work","money","system","study","car","gym","food","skin","news","settings"].includes(saved.section))go(saved.section,true);
+  if(saved&&["home","body","work","money","system","study","car","gym","food","skin","news","settings","payroll"].includes(saved.section))go(saved.section,true);
 }
 function setSync(text,kind="ok"){
   const el=$("syncState");
@@ -92,8 +99,9 @@ function setSync(text,kind="ok"){
   const dot=el.querySelector(".dot");
   dot.className="dot"+(kind==="busy"?" busy":kind==="err"?" err":"");
 }
-const MICROAPP_IDS=new Set(["gym","food","skin","car","news","settings"]);
+const MICROAPP_IDS=new Set(["gym","food","skin","car","news","settings","payroll"]);
 function go(id,restore=false){
+  if(id==="payroll")payroll.open();else payroll.close();
   if(id==="news")news.load();
   if(["home","body","work","money","system","study","car"].includes(id))world.render(id);
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
@@ -294,9 +302,10 @@ $("loginForm").addEventListener("submit",async e=>{
 $("logoutBtn").addEventListener("click",async()=>{await supabase.auth.signOut();});
 
 supabase.auth.onAuthStateChange((event,session)=>{
+  if(user?.id!==session?.user?.id)payroll.reset();
   user=session?.user||null;
   if(user){showApp();setTimeout(()=>{Promise.allSettled([loadCloudState(),gym.load(),world.load(),profile.load(),phase1.load()]).then(results=>{if(results.some(result=>result.status==="rejected"))setSync("Conectado · algunos datos no se pudieron cargar","err");});},0);}
-  else{gym.reset();world.reset();profile.reset();phase1.reset();loadSequence++;selectedDay=null;weekRows=[];gentle=false;cloudState={am:[],pm:[]};clearTimeout(noteTimer);$("note").value="";showAuth();}
+  else{payroll.reset();gym.reset();world.reset();profile.reset();phase1.reset();loadSequence++;selectedDay=null;weekRows=[];gentle=false;cloudState={am:[],pm:[]};clearTimeout(noteTimer);$("note").value="";showAuth();}
 });
 
 let session=null;

@@ -17,6 +17,9 @@ create view public.payroll_v_monthly with (security_invoker) as select * from pu
 create view public.payroll_v_queue with (security_invoker) as select * from public.payroll_documents;
 create view public.payroll_v_rate_history with (security_invoker) as select * from public.payroll_payslips;
 create view public.payroll_v_ytd with (security_invoker) as select * from public.payroll_payslips;
+-- Vistas creadas en producción el 2026-10-08 fuera del repo (heredan los privilegios por defecto).
+create view public.payroll_v_monthly_nl with (security_invoker) as select * from public.payroll_payslips;
+create view public.payroll_v_jaaropgave_nl with (security_invoker) as select * from public.payroll_payslips;
 alter table public.payroll_payslips enable row level security;
 create policy payroll_payslips_owner_select on public.payroll_payslips for select to authenticated using (user_id = auth.uid());
 create policy payroll_payslips_owner_update on public.payroll_payslips for update to authenticated using (user_id = auth.uid()) with check (user_id = auth.uid());
