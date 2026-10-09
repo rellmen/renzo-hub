@@ -1,39 +1,90 @@
--- Rollback EXACTO de 20261008120000 en PRODUCCIÓN.
--- Generado a partir del estado real de producción leído el 2026-10-08 (pg_class.relacl y pg_proc.proacl, PostgreSQL 17).
--- Solo restaura privilegios; no toca datos. Usar solo si algo dejara de funcionar tras aplicar la migración.
+-- Rollback EXACTO de 20261008120000 en PRODUCCIÓN, generado desde la instantánea 2026-10-09T15:29:15.532654+00:00
+-- (pg_class.relacl, pg_proc.proacl y pg_default_acl). Solo privilegios; no toca datos.
 begin;
-
--- anon tenía todos los privilegios (arwdDxtm) en estas 4 tablas.
-grant all privileges on table public.profiles, public.skin_notes, public.skin_routine_logs, public.user_settings to anon;
-
--- authenticated tenía TRUNCATE/REFERENCES/TRIGGER/MAINTAIN (Dxtm) en estas tablas y vistas
--- (gym_plans, gym_sessions, hub_records y hub_user_state ya estaban solo con arwd: no se tocan).
-grant truncate, references, trigger, maintain on table
-  public.news_briefs, public.profiles, public.skin_notes, public.skin_routine_logs,
-  public.system_preferences, public.system_records, public.user_settings,
-  public.payroll_anomalies, public.payroll_corrections, public.payroll_deductions, public.payroll_documents,
-  public.payroll_employers, public.payroll_events, public.payroll_hours, public.payroll_income_items,
-  public.payroll_line_items, public.payroll_payslip_versions, public.payroll_payslips,
-  public.payroll_v_confirmed, public.payroll_v_monthly, public.payroll_v_queue,
-  public.payroll_v_rate_history, public.payroll_v_ytd, public.payroll_validations
-to authenticated;
-
--- Escritura en vistas de payroll.
-grant insert, update, delete on table
-  public.payroll_v_confirmed, public.payroll_v_monthly, public.payroll_v_queue,
-  public.payroll_v_rate_history, public.payroll_v_ytd,
-  public.payroll_deductions, public.payroll_hours, public.payroll_income_items
-to authenticated;
-
--- search_path de funciones auxiliares (antes sin fijar).
+revoke all on table public.gym_plans from anon, authenticated;
+grant insert, select, update, delete on table public.gym_plans to authenticated;
+revoke all on table public.gym_sessions from anon, authenticated;
+grant insert, select, update, delete on table public.gym_sessions to authenticated;
+revoke all on table public.hub_records from anon, authenticated;
+grant insert, select, update, delete on table public.hub_records to authenticated;
+revoke all on table public.hub_user_state from anon, authenticated;
+grant insert, select, update, delete on table public.hub_user_state to authenticated;
+revoke all on table public.news_briefs from anon, authenticated;
+grant insert, select, update, delete, truncate, references, trigger, maintain on table public.news_briefs to authenticated;
+revoke all on table public.payroll_anomalies from anon, authenticated;
+grant insert, select, update, delete, truncate, references, trigger, maintain on table public.payroll_anomalies to authenticated;
+revoke all on table public.payroll_corrections from anon, authenticated;
+grant insert, select, update, delete, truncate, references, trigger, maintain on table public.payroll_corrections to authenticated;
+revoke all on table public.payroll_deductions from anon, authenticated;
+grant insert, select, update, delete, truncate, references, trigger, maintain on table public.payroll_deductions to authenticated;
+revoke all on table public.payroll_documents from anon, authenticated;
+grant insert, select, update, delete, truncate, references, trigger, maintain on table public.payroll_documents to authenticated;
+revoke all on table public.payroll_employers from anon, authenticated;
+grant insert, select, update, delete, truncate, references, trigger, maintain on table public.payroll_employers to authenticated;
+revoke all on table public.payroll_events from anon, authenticated;
+grant insert, select, update, delete, truncate, references, trigger, maintain on table public.payroll_events to authenticated;
+revoke all on table public.payroll_hours from anon, authenticated;
+grant insert, select, update, delete, truncate, references, trigger, maintain on table public.payroll_hours to authenticated;
+revoke all on table public.payroll_income_items from anon, authenticated;
+grant insert, select, update, delete, truncate, references, trigger, maintain on table public.payroll_income_items to authenticated;
+revoke all on table public.payroll_line_items from anon, authenticated;
+grant insert, select, update, delete, truncate, references, trigger, maintain on table public.payroll_line_items to authenticated;
+revoke all on table public.payroll_payslip_versions from anon, authenticated;
+grant insert, select, update, delete, truncate, references, trigger, maintain on table public.payroll_payslip_versions to authenticated;
+revoke all on table public.payroll_payslips from anon, authenticated;
+grant insert, select, update, delete, truncate, references, trigger, maintain on table public.payroll_payslips to authenticated;
+revoke all on table public.payroll_v_confirmed from anon, authenticated;
+grant insert, select, update, delete, truncate, references, trigger, maintain on table public.payroll_v_confirmed to authenticated;
+revoke all on table public.payroll_v_jaaropgave_nl from anon, authenticated;
+grant insert, select, update, delete, truncate, references, trigger, maintain on table public.payroll_v_jaaropgave_nl to anon;
+grant insert, select, update, delete, truncate, references, trigger, maintain on table public.payroll_v_jaaropgave_nl to authenticated;
+revoke all on table public.payroll_v_monthly from anon, authenticated;
+grant insert, select, update, delete, truncate, references, trigger, maintain on table public.payroll_v_monthly to authenticated;
+revoke all on table public.payroll_v_monthly_nl from anon, authenticated;
+grant insert, select, update, delete, truncate, references, trigger, maintain on table public.payroll_v_monthly_nl to anon;
+grant insert, select, update, delete, truncate, references, trigger, maintain on table public.payroll_v_monthly_nl to authenticated;
+revoke all on table public.payroll_v_queue from anon, authenticated;
+grant insert, select, update, delete, truncate, references, trigger, maintain on table public.payroll_v_queue to authenticated;
+revoke all on table public.payroll_v_rate_history from anon, authenticated;
+grant insert, select, update, delete, truncate, references, trigger, maintain on table public.payroll_v_rate_history to authenticated;
+revoke all on table public.payroll_v_ytd from anon, authenticated;
+grant insert, select, update, delete, truncate, references, trigger, maintain on table public.payroll_v_ytd to authenticated;
+revoke all on table public.payroll_validations from anon, authenticated;
+grant insert, select, update, delete, truncate, references, trigger, maintain on table public.payroll_validations to authenticated;
+revoke all on table public.profiles from anon, authenticated;
+grant insert, select, update, delete, truncate, references, trigger, maintain on table public.profiles to anon;
+grant insert, select, update, delete, truncate, references, trigger, maintain on table public.profiles to authenticated;
+revoke all on table public.skin_notes from anon, authenticated;
+grant insert, select, update, delete, truncate, references, trigger, maintain on table public.skin_notes to anon;
+grant insert, select, update, delete, truncate, references, trigger, maintain on table public.skin_notes to authenticated;
+revoke all on table public.skin_routine_logs from anon, authenticated;
+grant insert, select, update, delete, truncate, references, trigger, maintain on table public.skin_routine_logs to anon;
+grant insert, select, update, delete, truncate, references, trigger, maintain on table public.skin_routine_logs to authenticated;
+revoke all on table public.system_preferences from anon, authenticated;
+grant insert, select, update, delete, truncate, references, trigger, maintain on table public.system_preferences to authenticated;
+revoke all on table public.system_records from anon, authenticated;
+grant insert, select, update, delete, truncate, references, trigger, maintain on table public.system_records to authenticated;
+revoke all on table public.user_settings from anon, authenticated;
+grant insert, select, update, delete, truncate, references, trigger, maintain on table public.user_settings to anon;
+grant insert, select, update, delete, truncate, references, trigger, maintain on table public.user_settings to authenticated;
+revoke execute on function public.payroll_num(jsonb, text) from public, anon, authenticated;
+grant execute on function public.payroll_num(jsonb, text) to public, anon, authenticated;
+revoke execute on function public.payroll_period_key(text, integer, integer) from public, anon, authenticated;
+grant execute on function public.payroll_period_key(text, integer, integer) to public, anon, authenticated;
+revoke execute on function public.payroll_periods_per_year(text, integer) from public, anon, authenticated;
+grant execute on function public.payroll_periods_per_year(text, integer) to public, anon, authenticated;
+revoke execute on function public.payroll_touch_updated_at() from public, anon, authenticated;
+grant execute on function public.payroll_touch_updated_at() to public, anon, authenticated;
+revoke execute on function public.payroll_snapshot_payslip() from public, anon, authenticated;
+grant execute on function public.payroll_snapshot_payslip() to public, anon, authenticated;
+revoke execute on function public.set_hub_records_updated_at() from public, anon, authenticated;
+grant execute on function public.set_hub_records_updated_at() to public, anon, authenticated;
 alter function public.payroll_num(jsonb, text) reset search_path;
 alter function public.payroll_period_key(text, integer, integer) reset search_path;
 alter function public.payroll_periods_per_year(text, integer) reset search_path;
 alter function public.payroll_touch_updated_at() reset search_path;
-
--- EXECUTE de funciones de trigger (antes: PUBLIC, anon y authenticated).
-grant execute on function public.payroll_snapshot_payslip() to public, anon, authenticated;
-grant execute on function public.payroll_touch_updated_at() to public, anon, authenticated;
-grant execute on function public.set_hub_records_updated_at() to public, anon, authenticated;
-
+-- Privilegios por defecto del rol postgres en public (estado previo: todo concedido a anon).
+alter default privileges for role postgres in schema public grant all on tables to anon;
+alter default privileges for role postgres in schema public grant all on sequences to anon;
+alter default privileges for role postgres in schema public grant execute on functions to anon;
 commit;
