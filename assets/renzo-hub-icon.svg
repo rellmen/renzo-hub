@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Renzo Hub">
+  <defs>
+    <linearGradient id="bg" x1="36" y1="30" x2="474" y2="488" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6D58D8"/><stop offset=".52" stop-color="#5144B2"/><stop offset="1" stop-color="#292B70"/>
+    </linearGradient>
+    <linearGradient id="ring" x1="94" y1="110" x2="423" y2="411" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#9BE7FF"/><stop offset=".52" stop-color="#C4B1FF"/><stop offset="1" stop-color="#FFD989"/>
+    </linearGradient>
+    <linearGradient id="core" x1="198" y1="177" x2="321" y2="333" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF"/><stop offset="1" stop-color="#E7E2FF"/>
+    </linearGradient>
+    <filter id="glow" x="93" y="78" width="326" height="356" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+  </defs>
+  <rect width="512" height="512" rx="116" fill="url(#bg)"/>
+  <circle cx="255" cy="254" r="144" fill="#B7A0FF" opacity=".24" filter="url(#glow)"/>
+  <ellipse cx="256" cy="256" rx="164" ry="112" transform="rotate(-32 256 256)" fill="none" stroke="url(#ring)" stroke-width="13" opacity=".9"/>
+  <path d="M256 166 346 256 256 346 166 256l90-90z" fill="url(#core)"/>
+  <circle cx="256" cy="111" r="24" fill="#9BE7FF"/>
+  <circle cx="401" cy="256" r="24" fill="#FFD989"/>
+  <circle cx="256" cy="401" r="24" fill="#78E0BF"/>
+  <circle cx="111" cy="256" r="24" fill="#FF9BCE"/>
+  <circle cx="386" cy="167" r="23" fill="#FFE18A"/>
+  <path d="m348 83 12 31 31 12-31 12-12 31-12-31-31-12 31-12 12-31z" fill="#FFF" opacity=".96"/>
+  <circle cx="122" cy="355" r="14" fill="#9BE7FF"/>
+</svg>

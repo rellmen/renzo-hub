@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#101512">
+<meta name="theme-color" content="#070810">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Renzo Hub">
-<link rel="apple-touch-icon" href="/assets/icon-180.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/icon-180.png">
 <link rel="manifest" href="/manifest.webmanifest">
 <title>Renzo Hub</title>
 <style>
@@ -27,6 +27,7 @@ body{min-height:100vh}button,input,textarea{font:inherit}.hidden{display:none!im
 .title{font-size:20px;font-weight:900;margin-top:12px}.progress{height:9px;background:#273029;border-radius:99px;margin-top:12px;overflow:hidden}.bar{height:100%;background:var(--accent);width:0;transition:.2s}
 .step{display:flex;gap:11px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:13px;margin-top:9px}.check{width:32px;height:32px;flex:0 0 32px;border-radius:10px;border:2px solid #657269;background:none;color:white;font-weight:900}.check.done{background:var(--accent);border-color:var(--accent);color:#102016}.step.done .txt{opacity:.45;text-decoration:line-through}.st{font-weight:900;font-size:15px}.ss{color:var(--muted);font-size:13px;margin-top:3px;line-height:1.35}
 textarea,input{width:100%;background:#111713;color:white;border:1px solid var(--line);border-radius:14px;padding:12px}input{min-height:48px}.actions{display:flex;gap:8px;margin-top:10px}.actions button{flex:1;border:0;border-radius:14px;padding:12px;font-weight:900}.primary{background:var(--accent);color:#102016}.secondary{background:var(--card2);color:white}
+input[type="checkbox"]{width:24px;min-height:24px;vertical-align:middle;accent-color:var(--accent)}
 .products{display:grid;gap:8px}.product{display:grid;grid-template-columns:68px 1fr;gap:11px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:17px;padding:10px}.product img{width:68px;height:68px;object-fit:cover;border-radius:12px;background:#242c27}.product b{font-size:13px}.product span{display:block;color:var(--muted);font-size:11px;margin-top:3px}
 .nav{position:fixed;left:0;right:0;bottom:0;background:rgba(16,21,18,.95);backdrop-filter:blur(16px);border-top:1px solid var(--line);padding:8px 12px calc(8px + env(safe-area-inset-bottom));z-index:10}.navin{max-width:560px;margin:auto;display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.nav button{background:none;border:0;color:var(--muted);padding:10px;border-radius:13px;font-weight:800}.nav button.active{background:#243029;color:#d7eadb}
 .authwrap{max-width:460px;margin:8vh auto 0}.authlogo{width:58px;height:58px;border-radius:19px;background:var(--accent);color:#102016;display:grid;place-items:center;font-size:24px;font-weight:900;margin-bottom:18px}.authcard{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:18px}.authcard h1{font-size:28px}.authcard label{display:block;font-size:12px;color:var(--muted);font-weight:800;margin:13px 0 6px}.authmsg{margin-top:12px;font-size:12px;line-height:1.45}.authmsg.err{color:var(--danger)}.authmsg.ok{color:var(--ok)}
@@ -36,13 +37,76 @@ textarea,input{width:100%;background:#111713;color:white;border:1px solid var(--
 @media(min-width:520px){.apps{grid-template-columns:repeat(3,1fr)}}
 .food-list{margin:0;font-size:13px}.food-list div{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)}.food-list dd{margin:0;text-align:right;color:var(--accent2)}#food .quick b{font-size:14px}#food .quick div{padding:10px 5px}#food .card p:last-child{margin-bottom:0}
 .worldhero{background:radial-gradient(ellipse at top right,#34275d,transparent 65%),var(--card);border-color:#554480}.worldhero h2{font-size:26px}.worldgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.worldgrid .card{margin:0}.worldlist{display:grid;gap:8px}.worlditem{padding:12px;border:1px solid var(--line);border-radius:14px;background:var(--card2)}.worlditem p{white-space:pre-wrap;overflow-wrap:anywhere}.worlditem small{color:var(--muted)}.worldform{display:grid;gap:8px}.worldform label{display:block;color:var(--muted);font-size:12px;font-weight:700}.worldform input,.worldform textarea,.worldform select{margin-top:5px}.worldline{height:1px;background:var(--line);margin:12px 0}.worldbadge{display:inline-block;border:1px solid #554480;color:var(--accent2);border-radius:99px;padding:4px 9px;font-size:11px;font-weight:800}.worldhint{padding:11px;border:1px dashed #554480;border-radius:14px;color:var(--muted);font-size:12px;line-height:1.5}.worlddanger{color:var(--danger)}.worldok{color:var(--ok)}.reportgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.reportgrid .card{text-align:center}.reportgrid b{font-size:22px;display:block}
+.update-banner{position:fixed;left:14px;right:14px;bottom:82px;z-index:20;max-width:532px;margin:auto;padding:12px 14px;border:1px solid var(--accent2);border-radius:16px;background:var(--card2);box-shadow:0 10px 30px #0008}.update-banner button{margin-left:8px;padding:8px 12px;border:0;border-radius:10px;background:var(--accent);color:#111;font-weight:900}
 :root{--bg:#070810;--card:#111322;--card2:#1b1e35;--text:#f1f0ff;--muted:#a6aac4;--accent:#b79aff;--accent2:#8ad5ff;--line:#2d3154;--ok:#84ddc8}.nav{background:rgba(7,8,16,.96)}.navin{grid-template-columns:repeat(5,1fr);gap:2px}.nav button{padding:10px 5px;font-size:12px}.nav button.active,.pill{background:#292345;color:#d7c6ff}input,textarea,select{background:#090b16;color:var(--text)}select{width:100%;padding:12px;border:1px solid var(--line);border-radius:12px}.primary,.avatar,.authlogo{color:#120b28}.gymhero{background:radial-gradient(ellipse at top right,#28204d,transparent 70%),#101322;box-shadow:0 0 28px #6345bd18}.rank{width:56px;height:64px;display:grid;place-items:center;border:1px solid #9878ff;font-size:32px;color:#bda4ff;background:#1d1537;box-shadow:0 0 18px #7657ef30}.gymtabs{display:flex;gap:6px;overflow:auto;margin:16px 0}.selected{background:#44346d;color:#efe7ff}.quest{display:block;width:100%;text-align:left;color:var(--text);margin:10px 0;border-left:3px solid #9372f5}.quest h3{margin:10px 0}.quest:disabled{opacity:.5}#gym .card{margin:12px 0}#gym label{display:block;font-size:12px;color:var(--muted);margin:10px 0}#gym .meta{display:grid;grid-template-columns:1fr 1fr;gap:8px}#gym .meta label:last-child{grid-column:1/-1}.setrow{display:grid;grid-template-columns:28px 1fr 1fr .8fr 44px;gap:5px;align-items:center;margin:8px 0}.setrow input{padding:8px 4px;min-width:0;border-radius:8px}.setrow input[type=checkbox]{width:24px;height:24px;min-height:24px;accent-color:#aa88ff;justify-self:center}.sethead{font-size:11px;color:var(--muted)}summary{cursor:pointer;font-weight:800}button{cursor:pointer;min-height:44px}button:disabled{cursor:wait}a{color:var(--accent2)}:focus-visible{outline:2px solid #8ad5ff;outline-offset:3px}@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+/* 2.5: leaf tools behave as focused microapps inside Renzo Hub. */
+body.microapp-open #bottomNav{display:none!important}
+body.microapp-open #appShell.shell{padding-bottom:calc(34px + env(safe-area-inset-bottom))}
+.microapp-back{display:inline-flex;align-items:center;gap:7px;margin:0 0 16px;padding:9px 12px;border:1px solid var(--line);border-radius:12px;background:#15182a;color:#d9d7ec;font-weight:800}
+.microapp-back:hover{border-color:#655a88;background:#1b1e34}
+.microapp-context{display:flex;align-items:center;gap:8px;color:#9fa4c4;font-size:11px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+@media(min-width:1024px){body.microapp-open #appShell.shell{width:100%;margin-left:0;padding-left:clamp(34px,5vw,76px);padding-right:clamp(34px,5vw,76px)}body.microapp-open #appShell .page.active{max-width:1180px}}
+
+.home-intro{margin-top:14px;padding:20px;border-radius:28px;background:radial-gradient(ellipse at 90% 0,#8b6fff55,transparent 52%),linear-gradient(145deg,#202343,#14172a);border:1px solid #46466e;box-shadow:0 16px 38px #07081066}.home-intro .ey{color:#c4bcff}.home-intro h1{font-size:30px;line-height:1.08;margin:9px 0}.home-intro p{color:#c6c8dc;font-size:14px;line-height:1.5;margin:0 0 16px}.home-cta{width:100%;min-height:54px;border:0;border-radius:17px;background:linear-gradient(100deg,#c4adff,#90d7ff);color:#15122a;font-weight:900;font-size:15px;letter-spacing:.02em}.home-apps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.app{min-height:120px;padding:14px;border-radius:21px;transition:transform .18s,border-color .18s}.app:active{transform:scale(.98)}.app-icon{display:grid;place-items:center;width:44px;height:44px;border-radius:15px;background:linear-gradient(145deg,#34325d,#23253d);font-size:23px}.app b{margin-top:12px;font-size:15px}.app span{line-height:1.4}.section{margin-top:24px}.area-label{font-size:11px;color:#8f94b2;letter-spacing:.12em;text-transform:uppercase;font-weight:900;margin:20px 3px 9px}.pagehead{margin-top:9px;margin-bottom:16px}.pagehead .avatar{font-size:22px}.study-lesson{background:radial-gradient(ellipse at top right,#493577,transparent 65%),var(--card);border-color:#65538d}.lesson-steps{display:grid;gap:9px;margin:14px 0}.lesson-step{background:#ffffff09;border:1px solid #ffffff14;border-radius:16px;padding:13px}.lesson-step b{display:block;margin-bottom:5px}.lesson-step p{margin:0;color:#c7c9dc;font-size:13px;line-height:1.5}.lesson-dutch{font-size:17px!important;color:#fff!important;font-weight:800}.app-note{padding:12px 14px;background:#24223a;border:1px solid #3c3961;border-radius:15px;color:#c4c5d8;font-size:12px;line-height:1.5}.car-hero{background:radial-gradient(ellipse at top right,#315f6a,transparent 70%),var(--card);border-color:#3e6872}.car-form{display:grid;gap:11px}.car-form label{color:var(--muted);font-size:12px;font-weight:800}.car-form input,.car-form textarea{margin-top:5px}
+/* Renzo Hub 2.2: a calmer, desktop-first microapp workspace. */
+.brand-mark{display:block;width:100%;height:100%;object-fit:cover}
+.authlogo{overflow:hidden;padding:0;background:transparent;box-shadow:0 12px 34px #9b7cff35}
+.nav-brand{display:none}
+.nav-icon{width:20px;height:20px;flex:0 0 20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.nav button{display:flex;align-items:center;justify-content:center;gap:8px;min-width:0}
+.nav button.active .nav-icon{color:var(--accent2)}
+.home-intro{position:relative;isolation:isolate;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:24px;margin-top:20px;padding:30px 34px;min-height:208px;border-radius:28px;background:radial-gradient(ellipse at 92% 8%,#a78bfa55,transparent 36%),radial-gradient(ellipse at 75% 110%,#38bdf822,transparent 42%),linear-gradient(135deg,#202343 0%,#15172b 75%);border:1px solid #49476f;box-shadow:0 22px 54px #07081055}
+.home-intro:after{content:"";position:absolute;z-index:-1;right:200px;top:28px;width:100px;height:100px;border:1px solid #bba7ff3d;border-radius:50%;box-shadow:0 0 0 18px #bba7ff0d,0 0 0 36px #bba7ff08}
+.home-intro-copy{max-width:660px}.home-intro .ey{color:#c4bcff}.home-intro h1{font-size:clamp(29px,3vw,42px);line-height:1.08;margin:12px 0}.home-intro p{max-width:560px;color:#c6c8dc;font-size:15px;line-height:1.65;margin:0}.home-cta{width:auto;min-width:178px;min-height:52px;padding:0 18px;border:1px solid #d8ccff55;border-radius:15px;background:linear-gradient(110deg,#c4adff,#90d7ff);color:#15122a;font-weight:900;font-size:14px;letter-spacing:.01em;box-shadow:0 10px 26px #9f83ff25}
+.area-label{display:flex;align-items:center;gap:9px;margin:31px 2px 13px;color:#d4d5e5;font-size:13px;letter-spacing:.01em;text-transform:none;font-weight:800}.home-apps{grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.home-apps .app{position:relative;min-height:174px;padding:18px;text-align:left;border-radius:20px;background:linear-gradient(150deg,#15182a,#111322);border-color:#2b2e49}.home-apps .app:hover{transform:translateY(-3px);border-color:#666089;background:linear-gradient(150deg,#1b1e34,#131528)}.home-apps .app-icon{width:48px;height:48px;border-radius:16px;background:linear-gradient(145deg,#37335f,#262743);box-shadow:inset 0 1px #ffffff17;font-size:24px}.home-apps .app:nth-child(4n+1) .app-icon{background:linear-gradient(145deg,#2b4059,#202d43)}.home-apps .app:nth-child(4n+2) .app-icon{background:linear-gradient(145deg,#45366b,#2d2849)}.home-apps .app:nth-child(4n+3) .app-icon{background:linear-gradient(145deg,#543957,#382843)}.home-apps .app b{margin-top:16px;font-size:15px}.home-apps .app span:not(.app-icon){max-width:250px;line-height:1.5}.home-apps .app:after{content:"↗";position:absolute;right:17px;top:17px;color:#8185a4;font-size:15px}
+.home-intro-copy .ey{display:flex;align-items:center;gap:8px}.home-intro-logo{width:26px;height:26px;border-radius:8px;overflow:hidden;box-shadow:0 4px 16px #9b7cff35}
+@media(min-width:1024px){body{min-height:100vh;background:radial-gradient(ellipse at 68% -20%,#29244d 0,transparent 38%),var(--bg)}#appShell.shell{box-sizing:border-box;width:calc(100% - 256px);max-width:none;margin:0 0 0 256px;padding:34px clamp(34px,4vw,68px) 70px}#appShell .page{max-width:1460px;margin:0 auto}#appShell .home-intro{margin-top:8px}.nav{position:fixed;inset:0 auto 0 0;width:256px;height:100vh;padding:27px 16px 24px;background:rgba(12,14,27,.96);border-top:0;border-right:1px solid #292d48;box-shadow:12px 0 36px #05060d25}.nav-brand{display:flex;align-items:center;gap:12px;padding:4px 10px 30px;border-bottom:1px solid #292d48;margin-bottom:24px}.nav-brand-mark{width:42px;height:42px;border-radius:14px;overflow:hidden;box-shadow:0 8px 24px #9b7cff3a}.nav-brand-name{display:block;color:var(--text);font-size:15px;font-weight:900;letter-spacing:-.02em}.nav-brand-sub{display:block;margin-top:3px;color:var(--muted);font-size:9px;font-weight:800;letter-spacing:.12em}.navin{max-width:none;margin:0;display:grid;grid-template-columns:1fr;gap:8px}.nav button{justify-content:flex-start;gap:13px;padding:11px 13px;border-radius:13px;color:#a6aac4;text-align:left;font-size:13px;font-weight:750}.nav button.active{background:linear-gradient(110deg,#332b53,#23223b);color:#f1f0ff;box-shadow:inset 0 0 0 1px #5d4c85}.nav button:hover:not(.active){background:#191c30;color:#e2e3ef}.home-apps{grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}.home-apps .app{min-height:184px;padding:20px}.home-intro{min-height:220px;padding:34px 38px}.area-label{margin-top:36px}.authwrap{max-width:490px;margin:10vh auto 0}}
+@media(min-width:1400px){#appShell .home-apps{grid-template-columns:repeat(4,minmax(0,1fr))}.home-apps .app{min-height:194px}}
+@media(min-width:1024px) and (max-width:1240px){#appShell .home-apps{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:1023px){.nav button{flex-direction:column;gap:4px;min-height:56px;font-size:10px}.nav-icon{width:21px;height:21px}.home-intro{grid-template-columns:1fr;gap:18px}.home-intro:after{right:24px;top:22px;width:70px;height:70px}.home-cta{width:100%}.home-apps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.home-intro{padding:22px}.home-intro h1{font-size:28px}.home-apps{gap:10px}.home-apps .app{min-height:150px;padding:13px}.area-label{margin-top:25px}}
+.navin{grid-template-columns:repeat(6,1fr)}
+@media(min-width:1024px){.navin{grid-template-columns:1fr}}
+.study-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin:12px 0 24px}.study-head h1{margin:5px 0;font-size:clamp(26px,3vw,38px)}.study-head p{max-width:620px;margin:8px 0 0;color:var(--muted);font-size:14px;line-height:1.55}
+.study-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;min-width:min(420px,45%)}.study-stat{padding:14px 16px;border:1px solid var(--line);border-radius:16px;background:var(--card)}.study-stat strong{display:block;color:var(--text);font-size:20px}.study-stat span{display:block;margin-top:4px;color:var(--muted);font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.study-next{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:21px 24px;margin-bottom:28px;border:1px solid #63579a;border-radius:22px;background:radial-gradient(ellipse at 88% 0,#a78bfa3c,transparent 45%),linear-gradient(120deg,#201d3a,#151729)}.study-next h2{margin:0 0 6px;font-size:19px}.study-next p{margin:0;color:#b7b9ce;font-size:13px}.study-start{flex:0 0 auto;border:0;border-radius:13px;background:linear-gradient(110deg,#c4adff,#90d7ff);color:#15122a;padding:0 18px;font-weight:900}
+.study-section-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:28px 2px 14px}.study-section-title h2{margin:0;font-size:19px}.study-section-title span{color:var(--muted);font-size:12px}
+.study-path{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.study-node{min-height:184px;padding:18px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(155deg,#15182a,#111322);display:flex;flex-direction:column;align-items:flex-start;text-align:left;transition:transform .16s,border-color .16s}.study-node:not(:disabled):hover{transform:translateY(-3px);border-color:#7366a8}.study-node:disabled{opacity:.52;cursor:not-allowed}.study-node.completed{border-color:#437d6e;background:linear-gradient(150deg,#142821,#111b20)}.study-node.current{border-color:#7461ac;box-shadow:inset 0 0 0 1px #7461ac,0 10px 28px #0b081b55}.study-node-icon{display:grid;place-items:center;width:44px;height:44px;border-radius:15px;background:#30274f;color:#d5c6ff;font-size:21px}.study-node.completed .study-node-icon{background:#1f483d;color:#97efd0}.study-node h3{margin:16px 0 6px;font-size:14px;color:var(--text)}.study-node p{margin:0;color:var(--muted);font-size:12px;line-height:1.45}.study-node-foot{margin-top:auto;padding-top:13px;color:#b7a7ff;font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}.study-node.completed .study-node-foot{color:#86dabc}
+.study-quiz{max-width:840px;margin:0 auto}.study-quiz-top{display:flex;align-items:center;gap:12px;margin:12px 0 25px}.study-exit{border:1px solid var(--line);background:var(--card);color:var(--muted);border-radius:12px;padding:0 14px}.study-progress{height:12px;flex:1;border-radius:99px;background:#262841;overflow:hidden}.study-progress span{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#a78bfa,#60d8bc);transition:width .2s}.study-progress-copy{color:var(--muted);font-size:12px;font-weight:800;white-space:nowrap}.study-question-card{padding:clamp(22px,4vw,38px);border:1px solid var(--line);border-radius:24px;background:linear-gradient(145deg,#15182a,#111322)}.study-question-card .ey{color:#b8a4ff}.study-question-card h2{margin:12px 0 22px;font-size:clamp(22px,3vw,30px);line-height:1.28}.study-answer-list{display:grid;gap:10px}.study-answer{width:100%;min-height:56px;padding:12px 16px;text-align:left;border:1px solid #343752;border-radius:14px;background:#171a2c;color:var(--text);font-weight:750}.study-answer:hover:not(:disabled){border-color:#8974d2;background:#201e38}.study-answer.correct{border-color:#4fba98;background:#15382f}.study-answer.incorrect{border-color:#d57584;background:#3b202b}.study-feedback{margin-top:16px;padding:15px 17px;border-radius:14px;background:#1b1e35;color:#d9daea;font-size:13px;line-height:1.5}.study-feedback.good{border:1px solid #397961}.study-feedback.retry{border:1px solid #87505c}.study-continue{width:100%;margin-top:14px;border:0;border-radius:13px;background:var(--accent);color:#15122a;font-weight:900}.study-finish{text-align:center;padding:36px 24px;border:1px solid #63579a;border-radius:24px;background:radial-gradient(ellipse at center top,#a78bfa35,transparent 58%),var(--card)}.study-finish-icon{font-size:48px}.study-finish h2{margin:12px 0 8px;font-size:28px}.study-finish p{color:var(--muted)}.study-finish .primary{min-width:190px;border:0;border-radius:13px;padding:0 20px;font-weight:900}
+.study-extras{margin-top:30px;padding:17px 20px;border:1px solid var(--line);border-radius:18px;background:#101222}.study-extras>summary{color:#dfe0ed}.study-extras[open]{padding-bottom:22px}.study-extras .study-lesson{margin-top:14px}
+@media(max-width:1200px){.study-path{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:1023px){.navin{grid-template-columns:repeat(6,minmax(0,1fr));gap:0}.nav button{padding-left:2px;padding-right:2px;font-size:9px}.nav-icon{width:19px;height:19px}.study-head{display:block}.study-stats{min-width:0;margin-top:18px}.study-path{grid-template-columns:repeat(2,minmax(0,1fr))}.study-next{align-items:flex-start;flex-direction:column}.study-start{width:100%}}
+@media(max-width:520px){.study-path{grid-template-columns:1fr}.study-node{min-height:146px}.study-stat{padding:12px}.study-stat strong{font-size:17px}.study-stat span{font-size:9px}.study-question-card{padding:20px}.study-quiz-top{gap:8px}.study-progress-copy{font-size:10px}}
+.home-cta{display:inline-flex;align-items:center;justify-content:center;gap:12px}.home-cta svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.home-apps .app-icon svg,.area-label svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.area-label svg{width:19px;height:19px;color:#bba2ff;flex:0 0 19px}.home-apps .app-icon{color:#d8caff}.home-apps .app:nth-child(4n+1) .app-icon{color:#a6d8ff}.home-apps .app:nth-child(4n+2) .app-icon{color:#dcc8ff}.home-apps .app:nth-child(4n+3) .app-icon{color:#f3bcdd}@media(max-width:520px){.home-cta{min-height:50px}}
+
+.home-apps .app-icon{position:relative;overflow:hidden;transition:transform .24s cubic-bezier(.2,.8,.2,1),box-shadow .24s,filter .24s}.home-apps .app-icon:after{content:"";position:absolute;inset:-60% auto -60% -45%;width:38%;transform:rotate(25deg) translateX(-160%);background:linear-gradient(90deg,transparent,#fff5,transparent);transition:transform .55s ease}.home-apps .app:hover .app-icon,.home-apps .app:focus-visible .app-icon{transform:translateY(-3px) rotate(-5deg) scale(1.08);filter:saturate(1.25);box-shadow:0 9px 28px #a78bfa38,0 0 0 1px #b7a4ff55}.home-apps .app:hover .app-icon:after,.home-apps .app:focus-visible .app-icon:after{transform:rotate(25deg) translateX(550%)}.home-apps .app:active .app-icon{transform:scale(.94) rotate(3deg)}.nav button .nav-icon{transition:transform .22s cubic-bezier(.2,.8,.2,1),filter .22s}.nav button:hover .nav-icon,.nav button:focus-visible .nav-icon{transform:translateY(-2px) scale(1.15);filter:drop-shadow(0 0 7px #a78bfa88)}.nav button.active .nav-icon{filter:drop-shadow(0 0 8px #a78bfa88);animation:nav-arrive .28s ease-out}.env-badge{position:fixed;top:12px;right:16px;z-index:40;display:flex;align-items:center;gap:8px;padding:9px 13px;border:1px solid #62528b;border-radius:999px;background:#17162aee;color:#e3d8ff;box-shadow:0 8px 28px #0005;font-size:11px;font-weight:900;letter-spacing:.04em;backdrop-filter:blur(12px)}.env-badge:before{content:"";width:8px;height:8px;border-radius:50%;background:#bb9aff;box-shadow:0 0 11px currentColor}.env-badge[data-env="production"]{border-color:#397c67;background:#10241fee;color:#a5f0d2}.env-badge[data-env="production"]:before{background:#6ce3b4}.env-badge[data-env="preview"]{border-color:#a16f35;background:#2a1e10ee;color:#ffd18a}.env-badge[data-env="preview"]:before{background:#ffc361}.env-badge[data-env="unknown"]{border-color:#9d515c;background:#2b151bee;color:#ffb2bd}.env-badge[data-env="unknown"]:before{background:#ff778b}@keyframes nav-arrive{0%{transform:scale(.72)}70%{transform:scale(1.2)}100%{transform:scale(1)}}.boot-error{max-width:460px;margin:20vh auto 0;padding:24px;border:1px solid #75465b;border-radius:22px;background:linear-gradient(145deg,#251c2b,#141522);box-shadow:0 20px 50px #0007}.boot-error h1{font-size:24px}.boot-error p{color:#cbc5d5;line-height:1.55;font-size:14px}.boot-error button{width:100%;border:0;border-radius:13px;padding:13px;background:linear-gradient(110deg,#c4adff,#90d7ff);color:#15122a;font-weight:900}@media(prefers-reduced-motion:reduce){.home-apps .app-icon,.home-apps .app-icon:after,.nav button .nav-icon{transition:none!important;animation:none!important}}
+@media(max-width:1023px){.env-badge{position:static;width:max-content;max-width:calc(100% - 28px);margin:10px 14px 0 auto}}
+/* 2.4: ilustraciones originales para el catálogo de microapps. */
+.home-apps .app-icon{isolation:isolate;width:58px;height:58px;border:1px solid #ffffff20;box-shadow:inset 0 1px #ffffff2a,0 8px 24px #0003}
+.home-apps .app-icon:before{content:"";position:absolute;z-index:-1;width:34px;height:34px;right:-7px;top:-7px;border-radius:50%;background:#ffffff12;filter:blur(1px)}
+.home-apps .app-icon svg{width:48px;height:48px;fill:initial;stroke:initial;stroke-width:initial;overflow:visible;filter:drop-shadow(0 3px 3px #0003);transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+.home-apps .app-icon--study{background:radial-gradient(circle at 20% 12%,#fdb9a652,transparent 38%),linear-gradient(145deg,#48375e,#252849)}
+.home-apps .app-icon--work{background:radial-gradient(circle at 80% 15%,#a5ffe454,transparent 40%),linear-gradient(145deg,#1f4b54,#242a49)}
+.home-apps .app-icon--gym{background:radial-gradient(circle at 80% 15%,#ffd8784d,transparent 40%),linear-gradient(145deg,#55354d,#302440)}
+.home-apps .app-icon--food{background:radial-gradient(circle at 20% 15%,#ffce7455,transparent 40%),linear-gradient(145deg,#63394c,#392a45)}
+.home-apps .app-icon--skin{background:radial-gradient(circle at 80% 15%,#90eaff55,transparent 40%),linear-gradient(145deg,#314966,#2e3155)}
+.home-apps .app-icon--car{background:radial-gradient(circle at 20% 10%,#aeb2ff55,transparent 40%),linear-gradient(145deg,#333f65,#24334b)}
+.home-apps .app-icon--news{background:radial-gradient(circle at 80% 12%,#ffd48b55,transparent 40%),linear-gradient(145deg,#56475a,#34344e)}
+.home-apps .app:hover .app-icon svg,.home-apps .app:focus-visible .app-icon svg{transform:translateY(-2px) rotate(3deg) scale(1.07)}
+.nav button .nav-icon{width:23px;height:23px;overflow:visible;filter:drop-shadow(0 2px 5px #0004)}
+.nav button:nth-child(1) .nav-icon{color:#c4a5ff}.nav button:nth-child(2) .nav-icon{color:#ff9eaa}.nav button:nth-child(3) .nav-icon{color:#ffd288}.nav button:nth-child(4) .nav-icon{color:#82e1bf}.nav button:nth-child(5) .nav-icon{color:#8ad5ff}.nav button:nth-child(6) .nav-icon{color:#d9a8ff}
+.nav button.active .nav-icon{filter:drop-shadow(0 0 8px currentColor)}
+@media(max-width:1023px){.home-apps .app-icon{width:54px;height:54px}.home-apps .app-icon svg{width:45px;height:45px}}
+@media(prefers-reduced-motion:reduce){.home-apps .app-icon svg{transition:none!important}}
 </style>
+<link rel="stylesheet" href="/payroll.css">
 </head>
 <body>
+<aside id="environmentBadge" class="env-badge" data-env="unknown" aria-live="polite">ENTORNO SIN VERIFICAR</aside>
+<section id="bootError" class="shell hidden" role="alert"><div class="boot-error"><div class="ey">Renzo Hub</div><h1>No se pudo iniciar</h1><p id="bootErrorMessage">Comprueba tu conexión y vuelve a intentarlo.</p><button id="bootRetry" type="button">Reintentar</button></div></section>
 <div id="authScreen" class="shell">
   <div class="authwrap">
-    <div class="authlogo">R</div>
+    <div class="authlogo"><img class="brand-mark" src="/assets/renzo-hub-icon.svg" alt=""></div>
     <div class="authcard">
       <div class="ey">Acceso privado</div>
       <h1>Renzo Hub</h1>
@@ -54,7 +118,7 @@ textarea,input{width:100%;background:#111713;color:white;border:1px solid var(--
         <input id="password" type="password" autocomplete="current-password" minlength="6" required placeholder="••••••••">
         <div class="authbuttons">
           <button class="primary" type="submit">Entrar</button>
-          <button class="secondary" type="button" id="signupBtn">Crear mi acceso</button>
+          
         </div>
       </form>
       <div id="authMessage" class="authmsg"></div>
@@ -64,31 +128,39 @@ textarea,input{width:100%;background:#111713;color:white;border:1px solid var(--
 
 <div id="appShell" class="shell hidden">
 <section id="home" class="page active">
-<div id="worldHome"></div>
-<div class="top"><div><div class="ey">Personal microapps</div><h1>Renzo Hub</h1></div><div class="avatar">R</div></div>
-<div class="hero"><h2 id="greeting">Tu día, en un solo sitio.</h2><p>Tu hub privado y sincronizado.</p>
-<div class="quick"><div><b id="skinPct">0%</b><span class="small">Skin hoy</span></div><div><b>3</b><span class="small">Apps activas</span></div><div><b id="streak">0</b><span class="small">Días seguidos</span></div></div></div>
-<div class="section"><h3>Mis apps</h3><span class="small">Cloud V2</span></div>
-<div class="apps">
-<button class="app" data-open="news"><b>Noticias</b><span>ChatGPT, Codex y Claude · tus resúmenes.</span></button>
-<button class="app" data-open="skin"><b>Skin</b><span>Rutina AM/PM, productos y progreso.</span></button>
-<button class="app" data-open="gym"><b>Gym · Ascend</b><span>Entrena, registra y sube de nivel.</span></button>
-<button class="app disabled" type="button"><b>Study</b><span>Próximamente</span></button>
-<button class="app" data-open="food"><b>Food</b><span>Dieta diaria, compra mensual y objetivos.</span></button>
-<button class="app disabled" type="button"><b>Car</b><span>Próximamente</span></button>
-<button class="app disabled" type="button"><b>Habits</b><span>Próximamente</span></button>
-</div></section>
+<div class="home-intro"><div class="home-intro-copy"><div class="ey"><span class="home-intro-logo"><img class="brand-mark" src="/assets/renzo-hub-icon.svg" alt=""></span> CADA PASO CUENTA · TU SIGUIENTE NIVEL</div><h1>Tu mundo. Tu ritmo. Tu progreso.</h1><p>Un espacio para aprender, cuidarte y avanzar. Elige una acción pequeña hoy y conviértela en progreso que puedas ver.</p></div><button class="home-cta" data-open="gym"><span>Comenzar mi siguiente nivel</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button></div>
+<div class="area-label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21V5.5Z"/><path d="M4 17.5A2.5 2.5 0 0 1 6.5 15H20M8 7h8m-8 4h8"/></svg> Aprender y crear</div><div class="home-apps">
+<button class="app" data-open="study"><span class="app-icon app-icon--study"><svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="studyBook" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffd887"/><stop offset="1" stop-color="#ff8cae"/></linearGradient><linearGradient id="studyPage" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff9e9"/><stop offset="1" stop-color="#d8eaff"/></linearGradient></defs><path d="M11 18q12-7 21 1v32q-9-8-21-2z" fill="url(#studyBook)" stroke="#fff6" stroke-width="2"/><path d="M53 18q-12-7-21 1v32q9-8 21-2z" fill="url(#studyPage)" stroke="#fff6" stroke-width="2"/><path d="M32 19v32" stroke="#7b66bd" stroke-width="2"/><path d="M16 26q6-3 11 0m-11 6q6-3 11 0m10-6q5-3 11 0m-11 6q5-3 11 0" fill="none" stroke="#8576b2" stroke-width="2" stroke-linecap="round"/><path d="M46 9q5-6 10-1 3 4-2 8l-5 4-4-5q-3-3 1-6z" fill="#ff7c9e" stroke="#ffe0e8" stroke-width="1.5"/><path d="m51 11 2 2 4-5" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg></span><b>Study · Dutch</b><span>Clases diarias, práctica y progreso.</span></button>
+<button class="app" data-open="payroll"><span class="app-icon app-icon--work" aria-hidden="true">€</span><b>Nóminas</b><span>Documentos de Jarvis, seguimiento y revisión.</span></button>
+<button class="app" data-open="work"><span class="app-icon app-icon--work"><svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="workCase" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#77e8c5"/><stop offset="1" stop-color="#4ba8c7"/></linearGradient></defs><rect x="10" y="21" width="43" height="31" rx="8" fill="url(#workCase)" stroke="#d8fff4" stroke-width="2"/><path d="M23 21v-5a5 5 0 0 1 5-5h8a5 5 0 0 1 5 5v5" fill="none" stroke="#a6f8df" stroke-width="4"/><path d="M10 33q21 9 43 0" fill="none" stroke="#247b90" stroke-width="2"/><path d="M29 32h7v7h-7z" rx="2" fill="#ffe18d"/><path d="m43 14 5-5 3 3 7-7" fill="none" stroke="#fff3b0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M52 5h6v6" fill="none" stroke="#fff3b0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="14" cy="14" r="3" fill="#ffe18d"/></svg></span><b>Work</b><span>Proyectos, carrera y siguientes pasos.</span></button>
+</div>
+<div class="area-label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"/></svg> Energía y bienestar</div><div class="home-apps">
+<button class="app" data-open="gym"><span class="app-icon app-icon--gym"><svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="gymMetal" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ffe695"/><stop offset="1" stop-color="#ff9f65"/></linearGradient></defs><path d="M17 31h30" stroke="#fff3db" stroke-width="7" stroke-linecap="round"/><rect x="9" y="20" width="10" height="24" rx="4" fill="url(#gymMetal)" stroke="#fff1c4" stroke-width="2"/><rect x="45" y="20" width="10" height="24" rx="4" fill="url(#gymMetal)" stroke="#fff1c4" stroke-width="2"/><rect x="4" y="25" width="7" height="14" rx="3" fill="#fb758a"/><rect x="53" y="25" width="7" height="14" rx="3" fill="#fb758a"/><path d="m29 13 3-5 3 5 5 2-5 2-3 5-3-5-5-2z" fill="#fff2a6"/><path d="m28 51 2-4 2 4 4 1-4 2-2 4-2-4-4-2z" fill="#c1a5ff"/></svg></span><b>Gym · Ascend</b><span>Entrena, registra y sube de nivel.</span></button>
+<button class="app" data-open="food"><span class="app-icon app-icon--food"><svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="foodBowl" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ffbf75"/><stop offset="1" stop-color="#f2748a"/></linearGradient></defs><path d="M13 34h39q-2 18-20 18T13 34Z" fill="url(#foodBowl)" stroke="#ffd7a2" stroke-width="2"/><path d="M10 33h46" stroke="#fff1d4" stroke-width="4" stroke-linecap="round"/><path d="M20 29q5-13 12 0 7-15 13 0" fill="none" stroke="#8fe1bb" stroke-width="5" stroke-linecap="round"/><circle cx="24" cy="27" r="5" fill="#ffe17f"/><circle cx="39" cy="28" r="5" fill="#ee789c"/><path d="M26 15c-1-4 2-5 1-8m10 9c-1-4 2-5 1-8" fill="none" stroke="#a8caff" stroke-width="2.5" stroke-linecap="round"/><path d="m50 13 2 4 4 1-4 2-2 4-2-4-4-2 4-1z" fill="#fff0a8"/></svg></span><b>Food</b><span>Plan diario y compra mensual.</span></button>
+<button class="app" data-open="skin"><span class="app-icon app-icon--skin"><svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="skinDrop" x1=".2" y1="0" x2=".8" y2="1"><stop stop-color="#9cf5eb"/><stop offset=".55" stop-color="#65baff"/><stop offset="1" stop-color="#a98bff"/></linearGradient></defs><path d="M32 8C26 19 14 29 14 41a18 18 0 0 0 36 0C50 29 38 19 32 8Z" fill="url(#skinDrop)" stroke="#dcffff" stroke-width="2"/><path d="M23 40c0 6 4 10 9 11" fill="none" stroke="#efffff" stroke-width="3" stroke-linecap="round"/><path d="m44 13 2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="#fff6bc"/><circle cx="18" cy="21" r="3" fill="#ffca93"/><circle cx="48" cy="47" r="2.5" fill="#ffd5ee"/></svg></span><b>Skin</b><span>Rutina AM/PM y progreso.</span></button>
+</div>
+<div class="area-label"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2.2 4.8-4.8 2.2 2.2-4.8 4.8-2.2Z"/></svg> Tu mundo en movimiento</div><div class="home-apps">
+<button class="app" data-open="car"><span class="app-icon app-icon--car"><svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="carPaint" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#a8a1ff"/><stop offset="1" stop-color="#58d9df"/></linearGradient></defs><path d="m15 34 5-13q2-5 8-5h13q5 0 8 5l5 13 4 4v10H8V38z" fill="url(#carPaint)" stroke="#dcfcff" stroke-width="2" stroke-linejoin="round"/><path d="m22 29 3-8q1-2 4-2h11q3 0 4 2l4 8z" fill="#293757" stroke="#c7f5ff" stroke-width="2"/><path d="M11 38h42" stroke="#efffff" stroke-width="2"/><rect x="9" y="37" width="8" height="5" rx="2" fill="#ffe88e"/><rect x="47" y="37" width="8" height="5" rx="2" fill="#ff9b9e"/><circle cx="19" cy="48" r="6" fill="#20253c" stroke="#d9eaff" stroke-width="2"/><circle cx="45" cy="48" r="6" fill="#20253c" stroke="#d9eaff" stroke-width="2"/><path d="M5 25H1m9-7H5m52 7h-4m6-7h-4" stroke="#d2bcff" stroke-width="2.5" stroke-linecap="round"/><path d="m32 8 2 4 4 1-4 2-2 4-2-4-4-2 4-1z" fill="#fff2a5"/></svg></span><b>Car · Jarvis</b><span>Registra los gastos del coche con Jarvis.</span></button>
+<button class="app" data-open="news"><span class="app-icon app-icon--news"><svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="newsPage" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff2c4"/><stop offset="1" stop-color="#c6d9ff"/></linearGradient></defs><rect x="12" y="9" width="39" height="47" rx="7" fill="url(#newsPage)" stroke="#fff" stroke-width="2"/><path d="M20 19h22" stroke="#60648b" stroke-width="3" stroke-linecap="round"/><rect x="20" y="26" width="13" height="12" rx="3" fill="#ff8c9f"/><path d="M37 28h7m-7 5h7M20 44h22m-22 5h17" stroke="#717795" stroke-width="2.5" stroke-linecap="round"/><circle cx="48" cy="15" r="8" fill="#ff9e6f" stroke="#ffe2b2" stroke-width="2"/><path d="m45 15 2 2 4-5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="m10 17-3 2m3 4-4 1m46 18 4 1" stroke="#c3aeff" stroke-width="2.5" stroke-linecap="round"/></svg></span><b>News</b><span>Resúmenes y temas que sigues.</span></button>
+</div>
+<div class="area-label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2L12 3Z"/><path d="m19 15 .8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8L19 15Z"/></svg> Tu día en resumen</div><div id="p1Home"></div><div id="worldHome" class="worldhome"></div>
+</section>
 
-<section id="body" class="page"><button class="back" data-open="home">← Home</button><div class="top"><div><div class="ey">Cuerpo · entrenamiento · recuperación</div><h1>Body</h1></div><div class="avatar">B</div></div><div id="worldBody"></div><div class="section"><h3>Tus herramientas actuales</h3></div><div class="apps"><button class="app" data-open="gym"><b>Gym · Ascend</b><span>Rutina, sesiones e historial sincronizados.</span></button><button class="app" data-open="food"><b>Food</b><span>Plan y compra mensual existentes.</span></button><button class="app" data-open="skin"><b>Skin Routine</b><span>Rutina AM/PM y notas sincronizadas.</span></button></div></section>
+<section id="body" class="page"><button class="back" data-open="home">← Home</button><div class="top"><div><div class="ey">Cuerpo · entrenamiento · recuperación</div><h1>Body</h1></div><div class="avatar">B</div></div><div id="worldBody"></div><div id="p1Weight"></div><div class="section"><h3>Tus herramientas actuales</h3></div><div class="apps"><button class="app" data-open="gym"><b>Gym · Ascend</b><span>Rutina, sesiones e historial sincronizados.</span></button><button class="app" data-open="food"><b>Food</b><span>Plan y compra mensual existentes.</span></button><button class="app" data-open="skin"><b>Skin Routine</b><span>Rutina AM/PM y notas sincronizadas.</span></button></div></section>
 
-<section id="work" class="page"><button class="back" data-open="home">← Home</button><div class="top"><div><div class="ey">Proyectos · carrera · aprendizaje</div><h1>Work</h1></div><div class="avatar">W</div></div><div id="worldWork"></div></section>
+<section id="work" class="page"><button class="back" data-open="home">← Home</button><div class="top"><div><div class="ey">Proyectos · carrera · entregables</div><h1>Work</h1></div><div class="avatar">🚀</div></div><div id="worldWork"></div></section>
+
+<section id="study" class="page"><div id="worldStudy"></div></section>
+
+<section id="car" class="page"><button class="back" data-open="home">← Home</button><div class="top pagehead"><div><div class="ey">🚘 VEHICLE · EXPENSES VIA JARVIS</div><h1>Car</h1></div><div class="avatar">🚗</div></div><div id="worldCar"></div></section>
 
 <section id="money" class="page"><button class="back" data-open="home">← Home</button><div class="top"><div><div class="ey">Registros introducidos por ti</div><h1>Money</h1></div><div class="avatar">€</div></div><div id="worldMoney"></div></section>
 
-<section id="system" class="page"><button class="back" data-open="home">← Home</button><div class="top"><div><div class="ey">Reglas · contexto · privacidad</div><h1>System</h1></div><div class="avatar">S</div></div><div id="worldSystem"></div><div class="section"><h3>Noticias e inteligencia externa</h3></div><button class="app" data-open="news"><b>News</b><span>Resúmenes privados que ya están en Supabase.</span></button><div class="worldline"></div><button class="app" data-open="settings"><b>Cuenta y sincronización</b><span>Sesión, privacidad y datos existentes.</span></button></section>
+<section id="payroll" class="page"></section>
+<section id="system" class="page"><button class="back" data-open="home">← Home</button><div class="top"><div><div class="ey">Reglas · contexto · privacidad</div><h1>System</h1></div><div class="avatar">S</div></div><div id="worldSystem"></div><div class="section"><h3>Finanzas</h3></div><button class="app" data-open="payroll"><span class="app-icon app-icon--work" aria-hidden="true">€</span><b>Nóminas</b><span>Documentos de Jarvis, seguimiento y revisión.</span></button><div class="section"><h3>Noticias e inteligencia externa</h3></div><button class="app" data-open="news"><b>News</b><span>Resúmenes privados que ya están en Supabase.</span></button><div class="worldline"></div><button class="app" data-open="settings"><b>Cuenta y sincronización</b><span>Sesión, privacidad y datos existentes.</span></button></section>
 
 <section id="news" class="page"></section>
-<section id="skin" class="page"><button class="back" data-open="home">← Volver</button>
+<section id="skin" class="page"><button class="microapp-back" data-open="body">← Body</button>
 <div class="top"><div><div class="ey">Manchas · puntos negros · barrera</div><h1>Skin Routine</h1><div id="skinDate" class="small" style="margin-top:8px"></div></div><div class="avatar">S</div></div>
 <div class="card" style="margin-top:16px">
 <div class="row"><span id="pill" class="pill">MAÑANA</span><button id="switchBtn" class="switch">Cambiar a noche</button></div>
@@ -107,17 +179,17 @@ textarea,input{width:100%;background:#111713;color:white;border:1px solid var(--
 <div class="section"><h3>Mis productos</h3><span class="small">Tu estante</span></div><div id="productList" class="products"></div>
 </section>
 
-<section id="food" class="page"><button class="back" data-open="home">← Volver</button>
+<section id="food" class="page"><button class="microapp-back" data-open="body">← Body</button>
 <div class="top"><div><div class="ey">Comer bien · trabajar · estudiar</div><h1>Food</h1></div><div class="avatar">F</div></div>
-<div class="hero"><h2>Tu plan diario</h2><p>Una estructura sencilla y repetible. Punto de partida: 84 kg · 1,70 m.</p><div class="quick"><div><b>2.100–2.200</b><span class="small">kcal / día</span></div><div><b>150–170 g</b><span class="small">Proteína / día</span></div><div><b>180–230 €</b><span class="small">Objetivo / mes</span></div></div></div>
-<div class="section"><h3>Objetivo por fases</h3></div>
-<div class="card"><div class="row"><span class="pill">84 kg</span><span aria-hidden="true">→</span><span class="pill">78 kg</span><span aria-hidden="true">→</span><span class="pill">74–75 kg</span></div><p class="small">Primera meta: 78 kg. Después, avanzar a 74–75 kg y reevaluar cintura, fuerza y bienestar.</p></div>
+<div class="hero"><h2>Tu plan diario</h2><p>Una estructura sencilla y repetible. <span id="bpStart">Configura tu perfil corporal en Ajustes.</span></p><div class="quick"><div><b id="bpKcal">sin datos</b><span class="small">kcal / día</span></div><div><b id="bpProtein">sin datos</b><span class="small">Proteína / día</span></div><div><b id="bpBudget">sin datos</b><span class="small">Objetivo / mes</span></div></div></div>
+<div id="p1Food"></div><div class="section"><h3>Objetivo por fases</h3></div>
+<div class="card"><div class="row" id="bpPhases"><span class="small">Sin objetivos guardados. Añádelos en Ajustes → Perfil corporal.</span></div><p class="small" id="bpPhasesNote"></p></div>
 <div class="section"><h3>Dieta que puedes repetir</h3></div>
 <div class="card"><b>Desayuno</b><p class="small">Quark/skyr natural, avena y fruta. Preparación rápida para empezar el día.</p></div>
 <div class="card" style="margin-top:10px"><b>Comida</b><p class="small">Pollo/pavo con arroz o patatas, verduras y aceite de oliva. Lleva una ración preparada al trabajo.</p></div>
 <div class="card" style="margin-top:10px"><b>Snack</b><p class="small">Fruta y, según lo que falte en el día, quark o yogur natural alto en proteína.</p></div>
 <div class="card" style="margin-top:10px"><b>Cena</b><p class="small">Rota entre huevos, legumbres, pollo, carne magra y pescado. Acompaña con verduras y arroz o patatas.</p></div>
-<div class="card" style="margin-top:10px"><b>Cómo usar el plan</b><p class="small">Ajusta las porciones con las etiquetas de tus productos para acercarte a 2.100–2.200 kcal y 150–170 g de proteína. Estos son objetivos diarios; la lista mensual es una base de compra, no un cálculo exacto de nutrientes.</p></div>
+<div class="card" style="margin-top:10px"><b>Cómo usar el plan</b><p class="small">Ajusta las porciones con las etiquetas de tus productos para acercarte a tus objetivos diarios de kcal y proteína (ver arriba). Estos son objetivos diarios; la lista mensual es una base de compra, no un cálculo exacto de nutrientes.</p></div>
 <div class="section"><h3>Compra mensual base</h3><span class="small">1 persona</span></div>
 <div class="card"><dl class="food-list">
 <div><dt>Pollo / pavo</dt><dd>5–6 kg</dd></div><div><dt>Carne magra</dt><dd>1 kg</dd></div><div><dt>Pescado</dt><dd>1 kg</dd></div><div><dt>Huevos</dt><dd>30–40 unidades</dd></div><div><dt>Quark / skyr</dt><dd>8–10 kg</dd></div><div><dt>Avena</dt><dd>2 kg</dd></div><div><dt>Arroz</dt><dd>3–4 kg</dd></div><div><dt>Patatas</dt><dd>6–8 kg</dd></div><div><dt>Verduras congeladas</dt><dd>Según consumo</dd></div><div><dt>Fruta de temporada</dt><dd>Según consumo</dd></div><div><dt>Legumbres</dt><dd>Según consumo</dd></div><div><dt>Aceite, especias y salsas</dt><dd>Reponer según uso</dd></div>
@@ -131,291 +203,26 @@ textarea,input{width:100%;background:#111713;color:white;border:1px solid var(--
 
 <section id="gym" class="page"></section>
 <section id="settings" class="page">
+<button class="microapp-back" data-open="system">← System</button>
 <div class="top"><div><div class="ey">Configuración</div><h1>Ajustes</h1></div></div>
 <div class="card" style="margin-top:16px">
   <div class="userline"><div><b>Cuenta</b><div id="userEmail" class="small"></div></div><button id="logoutBtn" class="switch">Cerrar sesión</button></div>
 </div>
-<div class="card"><b>Sincronización</b><p class="small">Tus rutinas y notas se guardan en Supabase. Al abrir el Hub en otro dispositivo e iniciar sesión con la misma cuenta, verás los mismos datos.</p></div>
+<div class="card" id="bodyProfileCard"><b>Perfil corporal</b><p class="small">Se guarda solo en tu cuenta (Supabase, RLS). Lo usa Food.</p><form id="bodyProfileForm" class="worldform"><label>Peso de partida (kg)<input name="startWeight" type="number" step="0.1" min="30" max="300"></label><label>Altura (m)<input name="height" type="number" step="0.01" min="1" max="2.5"></label><label>Objetivos de peso por fases (kg, separados por comas)<input name="phases" maxlength="60" placeholder="ej. 80, 76"></label><label>kcal / día (mín.)<input name="kcalMin" type="number" min="800" max="6000"></label><label>kcal / día (máx.)<input name="kcalMax" type="number" min="800" max="6000"></label><label>Proteína g / día (mín.)<input name="proteinMin" type="number" min="0" max="400"></label><label>Proteína g / día (máx.)<input name="proteinMax" type="number" min="0" max="400"></label><label>Presupuesto comida €/mes (mín.)<input name="budgetMin" type="number" min="0" max="5000"></label><label>Presupuesto comida €/mes (máx.)<input name="budgetMax" type="number" min="0" max="5000"></label><button type="submit">Guardar perfil</button><span class="small" id="bodyProfileStatus" role="status"></span></form></div><div class="card" id="habitsCard"></div><div class="card"><b>Sincronización</b><p class="small">Tus rutinas y notas se guardan en Supabase. Al abrir el Hub en otro dispositivo e iniciar sesión con la misma cuenta, verás los mismos datos.</p></div>
 <div class="card"><b>Privacidad</b><p class="small">La base de datos usa Row Level Security. Cada cuenta solo puede leer y modificar sus propios registros.</p></div>
 </section>
 </div>
 
-<nav id="bottomNav" class="nav hidden"><div class="navin"><button class="active" data-open="home">Home</button><button data-open="body">Body</button><button data-open="work">Work</button><button data-open="money">Money</button><button data-open="system">System</button></div></nav>
+<nav id="bottomNav" class="nav hidden" aria-label="Navegación principal"><div class="nav-brand"><span class="nav-brand-mark"><img class="brand-mark" src="/assets/renzo-hub-icon.svg" alt=""></span><span><span class="nav-brand-name">Renzo Hub</span><span class="nav-brand-sub">YOUR PERSONAL SPACE</span></span></div><div class="navin">
+<button class="active" data-open="home"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-6v-7h-4v7H4a1 1 0 0 1-1-1z"/></svg><span>Home</span></button>
+<button data-open="body"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2.2-6 4.2 12 2.2-6H21"/></svg><span>Body</span></button>
+<button data-open="study"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v17H6.5A2.5 2.5 0 0 0 4 22z"/><path d="M4 5.5v14A2.5 2.5 0 0 1 6.5 17H20M8 7h8M8 10h7"/></svg><span>Study</span></button>
+<button data-open="work"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg><span>Work</span></button>
+<button data-open="money"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15 8.5c-.6-.6-1.5-1-2.7-1-1.6 0-2.7.8-2.7 2s1.1 1.8 2.7 2.2 2.7 1 2.7 2.3-1.1 2.1-2.8 2.1c-1.2 0-2.2-.4-3-1.1M12 5.8v12.4"/></svg><span>Money</span></button>
+<button data-open="system"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 1.7 6.3L20 10l-6.3 1.7L12 18l-1.7-6.3L4 10l6.3-1.7z"/><path d="m19 16 .8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/></svg><span>System</span></button>
+</div></nav>
+<div id="updateBanner" class="update-banner hidden" role="status">Nueva versión disponible.<button id="updateNow">Actualizar</button></div>
 
-<script type="module">
-import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/+esm";
-
-const SUPABASE_URL="https://mgncykyrhavpepfggmng.supabase.co";
-const SUPABASE_KEY="sb_publishable__1RzWgnl6E2tOnqaZK_knQ_Bz-M9eAU";
-const supabase=createClient(SUPABASE_URL,SUPABASE_KEY);
-import {mountGym} from "./gym.js";
-import {mountNews} from "./news.js";
-import {mountWorld} from "./world.js";
-const news=mountNews(document.getElementById("news"),supabase,()=>user);
-const gym=mountGym(document.getElementById("gym"),supabase,()=>user);
-const world=mountWorld({home:document.getElementById("worldHome"),body:document.getElementById("worldBody"),work:document.getElementById("worldWork"),money:document.getElementById("worldMoney"),system:document.getElementById("worldSystem")},()=>user);
-
-const PRODUCTS=[["Arencia Fresh Green Rice Mochi Cleanser", "Limpiador principal", "Diario", "assets/skin_6.jpeg"], ["CeraVe Foaming Cleanser", "Limpiador alternativo", "Si notas más grasa", "assets/skin_7.jpeg"], ["Eucerin DermoPure Clinical Correcting Cleanser 2%", "Limpiador exfoliante", "1 vez/semana", "assets/skin_8.jpeg"], ["COSRX Advanced Snail 96 Mucin Power Essence", "Hidratación", "Mañana y noche", "assets/skin_1.jpeg"], ["SKIN1004 Madagascar Centella Ampoule", "Calmante", "Según rutina", "assets/skin_1.jpeg"], ["Paula’s Choice Skin Perfecting 2% BHA Liquid", "Puntos negros", "2 noches/semana", "assets/skin_2.jpeg"], ["Dr. Althea Vitamin C Boosting Serum", "Luminosidad", "3–4 mañanas/semana", "assets/skin_2.jpeg"], ["Anua Niacinamide 10% + TXA 4%", "Manchas y tono", "2 noches/semana", "assets/skin_2.jpeg"], ["ILLIYOON Ceramide Ato Concentrate Cream", "Barrera", "Principalmente noche", "assets/skin_3.jpeg"], ["AXIS-Y Dark Spot Correcting Glow Serum", "Antimanchas alternativo", "Alternativa al Anua", "assets/skin_3.jpeg"], ["Heliocare 360 Pigment Solution Fluid SPF50+", "Protector solar", "Cada mañana", "assets/skin_4.jpeg"], ["Avène Sunsimed Pigment", "Protector solar alternativo", "Alternativa al Heliocare", "assets/skin_4.jpeg"], ["NUXE Zinc Power", "Imperfecciones", "Opcional", "assets/skin_3.jpeg"]];
-const AM=[["Limpiar","Arencia Fresh Green Rice Mochi Cleanser · o CeraVe si notas más grasa"],["Calmar","SKIN1004 Madagascar Centella Ampoule"],["Cuidar el tono y las manchas","Dr. Althea Vitamin C Boosting Serum · solo si lo toleras"],["Hidratar","COSRX Advanced Snail 96"],["Barrera","ILLIYOON Ceramide Cream · si lo necesitas"],["Proteger y prevenir nuevas manchas","Heliocare 360 Pigment Solution SPF50+ · o Avène Sunsimed Pigment"]];
-
-const PM={
-0:[["Limpiar","Arencia"],["Calmar","SKIN1004 Centella"],["Hidratar","COSRX Snail 96"],["Sellar","ILLIYOON"]],
-1:[["Limpiar","Arencia"],["Reducir puntos negros","Paula’s Choice 2% BHA · omitir si hay irritación"],["Hidratar","COSRX Snail 96"],["Sellar","ILLIYOON"]],
-2:[["Limpiar","Arencia o CeraVe"],["Calmar","SKIN1004 Centella"],["Tratar manchas","Anua Niacinamide 10% + TXA 4% · o AXIS-Y como alternativa; solo uno y si lo toleras"],["Hidratar","COSRX Snail 96"],["Sellar","ILLIYOON"]],
-3:[["Limpiar exfoliando","Eucerin DermoPure 2% · opcional, según etiqueta; usa Arencia si hay sensibilidad"],["Calmar","SKIN1004 Centella"],["Hidratar","COSRX Snail 96"],["Sellar","ILLIYOON"]],
-4:[["Limpiar","Arencia"],["Reducir puntos negros","Paula’s Choice 2% BHA · omitir si hay irritación"],["Hidratar","COSRX Snail 96"],["Sellar","ILLIYOON"]],
-5:[["Limpiar","Arencia o CeraVe"],["Calmar","SKIN1004 Centella"],["Tratar manchas","Anua Niacinamide 10% + TXA 4% · o AXIS-Y como alternativa; solo uno y si lo toleras"],["Hidratar","COSRX Snail 96"],["Sellar","ILLIYOON"]],
-6:[["Limpiar","Arencia"],["Calmar","SKIN1004 Centella"],["Hidratar","COSRX Snail 96"],["Sellar","ILLIYOON"]]
-};
-
-const DAYS=["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
-let now=new Date();
-const localDate=d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,"0"),String(d.getDate()).padStart(2,"0")].join("-");
-let dateKey=localDate(now);
-let mode=now.getHours()>=18?"pm":"am";
-let user=null;
-let cloudState={am:[],pm:[]};
-let noteTimer=null;
-let selectedDay=null;
-let gentle=false;
-let weekRows=[];
-let loadSequence=0;
-
-const $=id=>document.getElementById(id);
-
-function showAuth(message="",kind=""){
-  $("authScreen").classList.remove("hidden");
-  $("appShell").classList.add("hidden");
-  $("bottomNav").classList.add("hidden");
-  $("authMessage").textContent=message;
-  $("authMessage").className="authmsg "+kind;
-}
-function showApp(){
-  $("authScreen").classList.add("hidden");
-  $("appShell").classList.remove("hidden");
-  $("bottomNav").classList.remove("hidden");
-  $("userEmail").textContent=user?.email||"";
-}
-function setSync(text,kind="ok"){
-  const el=$("syncState");
-  el.querySelector("span:last-child").textContent=text;
-  const dot=el.querySelector(".dot");
-  dot.className="dot"+(kind==="busy"?" busy":kind==="err"?" err":"");
-}
-function go(id){
-  if(id==="news")news.load();
-  if(["home","body","work","money","system"].includes(id))world.render(id);
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-  $(id).classList.add("active");
-  document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.open===id));
-  window.scrollTo(0,0);
-}
-document.querySelectorAll("[data-open]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.open)));
-
-function current(){
- const steps=mode==="am"?AM:PM[now.getDay()];
- if(!gentle)return steps;
- return steps.map(([title,product])=>{
-  if(title==="Reducir puntos negros"||title==="Tratar manchas"||title==="Cuidar el tono y las manchas")return ["Pausar este activo","Rutina suave: omite este producto hoy"];
-  if(title==="Limpiar exfoliando")return ["Limpiar suavemente","Arencia o CeraVe · sin limpiador exfoliante"];
-  return [title,product];
- });
-}
-function renderWeek(){
- const rows=[];
- for(let i=6;i>=0;i--){
-  const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()-i);const key=localDate(d);
-  const logs=weekRows.filter(r=>r.routine_date===key);
-  const status=session=>{
-   const log=logs.find(r=>r.session===session);const count=(log?.completed_steps||[]).filter(v=>Number.isInteger(v)&&v>=0&&v<(session==="am"?AM.length:PM[d.getDay()].length)).length;
-   return count===0?"sin registro":count===(session==="am"?AM.length:PM[d.getDay()].length)?"completa":count+" pasos";
-  };
-  rows.push(new Intl.DateTimeFormat("es",{weekday:"short",day:"numeric"}).format(d)+" · AM: "+status("am")+" · PM: "+status("pm"));
- }
- $("weekProgress").textContent="";rows.forEach(text=>{const line=document.createElement("div");line.textContent=text;$("weekProgress").appendChild(line);});
- const today=localDate(new Date());const todayLogs=weekRows.filter(r=>r.routine_date===today);const total=AM.length+PM[new Date().getDay()].length;
- $("skinPct").textContent=Math.round(todayLogs.reduce((n,r)=>n+(r.completed_steps||[]).length,0)/total*100)+"%";
-}
-
-async function loadCloudState(){
-  if(!user)return;
-  const seq=++loadSequence;
-  now=selectedDay?new Date(selectedDay+"T12:00:00"):new Date();
-  dateKey=localDate(now);
-  const requestedDate=dateKey,requestedUser=user.id;
-  setSync("Cargando…","busy");
-  const {data,error}=await supabase.from("skin_routine_logs")
-    .select("session,completed_steps")
-    .eq("routine_date",dateKey)
-    .eq("user_id",user.id);
-  if(seq!==loadSequence||user?.id!==requestedUser)return;
-  if(error){console.error(error);setSync("Error al cargar","err");return;}
-  cloudState={am:[],pm:[]};
-  for(const row of data||[]) cloudState[row.session]=Array.isArray(row.completed_steps)?row.completed_steps:[];
-
-  const {data:noteData,error:noteError}=await supabase.from("skin_notes")
-    .select("note")
-    .eq("note_date",dateKey)
-    .eq("user_id",user.id)
-    .maybeSingle();
-  if(seq!==loadSequence||user?.id!==requestedUser)return;
-  if(!noteError) $("note").value=noteData?.note||"";
-
-  if(!selectedDay)await migrateLocalIfNeeded();
-  const since=new Date();since.setDate(since.getDate()-6);
-  const {data:week,error:weekError}=await supabase.from("skin_routine_logs").select("routine_date,session,completed_steps").eq("user_id",requestedUser).gte("routine_date",localDate(since)).lte("routine_date",localDate(new Date()));
-  if(seq!==loadSequence||user?.id!==requestedUser)return;
-  if(!weekError){weekRows=week||[];renderWeek();}else{$("weekProgress").textContent="No se pudo cargar el progreso semanal.";}
-  render();
-  homeStats();
-  setSync("Sincronizado","ok");
-}
-
-async function migrateLocalIfNeeded(){
-  const old=localStorage.getItem("hub-"+dateKey);
-  if(old && cloudState.am.length===0 && cloudState.pm.length===0){
-    try{
-      const parsed=JSON.parse(old);
-      for(const s of ["am","pm"]){
-        if(Array.isArray(parsed[s]) && parsed[s].length){
-          await saveSession(s,parsed[s],false);
-          cloudState[s]=parsed[s];
-        }
-      }
-    }catch{}
-  }
-  const oldNote=localStorage.getItem("hub-note-"+dateKey);
-  if(oldNote && !$("note").value){
-    $("note").value=oldNote;
-    await saveNote(oldNote,false);
-  }
-}
-
-async function saveSession(session,stepsArray,updateUI=true){
-  if(!user||selectedDay)return false;
-  if(updateUI)setSync("Guardando…","busy");
-  const {error}=await supabase.from("skin_routine_logs").upsert({
-    user_id:user.id,
-    routine_date:dateKey,
-    session,
-    completed_steps:stepsArray
-  },{onConflict:"user_id,routine_date,session"});
-  if(error){console.error(error);setSync("No se pudo guardar","err");return false;}
-  cloudState[session]=stepsArray;
-  weekRows=weekRows.filter(r=>!(r.routine_date===dateKey&&r.session===session));weekRows.push({routine_date:dateKey,session,completed_steps:stepsArray});renderWeek();
-  if(updateUI)setSync("Sincronizado","ok");
-  return true;
-}
-async function saveNote(value,updateUI=true){
-  if(!user||selectedDay)return;
-  if(updateUI)$("noteState").textContent="Guardando…";
-  const {error}=await supabase.from("skin_notes").upsert({
-    user_id:user.id,
-    note_date:dateKey,
-    note:value
-  },{onConflict:"user_id,note_date"});
-  $("noteState").textContent=error?"No se pudo guardar":"Guardado";
-  if(error)console.error(error);
-}
-
-function render(){
-  const history=Boolean(selectedDay);
-  $("note").readOnly=history;$("clearBtn").disabled=history;$("completeBtn").disabled=history;$("gentleBtn").disabled=history;
-  $("nextDay").disabled=!history;$("historyLabel").textContent=history?"Historial · solo lectura":"Rutina de hoy";
-  $("gentleBtn").textContent=gentle?"Rutina suave activada · volver al plan":"Activar rutina suave";
-  $("gentleBtn").setAttribute("aria-pressed",String(gentle));$("gentleHint").classList.toggle("hidden",!gentle);
-
-  $("skinDate").textContent=new Intl.DateTimeFormat("es",{weekday:"long",day:"numeric",month:"long",year:"numeric"}).format(now);
-  const focus={0:"Recuperación e hidratación",1:"Puntos negros",2:"Cuidado de las manchas",3:"Limpieza y cuidado de la barrera",4:"Puntos negros",5:"Cuidado de las manchas",6:"Recuperación e hidratación"};
-  $("skinFocus").textContent=mode==="am"?"Hoy por la mañana: tono uniforme y protección solar":"Hoy por la noche: "+focus[now.getDay()];
-  const arr=current(), done=new Set(cloudState[mode]||[]);
-  $("pill").textContent=mode==="am"?"MAÑANA":"NOCHE";
-  $("switchBtn").textContent=mode==="am"?"Cambiar a noche":"Cambiar a mañana";
-  $("routineTitle").textContent=mode==="am"?"Rutina de "+DAYS[now.getDay()]+" por la mañana":"Rutina de "+DAYS[now.getDay()]+" por la noche";
-  $("steps").innerHTML="";
-  arr.forEach((x,i)=>{
-    const ok=done.has(i),el=document.createElement("div");
-    el.className="step"+(ok?" done":"");
-    el.innerHTML='<button class="check '+(ok?'done':'')+'" data-i="'+i+'">'+(ok?'✓':'')+'</button><div class="txt"><div class="st">'+(i+1)+'. '+x[0]+'</div><div class="ss">'+x[1]+'</div></div>';
-    $("steps").appendChild(el);
-  });
-  $("steps").querySelectorAll(".check").forEach(b=>b.addEventListener("click",async()=>{
-    if(selectedDay)return;
-    const i=Number(b.dataset.i);
-    let next=[...(cloudState[mode]||[])];
-    next=next.includes(i)?next.filter(v=>v!==i):next.concat(i);
-    cloudState[mode]=next;
-    render();homeStats();
-    await saveSession(mode,next,true);
-  }));
-  $("steps").querySelectorAll(".check").forEach(b=>b.disabled=history);
-  const pct=Math.round(done.size/arr.length*100);
-  $("bar").style.width=pct+"%";
-  $("prog").textContent=done.size+" de "+arr.length+" pasos · "+pct+"%";
-}
-
-async function chooseDay(offset){
- clearTimeout(noteTimer);
- if(!selectedDay&&$("noteState").textContent==="Pendiente…")await saveNote($("note").value);
- const d=new Date(now);d.setDate(d.getDate()+offset);const key=localDate(d);
- selectedDay=key===localDate(new Date())?null:key;gentle=false;await loadCloudState();
-}
-$("prevDay").addEventListener("click",()=>chooseDay(-1));
-$("nextDay").addEventListener("click",()=>chooseDay(1));
-$("todayBtn").addEventListener("click",async()=>{clearTimeout(noteTimer);if(!selectedDay&&$("noteState").textContent==="Pendiente…")await saveNote($("note").value);selectedDay=null;gentle=false;await loadCloudState();});
-$("gentleBtn").addEventListener("click",()=>{gentle=!gentle;render();});
-$("switchBtn").addEventListener("click",()=>{mode=mode==="am"?"pm":"am";render()});
-$("clearBtn").addEventListener("click",async()=>{
-  cloudState[mode]=[];render();homeStats();await saveSession(mode,[],true);
-});
-$("completeBtn").addEventListener("click",async()=>{
-  const next=current().map((_,i)=>i);cloudState[mode]=next;render();homeStats();await saveSession(mode,next,true);
-});
-$("note").addEventListener("input",()=>{
-  $("noteState").textContent="Pendiente…";
-  clearTimeout(noteTimer);
-  noteTimer=setTimeout(()=>saveNote($("note").value,true),600);
-});
-
-$("productList").innerHTML=PRODUCTS.map(p=>'<div class="product"><img src="'+p[3]+'" alt=""><div><b>'+p[0]+'</b><span>'+p[1]+'</span><span>'+p[2]+'</span></div></div>').join("");
-
-function homeStats(){
-  renderWeek();
-  const h=now.getHours();
-  $("greeting").textContent=h<12?"Buenos días.":h<19?"Buenas tardes.":"Buenas noches.";
-  $("streak").textContent="—";
-}
-
-$("loginForm").addEventListener("submit",async e=>{
-  e.preventDefault();
-  $("authMessage").textContent="Entrando…";
-  $("authMessage").className="authmsg";
-  const {error}=await supabase.auth.signInWithPassword({email:$("email").value.trim(),password:$("password").value});
-  if(error){$("authMessage").textContent=error.message;$("authMessage").className="authmsg err";}
-});
-$("signupBtn").addEventListener("click",async()=>{
-  const email=$("email").value.trim(),password=$("password").value;
-  if(!email||password.length<6){$("authMessage").textContent="Introduce un email válido y una contraseña de al menos 6 caracteres.";$("authMessage").className="authmsg err";return;}
-  $("authMessage").textContent="Creando acceso…";
-  const {data,error}=await supabase.auth.signUp({email,password,options:{data:{display_name:"Renzo"}}});
-  if(error){$("authMessage").textContent=error.message;$("authMessage").className="authmsg err";return;}
-  if(data.session){$("authMessage").textContent="Cuenta creada.";$("authMessage").className="authmsg ok";}
-  else{$("authMessage").textContent="Cuenta creada. Revisa tu email para confirmar el acceso y después inicia sesión.";$("authMessage").className="authmsg ok";}
-});
-$("logoutBtn").addEventListener("click",async()=>{await supabase.auth.signOut();});
-
-supabase.auth.onAuthStateChange((event,session)=>{
-  user=session?.user||null;
-  if(user){showApp();setTimeout(()=>{loadCloudState();gym.load();world.load();},0);}
-  else{gym.reset();world.reset();loadSequence++;selectedDay=null;weekRows=[];gentle=false;cloudState={am:[],pm:[]};clearTimeout(noteTimer);$("note").value="";showAuth();}
-});
-
-const {data:{session}}=await supabase.auth.getSession();
-user=session?.user||null;
-if(user){showApp();await Promise.all([loadCloudState(),gym.load(),world.load()]);}else{showAuth();}
-
-window.addEventListener("focus",()=>{if(user)loadCloudState();});
-if("serviceWorker" in navigator)navigator.serviceWorker.register("/sw.js").catch(()=>{});
-</script>
+<script type="module" src="/app.js"></script>
 </body>
 </html>

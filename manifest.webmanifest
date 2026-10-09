@@ -1,14 +1,20 @@
 {
-  "name": "Renzo Hub",
-  "short_name": "R Hub",
+  "name": "Renzo Hub · Tu mundo",
+  "short_name": "Renzo Hub",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#101512",
-  "theme_color": "#101512",
-  "description": "Hub privado de microapps personales sincronizado con Supabase.",
+  "background_color": "#070810",
+  "theme_color": "#070810",
+  "description": "Tu espacio personal para aprender, cuidarte y avanzar, sincronizado con tus datos privados.",
   "icons": [
+    {
+      "src": "/assets/renzo-hub-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
     {
       "src": "/assets/icon-192.png",
       "sizes": "192x192",
@@ -19,7 +25,7 @@
       "src": "/assets/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any"
+      "purpose": "any maskable"
     }
   ]
 }

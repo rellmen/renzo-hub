@@ -5,3 +5,4 @@
 .vercel/
 node_modules/
 *.log
+node_modules

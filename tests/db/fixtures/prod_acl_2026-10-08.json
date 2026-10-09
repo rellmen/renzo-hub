@@ -1,0 +1,134 @@
+{
+ "source": "producción mgncykyrhavpepfggmng, pg_class.relacl y pg_proc.proacl leídos el 2026-10-08 (solo anon/authenticated)",
+ "tables": {
+  "gym_plans": {
+   "authenticated": "arwd"
+  },
+  "gym_sessions": {
+   "authenticated": "arwd"
+  },
+  "hub_records": {
+   "authenticated": "arwd"
+  },
+  "hub_user_state": {
+   "authenticated": "arwd"
+  },
+  "news_briefs": {
+   "authenticated": "arwdDxtm"
+  },
+  "profiles": {
+   "anon": "arwdDxtm",
+   "authenticated": "arwdDxtm"
+  },
+  "skin_notes": {
+   "anon": "arwdDxtm",
+   "authenticated": "arwdDxtm"
+  },
+  "skin_routine_logs": {
+   "anon": "arwdDxtm",
+   "authenticated": "arwdDxtm"
+  },
+  "user_settings": {
+   "anon": "arwdDxtm",
+   "authenticated": "arwdDxtm"
+  },
+  "system_preferences": {
+   "authenticated": "arwdDxtm"
+  },
+  "system_records": {
+   "authenticated": "arwdDxtm"
+  },
+  "payroll_anomalies": {
+   "authenticated": "arwdDxtm"
+  },
+  "payroll_corrections": {
+   "authenticated": "arwdDxtm"
+  },
+  "payroll_deductions": {
+   "authenticated": "arwdDxtm"
+  },
+  "payroll_documents": {
+   "authenticated": "arwdDxtm"
+  },
+  "payroll_employers": {
+   "authenticated": "arwdDxtm"
+  },
+  "payroll_events": {
+   "authenticated": "arwdDxtm"
+  },
+  "payroll_hours": {
+   "authenticated": "arwdDxtm"
+  },
+  "payroll_income_items": {
+   "authenticated": "arwdDxtm"
+  },
+  "payroll_line_items": {
+   "authenticated": "arwdDxtm"
+  },
+  "payroll_payslip_versions": {
+   "authenticated": "arwdDxtm"
+  },
+  "payroll_payslips": {
+   "authenticated": "arwdDxtm"
+  },
+  "payroll_v_confirmed": {
+   "authenticated": "arwdDxtm"
+  },
+  "payroll_v_monthly": {
+   "authenticated": "arwdDxtm"
+  },
+  "payroll_v_queue": {
+   "authenticated": "arwdDxtm"
+  },
+  "payroll_v_rate_history": {
+   "authenticated": "arwdDxtm"
+  },
+  "payroll_v_ytd": {
+   "authenticated": "arwdDxtm"
+  },
+  "payroll_validations": {
+   "authenticated": "arwdDxtm"
+  }
+ },
+ "function_execute": {
+  "payroll_num(jsonb, text)": [
+   "PUBLIC",
+   "anon",
+   "authenticated"
+  ],
+  "payroll_period_key(text, integer, integer)": [
+   "PUBLIC",
+   "anon",
+   "authenticated"
+  ],
+  "payroll_periods_per_year(text, integer)": [
+   "PUBLIC",
+   "anon",
+   "authenticated"
+  ],
+  "payroll_snapshot_payslip()": [
+   "PUBLIC",
+   "anon",
+   "authenticated"
+  ],
+  "payroll_touch_updated_at()": [
+   "PUBLIC",
+   "anon",
+   "authenticated"
+  ],
+  "set_hub_records_updated_at()": [
+   "PUBLIC",
+   "anon",
+   "authenticated"
+  ],
+  "set_updated_at()": [],
+  "handle_new_user()": [],
+  "hub_financial_ingest(uuid, jsonb)": []
+ },
+ "search_path_unset": [
+  "payroll_num(jsonb, text)",
+  "payroll_period_key(text, integer, integer)",
+  "payroll_periods_per_year(text, integer)",
+  "payroll_touch_updated_at()"
+ ]
+}
