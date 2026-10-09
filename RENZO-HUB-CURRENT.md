@@ -196,9 +196,9 @@ Rama `feature/unificacion-2.8.1` = `feature/fase1` + merge de `e35f64a` (Nómina
 | Réplica de base de datos (`tools/db-replica/run.sh`) | TODO OK |
 | Smoke | 15/15 |
 | E2E autenticado Fase 1 | 22/22 |
-| E2E Nóminas (demo, Chromium) | OK. WebKit no disponible en este entorno; pendiente en el Mac o en CI |
+| E2E Nóminas (demo) | Chromium OK (contenedor) · Chromium + WebKit OK en el Mac (worktree `~/Projects/RENZO-HUB/unificacion-2.8.1`, 2026-10-09 21:30) |
 
-Pendiente: PR hacia `staging`, despliegue y validación en staging; después, autorización de Renzo para producción. Aviso: `docs/PAYROLL-2.8-TAREA-2-3.md` contiene una cifra salarial real (repositorio privado); decidir si se anonimiza.
+PR #3 hacia `staging` abierto (CI verde). Mac: copia de producción movida a `backups/supabase-prod-2026-10-09/` (sha256 verificado); cambios sin commit de `e2e/fase1-2.6.2` guardados como parche en `backups/`; ramas de Nóminas del Mac sin commits fuera de la unificación. Pendiente:, despliegue y validación en staging; después, autorización de Renzo para producción. Aviso: `docs/PAYROLL-2.8-TAREA-2-3.md` contiene una cifra salarial real (repositorio privado); decidir si se anonimiza.
 
 ## Nóminas 2.8.0 · desarrollo local (Tareas 1, 2 y 3)
 
