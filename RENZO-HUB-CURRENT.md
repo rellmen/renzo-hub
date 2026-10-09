@@ -1,6 +1,6 @@
 # Renzo Hub · versión vigente
 
-- **Producción (uso diario):** [renzo-hub.vercel.app](https://renzo-hub.vercel.app/) · release **2.4.1** · `dpl_HBnDnZqawHuTC9nUFcCsxoLnDeTs` · rama de producción actual `renzo-hub-2-1-production` (pasará a `main` al promocionar 2.6.0)
+- **Producción (uso diario):** [renzo-hub.vercel.app](https://renzo-hub.vercel.app/) · release **2.8.0 "Nóminas"** (comprobado 2026-10-09 17:35). **Publicada fuera de GitHub** (no hay commit 2.8.0 en `rellmen/renzo-hub`). Antes: 2.4.1 `dpl_HBnDnZqawHuTC9nUFcCsxoLnDeTs`
 - **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.6.2** · `dpl_Dq4qcEqQUmNB1WsQEHzSK8A1HibM` · rama `staging`, commit `cc183cf` (merge del PR #2) · **validado 2026-10-08 12:15**
 - **Experimental:** 2.6.0 Microapp OS Core · rama `experimental/os-core` (no se despliega)
 - **Fuente canónica:** `github.com/rellmen/renzo-hub` (privado). `main` = 2.4.1, `staging` = 2.5.0, `feature/fase1` = Bloques 0 a 4. PR #1 (`sync/main-2.4.1` → `main`) y PR #2 (`feature/fase1` → `staging`) con CI en verde, pendientes de que Renzo los fusione
@@ -88,7 +88,20 @@ Correcciones aplicadas en `feature/fase1` (2.6.2, commits `ae786a8` y `c25cbda`,
 - `assets/skin_*.jpeg` (fotos de productos de skincare) son públicas en Vercel. No contienen datos personales sensibles; si se prefiere privacidad total, moverlas al bucket privado.
 - El webhook de prueba de Jarvis (`jarvis-hub-test-…`) está protegido por la comprobación de ejecución manual.
 
-## Informe de preparación para producción (no autorizado aún)
+## Comprobaciones previas a producción (2026-10-09) · RESULTADO: BLOQUEADO
+
+| Comprobación | Resultado |
+|---|---|
+| Integración GitHub de Supabase | **No conectada** en producción ni en staging (panel Integrations: "Connect GitHub"). Fusionar en `main` no aplica migraciones |
+| Registro público | **Activado** en producción y staging ("Allow new users to sign up" = on). Pendiente de Renzo |
+| Contraseñas filtradas | **No disponible**: Supabase lo limita al plan Pro. Alternativa: longitud mínima 12 (hoy 6) y requisitos de caracteres |
+| Backup de Supabase | El plan Free **no tiene copias** ni PITR. Copia propia de solo lectura: 20 tablas, 648 filas, permisos, funciones, políticas, usuarios y lista de storage (sin el contenido de los archivos). SHA-256 `e9bb3e26…` verificado en el Mac (`~/Documents/HUB/supabase-prod-2026-10-09.tgz`; Desktop Commander offline, pendiente moverla a `~/Projects/RENZO-HUB/backups/`). Restauración no destructiva `tools/backup/snapshot_to_sql.py` probada en réplica (tablas no payroll; payroll requiere su esquema real, T2.1) |
+| Migraciones | `20261008140000` idéntica a la probada y aplicada en staging (sha256 `f45f7966…`). `20261008120000` **actualizada** porque producción cambió: 2 vistas nuevas (`payroll_v_monthly_nl`, `payroll_v_jaaropgave_nl`, creadas el 8 oct fuera del repo, también en staging) con todos los privilegios para anon (sin fuga real: `security_invoker` y anon sin acceso a las tablas base). Nueva versión: revoca anon en todo `public`, vistas solo lectura y quita anon de los privilegios por defecto. Réplica con privilegios de producción del 9 oct: todo OK y rollback idéntico |
+| Producción | **Ya no es 2.4.1: sirve 2.8.0 "Nóminas"** sin commit en GitHub. Contiene la base de Fase 1 (CSP, sin registro, documentos internos 404) + `payroll.js`, pero **no** las correcciones 2.6.2 (`phase1.js`, `world.js`, `world-extensions.js`, `jarvis-ui.js` difieren; `gym.js`, `news.js`, `profile.js` iguales) |
+
+**Consecuencia:** el plan "promocionar 2.6.2 a producción" ya no es válido: sustituiría 2.8.0 y **quitaría el módulo de Nóminas**. Antes hay que llevar el código de 2.8.0 a GitHub, integrarlo con 2.6.2 y validarlo en staging. No se ha creado el PR `staging → main` ni se ha tocado producción.
+
+## Informe de preparación para producción (no autorizado aún, OBSOLETO desde 2026-10-09)
 
 **Por qué conviene promocionar pronto:** producción 2.4.1 publica hoy documentos internos: `/AGENTS.md`, `/JARVIS-CONNECTION.md`, `/RENZO-HUB-CURRENT.md`, `/RENZO-HUB-2.1-IMPLEMENTACION-Y-VALIDACION.md`, `/scripts/renzo-hub` y `/supabase/migrations/…baseline….sql` responden 200 (comprobado 12:15). Además, en 2.4.1 `/api/jarvis` puede registrar gastos directo en Money y `hub_financial_ingest` también. 2.6.2 corrige todo esto.
 
