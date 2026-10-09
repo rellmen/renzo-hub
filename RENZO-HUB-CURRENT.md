@@ -1,6 +1,6 @@
 # Renzo Hub · versión vigente
 
-- **Producción (uso diario):** [renzo-hub.vercel.app](https://renzo-hub.vercel.app/) · release **2.8.0 "Nóminas"** (comprobado 2026-10-09 17:35). **Publicada fuera de GitHub** (no hay commit 2.8.0 en `rellmen/renzo-hub`). Antes: 2.4.1 `dpl_HBnDnZqawHuTC9nUFcCsxoLnDeTs`
+- **Producción (uso diario):** [renzo-hub.vercel.app](https://renzo-hub.vercel.app/) · release **2.8.0 "Nóminas"** (comprobado 2026-10-09 17:35). Publicada por CLI desde el Mac; su código es exactamente el commit `e35f64a` (13 archivos comparados por hash), ya subido a GitHub como rama `import/nominas-2.8.0`. Antes: 2.4.1 `dpl_HBnDnZqawHuTC9nUFcCsxoLnDeTs`
 - **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.6.2** · `dpl_Dq4qcEqQUmNB1WsQEHzSK8A1HibM` · rama `staging`, commit `cc183cf` (merge del PR #2) · **validado 2026-10-08 12:15**
 - **Experimental:** 2.6.0 Microapp OS Core · rama `experimental/os-core` (no se despliega)
 - **Fuente canónica:** `github.com/rellmen/renzo-hub` (privado). `main` = 2.4.1, `staging` = 2.5.0, `feature/fase1` = Bloques 0 a 4. PR #1 (`sync/main-2.4.1` → `main`) y PR #2 (`feature/fase1` → `staging`) con CI en verde, pendientes de que Renzo los fusione
@@ -174,3 +174,39 @@ Riesgos conocidos: el XP se calcula también para datos antiguos la primera vez 
 
 ## Comprobación rápida
 Ejecutar `./scripts/renzo-hub status` desde el repositorio. Ninguna IA debe editar otra copia como si fuera la vigente.
+
+## Nóminas · trabajo preparado para staging (2.7.0)
+
+| Fecha | Tarea | Resultado | Archivos | Pruebas | Commit / PR |
+|---|---|---|---|---|---|
+| 2026-10-08 | Módulo Nóminas | Bandeja, detalle/PDF, revisión, KPIs, alertas, Realtime y demo aislada. Producción pendiente de OK. | payroll.js, payroll.css, payroll-demo.js, app.js, index.html, sw.js, release.json | 15 unitarias; contrato Supabase solo lectura; integración de navegador | feature/payroll |
+| 2026-10-08 | Nóminas · cierre y staging (Claude) | Test e2e corregido (contraseña del paso demo). Preview en proyecto staging `dpl_8XKdRN3ke2Q8ZH2W9zT34HmTvFLB` READY, `/release.json` 2.7.0, `/api/deployment-info` preview. Realtime activado en staging. Producción sin tocar (2.4.1). | tests/e2e/payroll.mjs | unit 15/15; e2e nóminas Chromium y WebKit OK; smoke 15/15 | `9f18902` · https://renzo-hub-2-1-staging-ous87m050-renzojesus99-1996.vercel.app |
+| 2026-10-08 | Nóminas 2.7.1 · demo en segundo enlace de staging | El dominio renzo-hub-2-1-staging.vercel.app queda con la 2.6.2 de la tarea de estabilización (decisión de Renzo). Demo ?demo=1 habilitada también en renzo-hub-2-1-staging-renzojesus99-1996.vercel.app. | payroll.js, payroll-demo.js, sw.js, release.json | unit 15/15; e2e Chromium y WebKit OK | ver commit siguiente |
+
+Ver `docs/PAYROLL-CHANGELOG.md` para limitaciones y peticiones a Claude. No se incorporan los cambios locales sin commit de la tarea e2e/fase1-2.6.2.
+
+## Unificación 2.8.1 (2026-10-09): Nóminas 2.8.0 + estabilización 2.6.2
+
+Rama `feature/unificacion-2.8.1` = `feature/fase1` + merge de `e35f64a` (Nóminas 2.8.0, lo que sirve producción). Conflictos solo en `release.json`, `sw.js` y `tests/e2e/smoke.mjs`, resueltos conservando ambos lados (bypass de Vercel + comprobación de entorno). Caché `renzo-hub-cloud-v6.0-unificada`.
+
+| Prueba (código unificado, servidor local + Supabase staging) | Resultado |
+|---|---|
+| `npm run check` / `npm test` | OK / 24/24 |
+| deploy-surface | 3/3 |
+| Réplica de base de datos (`tools/db-replica/run.sh`) | TODO OK |
+| Smoke | 15/15 |
+| E2E autenticado Fase 1 | 22/22 |
+| E2E Nóminas (demo, Chromium) | OK. WebKit no disponible en este entorno; pendiente en el Mac o en CI |
+
+Pendiente: PR hacia `staging`, despliegue y validación en staging; después, autorización de Renzo para producción. Aviso: `docs/PAYROLL-2.8-TAREA-2-3.md` contiene una cifra salarial real (repositorio privado); decidir si se anonimiza.
+
+## Nóminas 2.8.0 · desarrollo local (Tareas 1, 2 y 3)
+
+| Fecha | Tarea | Resultado | Archivos | Pruebas | Commit / PR |
+|---|---|---|---|---|---|
+| 2026-10-09 | Tarea 1 · Mensual | Vista mensual por fecha de pago, selector de año, total anual, desglose, retenciones, horas y saldos; demo sintética. | payroll.js, payroll.css, payroll-demo.js, release.json, sw.js, tests, docs | check OK; unitarias; E2E Chromium y WebKit; capturas 390 y 1440 px | c708679; sin PR |
+| 2026-10-09 | Ajustes de Tarea 1 | Singular, etiquetas con mayúscula y bloques Horas/Saldos plegables en móvil. | payroll.js, payroll.css, tests/e2e/payroll.mjs, sw.js | check, unitarias y E2E Chromium/WebKit | dd261c8 |
+| 2026-10-09 | Tarea 2 · smoke por entorno | Entorno esperado derivado de BASE_URL, con override EXPECT_ENV; solo lectura. | tests/e2e/smoke.mjs, docs | Smoke real producción 15/15, sin login | 1663313 |
+| 2026-10-09 | Tarea 3 · Año (jaaropgave) | Pestaña Año: aviso de completitud arriba, valores oficiales de la última nómina separados de lo registrado, demo con año incompleto y completo. Aviso específico si lo registrado supera el oficial o falta el acumulado. | payroll.js, payroll.css, payroll-demo.js, sw.js, tests, docs | check OK; 21/21 unitarias; E2E Chromium y WebKit; smoke producción 15/15; cifras reales verificadas en la vista | commit Tarea 3; sin PR ni despliegue |
+
+Worktree: `/Users/Nodalys/Renzo HUB/payroll-2.8`, creado desde `main` en `7c110eb`. El checkout `e2e/fase1-2.6.2` conserva sus cambios. Caché `renzo-hub-cloud-v5.9-payroll`. Pendiente: revisión de Renzo, PR y despliegue con su OK. Detalles en `docs/PAYROLL-2.8-TAREA-1.md` y `docs/PAYROLL-2.8-TAREA-2-3.md`.

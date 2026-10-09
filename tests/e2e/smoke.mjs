@@ -1,13 +1,18 @@
 // Smoke test de navegador (Playwright): arranque con CSP, pantalla de acceso, sin registro público,
 // sin errores de consola/CSP y diseño móvil sin scroll horizontal.
 // Uso: BASE_URL=http://localhost:4173 node tests/e2e/smoke.mjs
-import { chromium } from "playwright";
+import { createRequire } from "node:module";
+import { resolve } from "node:path";
+const require = createRequire(process.env.PLAYWRIGHT_ROOT ? resolve(process.env.PLAYWRIGHT_ROOT, "package.json") : import.meta.url);
+const { chromium } = require("playwright");
 import assert from "node:assert/strict";
 
 const base = process.env.BASE_URL || "http://localhost:4173";
 // Deployments protegidos de Vercel: si VERCEL_PROTECTION_BYPASS está definido (nunca en el repo),
 // la primera visita fija la cookie de bypass y el resto de peticiones van sin cabeceras extra.
 const bypass = async (page, base) => { const s = process.env.VERCEL_PROTECTION_BYPASS; if (s) await page.goto(`${base}/?x-vercel-protection-bypass=${encodeURIComponent(s)}&x-vercel-set-bypass-cookie=true`); };
+const expectedEnv = process.env.EXPECT_ENV || (new URL(base).hostname === "renzo-hub.vercel.app" ? "production" : "preview");
+assert.ok(["production", "preview"].includes(expectedEnv), "EXPECT_ENV debe ser production o preview");
 const browser = await chromium.launch();
 const results = [];
 const check = async (name, fn) => { try { await fn(); results.push(["ok", name]); } catch (e) { results.push(["FAIL", name, e.message]); } };
@@ -33,7 +38,7 @@ for (const vp of [{ name: "móvil", width: 390, height: 844 }, { name: "escritor
     assert.equal(await page.locator("#signupBtn").count(), 0);
   });
   await check(`[${vp.name}] indicador de entorno verificado`, async () => {
-    await page.waitForFunction(() => document.getElementById("environmentBadge")?.dataset.env === "preview", null, { timeout: 8000 });
+    await page.waitForFunction((expected) => document.getElementById("environmentBadge")?.dataset.env === expected, expectedEnv, { timeout: 8000 });
   });
   await check(`[${vp.name}] sin errores de consola ni violaciones CSP`, async () => {
     assert.deepEqual(errors, []);
