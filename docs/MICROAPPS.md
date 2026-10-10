@@ -56,5 +56,5 @@ export function mountX(root, db, getUser, go) {
 
 ## Pendiente
 
-- Skin, Food y Settings siguen dentro de `index.html`/`app.js` (marcadas sin `module` en el registro). Se pueden extraer una a una con el mismo contrato.
+- Skin ya es módulo (`microapps/skin/skin.js`, 2.9.2). Food y Settings siguen dentro de `index.html` (sin `module` en el registro); Food solo tiene HTML estático y lo rellenan `profile.js` y `phase1.js`.
 - Las áreas (Home, Body, Money...) siguen en `world.js`.

@@ -185,6 +185,11 @@ Ejecutar `./scripts/renzo-hub status` desde el repositorio. Ninguna IA debe edit
 
 Ver `docs/PAYROLL-CHANGELOG.md` para limitaciones y peticiones a Claude. No se incorporan los cambios locales sin commit de la tarea e2e/fase1-2.6.2.
 
+## Skin 2.9.2 (2026-10-10): rutina de piel arreglada y en el registro
+- **Fallo encontrado (también en producción):** al cargar Skin, el código escribía en elementos que no existen (`skinPct`, `greeting`, `streak`). La carga se cortaba: la rutina no mostraba ningún paso y el indicador decía "Conectado · algunos datos no se pudieron cargar". No estaba cubierto por ninguna prueba.
+- Skin pasa a `microapps/skin/skin.js` (contrato del registro, `loadOnSignIn`), con escritura segura en elementos opcionales. Sin cambios visibles salvo que vuelve a funcionar.
+- Nueva prueba E2E de Skin: marcar un paso, comprobarlo en Supabase, recargar y releer, nota del día, desmarcar e historial de solo lectura.
+
 ## Observabilidad 2.9.1 (2026-10-10): registro de errores de la app
 - `microapps/errors.js`: captura errores de JavaScript, promesas rechazadas y microapps que no cargan; los guarda en `hub_records` (system / app_error) en la fila del propio usuario. Deduplicado, máximo 20 por sesión, ignora ruido (extensiones, ResizeObserver, Realtime sin red). Sin migraciones.
 - System → "Errores de la app": últimos 20 abiertos con fecha, versión y sección; botón "Marcar como revisados".
