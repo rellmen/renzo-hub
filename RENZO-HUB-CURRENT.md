@@ -185,6 +185,11 @@ Ejecutar `./scripts/renzo-hub status` desde el repositorio. Ninguna IA debe edit
 
 Ver `docs/PAYROLL-CHANGELOG.md` para limitaciones y peticiones a Claude. No se incorporan los cambios locales sin commit de la tarea e2e/fase1-2.6.2.
 
+## Observabilidad 2.9.1 (2026-10-10): registro de errores de la app
+- `microapps/errors.js`: captura errores de JavaScript, promesas rechazadas y microapps que no cargan; los guarda en `hub_records` (system / app_error) en la fila del propio usuario. Deduplicado, máximo 20 por sesión, ignora ruido (extensiones, ResizeObserver, Realtime sin red). Sin migraciones.
+- System → "Errores de la app": últimos 20 abiertos con fecha, versión y sección; botón "Marcar como revisados".
+- Corrección: `records.js`, `ui.js` y `errors.js` ahora están en la caché sin conexión (en 2.9.0 faltaban los dos primeros) y un test lo vigila para todo `microapps/`.
+
 ## Microapps 2.9.0 (2026-10-10): registro central, kit de datos, generador y Notas
 - `microapps/registry.js`: cada microapp se declara una vez; rutas, menú, pestañas, tarjetas de Home, enlace directo `?app=` y ciclo de vida salen de ahí. Guía: `docs/MICROAPPS.md`.
 - `microapps/records.js`: datos de apps sencillas en `hub_records` (sin migraciones). `microapps/ui.js`: cabecera, pestañas y estados "sin datos" comunes.

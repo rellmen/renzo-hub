@@ -62,3 +62,15 @@ test("las tarjetas de Home salen del registro", async () => {
   const { homeTilesHTML } = await import("../microapps/registry.js");
   for (const m of MICROAPPS.filter(m => m.home)) assert.match(homeTilesHTML(), new RegExp(`data-open="${m.id}"`));
 });
+
+test("todos los módulos de microapps/ están en la caché sin conexión", async () => {
+  const { readdirSync, statSync } = await import("node:fs");
+  const dir = new URL("../microapps/", import.meta.url);
+  const files = [];
+  for (const f of readdirSync(dir)) {
+    const st = statSync(new URL(f, dir));
+    if (st.isDirectory()) for (const g of readdirSync(new URL(f + "/", dir))) { if (g.endsWith(".js")) files.push(`/microapps/${f}/${g}`); }
+    else if (f.endsWith(".js")) files.push(`/microapps/${f}`);
+  }
+  for (const f of files) assert.ok(core.includes(f), `añade ${f} a CORE en sw.js`);
+});
