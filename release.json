@@ -1,8 +1,8 @@
 {
-  "release": "2.8.1",
-  "name": "Renzo Hub · Nóminas + estabilización Fase 1 (2.6.2)",
+  "release": "2.8.2",
+  "name": "Renzo Hub · Nóminas: mes por fecha de cobro, correcciones agrupadas y pendientes visibles",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",
-  "updated": "2026-10-09"
+  "updated": "2026-10-10"
 }

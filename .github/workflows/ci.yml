@@ -50,4 +50,6 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y -qq --no-install-recommends postgresql-17
       - name: Migraciones, RLS y rollback en réplica
-        run: sudo -E bash tools/db-replica/run.sh
+        run: |
+          sudo -E bash tools/db-replica/run.sh
+          sudo -E bash tools/db-replica/pay_date_test.sh
