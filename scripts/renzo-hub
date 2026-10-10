@@ -33,6 +33,10 @@ case "$CMD" in
     done
     printf 'Git:\n'; git -C "$ROOT" status --short --branch 2>/dev/null || echo "  no disponible"
     ;;
+  new-microapp)
+    shift
+    exec node "$ROOT/tools/new-microapp.mjs" "$@"
+    ;;
   *)
-    printf 'Uso: %s {status|latest|source}\n' "$0" >&2; exit 2 ;;
+    printf 'Uso: %s {status|latest|source|new-microapp <id> "<Nombre>" <area> [domain] [--tab]}\n' "$0" >&2; exit 2 ;;
 esac

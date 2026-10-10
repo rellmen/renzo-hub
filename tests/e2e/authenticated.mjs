@@ -5,6 +5,7 @@
 //   BASE_URL=http://localhost:4173 node tests/e2e/authenticated.mjs
 import { chromium } from "playwright";
 import assert from "node:assert/strict";
+import { SECTION_IDS, MICROAPPS } from "../../microapps/registry.js";
 
 const { BASE_URL = "http://localhost:4173", E2E_EMAIL, E2E_PASSWORD, SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY } = process.env;
 if (!E2E_EMAIL || !E2E_PASSWORD || !SUPABASE_URL) { console.error("Faltan E2E_EMAIL/E2E_PASSWORD/SUPABASE_URL"); process.exit(2); }
@@ -37,7 +38,8 @@ const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
 const errors = [];
 page.on("pageerror", e => errors.push(String(e)));
-page.on("console", m => { if (m.type() === "error" && !/favicon/.test(m.text())) errors.push(m.text()); });
+// Realtime puede no conectar desde redes con proxy; Nóminas cae a comprobación periódica, así que no es un error de la app.
+page.on("console", m => { if (m.type() === "error" && !/favicon/.test(m.text()) && !/WebSocket connection to 'wss:\/\/[a-z0-9]+\.supabase\.co\/realtime\//.test(m.text())) errors.push(m.text()); });
 // Deployments protegidos de Vercel: si VERCEL_PROTECTION_BYPASS está definido (nunca en el repo),
 // la primera visita fija la cookie de bypass y el resto de peticiones van sin cabeceras extra.
 const bypass = async (page, base) => { const s = process.env.VERCEL_PROTECTION_BYPASS; if (s) await page.goto(`${base}/?x-vercel-protection-bypass=${encodeURIComponent(s)}&x-vercel-set-bypass-cookie=true`); };
@@ -57,7 +59,7 @@ await check("sincronización world con registro de Jarvis presente (B-02)", asyn
   assert.match(status, /^Sincronizado con Supabase$/, status);
 });
 
-for (const section of ["home", "body", "study", "work", "money", "system", "food", "skin", "gym", "news", "settings", "car"]) {
+for (const section of SECTION_IDS) {
   await check(`navegación: ${section}`, async () => {
     await page.evaluate(s => document.querySelector(`[data-open="${s}"]`)?.click(), section);
     await page.waitForSelector(`#${section}.page.active`, { timeout: 5000 });
@@ -130,6 +132,69 @@ await check("Progreso y XP: datos reales y sin duplicados tras recargar", async 
   await page.reload({ waitUntil: "networkidle" }); await page.waitForSelector("#appShell:not(.hidden)"); await page.waitForTimeout(3000);
   assert.equal(await count(), before, "recargar no duplica XP");
   const txt = await page.textContent("#p1Home"); assert.match(txt, /Nivel \d+/); assert.match(txt, /Días con comidas registradas/);
+});
+
+// Cada microapp con módulo del registro se monta y pinta algo al abrirla (sin test escrito a mano).
+for (const m of MICROAPPS.filter(m => m.module)) {
+  await check(`microapp ${m.id}: se monta y pinta su pantalla`, async () => {
+    await page.evaluate(id => document.querySelector(`[data-open="${id}"]`)?.click(), m.id);
+    await page.waitForSelector(`#${m.id}.page.active`, { timeout: 5000 });
+    await page.waitForFunction(id => document.getElementById(id).innerText.trim().length > 0, m.id, { timeout: 10000 });
+    assert.ok(!(await page.innerText(`#${m.id}`)).includes("No se pudo cargar"), "el módulo cargó");
+  });
+}
+
+await check("Notas: crear, ver y eliminar (hub_records · personal · note)", async () => {
+  await page.evaluate(() => document.querySelector('[data-open="notes"]')?.click());
+  const title = `E2E nota ${run}`;
+  await page.fill("#notes [data-add] [name=title]", title); await page.fill("#notes [data-add] [name=body]", "texto de prueba");
+  await page.click("#notes [data-add] button");
+  await page.locator("#notes .mx-item h3", { hasText: title }).waitFor({ timeout: 10000 });
+  const saved = await rest(`/rest/v1/hub_records?owner_id=eq.${uid}&domain=eq.personal&record_type=eq.note&title=eq.${encodeURIComponent(title)}&select=id,source`, tok.access_token);
+  assert.equal(saved.body.length, 1); assert.equal(saved.body[0].source, "manual");
+  const item = page.locator("#notes .mx-item", { hasText: title });
+  await item.locator("[data-remove]").click(); await item.locator("[data-remove]", { hasText: "Pulsa otra vez" }).click();
+  await page.locator("#notes .mx-item h3", { hasText: title }).waitFor({ state: "detached", timeout: 10000 });
+  const gone = await rest(`/rest/v1/hub_records?id=eq.${saved.body[0].id}&select=id`, tok.access_token);
+  assert.equal(gone.body.length, 0);
+});
+
+await check("Skin: marcar un paso, guardar en Supabase, releer tras recargar y desmarcar", async () => {
+  await page.evaluate(() => document.querySelector('[data-open="skin"]')?.click());
+  await page.click("#todayBtn"); await page.waitForFunction(() => /Sincronizado/.test(document.querySelector("#syncState")?.textContent || ""), null, { timeout: 10000 });
+  const session = (await page.textContent("#pill")).trim() === "MAÑANA" ? "am" : "pm";
+  const day = await page.evaluate(() => { const d = new Date(); return [d.getFullYear(), String(d.getMonth() + 1).padStart(2, "0"), String(d.getDate()).padStart(2, "0")].join("-"); });
+  await page.click("#clearBtn"); await page.waitForFunction(() => /Sincronizado/.test(document.querySelector("#syncState").textContent), null, { timeout: 10000 });
+  await page.click('#steps .check[data-i="0"]');
+  await page.waitForFunction(() => document.querySelector('#steps .check[data-i="0"]')?.classList.contains("done") && /Sincronizado/.test(document.querySelector("#syncState").textContent), null, { timeout: 10000 });
+  const row = await rest(`/rest/v1/skin_routine_logs?user_id=eq.${uid}&routine_date=eq.${day}&session=eq.${session}&select=completed_steps`, tok.access_token);
+  assert.deepEqual(row.body[0]?.completed_steps, [0]);
+  await page.reload({ waitUntil: "networkidle" }); await page.waitForSelector("#appShell:not(.hidden)");
+  await page.evaluate(() => document.querySelector('[data-open="skin"]')?.click());
+  if ((await page.textContent("#pill")).trim() !== (session === "am" ? "MAÑANA" : "NOCHE")) await page.click("#switchBtn");
+  await page.waitForFunction(() => document.querySelector('#steps .check[data-i="0"]')?.classList.contains("done"), null, { timeout: 10000 });
+  assert.match(await page.textContent("#prog"), /^1 de \d+ pasos/);
+  const note = `E2E nota piel ${run}`;
+  await page.fill("#note", note); await page.waitForFunction(() => document.querySelector("#noteState").textContent === "Guardado", null, { timeout: 10000 });
+  const n = await rest(`/rest/v1/skin_notes?user_id=eq.${uid}&note_date=eq.${day}&select=note`, tok.access_token);
+  assert.equal(n.body[0]?.note, note);
+  await page.fill("#note", ""); await page.waitForFunction(() => document.querySelector("#noteState").textContent === "Guardado", null, { timeout: 10000 });
+  await page.click("#clearBtn"); await page.waitForFunction(() => /Sincronizado/.test(document.querySelector("#syncState").textContent) && !document.querySelector('#steps .check.done'), null, { timeout: 10000 });
+  await page.click("#prevDay"); await page.waitForFunction(() => document.querySelector("#historyLabel").textContent.includes("solo lectura"), null, { timeout: 10000 });
+  assert.equal(await page.isDisabled("#completeBtn"), true, "el historial es de solo lectura");
+  await page.click("#todayBtn"); await page.waitForFunction(() => document.querySelector("#historyLabel").textContent === "Rutina de hoy", null, { timeout: 10000 });
+});
+
+await check("Errores de la app: se registran y se ven en System", async () => {
+  const msg = `E2E error provocado ${run}`;
+  await page.evaluate(m => setTimeout(() => { throw new Error(m); }, 0), msg);
+  await page.waitForTimeout(2500);
+  await page.evaluate(() => document.querySelector('#bottomNav [data-open="system"]')?.click());
+  await page.locator("#appErrors .mx-item h3", { hasText: msg }).waitFor({ timeout: 10000 });
+  const rows = await rest(`/rest/v1/hub_records?owner_id=eq.${uid}&domain=eq.system&record_type=eq.app_error&title=eq.${encodeURIComponent(msg)}&select=id,payload`, tok.access_token);
+  assert.equal(rows.body.length, 1); assert.equal(rows.body[0].payload.release.length > 0, true);
+  await rest(`/rest/v1/hub_records?id=eq.${rows.body[0].id}`, tok.access_token, { method: "DELETE" });
+  for (let i = errors.length - 1; i >= 0; i--) if (errors[i].includes(msg)) errors.splice(i, 1);
 });
 
 await check("sin errores JS en la sesión", async () => assert.deepEqual(errors, []));
