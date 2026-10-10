@@ -185,6 +185,20 @@ Ejecutar `./scripts/renzo-hub status` desde el repositorio. Ninguna IA debe edit
 
 Ver `docs/PAYROLL-CHANGELOG.md` para limitaciones y peticiones a Claude. No se incorporan los cambios locales sin commit de la tarea e2e/fase1-2.6.2.
 
+## Nóminas 2.8.2 (2026-10-10): mes por fecha de cobro, correcciones agrupadas y pendientes visibles
+
+Petición de Renzo: "trabajo una semana y cobro lo que hice esa semana el siguiente miércoles"; totales confusos (~10.000) y nóminas "replicadas".
+Diagnóstico con datos reales (solo lectura): 24 nóminas SD Worx, sin duplicados. Las 3 semanas dobles (W22, W24, W34) son correcciones con 0 horas e importes pequeños (pagos adicionales). El total mostrado solo sumaba las 19 confirmadas; 5 pendientes de revisión no contaban. El porcentaje alto (≈37 %) es la tarifa especial de los pagos extra.
+
+| Cambio | Dónde |
+|---|---|
+| Regla de cobro: nómina semanal normal = miércoles siguiente a la semana ISO; corrección = su fecha de pago | `payroll.js` (`payDate`) y migración `supabase/pending/20261010030000_payroll_pay_date_rule.sql` (vistas confirmed, monthly_nl, jaaropgave_nl; solo cambia `ref_date`) |
+| A · Correcciones agrupadas bajo su semana como "Pago adicional" | `payroll.js` (`groupByWeek`, `payslipCard`) |
+| B · Resumen: neto confirmado + "Pendientes sin contar" + total con pendientes, por año de cobro | `payroll.js` (`yearSummary`) |
+| C · Retención por nómina; aviso de tarifa especial en pagos extra | `payroll.js` (`taxRate`), detalle y mensual |
+
+Pruebas: unit 28/28, smoke 15/15, E2E autenticado 22/22, E2E Nóminas (Chromium) OK, deploy-surface 3/3, `tools/db-replica/pay_date_test.sh` TODO OK (fechas, agrupación mensual, cambio de año, vista dependiente, security_invoker, permisos, idempotencia, rollback).
+
 ## Unificación 2.8.1 (2026-10-09): Nóminas 2.8.0 + estabilización 2.6.2
 
 Rama `feature/unificacion-2.8.1` = `feature/fase1` + merge de `e35f64a` (Nóminas 2.8.0, lo que sirve producción). Conflictos solo en `release.json`, `sw.js` y `tests/e2e/smoke.mjs`, resueltos conservando ambos lados (bypass de Vercel + comprobación de entorno). Caché `renzo-hub-cloud-v6.0-unificada`.
