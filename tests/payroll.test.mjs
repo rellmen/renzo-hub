@@ -54,3 +54,39 @@ test('annual demo distinguishes official accumulations and reconciles recorded s
  for(const y of f.year_nl){assert.equal(y.bruto_registrado-y.loonheffing_registrada-y.pensioen-y.premies,y.neto);assert.equal(y.neto+y.reiskosten_onbelast,y.cobrado_banco);}
  assert.equal(previous.diferencia_bruto,0);assert.equal(previous.bruto_acumulado_oficial,previous.bruto_registrado);
 });
+import {isoWednesdayAfter,payDate,yearSummary,groupByWeek,taxRate} from '../payroll.js';
+test('pay date: a worked ISO week is paid the following Wednesday; corrections use their own payment date',()=>{
+ assert.equal(isoWednesdayAfter(2026,19),'2026-05-13');
+ assert.equal(isoWednesdayAfter(2026,22),'2026-06-03');
+ assert.equal(isoWednesdayAfter(2026,53),'2027-01-06');
+ const w=(n,extra={})=>({period_type:'weekly',period_year:2026,period_number:n,period_label:`2026-W${n}`,...extra});
+ assert.equal(payDate(w(22,{payment_date:'2026-05-31'})),'2026-06-03','regular weekly ignores a misread payment date');
+ assert.equal(payDate(w(22,{is_correction:true,payment_date:'2026-06-24'})),'2026-06-24');
+ assert.equal(payDate(w(26,{is_correction:true})),'2026-07-01');
+ assert.equal(payDate({period_type:'monthly',payment_date:'2026-03-25'}),'2026-03-25');
+ assert.equal(payDate({}),null);
+});
+test('year summary splits confirmed and pending by pay year and never invents values',()=>{
+ const w=(n,net,status,extra={})=>({period_type:'weekly',period_year:2026,period_number:n,period_label:`2026-W${n}`,net_salary:net,gross_salary:net+50,loonheffing:10,worked_hours:10,review_status:status,validation_status:'verified',...extra});
+ const rows=[w(19,100,'not_required'),w(20,200,'approved'),w(21,40,'pending',{is_correction:true,worked_hours:0,payment_date:'2026-06-10'}),w(22,999,'rejected'),w(23,999,'approved',{validation_status:'failed'}),w(53,70,'approved')];
+ const y=yearSummary(rows,2026);
+ assert.deepEqual(y.confirmed,{count:2,net:300,gross:400,tax:20,hours:20});
+ assert.deepEqual(y.pending,{count:1,net:40,gross:90});
+ assert.deepEqual(y.total,{count:3,net:340,gross:490});
+ assert.equal(y.taxRate,0.05);
+ assert.equal(y.netPerHour,15,'net per hour excludes corrections');
+ assert.equal(yearSummary(rows,2027).confirmed.net,70,'W53 paid in January counts next year');
+ const empty=yearSummary([],2026);
+ assert.equal(empty.confirmed.net,null);assert.equal(empty.taxRate,null);assert.equal(empty.netPerHour,null);
+});
+test('corrections are grouped under the regular payslip of the same week',()=>{
+ const rows=[{id:'b',period_label:'2026-W22',is_correction:true,corrected_period_ref:'2026-W22'},{id:'a',period_label:'2026-W22'},{id:'c',period_label:'2026-W23'},{id:'d',period_label:'2026-W30',is_correction:true}];
+ const g=groupByWeek(rows);
+ assert.deepEqual(g.map(x=>[x.main.id,x.extras.map(e=>e.id)]),[['a',['b']],['c',[]],['d',[]]]);
+});
+test('tax rate uses the taxable base when present',()=>{
+ assert.equal(taxRate({gross_salary:200,loonheffing:20}),0.1);
+ assert.equal(taxRate({gross_salary:200,loon_voor_loonheffing:100,loonheffing:20}),0.2);
+ assert.equal(taxRate({gross_salary:0,loonheffing:20}),null);
+ assert.equal(taxRate({gross_salary:200}),null);
+});
