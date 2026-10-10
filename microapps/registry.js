@@ -35,7 +35,7 @@ export const MICROAPPS = Object.freeze([
   { id: "payroll", name: "Nóminas", area: "money", module: "/payroll.js", mount: "mountPayroll", css: "/payroll.css", tab: "Nóminas", deepLink: "payslip" },
   { id: "gym", name: "Gym", area: "body", module: "/gym.js", mount: "mountGym", fullscreen: true, loadOnSignIn: true },
   { id: "news", name: "News", area: "system", module: "/news.js", mount: "mountNews", fullscreen: true },
-  { id: "skin", name: "Skin", area: "body", fullscreen: true },
+  { id: "skin", name: "Skin", area: "body", module: "/microapps/skin/skin.js", mount: "mountSkin", fullscreen: true, loadOnSignIn: true },
   { id: "food", name: "Food", area: "body", fullscreen: true },
   { id: "settings", name: "Cuenta y sincronización", area: "system", fullscreen: true },
   { id: "notes", name: "Notas", area: "home", module: "/microapps/notes/notes.js", mount: "mountNotes", icon: "✎", home: "Apuntes rápidos, guardados en privado." }

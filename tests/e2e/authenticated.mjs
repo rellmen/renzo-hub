@@ -159,6 +159,32 @@ await check("Notas: crear, ver y eliminar (hub_records · personal · note)", as
   assert.equal(gone.body.length, 0);
 });
 
+await check("Skin: marcar un paso, guardar en Supabase, releer tras recargar y desmarcar", async () => {
+  await page.evaluate(() => document.querySelector('[data-open="skin"]')?.click());
+  await page.click("#todayBtn"); await page.waitForFunction(() => /Sincronizado/.test(document.querySelector("#syncState")?.textContent || ""), null, { timeout: 10000 });
+  const session = (await page.textContent("#pill")).trim() === "MAÑANA" ? "am" : "pm";
+  const day = await page.evaluate(() => { const d = new Date(); return [d.getFullYear(), String(d.getMonth() + 1).padStart(2, "0"), String(d.getDate()).padStart(2, "0")].join("-"); });
+  await page.click("#clearBtn"); await page.waitForFunction(() => /Sincronizado/.test(document.querySelector("#syncState").textContent), null, { timeout: 10000 });
+  await page.click('#steps .check[data-i="0"]');
+  await page.waitForFunction(() => document.querySelector('#steps .check[data-i="0"]')?.classList.contains("done") && /Sincronizado/.test(document.querySelector("#syncState").textContent), null, { timeout: 10000 });
+  const row = await rest(`/rest/v1/skin_routine_logs?user_id=eq.${uid}&routine_date=eq.${day}&session=eq.${session}&select=completed_steps`, tok.access_token);
+  assert.deepEqual(row.body[0]?.completed_steps, [0]);
+  await page.reload({ waitUntil: "networkidle" }); await page.waitForSelector("#appShell:not(.hidden)");
+  await page.evaluate(() => document.querySelector('[data-open="skin"]')?.click());
+  if ((await page.textContent("#pill")).trim() !== (session === "am" ? "MAÑANA" : "NOCHE")) await page.click("#switchBtn");
+  await page.waitForFunction(() => document.querySelector('#steps .check[data-i="0"]')?.classList.contains("done"), null, { timeout: 10000 });
+  assert.match(await page.textContent("#prog"), /^1 de \d+ pasos/);
+  const note = `E2E nota piel ${run}`;
+  await page.fill("#note", note); await page.waitForFunction(() => document.querySelector("#noteState").textContent === "Guardado", null, { timeout: 10000 });
+  const n = await rest(`/rest/v1/skin_notes?user_id=eq.${uid}&note_date=eq.${day}&select=note`, tok.access_token);
+  assert.equal(n.body[0]?.note, note);
+  await page.fill("#note", ""); await page.waitForFunction(() => document.querySelector("#noteState").textContent === "Guardado", null, { timeout: 10000 });
+  await page.click("#clearBtn"); await page.waitForFunction(() => /Sincronizado/.test(document.querySelector("#syncState").textContent) && !document.querySelector('#steps .check.done'), null, { timeout: 10000 });
+  await page.click("#prevDay"); await page.waitForFunction(() => document.querySelector("#historyLabel").textContent.includes("solo lectura"), null, { timeout: 10000 });
+  assert.equal(await page.isDisabled("#completeBtn"), true, "el historial es de solo lectura");
+  await page.click("#todayBtn"); await page.waitForFunction(() => document.querySelector("#historyLabel").textContent === "Rutina de hoy", null, { timeout: 10000 });
+});
+
 await check("Errores de la app: se registran y se ven en System", async () => {
   const msg = `E2E error provocado ${run}`;
   await page.evaluate(m => setTimeout(() => { throw new Error(m); }, 0), msg);
