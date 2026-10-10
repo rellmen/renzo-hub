@@ -47,6 +47,11 @@ for(const engine of [chromium,webkit]){
  await page.locator('[data-upload-send]').click();await page.locator('.pay-upload-ok').waitFor();
  assert.equal(window_upload.length,1);assert.equal(window_upload[0].auth,'Bearer test-token');assert.equal(window_upload[0].body.payload.payslip.payslip_number,'7');assert.ok(window_upload[0].body.pdfBase64.length>1000);
  assert.match(await page.locator('.pay-upload-ok').innerText(),/Nómina nº 7/);
+ // Nóminas ordenadas por mes de cobro (vista por defecto) y cambio a "por semana"
+ await page.locator('.pay-tabs [data-tab=payslips]').click();await page.locator('.pay-month-group').first().waitFor();
+ assert.ok(await page.locator('.pay-month-group .pay-chip.pay-cat-semanal').count()>0);
+ await page.screenshot({path:'/tmp/payroll-months-'+engine.name()+'.png',fullPage:true});
+ await page.selectOption('[data-list-view]','week');assert.equal(await page.locator('.pay-month-group').count(),0);await page.selectOption('[data-list-view]','month');
  await page.locator('.pay-tabs [data-tab=inbox]').click();await page.evaluate(()=>{window.fixture.documents[0].status='processed';window.emitPayroll();});await page.waitForTimeout(800);assert.equal(await page.locator('[data-document="00000000-0000-4000-8000-000000000800"] .pay-processed').count(),1);
  await page.locator('[data-document="00000000-0000-4000-8000-000000000012"]').click();await page.locator('#payroll h3').filter({hasText:'Seguimiento'}).waitFor();
  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));

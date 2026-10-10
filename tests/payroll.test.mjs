@@ -100,3 +100,27 @@ test('detects gaps in payslip numbering per employer and year without inventing 
  assert.match(missingText([3,6],'X'),/^Faltan las nóminas nº 3 y 6 de X\./);
  assert.match(missingText([1,2,3,4,5,6,7,8,9],'X'),/9 nóminas \(nº 1 a 9\)/);
 });
+
+test('payCategory distingue semanal, vakantiegeld, vacaciones y corrección', async () => {
+  const { payCategory } = await import('../payroll.js');
+  assert.equal(payCategory({ is_correction: false, regular_pay: 200, vakantiegeld: 58 }), 'Semanal');
+  assert.equal(payCategory({ is_correction: true, vakantiegeld: 179.13 }), 'Vakantiegeld');
+  assert.equal(payCategory({ is_correction: true, holiday_pay: 367.68, vakantiegeld: 29.41 }), 'Vacaciones');
+  assert.equal(payCategory({ is_correction: true, regular_pay: 12 }), 'Corrección');
+});
+
+test('groupByPayMonth: septiembre 2026 = 5 semanales (5 miércoles) + pagos extra, ordenado por fecha de cobro', async () => {
+  const { groupByPayMonth } = await import('../payroll.js');
+  const wk = (n, num) => ({ id: 'w' + n, period_type: 'weekly', period_year: 2026, period_number: n, payslip_number: String(num), is_correction: false, review_status: 'approved', validation_status: 'verified', net_payment: 600 });
+  const list = [wk(34, 18), wk(35, 20), wk(36, 21), wk(37, 23), wk(38, 24), wk(39, 25), wk(40, 26),
+    { id: 'x19', period_type: 'weekly', period_year: 2026, period_number: 34, payslip_number: '19', is_correction: true, payment_date: '2026-09-03', vakantiegeld: 50, review_status: 'approved', validation_status: 'verified', net_payment: 30 },
+    { id: 'x22', period_type: 'weekly', period_year: 2026, period_number: 36, payslip_number: '22', is_correction: true, payment_date: '2026-09-10', holiday_pay: 367.68, review_status: 'pending', validation_status: 'review_required', net_payment: 321.74 }];
+  const groups = groupByPayMonth(list);
+  assert.deepEqual(groups.map(g => g.month), ['2026-10', '2026-09', '2026-08']);
+  const sep = groups[1];
+  assert.equal(sep.items.length, 7); assert.equal(sep.regular, 5); assert.equal(sep.extra, 2);
+  assert.deepEqual(sep.items.map(p => p.id), ['w35', 'x19', 'w36', 'x22', 'w37', 'w38', 'w39']);
+  assert.equal(sep.pending, 1); assert.equal(sep.net, 3030, 'solo suma lo confirmado');
+  assert.deepEqual(groups[2].items.map(p => p.id), ['w34'], 'la W34 se cobra el 26 de agosto');
+  assert.deepEqual(groups[0].items.map(p => p.id), ['w40'], 'la W40 se cobra el 7 de octubre');
+});

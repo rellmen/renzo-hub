@@ -1,6 +1,6 @@
 {
-  "release": "2.10.0",
-  "name": "Renzo Hub · Subir nóminas desde la app (sin n8n)",
+  "release": "2.10.1",
+  "name": "Renzo Hub · Nóminas por mes de cobro y tipo",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",
