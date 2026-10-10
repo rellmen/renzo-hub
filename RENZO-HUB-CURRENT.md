@@ -1,7 +1,7 @@
 # Renzo Hub · versión vigente
 
-- **Producción (uso diario):** [renzo-hub.vercel.app](https://renzo-hub.vercel.app/) · release **2.8.2** (Nóminas por fecha de cobro) · rama `main`, commit `3ab6800` (merge del PR #8) · verificada 2026-10-10 12:06: READY, `release.json` 2.8.2, `deployment-info` production/main, smoke 15/15. Migraciones aplicadas en producción: 20261008120000 (permisos), 20261008140000 (Jarvis a revisión) y 20261010030000 (fecha de cobro, 12:10, verificada: 19 nóminas confirmadas en su miércoles de cobro). Rollback app: Instant Rollback en Vercel
-- **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.8.2** · rama `staging`, commit `14804dc` (PR #7) · migración 20261010030000 aplicada y verificada 12:02 (3 vistas con la regla, permisos y security_invoker conservados). **No borrar la rama `staging` al fusionar PRs.**
+- **Producción (uso diario):** [renzo-hub.vercel.app](https://renzo-hub.vercel.app/) · release **2.8.3** (aviso de nóminas que faltan) · rama `main`, commit `2d996d8` (merge del PR #11) · verificada 2026-10-10 12:56: READY, `release.json` 2.8.3, `deployment-info` production/main, smoke 15/15. Migraciones aplicadas: 20261008120000, 20261008140000 y 20261010030000 (ver `docs/SUPABASE-SCHEMA.md`). Rollback app: Instant Rollback en Vercel
+- **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.8.3** · rama `staging` (PR #9 y #10) · **No borrar la rama `staging` al fusionar PRs.**
 - **Experimental:** 2.6.0 Microapp OS Core · rama `experimental/os-core` (no se despliega)
 - **Fuente canónica:** `github.com/rellmen/renzo-hub` (privado). `main` = 2.4.1, `staging` = 2.5.0, `feature/fase1` = Bloques 0 a 4. PR #1 (`sync/main-2.4.1` → `main`) y PR #2 (`feature/fase1` → `staging`) con CI en verde, pendientes de que Renzo los fusione
 - **Copias de seguridad:** `~/Projects/RENZO-HUB/backups/` y versiones verificadas en `~/Projects/RENZO-HUB/releases/`
@@ -184,6 +184,13 @@ Ejecutar `./scripts/renzo-hub status` desde el repositorio. Ninguna IA debe edit
 | 2026-10-08 | Nóminas 2.7.1 · demo en segundo enlace de staging | El dominio renzo-hub-2-1-staging.vercel.app queda con la 2.6.2 de la tarea de estabilización (decisión de Renzo). Demo ?demo=1 habilitada también en renzo-hub-2-1-staging-renzojesus99-1996.vercel.app. | payroll.js, payroll-demo.js, sw.js, release.json | unit 15/15; e2e Chromium y WebKit OK | ver commit siguiente |
 
 Ver `docs/PAYROLL-CHANGELOG.md` para limitaciones y peticiones a Claude. No se incorporan los cambios locales sin commit de la tarea e2e/fase1-2.6.2.
+
+## My Finance 2.8.4 (2026-10-10): Nóminas como apartado de My Finance
+- Money pasa a llamarse **My Finance** (menú inferior, título, tarjeta de Home y textos de Jarvis).
+- My Finance tiene dos apartados: **Movimientos** (lo que era Money) y **Nóminas** (la microapp de nóminas, sin cambios de datos ni cálculos).
+- Nóminas: botón "← My Finance", pestañas para volver a Movimientos y el menú inferior visible con My Finance marcado.
+- Home: la tarjeta "Nóminas" pasa a ser "My Finance" (movimientos y nóminas). System mantiene el acceso directo "My Finance · Nóminas". El enlace `?app=payroll&payslip=` sigue funcionando.
+- Sin cambios de base de datos. El mensaje "Money → Pendientes" de la función de base de datos se mantiene hasta una migración futura.
 
 ## Nóminas 2.8.3 (2026-10-10): aviso de nóminas que faltan
 - El resumen avisa de huecos en la numeración por empresa y año (solo entre la primera y la última recibidas): hoy "Falta la nómina nº 22 de SD Worx".

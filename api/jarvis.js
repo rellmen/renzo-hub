@@ -184,7 +184,7 @@ async function receiveFromJarvis(req, res) {
     requiresReview: true,
     confidence: confidenceValue,
     reviewReason: type === "payslip" || type === "expense" || type === "receipt" || type === "calendar_event"
-      ? (completeFinancialData ? "Documento financiero importado: confirma los importes antes de registrarlo en Money." : "Campos financieros incompletos o dudosos; revisar antes de registrar en Money.")
+      ? (completeFinancialData ? "Documento financiero importado: confirma los importes antes de registrarlo en My Finance." : "Campos financieros incompletos o dudosos; revisar antes de registrar en Money.")
       : "Entrada de Jarvis pendiente de revisión."
   };
   try {

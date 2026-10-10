@@ -196,7 +196,7 @@ export function mountPhase1(supabase, getUser) {
         ${stat("Días con comidas registradas", s.foodDays ? `${s.foodDays}${s.kcalAvg !== null ? ` · ${fmt(s.kcalAvg)} kcal/día` : ""}` : "sin datos")}
         ${stat("Peso actual", s.weight ? `${fmt(s.weight.value, 1)} kg${s.weight.delta !== null ? ` (${s.weight.delta >= 0 ? "+" : ""}${fmt(s.weight.delta, 1)})` : ""}` : "sin datos")}
         ${stat("Hábitos cumplidos", s.habits ? `${s.habits.done}/${s.habits.possible}` : "sin datos")}
-        ${stat("Neto del mes (Money)", s.money ? euros(s.money.net) : "sin datos")}
+        ${stat("Neto del mes (My Finance)", s.money ? euros(s.money.net) : "sin datos")}
         ${stat("Vocabulario nuevo", s.vocab || "sin datos")}
       </div>`;
     box.querySelectorAll("[data-habit]").forEach(cb => cb.onchange = async () => {
