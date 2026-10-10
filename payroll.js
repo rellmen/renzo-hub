@@ -40,6 +40,27 @@ export function yearSummary(payslips, year){
   netPerHour:normalHours>0?Math.round(sum(normal,'net_salary')/normalHours*100)/100:null
  };
 }
+// Huecos en la numeración de nóminas (por empresa y año): solo entre la primera y la última recibidas; no inventa las futuras.
+export function missingPayslipNumbers(payslips){
+ const groups=new Map();
+ for(const p of payslips){
+  if(p.validation_status==='failed'||!/^\d+$/.test(String(p.payslip_number??'').trim()))continue;
+  const key=`${p.employer_id||''}|${p.period_year||''}`;
+  if(!groups.has(key))groups.set(key,{employer_id:p.employer_id,year:p.period_year,nums:new Set()});
+  groups.get(key).nums.add(Number(String(p.payslip_number).trim()));
+ }
+ const out=[];
+ for(const g of groups.values()){
+  const sorted=[...g.nums].sort((a,b)=>a-b), missing=[];
+  for(let n=sorted[0];n<=sorted[sorted.length-1]&&missing.length<=60;n++)if(!g.nums.has(n))missing.push(n);
+  if(missing.length)out.push({employer_id:g.employer_id,year:g.year,missing});
+ }
+ return out;
+}
+export function missingText(missing,employer){
+ const list=missing.length>8?`${missing.length} nóminas (nº ${missing[0]} a ${missing[missing.length-1]})`:missing.length===1?`la nómina nº ${missing[0]}`:`las nóminas nº ${missing.slice(0,-1).join(', ')} y ${missing[missing.length-1]}`;
+ return `${missing.length===1?'Falta':'Faltan'} ${list} de ${employer}. Envíala por Telegram o Drive para que el año cuadre con el acumulado oficial.`;
+}
 // Agrupa cada corrección debajo de la nómina normal de la misma semana (si existe).
 export function groupByWeek(payslips){
  const groups=[], byWeek=new Map();
@@ -156,7 +177,7 @@ export function mountPayroll(root, db, getUser, go){
   const y=yearSummary(all('payslips'),year);
   const last=all('payslips')[0], weeks=all('confirmed').filter(x=>x.period_type==='weekly').slice(0,12).reverse();
   const points=weeks.map((p,i)=>`${20+i*(560/Math.max(1,weeks.length-1))},${140-(Number(p.net_salary)||0)/Math.max(1,...weeks.map(x=>Math.abs(Number(x.net_salary)||0)))*100}`).join(' ');
-  return `<div class="card pay-hero" data-year-summary><div class="ey">Año ${esc(year)} · por fecha de cobro · nóminas confirmadas</div><h2>${money(y.confirmed.net)}</h2><p>Neto confirmado (${esc(number(y.confirmed.count))} nóminas)</p>${y.pending.count?`<p class="pay-pending-note" data-pending-total>Pendientes sin contar: <b>${money(y.pending.net)}</b> neto (${esc(number(y.pending.count))} ${y.pending.count===1?'nómina':'nóminas'} por revisar) · Con pendientes: <b>${money(y.total.net)}</b></p>`:''}<div class="pay-grid">${[['Bruto',money(y.confirmed.gross)],['Impuestos',`${money(y.confirmed.tax)} · ${percent(y.taxRate)}`],['Horas',number(y.confirmed.hours)],['Neto / hora',money(y.netPerHour)]].map(([k,v])=>`<div><small>${k}</small><strong>${v}</strong></div>`).join('')}</div><p class="pay-muted">Cada nómina cuenta cuando se cobra: trabajas una semana y cobras el miércoles siguiente.</p></div>
+  return `<div class="card pay-hero" data-year-summary><div class="ey">Año ${esc(year)} · por fecha de cobro · nóminas confirmadas</div><h2>${money(y.confirmed.net)}</h2><p>Neto confirmado (${esc(number(y.confirmed.count))} nóminas)</p>${y.pending.count?`<p class="pay-pending-note" data-pending-total>Pendientes sin contar: <b>${money(y.pending.net)}</b> neto (${esc(number(y.pending.count))} ${y.pending.count===1?'nómina':'nóminas'} por revisar) · Con pendientes: <b>${money(y.total.net)}</b></p>`:''}${missingPayslipNumbers(all('payslips')).filter(g=>String(g.year)===String(year)).map(g=>`<p class="pay-missing" data-missing-payslips>${esc(missingText(g.missing,all('employers').find(e=>e.id===g.employer_id)?.name||'la empresa'))}</p>`).join('')}<div class="pay-grid">${[['Bruto',money(y.confirmed.gross)],['Impuestos',`${money(y.confirmed.tax)} · ${percent(y.taxRate)}`],['Horas',number(y.confirmed.hours)],['Neto / hora',money(y.netPerHour)]].map(([k,v])=>`<div><small>${k}</small><strong>${v}</strong></div>`).join('')}</div><p class="pay-muted">Cada nómina cuenta cuando se cobra: trabajas una semana y cobras el miércoles siguiente.</p></div>
    <div class="pay-grid">${[['payslips','Por revisar',all('payslips').filter(p=>p.review_status==='pending').length],['alerts','Alertas abiertas',all('anomalies').filter(a=>a.status==='open').length],['inbox','Documentos con error',all('documents').filter(d=>d.status==='failed').length]].map(([t,k,v])=>`<button class="card" data-tab="${t}">${k}<strong>${v}</strong></button>`).join('')}</div>
    <h2>Última nómina</h2>${last?payslipCard(last):empty}<div class="card"><h2>Neto · últimas 12 semanas recibidas</h2>${weeks.length?`<svg viewBox="0 0 600 180" role="img" aria-label="Evolución del salario neto"><polyline fill="none" stroke="#bca2ff" stroke-width="3" points="${points}"/></svg><details><summary>Ver valores del gráfico</summary>${weeks.map(p=>`<p>${esc(p.period_label)}: ${money(p.net_salary)}</p>`).join('')}</details>`:'Sin datos confirmados'}</div>
    <h2>Evolución mensual</h2>${all('monthly').filter(m=>String(m.month).startsWith(year)).map(m=>`<div class="card"><b>${esc(date(m.month))}</b><div class="pay-grid"><span>Bruto ${money(m.gross)}</span><span>Neto ${money(m.net)}</span><span>Impuestos ${money(m.tax)}</span><span>${number(m.hours)} horas</span></div></div>`).join('')||'<p>Sin datos mensuales confirmados.</p>'}`;
