@@ -12,15 +12,17 @@ export function createClient(){
  const db={from(table){let filters=[],orders=[],single=false,mutation=null;const q=new Proxy({}, {get(_,key){if(key==='then')return (ok,bad)=>Promise.resolve().then(()=>{window.queries.push({table,filters,orders});if(table==='payroll_v_jaaropgave_nl'&&window.failYear)return {data:null,error:{message:'Fallo anual simulado'}};if(table==='payroll_v_monthly_nl'&&window.failMonthly)return {data:null,error:{message:'Fallo mensual simulado'}};let data=(f[map[table]]||[]).filter(r=>filters.every(([k,v])=>r[k]===v));if(mutation)data.forEach(r=>Object.assign(r,mutation));return {data:single?data[0]||null:data,error:null};}).then(ok,bad);return (...args)=>{if(key==='eq')filters.push(args);if(key==='order')orders.push(args);if(key==='maybeSingle'||key==='single')single=true;if(key==='update')mutation=args[0];return q;};}});return q;},
  channel(){let handlers=[];const ch={on(_,filter,cb){handlers.push(cb);return ch;},subscribe(cb){window.rtStatus=cb;window.emitPayroll=()=>handlers.forEach(fn=>fn());setTimeout(()=>cb('SUBSCRIBED'),0);return ch;}};return ch;},removeChannel(){window.removed++;},
  rpc:async(name,args)=>{window.calls.push({name,args});f.applyReview(args.p_payslip_id,args.p_changes,args.p_decision);return {data:null,error:null};},storage:{from:()=>({download:async()=>({data:new Blob([f.pdf],{type:'application/pdf'}),error:null})})},
- auth:{onAuthStateChange(cb){authCb=cb;return {data:{subscription:{unsubscribe(){}}}};},getSession:async()=>({data:{session:user?{user}:null}}),signInWithPassword:async()=>{user={id:'11111111-1111-4111-8111-111111111111',email:'demo@example.test'};authCb('SIGNED_IN',{user});return {};},signOut:async()=>{user=null;authCb('SIGNED_OUT',null);return {};}}};window.testDb=db;return db;}`;
+ auth:{onAuthStateChange(cb){authCb=cb;return {data:{subscription:{unsubscribe(){}}}};},getSession:async()=>({data:{session:user?{user,access_token:'test-token'}:null}}),signInWithPassword:async()=>{user={id:'11111111-1111-4111-8111-111111111111',email:'demo@example.test'};authCb('SIGNED_IN',{user});return {};},signOut:async()=>{user=null;authCb('SIGNED_OUT',null);return {};}}};window.testDb=db;return db;}`;
 const errors=[];
 const securityHeaders=Object.fromEntries(JSON.parse(await readFile('vercel.json','utf8')).headers.find(x=>x.source==='/(.*)').headers.map(x=>[x.key,x.value]));
+const window_upload=[];
 for(const engine of [chromium,webkit]){
  const browser=await engine.launch();const page=await browser.newPage({viewport:{width:390,height:844},serviceWorkers:'block'});
  page.on('pageerror',e=>errors.push(e.message));
  await page.route('https://cdn.jsdelivr.net/**',r=>r.fulfill({contentType:'text/javascript',body:mock}));
  await page.route(base+'/**',async r=>{
   const path=new URL(r.request().url()).pathname;
+  if(path==='/api/payroll-upload'){window_upload.push({auth:r.request().headers().authorization,body:JSON.parse(r.request().postData()||'{}')});return r.fulfill({status:201,json:{ok:true,payslipId:null,reviewStatus:'pending',isCorrection:false}});}
   if(path==='/api/supabase-config')return r.fulfill({json:{supabaseUrl:'https://example.supabase.co',publishableKey:'test-public'}});
   if(path==='/api/deployment-info')return r.fulfill({json:{environment:'preview'}});
   try{const body=await readFile(resolve(path==='/'?'index.html':'.'+path));const type={'.js':'text/javascript','.css':'text/css','.html':'text/html','.json':'application/json','.svg':'image/svg+xml','.png':'image/png','.jpeg':'image/jpeg'}[extname(path==='/'?'index.html':path)];return r.fulfill({body,contentType:type||'application/octet-stream',headers:securityHeaders});}catch{return r.fulfill({status:404,body:''});}
@@ -36,6 +38,15 @@ for(const engine of [chromium,webkit]){
  const call=await page.evaluate(()=>window.calls[0]);assert.equal(call.name,'payroll_apply_review');assert.deepEqual(call.args.p_changes,{net_salary:612.34});
  await page.locator('[data-pdf]').click();await page.locator('a.pay-button').waitFor();assert.match(await page.locator('a.pay-button').getAttribute('href'),/^blob:/);
  await page.locator('[data-tab=summary]').click();assert.ok((await page.locator('#payroll').innerText()).includes(new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(6387.34)));
+ // Subir nómina (PDF ficticio): se lee en el navegador con pdf.js y se envía a /api/payroll-upload
+ window_upload.length=0;
+ await page.locator('[data-upload-file]').setInputFiles('tests/fixtures/nomina-sdworx-ficticia.pdf');
+ await page.locator('[data-upload-preview]').waitFor({timeout:20000});
+ await page.locator('[data-upload-preview]').scrollIntoViewIfNeeded();await page.screenshot({path:'/tmp/payroll-upload-'+engine.name()+'.png'});
+ const preview=await page.locator('[data-upload-preview]').innerText();assert.match(preview,/nº 7/);assert.match(preview,/Las cuentas cuadran/);assert.match(preview,/493,88/);
+ await page.locator('[data-upload-send]').click();await page.locator('.pay-upload-ok').waitFor();
+ assert.equal(window_upload.length,1);assert.equal(window_upload[0].auth,'Bearer test-token');assert.equal(window_upload[0].body.payload.payslip.payslip_number,'7');assert.ok(window_upload[0].body.pdfBase64.length>1000);
+ assert.match(await page.locator('.pay-upload-ok').innerText(),/Nómina nº 7/);
  await page.locator('.pay-tabs [data-tab=inbox]').click();await page.evaluate(()=>{window.fixture.documents[0].status='processed';window.emitPayroll();});await page.waitForTimeout(800);assert.equal(await page.locator('[data-document="00000000-0000-4000-8000-000000000800"] .pay-processed').count(),1);
  await page.locator('[data-document="00000000-0000-4000-8000-000000000012"]').click();await page.locator('#payroll h3').filter({hasText:'Seguimiento'}).waitFor();
  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
