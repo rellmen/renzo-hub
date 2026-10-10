@@ -185,6 +185,14 @@ Ejecutar `./scripts/renzo-hub status` desde el repositorio. Ninguna IA debe edit
 
 Ver `docs/PAYROLL-CHANGELOG.md` para limitaciones y peticiones a Claude. No se incorporan los cambios locales sin commit de la tarea e2e/fase1-2.6.2.
 
+## Microapps 2.9.0 (2026-10-10): registro central, kit de datos, generador y Notas
+- `microapps/registry.js`: cada microapp se declara una vez; rutas, menú, pestañas, tarjetas de Home, enlace directo `?app=` y ciclo de vida salen de ahí. Guía: `docs/MICROAPPS.md`.
+- `microapps/records.js`: datos de apps sencillas en `hub_records` (sin migraciones). `microapps/ui.js`: cabecera, pestañas y estados "sin datos" comunes.
+- `./scripts/renzo-hub new-microapp <id> "<Nombre>" <area>` crea módulo, entrada de registro y caché.
+- Nóminas, Gym y News pasan al registro sin cambios visibles. Primera app hecha con el generador: **Notas** (Home → Tus microapps).
+- Pruebas: registro y kit (unitarias), y el E2E autenticado recorre todas las secciones del registro y crea/elimina una nota real del usuario de pruebas en staging.
+- Sin cambios de base de datos.
+
 ## My Finance 2.8.4 (2026-10-10): Nóminas como apartado de My Finance
 - Money pasa a llamarse **My Finance** (menú inferior, título, tarjeta de Home y textos de Jarvis).
 - My Finance tiene dos apartados: **Movimientos** (lo que era Money) y **Nóminas** (la microapp de nóminas, sin cambios de datos ni cálculos).

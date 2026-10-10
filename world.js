@@ -205,6 +205,6 @@ export function mountWorld(roots,getUser,supabase){
   else if(kind==="attachment"){const item=data.inbox.find(x=>x.id===id);if(item?.attachment?.path){const {data:link,error}=await supabase.storage.from("hub-private").createSignedUrl(item.attachment.path,300);if(error){alert(`No se pudo abrir: ${error.message}`);return;}window.open(link.signedUrl,"_blank","noopener,noreferrer");}}
  }
  function moneyViewWire(){}
- function homeWire(){roots.home.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>document.querySelector(`#bottomNav [data-open="${b.dataset.open}"]`)?.click());}
+ function homeWire(){/* Los [data-open] de Home los gestiona el listener único de app.js. */}
  return {load,render,reset(){owner=null;data=blank();cloudBodySessions=0;for(const root of Object.values(roots))root.innerHTML="";}};
 }
