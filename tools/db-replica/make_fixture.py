@@ -1,6 +1,6 @@
 """Genera, a partir de una instantánea de producción (JSON de solo lectura, sin datos de usuario en la salida):
   - tests/db/fixtures/prod_acl_<fecha>.json / .sql : privilegios exactos de anon/authenticated para la réplica
-  - supabase/pending/20261008120000_harden_grants_and_functions.rollback.sql : rollback exacto
+  - supabase/rollbacks/20261008120000_harden_grants_and_functions.rollback.sql : rollback exacto
 Uso: python3 tools/db-replica/make_fixture.py <snapshot.json> <fecha>
 """
 import json, sys, os
@@ -77,5 +77,5 @@ rb += ["-- Privilegios por defecto del rol postgres en public (estado previo: to
        "alter default privileges for role postgres in schema public grant all on sequences to anon;",
        "alter default privileges for role postgres in schema public grant execute on functions to anon;",
        "commit;"]
-open(os.path.join(ROOT, "supabase/pending/20261008120000_harden_grants_and_functions.rollback.sql"), "w").write("\n".join(rb) + "\n")
+open(os.path.join(ROOT, "supabase/rollbacks/20261008120000_harden_grants_and_functions.rollback.sql"), "w").write("\n".join(rb) + "\n")
 print("tablas", len(tables), "funciones", len(funcs), "sin search_path", unset)

@@ -53,3 +53,4 @@ jobs:
         run: |
           sudo -E bash tools/db-replica/run.sh
           sudo -E bash tools/db-replica/pay_date_test.sh
+          sudo -E bash tools/db-replica/payroll_schema_test.sh
