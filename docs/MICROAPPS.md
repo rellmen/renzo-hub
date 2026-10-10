@@ -50,6 +50,10 @@ export function mountX(root, db, getUser, go) {
 - `tests/microapp-kit.test.mjs`: capa de datos y generador.
 - `tests/e2e/authenticated.mjs`: navega a todas las secciones del registro y comprueba que cada microapp con módulo se monta y pinta.
 
+## Errores
+
+`microapps/errors.js` guarda los errores de la app en `hub_records` (system / app_error) y System los muestra. Si una microapp falla al cargar, también queda registrado.
+
 ## Pendiente
 
 - Skin, Food y Settings siguen dentro de `index.html`/`app.js` (marcadas sin `module` en el registro). Se pueden extraer una a una con el mismo contrato.

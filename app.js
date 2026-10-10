@@ -1,3 +1,4 @@
+import {installErrorLog} from "./microapps/errors.js";
 import {AREAS,MICROAPPS,SECTION_IDS,findMicroapp,navAreaOf,isFullscreen,areaTabsHTML,homeTilesHTML} from "./microapps/registry.js";
 import {mountWorld} from "./world.js";
 import {mountJarvis} from "./jarvis-ui.js";
@@ -26,6 +27,10 @@ if(!configResponse.ok)throw new Error(configResponse.status===503?"La configurac
 const supabaseConfig=await configResponse.json();
 if(!supabaseConfig.supabaseUrl||!supabaseConfig.publishableKey)throw new Error("La configuración de acceso de este entorno está incompleta.");
 const supabase=createClient(supabaseConfig.supabaseUrl,supabaseConfig.publishableKey);
+let releasePromise=null;
+const currentRelease=()=>releasePromise||(releasePromise=fetch("/release.json",{cache:"no-store"}).then(r=>r.json()).then(j=>j.release||"?").catch(()=>"?"));
+// Registro de errores de la app (microapps/errors.js): se guardan en la fila del usuario y se ven en System.
+const errorLog=installErrorLog(supabase,()=>user,{release:currentRelease});
 fetchWithTimeout("/api/deployment-info",{cache:"no-store"},5000).then(r=>r.ok?r.json():Promise.reject()).then(info=>{
  const badge=document.getElementById("environmentBadge");
  const env=info.environment==="production"?"production":info.environment==="preview"?"preview":"unknown";
@@ -67,7 +72,7 @@ const mounted=await Promise.allSettled(moduleApps.map(async m=>{
 }));
 mounted.forEach((result,i)=>{
   if(result.status==="fulfilled")return;
-  const m=moduleApps[i];console.error(`No se pudo cargar la microapp ${m.id}`,result.reason);
+  const m=moduleApps[i];console.error(`No se pudo cargar la microapp ${m.id}`,result.reason);errorLog.report(result.reason,{kind:"microapp",source:m.module});
   const root=document.getElementById(m.id);
   if(root)root.innerHTML=`<button class="microapp-back" data-open="${m.area}">← ${AREAS[m.area].name}</button><p class="small">No se pudo cargar ${m.name}. Recarga la página.</p>`;
 });
@@ -124,6 +129,7 @@ function go(id,restore=false){
   if(!document.getElementById(id))id="home";
   for(const [appId,api] of Object.entries(apps)){try{if(appId===id)api.open?.();else api.close?.();}catch(error){console.error(error);}}
   if(AREAS[id])world.render(id);
+  if(id==="system")errorLog.renderPanel($("appErrors"));
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   $(id).classList.add("active");
   document.body.classList.toggle("microapp-open",isFullscreen(id));
@@ -326,7 +332,7 @@ $("logoutBtn").addEventListener("click",async()=>{await supabase.auth.signOut();
 supabase.auth.onAuthStateChange((event,session)=>{
   if(user?.id!==session?.user?.id)eachApp(api=>api.reset?.());
   user=session?.user||null;
-  if(user){showApp();setTimeout(()=>{Promise.allSettled([loadCloudState(),...signInLoads(),world.load(),profile.load(),phase1.load()]).then(results=>{if(results.some(result=>result.status==="rejected"))setSync("Conectado · algunos datos no se pudieron cargar","err");});},0);}
+  if(user){showApp();errorLog.flush();setTimeout(()=>{Promise.allSettled([loadCloudState(),...signInLoads(),world.load(),profile.load(),phase1.load()]).then(results=>{if(results.some(result=>result.status==="rejected"))setSync("Conectado · algunos datos no se pudieron cargar","err");});},0);}
   else{eachApp(api=>api.reset?.());world.reset();profile.reset();phase1.reset();loadSequence++;selectedDay=null;weekRows=[];gentle=false;cloudState={am:[],pm:[]};clearTimeout(noteTimer);$("note").value="";showAuth();}
 });
 

@@ -1,6 +1,6 @@
 {
-  "release": "2.9.0",
-  "name": "Renzo Hub · Registro de microapps, kit de datos y Notas",
+  "release": "2.9.1",
+  "name": "Renzo Hub · Registro de errores de la app",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",

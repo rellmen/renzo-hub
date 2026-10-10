@@ -159,6 +159,18 @@ await check("Notas: crear, ver y eliminar (hub_records · personal · note)", as
   assert.equal(gone.body.length, 0);
 });
 
+await check("Errores de la app: se registran y se ven en System", async () => {
+  const msg = `E2E error provocado ${run}`;
+  await page.evaluate(m => setTimeout(() => { throw new Error(m); }, 0), msg);
+  await page.waitForTimeout(2500);
+  await page.evaluate(() => document.querySelector('#bottomNav [data-open="system"]')?.click());
+  await page.locator("#appErrors .mx-item h3", { hasText: msg }).waitFor({ timeout: 10000 });
+  const rows = await rest(`/rest/v1/hub_records?owner_id=eq.${uid}&domain=eq.system&record_type=eq.app_error&title=eq.${encodeURIComponent(msg)}&select=id,payload`, tok.access_token);
+  assert.equal(rows.body.length, 1); assert.equal(rows.body[0].payload.release.length > 0, true);
+  await rest(`/rest/v1/hub_records?id=eq.${rows.body[0].id}`, tok.access_token, { method: "DELETE" });
+  for (let i = errors.length - 1; i >= 0; i--) if (errors[i].includes(msg)) errors.splice(i, 1);
+});
+
 await check("sin errores JS en la sesión", async () => assert.deepEqual(errors, []));
 await page.screenshot({ path: "/tmp/renzo-hub-e2e-auth.png" });
 await browser.close();
