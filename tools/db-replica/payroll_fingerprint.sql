@@ -1,0 +1,14 @@
+-- Huella del esquema de Nóminas (sin datos): columnas, restricciones, índices, políticas, funciones, vistas, triggers, permisos y RLS.
+-- Se ejecuta igual en Supabase (solo lectura) y en la réplica local para compararlos.
+select json_build_object(
+ 'cols', (select json_agg(x order by x) from (select table_name||'.'||column_name||':'||data_type||':'||is_nullable||':'||coalesce(column_default,'') x from information_schema.columns where table_schema='public' and table_name like 'payroll%') s),
+ 'cons', (select json_agg(x order by x) from (select conrelid::regclass::text||':'||conname||':'||pg_get_constraintdef(oid) x from pg_constraint where connamespace='public'::regnamespace and conrelid::regclass::text like 'payroll%') s),
+ 'idx', (select json_agg(indexdef order by indexdef) from pg_indexes where schemaname='public' and tablename like 'payroll%'),
+ 'pol', (select json_agg(x order by x) from (select schemaname||'.'||tablename||':'||policyname||':'||permissive||':'||array_to_string(roles,',')||':'||cmd||':'||coalesce(qual,'')||':'||coalesce(with_check,'') x from pg_policies where (schemaname='public' and tablename like 'payroll%') or (schemaname='storage' and (coalesce(qual,'')||coalesce(with_check,'')) like '%payroll%')) s),
+ 'fn', (select json_agg(x order by x) from (select proname||'('||pg_get_function_identity_arguments(oid)||'):'||md5(prosrc)||':'||prosecdef||':'||coalesce(array_to_string(proconfig,','),'') x from pg_proc where pronamespace='public'::regnamespace and proname like 'payroll%') s),
+ 'vw', (select json_agg(x order by x) from (select viewname||':'||md5(definition) x from pg_views where schemaname='public' and viewname like 'payroll%') s),
+ 'trg', (select json_agg(x order by x) from (select pg_get_triggerdef(t.oid) x from pg_trigger t join pg_class c on c.oid=t.tgrelid where c.relnamespace='public'::regnamespace and c.relname like 'payroll%' and not t.tgisinternal) s),
+ 'acl', (select json_agg(x order by x) from (select c.relname||':'||a.grantee::regrole::text||':'||a.privilege_type x from pg_class c, aclexplode(c.relacl) a where c.relnamespace='public'::regnamespace and c.relname like 'payroll%' and a.grantee in ('anon'::regrole,'authenticated'::regrole,'service_role'::regrole)) s),
+ 'facl', (select json_agg(x order by x) from (select p.proname||':'||case when a.grantee=0 then 'public' else a.grantee::regrole::text end x from pg_proc p, aclexplode(coalesce(p.proacl, acldefault('f',p.proowner))) a where p.pronamespace='public'::regnamespace and p.proname like 'payroll%' and (a.grantee=0 or a.grantee in ('anon'::regrole,'authenticated'::regrole,'service_role'::regrole))) s),
+ 'rls', (select json_agg(x order by x) from (select relname||':'||relrowsecurity||':'||relforcerowsecurity||':'||coalesce(array_to_string(reloptions,','),'') x from pg_class where relnamespace='public'::regnamespace and relname like 'payroll%' and relkind in ('r','v')) s)
+)::text as huella;
