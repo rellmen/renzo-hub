@@ -1,6 +1,6 @@
 {
-  "release": "2.8.3",
-  "name": "Renzo Hub · Nóminas: aviso de nóminas que faltan",
+  "release": "2.8.4",
+  "name": "Renzo Hub · My Finance: Nóminas como apartado",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",

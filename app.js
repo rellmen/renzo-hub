@@ -91,7 +91,7 @@ function showApp(){
   $("userEmail").textContent=user?.email||"";
   if(payrollIntent){const intent=payrollIntent;payrollIntent=null;go("payroll");if(intent.id)payroll.open(intent.id);return;}
   const saved=readJSON(`renzo-nav:${user?.id}`,null);
-  if(saved&&["home","body","work","money","system","study","car","gym","food","skin","news","settings","payroll"].includes(saved.section))go(saved.section,true);
+  if(saved&&["home","body","work","money","system","study","car","gym","food","skin","news","settings"].includes(saved.section))go(saved.section,true);
 }
 function setSync(text,kind="ok"){
   const el=$("syncState");
@@ -99,7 +99,7 @@ function setSync(text,kind="ok"){
   const dot=el.querySelector(".dot");
   dot.className="dot"+(kind==="busy"?" busy":kind==="err"?" err":"");
 }
-const MICROAPP_IDS=new Set(["gym","food","skin","car","news","settings","payroll"]);
+const MICROAPP_IDS=new Set(["gym","food","skin","car","news","settings"]);
 function go(id,restore=false){
   if(id==="payroll")payroll.open();else payroll.close();
   if(id==="news")news.load();
@@ -108,7 +108,8 @@ function go(id,restore=false){
   $(id).classList.add("active");
   document.body.classList.toggle("microapp-open",MICROAPP_IDS.has(id));
   document.body.dataset.activeSection=id;
-  document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.open===id));
+  const navId=id==="payroll"?"money":id;
+  document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.open===navId));
   const saved=readJSON(`renzo-nav:${user?.id}`,{});
   const scrollY=restore?Number(saved.scrollY)||0:0;
   writeJSON(`renzo-nav:${user?.id}`,{section:id,scrollY});
