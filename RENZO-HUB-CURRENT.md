@@ -185,6 +185,19 @@ Ejecutar `./scripts/renzo-hub status` desde el repositorio. Ninguna IA debe edit
 
 Ver `docs/PAYROLL-CHANGELOG.md` para limitaciones y peticiones a Claude. No se incorporan los cambios locales sin commit de la tarea e2e/fase1-2.6.2.
 
+## Cierre de Fase 1 · trabajo autónomo (2026-10-10)
+
+| Criterio de cierre (auditoría §7) | Estado |
+|---|---|
+| 1 · Fuente única en GitHub, Vercel desde Git | ✔ (protección de `main` requiere GitHub Pro) |
+| 2 · Sincronización fiable | ✔ |
+| 3 · Superficie pública mínima | ✔ app · **pendiente Renzo:** desactivar registro en Supabase (ambos proyectos) |
+| 4 · Esquema reproducible | ✔ `20261007200000_payroll_schema_baseline.sql`; cadena completa probada = staging. Pendiente: comprobar md5 en producción y buckets `portfolio-files`/`progress-photos` |
+| 5 · Staging probable para Jarvis | ✖ depende del VPS de n8n |
+| 6 · Microapps de Fase 1 | ✔ · falta prueba real Telegram → Money (depende del VPS) |
+| 7 · Red de seguridad | ✔ smoke, E2E, CI, plantilla de PR y `docs/RELEASE-CHECKLIST.md` |
+| 8 · Separación Nodalys | ✖ diseñada; implementación en n8n depende del VPS |
+
 ## Nóminas 2.8.2 (2026-10-10): mes por fecha de cobro, correcciones agrupadas y pendientes visibles
 
 Petición de Renzo: "trabajo una semana y cobro lo que hice esa semana el siguiente miércoles"; totales confusos (~10.000) y nóminas "replicadas".
