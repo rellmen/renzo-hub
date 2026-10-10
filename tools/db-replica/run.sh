@@ -30,17 +30,19 @@ acl(){ "${PSQL[@]}" -At -c "
 ok(){ echo "  OK  $*"; }
 echo "1) Réplica: roles, auth, migraciones del repo y stubs de payroll"
 "${PSQL[@]}" -f "$ROOT/tools/db-replica/bootstrap.sql"
-for f in "$ROOT"/supabase/migrations/*.sql; do "${PSQL[@]}" -f "$f"; done
+# Estado de producción ANTES de la Fase 1 (9 oct): migraciones base anteriores al esquema de Nóminas + stubs de payroll.
+# La cadena completa (con 20261007200000_payroll_schema_baseline) se prueba en payroll_schema_test.sh.
+n=0; for f in "$ROOT"/supabase/migrations/*.sql; do [[ "$(basename "$f")" < "20261007200000" ]] || continue; "${PSQL[@]}" -f "$f"; n=$((n+1)); done
 "${PSQL[@]}" -f "$ROOT/tools/db-replica/payroll_stub.sql"
 "${PSQL[@]}" -f "$ROOT/tests/db/fixtures/prod_acl_2026-10-09.sql"
-ok "esquema cargado ($(ls "$ROOT"/supabase/migrations/*.sql | wc -l) migraciones)"
+ok "esquema cargado ($n migraciones base + stubs de payroll)"
 md5=$("${PSQL[@]}" -At -c "select md5(prosrc) from pg_proc where proname='hub_financial_ingest'")
 [ "$md5" = "14f7a531cc5a4e00a1189cd3953c88b2" ] && ok "hub_financial_ingest idéntica a staging y producción (md5 $md5)" || { echo "FAIL md5 $md5"; exit 1; }
 "${PSQL[@]}" -c "insert into auth.users values ('fdf1f291-863b-4027-9e90-e36de360a553','test@example.invalid')"
 acl > "$WORK/before.txt"; ok "estado inicial = producción ($(wc -l < "$WORK/before.txt") entradas de privilegios)"
 
 echo "2) Migración de endurecimiento (versión pendiente para producción)"
-MIG="$ROOT/supabase/pending/20261008120000_harden_grants_and_functions.sql"
+MIG="$ROOT/supabase/migrations/20261008120000_harden_grants_and_functions.sql"
 "${PSQL[@]}" -f "$MIG"; acl > "$WORK/after.txt"
  ! grep -vE '^[a-z_]+\(|^DEFAULT' "$WORK/after.txt" | grep -q ':anon=' && ok "anon sin privilegios en tablas ni vistas (incluidas las 2 vistas nuevas)" || { echo FAIL anon; grep ':anon=' "$WORK/after.txt"; exit 1; }
 ! grep -E ':authenticated=.*(TRUNCATE|REFERENCES|TRIGGER|MAINTAIN)' "$WORK/after.txt" && ok "authenticated sin TRUNCATE/REFERENCES/TRIGGER/MAINTAIN" || exit 1
@@ -61,11 +63,11 @@ n=$("${PSQL[@]}" -At -c "select count(*) from public.payroll_payslip_versions")
 [ "$n" = 1 ] && ok "trigger SECURITY DEFINER sigue disparando tras revocar EXECUTE (versiones de nómina: $n)" || { echo "FAIL trigger $n"; exit 1; }
 
 echo "4) Rollback exacto"
-"${PSQL[@]}" -f "$ROOT/supabase/pending/20261008120000_harden_grants_and_functions.rollback.sql"; acl > "$WORK/rollback.txt"
+"${PSQL[@]}" -f "$ROOT/supabase/rollbacks/20261008120000_harden_grants_and_functions.rollback.sql"; acl > "$WORK/rollback.txt"
 if diff "$WORK/before.txt" "$WORK/rollback.txt"; then ok "tras rollback los privilegios son idénticos al estado inicial de producción"; else echo "FAIL rollback difiere"; exit 1; fi
 
 echo "5) Revisión obligatoria de importaciones financieras (migración pendiente)"
-F="$ROOT/supabase/pending/20261008140000_financial_ingest_always_review.sql"
+F="$ROOT/supabase/migrations/20261008140000_financial_ingest_always_review.sql"
 if [ -f "$F" ]; then
   "${PSQL[@]}" -f "$F"
   res=$("${PSQL[@]}" -At -c "set role service_role; select public.hub_financial_ingest('fdf1f291-863b-4027-9e90-e36de360a553',
@@ -76,7 +78,7 @@ if [ -f "$F" ]; then
   [ "$res" = duplicate ] && ok "reenvío del mismo documento = duplicate" || { echo "FAIL dup $res"; exit 1; }
   n=$("${PSQL[@]}" -At -c "select count(*) from public.hub_records where record_type='renzo_money'")
   [ "$n" = 0 ] && ok "nada entra directo en Money" || { echo "FAIL money $n"; exit 1; }
-  "${PSQL[@]}" -f "$ROOT/supabase/pending/20261008140000_financial_ingest_always_review.rollback.sql"
+  "${PSQL[@]}" -f "$ROOT/supabase/rollbacks/20261008140000_financial_ingest_always_review.rollback.sql"
   m=$("${PSQL[@]}" -At -c "select md5(prosrc) from pg_proc where proname='hub_financial_ingest'")
   [ "$m" = "14f7a531cc5a4e00a1189cd3953c88b2" ] && ok "rollback restaura la función original" || { echo "FAIL rollback ingest"; exit 1; }
 fi

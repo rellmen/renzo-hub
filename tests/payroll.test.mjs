@@ -90,3 +90,13 @@ test('tax rate uses the taxable base when present',()=>{
  assert.equal(taxRate({gross_salary:0,loonheffing:20}),null);
  assert.equal(taxRate({gross_salary:200}),null);
 });
+import {missingPayslipNumbers,missingText} from '../payroll.js';
+test('detects gaps in payslip numbering per employer and year without inventing future ones',()=>{
+ const p=(n,extra={})=>({employer_id:'e1',period_year:2026,payslip_number:String(n),validation_status:'verified',...extra});
+ const rows=[p(1),p(2),p(4),p(5),p(7),p(3,{validation_status:'failed'}),p('A-9'),p(1,{employer_id:'e2'}),p(2,{employer_id:'e2'}),p(10,{period_year:2027})];
+ assert.deepEqual(missingPayslipNumbers(rows),[{employer_id:'e1',year:2026,missing:[3,6]}]);
+ assert.deepEqual(missingPayslipNumbers([]),[]);
+ assert.match(missingText([22],'SD Worx'),/^Falta la nómina nº 22 de SD Worx\./);
+ assert.match(missingText([3,6],'X'),/^Faltan las nóminas nº 3 y 6 de X\./);
+ assert.match(missingText([1,2,3,4,5,6,7,8,9],'X'),/9 nóminas \(nº 1 a 9\)/);
+});

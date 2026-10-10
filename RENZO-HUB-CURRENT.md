@@ -1,7 +1,7 @@
 # Renzo Hub · versión vigente
 
-- **Producción (uso diario):** [renzo-hub.vercel.app](https://renzo-hub.vercel.app/) · release **2.8.1** (Nóminas + Fase 1) · rama `main`, commit `9cc68d6` (merge del PR #4) · publicada por Git el 2026-10-10 01:46 · **verificada 01:55**: READY, `release.json` 2.8.1, `deployment-info` production/main, smoke 15/15 (documentos internos no publicados). Vercel: rama de producción cambiada a `main` (antes `renzo-hub-2-1-production`). Rollback: Instant Rollback al deployment anterior (2.8.0). Migraciones 20261008120000 (permisos) y 20261008140000 (Jarvis siempre a revisión) **aplicadas en producción** el 2026-10-10 02:20 por Renzo (SQL Editor) y verificadas: anon 0 · authenticated extra 0 · anon por defecto 0 · `md5(hub_financial_ingest)` = `6756a66a…` (igual que staging) · revisión humana `true`. Advisors de seguridad: solo queda "leaked password protection" (plan Pro). Inventario de nóminas en producción: 24 nóminas reales SD Worx (W19 a W39), sin datos de prueba
-- **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.8.1** (Nóminas + Fase 1) · `dpl_D2cYRMTwxHAz3uZ4uY3QnHSmUAq5` · rama `staging`, commit `9f7643a` (merge del PR #3) · **validado 2026-10-10 00:50**; migración 20261008120000 aplicada en staging 01:06 (0/0/0, smoke 15/15, E2E 22/22): READY, `release.json` 2.8.1, `deployment-info` preview/staging, documentos internos 404, smoke 15/15 y E2E autenticado 22/22 contra la URL desplegada
+- **Producción (uso diario):** [renzo-hub.vercel.app](https://renzo-hub.vercel.app/) · release **2.8.2** (Nóminas por fecha de cobro) · rama `main`, commit `3ab6800` (merge del PR #8) · verificada 2026-10-10 12:06: READY, `release.json` 2.8.2, `deployment-info` production/main, smoke 15/15. Migraciones aplicadas en producción: 20261008120000 (permisos), 20261008140000 (Jarvis a revisión) y 20261010030000 (fecha de cobro, 12:10, verificada: 19 nóminas confirmadas en su miércoles de cobro). Rollback app: Instant Rollback en Vercel
+- **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.8.2** · rama `staging`, commit `14804dc` (PR #7) · migración 20261010030000 aplicada y verificada 12:02 (3 vistas con la regla, permisos y security_invoker conservados). **No borrar la rama `staging` al fusionar PRs.**
 - **Experimental:** 2.6.0 Microapp OS Core · rama `experimental/os-core` (no se despliega)
 - **Fuente canónica:** `github.com/rellmen/renzo-hub` (privado). `main` = 2.4.1, `staging` = 2.5.0, `feature/fase1` = Bloques 0 a 4. PR #1 (`sync/main-2.4.1` → `main`) y PR #2 (`feature/fase1` → `staging`) con CI en verde, pendientes de que Renzo los fusione
 - **Copias de seguridad:** `~/Projects/RENZO-HUB/backups/` y versiones verificadas en `~/Projects/RENZO-HUB/releases/`
@@ -184,6 +184,25 @@ Ejecutar `./scripts/renzo-hub status` desde el repositorio. Ninguna IA debe edit
 | 2026-10-08 | Nóminas 2.7.1 · demo en segundo enlace de staging | El dominio renzo-hub-2-1-staging.vercel.app queda con la 2.6.2 de la tarea de estabilización (decisión de Renzo). Demo ?demo=1 habilitada también en renzo-hub-2-1-staging-renzojesus99-1996.vercel.app. | payroll.js, payroll-demo.js, sw.js, release.json | unit 15/15; e2e Chromium y WebKit OK | ver commit siguiente |
 
 Ver `docs/PAYROLL-CHANGELOG.md` para limitaciones y peticiones a Claude. No se incorporan los cambios locales sin commit de la tarea e2e/fase1-2.6.2.
+
+## Nóminas 2.8.3 (2026-10-10): aviso de nóminas que faltan
+- El resumen avisa de huecos en la numeración por empresa y año (solo entre la primera y la última recibidas): hoy "Falta la nómina nº 22 de SD Worx".
+- CI ejecuta el E2E de Nóminas (datos ficticios, Chromium y WebKit) en cada PR.
+- Pruebas: unit 29/29, smoke 15/15, E2E autenticado 22/22, E2E Nóminas OK.
+- Decisión de Renzo (10 oct): sin VPS; n8n Cloud se pagará cuando haga falta.
+
+## Cierre de Fase 1 · trabajo autónomo (2026-10-10)
+
+| Criterio de cierre (auditoría §7) | Estado |
+|---|---|
+| 1 · Fuente única en GitHub, Vercel desde Git | ✔ (protección de `main` requiere GitHub Pro) |
+| 2 · Sincronización fiable | ✔ |
+| 3 · Superficie pública mínima | ✔ app · **pendiente Renzo:** desactivar registro en Supabase (ambos proyectos) |
+| 4 · Esquema reproducible | ✔ `20261007200000_payroll_schema_baseline.sql`; cadena completa probada = staging. Pendiente: comprobar md5 en producción y buckets `portfolio-files`/`progress-photos` |
+| 5 · Staging probable para Jarvis | ✖ depende del VPS de n8n |
+| 6 · Microapps de Fase 1 | ✔ · falta prueba real Telegram → Money (depende del VPS) |
+| 7 · Red de seguridad | ✔ smoke, E2E, CI, plantilla de PR y `docs/RELEASE-CHECKLIST.md` |
+| 8 · Separación Nodalys | ✖ diseñada; implementación en n8n depende del VPS |
 
 ## Nóminas 2.8.2 (2026-10-10): mes por fecha de cobro, correcciones agrupadas y pendientes visibles
 

@@ -12,7 +12,7 @@ run_pg "$PGBIN/initdb -D $WORK/data -U postgres -A trust >/dev/null"
 run_pg "$PGBIN/pg_ctl -D $WORK/data -o '-p $PORT -k $WORK' -l $WORK/log -w start >/dev/null"
 PSQL="$PGBIN/psql -h $WORK -p $PORT -U postgres -v ON_ERROR_STOP=1 -qtA"
 q(){ $PSQL -c "$1"; }
-cp "$ROOT/supabase/pending/20261010030000_payroll_pay_date_rule.sql" "$ROOT/supabase/pending/20261010030000_payroll_pay_date_rule.rollback.sql" "$WORK/"; chmod 644 "$WORK"/*.sql
+cp "$ROOT/supabase/migrations/20261010030000_payroll_pay_date_rule.sql" "$ROOT/supabase/rollbacks/20261010030000_payroll_pay_date_rule.rollback.sql" "$WORK/"; chmod 644 "$WORK"/*.sql
 $PSQL <<'SQL'
 create role anon; create role authenticated; create role service_role;
 create table public.payroll_employers(id int primary key, name text, normalized_code text);
