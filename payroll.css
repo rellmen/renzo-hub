@@ -8,3 +8,4 @@
 
 #payroll .pay-yearly{color:#f5f0ff;min-width:0}#payroll .pay-yearly .pay-grid{grid-template-columns:repeat(auto-fit,minmax(min(180px,100%),1fr))}#payroll .pay-yearly h2{font-size:1.5rem}#payroll .pay-year-official{padding:16px;border-radius:12px;background:#33214d}#payroll .pay-year-official h3{margin-top:0}#payroll .pay-year-status{padding:14px;border-radius:10px;border:1px solid currentColor}#payroll .pay-year-incomplete{background:#3c3020;color:#ffda8d}#payroll .pay-year-complete{background:#20372c;color:#a1e5c6}#payroll .pay-year-unknown{background:#383044;color:#f5f0ff}
 #payroll .pay-extra{margin-left:18px;width:calc(100% - 18px);border-left:3px solid #8c6fd1;background:#211b30}#payroll .pay-pending-note{padding:10px 12px;border-radius:10px;background:#3a2f1a;color:#ffe3a8}
+#payroll .pay-missing{padding:10px 12px;border-radius:10px;background:#3b1f27;color:#ffc9d2}

@@ -185,6 +185,12 @@ Ejecutar `./scripts/renzo-hub status` desde el repositorio. Ninguna IA debe edit
 
 Ver `docs/PAYROLL-CHANGELOG.md` para limitaciones y peticiones a Claude. No se incorporan los cambios locales sin commit de la tarea e2e/fase1-2.6.2.
 
+## Nóminas 2.8.3 (2026-10-10): aviso de nóminas que faltan
+- El resumen avisa de huecos en la numeración por empresa y año (solo entre la primera y la última recibidas): hoy "Falta la nómina nº 22 de SD Worx".
+- CI ejecuta el E2E de Nóminas (datos ficticios, Chromium y WebKit) en cada PR.
+- Pruebas: unit 29/29, smoke 15/15, E2E autenticado 22/22, E2E Nóminas OK.
+- Decisión de Renzo (10 oct): sin VPS; n8n Cloud se pagará cuando haga falta.
+
 ## Cierre de Fase 1 · trabajo autónomo (2026-10-10)
 
 | Criterio de cierre (auditoría §7) | Estado |

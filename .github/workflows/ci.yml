@@ -31,10 +31,12 @@ jobs:
           SUPABASE_PUBLISHABLE_KEY: sb_publishable_ci_placeholder
           BASE_URL: http://localhost:4173
         run: |
-          npx playwright install --with-deps chromium
+          npx playwright install --with-deps chromium webkit
           node tools/dev-server.mjs 4173 &
           sleep 1
           node tests/e2e/smoke.mjs
+      - name: E2E de Nóminas (datos ficticios, Chromium y WebKit)
+        run: node tests/e2e/payroll.mjs
 
   db-migrations:
     # Réplica local PostgreSQL 17 con los privilegios reales de producción (sin conectar a Supabase).
