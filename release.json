@@ -1,6 +1,6 @@
 {
-  "release": "2.9.2",
-  "name": "Renzo Hub · Skin arreglada y en el registro de microapps",
+  "release": "2.10.0",
+  "name": "Renzo Hub · Subir nóminas desde la app (sin n8n)",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",

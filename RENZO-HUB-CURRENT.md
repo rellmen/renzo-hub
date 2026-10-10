@@ -185,6 +185,12 @@ Ejecutar `./scripts/renzo-hub status` desde el repositorio. Ninguna IA debe edit
 
 Ver `docs/PAYROLL-CHANGELOG.md` para limitaciones y peticiones a Claude. No se incorporan los cambios locales sin commit de la tarea e2e/fase1-2.6.2.
 
+## Nóminas 2.10.0 (2026-10-10): subir nóminas desde la app, sin n8n
+- My Finance → Nóminas → **Subir nómina (PDF)**: el PDF de SD Worx se lee en el propio dispositivo (`payroll-pdf.js` + pdf.js servido desde `/vendor/pdfjs`, sin CDN), se enseña un resumen (nº, semana, bruto, neto, retención, fecha) y si las cuentas cuadran.
+- Al confirmar, `api/payroll-upload.js` comprueba la sesión y el origen, valida PDF (tipo, ≤ 3 MB, SHA-256) e importes, reutiliza la empresa y la etiqueta de semana existentes, detecta pagos adicionales (segunda nómina de la misma semana), y llama a `payroll_register_document` → bucket privado `payroll` → `payroll_ingest`. **Siempre queda pendiente de revisión.** El mismo PDF dos veces = duplicado.
+- Sin migraciones: usa las funciones de Nóminas que ya existen. Necesita `SUPABASE_SECRET_KEY` en Vercel (producción ya la tiene; staging por confirmar: `GET /api/payroll-upload` responde `configured`).
+- Verificado con las nóminas reales nº 4, 5, 22 y 23 (lectura y cuentas) y en réplica PostgreSQL 17 (`tools/db-replica/payroll_upload_test.sh`, también en CI con una nómina ficticia). Pruebas: unitarias 58/58, E2E Nóminas con subida (Chromium), E2E autenticado 32/32, smoke 15/15.
+
 ## Skin 2.9.2 (2026-10-10): rutina de piel arreglada y en el registro
 - **Fallo encontrado (también en producción):** al cargar Skin, el código escribía en elementos que no existen (`skinPct`, `greeting`, `streak`). La carga se cortaba: la rutina no mostraba ningún paso y el indicador decía "Conectado · algunos datos no se pudieron cargar". No estaba cubierto por ninguna prueba.
 - Skin pasa a `microapps/skin/skin.js` (contrato del registro, `loadOnSignIn`), con escritura segura en elementos opcionales. Sin cambios visibles salvo que vuelve a funcionar.
