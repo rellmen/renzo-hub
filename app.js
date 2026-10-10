@@ -1,6 +1,4 @@
-import {mountPayroll} from "./payroll.js";
-import {mountGym} from "./gym.js";
-import {mountNews} from "./news.js";
+import {AREAS,MICROAPPS,SECTION_IDS,findMicroapp,navAreaOf,isFullscreen,areaTabsHTML,homeTilesHTML} from "./microapps/registry.js";
 import {mountWorld} from "./world.js";
 import {mountJarvis} from "./jarvis-ui.js";
 import {mountWorldExtensions} from "./world-extensions.js";
@@ -33,8 +31,6 @@ fetchWithTimeout("/api/deployment-info",{cache:"no-store"},5000).then(r=>r.ok?r.
  const env=info.environment==="production"?"production":info.environment==="preview"?"preview":"unknown";
  badge.dataset.env=env;badge.textContent=env==="production"?"PRODUCCIÓN · PÚBLICA":env==="preview"?"PREVIEW · ENTORNO DE PRUEBAS":"ENTORNO SIN VERIFICAR";
 }).catch(()=>{const badge=document.getElementById("environmentBadge");badge.dataset.env="unknown";badge.textContent="ENTORNO SIN VERIFICAR";});
-const news=mountNews(document.getElementById("news"),supabase,()=>user);
-const gym=mountGym(document.getElementById("gym"),supabase,()=>user);
 const world=mountWorld({home:document.getElementById("worldHome"),body:document.getElementById("worldBody"),work:document.getElementById("worldWork"),money:document.getElementById("worldMoney"),system:document.getElementById("worldSystem"),study:document.getElementById("worldStudy"),car:document.getElementById("worldCar")},()=>user,supabase);
 
 const PRODUCTS=[["Arencia Fresh Green Rice Mochi Cleanser", "Limpiador principal", "Diario", "assets/skin_6.jpeg"], ["CeraVe Foaming Cleanser", "Limpiador alternativo", "Si notas más grasa", "assets/skin_7.jpeg"], ["Eucerin DermoPure Clinical Correcting Cleanser 2%", "Limpiador exfoliante", "1 vez/semana", "assets/skin_8.jpeg"], ["COSRX Advanced Snail 96 Mucin Power Essence", "Hidratación", "Mañana y noche", "assets/skin_1.jpeg"], ["SKIN1004 Madagascar Centella Ampoule", "Calmante", "Según rutina", "assets/skin_1.jpeg"], ["Paula’s Choice Skin Perfecting 2% BHA Liquid", "Puntos negros", "2 noches/semana", "assets/skin_2.jpeg"], ["Dr. Althea Vitamin C Boosting Serum", "Luminosidad", "3–4 mañanas/semana", "assets/skin_2.jpeg"], ["Anua Niacinamide 10% + TXA 4%", "Manchas y tono", "2 noches/semana", "assets/skin_2.jpeg"], ["ILLIYOON Ceramide Ato Concentrate Cream", "Barrera", "Principalmente noche", "assets/skin_3.jpeg"], ["AXIS-Y Dark Spot Correcting Glow Serum", "Antimanchas alternativo", "Alternativa al Anua", "assets/skin_3.jpeg"], ["Heliocare 360 Pigment Solution Fluid SPF50+", "Protector solar", "Cada mañana", "assets/skin_4.jpeg"], ["Avène Sunsimed Pigment", "Protector solar alternativo", "Alternativa al Heliocare", "assets/skin_4.jpeg"], ["NUXE Zinc Power", "Imperfecciones", "Opcional", "assets/skin_3.jpeg"]];
@@ -56,10 +52,35 @@ const localDate=d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,"0"),Strin
 let dateKey=localDate(now);
 let mode=now.getHours()>=18?"pm":"am";
 let user=null;
-const payroll=mountPayroll(document.getElementById("payroll"),supabase,()=>user,go);
-const payrollQuery=new URLSearchParams(location.search);
-let payrollIntent=payrollQuery.get("app")==="payroll"?{id:payrollQuery.get("payslip")}:null;
-if(payrollIntent){const clean=new URL(location.href);clean.searchParams.delete("app");clean.searchParams.delete("payslip");history.replaceState(null,"",clean);}
+// Microapps del registro (microapps/registry.js): se crean su sección y su CSS si faltan, se importan en
+// paralelo y se montan con el contrato mount(root, db, getUser, go). Si una falla, el resto sigue funcionando.
+const apps={};
+const pageHost=document.getElementById("home").parentElement;
+const moduleApps=MICROAPPS.filter(m=>m.module);
+const mounted=await Promise.allSettled(moduleApps.map(async m=>{
+  let root=document.getElementById(m.id);
+  if(!root){root=document.createElement("section");root.id=m.id;root.className="page";pageHost.insertBefore(root,document.getElementById("system"));}
+  if(m.css&&!document.querySelector(`link[rel="stylesheet"][href="${m.css}"]`)){const link=document.createElement("link");link.rel="stylesheet";link.href=m.css;document.head.append(link);}
+  const mod=await import(m.module);
+  if(typeof mod[m.mount]!=="function")throw new Error(`${m.module} no exporta ${m.mount}`);
+  apps[m.id]=mod[m.mount](root,supabase,()=>user,go)||{};
+}));
+mounted.forEach((result,i)=>{
+  if(result.status==="fulfilled")return;
+  const m=moduleApps[i];console.error(`No se pudo cargar la microapp ${m.id}`,result.reason);
+  const root=document.getElementById(m.id);
+  if(root)root.innerHTML=`<button class="microapp-back" data-open="${m.area}">← ${AREAS[m.area].name}</button><p class="small">No se pudo cargar ${m.name}. Recarga la página.</p>`;
+});
+const eachApp=fn=>Object.values(apps).forEach(api=>{try{fn(api);}catch(error){console.error(error);}});
+const signInLoads=()=>MICROAPPS.filter(m=>m.loadOnSignIn&&apps[m.id]?.load).map(m=>apps[m.id].load());
+document.querySelectorAll("[data-area-tabs]").forEach(node=>{node.outerHTML=areaTabsHTML(node.dataset.areaTabs,node.dataset.areaTabs);});
+{const tiles=homeTilesHTML(),box=document.querySelector("[data-microapp-tiles=home]");if(box&&tiles){box.querySelector("[data-tiles]").innerHTML=tiles;box.hidden=false;}}
+
+// Enlace directo genérico: ?app=<id>&<deepLink>=<valor>
+const linkQuery=new URLSearchParams(location.search);
+const linkApp=findMicroapp(linkQuery.get("app"));
+let deepLink=linkApp?{id:linkApp.id,param:linkApp.deepLink?linkQuery.get(linkApp.deepLink):null}:null;
+if(deepLink){const clean=new URL(location.href);clean.searchParams.delete("app");if(linkApp.deepLink)clean.searchParams.delete(linkApp.deepLink);history.replaceState(null,"",clean);}
 
 mountJarvis(supabase,()=>user);
 mountWorldExtensions(supabase,()=>user);
@@ -89,9 +110,9 @@ function showApp(){
   $("appShell").classList.remove("hidden");
   $("bottomNav").classList.remove("hidden");
   $("userEmail").textContent=user?.email||"";
-  if(payrollIntent){const intent=payrollIntent;payrollIntent=null;go("payroll");if(intent.id)payroll.open(intent.id);return;}
+  if(deepLink){const link=deepLink;deepLink=null;go(link.id);if(link.param)apps[link.id]?.open?.(link.param);return;}
   const saved=readJSON(`renzo-nav:${user?.id}`,null);
-  if(saved&&["home","body","work","money","system","study","car","gym","food","skin","news","settings"].includes(saved.section))go(saved.section,true);
+  if(saved&&SECTION_IDS.includes(saved.section))go(saved.section,true);
 }
 function setSync(text,kind="ok"){
   const el=$("syncState");
@@ -99,23 +120,23 @@ function setSync(text,kind="ok"){
   const dot=el.querySelector(".dot");
   dot.className="dot"+(kind==="busy"?" busy":kind==="err"?" err":"");
 }
-const MICROAPP_IDS=new Set(["gym","food","skin","car","news","settings"]);
 function go(id,restore=false){
-  if(id==="payroll")payroll.open();else payroll.close();
-  if(id==="news")news.load();
-  if(["home","body","work","money","system","study","car"].includes(id))world.render(id);
+  if(!document.getElementById(id))id="home";
+  for(const [appId,api] of Object.entries(apps)){try{if(appId===id)api.open?.();else api.close?.();}catch(error){console.error(error);}}
+  if(AREAS[id])world.render(id);
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   $(id).classList.add("active");
-  document.body.classList.toggle("microapp-open",MICROAPP_IDS.has(id));
+  document.body.classList.toggle("microapp-open",isFullscreen(id));
   document.body.dataset.activeSection=id;
-  const navId=id==="payroll"?"money":id;
+  const navId=navAreaOf(id);
   document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.open===navId));
   const saved=readJSON(`renzo-nav:${user?.id}`,{});
   const scrollY=restore?Number(saved.scrollY)||0:0;
   writeJSON(`renzo-nav:${user?.id}`,{section:id,scrollY});
   requestAnimationFrame(()=>window.scrollTo(0,scrollY));
 }
-document.querySelectorAll("[data-open]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.open)));
+// Un solo listener para todo [data-open], también para el HTML que las microapps pintan después.
+document.addEventListener("click",event=>{const b=event.target.closest("[data-open]");if(b&&SECTION_IDS.includes(b.dataset.open))go(b.dataset.open);});
 let navSaveTimer;
 window.addEventListener("scroll",()=>{if(!user)return;clearTimeout(navSaveTimer);navSaveTimer=setTimeout(()=>{const saved=readJSON(`renzo-nav:${user.id}`,{});writeJSON(`renzo-nav:${user.id}`,{...saved,scrollY:window.scrollY});},180);},{passive:true});
 
@@ -303,17 +324,17 @@ $("loginForm").addEventListener("submit",async e=>{
 $("logoutBtn").addEventListener("click",async()=>{await supabase.auth.signOut();});
 
 supabase.auth.onAuthStateChange((event,session)=>{
-  if(user?.id!==session?.user?.id)payroll.reset();
+  if(user?.id!==session?.user?.id)eachApp(api=>api.reset?.());
   user=session?.user||null;
-  if(user){showApp();setTimeout(()=>{Promise.allSettled([loadCloudState(),gym.load(),world.load(),profile.load(),phase1.load()]).then(results=>{if(results.some(result=>result.status==="rejected"))setSync("Conectado · algunos datos no se pudieron cargar","err");});},0);}
-  else{payroll.reset();gym.reset();world.reset();profile.reset();phase1.reset();loadSequence++;selectedDay=null;weekRows=[];gentle=false;cloudState={am:[],pm:[]};clearTimeout(noteTimer);$("note").value="";showAuth();}
+  if(user){showApp();setTimeout(()=>{Promise.allSettled([loadCloudState(),...signInLoads(),world.load(),profile.load(),phase1.load()]).then(results=>{if(results.some(result=>result.status==="rejected"))setSync("Conectado · algunos datos no se pudieron cargar","err");});},0);}
+  else{eachApp(api=>api.reset?.());world.reset();profile.reset();phase1.reset();loadSequence++;selectedDay=null;weekRows=[];gentle=false;cloudState={am:[],pm:[]};clearTimeout(noteTimer);$("note").value="";showAuth();}
 });
 
 let session=null;
 try{const {data,error}=await supabase.auth.getSession();if(error)throw error;session=data?.session||null;}
 catch(error){console.warn("Could not restore Renzo Hub session; keeping sign-in available",error);showAuth("No se pudo restaurar la sesión. Puedes volver a iniciar sesión.","err");}
 user=session?.user||null;
-if(user){showApp();const results=await Promise.allSettled([loadCloudState(),gym.load(),world.load(),profile.load(),phase1.load()]);if(results.some(result=>result.status==="rejected"))setSync("Conectado · algunos datos no se pudieron cargar","err");}else if(!document.getElementById("authMessage").textContent){showAuth();}
+if(user){showApp();const results=await Promise.allSettled([loadCloudState(),...signInLoads(),world.load(),profile.load(),phase1.load()]);if(results.some(result=>result.status==="rejected"))setSync("Conectado · algunos datos no se pudieron cargar","err");}else if(!document.getElementById("authMessage").textContent){showAuth();}
 
 window.addEventListener("focus",()=>{if(user)loadCloudState();});
 if("serviceWorker" in navigator){

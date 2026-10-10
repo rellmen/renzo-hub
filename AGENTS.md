@@ -29,6 +29,9 @@ Renzo HUB es la plataforma personal y privada de Renzo. **No forma parte de Noda
 - Tras editar: incrementa `release.json`, actualiza `RENZO-HUB-CURRENT.md` (tabla de progreso) y cambia la caché de `sw.js`.
 - No afirmes que algo está publicado hasta comprobar `READY` y que `/release.json` y `/api/deployment-info` respondan lo esperado.
 
+## Microapps
+- Nuevas microapps: `./scripts/renzo-hub new-microapp` y `docs/MICROAPPS.md`. Se declaran solo en `microapps/registry.js`; datos sencillos en `hub_records` vía `microapps/records.js`.
+
 ## Seguridad y datos
 - Nunca pongas claves, tokens ni contraseñas en código, documentación, commits o comandos. La publishable key solo se sirve desde `/api/supabase-config`.
 - Migraciones Supabase solo aditivas; primero en staging; las de producción requieren autorización de Renzo.
