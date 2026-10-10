@@ -185,6 +185,11 @@ Ejecutar `./scripts/renzo-hub status` desde el repositorio. Ninguna IA debe edit
 
 Ver `docs/PAYROLL-CHANGELOG.md` para limitaciones y peticiones a Claude. No se incorporan los cambios locales sin commit de la tarea e2e/fase1-2.6.2.
 
+## Nóminas 2.10.1 (2026-10-10): ordenadas por mes de cobro y tipo
+- Pestaña Nóminas: vista por defecto **"Por mes de cobro"**: cada mes con su recuento ("5 semanales + 2 pagos extra"), el neto cobrado confirmado y las pendientes; dentro, ordenadas por fecha de cobro (regla: semana trabajada → miércoles siguiente; pagos extra → su fecha de pago).
+- Cada nómina muestra fecha de cobro, semana, nº y **tipo**: Semanal, Vakantiegeld, Vacaciones o Corrección. Se puede volver a "Por semana trabajada".
+- Petición de Renzo: entender por qué septiembre tiene 7 (septiembre de 2026 tiene 5 miércoles de cobro + pagos extra).
+
 ## Nóminas 2.10.0 (2026-10-10): subir nóminas desde la app, sin n8n
 - My Finance → Nóminas → **Subir nómina (PDF)**: el PDF de SD Worx se lee en el propio dispositivo (`payroll-pdf.js` + pdf.js servido desde `/vendor/pdfjs`, sin CDN), se enseña un resumen (nº, semana, bruto, neto, retención, fecha) y si las cuentas cuadran.
 - Al confirmar, `api/payroll-upload.js` comprueba la sesión y el origen, valida PDF (tipo, ≤ 3 MB, SHA-256) e importes, reutiliza la empresa y la etiqueta de semana existentes, detecta pagos adicionales (segunda nómina de la misma semana), y llama a `payroll_register_document` → bucket privado `payroll` → `payroll_ingest`. **Siempre queda pendiente de revisión.** El mismo PDF dos veces = duplicado.
