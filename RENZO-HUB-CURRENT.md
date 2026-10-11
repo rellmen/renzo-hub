@@ -1,7 +1,7 @@
 # Renzo Hub · versión vigente
 
 - **Producción (uso diario):** [renzo-hub.vercel.app](https://renzo-hub.vercel.app/) · release **2.11.0** (extracto de ING en Nóminas) · rama `main`, commit `af07e68` (merge del PR #23) · verificada 2026-10-12: READY, `release.json` 2.11.0, `deployment-info` production/main, smoke 15/15. Migraciones: todas las de `supabase/migrations/` hasta 20261010030000 (ver `docs/SUPABASE-SCHEMA.md`). Rollback app: Instant Rollback en Vercel
-- **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.13.0** (tras fusionar el PR) · rama `staging` · **No borrar la rama `staging` al fusionar PRs.**
+- **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.13.1** (tras fusionar el PR) · rama `staging` · **No borrar la rama `staging` al fusionar PRs.**
 - **Experimental:** 2.6.0 Microapp OS Core · rama `experimental/os-core` (no se despliega)
 - **Fuente canónica:** `github.com/rellmen/renzo-hub` (privado). `main` = producción, `staging` = pruebas, `feature/*` = una rama por tarea con PR hacia `staging`
 - **Copias de seguridad:** `~/Projects/RENZO-HUB/backups/` y versiones verificadas en `~/Projects/RENZO-HUB/releases/`
@@ -10,6 +10,12 @@
 - **Referencias:** `RENZO_HUB_TECHNICAL_AUDIT.md` y `PHASE_1_EXECUTION_PLAN.md` (bóveda del proyecto y `~/Documents/HUB`)
 
 > La carpeta `~/.codex/.chatgpt-projects/.../renzo-hub-news` queda como espejo histórico de solo lectura. No editar ni desplegar desde ella.
+
+## 2.13.1 (2026-10-12): pago de deudas y comercios identificados por Renzo
+
+- Categoría nueva **Pago de deudas** (gasto, separada del consumo). Decisión de Renzo: lo que envía a su familia son deudas que ha pagado; lo que se mueve con su hermana son préstamos y devoluciones (categoría "Préstamos y devoluciones", no cuenta como gasto). Esas dos reglas son por persona: Renzo las crea en la app con "Todos de <nombre>" (los nombres de familia no van en el código).
+- Reglas por defecto nuevas: Umans = gasolinera (gasolina), Body Supplies = suplementos (salud), Ls Smaeck, FEG Exploitatie y De Brouwer Weert = restaurantes.
+- Simulación con septiembre real y esas reglas (local): gasto 4.305,50 € (de ellos 2.490 € pago de deudas, 1.815,50 € de consumo), ingresos 3.961,15 €, ingresos − gastos −344,35 €, 1 movimiento sin categoría.
 
 ## 2.13.0 (2026-10-12): extracto de Revolut · Gastos con ING + Revolut (etapa 2b)
 

@@ -42,6 +42,10 @@ test("categorías por defecto con comercios habituales en Países Bajos", () => 
   assert.equal(c("Jan Jansen", 20, { code: "GT", counterparty: "NL00" }), "personas_recibido");
   assert.equal(c("Jan Jansen", -20, { code: "GT", counterparty: "NL00" }), "personas_enviado");
   assert.equal(c("Comercio Desconocido Weert"), "sin_categoria", "lo que no se reconoce queda sin categoría (no se inventa)");
+  // Comercios que Renzo identificó (12 oct): Umans = gasolinera, Body Supplies = suplementos, el resto restaurantes
+  assert.equal(c("Umans Winters HamontAchel BEL"), "gasolina"); assert.equal(c("Umans"), "gasolina"); assert.equal(c("UmansWinters Hamont BEL"), "gasolina");
+  assert.equal(c("Body Supplies"), "salud"); assert.equal(c("Ls Smaeck"), "restaurantes");
+  assert.equal(c("FEG Exploitatie B.V. WEERT NLD"), "restaurantes"); assert.equal(c("de Brouwer Weert B.V. Weert NLD"), "restaurantes");
 });
 
 test("prioridad: categoría puesta a mano > regla del usuario por comercio > regla por defecto", () => {
@@ -91,5 +95,5 @@ test("los traspasos a tus cuentas no cuentan como gasto", () => {
 test("catálogo de categorías coherente", () => {
   assert.equal(new Set(CATEGORIES.map(c => c.id)).size, CATEGORIES.length);
   assert.ok(CATEGORIES.every(c => ["expense", "income", "transfer"].includes(c.kind)));
-  for (const id of ["supermercado", "restaurantes", "alquiler", "gasolina", "seguros", "suscripciones", "traspaso", "sin_categoria"]) assert.ok(CATEGORY[id], id);
+  for (const id of ["deudas", "prestamos", "supermercado", "restaurantes", "alquiler", "gasolina", "seguros", "suscripciones", "traspaso", "sin_categoria"]) assert.ok(CATEGORY[id], id);
 });
