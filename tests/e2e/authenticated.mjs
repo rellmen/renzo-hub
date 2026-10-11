@@ -159,6 +159,35 @@ await check("Notas: crear, ver y eliminar (hub_records · personal · note)", as
   assert.equal(gone.body.length, 0);
 });
 
+await check("Gastos: importar CSV ficticio de ING, categorías, regla por comercio y limpieza (hub_records · money)", async () => {
+  const clean = () => rest(`/rest/v1/hub_records?owner_id=eq.${uid}&record_type=in.(bank_tx,money_rule)`, tok.access_token, { method: "DELETE" });
+  await clean();
+  await page.evaluate(() => document.querySelector('[data-open="gastos"]')?.click());
+  await page.locator("#gastos.active [data-bank-file]").waitFor({ timeout: 10000 });
+  await page.locator("#gastos [data-bank-file]").setInputFiles("tests/fixtures/ing-ficticio.csv");
+  await page.locator("#gastos [data-bank-preview]").waitFor({ timeout: 10000 });
+  const preview = await page.locator("#gastos [data-bank-preview]").innerText();
+  assert.match(preview, /Movimientos\s*5 \(5 nuevos/); assert.ok(!/Nóminas enlazadas/.test(preview), "en Gastos no se muestran las líneas de nóminas");
+  await page.click("#gastos [data-bank-save]");
+  await page.locator("#gastos [data-gx-summary]").waitFor({ timeout: 15000 });
+  assert.match(await page.locator("#gastos [data-gx-summary]").innerText(), /946,90/);
+  const sup = page.locator('#gastos [data-group="supermercado"]');
+  assert.match(await sup.locator("summary").innerText(), /46,90/);
+  await sup.locator("summary").click();
+  await sup.locator("[data-cat]").first().selectOption("restaurantes");
+  await page.click('#gastos [data-scope="merchant"]');
+  await page.locator('#gastos [data-group="restaurantes"]').waitFor({ timeout: 10000 });
+  assert.equal(await page.locator('#gastos [data-group="supermercado"]').count(), 0, "las dos compras de Albert Heijn pasan a la nueva categoría");
+  assert.match(await page.locator('#gastos [data-group="restaurantes"] summary').innerText(), /46,90/);
+  const ruleRows = await rest(`/rest/v1/hub_records?owner_id=eq.${uid}&record_type=eq.money_rule&select=payload`, tok.access_token);
+  assert.deepEqual(ruleRows.body.map(r => r.payload), [{ merchant: "albert heijn", category: "restaurantes" }]);
+  assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), "sin scroll horizontal");
+  await page.screenshot({ path: "/tmp/gastos-e2e.png", fullPage: true });
+  await clean();
+  const left = await rest(`/rest/v1/hub_records?owner_id=eq.${uid}&record_type=in.(bank_tx,money_rule)&select=id`, tok.access_token);
+  assert.equal(left.body.length, 0, "no quedan datos de prueba");
+});
+
 await check("Skin: marcar un paso, guardar en Supabase, releer tras recargar y desmarcar", async () => {
   await page.evaluate(() => document.querySelector('[data-open="skin"]')?.click());
   await page.click("#todayBtn"); await page.waitForFunction(() => /Sincronizado/.test(document.querySelector("#syncState")?.textContent || ""), null, { timeout: 10000 });

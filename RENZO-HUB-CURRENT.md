@@ -1,7 +1,7 @@
 # Renzo Hub · versión vigente
 
-- **Producción (uso diario):** [renzo-hub.vercel.app](https://renzo-hub.vercel.app/) · release **2.10.1** (nóminas por mes de cobro y tipo) · rama `main`, commit `b73d505` (merge del PR #20) · verificada 2026-10-10: READY, `release.json` 2.10.1, `deployment-info` production/main, smoke 15/15. Migraciones: todas las de `supabase/migrations/` hasta 20261010030000 (ver `docs/SUPABASE-SCHEMA.md`). Rollback app: Instant Rollback en Vercel
-- **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.11.0** (tras fusionar el PR) · rama `staging` · **No borrar la rama `staging` al fusionar PRs.**
+- **Producción (uso diario):** [renzo-hub.vercel.app](https://renzo-hub.vercel.app/) · release **2.11.0** (extracto de ING en Nóminas) · rama `main`, commit `af07e68` (merge del PR #23) · verificada 2026-10-12: READY, `release.json` 2.11.0, `deployment-info` production/main, smoke 15/15. Migraciones: todas las de `supabase/migrations/` hasta 20261010030000 (ver `docs/SUPABASE-SCHEMA.md`). Rollback app: Instant Rollback en Vercel
+- **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.12.0** (tras fusionar el PR) · rama `staging` · **No borrar la rama `staging` al fusionar PRs.**
 - **Experimental:** 2.6.0 Microapp OS Core · rama `experimental/os-core` (no se despliega)
 - **Fuente canónica:** `github.com/rellmen/renzo-hub` (privado). `main` = producción, `staging` = pruebas, `feature/*` = una rama por tarea con PR hacia `staging`
 - **Copias de seguridad:** `~/Projects/RENZO-HUB/backups/` y versiones verificadas en `~/Projects/RENZO-HUB/releases/`
@@ -10,6 +10,24 @@
 - **Referencias:** `RENZO_HUB_TECHNICAL_AUDIT.md` y `PHASE_1_EXECUTION_PLAN.md` (bóveda del proyecto y `~/Documents/HUB`)
 
 > La carpeta `~/.codex/.chatgpt-projects/.../renzo-hub-news` queda como espejo histórico de solo lectura. No editar ni desplegar desde ella.
+
+## 2.12.0 (2026-10-12): Gastos por categoría · etapa 2 de la Fase 2
+
+Nueva microapp **Gastos** (My Finance → pestaña Gastos), creada con `./scripts/renzo-hub new-microapp gastos "Gastos" money money --tab`.
+
+| Qué | Dónde |
+|---|---|
+| Categorías calculadas al vuelo desde los movimientos del banco: supermercado, restaurantes, alquiler, gasolina, coche y parking, transporte, seguros, suscripciones, teléfono, energía, salud, compras, ocio, impuestos, banco, personas, nómina, toeslagen, traspasos | `microapps/gastos/categories.js` |
+| Nombre limpio del comercio y marcas agrupadas (todas las tiendas de Albert Heijn = "Albert Heijn"), para ver en qué supermercado o restaurante se gasta | `merchantName` |
+| Prioridad: categoría puesta a mano > regla del usuario por comercio (`hub_records` money/`money_rule`) > reglas por defecto > "Sin categoría" (no se inventa) | `categorize` |
+| Al cambiar una categoría: "Solo este" o "Todos de <comercio>" (crea la regla y se aplica también a lo que se importe después) | `microapps/gastos/gastos.js` |
+| Abonos en una categoría de gasto restan (devoluciones, Tikkies). Aporte al alquiler: ingreso de una persona por el importe del alquiler o la mitad (±1 €) a ≤10 días del pago → cuenta en Alquiler y resta (decisión de Renzo: alquiler 1.350 €, aporte habitual 675 €) | `rentContributions` |
+| Traspasos a tus cuentas (Revolut, ahorro) no cuentan como gasto; aviso cuando hay dinero pasado a Revolut sin su extracto importado | |
+| Importación del CSV de ING también desde Gastos (sin las líneas de nóminas) | `bank-import-ui.js` (`payroll: false`) |
+
+Pruebas: `tests/gastos.test.mjs` 7/7, unit 76/76, E2E autenticado contra staging 35/35 (incluye Gastos: importar CSV ficticio, categorías, regla por comercio y limpieza), E2E Nóminas (Chromium) OK. Con el extracto real de septiembre (local, fuera del repositorio): 5 movimientos sin categoría (comercios desconocidos), alquiler neto 0 € ese mes (aporte de 1.350 €), 2.811,15 € de traspasos a Revolut.
+
+Pendiente (etapa 2b): importar el CSV de Revolut (falta el archivo de Renzo).
 
 ## 2.11.0 (2026-10-11): extracto de ING en Nóminas · inicio de la Fase 2
 
