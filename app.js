@@ -1,4 +1,5 @@
 import {installErrorLog} from "./microapps/errors.js";
+import {createDataExport} from "./microapps/backup/export.js";
 import {AREAS,MICROAPPS,SECTION_IDS,findMicroapp,navAreaOf,isFullscreen,areaTabsHTML,homeTilesHTML} from "./microapps/registry.js";
 import {mountWorld} from "./world.js";
 import {mountJarvis} from "./jarvis-ui.js";
@@ -31,6 +32,7 @@ let releasePromise=null;
 const currentRelease=()=>releasePromise||(releasePromise=fetch("/release.json",{cache:"no-store"}).then(r=>r.json()).then(j=>j.release||"?").catch(()=>"?"));
 // Registro de errores de la app (microapps/errors.js): se guardan en la fila del usuario y se ven en System.
 const errorLog=installErrorLog(supabase,()=>user,{release:currentRelease});
+const dataExport=createDataExport(supabase,()=>user,{release:currentRelease,project:new URL(supabaseConfig.supabaseUrl).hostname.split(".")[0]});
 fetchWithTimeout("/api/deployment-info",{cache:"no-store"},5000).then(r=>r.ok?r.json():Promise.reject()).then(info=>{
  const badge=document.getElementById("environmentBadge");
  const env=info.environment==="production"?"production":info.environment==="preview"?"preview":"unknown";
@@ -105,7 +107,7 @@ function go(id,restore=false){
   if(!document.getElementById(id))id="home";
   for(const [appId,api] of Object.entries(apps)){try{if(appId===id)api.open?.();else api.close?.();}catch(error){console.error(error);}}
   if(AREAS[id])world.render(id);
-  if(id==="system")errorLog.renderPanel($("appErrors"));
+  if(id==="system"){dataExport.renderPanel($("appBackup"));errorLog.renderPanel($("appErrors"));}
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   $(id).classList.add("active");
   document.body.classList.toggle("microapp-open",isFullscreen(id));

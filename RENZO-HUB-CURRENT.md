@@ -1,7 +1,7 @@
 # Renzo Hub · versión vigente
 
 - **Producción (uso diario):** [renzo-hub.vercel.app](https://renzo-hub.vercel.app/) · release **2.11.0** (extracto de ING en Nóminas) · rama `main`, commit `af07e68` (merge del PR #23) · verificada 2026-10-12: READY, `release.json` 2.11.0, `deployment-info` production/main, smoke 15/15. Migraciones: todas las de `supabase/migrations/` hasta 20261010030000 (ver `docs/SUPABASE-SCHEMA.md`). Rollback app: Instant Rollback en Vercel
-- **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.13.1** (tras fusionar el PR) · rama `staging` · **No borrar la rama `staging` al fusionar PRs.**
+- **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.14.0** (tras fusionar el PR) · rama `staging` · **No borrar la rama `staging` al fusionar PRs.**
 - **Experimental:** 2.6.0 Microapp OS Core · rama `experimental/os-core` (no se despliega)
 - **Fuente canónica:** `github.com/rellmen/renzo-hub` (privado). `main` = producción, `staging` = pruebas, `feature/*` = una rama por tarea con PR hacia `staging`
 - **Copias de seguridad:** `~/Projects/RENZO-HUB/backups/` y versiones verificadas en `~/Projects/RENZO-HUB/releases/`
@@ -10,6 +10,20 @@
 - **Referencias:** `RENZO_HUB_TECHNICAL_AUDIT.md` y `PHASE_1_EXECUTION_PLAN.md` (bóveda del proyecto y `~/Documents/HUB`)
 
 > La carpeta `~/.codex/.chatgpt-projects/.../renzo-hub-news` queda como espejo histórico de solo lectura. No editar ni desplegar desde ella.
+
+## 2.14.0 (2026-10-12): copia de seguridad "Exportar mis datos" y huella del esquema completo
+
+**Auditoría (12 oct, verificada):** CI en verde en cada PR (sintaxis, unit, smoke, E2E de Nóminas Chromium y WebKit, réplica PostgreSQL 17 con migraciones, RLS y rollback). E2E con sesión contra staging solo en local (necesita credenciales). Supabase security advisors en ambos entornos: solo "Leaked password protection" (disponible desde el plan Pro). **Organización de Supabase en plan Free: sin copias automáticas** (Supabase solo hace copias diarias en Pro, Team y Enterprise). Historial de migraciones de Supabase con versiones distintas a los archivos del repositorio (varias se aplicaron desde el SQL Editor): no afecta al esquema, pero no es un registro limpio.
+
+| Qué | Dónde |
+|---|---|
+| System → **Copia de seguridad → Exportar mis datos**: descarga un JSON con todas las tablas de `public` (solo filas del usuario, filtradas por su columna de dueño) y los archivos de Storage (`payroll`, `hub-private`, `portfolio-files`, `progress-photos`, hasta 60 MB). Sin credenciales: usa la sesión y RLS | `microapps/backup/export.js`, `app.js`, `index.html` |
+| Registra la fecha de cada copia (`hub_records` system/`backup_export`) y avisa si han pasado 7 días o más | |
+| Restauración: `tools/backup/snapshot_to_sql.py` (tablas, `insert … on conflict do nothing`, no borra nada) y `tools/backup/extract_files.py` (archivos a carpeta para volver a subir) | `tools/backup/` |
+| Test que obliga a añadir a la copia cualquier tabla nueva creada por una migración | `tests/backup.test.mjs` |
+| Huella del esquema completo (12 secciones: columnas, restricciones, índices, políticas, funciones, vistas, triggers, permisos, RLS, buckets). Referencia de staging guardada; falta ejecutarla en producción y comparar | `tools/db-checks/11_huella_esquema_completo.sql`, `tests/db/fixtures/schema_full_staging_2026-10-12.json` |
+
+Pruebas: `tests/backup.test.mjs` 5/5 (incluye restaurar con los dos scripts), unit 88/88, E2E autenticado contra staging 36/36 (descarga la copia, comprueba que solo trae filas del usuario y que registra la fecha).
 
 ## 2.13.1 (2026-10-12): pago de deudas y comercios identificados por Renzo
 

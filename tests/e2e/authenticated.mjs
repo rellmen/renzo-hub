@@ -159,6 +159,19 @@ await check("Notas: crear, ver y eliminar (hub_records · personal · note)", as
   assert.equal(gone.body.length, 0);
 });
 
+await check("Copia de seguridad: Exportar mis datos descarga todas las tablas y registra la fecha (System)", async () => {
+  await page.evaluate(() => document.querySelector('[data-open="system"]')?.click());
+  await page.locator("#system.active [data-backup-run]").waitFor({ timeout: 10000 });
+  const [download] = await Promise.all([page.waitForEvent("download", { timeout: 30000 }), page.click("#system [data-backup-run]")]);
+  assert.match(download.suggestedFilename(), /^renzo-hub-copia-\d{4}-\d{2}-\d{2}\.json$/);
+  const data = JSON.parse(await (await import("node:fs/promises")).readFile(await download.path(), "utf8"));
+  assert.equal(data.format, "renzo-hub-export"); assert.equal(data.user_id, uid); assert.deepEqual(data.errors, []);
+  assert.ok(Object.keys(data.tables).includes("hub_records") && Object.keys(data.tables).includes("payroll_payslips"));
+  assert.ok(Object.values(data.tables).flat().every(r => (r.owner_id ?? r.user_id) === uid), "solo filas del propio usuario");
+  await page.locator("#system [data-backup-age]", { hasText: "Última copia: hoy" }).waitFor({ timeout: 10000 });
+  await rest(`/rest/v1/hub_records?owner_id=eq.${uid}&record_type=eq.backup_export`, tok.access_token, { method: "DELETE" });
+});
+
 await check("Gastos: importar CSV ficticio de ING, categorías, regla por comercio y limpieza (hub_records · money)", async () => {
   const clean = () => rest(`/rest/v1/hub_records?owner_id=eq.${uid}&record_type=in.(bank_tx,money_rule)`, tok.access_token, { method: "DELETE" });
   await clean();
