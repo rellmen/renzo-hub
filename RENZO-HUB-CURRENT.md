@@ -27,6 +27,8 @@ Nueva microapp **Gastos** (My Finance → pestaña Gastos), creada con `./script
 
 Pruebas: `tests/gastos.test.mjs` 7/7, unit 76/76, E2E autenticado contra staging 35/35 (incluye Gastos: importar CSV ficticio, categorías, regla por comercio y limpieza), E2E Nóminas (Chromium) OK. Con el extracto real de septiembre (local, fuera del repositorio): 5 movimientos sin categoría (comercios desconocidos), alquiler neto 0 € ese mes (aporte de 1.350 €), 2.811,15 € de traspasos a Revolut.
 
+Corrección: al cerrar sesión justo después de hacer scroll, el guardado de la posición (180 ms después) leía un usuario ya nulo y daba un error de JS (lo detectó el E2E de Nóminas en WebKit). Ahora comprueba que la sesión sigue siendo la misma (`app.js`).
+
 Pendiente (etapa 2b): importar el CSV de Revolut (falta el archivo de Renzo).
 
 ## 2.11.0 (2026-10-11): extracto de ING en Nóminas · inicio de la Fase 2
