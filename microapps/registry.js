@@ -38,7 +38,8 @@ export const MICROAPPS = Object.freeze([
   { id: "skin", name: "Skin", area: "body", module: "/microapps/skin/skin.js", mount: "mountSkin", fullscreen: true, loadOnSignIn: true },
   { id: "food", name: "Food", area: "body", fullscreen: true },
   { id: "settings", name: "Cuenta y sincronización", area: "system", fullscreen: true },
-  { id: "notes", name: "Notas", area: "home", module: "/microapps/notes/notes.js", mount: "mountNotes", icon: "✎", home: "Apuntes rápidos, guardados en privado." }
+  { id: "notes", name: "Notas", area: "home", module: "/microapps/notes/notes.js", mount: "mountNotes", icon: "✎", home: "Apuntes rápidos, guardados en privado." },
+  { id: "gastos", name: "Gastos", area: "money", module: "/microapps/gastos/gastos.js", mount: "mountGastos", css: "/microapps/gastos/gastos.css", tab: "Gastos" }
 ].map(Object.freeze));
 
 export const SECTION_IDS = Object.freeze([...Object.keys(AREAS), ...MICROAPPS.map(m => m.id)]);

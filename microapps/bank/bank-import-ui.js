@@ -8,7 +8,8 @@ const eur = v => v == null ? "Sin datos" : new Intl.NumberFormat("es-ES", { styl
 const day = iso => iso ? new Intl.DateTimeFormat("es-ES", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" }).format(new Date(`${iso}T00:00:00Z`)) : "Sin datos";
 const MAX_BYTES = 5 * 1024 * 1024, CHUNK = 200;
 
-export function createBankImport({ db, getUser, getPayslips = () => [], expectedDate = () => null, onChange, onDone }) {
+// payroll: false oculta las líneas de nóminas (por ejemplo, en Gastos).
+export function createBankImport({ db, getUser, getPayslips = () => [], expectedDate = () => null, onChange, onDone, payroll = true }) {
   let state = "idle", records = [], summary = null, message = "", error = "", fileName = "";
   const set = patch => { ({ state = state, message = message, error = error } = patch); onChange?.(); };
 
@@ -51,7 +52,7 @@ export function createBankImport({ db, getUser, getPayslips = () => [], expected
         if (e) throw new Error(e.message);
       }
       const added = summary.total - summary.alreadyImported;
-      const text = `${added} movimiento${added === 1 ? "" : "s"} nuevo${added === 1 ? "" : "s"} guardado${added === 1 ? "" : "s"}${summary.alreadyImported ? ` (${summary.alreadyImported} ya estaban)` : ""}. ${summary.matched} nómina${summary.matched === 1 ? "" : "s"} enlazada${summary.matched === 1 ? "" : "s"} con su cobro en el banco.`;
+      const text = `${added} movimiento${added === 1 ? "" : "s"} nuevo${added === 1 ? "" : "s"} guardado${added === 1 ? "" : "s"}${summary.alreadyImported ? ` (${summary.alreadyImported} ya estaban)` : ""}.${payroll ? ` ${summary.matched} nómina${summary.matched === 1 ? "" : "s"} enlazada${summary.matched === 1 ? "" : "s"} con su cobro en el banco.` : ""}`;
       records = []; summary = null;
       set({ state: "idle", message: text, error: "" });
       onDone?.();
@@ -76,11 +77,11 @@ export function createBankImport({ db, getUser, getPayslips = () => [], expected
         <div><dt>Movimientos</dt><dd>${s.total} (${isNew} nuevos${s.alreadyImported ? `, ${s.alreadyImported} ya importados` : ""})</dd></div>
         <div><dt>Entradas</dt><dd>${esc(eur(s.income))}</dd></div>
         <div><dt>Salidas</dt><dd>${esc(eur(s.expenses))}</dd></div>
-        <div><dt>Ingresos de nómina</dt><dd>${s.salaryCount} · ${esc(eur(s.salaryTotal))}</dd></div>
-        <div><dt>Nóminas enlazadas</dt><dd>${s.matched}</dd></div>
+        ${payroll ? `<div><dt>Ingresos de nómina</dt><dd>${s.salaryCount} · ${esc(eur(s.salaryTotal))}</dd></div>
+        <div><dt>Nóminas enlazadas</dt><dd>${s.matched}</dd></div>` : ""}
       </dl>
-      ${s.unmatched.length ? `<p class="pay-upload-error">El banco menciona ${s.unmatched.length === 1 ? "la nómina" : "las nóminas"} nº ${esc(s.unmatched.join(", "))}, que no ${s.unmatched.length === 1 ? "está" : "están"} en la app. Súbela${s.unmatched.length === 1 ? "" : "s"} para enlazarla${s.unmatched.length === 1 ? "" : "s"}.</p>` : ""}
-      ${s.mismatched.map(m => `<p class="pay-upload-error">Ingreso del ${esc(day(m.date))} (nº ${esc(m.numbers.join(", "))}): banco ${esc(eur(m.amount))}, nóminas ${esc(eur(m.expected))}. Diferencia ${esc(eur(m.diff))}.</p>`).join("")}
+      ${payroll && s.unmatched.length ? `<p class="pay-upload-error">El banco menciona ${s.unmatched.length === 1 ? "la nómina" : "las nóminas"} nº ${esc(s.unmatched.join(", "))}, que no ${s.unmatched.length === 1 ? "está" : "están"} en la app. Súbela${s.unmatched.length === 1 ? "" : "s"} para enlazarla${s.unmatched.length === 1 ? "" : "s"}.</p>` : ""}
+      ${(payroll ? s.mismatched : []).map(m => `<p class="pay-upload-error">Ingreso del ${esc(day(m.date))} (nº ${esc(m.numbers.join(", "))}): banco ${esc(eur(m.amount))}, nóminas ${esc(eur(m.expected))}. Diferencia ${esc(eur(m.diff))}.</p>`).join("")}
       ${s.skippedLines.length ? `<p class="pay-muted">${s.skippedLines.length} línea${s.skippedLines.length === 1 ? "" : "s"} sin leer (formato no reconocido).</p>` : ""}
       ${note}
       <div class="pay-actions"><button data-bank-save ${state === "saving" || !isNew ? "disabled" : ""}>${state === "saving" ? "Guardando…" : isNew ? `Guardar ${isNew} movimiento${isNew === 1 ? "" : "s"}` : "Nada nuevo que guardar"}</button><button data-bank-cancel ${state === "saving" ? "disabled" : ""}>Cancelar</button></div>

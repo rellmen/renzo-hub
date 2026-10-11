@@ -120,7 +120,7 @@ function go(id,restore=false){
 // Un solo listener para todo [data-open], también para el HTML que las microapps pintan después.
 document.addEventListener("click",event=>{const b=event.target.closest("[data-open]");if(b&&SECTION_IDS.includes(b.dataset.open))go(b.dataset.open);});
 let navSaveTimer;
-window.addEventListener("scroll",()=>{if(!user)return;clearTimeout(navSaveTimer);navSaveTimer=setTimeout(()=>{const saved=readJSON(`renzo-nav:${user.id}`,{});writeJSON(`renzo-nav:${user.id}`,{...saved,scrollY:window.scrollY});},180);},{passive:true});
+window.addEventListener("scroll",()=>{if(!user)return;const uid=user.id;clearTimeout(navSaveTimer);navSaveTimer=setTimeout(()=>{if(user?.id!==uid)return;const saved=readJSON(`renzo-nav:${uid}`,{});writeJSON(`renzo-nav:${uid}`,{...saved,scrollY:window.scrollY});},180);},{passive:true});
 
 $("loginForm").addEventListener("submit",async e=>{
   e.preventDefault();
