@@ -6,12 +6,12 @@
 | Tablas base (profiles, skin_*, gym_*, news_briefs, system_*, user_settings) | 3 migraciones iniciales (20261005…) | baseline 20261006234511 | `supabase/migrations/20261006234511_baseline…` |
 | hub_records, hub_user_state, bucket hub-private | ✔ | ✔ | ✔ `20261007002619_…` |
 | `hub_financial_ingest` | ✔ | ✔ | ✔ `20261007111619_jarvis_financial_ingest.sql` + `20261008140000_financial_ingest_always_review.sql` |
-| `payroll_*`: 9 tablas, 10 vistas, 11 funciones, 4 triggers, 14 políticas, bucket `payroll`, Realtime | ✔ | ✔ | ✔ **`20261007200000_payroll_schema_baseline.sql`** (2026-10-10). Idéntico a staging elemento a elemento (`tools/db-replica/payroll_schema_test.sh`, huella en `tests/db/fixtures/payroll_schema_staging_2026-10-10.json`, md5 `793af6d3d9e56b3fe6ead9389f27ffd2`) |
+| `payroll_*`: 9 tablas, 10 vistas, 11 funciones, 4 triggers, 14 políticas, bucket `payroll`, Realtime | ✔ | ✔ | ✔ **`20261007200000_payroll_schema_baseline.sql`** (2026-10-10). Idéntico a staging elemento a elemento (`tools/db-replica/payroll_schema_test.sh`, huella en `tests/db/fixtures/payroll_schema_staging_2026-10-10.json`, md5 `793af6d3d9e56b3fe6ead9389f27ffd2`; producción da la misma huella, comprobado el 2026-10-11) |
 | `harden_grants_and_functions` | ✔ aplicada 2026-10-10 02:20 (verificada 0/0/0) | ✔ 2026-10-08 y 2026-10-10 01:06 | ✔ `migrations/20261008120000_…` · rollback en `supabase/rollbacks/` |
 | `financial_ingest_always_review` | ✔ aplicada 2026-10-10 02:20 (md5 `6756a66a…`) | ✔ 2026-10-08 | ✔ `migrations/20261008140000_…` |
 | `payroll_pay_date_rule` (mes por fecha de cobro) | ✔ aplicada 2026-10-10 12:10 (verificada) | ✔ 2026-10-10 12:02 | ✔ `migrations/20261010030000_…` |
 | `staging_revoke_maintain` | n/a | ✔ 2026-10-08 | `supabase/pending/` (solo staging) |
-| Buckets `portfolio-files`, `progress-photos` | según auditoría del 8 oct, solo en producción | no existen | **falta**: requiere leer producción (bloqueado para Claude); pendiente |
+| Buckets `portfolio-files`, `progress-photos` (privados, 10 MB, política `*_owner` ALL por carpeta de usuario) | ✔ (leído por Renzo el 2026-10-11; `portfolio-files` con 3 archivos) | tras aplicar la migración | ✔ `20261011120000_storage_portfolio_progress_buckets.sql` (copiada de producción; allí no cambia nada). Prueba `tools/db-replica/buckets_test.sh` |
 
 **Estructura:** `supabase/migrations/` = aplicado en ambos entornos, en orden; una base vacía + todas las migraciones reproduce el esquema (probado). `supabase/rollbacks/` = deshacer (nunca se ejecutan automáticamente). `supabase/pending/` = no aplicado en producción.
 **Comprobar producción:** ejecutar `para-produccion/9_comprobar_esquema_nominas.sql` (solo lectura) y comparar el md5 con el de staging.

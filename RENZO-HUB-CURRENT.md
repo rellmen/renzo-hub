@@ -1,15 +1,26 @@
 # Renzo Hub · versión vigente
 
-- **Producción (uso diario):** [renzo-hub.vercel.app](https://renzo-hub.vercel.app/) · release **2.8.3** (aviso de nóminas que faltan) · rama `main`, commit `2d996d8` (merge del PR #11) · verificada 2026-10-10 12:56: READY, `release.json` 2.8.3, `deployment-info` production/main, smoke 15/15. Migraciones aplicadas: 20261008120000, 20261008140000 y 20261010030000 (ver `docs/SUPABASE-SCHEMA.md`). Rollback app: Instant Rollback en Vercel
-- **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.8.3** · rama `staging` (PR #9 y #10) · **No borrar la rama `staging` al fusionar PRs.**
+- **Producción (uso diario):** [renzo-hub.vercel.app](https://renzo-hub.vercel.app/) · release **2.10.1** (nóminas por mes de cobro y tipo) · rama `main`, commit `b73d505` (merge del PR #20) · verificada 2026-10-10: READY, `release.json` 2.10.1, `deployment-info` production/main, smoke 15/15. Migraciones: todas las de `supabase/migrations/` hasta 20261010030000 (ver `docs/SUPABASE-SCHEMA.md`). Rollback app: Instant Rollback en Vercel
+- **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.10.1** · rama `staging` · **No borrar la rama `staging` al fusionar PRs.**
 - **Experimental:** 2.6.0 Microapp OS Core · rama `experimental/os-core` (no se despliega)
-- **Fuente canónica:** `github.com/rellmen/renzo-hub` (privado). `main` = 2.4.1, `staging` = 2.5.0, `feature/fase1` = Bloques 0 a 4. PR #1 (`sync/main-2.4.1` → `main`) y PR #2 (`feature/fase1` → `staging`) con CI en verde, pendientes de que Renzo los fusione
+- **Fuente canónica:** `github.com/rellmen/renzo-hub` (privado). `main` = producción, `staging` = pruebas, `feature/*` = una rama por tarea con PR hacia `staging`
 - **Copias de seguridad:** `~/Projects/RENZO-HUB/backups/` y versiones verificadas en `~/Projects/RENZO-HUB/releases/`
 - **Proyectos Vercel:** `renzo-hub` (producción) y `renzo-hub-2-1-staging` (staging)
 - **Supabase:** "Renzo Hub" `mgncykyrhavpepfggmng` (producción) y "Renzo Hub Staging" `zpueziugbezqxompwsol`
 - **Referencias:** `RENZO_HUB_TECHNICAL_AUDIT.md` y `PHASE_1_EXECUTION_PLAN.md` (bóveda del proyecto y `~/Documents/HUB`)
 
 > La carpeta `~/.codex/.chatgpt-projects/.../renzo-hub-news` queda como espejo histórico de solo lectura. No editar ni desplegar desde ella.
+
+## 2.10.2 (2026-10-11): buckets de producción en migraciones · criterio 4 de Fase 1
+
+- Consulta 9 (huella del esquema de Nóminas) en producción = `793af6d3d9e56b3fe6ead9389f27ffd2`, idéntica a staging. Staging se reproduce con la cadena de migraciones, así que producción también.
+- Consulta 10 (buckets): `hub-private` y `payroll` iguales en ambos entornos. Producción tenía además `portfolio-files` (3 archivos) y `progress-photos` (vacío), sin migración y sin existir en staging.
+- Nueva migración aditiva `20261011120000_storage_portfolio_progress_buckets.sql` (definición copiada de producción; en producción no cambia nada) y rollback solo para staging.
+- Prueba `tools/db-replica/buckets_test.sh` (también en CI): base vacía + todas las migraciones = buckets y políticas de producción; estado de producción + migración = sin cambios y archivos intactos; idempotente; rollback.
+- Pendiente: aplicar la migración en staging (Renzo, SQL Editor de "Renzo Hub Staging") y comprobar. Con eso el criterio 4 queda cerrado.
+- **Decisión de Renzo (2026-10-11): los criterios 5 (staging para Jarvis) y 8 (separación Nodalys) pasan a la Fase 2.** No bloquean nada: las nóminas se suben desde la app sin n8n. La Fase 1 se cierra con 6 de 8 criterios en cuanto el criterio 4 quede comprobado en staging.
+- Petición de Renzo: al terminar cada cambio, darle siempre el enlace del PR hacia `staging` (y el del SQL Editor de staging si hay migración).
+- Extracto ING de septiembre: confirma las 7 nóminas (3.376,15 €). La nº 19 se cobró el 2 sep (junto con la nº 20) y la nº 22 el 11 sep; la app muestra 1 y 10 sep (fecha del documento). Pendiente de decisión de Renzo: importar el CSV del banco para marcar "cobrada en banco" con la fecha real.
 
 ## Estado verificable de Fase 1 (2026-10-08, 12:15)
 

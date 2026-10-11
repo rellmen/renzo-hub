@@ -1,8 +1,8 @@
 {
-  "release": "2.10.1",
-  "name": "Renzo Hub · Nóminas por mes de cobro y tipo",
+  "release": "2.10.2",
+  "name": "Renzo Hub · Buckets de producción en migraciones",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",
-  "updated": "2026-10-10"
+  "updated": "2026-10-11"
 }
