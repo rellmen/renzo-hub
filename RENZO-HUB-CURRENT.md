@@ -18,6 +18,8 @@
 - Nueva migración aditiva `20261011120000_storage_portfolio_progress_buckets.sql` (definición copiada de producción; en producción no cambia nada) y rollback solo para staging.
 - Prueba `tools/db-replica/buckets_test.sh` (también en CI): base vacía + todas las migraciones = buckets y políticas de producción; estado de producción + migración = sin cambios y archivos intactos; idempotente; rollback.
 - Pendiente: aplicar la migración en staging (Renzo, SQL Editor de "Renzo Hub Staging") y comprobar. Con eso el criterio 4 queda cerrado.
+- **Decisión de Renzo (2026-10-11): los criterios 5 (staging para Jarvis) y 8 (separación Nodalys) pasan a la Fase 2.** No bloquean nada: las nóminas se suben desde la app sin n8n. La Fase 1 se cierra con 6 de 8 criterios en cuanto el criterio 4 quede comprobado en staging.
+- Petición de Renzo: al terminar cada cambio, darle siempre el enlace del PR hacia `staging` (y el del SQL Editor de staging si hay migración).
 - Extracto ING de septiembre: confirma las 7 nóminas (3.376,15 €). La nº 19 se cobró el 2 sep (junto con la nº 20) y la nº 22 el 11 sep; la app muestra 1 y 10 sep (fecha del documento). Pendiente de decisión de Renzo: importar el CSV del banco para marcar "cobrada en banco" con la fecha real.
 
 ## Estado verificable de Fase 1 (2026-10-08, 12:15)
