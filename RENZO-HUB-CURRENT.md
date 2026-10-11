@@ -1,7 +1,7 @@
 # Renzo Hub · versión vigente
 
 - **Producción (uso diario):** [renzo-hub.vercel.app](https://renzo-hub.vercel.app/) · release **2.10.1** (nóminas por mes de cobro y tipo) · rama `main`, commit `b73d505` (merge del PR #20) · verificada 2026-10-10: READY, `release.json` 2.10.1, `deployment-info` production/main, smoke 15/15. Migraciones: todas las de `supabase/migrations/` hasta 20261010030000 (ver `docs/SUPABASE-SCHEMA.md`). Rollback app: Instant Rollback en Vercel
-- **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.10.1** · rama `staging` · **No borrar la rama `staging` al fusionar PRs.**
+- **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.11.0** (tras fusionar el PR) · rama `staging` · **No borrar la rama `staging` al fusionar PRs.**
 - **Experimental:** 2.6.0 Microapp OS Core · rama `experimental/os-core` (no se despliega)
 - **Fuente canónica:** `github.com/rellmen/renzo-hub` (privado). `main` = producción, `staging` = pruebas, `feature/*` = una rama por tarea con PR hacia `staging`
 - **Copias de seguridad:** `~/Projects/RENZO-HUB/backups/` y versiones verificadas en `~/Projects/RENZO-HUB/releases/`
@@ -10,6 +10,21 @@
 - **Referencias:** `RENZO_HUB_TECHNICAL_AUDIT.md` y `PHASE_1_EXECUTION_PLAN.md` (bóveda del proyecto y `~/Documents/HUB`)
 
 > La carpeta `~/.codex/.chatgpt-projects/.../renzo-hub-news` queda como espejo histórico de solo lectura. No editar ni desplegar desde ella.
+
+## 2.11.0 (2026-10-11): extracto de ING en Nóminas · inicio de la Fase 2
+
+**Fase 1 cerrada (2026-10-11):** criterio 4 comprobado (staging = producción en esquema de Nóminas y buckets); 5 y 8 pasan a la Fase 2 por decisión de Renzo.
+
+Petición de Renzo (Fase 2): importar el CSV de ING en Nóminas; gastos por categoría y mes (supermercados y cuál, restaurantes, alquiler, gasolina, seguros…); presupuesto semanal por categoría; gastos fijos y suscripciones; ahorro real del mes; fotos de tickets. Se entrega por etapas: 1) CSV en Nóminas (esta versión), 2) Gastos por categoría, 3) presupuestos, fijos y ahorro, 4) tickets.
+
+| Cambio | Dónde |
+|---|---|
+| Lector del CSV de ING (inglés y neerlandés), números de nómina "loonslipnummer(s) N", id estable por movimiento (importar dos veces no duplica) | `microapps/bank/ing-csv.js` |
+| Tarjeta "Importar extracto ING (CSV)" en Nóminas → Resumen: vista previa (periodo, movimientos nuevos y ya importados, entradas, salidas, nóminas enlazadas, diferencias, nóminas que faltan) y guardado solo al confirmar | `microapps/bank/bank-import-ui.js`, `payroll.js` |
+| Datos: `hub_records` (money / `bank_tx`, source `import`), sin migración. Cuenta propia guardada solo con los 4 últimos dígitos | |
+| Nóminas: chip "En el banco <fecha>" o "diferencia", tarjeta "Cobro en el banco" en el detalle y, en pagos extra pendientes, botón "Usar la fecha del banco" en la revisión (corrige la fecha de pago al aprobar) | `payroll.js`, `payroll.css` |
+
+Pruebas: `tests/bank.test.mjs` 9/9 (CSV ficticio), unit 69/69, E2E Nóminas (Chromium) con importación, reimportación sin duplicar, chip y detalle. Probado también en local con el extracto real de septiembre (no está en el repositorio): 50 movimientos, 50 ids únicos, 6 ingresos de nómina (nº 19 a 25).
 
 ## 2.10.2 (2026-10-11): buckets de producción en migraciones · criterio 4 de Fase 1
 
