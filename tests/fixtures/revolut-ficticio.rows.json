@@ -1,0 +1,20 @@
+[
+ {"page":1,"y":757,"items":[{"s":"Afschrift EUR","x":434}]},
+ {"page":1,"y":665,"items":[{"s":"Persona Ficticia","x":40},{"s":"IBAN","x":353},{"s":"NL00REVO0000000001","x":376}]},
+ {"page":1,"y":517,"items":[{"s":"Rekening (Betaalrekening)","x":43},{"s":"€10,00","x":253},{"s":"€52,50","x":335},{"s":"€100,00","x":417},{"s":"€57,50","x":526}]},
+ {"page":1,"y":434,"items":[{"s":"Rekeningtransacties van 1 juli 2026 naar 31 juli 2026","x":40}]},
+ {"page":1,"y":408,"items":[{"s":"Datum","x":43},{"s":"Beschrijving","x":125},{"s":"Uitgegeven geld","x":335},{"s":"Ontvangen geld","x":417},{"s":"Saldo","x":535}]},
+ {"page":1,"y":389,"items":[{"s":"1 jul 2026","x":43},{"s":"{xPay} geld toevoegen met {card}","x":125},{"s":"€100,00","x":417},{"s":"€110,00","x":519}]},
+ {"page":1,"y":381,"items":[{"s":"Van: *0000","x":125}]},
+ {"page":1,"y":364,"items":[{"s":"2 jul 2026","x":43},{"s":"PLUS","x":125},{"s":"€12,50","x":335},{"s":"€97,50","x":526}]},
+ {"page":1,"y":357,"items":[{"s":"Aan: Supermarkt Test, Leende","x":125}]},
+ {"page":1,"y":351,"items":[{"s":"Kaart: 400000******0000","x":125}]},
+ {"page":1,"y":335,"items":[{"s":"3 jul 2026","x":43},{"s":"Overschrijving naar JUAN PEREZ","x":125},{"s":"€40,00","x":335},{"s":"€57,50","x":526}]},
+ {"page":1,"y":323,"items":[{"s":"GARCIA","x":125}]},
+ {"page":1,"y":316,"items":[{"s":"Referentie: Cena","x":125}]},
+ {"page":1,"y":311,"items":[{"s":"Aan: JUAN PEREZ GARCIA","x":125}]},
+ {"page":1,"y":36,"items":[{"s":"© 2026 Revolut Bank UAB (Netherlands Branch)","x":40},{"s":"Pagina","x":502},{"s":"1","x":529}]},
+ {"page":2,"y":693,"items":[{"s":"Datum","x":43},{"s":"Beschrijving","x":125},{"s":"Uitgegeven geld","x":335},{"s":"Ontvangen geld","x":417},{"s":"Saldo","x":535}]},
+ {"page":2,"y":600,"items":[{"s":"Teruggedraaide transacties","x":43}]},
+ {"page":2,"y":580,"items":[{"s":"4 jul 2026","x":43},{"s":"Winkel Teruggedraaid","x":125},{"s":"€9,99","x":335}]}
+]

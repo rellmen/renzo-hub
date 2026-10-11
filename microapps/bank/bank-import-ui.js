@@ -2,6 +2,18 @@
 // (movimientos, nóminas enlazadas, ya importados) y solo se guarda cuando el usuario confirma.
 // Se guarda en hub_records (domain money, record_type bank_tx) con id estable: importar dos veces no duplica.
 import { parseIngCsv, toRecord, importSummary } from "./ing-csv.js";
+import { parseRevolutCsv, parseRevolutRows } from "./revolut.js";
+
+// Detecta el banco por el contenido: PDF = extracto de Revolut; CSV con "Completed Date" = Revolut; si no, ING.
+export async function parseStatement(file, { pdfRows } = {}) {
+  const isPdf = /pdf$/i.test(file.type) || /\.pdf$/i.test(file.name);
+  if (isPdf) {
+    const rows = pdfRows ? await pdfRows(file) : await (async () => { const { extractRows } = await import("/payroll-pdf.js"); return extractRows(new Uint8Array(await file.arrayBuffer()), undefined, 80); })();
+    return parseRevolutRows(rows);
+  }
+  const text = await file.text();
+  return /completed date/i.test(text.split(/\r?\n/, 1)[0]) ? parseRevolutCsv(text) : parseIngCsv(text);
+}
 
 const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const eur = v => v == null ? "Sin datos" : new Intl.NumberFormat("es-ES", { style: "currency", currency: "EUR" }).format(Number(v));
@@ -27,12 +39,12 @@ export function createBankImport({ db, getUser, getPayslips = () => [], expected
     records = []; summary = null; fileName = file?.name || "";
     if (!file) return;
     if (file.size > MAX_BYTES) return set({ state: "idle", error: "El archivo supera 5 MB. Descarga un periodo más corto.", message: "" });
-    if (!/\.csv$/i.test(file.name) && !/csv|text/i.test(file.type)) return set({ state: "idle", error: "Elige el archivo CSV que descargas de ING.", message: "" });
+    if (!/\.(csv|pdf)$/i.test(file.name) && !/csv|text|pdf/i.test(file.type)) return set({ state: "idle", error: "Elige el CSV de ING o el extracto de Revolut (PDF o CSV).", message: "" });
     const uid = getUser()?.id;
     if (!uid) return set({ state: "idle", error: "Inicia sesión para importar.", message: "" });
     set({ state: "reading", error: "", message: "" });
     try {
-      const parsed = parseIngCsv(await file.text());
+      const parsed = await parseStatement(file);
       records = await Promise.all(parsed.transactions.map(t => toRecord(t, uid)));
       const ids = records.map(r => r.id);
       summary = importSummary(parsed, getPayslips(), expectedDate, await existing(ids), ids);
@@ -65,13 +77,14 @@ export function createBankImport({ db, getUser, getPayslips = () => [], expected
 
   function html() {
     const busy = state === "reading" || state === "saving";
-    const picker = `<label class="pay-button pay-upload-pick${busy ? " is-busy" : ""}">${state === "reading" ? "Leyendo CSV…" : "Importar extracto ING (CSV)"}<input type="file" accept=".csv,text/csv" data-bank-file ${busy ? "disabled" : ""}></label>`;
+    const picker = `<label class="pay-button pay-upload-pick${busy ? " is-busy" : ""}">${state === "reading" ? "Leyendo extracto…" : "Importar extracto (ING o Revolut)"}<input type="file" accept=".csv,text/csv,.pdf,application/pdf" data-bank-file ${busy ? "disabled" : ""}></label>`;
     const note = `${message ? `<p class="pay-upload-ok" role="status" data-bank-ok>${esc(message)}</p>` : ""}${error ? `<p class="pay-upload-error" role="alert">${esc(error)}</p>` : ""}`;
-    if (!(state === "preview" || state === "saving") || !summary) return `<div class="card pay-upload" data-bank-import>${picker}<p class="pay-muted">Mijn ING → Af- en bijschrijvingen → Downloaden → CSV. Se lee en tu dispositivo; nada se guarda hasta que confirmes.</p>${note}</div>`;
+    if (!(state === "preview" || state === "saving") || !summary) return `<div class="card pay-upload" data-bank-import>${picker}<p class="pay-muted">ING: Mijn ING → Af- en bijschrijvingen → Downloaden → CSV. Revolut: extracto en PDF (o CSV) desde la app. Se lee en tu dispositivo; nada se guarda hasta que confirmes.</p>${note}</div>`;
     const s = summary, isNew = s.total - s.alreadyImported;
     return `<div class="card pay-upload" data-bank-preview>
       <h3>Revisa antes de guardar</h3>
-      <p class="pay-muted">${esc(fileName)} · cuenta ${esc(s.accounts.join(", ") || "sin identificar")}</p>
+      <p class="pay-muted">${esc(s.bank)} · ${esc(fileName)} · cuenta ${esc(s.accounts.join(", ") || "sin identificar")}</p>
+      ${s.balanceBreaks.length ? `<p class="pay-upload-error" data-bank-breaks>El saldo no cuadra en ${s.balanceBreaks.length} movimiento${s.balanceBreaks.length === 1 ? "" : "s"} (${esc(s.balanceBreaks.slice(0, 3).join(" · "))}). Revisa el extracto antes de guardar.</p>` : `<p class="pay-muted" data-bank-balance-ok>${s.bank === "Revolut" ? "Saldos comprobados movimiento a movimiento: cuadran." : ""}</p>`}
       <dl class="pay-fields">
         <div><dt>Periodo</dt><dd>${esc(day(s.from))} a ${esc(day(s.to))}</dd></div>
         <div><dt>Movimientos</dt><dd>${s.total} (${isNew} nuevos${s.alreadyImported ? `, ${s.alreadyImported} ya importados` : ""})</dd></div>
@@ -80,8 +93,8 @@ export function createBankImport({ db, getUser, getPayslips = () => [], expected
         ${payroll ? `<div><dt>Ingresos de nómina</dt><dd>${s.salaryCount} · ${esc(eur(s.salaryTotal))}</dd></div>
         <div><dt>Nóminas enlazadas</dt><dd>${s.matched}</dd></div>` : ""}
       </dl>
-      ${payroll && s.unmatched.length ? `<p class="pay-upload-error">El banco menciona ${s.unmatched.length === 1 ? "la nómina" : "las nóminas"} nº ${esc(s.unmatched.join(", "))}, que no ${s.unmatched.length === 1 ? "está" : "están"} en la app. Súbela${s.unmatched.length === 1 ? "" : "s"} para enlazarla${s.unmatched.length === 1 ? "" : "s"}.</p>` : ""}
-      ${(payroll ? s.mismatched : []).map(m => `<p class="pay-upload-error">Ingreso del ${esc(day(m.date))} (nº ${esc(m.numbers.join(", "))}): banco ${esc(eur(m.amount))}, nóminas ${esc(eur(m.expected))}. Diferencia ${esc(eur(m.diff))}.</p>`).join("")}
+      ${payroll && s.bank === "ING" && s.unmatched.length ? `<p class="pay-upload-error">El banco menciona ${s.unmatched.length === 1 ? "la nómina" : "las nóminas"} nº ${esc(s.unmatched.join(", "))}, que no ${s.unmatched.length === 1 ? "está" : "están"} en la app. Súbela${s.unmatched.length === 1 ? "" : "s"} para enlazarla${s.unmatched.length === 1 ? "" : "s"}.</p>` : ""}
+      ${(payroll && s.bank === "ING" ? s.mismatched : []).map(m => `<p class="pay-upload-error">Ingreso del ${esc(day(m.date))} (nº ${esc(m.numbers.join(", "))}): banco ${esc(eur(m.amount))}, nóminas ${esc(eur(m.expected))}. Diferencia ${esc(eur(m.diff))}.</p>`).join("")}
       ${s.skippedLines.length ? `<p class="pay-muted">${s.skippedLines.length} línea${s.skippedLines.length === 1 ? "" : "s"} sin leer (formato no reconocido).</p>` : ""}
       ${note}
       <div class="pay-actions"><button data-bank-save ${state === "saving" || !isNew ? "disabled" : ""}>${state === "saving" ? "Guardando…" : isNew ? `Guardar ${isNew} movimiento${isNew === 1 ? "" : "s"}` : "Nada nuevo que guardar"}</button><button data-bank-cancel ${state === "saving" ? "disabled" : ""}>Cancelar</button></div>

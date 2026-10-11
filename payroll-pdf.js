@@ -20,11 +20,11 @@ async function loadPdfjs() {
 }
 
 // Filas de texto: [{ page, y, items: [{ s, x }] }], de arriba abajo y de izquierda a derecha.
-export async function extractRows(data, lib) {
+export async function extractRows(data, lib, maxPages = 4) {
   const pdfjs = lib || await loadPdfjs();
   const doc = await pdfjs.getDocument({ data, isEvalSupported: false }).promise;
   const rows = [];
-  for (let p = 1; p <= Math.min(doc.numPages, 4); p++) {
+  for (let p = 1; p <= Math.min(doc.numPages, maxPages); p++) {
     const tc = await (await doc.getPage(p)).getTextContent();
     const pageRows = [];
     for (const it of tc.items) {

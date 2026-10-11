@@ -17,15 +17,18 @@ export const CATEGORIES = Object.freeze([
   { id: "salud", name: "Salud y cuidado personal", kind: "expense", icon: "💊" },
   { id: "compras", name: "Compras y ropa", kind: "expense", icon: "🛍" },
   { id: "ocio", name: "Ocio y deporte", kind: "expense", icon: "🎳" },
+  { id: "viajes", name: "Viajes y alojamiento", kind: "expense", icon: "✈" },
   { id: "impuestos", name: "Impuestos y tasas", kind: "expense", icon: "🏛" },
   { id: "banco", name: "Banco y tarjetas", kind: "expense", icon: "🏦" },
   { id: "personas_enviado", name: "Enviado a personas", kind: "expense", icon: "↗" },
+  { id: "familia", name: "Ayuda a la familia", kind: "expense", icon: "👪" },
   { id: "otros_gastos", name: "Otros gastos", kind: "expense", icon: "•" },
   { id: "nomina", name: "Nómina", kind: "income", icon: "💼" },
   { id: "toeslagen", name: "Toeslagen y ayudas", kind: "income", icon: "🏛" },
   { id: "personas_recibido", name: "Recibido de personas", kind: "income", icon: "↙" },
   { id: "otros_ingresos", name: "Otros ingresos", kind: "income", icon: "+" },
   { id: "traspaso", name: "Traspaso entre tus cuentas", kind: "transfer", icon: "⇄" },
+  { id: "prestamos", name: "Préstamos y devoluciones", kind: "transfer", icon: "↔" },
   { id: "sin_categoria", name: "Sin categoría", kind: "expense", icon: "?" }
 ].map(Object.freeze));
 export const CATEGORY = Object.freeze(Object.fromEntries(CATEGORIES.map(c => [c.id, c])));
@@ -61,22 +64,23 @@ export const merchantKey = raw => merchantName(raw).toLowerCase();
 const R = (category, pattern, when = "any") => ({ category, re: new RegExp(pattern, "i"), when });
 // when: debit (salida) · credit (entrada) · any
 export const DEFAULT_RULES = Object.freeze([
-  R("traspaso", "\\brevolut\\b|\\bbunq\\b.*(top ?up|opwaarderen)|spaarrekening|oranje spaar|eigen rekening"),
+  R("traspaso", "recarga desde tu tarjeta|geld toevoegen|\\btop.?up\\b|\\brevolut\\b|\\bbunq\\b.*(top ?up|opwaarderen)|spaarrekening|oranje spaar|eigen rekening"),
   R("nomina", "loonslip|salaris|salary|\\bsd ?worx\\b", "credit"),
   R("toeslagen", "toeslag|belastingdienst", "credit"),
-  R("impuestos", "belastingdienst|gemeente|waterschap|\\bbsgw\\b|cjib", "debit"),
+  R("impuestos", "belastingdienst|kvk|gemeente(?!lijk auto)|waterschap|\\bbsgw\\b|cjib", "debit"),
   R("alquiler", "\\b(rent|huur|alquiler|kale huur)\\b"),
   R("supermercado", "albert ?heijn|\\bah\\b|\\bah to go\\b|jumbo|lidl|aldi|\\bplus\\b|\\bdirk\\b|\\bcoop\\b|\\bspar\\b|ekoplaza|vomar|hoogvliet|\\bdeen\\b|supermarkt|supermarket|picnic|crisp|nettorama|poiesz|boni|dekamarkt|carrefour|mercadona|delhaize|colruyt"),
   R("gasolina", "\\bshell\\b|\\besso\\b|\\bbp\\b|totalenergies|\\btotal\\b|tango|tinq|texaco|\\bgulf\\b|\\bavia\\b|argos|fieten|\\bq8\\b|tamoil|firezone|tankstation|tank\\s|benzine"),
   R("coche", "parking|q.?park|parkeren|parkeer|carwash|car ?w(ash)?|wasstraat|\\banwb\\b|\\bapk\\b|kwik.?fit|halfords|autobedrijf|garage|bandencentrale|\\brdw\\b"),
-  R("transporte", "\\bns\\b|ns groep|ov.?chipkaart|translink|arriva|hermes|connexxion|qbuzz|\\bret\\b|\\bgvb\\b|\\bhtm\\b|\\buber\\b(?!.*eats)|\\bbolt\\b|flixbus|ryanair|transavia|klm|vueling|easyjet"),
+  R("transporte", "\\bns\\b|ns groep|ov.?chipkaart|translink|arriva|hermes|connexxion|qbuzz|\\bret\\b|\\bgvb\\b|\\bhtm\\b|\\buber\\b(?!.*eats)|\\bbolt\\b|flixbus"),
+  R("viajes", "airbnb|booking\\.com|hotel|hostel|expedia|ryanair|transavia|\\bklm\\b|vueling|easyjet|iberia|wizz ?air|camping"),
   R("seguros", "verzekering|verzekeraar|insurance|zilveren kruis|\\bcz\\b|\\bvgz\\b|menzis|\\bohra\\b|centraal beheer|interpolis|\\bnn\\b|allianz|aegon|\\bfbto\\b|unive|ditzo|\\bdsw\\b|aon\\b"),
   R("telefono", "\\bkpn\\b|vodafone|t-?mobile|odido|ziggo|simyo|lebara|\\bben\\b|tele2|youfone|hollandsnieuwe|lycamobile|delta fiber"),
   R("energia", "vattenfall|eneco|essent|greenchoice|budget energie|energiedirect|vandebron|waterbedrijf|brabant water|vitens|evides|\\bpwn\\b|enexis|stedin|liander"),
   R("suscripciones", "netflix|spotify|disney|\\bhbo\\b|videoland|apple\\.com|icloud|google|youtube|amazon prime|prime video|transip|chatgpt|openai|anthropic|\\bclaude\\b|microsoft|adobe|dropbox|notion|patreon|audible|duolingo|linkedin|coursera|udemy"),
   R("ocio", "bowling|golazo|bioscoop|path[eé]|kinepolis|vue cinema|ticketmaster|eventim|museum|steam|playstation|xbox|nintendo|basic.?fit|sportcity|fit for free|anytime fitness|\\bgym\\b|escape room|efteling|concert"),
-  R("restaurantes", "restaurant|ristorante|\\bcaf[eé]\\b|bakery|bakkerij|lunchroom|cuisine|eetcaf|snackbar|friet|mcdonald|burger ?king|\\bkfc\\b|subway|domino|pizza|thuisbezorgd|uber ?eats|deliveroo|starbucks|sushi|grill|brasserie|\\bbar\\b|kebab|shoarma|vending|bistro|taverne|pub\\b"),
-  R("salud", "apotheek|pharmacy|farmacia|huisarts|tandarts|fysio|ziekenhuis|kruidvat|\\betos\\b|trekpleister|da drogist|opticien|specsavers|pearle"),
+  R("restaurantes", "restaurant|ristorante|\\bcaf[eé]\\b|bakery|bakkerij|lunchroom|cuisine|eetcaf|snackbar|friet|mcdonald|burger ?king|\\bkfc\\b|subway|domino|pizza|thuisbezorgd|uber ?eats|deliveroo|starbucks|sushi|grill|brasserie|\\bbar\\b|kebab|shoarma|vending|bistro|taverne|pub\\b|hmshost|\\brest\\b|grieks|matcha|ijssalon|gelato"),
+  R("salud", "kapper|barber|golden scissors|\\bhair|rituals|apotheek|pharmacy|farmacia|huisarts|tandarts|fysio|ziekenhuis|kruidvat|\\betos\\b|trekpleister|da drogist|opticien|specsavers|pearle"),
   R("compras", "\\baction\\b|\\bhema\\b|primark|\\bzara\\b|h&m|\\bh ?& ?m\\b|uniqlo|bol\\.com|amazon|coolblue|mediamarkt|\\bikea\\b|beauty|scents|douglas|zalando|wehkamp|blokker|gamma|praxis|karwei|hornbach|decathlon|intertoys|bershka|pull ?& ?bear|mango|c&a|wibra|xenos|flying tiger|shein|temu|aliexpress"),
   R("banco", "kosten|oranjepakket|betaalpakket|creditcard|credit card|\\brente\\b|bankkosten|incasso ing")
 ]);
@@ -90,6 +94,7 @@ export function categorize(tx, userRules = []) {
   const own = userRules.find(r => (r.payload?.merchant ?? r.merchant) === key);
   if (own && CATEGORY[own.payload?.category ?? own.category]) return { category: own.payload?.category ?? own.category, source: "rule", merchant };
   if ((t.payslip_numbers || []).length && t.amount > 0) return { category: "nomina", source: "default", merchant };
+  if (t.code === "TOPUP") return { category: "traspaso", source: "default", merchant };
   const text = `${t.name || ""} ${t.description || ""}`;
   const dir = t.amount < 0 ? "debit" : "credit";
   for (const rule of DEFAULT_RULES) if ((rule.when === "any" || rule.when === dir) && rule.re.test(text)) return { category: rule.category, source: "default", merchant };

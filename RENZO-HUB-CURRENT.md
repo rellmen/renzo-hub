@@ -1,7 +1,7 @@
 # Renzo Hub · versión vigente
 
 - **Producción (uso diario):** [renzo-hub.vercel.app](https://renzo-hub.vercel.app/) · release **2.11.0** (extracto de ING en Nóminas) · rama `main`, commit `af07e68` (merge del PR #23) · verificada 2026-10-12: READY, `release.json` 2.11.0, `deployment-info` production/main, smoke 15/15. Migraciones: todas las de `supabase/migrations/` hasta 20261010030000 (ver `docs/SUPABASE-SCHEMA.md`). Rollback app: Instant Rollback en Vercel
-- **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.12.0** (tras fusionar el PR) · rama `staging` · **No borrar la rama `staging` al fusionar PRs.**
+- **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.13.0** (tras fusionar el PR) · rama `staging` · **No borrar la rama `staging` al fusionar PRs.**
 - **Experimental:** 2.6.0 Microapp OS Core · rama `experimental/os-core` (no se despliega)
 - **Fuente canónica:** `github.com/rellmen/renzo-hub` (privado). `main` = producción, `staging` = pruebas, `feature/*` = una rama por tarea con PR hacia `staging`
 - **Copias de seguridad:** `~/Projects/RENZO-HUB/backups/` y versiones verificadas en `~/Projects/RENZO-HUB/releases/`
@@ -10,6 +10,19 @@
 - **Referencias:** `RENZO_HUB_TECHNICAL_AUDIT.md` y `PHASE_1_EXECUTION_PLAN.md` (bóveda del proyecto y `~/Documents/HUB`)
 
 > La carpeta `~/.codex/.chatgpt-projects/.../renzo-hub-news` queda como espejo histórico de solo lectura. No editar ni desplegar desde ella.
+
+## 2.13.0 (2026-10-12): extracto de Revolut · Gastos con ING + Revolut (etapa 2b)
+
+| Qué | Dónde |
+|---|---|
+| Lector del extracto de Revolut en **PDF** (neerlandés, inglés o español; pdf.js en el dispositivo, por posición de columnas) y en **CSV** de la app (solo completados en EUR, comisión incluida) | `microapps/bank/revolut.js` |
+| Comprobación de saldo movimiento a movimiento; si no cuadra, aviso en la vista previa. Ignora secciones de movimientos revertidos o pendientes | `balanceBreaks` |
+| El importador detecta el banco solo (PDF → Revolut; CSV con "Completed Date" → Revolut; resto → ING). Mismo botón en Nóminas y Gastos | `bank-import-ui.js` (`parseStatement`) |
+| Recargas desde la tarjeta de ING = traspaso (no gasto). Id estable por movimiento también en Revolut (PDF y CSV del mismo movimiento → mismo id) | `ing-csv.js` |
+| Categorías nuevas: Viajes y alojamiento, Ayuda a la familia (gasto) y Préstamos y devoluciones (no cuenta). Reglas nuevas: kvk, peluquería, Rituals, Airbnb, HMSHost… | `categories.js` |
+| `extractRows` admite más páginas (`maxPages`, 80 para extractos) | `payroll-pdf.js` |
+
+Pruebas: `tests/revolut.test.mjs` 7/7 (filas ficticias, CSV ficticio, detección del banco), unit 83/83, E2E autenticado contra staging 35/35 (ahora también importa un PDF ficticio de Revolut, `tests/fixtures/revolut-ficticio.pdf`, generado con `tools/fixtures/make_revolut_pdf.py`). Con el extracto real de septiembre (local): 64 movimientos, entradas 4.443,73 € y salidas 4.355,60 € = resumen del extracto, saldos encadenados sin errores.
 
 ## 2.12.0 (2026-10-12): Gastos por categoría · etapa 2 de la Fase 2
 
