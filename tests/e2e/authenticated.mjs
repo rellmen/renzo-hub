@@ -181,6 +181,16 @@ await check("Gastos: importar CSV ficticio de ING, categorías, regla por comerc
   assert.match(await page.locator('#gastos [data-group="restaurantes"] summary').innerText(), /46,90/);
   const ruleRows = await rest(`/rest/v1/hub_records?owner_id=eq.${uid}&record_type=eq.money_rule&select=payload`, tok.access_token);
   assert.deepEqual(ruleRows.body.map(r => r.payload), [{ merchant: "albert heijn", category: "restaurantes" }]);
+  // Extracto de Revolut en PDF (ficticio): se lee con pdf.js en el navegador, saldos comprobados, recarga = traspaso
+  await page.locator("#gastos [data-bank-file]").setInputFiles("tests/fixtures/revolut-ficticio.pdf");
+  await page.locator("#gastos [data-bank-preview]").waitFor({ timeout: 20000 });
+  const rev = await page.locator("#gastos [data-bank-preview]").innerText();
+  assert.match(rev, /Revolut/); assert.match(rev, /Saldos comprobados/); assert.match(rev, /Movimientos\s*4 \(4 nuevos/);
+  await page.click("#gastos [data-bank-save]");
+  await page.locator('#gastos [data-group="gasolina"]').waitFor({ timeout: 15000 });
+  assert.match(await page.locator("#gastos [data-gx-summary]").innerText(), /1029,40/);
+  assert.match(await page.locator('#gastos [data-group="supermercado"] summary').innerText(), /12,50/);
+  assert.equal(await page.locator("#gastos [data-gx-revolut]").count(), 0, "con Revolut importado ya no avisa de que falta");
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), "sin scroll horizontal");
   await page.screenshot({ path: "/tmp/gastos-e2e.png", fullPage: true });
   await clean();
