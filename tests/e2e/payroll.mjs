@@ -4,12 +4,13 @@ import {resolve,extname} from 'node:path';
 import assert from 'node:assert/strict';
 const require=createRequire(process.env.PLAYWRIGHT_ROOT?resolve(process.env.PLAYWRIGHT_ROOT,'package.json'):import.meta.url);
 const {chromium,webkit}=require('playwright');
+import {isoWednesdayAfter} from '../../payroll.js';
 const base='https://renzo-hub-2-1-staging.vercel.app';
 const mock=`import {createPayrollDemo} from '${base}/payroll-demo.js';
 export function createClient(){
  let user=null,authCb;const f=createPayrollDemo('11111111-1111-4111-8111-111111111111');window.fixture=f;window.calls=[];window.queries=[];window.removed=0;
- const map={payroll_documents:'documents',payroll_payslips:'payslips',payroll_employers:'employers',payroll_anomalies:'anomalies',payroll_events:'events',payroll_line_items:'lines',payroll_validations:'validations',payroll_payslip_versions:'versions',payroll_v_ytd:'ytd',payroll_v_monthly:'monthly',payroll_v_monthly_nl:'monthly_nl',payroll_v_jaaropgave_nl:'year_nl',payroll_v_confirmed:'confirmed',payroll_v_rate_history:'rates',payroll_v_queue:'queue'};
- const db={from(table){let filters=[],orders=[],single=false,mutation=null;const q=new Proxy({}, {get(_,key){if(key==='then')return (ok,bad)=>Promise.resolve().then(()=>{window.queries.push({table,filters,orders});if(table==='payroll_v_jaaropgave_nl'&&window.failYear)return {data:null,error:{message:'Fallo anual simulado'}};if(table==='payroll_v_monthly_nl'&&window.failMonthly)return {data:null,error:{message:'Fallo mensual simulado'}};let data=(f[map[table]]||[]).filter(r=>filters.every(([k,v])=>r[k]===v));if(mutation)data.forEach(r=>Object.assign(r,mutation));return {data:single?data[0]||null:data,error:null};}).then(ok,bad);return (...args)=>{if(key==='eq')filters.push(args);if(key==='order')orders.push(args);if(key==='maybeSingle'||key==='single')single=true;if(key==='update')mutation=args[0];return q;};}});return q;},
+ const map={payroll_documents:'documents',payroll_payslips:'payslips',payroll_employers:'employers',payroll_anomalies:'anomalies',payroll_events:'events',payroll_line_items:'lines',payroll_validations:'validations',payroll_payslip_versions:'versions',payroll_v_ytd:'ytd',payroll_v_monthly:'monthly',payroll_v_monthly_nl:'monthly_nl',payroll_v_jaaropgave_nl:'year_nl',payroll_v_confirmed:'confirmed',payroll_v_rate_history:'rates',payroll_v_queue:'queue',hub_records:'bank'};
+ const db={from(table){let filters=[],orders=[],single=false,mutation=null;const q=new Proxy({}, {get(_,key){if(key==='then')return (ok,bad)=>Promise.resolve().then(()=>{window.queries.push({table,filters,orders});if(table==='payroll_v_jaaropgave_nl'&&window.failYear)return {data:null,error:{message:'Fallo anual simulado'}};if(table==='payroll_v_monthly_nl'&&window.failMonthly)return {data:null,error:{message:'Fallo mensual simulado'}};let data=(f[map[table]]||[]).filter(r=>filters.every(([k,v])=>r[k]===v));if(mutation)data.forEach(r=>Object.assign(r,mutation));return {data:single?data[0]||null:data,error:null};}).then(ok,bad);return (...args)=>{if(key==='eq')filters.push(args);if(key==='order')orders.push(args);if(key==='maybeSingle'||key==='single')single=true;if(key==='update')mutation=args[0];if(key==='upsert'){(f.bank||(f.bank=[])).push(...args[0].filter(r=>!f.bank.some(x=>x.id===r.id)));window.upserts=(window.upserts||[]).concat(args[0]);}return q;};}});return q;},
  channel(){let handlers=[];const ch={on(_,filter,cb){handlers.push(cb);return ch;},subscribe(cb){window.rtStatus=cb;window.emitPayroll=()=>handlers.forEach(fn=>fn());setTimeout(()=>cb('SUBSCRIBED'),0);return ch;}};return ch;},removeChannel(){window.removed++;},
  rpc:async(name,args)=>{window.calls.push({name,args});f.applyReview(args.p_payslip_id,args.p_changes,args.p_decision);return {data:null,error:null};},storage:{from:()=>({download:async()=>({data:new Blob([f.pdf],{type:'application/pdf'}),error:null})})},
  auth:{onAuthStateChange(cb){authCb=cb;return {data:{subscription:{unsubscribe(){}}}};},getSession:async()=>({data:{session:user?{user,access_token:'test-token'}:null}}),signInWithPassword:async()=>{user={id:'11111111-1111-4111-8111-111111111111',email:'demo@example.test'};authCb('SIGNED_IN',{user});return {};},signOut:async()=>{user=null;authCb('SIGNED_OUT',null);return {};}}};window.testDb=db;return db;}`;
@@ -47,6 +48,24 @@ for(const engine of [chromium,webkit]){
  await page.locator('[data-upload-send]').click();await page.locator('.pay-upload-ok').waitFor();
  assert.equal(window_upload.length,1);assert.equal(window_upload[0].auth,'Bearer test-token');assert.equal(window_upload[0].body.payload.payslip.payslip_number,'7');assert.ok(window_upload[0].body.pdfBase64.length>1000);
  assert.match(await page.locator('.pay-upload-ok').innerText(),/Nómina nº 7/);
+ // Importar extracto de ING (CSV ficticio): vista previa, guardar, enlace con la nómina y reimportar sin duplicar
+ const slip=await page.evaluate(()=>window.fixture.payslips.find(p=>p.review_status==='approved'));
+ const payDay=isoWednesdayAfter(slip.period_year,slip.period_number).replaceAll('-','');
+ const ingCsv='"Date";"Name / Description";"Account";"Counterparty";"Code";"Debit/credit";"Amount (EUR)";"Transaction type";"Notifications";"Resulting balance";"Tag"\n'
+  +`"${payDay}";"EMPRESA DEMO";"NL00TEST0000000001";"NL00TEST0000000099";"OV";"Credit";"${String(slip.net_salary.toFixed(2)).replace('.',',')}";"Transfer";"Name: EMPRESA DEMO Description: Betreft loonslipnummer ${slip.payslip_number} IBAN: NL00TEST0000000099";"1.000,00";""\n`
+  +`"${payDay}";"Albert Heijn 1 TEST";"NL00TEST0000000001";"";"BA";"Debit";"12,30";"Payment terminal";"Card sequence no.: 900";"987,70";""`;
+ const ingFile={name:'ing-ficticio.csv',mimeType:'text/csv',buffer:Buffer.from(ingCsv)};
+ await page.locator('[data-bank-file]').setInputFiles(ingFile);await page.locator('[data-bank-preview]').waitFor();
+ const bankPreview=await page.locator('[data-bank-preview]').innerText();assert.match(bankPreview,/Movimientos\s*2 \(2 nuevos/);assert.match(bankPreview,/Nóminas enlazadas\s*1/);
+ await page.locator('[data-bank-preview]').scrollIntoViewIfNeeded();await page.screenshot({path:'/tmp/payroll-bank-'+engine.name()+'.png'});
+ await page.locator('[data-bank-save]').click();await page.locator('[data-bank-ok]').waitFor();
+ const saved=await page.evaluate(()=>window.upserts);assert.equal(saved.length,2);assert.ok(saved.every(r=>r.record_type==='bank_tx'&&r.domain==='money'&&r.source==='import'&&r.payload.account==='…0001'));
+ await page.locator('[data-bank-file]').setInputFiles({...ingFile,name:'otra-vez.csv'});await page.locator('[data-bank-preview]').waitFor();
+ assert.match(await page.locator('[data-bank-preview]').innerText(),/2 ya importados/);assert.ok(await page.locator('[data-bank-save]').isDisabled());await page.locator('[data-bank-cancel]').click();
+ await page.locator('.pay-tabs [data-tab=payslips]').click();await page.locator('[data-bank-chip]').first().waitFor();
+ assert.equal(await page.locator('[data-bank-chip]').count(),1);assert.match(await page.locator('[data-bank-chip]').innerText(),/En el banco/);
+ await page.locator(`[data-payslip="${slip.id}"]`).first().click();await page.locator('[data-bank-card]').waitFor();assert.match(await page.locator('[data-bank-card]').innerText(),/Cuadra con el neto/);
+ await page.locator('[data-back]').click();
  // Nóminas ordenadas por mes de cobro (vista por defecto) y cambio a "por semana"
  await page.locator('.pay-tabs [data-tab=payslips]').click();await page.locator('.pay-month-group').first().waitFor();
  assert.ok(await page.locator('.pay-month-group .pay-chip.pay-cat-semanal').count()>0);

@@ -1,0 +1,7 @@
+"Date";"Name / Description";"Account";"Counterparty";"Code";"Debit/credit";"Amount (EUR)";"Transaction type";"Notifications";"Resulting balance";"Tag"
+"20260729";"SD WORX STAFFING SOLUTIONS B.V.";"NL00TEST0000000001";"NL00TEST0000000099";"OV";"Credit";"493,88";"Transfer";"Name: SD WORX STAFFING SOLUTIONS B.V. Description: Betreft loonslipnummer 7 IBAN: NL00TEST0000000099 Reference: X1 Value date: 29/07/2026";"1.493,88";""
+"20260728";"Albert Heijn 1234 EINDHOVEN NLD";"NL00TEST0000000001";"";"BA";"Debit";"23,45";"Payment terminal";"Card sequence no.: 900 27/07/2026 18:00 Transaction: X2 Term: T1 Apple Pay Value date: 28/07/2026";"1.000,00";""
+"20260728";"Albert Heijn 1234 EINDHOVEN NLD";"NL00TEST0000000001";"";"BA";"Debit";"23,45";"Payment terminal";"Card sequence no.: 900 27/07/2026 19:00 Transaction: X3 Term: T1 Apple Pay Value date: 28/07/2026";"1.023,45";""
+"20260727";"Huurbaas Test";"NL00TEST0000000001";"NL00TEST0000000055";"GT";"Debit";"900,00";"Online Banking";"Name: Huurbaas Test Description: Huur augustus IBAN: NL00TEST0000000055 Value date: 27/07/2026";"1.046,90";""
+"20260722";"SD WORX STAFFING SOLUTIONS B.V.";"NL00TEST0000000001";"NL00TEST0000000099";"OV";"Credit";"700,00";"Transfer";"Name: SD WORX STAFFING SOLUTIONS B.V. Description: Betreft loonslipnummers 5-6 IBAN: NL00TEST0000000099 Reference: X4 Value date: 22/07/2026";"1.946,90";""
+"20260720";"regel kapot";"NL00TEST0000000001";"";"BA";"Debit";"abc";"Payment terminal";"";"0,00";""
