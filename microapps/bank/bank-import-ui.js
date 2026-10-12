@@ -82,8 +82,10 @@ export function createBankImport({ db, getUser, getPayslips = () => [], expected
     if (!(state === "preview" || state === "saving") || !summary) return `<div class="card pay-upload" data-bank-import>${picker}<p class="pay-muted">ING: Mijn ING → Af- en bijschrijvingen → Downloaden → CSV. Revolut: extracto en PDF (o CSV) desde la app. Se lee en tu dispositivo; nada se guarda hasta que confirmes.</p>${note}</div>`;
     const s = summary, isNew = s.total - s.alreadyImported;
     return `<div class="card pay-upload" data-bank-preview>
+      <p class="bank-detected bank-detected--${s.bank === "Revolut" ? "revolut" : "ing"}" data-bank-detected>Extracto de ${esc(s.bank)}</p>
       <h3>Revisa antes de guardar</h3>
-      <p class="pay-muted">${esc(s.bank)} · ${esc(fileName)} · cuenta ${esc(s.accounts.join(", ") || "sin identificar")}</p>
+      <p class="pay-muted">${esc(fileName)} · cuenta ${esc(s.accounts.join(", ") || "sin identificar")}</p>
+      ${!isNew ? `<p class="pay-upload-error" data-bank-nothing-new>Este extracto de ${esc(s.bank)} ya estaba importado: no hay nada nuevo.${s.bank === "ING" ? " Si querías importar Revolut, elige el PDF que descargas desde la app de Revolut (Extractos)." : ""}</p>` : ""}
       ${s.balanceBreaks.length ? `<p class="pay-upload-error" data-bank-breaks>El saldo no cuadra en ${s.balanceBreaks.length} movimiento${s.balanceBreaks.length === 1 ? "" : "s"} (${esc(s.balanceBreaks.slice(0, 3).join(" · "))}). Revisa el extracto antes de guardar.</p>` : `<p class="pay-muted" data-bank-balance-ok>${s.bank === "Revolut" ? "Saldos comprobados movimiento a movimiento: cuadran." : ""}</p>`}
       <dl class="pay-fields">
         <div><dt>Periodo</dt><dd>${esc(day(s.from))} a ${esc(day(s.to))}</dd></div>
