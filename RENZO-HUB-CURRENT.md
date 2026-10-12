@@ -1,7 +1,7 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
 - **Producción (uso diario):** [renzo-hub.vercel.app](https://renzo-hub.vercel.app/) · release **2.11.0** (extracto de ING en Nóminas) · rama `main`, commit `af07e68` (merge del PR #23) · verificada 2026-10-12: READY, `release.json` 2.11.0, `deployment-info` production/main, smoke 15/15. Migraciones: todas las de `supabase/migrations/` hasta 20261010030000 (ver `docs/SUPABASE-SCHEMA.md`). Rollback app: Instant Rollback en Vercel
-- **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.18.0** (tras fusionar el PR de portadas, etapa 3) · rama `staging` · **No borrar la rama `staging` al fusionar PRs.**
+- **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.19.0** (tras fusionar el PR de nivel en Gym y Study) · rama `staging` · **No borrar la rama `staging` al fusionar PRs.**
 - **Experimental:** 2.6.0 Microapp OS Core · rama `experimental/os-core` (no se despliega)
 - **Fuente canónica:** `github.com/rellmen/renzo-hub` (privado). `main` = producción, `staging` = pruebas, `feature/*` = una rama por tarea con PR hacia `staging`
 - **Copias de seguridad:** `~/Projects/RENZO-HUB/backups/` y versiones verificadas en `~/Projects/RENZO-HUB/releases/`
@@ -10,6 +10,14 @@
 - **Referencias:** `RENZO_HUB_TECHNICAL_AUDIT.md` y `PHASE_1_EXECUTION_PLAN.md` (bóveda del proyecto y `~/Documents/HUB`)
 
 > La carpeta `~/.codex/.chatgpt-projects/.../renzo-hub-news` queda como espejo histórico de solo lectura. No editar ni desplegar desde ella.
+
+## 2.19.0 (2026-10-12): RISE HUB · Gym y Study muestran el nivel único
+
+- Renzo eligió la opción A: Gym (Ascend) y Study dejan de tener su propio XP visible y muestran el nivel único.
+- `microapps/xp-store.js`: phase1.js publica el nivel; Gym, Study y Home lo pintan con atributos `data-rise-*` que se actualizan en el sitio (sin repintar la microapp ni perder lo que estés escribiendo).
+- Para no perder mecánicas, el libro `xp_event` suma ahora también: récord personal en Gym +25 (no el primer registro de un ejercicio) y semana con 5 días entrenados +150. La ruta de Study suma los puntos que promete (aciertos × 10; repetir una lección ya hecha no suma). La sesión de Gym sigue valiendo 50 (las quests de Gym lo indican).
+- Rango de Gym (E–S) según el nivel único: E 1–4, D 5–9, C 10–14, B 15–19, A 20–29, S 30+.
+- phase1 lee también `exercises` de `gym_sessions` (solo lectura). Tests: 92/92 (nuevos de Gym/Study y de xp-store). Caché `renzo-hub-cloud-v8.5-nivel-gym-study`.
 
 ## 2.18.0 (2026-10-12): RISE HUB · portadas de microapps y animación de apertura (etapa 3 de 3)
 

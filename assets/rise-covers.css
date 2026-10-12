@@ -59,3 +59,6 @@ html .study-node:not(:disabled):hover { border-color: rgba(74, 168, 255, .6); }
 html .study-answer:hover:not(:disabled) { border-color: var(--accent); background: rgba(74, 168, 255, .12); }
 html .study-finish { border-color: rgba(74, 168, 255, .5); background: radial-gradient(ellipse at center top, rgba(74, 168, 255, .22), transparent 58%), var(--rise-panel); }
 html .study-lesson { background: radial-gradient(ellipse at top right, rgba(74, 168, 255, .25), transparent 65%), var(--card); border-color: rgba(86, 140, 210, .5); }
+
+/* Nivel RISE dentro de Study: los números del nivel no heredan el bloque de la etiqueta */
+.study-stat b[data-rise-level], .study-stat b[data-rise-xp] { display: inline; font: inherit; }
