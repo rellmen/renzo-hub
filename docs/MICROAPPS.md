@@ -62,3 +62,7 @@ export function mountX(root, db, getUser, go) {
 
 - Skin ya es módulo (`microapps/skin/skin.js`, 2.9.2). Food y Settings siguen dentro de `index.html` (sin `module` en el registro); Food solo tiene HTML estático y lo rellenan `profile.js` y `phase1.js`.
 - Las áreas (Home, Body, Money...) siguen en `world.js`.
+
+## Portada en Home (2.16.0)
+
+Campo opcional `cover` en `microapps/registry.js`: ruta a una imagen propia en `/assets/` (WebP, unos 640 px de ancho). Con portada, la tarjeta de Home se ve como las Áreas; sin ella, se usa `icon`. Añade la imagen a `CORE` en `sw.js`.

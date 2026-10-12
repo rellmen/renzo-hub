@@ -63,7 +63,7 @@ mounted.forEach((result,i)=>{
 const eachApp=fn=>Object.values(apps).forEach(api=>{try{fn(api);}catch(error){console.error(error);}});
 const signInLoads=()=>MICROAPPS.filter(m=>m.loadOnSignIn&&apps[m.id]?.load).map(m=>apps[m.id].load());
 document.querySelectorAll("[data-area-tabs]").forEach(node=>{node.outerHTML=areaTabsHTML(node.dataset.areaTabs,node.dataset.areaTabs);});
-{const tiles=homeTilesHTML(),box=document.querySelector("[data-microapp-tiles=home]");if(box&&tiles){box.querySelector("[data-tiles]").innerHTML=tiles;box.hidden=false;}}
+{const tiles=homeTilesHTML(),box=document.querySelector("[data-microapp-tiles=home]");if(box&&tiles){box.querySelector("[data-tiles]").insertAdjacentHTML("beforeend",tiles);box.hidden=false;}}
 
 // Enlace directo genérico: ?app=<id>&<deepLink>=<valor>
 const linkQuery=new URLSearchParams(location.search);
@@ -88,7 +88,17 @@ function showAuth(message="",kind=""){
   $("authMessage").textContent=message;
   $("authMessage").className="authmsg "+kind;
 }
+// Home RISE: saludo según la hora y fecha de hoy. El nombre solo si existe en la cuenta (no se inventa).
+function riseGreeting(){
+  const h=new Date().getHours(),hi=h>=6&&h<13?"Buenos días":h>=13&&h<20?"Buenas tardes":"Buenas noches";
+  const name=String(user?.user_metadata?.first_name||user?.user_metadata?.full_name||user?.user_metadata?.name||"").trim().split(/\s+/)[0];
+  const g=document.querySelector("[data-rise-greeting]"),d=document.querySelector("[data-rise-date]");
+  if(g)g.textContent=name?`${hi}, ${name}.`:`${hi}.`;
+  if(d){const t=new Intl.DateTimeFormat("es-ES",{weekday:"long",day:"numeric",month:"long"}).format(new Date());d.textContent=t.charAt(0).toUpperCase()+t.slice(1);}
+}
+setInterval(()=>{if(!document.hidden)riseGreeting();},60000);
 function showApp(){
+  riseGreeting();
   $("authScreen").classList.add("hidden");
   $("appShell").classList.remove("hidden");
   $("bottomNav").classList.remove("hidden");

@@ -1,0 +1,91 @@
+/* RISE HUB · Home (etapa 2, 2.16.0): hero, Hoy, Áreas con portada y Resumen del día.
+   Diseño de referencia: prototipo de Lovable "RISE HUB", re-implementado en CSS propio (no se copia su código).
+   Se carga después de rise-theme.css. Selectores con "html" delante para ganar a las reglas antiguas de index.html. */
+
+/* Cabecera */
+.rise-home-head { margin: 10px 2px 14px; }
+.rise-home-head h2 { margin: 0; font-size: 17px; letter-spacing: -.01em; }
+.rise-home-head .small { margin: 3px 0 0; }
+
+/* Hero */
+.rise-hero { position: relative; overflow: hidden; min-height: 300px; border-radius: 24px; border: 1px solid var(--line); background: #070d18; box-shadow: var(--rise-shadow), var(--rise-glow); isolation: isolate; }
+.rise-hero picture, .rise-hero-img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.rise-hero-img { object-fit: cover; object-position: 62% 50%; z-index: -2; }
+.rise-hero::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(6, 11, 20, .92) 0%, rgba(6, 11, 20, .62) 46%, rgba(6, 11, 20, .08) 78%), linear-gradient(0deg, rgba(6, 11, 20, .85) 0%, transparent 46%); }
+.rise-hero-copy { position: relative; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-end; min-height: 300px; box-sizing: border-box; padding: 26px 22px; max-width: 560px; }
+.rise-hero .ey { color: var(--accent2); text-transform: uppercase; letter-spacing: .1em; font-size: 11px; font-weight: 900; }
+.rise-hero h1 { margin: 8px 0 6px; font-size: clamp(36px, 6vw, 56px); line-height: 1; letter-spacing: -.03em; text-shadow: 0 4px 24px rgba(0, 0, 0, .5); }
+.rise-hero p { margin: 0; color: #c8d6e8; font-size: 14px; line-height: 1.5; }
+.rise-hero .rise-hero-greet { color: var(--text); font-size: 17px; font-weight: 750; }
+html .rise-hero .home-cta { width: auto; min-height: 48px; margin-top: 18px; padding: 0 20px; border-radius: 14px; background: var(--accent); color: #07111f; box-shadow: 0 8px 28px rgba(74, 168, 255, .32); }
+
+/* Títulos de sección */
+.rise-section { display: flex; align-items: baseline; justify-content: space-between; margin: 28px 2px 12px; }
+.rise-section h3 { margin: 0; font-size: 18px; }
+
+/* Hoy */
+.rise-today { display: grid; gap: 12px; }
+.rise-today-main { display: grid; gap: 12px; }
+html .rise-today .card { margin: 0; padding: 18px; border-radius: 18px; }
+html .rise-today-side .card { margin-top: 0 !important; }
+html .rise-today-side .card + .card, html .rise-today-side .card + details { margin-top: 12px !important; }
+.rise-card-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; }
+.rise-card-head h3 { margin: 0; font-size: 17px; }
+.rise-card-head .ey { color: var(--accent2); text-transform: uppercase; letter-spacing: .12em; font-size: 11px; font-weight: 900; }
+.rise-meter { height: 8px; border-radius: 99px; background: rgba(86, 128, 182, .22); overflow: hidden; }
+.rise-meter i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #45d69c, var(--accent2)); transition: width .3s ease; }
+.rise-quest-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 6px 14px; margin-top: 12px; }
+.rise-quest { display: flex; align-items: center; gap: 10px; min-height: 44px; color: #d6e2f0; font-size: 14px; cursor: pointer; }
+.rise-quest input { width: 20px; height: 20px; min-height: 20px; margin: 0; flex: none; accent-color: #45d69c; }
+.rise-quest.is-done span { color: #7fe6bd; }
+
+.rise-level { border-color: rgba(74, 168, 255, .45) !important; box-shadow: var(--rise-shadow), var(--rise-glow) !important; }
+.rise-level-row { display: flex; align-items: center; gap: 16px; }
+.rise-level-badge { display: grid; place-items: center; flex: none; width: 66px; height: 74px; border: 1px solid rgba(74, 168, 255, .55); border-radius: 12px; background: rgba(74, 168, 255, .08); box-shadow: inset 0 0 18px rgba(74, 168, 255, .12); }
+.rise-level-badge span { color: var(--accent2); font-size: 9px; font-weight: 900; letter-spacing: .14em; text-transform: uppercase; }
+.rise-level-badge b { font-size: 30px; line-height: 1; margin-top: -10px; }
+.rise-level-copy { flex: 1; min-width: 0; }
+.rise-level-copy .small { margin: 0 0 8px; }
+.rise-level-mini { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); }
+.rise-level-mini div { padding: 0 10px; border-left: 1px solid var(--line); }
+.rise-level-mini div:first-child { padding-left: 0; border-left: 0; }
+.rise-level-mini .small { display: block; }
+.rise-level-mini b { display: block; margin-top: 4px; font-size: 19px; }
+
+/* Áreas con portada */
+html .rise-areas { gap: 12px; }
+html .home-apps .rise-area { position: relative; display: flex; flex-direction: column; justify-content: flex-end; overflow: hidden; min-height: 190px; padding: 0; border-radius: 18px; background: #0b1424; isolation: isolate; }
+.rise-area-cover { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; transition: transform .5s cubic-bezier(.2, .8, .2, 1); }
+html .home-apps .rise-area::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(0deg, rgba(6, 11, 20, .96) 4%, rgba(6, 11, 20, .55) 38%, transparent 66%); }
+html .home-apps .rise-area:hover .rise-area-cover, html .home-apps .rise-area:focus-visible .rise-area-cover { transform: scale(1.06); }
+html .home-apps .rise-area .rise-area-go { position: absolute; top: 10px; right: 10px; display: grid; place-items: center; width: 28px; height: 28px; margin: 0; border: 1px solid rgba(160, 200, 255, .25); border-radius: 8px; background: rgba(6, 11, 20, .6); color: #e6f0fb; font-size: 13px; line-height: 1; }
+.rise-area-copy { display: block; padding: 14px; }
+html .home-apps .rise-area .rise-area-copy b { margin-top: 0; font-size: 15px; color: var(--text); }
+html .home-apps .rise-area .rise-area-copy span { margin-top: 3px; color: #b7c6d9; font-size: 12px; }
+html .home-apps .rise-area--plain { background: radial-gradient(circle at 85% 0, rgba(74, 168, 255, .22), transparent 55%), linear-gradient(150deg, rgba(24, 38, 62, .95), rgba(12, 20, 35, .96)); }
+html .home-apps .rise-area--plain::after { display: none; }
+html .home-apps .rise-area--plain .app-icon { position: absolute; top: 16px; left: 14px; }
+
+/* Resumen del día */
+html .rise-stats { gap: 12px; }
+html .rise-stat { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; text-align: left; margin: 0; padding: 18px; border-radius: 18px; }
+html .rise-stat b { font-size: 22px; letter-spacing: -.01em; }
+
+@media (min-width: 700px) {
+  .rise-hero, .rise-hero-copy { min-height: 330px; }
+  .rise-hero-copy { padding: 34px; }
+  html .home-apps .rise-area { min-height: 210px; }
+}
+@media (min-width: 1024px) {
+  .rise-home-head { margin-top: 0; }
+  .rise-today-main { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); }
+  html .rise-areas { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+  html .home-apps .rise-area { min-height: 220px; }
+}
+@media (min-width: 1400px) {
+  html .rise-areas { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rise-area-cover, .rise-meter i { transition: none; }
+  html .home-apps .rise-area:hover .rise-area-cover { transform: none; }
+}

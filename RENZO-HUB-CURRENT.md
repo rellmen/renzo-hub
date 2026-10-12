@@ -1,7 +1,7 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
 - **Producción (uso diario):** [renzo-hub.vercel.app](https://renzo-hub.vercel.app/) · release **2.11.0** (extracto de ING en Nóminas) · rama `main`, commit `af07e68` (merge del PR #23) · verificada 2026-10-12: READY, `release.json` 2.11.0, `deployment-info` production/main, smoke 15/15. Migraciones: todas las de `supabase/migrations/` hasta 20261010030000 (ver `docs/SUPABASE-SCHEMA.md`). Rollback app: Instant Rollback en Vercel
-- **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.15.0** (tras fusionar el PR de RISE HUB, etapa 1) · rama `staging` · **No borrar la rama `staging` al fusionar PRs.**
+- **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.16.0** (tras fusionar el PR de RISE HUB, etapa 2) · rama `staging` · **No borrar la rama `staging` al fusionar PRs.**
 - **Experimental:** 2.6.0 Microapp OS Core · rama `experimental/os-core` (no se despliega)
 - **Fuente canónica:** `github.com/rellmen/renzo-hub` (privado). `main` = producción, `staging` = pruebas, `feature/*` = una rama por tarea con PR hacia `staging`
 - **Copias de seguridad:** `~/Projects/RENZO-HUB/backups/` y versiones verificadas en `~/Projects/RENZO-HUB/releases/`
@@ -10,6 +10,17 @@
 - **Referencias:** `RENZO_HUB_TECHNICAL_AUDIT.md` y `PHASE_1_EXECUTION_PLAN.md` (bóveda del proyecto y `~/Documents/HUB`)
 
 > La carpeta `~/.codex/.chatgpt-projects/.../renzo-hub-news` queda como espejo histórico de solo lectura. No editar ni desplegar desde ella.
+
+## 2.16.0 (2026-10-12): RISE HUB · nueva Home (etapa 2 de 3)
+
+- Home rehecha con el diseño de Lovable (re-implementado en `assets/rise-home.css`; no se copia código del prototipo ni su módulo de Nodalys):
+  - **Hero** con la ilustración nocturna, "RISE HUB", saludo según la hora (sin nombre: la cuenta no guarda ninguno) y el botón "Comenzar mi siguiente nivel" (abre Gym, igual que antes).
+  - **Hoy:** misiones = tus hábitos de System → Ajustes (marcar sigue guardando en Supabase); **Progreso** con nivel y XP reales, hábitos y entrenos de 7 días; debajo, el panel existente de Project Slots, Inbox, siguiente paso, alertas y Daily Quests.
+  - **Áreas:** tarjetas con portada (Gym, Food, My Finance, Study, Skin, Work, Notas); Car y News mantienen su icono. Los microapps del registro pueden tener portada con el campo `cover`.
+  - **Resumen del día:** peso, entrenos, skincare, comidas, neto del mes y vocabulario; "sin datos" cuando faltan.
+- Imágenes en `assets/rise/` (WebP, unos 300 KB en total), en la caché offline. Caché `renzo-hub-cloud-v8.2-rise-home`.
+- `phase1.js`: el resumen pasa a `#p1Overview` (misma lógica y datos). Test E2E ajustado.
+- Siguiente: etapa 3 (portadas dentro de cada microapp y animación de apertura).
 
 ## 2.15.0 (2026-10-12): RISE HUB · nueva identidad (etapa 1 de 3)
 
