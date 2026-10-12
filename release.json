@@ -1,6 +1,6 @@
 {
-  "release": "2.17.0",
-  "name": "RISE HUB · nivel único (Daily Quests suma al mismo XP)",
+  "release": "2.19.0",
+  "name": "RISE HUB · Gym y Study muestran el nivel único",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",

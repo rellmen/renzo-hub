@@ -61,3 +61,18 @@ test("nivel único: check-in Body, práctica de neerlandés, entregables y movim
   assert.equal(ev.reduce((s, e) => s + e.points, 0), XP_RULES.checkin + XP_RULES.dutch_practice + 2 * XP_RULES.deliverable + XP_RULES.money_review);
   assert.equal(xpEvents({ events: [{ id: "x", payload: { kind: "learning", stage: "Consumption" } }] }).length, 0, "consumir sin aplicar no da XP");
 });
+
+test("nivel único: récords de Gym (+25), semana de 5 días (+150) y puntos de la ruta de Study", () => {
+  const set = (weight, reps) => ({ completed: true, weight, reps });
+  const gym = ["2026-10-05", "2026-10-06", "2026-10-07", "2026-10-08", "2026-10-09"].map((d, i) => ({
+    id: `g${i}`, workout_date: d, completed_at: `${d}T18:00:00Z`, exercises: [{ name: "Leg Press", sets: [set(100 + (i === 2 ? 10 : 0), 10)] }]
+  }));
+  const ev = xpEvents({ gym });
+  assert.equal(ev.filter(e => e.kind === "workout").length, 5);
+  assert.deepEqual(ev.filter(e => e.kind === "gym_pr").map(e => e.sourceId), ["g2:Leg Press"], "solo cuenta superar la marca, no el primer registro");
+  const week = ev.find(e => e.kind === "gym_week"); assert.equal(week.points, XP_RULES.gym_week); assert.equal(week.date, "2026-10-09");
+  assert.equal(xpEvents({ gym: gym.slice(0, 4) }).filter(e => e.kind === "gym_week").length, 0, "4 días no dan bonus");
+  const path = (xp, id) => ({ id, payload: { kind: "learning", stage: "Application", practice: "Study path", xp, date: "2026-10-10" } });
+  const study = xpEvents({ events: [path(40, "s1"), path(0, "s2"), { id: "s3", payload: { kind: "learning", stage: "Application", practice: "Daily lesson" } }] });
+  assert.deepEqual(study.map(e => [e.sourceId, e.points]), [["s1", 40], ["s3", XP_RULES.dutch_practice]], "lección repetida (0 XP) no suma");
+});
