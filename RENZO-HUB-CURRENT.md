@@ -1,7 +1,7 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
 - **Producción (uso diario):** [renzo-hub.vercel.app](https://renzo-hub.vercel.app/) · release **2.11.0** (extracto de ING en Nóminas) · rama `main`, commit `af07e68` (merge del PR #23) · verificada 2026-10-12: READY, `release.json` 2.11.0, `deployment-info` production/main, smoke 15/15. Migraciones: todas las de `supabase/migrations/` hasta 20261010030000 (ver `docs/SUPABASE-SCHEMA.md`). Rollback app: Instant Rollback en Vercel
-- **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.16.0** (tras fusionar el PR de RISE HUB, etapa 2) · rama `staging` · **No borrar la rama `staging` al fusionar PRs.**
+- **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.17.0** (tras fusionar el PR de nivel único) · rama `staging` · **No borrar la rama `staging` al fusionar PRs.**
 - **Experimental:** 2.6.0 Microapp OS Core · rama `experimental/os-core` (no se despliega)
 - **Fuente canónica:** `github.com/rellmen/renzo-hub` (privado). `main` = producción, `staging` = pruebas, `feature/*` = una rama por tarea con PR hacia `staging`
 - **Copias de seguridad:** `~/Projects/RENZO-HUB/backups/` y versiones verificadas en `~/Projects/RENZO-HUB/releases/`
@@ -10,6 +10,15 @@
 - **Referencias:** `RENZO_HUB_TECHNICAL_AUDIT.md` y `PHASE_1_EXECUTION_PLAN.md` (bóveda del proyecto y `~/Documents/HUB`)
 
 > La carpeta `~/.codex/.chatgpt-projects/.../renzo-hub-news` queda como espejo histórico de solo lectura. No editar ni desplegar desde ella.
+
+## 2.17.0 (2026-10-12): RISE HUB · nivel único
+
+- Antes había dos niveles: Progreso (libro `xp_event` de `phase1.js`) y Daily Quests (`world.js`, 10 XP por actividad, sin guardar). Renzo eligió unificarlos (opción A).
+- Ahora el libro `xp_event` es la única fuente. Suma también, con id determinista (sin duplicados): check-in Body 10, práctica o repaso de neerlandés 10, entregable cerrado 20, movimiento de Money revisado 5.
+- La actividad pasada de esos tipos se añade al libro al cargar, así que el nivel puede subir la primera vez.
+- Daily Quests queda como checklist del día (x/4) sin nivel propio. La casilla "XP hoy" del panel, que en realidad mostraba un total, pasa a "Quests hoy"; el XP de hoy real está en Progreso.
+- La quest "Revisa un movimiento Money" cuenta solo movimientos marcados como revisados (antes cualquier movimiento del día).
+- Test unitario nuevo; caché `renzo-hub-cloud-v8.3-nivel-unico`.
 
 ## 2.16.0 (2026-10-12): RISE HUB · nueva Home (etapa 2 de 3)
 

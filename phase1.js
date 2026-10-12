@@ -9,7 +9,8 @@ const num = v => { const n = Number(String(v ?? "").replace(",", ".")); return N
 const fmt = (n, digits = 0) => new Intl.NumberFormat("es-ES", { maximumFractionDigits: digits }).format(n);
 const euros = n => new Intl.NumberFormat("nl-NL", { style: "currency", currency: "EUR" }).format(n);
 
-export const XP_RULES = { workout: 50, skincare: 10, food_day: 10, weight_day: 5, habit: 5, vocabulary: 2, portfolio: 20 };
+// Nivel único de RISE HUB (2.17.0): este libro de XP es la única fuente; el panel Daily Quests ya no calcula su propio nivel.
+export const XP_RULES = { workout: 50, skincare: 10, food_day: 10, weight_day: 5, habit: 5, vocabulary: 2, portfolio: 20, checkin: 10, dutch_practice: 10, deliverable: 20, money_review: 5 };
 export const levelFor = xp => { const level = Math.floor(Math.sqrt(Math.max(0, xp) / 50)) + 1; const next = 50 * level * level; return { level, next, toNext: Math.max(0, next - xp) }; };
 
 export async function stableId(...parts) {
@@ -29,6 +30,14 @@ export function xpEvents(d) {
   for (const h of d.habits || []) if (h.payload?.done) ev.push({ kind: "habit", sourceId: h.id, date: h.payload.date });
   for (const v of d.vocabulary || []) ev.push({ kind: "vocabulary", sourceId: v.id, date: v.occurred_at?.slice(0, 10) });
   for (const p of d.portfolio || []) ev.push({ kind: "portfolio", sourceId: p.id, date: p.occurred_at?.slice(0, 10) });
+  // Actividad registrada en Body, Study y Work (renzo_event) y movimientos revisados (renzo_money): antes solo sumaba en Daily Quests.
+  for (const r of d.events || []) {
+    const p = r.payload || {}, date = p.date || r.occurred_at?.slice(0, 10);
+    if (p.kind === "body") ev.push({ kind: "checkin", sourceId: r.id, date });
+    else if (p.kind === "learning" && ["Application", "Review"].includes(p.stage)) ev.push({ kind: "dutch_practice", sourceId: r.id, date });
+    else if (["output", "project_done"].includes(p.kind)) ev.push({ kind: "deliverable", sourceId: r.id, date });
+  }
+  for (const r of d.money || []) if (r.payload?.reviewed && r.status !== "void") ev.push({ kind: "money_review", sourceId: r.id, date: r.payload.date || r.occurred_at?.slice(0, 10) });
   return ev.map(e => ({ ...e, points: XP_RULES[e.kind] }));
 }
 
@@ -85,14 +94,14 @@ export function mountPhase1(supabase, getUser) {
     const user = getUser(); if (!user || loading) return; loading = true;
     try {
       const uid = user.id;
-      const [food, weight, habits, vocabulary, portfolio, money, xp, gym, skin, settings] = await Promise.all([
+      const [food, weight, habits, vocabulary, portfolio, money, events, xp, gym, skin, settings] = await Promise.all([
         records(uid, "food_log"), records(uid, "body_weight"), records(uid, "habit_log"), records(uid, "renzo_vocabulary", "id,occurred_at"),
-        records(uid, "renzo_portfolio", "id,occurred_at"), records(uid, "renzo_money"), records(uid, "xp_event", "id,payload"),
+        records(uid, "renzo_portfolio", "id,occurred_at"), records(uid, "renzo_money"), records(uid, "renzo_event"), records(uid, "xp_event", "id,payload"),
         fetchAll(() => supabase.from("gym_sessions").select("id,workout_date,completed_at").eq("user_id", uid).order("workout_date")),
         fetchAll(() => supabase.from("skin_routine_logs").select("routine_date,session,completed_steps").eq("user_id", uid).order("routine_date")),
         readSettings(uid)]);
       if (getUser()?.id !== uid) return;
-      data = { food, weight, habits, vocabulary, portfolio, money, xp, gym, skin };
+      data = { food, weight, habits, vocabulary, portfolio, money, events, xp, gym, skin };
       habitNames = Array.isArray(settings.habits) ? settings.habits.slice(0, 12) : [];
       await syncXp(uid);
       render();
@@ -186,6 +195,7 @@ export function mountPhase1(supabase, getUser) {
     const t = today(), s = weekStats(data, t, habitNames), xp = totalXp(), lv = levelFor(xp);
     const doneToday = new Set((data.habits || []).filter(h => h.payload?.date === t && h.payload?.done).map(h => h.payload.habit));
     const done = habitNames.filter(h => doneToday.has(h)).length, pct = habitNames.length ? Math.round(done / habitNames.length * 100) : 0;
+    const xpToday = data.xp.filter(r => r.payload?.date === t).reduce((n, r) => n + (Number(r.payload?.points) || 0), 0);
     const base = 50 * (lv.level - 1) ** 2, lvPct = Math.min(100, Math.round((xp - base) / (lv.next - base) * 100));
     const stat = (label, value) => `<div class="card rise-stat"><span class="small">${label}</span><b>${value}</b></div>`;
     // Hoy: misiones (hábitos de System → Ajustes) y progreso real (XP de tus registros). Sin rangos ni cifras inventadas.
@@ -193,7 +203,7 @@ export function mountPhase1(supabase, getUser) {
         ${habitNames.length ? `<div class="rise-meter" aria-hidden="true"><i style="width:${pct}%"></i></div><div class="rise-quest-list">${habitNames.map(h => `<label class="rise-quest${doneToday.has(h) ? " is-done" : ""}"><input type="checkbox" data-habit="${esc(h)}" ${doneToday.has(h) ? "checked" : ""}><span>${esc(h)}</span></label>`).join("")}</div>` : `<p class="small">Sin hábitos definidos. Añádelos en System → Ajustes → Hábitos.</p>`}</div>
       <div class="card rise-level"><div class="rise-card-head"><h3>Progreso</h3><span class="small">Nivel ${lv.level} · ${fmt(xp)} XP</span></div>
         <div class="rise-level-row"><div class="rise-level-badge" aria-hidden="true"><span>Nivel</span><b>${lv.level}</b></div><div class="rise-level-copy"><p class="small">Faltan ${fmt(lv.toNext)} XP para el nivel ${lv.level + 1}</p><div class="rise-meter" aria-hidden="true"><i style="width:${lvPct}%"></i></div></div></div>
-        <div class="rise-level-mini"><div><span class="small">Hoy</span><b>${habitNames.length ? `${done}/${habitNames.length}` : "sin datos"}</b></div><div><span class="small">Hábitos 7 días</span><b>${s.habits ? `${s.habits.done}/${s.habits.possible}` : "sin datos"}</b></div><div><span class="small">Entrenos 7 días</span><b>${s.workouts || "sin datos"}</b></div></div></div>`;
+        <div class="rise-level-mini"><div><span class="small">Hoy</span><b>${habitNames.length ? `${done}/${habitNames.length}` : "sin datos"}</b></div><div><span class="small">Hábitos 7 días</span><b>${s.habits ? `${s.habits.done}/${s.habits.possible}` : "sin datos"}</b></div><div><span class="small">XP hoy</span><b>${fmt(xpToday)}</b></div></div></div>`;
     const ov = $("p1Overview");
     if (ov) ov.innerHTML = `<div class="reportgrid rise-stats">
         ${stat("Peso actual", s.weight ? `${fmt(s.weight.value, 1)} kg${s.weight.delta !== null ? ` (${s.weight.delta >= 0 ? "+" : ""}${fmt(s.weight.delta, 1)})` : ""}` : "sin datos")}

@@ -46,3 +46,18 @@ test("estadísticas de 7 días con datos reales y 'sin datos' cuando faltan", ()
   const empty = weekStats({}, "2026-10-07", []);
   assert.equal(empty.weight, null); assert.equal(empty.money, null); assert.equal(empty.habits, null); assert.equal(empty.kcalAvg, null);
 });
+
+test("nivel único: check-in Body, práctica de neerlandés, entregables y movimientos revisados suman XP", () => {
+  const events = [
+    { id: "e1", payload: { kind: "body", date: "2026-10-01" } },
+    { id: "e2", payload: { kind: "learning", stage: "Application", date: "2026-10-01" } },
+    { id: "e3", payload: { kind: "learning", stage: "Consumption", date: "2026-10-01" } },
+    { id: "e4", payload: { kind: "project_done", date: "2026-10-02" } },
+    { id: "e5", payload: { kind: "output", date: "2026-10-02" } }
+  ];
+  const money = [{ id: "m1", status: "active", payload: { reviewed: true, date: "2026-10-03" } }, { id: "m2", status: "active", payload: { date: "2026-10-03" } }, { id: "m3", status: "void", payload: { reviewed: true, date: "2026-10-03" } }];
+  const ev = xpEvents({ events, money });
+  assert.deepEqual(ev.map(e => e.kind).sort(), ["checkin", "deliverable", "deliverable", "dutch_practice", "money_review"]);
+  assert.equal(ev.reduce((s, e) => s + e.points, 0), XP_RULES.checkin + XP_RULES.dutch_practice + 2 * XP_RULES.deliverable + XP_RULES.money_review);
+  assert.equal(xpEvents({ events: [{ id: "x", payload: { kind: "learning", stage: "Consumption" } }] }).length, 0, "consumir sin aplicar no da XP");
+});
