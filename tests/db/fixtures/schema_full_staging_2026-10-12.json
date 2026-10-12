@@ -1,5 +1,57 @@
-{"entorno":"staging","fecha":"2026-10-12","consulta":"tools/db-checks/11_huella_esquema_completo.sql","huellas":{
- "buckets":[4,"a8de403253790a48d9c8dfd1b06d1184"],"funciones":[15,"2b0f24fe922fbcdda6e2ebdc72e9fa84"],"indices":[47,"1f382cdab0cd7f780670e09ffe4b6cfb"],
- "permisos_funciones":[10,"6a575c5da0c3c10fd4c2feb9a2965651"],"permisos_tablas":[102,"be148b8a9fbff9f4710de31f8d363487"],"politicas_public":[32,"9978393f843f49f4e204c92e7ee0bc7a"],
- "politicas_storage":[7,"d82bf6a2781ab85e0a021d351edd790f"],"restricciones":[95,"ab480511a531803bb0c70504ad43b73f"],"rls":[20,"04ab7b1a1eee166d7cf50e64020772c5"],
- "tablas_columnas":[483,"44def14bbefbdf12fea58fe920c8c752"],"triggers":[9,"b4003f8129fd3b458827c7c4e817c4dd"],"vistas":[10,"59979ad0dd7f4a9ace155d797b9c10b4"]}}
+{
+ "entorno": "staging",
+ "fecha": "2026-10-12",
+ "consulta": "tools/db-checks/11_huella_esquema_completo.sql",
+ "huellas": {
+  "buckets": [
+   4,
+   "a8de403253790a48d9c8dfd1b06d1184"
+  ],
+  "funciones": [
+   15,
+   "e901dc19f36ab7b5276062b2f0f223db"
+  ],
+  "indices": [
+   47,
+   "1f382cdab0cd7f780670e09ffe4b6cfb"
+  ],
+  "permisos_funciones": [
+   10,
+   "6a575c5da0c3c10fd4c2feb9a2965651"
+  ],
+  "permisos_tablas": [
+   102,
+   "be148b8a9fbff9f4710de31f8d363487"
+  ],
+  "politicas_public": [
+   32,
+   "9978393f843f49f4e204c92e7ee0bc7a"
+  ],
+  "politicas_storage": [
+   7,
+   "d82bf6a2781ab85e0a021d351edd790f"
+  ],
+  "restricciones": [
+   95,
+   "ab480511a531803bb0c70504ad43b73f"
+  ],
+  "rls": [
+   20,
+   "04ab7b1a1eee166d7cf50e64020772c5"
+  ],
+  "tablas_columnas": [
+   483,
+   "44def14bbefbdf12fea58fe920c8c752"
+  ],
+  "triggers": [
+   9,
+   "b4003f8129fd3b458827c7c4e817c4dd"
+  ],
+  "vistas": [
+   10,
+   "2fb51cc2340ec307a5798095b924f829"
+  ]
+ },
+ "normalizacion": "Código de funciones y vistas comparado sin espacios ni saltos de línea (desde 2026-10-12).",
+ "produccion_2026-10-12": "Con la versión anterior (sin normalizar) producción coincidía en 11 de 12 secciones; la única diferencia era el formato de set_hub_records_updated_at (misma lógica, código en una línea). Normalizado: idéntico."
+}
