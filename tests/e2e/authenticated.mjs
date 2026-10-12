@@ -131,7 +131,7 @@ await check("Progreso y XP: datos reales y sin duplicados tras recargar", async 
   const before = await count(); assert.ok(before > 0, "hay eventos de XP");
   await page.reload({ waitUntil: "networkidle" }); await page.waitForSelector("#appShell:not(.hidden)"); await page.waitForTimeout(3000);
   assert.equal(await count(), before, "recargar no duplica XP");
-  const txt = await page.textContent("#p1Home"); assert.match(txt, /Nivel \d+/); assert.match(txt, /Días con comidas registradas/);
+  const txt = await page.textContent("#p1Home"); assert.match(txt, /Nivel \d+/); assert.match(await page.textContent("#p1Overview"), /Días con comidas registradas/);
 });
 
 // Cada microapp con módulo del registro se monta y pinta algo al abrirla (sin test escrito a mano).

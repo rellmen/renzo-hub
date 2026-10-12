@@ -185,19 +185,23 @@ export function mountPhase1(supabase, getUser) {
     const box = $("p1Home"); if (!box) return;
     const t = today(), s = weekStats(data, t, habitNames), xp = totalXp(), lv = levelFor(xp);
     const doneToday = new Set((data.habits || []).filter(h => h.payload?.date === t && h.payload?.done).map(h => h.payload.habit));
-    const stat = (label, value) => `<div class="card"><b>${value}</b><span class="small">${label}</span></div>`;
-    box.innerHTML = `<div class="section"><h3>Hábitos de hoy</h3><span class="small">${habitNames.length ? `${doneToday.size}/${habitNames.length}` : ""}</span></div>
-      <div class="card">${habitNames.length ? habitNames.map(h => `<label class="row" style="padding:6px 0"><span>${esc(h)}</span><input type="checkbox" data-habit="${esc(h)}" ${doneToday.has(h) ? "checked" : ""}></label>`).join("") : `<p class="small">Sin hábitos definidos. Añádelos en System → Ajustes → Hábitos.</p>`}</div>
-      <div class="section"><h3>Progreso · últimos 7 días</h3><span class="small">Nivel ${lv.level} · ${fmt(xp)} XP</span></div>
-      <div class="card"><div class="small">Faltan ${fmt(lv.toNext)} XP para el nivel ${lv.level + 1}</div><div style="height:8px;border-radius:9px;background:var(--card2);margin-top:8px;overflow:hidden"><div style="height:100%;width:${Math.min(100, Math.round((xp - 50 * (lv.level - 1) ** 2) / (lv.next - 50 * (lv.level - 1) ** 2) * 100))}%;background:var(--accent, #b9a3ff)"></div></div></div>
-      <div class="reportgrid" style="margin-top:8px">
-        ${stat("Entrenos completados", s.workouts || "sin datos")}
-        ${stat("Sesiones de skincare", s.skin || "sin datos")}
-        ${stat("Días con comidas registradas", s.foodDays ? `${s.foodDays}${s.kcalAvg !== null ? ` · ${fmt(s.kcalAvg)} kcal/día` : ""}` : "sin datos")}
+    const done = habitNames.filter(h => doneToday.has(h)).length, pct = habitNames.length ? Math.round(done / habitNames.length * 100) : 0;
+    const base = 50 * (lv.level - 1) ** 2, lvPct = Math.min(100, Math.round((xp - base) / (lv.next - base) * 100));
+    const stat = (label, value) => `<div class="card rise-stat"><span class="small">${label}</span><b>${value}</b></div>`;
+    // Hoy: misiones (hábitos de System → Ajustes) y progreso real (XP de tus registros). Sin rangos ni cifras inventadas.
+    box.innerHTML = `<div class="card rise-quests"><div class="rise-card-head"><span class="ey">Misiones de hoy</span><span class="small">${habitNames.length ? `${done} de ${habitNames.length} · ${pct}%` : ""}</span></div>
+        ${habitNames.length ? `<div class="rise-meter" aria-hidden="true"><i style="width:${pct}%"></i></div><div class="rise-quest-list">${habitNames.map(h => `<label class="rise-quest${doneToday.has(h) ? " is-done" : ""}"><input type="checkbox" data-habit="${esc(h)}" ${doneToday.has(h) ? "checked" : ""}><span>${esc(h)}</span></label>`).join("")}</div>` : `<p class="small">Sin hábitos definidos. Añádelos en System → Ajustes → Hábitos.</p>`}</div>
+      <div class="card rise-level"><div class="rise-card-head"><h3>Progreso</h3><span class="small">Nivel ${lv.level} · ${fmt(xp)} XP</span></div>
+        <div class="rise-level-row"><div class="rise-level-badge" aria-hidden="true"><span>Nivel</span><b>${lv.level}</b></div><div class="rise-level-copy"><p class="small">Faltan ${fmt(lv.toNext)} XP para el nivel ${lv.level + 1}</p><div class="rise-meter" aria-hidden="true"><i style="width:${lvPct}%"></i></div></div></div>
+        <div class="rise-level-mini"><div><span class="small">Hoy</span><b>${habitNames.length ? `${done}/${habitNames.length}` : "sin datos"}</b></div><div><span class="small">Hábitos 7 días</span><b>${s.habits ? `${s.habits.done}/${s.habits.possible}` : "sin datos"}</b></div><div><span class="small">Entrenos 7 días</span><b>${s.workouts || "sin datos"}</b></div></div></div>`;
+    const ov = $("p1Overview");
+    if (ov) ov.innerHTML = `<div class="reportgrid rise-stats">
         ${stat("Peso actual", s.weight ? `${fmt(s.weight.value, 1)} kg${s.weight.delta !== null ? ` (${s.weight.delta >= 0 ? "+" : ""}${fmt(s.weight.delta, 1)})` : ""}` : "sin datos")}
-        ${stat("Hábitos cumplidos", s.habits ? `${s.habits.done}/${s.habits.possible}` : "sin datos")}
+        ${stat("Entrenos completados · 7 días", s.workouts || "sin datos")}
+        ${stat("Sesiones de skincare · 7 días", s.skin || "sin datos")}
+        ${stat("Días con comidas registradas", s.foodDays ? `${s.foodDays}${s.kcalAvg !== null ? ` · ${fmt(s.kcalAvg)} kcal/día` : ""}` : "sin datos")}
         ${stat("Neto del mes (My Finance)", s.money ? euros(s.money.net) : "sin datos")}
-        ${stat("Vocabulario nuevo", s.vocab || "sin datos")}
+        ${stat("Vocabulario nuevo · 7 días", s.vocab || "sin datos")}
       </div>`;
     box.querySelectorAll("[data-habit]").forEach(cb => cb.onchange = async () => {
       const user = getUser(); if (!user) return; const habit = cb.dataset.habit, date = today();
@@ -232,6 +236,6 @@ export function mountPhase1(supabase, getUser) {
   async function refresh() { if (loading) { rerun = true; return; } await load(); if (rerun) { rerun = false; await load(); } }
   if (typeof document !== "undefined") document.addEventListener("renzo:synced", () => { if (getUser()) refresh().catch(e => console.warn("[renzo-hub] XP", e.message)); });
 
-  function reset() { data = {}; habitNames = []; for (const id of ["p1Food", "p1Weight", "p1Home", "habitsCard"]) { const n = $(id); if (n) n.replaceChildren(); } }
+  function reset() { data = {}; habitNames = []; for (const id of ["p1Food", "p1Weight", "p1Home", "p1Overview", "habitsCard"]) { const n = $(id); if (n) n.replaceChildren(); } }
   return { load, reset };
 }
