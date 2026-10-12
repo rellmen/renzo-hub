@@ -11,6 +11,15 @@
 
 > La carpeta `~/.codex/.chatgpt-projects/.../renzo-hub-news` queda como espejo histórico de solo lectura. No editar ni desplegar desde ella.
 
+## 2.20.0 (2026-10-12): My Finance · Resumen del mes (cierre de My Finance, etapa A de 3)
+
+- Renzo eligió cerrar My Finance con la opción 1: A Resumen, B fijos y suscripciones, C presupuesto semanal. Los tickets pasan a la Fase 3.
+- La pestaña "Movimientos" pasa a ser **Resumen**: ahorro real del mes (ingresos − gastos del banco; los traspasos entre tus cuentas no cuentan) con su %, ingresos y gastos, comparación con el mes anterior (ahorro y gasto) y las 5 categorías con más gasto con su variación.
+- Una sola fuente para las cifras: los movimientos del banco (ING y Revolut). Los registros a mano y de Jarvis siguen intactos en un bloque plegable aparte, "Registros a mano y de Jarvis", que avisa de que no se suman al resumen. Antes había dos cifras distintas de ingresos del mes.
+- Avisos que se pulsan: movimientos sin categoría (abre Gastos con esa categoría desplegada), dinero pasado a Revolut sin extracto (abre el importador), entradas de dinero por revisar en AI Inbox.
+- Gastos: el importador se pliega cuando ya hay datos (botón "Importar" en la cabecera), flechas ‹ › de mes compartidas con el Resumen, filas compactas con variación frente al mes anterior, "Sin categoría" siempre primero, 6 categorías y "Ver más", "Ahorro real" en lugar de "Ingresos − gastos".
+- Código: `microapps/finance/` (insights.js puro y probado, data.js, summary.js, finance.css). Sin migraciones. Tests: 100/100 (8 nuevos en `tests/finance.test.mjs`); E2E autenticado ampliado con el Resumen. Caché `renzo-hub-cloud-v8.6-finance-resumen`.
+
 ## 2.19.0 (2026-10-12): RISE HUB · Gym y Study muestran el nivel único
 
 - Renzo eligió la opción A: Gym (Ascend) y Study dejan de tener su propio XP visible y muestran el nivel único.
