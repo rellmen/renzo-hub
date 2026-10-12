@@ -1,0 +1,8 @@
+{
+  "name": "rise-hub-mods",
+  "owner": { "name": "Renzo Llontop" },
+  "plugins": [
+    { "name": "renzo-guardrails", "source": "./claude-mods/renzo-guardrails", "description": "Bloqueo técnico de producción y Jarvis, reglas permanentes, /autorizo, /preflight y /verificar" },
+    { "name": "agentes-panel", "source": "./claude-mods/agentes-panel", "description": "Dashboard de agentes: Claude, subagentes y workflows de n8n" }
+  ]
+}

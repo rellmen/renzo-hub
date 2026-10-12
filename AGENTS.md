@@ -29,6 +29,27 @@ RISE HUB (antes Renzo HUB) es la plataforma personal y privada de Renzo. El camb
 - Tras editar: incrementa `release.json`, actualiza `RENZO-HUB-CURRENT.md` (tabla de progreso) y cambia la caché de `sw.js`.
 - No afirmes que algo está publicado hasta comprobar `READY` y que `/release.json` y `/api/deployment-info` respondan lo esperado.
 
+## Reglas permanentes (valen sin que Renzo las repita)
+Renzo ya no reescribe estas condiciones en cada encargo. Una autorización suya ("Autorizo: X") cubre solo X; todo lo demás sigue prohibido:
+- No fusionar ni desplegar a `main`/producción. Renzo fusiona los PR; la IA prepara y verifica.
+- No aplicar migraciones en producción. En staging, solo con OK de Renzo y con rollback probado.
+- No activar ni publicar workflows de Jarvis o Nodalys; las copias nuevas quedan inactivas.
+- No borrar datos, no `push --force`, no tocar credenciales, permisos sensibles ni la configuración de producción de Vercel o Supabase.
+- Al terminar cada cambio: abrir el PR hacia `staging` y dar el enlace.
+
+## Antes y después de fusionar
+- Antes: `./scripts/renzo-hub preflight [nº PR]` (destino, fusionable, CI, versión y caché, migraciones con rollback, claves).
+- Después de que Renzo diga "publicado": `./scripts/renzo-hub verify staging|prod [versión] [--smoke]` (versión servida, entorno, rutas internas no expuestas, smoke). Staging necesita `VERCEL_PROTECTION_BYPASS` en la shell.
+- Pegar la salida de esos comandos en el informe en lugar de describirla.
+
+## Definition of Done: formato obligatorio de cada informe
+Nada es "hecho" sin evidencia comprobada en ese mismo turno (salida de comando, ID de registro, URL, hash). Todo informe separa:
+1. **Verificado:** con la evidencia al lado.
+2. **Preparado, sin aplicar:** existe pero no está en marcha (PR abierto, migración sin aplicar, workflow inactivo).
+3. **Pendiente de Renzo:** pasos exactos, con enlace.
+4. **Necesita autorización:** qué y por qué.
+Si algo no se pudo comprobar, se dice "no verificado" y por qué. Nunca "ya está hecho" sin el punto 1.
+
 ## Microapps
 - Nuevas microapps: `./scripts/renzo-hub new-microapp` y `docs/MICROAPPS.md`. Se declaran solo en `microapps/registry.js`; datos sencillos en `hub_records` vía `microapps/records.js`.
 

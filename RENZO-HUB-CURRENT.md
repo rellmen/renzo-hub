@@ -11,6 +11,16 @@
 
 > La carpeta `~/.codex/.chatgpt-projects/.../renzo-hub-news` queda como espejo histórico de solo lectura. No editar ni desplegar desde ella.
 
+## Herramientas de trabajo (2026-10-12, sin cambio de versión: la app publicada no cambia)
+
+- `./scripts/renzo-hub preflight [nº PR]`: comprobaciones fijas antes de fusionar (destino, fusionable, CI por check, versión y caché si cambia la app, migraciones con rollback, claves en lo añadido). Sale con 1 si algo FALLA.
+- `./scripts/renzo-hub verify <staging|prod> [versión] [--smoke]`: versión servida, entorno, 14 rutas internas no expuestas y smoke opcional. Staging necesita `VERCEL_PROTECTION_BYPASS` en la shell.
+- `AGENTS.md`: reglas permanentes (Renzo ya no las repite en cada encargo) y Definition of Done con formato de informe obligatorio.
+- Mods de Claude en `claude-mods/` (marketplace en `.claude-plugin/marketplace.json`, excluidos de Vercel):
+  - `renzo-guardrails`: bloquea en el motor fusionar, `push --force`/directo a main o staging, Vercel prod, SQL/migraciones contra Supabase producción y publicar o editar workflows activos de n8n. `/autorizo produccion|jarvis [min]` abre una ventana temporal (solo escrita por Renzo), `/revoco` la cierra. Añade `/preflight` y `/verificar`.
+  - `agentes-panel`: dashboard `/agentes` con la actividad en vivo de Claude y sus subagentes, y el estado de los workflows de n8n (activo, última ejecución, éxitos y errores en 7 días).
+- Comprobado al crearlo: preflight contra el PR #32 y verify contra producción. **Producción sirve 2.11.0 y staging 2.17.0**: hay 6 versiones pendientes de pasar a producción.
+
 ## 2.17.0 (2026-10-12): RISE HUB · nivel único
 
 - Antes había dos niveles: Progreso (libro `xp_event` de `phase1.js`) y Daily Quests (`world.js`, 10 XP por actividad, sin guardar). Renzo eligió unificarlos (opción A).

@@ -1,0 +1,1 @@
+{ "name": "agentes-panel", "version": "0.1.0", "description": "Dashboard de agentes: qué hacen Claude y sus subagentes en vivo, y el estado de Jarvis, Payroll Agent y el resto de workflows de n8n", "author": { "name": "Renzo Llontop" }, "types": "./types/index.d.ts" }
