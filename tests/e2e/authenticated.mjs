@@ -215,6 +215,14 @@ await check("Gastos: importar CSV ficticio de ING, categorías, regla por comerc
   assert.match(await page.locator("#money [data-fx-hero]").innerText(), /Ahorro real/);
   assert.match(await page.locator("#money [data-fx-top]").innerText(), /Dónde se fue el dinero/);
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), "Resumen sin scroll horizontal");
+  // Fijos: el alquiler del CSV ficticio aparece como fijo; "No es fijo" lo guarda como marca en su regla
+  await page.locator("#money [data-fx-fixed] [data-fx-unfix]").first().waitFor({ timeout: 10000 });
+  const unfixKey = await page.locator("#money [data-fx-fixed] [data-fx-unfix]").first().getAttribute("data-fx-unfix");
+  await page.locator("#money [data-fx-fixed] [data-fx-unfix]").first().click();
+  await page.locator("#money [data-fx-fixed] .mx-notice", { hasText: "ya no cuenta como gasto fijo" }).waitFor({ timeout: 10000 });
+  const fixedRules = await rest(`/rest/v1/hub_records?owner_id=eq.${uid}&record_type=eq.money_rule&select=payload`, tok.access_token);
+  assert.ok(fixedRules.body.some(r => r.payload.merchant === unfixKey && r.payload.fixed === false), "la marca 'no es fijo' se guarda en la regla del comercio");
+  assert.equal(await page.locator(`#money [data-fx-unfix="${unfixKey}"]`).count(), 0, "desaparece de la lista de fijos");
   await page.click("#money [data-fx-top] [data-fx-go='gastos']");
   await page.locator("#gastos.active [data-gx-summary]").waitFor({ timeout: 10000 });
   await clean();

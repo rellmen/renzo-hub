@@ -62,3 +62,73 @@ export function revolutGap(items, month) {
   if (items.some(i => /revolut/i.test(i.bank))) return 0;
   return round(items.filter(i => i.date.startsWith(month) && i.category === "traspaso" && i.amount < 0 && /revolut/i.test(i.name)).reduce((s, i) => s - i.amount, 0));
 }
+
+// --- Gastos fijos y suscripciones (etapa B) ---
+// Un comercio es fijo si:
+//   · lo marcaste tú como fijo (regla money_rule con fixed: true), o
+//   · es de una categoría que suele ser fija (alquiler, seguros, suscripciones, teléfono, energía), o
+//   · aparece en al menos 2 de los últimos 3 meses, una sola vez al mes y con importe parecido (±20 %),
+//     salvo en categorías de gasto variable (súper, restaurantes, gasolina, compras, transporte…), que solo cuentan si las marcas tú.
+// Lo que marcaste como "no es fijo" (fixed: false) nunca cuenta. Los aportes al alquiler restan.
+export const FIXED_HINT = new Set(["alquiler", "seguros", "suscripciones", "telefono", "energia"]);
+const WINDOW = 3;
+export const VARIABLE = new Set(["supermercado", "restaurantes", "gasolina", "compras", "transporte", "viajes", "coche", "personas_enviado", "salud", "familia", "deudas", "otros_gastos"]);
+const median = xs => { const s = [...xs].sort((a, b) => a - b), m = Math.floor(s.length / 2); return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; };
+
+// Misma fecha un mes después (31 ene → 28/29 feb): fecha prevista, no confirmada.
+export function addMonth(iso) {
+  const [y, m, d] = iso.split("-").map(Number);
+  const ny = m === 12 ? y + 1 : y, nm = m === 12 ? 1 : m + 1;
+  const last = new Date(Date.UTC(ny, nm, 0)).getUTCDate();
+  return `${ny}-${String(nm).padStart(2, "0")}-${String(Math.min(d, last)).padStart(2, "0")}`;
+}
+
+// flags: Map merchantKey → true | false (de las reglas del usuario).
+export function fixedFlags(rules = []) {
+  const out = new Map();
+  for (const r of rules) { const p = r.payload || r; if (p.merchant && typeof p.fixed === "boolean") out.set(p.merchant, p.fixed); }
+  return out;
+}
+
+export function recurring(items, month, flags = new Map()) {
+  const months = [month]; for (let i = 1; i < WINDOW; i++) months.push(prevMonth(months[i - 1]));
+  const inWindow = items.filter(i => months.includes(i.date.slice(0, 7)) && i.date.slice(0, 7) <= month);
+  const byMerchant = new Map();
+  for (const i of inWindow) {
+    // Dinero que entra en Alquiler (aporte de quien comparte piso, con o sin "huur" en la descripción) resta.
+    const isContribution = i.amount > 0 && (i.contribution || i.category === "alquiler");
+    if (!isContribution && !(i.amount < 0)) continue;
+    if (["traspaso", "prestamos", "nomina"].includes(i.category)) continue;
+    const key = i.merchant.toLowerCase();
+    if (!byMerchant.has(key)) byMerchant.set(key, { key, name: i.merchant, category: i.category, contribution: isContribution, perMonth: new Map(), lastDate: i.date, count: 0 });
+    const g = byMerchant.get(key);
+    g.perMonth.set(i.date.slice(0, 7), (g.perMonth.get(i.date.slice(0, 7)) || []).concat(-i.amount));
+    g.count++; if (i.date > g.lastDate) { g.lastDate = i.date; g.category = i.category; }
+  }
+  const out = [];
+  for (const g of byMerchant.values()) {
+    const flag = flags.get(g.key);
+    if (flag === false) continue;
+    const sums = [...g.perMonth.values()].map(v => v.reduce((a, b) => a + b, 0));
+    const maxPerMonth = Math.max(...[...g.perMonth.values()].map(v => v.length));
+    const med = median(sums);
+    const steady = !VARIABLE.has(g.category) && g.perMonth.size >= 2 && maxPerMonth === 1 && sums.every(s => Math.abs(s - med) <= Math.abs(med) * 0.2);
+    const source = flag === true ? "manual" : FIXED_HINT.has(g.category) && maxPerMonth <= 2 ? "categoria" : steady ? "repetido" : null;
+    if (!source) continue;
+    out.push({ key: g.key, name: g.name, category: g.category, monthly: round(med), months: g.perMonth.size, lastDate: g.lastDate,
+      nextDate: g.contribution ? null : addMonth(g.lastDate), source, contribution: g.contribution, subscription: g.category === "suscripciones" });
+  }
+  out.sort((a, b) => b.monthly - a.monthly);
+  // Los aportes al alquiler van justo debajo del alquiler, para leer el coste real de un vistazo.
+  const contribs = out.filter(r => r.contribution), rest = out.filter(r => !r.contribution);
+  const at = rest.findIndex(r => r.category === "alquiler");
+  rest.splice(at < 0 ? rest.length : at + 1, 0, ...contribs);
+  out.length = 0; out.push(...rest);
+  const total = round(out.reduce((s, r) => s + r.monthly, 0));
+  return { items: out, total, subscriptions: round(out.filter(r => r.subscription).reduce((s, r) => s + r.monthly, 0)) };
+}
+
+// Dinero libre del mes: ingresos − fijos (lo que queda para el gasto variable y el ahorro).
+export function freeMoney(earned, fixedTotal) {
+  return earned > 0 ? round(earned - fixedTotal) : null;
+}

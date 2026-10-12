@@ -11,6 +11,14 @@
 
 > La carpeta `~/.codex/.chatgpt-projects/.../renzo-hub-news` queda como espejo histórico de solo lectura. No editar ni desplegar desde ella.
 
+## 2.21.0 (2026-10-12): My Finance · gastos fijos y suscripciones (etapa B de 3)
+
+- Panel nuevo en el Resumen: **fijos al mes**, % de tus ingresos, **dinero libre** (ingresos − fijos) y total de suscripciones.
+- Cuenta como fijo: alquiler, seguros, suscripciones, teléfono y energía, más lo que se repite una vez al mes con importe parecido (±20 %) en al menos 2 de los últimos 3 meses. El gasto variable (súper, restaurantes, gasolina, compras…) solo cuenta si lo marcas tú.
+- El dinero que entra en Alquiler (el aporte de quien comparte piso) resta de los fijos y se muestra justo debajo del alquiler.
+- Cada fijo muestra la fecha prevista del próximo cargo (~, no confirmada). "No es fijo" y "Añadir un gasto fijo" se guardan como marca `fixed` en la regla del comercio (`money_rule`), la misma que guarda su categoría. Sin migraciones.
+- Tests: 105/105 (5 nuevos de fijos); E2E autenticado ampliado con "No es fijo". Caché `renzo-hub-cloud-v8.7-finance-fijos`.
+
 ## 2.20.0 (2026-10-12): My Finance · Resumen del mes (cierre de My Finance, etapa A de 3)
 
 - Renzo eligió cerrar My Finance con la opción 1: A Resumen, B fijos y suscripciones, C presupuesto semanal. Los tickets pasan a la Fase 3.

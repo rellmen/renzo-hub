@@ -1,6 +1,6 @@
 {
-  "release": "2.20.0",
-  "name": "My Finance · Resumen del mes (Fase 2, etapa A)",
+  "release": "2.21.0",
+  "name": "My Finance · gastos fijos y suscripciones (Fase 2, etapa B)",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",
