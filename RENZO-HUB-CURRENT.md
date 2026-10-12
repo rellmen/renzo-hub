@@ -1,7 +1,7 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
 - **Producción (uso diario):** [renzo-hub.vercel.app](https://renzo-hub.vercel.app/) · release **2.11.0** (extracto de ING en Nóminas) · rama `main`, commit `af07e68` (merge del PR #23) · verificada 2026-10-12: READY, `release.json` 2.11.0, `deployment-info` production/main, smoke 15/15. Migraciones: todas las de `supabase/migrations/` hasta 20261010030000 (ver `docs/SUPABASE-SCHEMA.md`). Rollback app: Instant Rollback en Vercel
-- **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.17.0** (tras fusionar el PR de nivel único) · rama `staging` · **No borrar la rama `staging` al fusionar PRs.**
+- **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.18.0** (tras fusionar el PR de portadas, etapa 3) · rama `staging` · **No borrar la rama `staging` al fusionar PRs.**
 - **Experimental:** 2.6.0 Microapp OS Core · rama `experimental/os-core` (no se despliega)
 - **Fuente canónica:** `github.com/rellmen/renzo-hub` (privado). `main` = producción, `staging` = pruebas, `feature/*` = una rama por tarea con PR hacia `staging`
 - **Copias de seguridad:** `~/Projects/RENZO-HUB/backups/` y versiones verificadas en `~/Projects/RENZO-HUB/releases/`
@@ -10,6 +10,16 @@
 - **Referencias:** `RENZO_HUB_TECHNICAL_AUDIT.md` y `PHASE_1_EXECUTION_PLAN.md` (bóveda del proyecto y `~/Documents/HUB`)
 
 > La carpeta `~/.codex/.chatgpt-projects/.../renzo-hub-news` queda como espejo histórico de solo lectura. No editar ni desplegar desde ella.
+
+## 2.18.0 (2026-10-12): RISE HUB · portadas de microapps y animación de apertura (etapa 3 de 3)
+
+- `assets/rise-covers.css`, solo CSS (sin tocar JS):
+  - Portada detrás de la cabecera de Body, Gym, Food, Skin, Study, Work, My Finance, Nóminas, Gastos y Notas, fundida con el fondo. Es un `::before` de la sección: sobrevive aunque la microapp repinte su contenido y solo se descarga al abrirla. En Nóminas y Gastos es más baja para no quitar espacio.
+  - Animación de apertura: la portada se acerca (0,7 s) y el contenido sube suavemente (0,34 s). Finita; desactivada con "reducir movimiento".
+  - Restos violeta de Gym (rango, quests, pestaña seleccionada) y Study (botón Empezar, ruta, lecciones, quiz) en la familia azul.
+- Con esto RISE HUB queda completo: marca (2.15), Home (2.16), nivel único (2.17) y portadas (2.18).
+- Pendiente de decidir: Gym (Ascend) y Study tienen su propio contador de XP interno, aparte del nivel único.
+- Caché `renzo-hub-cloud-v8.4-portadas`.
 
 ## 2.17.0 (2026-10-12): RISE HUB · nivel único
 
