@@ -1,4 +1,4 @@
-# Microapps en Renzo Hub
+# Microapps en RISE HUB
 
 Desde la 2.9.0 cada microapp se declara una sola vez en `microapps/registry.js`. El shell (`app.js`) genera a partir del registro:
 

@@ -96,7 +96,7 @@ export function createDataExport(db, getUser, { release = async () => "", projec
       const rows = Object.values(data.counts).reduce((a, b) => a + b, 0) - data.counts.files;
       const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
       const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
-      a.download = `renzo-hub-copia-${data.taken_at.slice(0, 10)}.json`; document.body.append(a); a.click(); a.remove();
+      a.download = `rise-hub-copia-${data.taken_at.slice(0, 10)}.json`; document.body.append(a); a.click(); a.remove();
       setTimeout(() => URL.revokeObjectURL(a.href), 60000);
       await log.add({ title: `Copia ${data.taken_at.slice(0, 10)}`, payload: { rows, files: data.counts.files, bytes: blob.size, errors: data.errors.length } });
       await refresh();

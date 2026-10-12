@@ -1,4 +1,4 @@
-// Registro central de Renzo Hub: cada área y cada microapp se declara aquí UNA vez.
+// Registro central de RISE HUB (antes Renzo Hub): cada área y cada microapp se declara aquí UNA vez.
 // app.js genera a partir de este archivo: rutas, pantallas completas, secciones guardadas,
 // pestañas de cada área, enlaces directos (?app=<id>) y el ciclo de vida (open/close/load/reset).
 // tests/registry.test.mjs comprueba que cada módulo existe, exporta su función de montaje
