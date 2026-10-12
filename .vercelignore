@@ -17,3 +17,4 @@ node_modules/
 .vercelignore
 claude-mods/
 .claude-plugin/
+.claude/

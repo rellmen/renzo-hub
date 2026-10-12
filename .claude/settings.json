@@ -1,0 +1,15 @@
+{
+  "enabledPlugins": {
+    "renzo-guardrails@rise-hub-mods": true,
+    "agentes-panel@rise-hub-mods": true
+  },
+  "extraKnownMarketplaces": {
+    "rise-hub-mods": {
+      "source": {
+        "source": "github",
+        "repo": "rellmen/renzo-hub",
+        "ref": "staging"
+      }
+    }
+  }
+}
