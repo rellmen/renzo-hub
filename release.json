@@ -1,6 +1,6 @@
 {
-  "release": "2.18.0",
-  "name": "RISE HUB · portadas de microapps y animación de apertura (etapa 3)",
+  "release": "2.19.0",
+  "name": "RISE HUB · Gym y Study muestran el nivel único",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",
