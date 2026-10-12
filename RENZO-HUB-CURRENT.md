@@ -11,6 +11,13 @@
 
 > La carpeta `~/.codex/.chatgpt-projects/.../renzo-hub-news` queda como espejo histórico de solo lectura. No editar ni desplegar desde ella.
 
+## Esquema completo de producción comprobado (2026-10-12)
+
+- Consulta 11 en producción (Renzo): **11 de 12 secciones idénticas a staging** (columnas, restricciones, índices, políticas de public y Storage, permisos de tablas y funciones, RLS, triggers, vistas, buckets).
+- Única diferencia: `set_hub_records_updated_at` (trigger de `updated_at` en `hub_records`). Producción tiene el mismo código en una sola línea (`begin new.updated_at := now(); return new; end;`); staging y el repositorio, en varias líneas. **Misma lógica y misma configuración de seguridad**: no hace falta tocar producción.
+- La consulta 11 ahora compara el código de funciones y vistas sin espacios ni saltos de línea; referencia de staging actualizada. Con esa normalización, producción = staging en las 12 secciones (la función normalizada da el mismo md5 en los dos entornos: `0146fd32…`).
+- Criterio "esquema reproducible": cumplido para todo el esquema, no solo Nóminas.
+
 ## 2.14.0 (2026-10-12): copia de seguridad "Exportar mis datos" y huella del esquema completo
 
 **Auditoría (12 oct, verificada):** CI en verde en cada PR (sintaxis, unit, smoke, E2E de Nóminas Chromium y WebKit, réplica PostgreSQL 17 con migraciones, RLS y rollback). E2E con sesión contra staging solo en local (necesita credenciales). Supabase security advisors en ambos entornos: solo "Leaked password protection" (disponible desde el plan Pro). **Organización de Supabase en plan Free: sin copias automáticas** (Supabase solo hace copias diarias en Pro, Team y Enterprise). Historial de migraciones de Supabase con versiones distintas a los archivos del repositorio (varias se aplicaron desde el SQL Editor): no afecta al esquema, pero no es un registro limpio.
