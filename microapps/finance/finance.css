@@ -113,3 +113,12 @@
   .fx[data-fx-summary]>.fx-sources{grid-column:1/-1;grid-row:6}
 }
 }
+
+/* Estado de cada banco y banco detectado al importar */
+.fx-bank{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;white-space:nowrap}
+.fx-bank--ok{background:rgba(111,224,180,.14);color:var(--ok)}
+.fx-bank--missing{background:rgba(255,196,92,.14);color:#ffd78a}
+.gx-banks{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px!important}
+.bank-detected{display:inline-block;margin:0 0 8px;padding:4px 12px;border-radius:20px;font-weight:800;font-size:14px}
+.bank-detected--ing{background:rgba(255,140,0,.16);color:#ffb15c}
+.bank-detected--revolut{background:rgba(74,168,255,.16);color:#9fd0ff}

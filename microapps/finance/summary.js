@@ -22,6 +22,13 @@ export function monthNavHTML(items, month) {
   </nav>`;
 }
 
+// Estado de cada banco: qué extractos hay y hasta qué fecha (ING y Revolut).
+export function bankStatusHTML(items) {
+  const last = lastImported(items);
+  const chip = (bank, date) => `<span class="fx-bank ${date ? "fx-bank--ok" : "fx-bank--missing"}" data-bank-status="${bank}">${bank} ${date ? `✓ hasta el ${esc(day(date))}` : "✗ sin importar"}</span>`;
+  return `${chip("ING", last.ING)} ${chip("Revolut", last.Revolut)}`;
+}
+
 // Chip de variación: en gastos, subir es malo. Siempre con flecha y texto, no solo color.
 export function changeChip(pct, { goodWhenUp = false } = {}) {
   if (pct == null) return `<span class="fx-chip fx-chip--flat">nuevo</span>`;
@@ -88,8 +95,7 @@ export function mountFinanceSummary(root, db, getUser, go, { extras = [] } = {})
   }
 
   function sourcesHTML() {
-    const last = lastImported(items);
-    return `<p class="fx-sources gx-muted">Datos del banco: ING ${last.ING ? `hasta el ${esc(day(last.ING))}` : "sin importar"} · Revolut ${last.Revolut ? `hasta el ${esc(day(last.Revolut))}` : "sin importar"}.
+    return `<p class="fx-sources gx-muted">Datos del banco: ${bankStatusHTML(items)}
       <button type="button" class="fx-link" data-fx-go="gastos" data-fx-focus="import">Importar extracto</button></p>`;
   }
 
