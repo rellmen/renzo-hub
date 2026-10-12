@@ -1,6 +1,6 @@
 {
-  "release": "2.16.0",
-  "name": "RISE HUB · nueva Home (etapa 2: hero, Hoy, Áreas con portada, Progreso)",
+  "release": "2.17.0",
+  "name": "RISE HUB · nivel único (Daily Quests suma al mismo XP)",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",
