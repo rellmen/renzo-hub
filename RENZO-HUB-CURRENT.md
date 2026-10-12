@@ -29,6 +29,14 @@
 - Pendiente de decidir: Gym (Ascend) y Study tienen su propio contador de XP interno, aparte del nivel único.
 - Caché `renzo-hub-cloud-v8.4-portadas`.
 
+## Herramientas de trabajo (2026-10-12, sin cambio de versión: la app publicada no cambia)
+
+- `./scripts/renzo-hub preflight [nº PR]`: comprobaciones fijas antes de fusionar (destino, fusionable, CI por check, versión y caché si cambia la app, migraciones con rollback, claves en lo añadido). Sale con 1 si algo FALLA.
+- `./scripts/renzo-hub verify <staging|prod> [versión] [--smoke]`: versión servida, entorno, 14 rutas internas no expuestas y smoke opcional. Staging necesita `VERCEL_PROTECTION_BYPASS` en la shell.
+- `AGENTS.md`: reglas permanentes (Renzo ya no las repite en cada encargo) y Definition of Done con formato de informe obligatorio.
+- Los mods y skills de Claude no viven en este repo: son un plugin de la cuenta de claude.ai de Renzo (chats del proyecto "Rise HUB").
+- Comprobado al crearlo: preflight contra el PR #32 y verify contra producción. **Producción sirve 2.11.0 y staging 2.19.0**: hay 8 versiones pendientes de pasar a producción.
+
 ## 2.17.0 (2026-10-12): RISE HUB · nivel único
 
 - Antes había dos niveles: Progreso (libro `xp_event` de `phase1.js`) y Daily Quests (`world.js`, 10 XP por actividad, sin guardar). Renzo eligió unificarlos (opción A).
