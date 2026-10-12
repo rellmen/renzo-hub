@@ -63,6 +63,13 @@ export function revolutGap(items, month) {
   return round(items.filter(i => i.date.startsWith(month) && i.category === "traspaso" && i.amount < 0 && /revolut/i.test(i.name)).reduce((s, i) => s - i.amount, 0));
 }
 
+// ¿Es el ahorro del mes un dato real o falta información? Con dinero pasado a Revolut sin su extracto,
+// ingresos − gastos es solo un máximo: lo gastado desde Revolut no se ve y no puede llamarse "ahorro real".
+export function savingsStatus(items, month) {
+  const gap = revolutGap(items, month);
+  return { complete: gap === 0, gap };
+}
+
 // --- Gastos fijos y suscripciones (etapa B) ---
 // Un comercio es fijo si:
 //   · lo marcaste tú como fijo (regla money_rule con fixed: true), o

@@ -125,7 +125,7 @@ export function mountGastos(root, db, getUser, go) {
       <article class="card gx-hero" data-gx-summary>
         <div class="ey">${s.count} movimientos · ING ${last.ING ? `hasta ${esc(day(last.ING))}` : "sin importar"}${last.Revolut ? ` · Revolut hasta ${esc(day(last.Revolut))}` : ""}</div>
         <p class="mx-total">${esc(euro(s.spent))}</p><p>Gastado${prev ? ` ${changeChip(change(s.spent, prev.spent))}` : ""}</p>
-        <dl class="gx-kpis"><div><dt>Ingresos</dt><dd>${esc(euro(s.earned))}</dd></div><div><dt>Ahorro real</dt><dd>${esc(euro(s.net))}</dd></div><div><dt>Traspasos a tus cuentas</dt><dd>${esc(euro(Math.abs(s.transferTotal)))}</dd></div></dl>
+        <dl class="gx-kpis"><div><dt>Ingresos</dt><dd>${esc(euro(s.earned))}</dd></div><div><dt>${gap > 0 ? "Ahorro provisional (falta Revolut)" : "Ahorro real"}</dt><dd>${gap > 0 ? "Hasta " : ""}${esc(euro(s.net))}</dd></div><div><dt>Traspasos a tus cuentas</dt><dd>${esc(euro(Math.abs(s.transferTotal)))}</dd></div></dl>
         ${gap > 0 ? `<button type="button" class="gx-warn gx-warn--btn" data-gx-import data-gx-revolut>⇄ ${esc(euro(gap))} a Revolut sin detalle · importa su extracto ›</button>` : ""}
         ${s.uncategorized ? `<button type="button" class="gx-warn gx-warn--btn" data-gx-todo>? ${s.uncategorized} movimiento${s.uncategorized === 1 ? "" : "s"} sin categoría · asígnales una ›</button>` : ""}
       </article>
