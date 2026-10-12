@@ -1,6 +1,6 @@
 {
-  "release": "2.22.0",
-  "name": "My Finance · presupuesto semanal (Fase 2, etapa C: My Finance cerrado)",
+  "release": "2.22.1",
+  "name": "My Finance · ahorro provisional mientras falta el extracto de Revolut",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",

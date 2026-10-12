@@ -11,6 +11,13 @@
 
 > La carpeta `~/.codex/.chatgpt-projects/.../renzo-hub-news` queda como espejo histórico de solo lectura. No editar ni desplegar desde ella.
 
+## 2.22.1 (2026-10-12): My Finance · ahorro provisional mientras falta Revolut
+
+- Con los datos reales de septiembre, el Resumen decía "Ahorro real 3254,85 €" cuando 2811,15 € habían pasado a Revolut sin extracto. Eso no es ahorro: es dinero cuyo gasto no se ve.
+- Ahora, si hay dinero pasado a Revolut sin su extracto, la cifra pasa a **"Ahorro provisional · Hasta X €"** (en gris), con el aviso de cuánto falta, y no se compara el ahorro con el mes anterior. En Gastos, "Ahorro provisional (falta Revolut)". Al importar el extracto de Revolut vuelve a "Ahorro real".
+- Saber qué banco hay: Gastos y Resumen muestran el estado de cada banco ("ING ✓ hasta el 30 sept · Revolut ✗ sin importar"). Al importar, la vista previa dice en grande "Extracto de ING" o "Extracto de Revolut" y, si el archivo ya estaba importado, avisa de que no hay nada nuevo (y, si es de ING, que Revolut es el PDF de su app). Renzo no distinguía si había importado Revolut o ING.
+- Test nuevo (`savingsStatus`): 111/111. Caché `renzo-hub-cloud-v8.9-ahorro-provisional`.
+
 ## 2.22.0 (2026-10-12): My Finance · presupuesto semanal (etapa C de 3, My Finance cerrado)
 
 - Panel nuevo en el Resumen: **presupuesto semanal por categoría**, con la semana de **miércoles a martes** (Renzo cobra los miércoles). Flechas ‹ › entre semanas, días que quedan, barra por categoría (al 80 % avisa, pasado en rojo), lo que queda o cuánto te pasas, y el total.

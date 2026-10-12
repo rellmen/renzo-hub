@@ -3,7 +3,7 @@
 // Los registros a mano y de Jarvis siguen debajo, en su propio bloque, y no se mezclan con estas cifras.
 import { esc, euro, emptyHTML, noticeHTML } from "../ui.js";
 import { loadFinance, loadPendingInbox, financeNav } from "./data.js";
-import { monthInsights, neighbours, lastImported, revolutGap } from "./insights.js";
+import { monthInsights, neighbours, lastImported, revolutGap, savingsStatus } from "./insights.js";
 import { monthsOf } from "../gastos/categories.js";
 
 export const monthName = m => (t => t.charAt(0).toUpperCase() + t.slice(1))(new Intl.DateTimeFormat("es-ES", { month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(`${m}-15T00:00:00Z`)));
@@ -20,6 +20,13 @@ export function monthNavHTML(items, month) {
     <b aria-live="polite">${esc(monthName(month))}</b>
     <button type="button" class="secondary" data-fx-month="${esc(newer || "")}" ${newer ? "" : "disabled"} aria-label="${newer ? `Ver ${esc(monthName(newer))}` : "No hay meses posteriores"}">›</button>
   </nav>`;
+}
+
+// Estado de cada banco: qué extractos hay y hasta qué fecha (ING y Revolut).
+export function bankStatusHTML(items) {
+  const last = lastImported(items);
+  const chip = (bank, date) => `<span class="fx-bank ${date ? "fx-bank--ok" : "fx-bank--missing"}" data-bank-status="${bank}">${bank} ${date ? `✓ hasta el ${esc(day(date))}` : "✗ sin importar"}</span>`;
+  return `${chip("ING", last.ING)} ${chip("Revolut", last.Revolut)}`;
 }
 
 // Chip de variación: en gastos, subir es malo. Siempre con flecha y texto, no solo color.
@@ -60,13 +67,13 @@ export function mountFinanceSummary(root, db, getUser, go, { extras = [] } = {})
   }
 
   function heroHTML(s) {
-    const positive = s.savings >= 0;
+    const positive = s.savings >= 0, st = savingsStatus(items, month);
     const meter = s.earned > 0 ? Math.min(100, Math.round(s.spent / s.earned * 100)) : 100;
-    const vs = s.prev ? `<p class="fx-vs"><span>Frente a ${esc(monthOnly(s.prev.month))}</span><span>Ahorro <b>${esc(signed(s.savingsDelta))}</b></span><span>Gasto ${changeChip(s.spentChange)}</span></p>` : `<p class="fx-vs gx-muted">Sin mes anterior con el que comparar.</p>`;
+    const vs = s.prev ? `<p class="fx-vs"><span>Frente a ${esc(monthOnly(s.prev.month))}</span>${st.complete ? `<span>Ahorro <b>${esc(signed(s.savingsDelta))}</b></span>` : ""}<span>Gasto ${changeChip(s.spentChange)}</span></p>` : `<p class="fx-vs gx-muted">Sin mes anterior con el que comparar.</p>`;
     return `<article class="card fx-hero ${positive ? "" : "fx-hero--neg"}" data-fx-hero>
-      <div class="ey">Ahorro real · ${esc(monthName(month))}</div>
-      <p class="fx-big">${esc(signed(s.savings))}</p>
-      <p class="fx-sub">${s.rate == null ? "Sin ingresos registrados este mes" : positive ? `Ahorras el <b>${s.rate} %</b> de lo que ingresas` : `Gastaste ${esc(euro(-s.savings))} más de lo que ingresaste`}</p>
+      <div class="ey">${st.complete ? "Ahorro real" : "Ahorro provisional"} · ${esc(monthName(month))}</div>
+      <p class="fx-big${st.complete ? "" : " fx-big--partial"}">${st.complete ? "" : "Hasta "}${esc(signed(s.savings))}</p>
+      <p class="fx-sub">${!st.complete ? `No es tu ahorro real: pasaste <b>${esc(euro(st.gap))}</b> a Revolut y aún no se sabe en qué se gastó. Importa su extracto.` : s.rate == null ? "Sin ingresos registrados este mes" : positive ? `Ahorras el <b>${s.rate} %</b> de lo que ingresas` : `Gastaste ${esc(euro(-s.savings))} más de lo que ingresaste`}</p>
       <div class="fx-meter" role="img" aria-label="Has gastado el ${meter} % de tus ingresos"><i style="width:${meter}%"></i></div>
       <dl class="fx-split"><div><dt>Ingresos</dt><dd>${esc(euro(s.earned))}</dd></div><div><dt>Gastos</dt><dd>${esc(euro(s.spent))}</dd></div></dl>
       ${vs}
@@ -88,8 +95,7 @@ export function mountFinanceSummary(root, db, getUser, go, { extras = [] } = {})
   }
 
   function sourcesHTML() {
-    const last = lastImported(items);
-    return `<p class="fx-sources gx-muted">Datos del banco: ING ${last.ING ? `hasta el ${esc(day(last.ING))}` : "sin importar"} · Revolut ${last.Revolut ? `hasta el ${esc(day(last.Revolut))}` : "sin importar"}.
+    return `<p class="fx-sources gx-muted">Datos del banco: ${bankStatusHTML(items)}
       <button type="button" class="fx-link" data-fx-go="gastos" data-fx-focus="import">Importar extracto</button></p>`;
   }
 

@@ -193,3 +193,11 @@ test("cobertura: avisa si la semana aún no está importada (no enseña 0 € co
   assert.equal(budgetWeek(items, { supermercado: 50 }, "2026-09-30", EXPENSE, "2026-10-12").coverage, "partial");
   assert.equal(budgetWeek(weekly(), { supermercado: 50 }, "2026-09-23", EXPENSE, "2026-10-12").coverage, "full");
 });
+
+// --- Ahorro provisional mientras falta el extracto de Revolut ---
+import { savingsStatus } from "../microapps/finance/insights.js";
+test("con dinero en Revolut sin extracto, el ahorro no es real (provisional)", () => {
+  const items = sample();
+  assert.deepEqual(savingsStatus(items, "2026-09"), { complete: false, gap: 80 });
+  assert.deepEqual(savingsStatus(items, "2026-08"), { complete: true, gap: 0 });
+});

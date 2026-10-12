@@ -16,6 +16,7 @@
 .fx-hero--empty h2{margin:6px 0}
 .fx-hero p{margin:0}
 .fx-big{font-size:clamp(34px,10vw,48px);font-weight:850;letter-spacing:-.02em;line-height:1.1;margin:6px 0 2px!important;font-variant-numeric:tabular-nums}
+.fx-big--partial{color:var(--muted)}
 .fx-sub{color:var(--text)}.fx-sub b{color:var(--ok)}
 .fx-hero--neg .fx-sub{color:#ffd0c8}
 .fx-meter{height:8px;margin:14px 0 12px;border-radius:8px;background:rgba(255,255,255,.08);overflow:hidden}
@@ -112,3 +113,12 @@
   .fx[data-fx-summary]>.fx-sources{grid-column:1/-1;grid-row:6}
 }
 }
+
+/* Estado de cada banco y banco detectado al importar */
+.fx-bank{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;white-space:nowrap}
+.fx-bank--ok{background:rgba(111,224,180,.14);color:var(--ok)}
+.fx-bank--missing{background:rgba(255,196,92,.14);color:#ffd78a}
+.gx-banks{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px!important}
+.bank-detected{display:inline-block;margin:0 0 8px;padding:4px 12px;border-radius:20px;font-weight:800;font-size:14px}
+.bank-detected--ing{background:rgba(255,140,0,.16);color:#ffb15c}
+.bank-detected--revolut{background:rgba(74,168,255,.16);color:#9fd0ff}
