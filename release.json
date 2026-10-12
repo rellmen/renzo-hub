@@ -1,6 +1,6 @@
 {
-  "release": "2.14.0",
-  "name": "Renzo Hub · Exportar mis datos (copia de seguridad)",
+  "release": "2.15.0",
+  "name": "RISE HUB · nueva identidad (etapa 1: marca, colores y logo)",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",

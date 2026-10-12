@@ -1,0 +1,108 @@
+/* RISE HUB · identidad visual (etapa 1, 2.15.0).
+   Se carga DESPUÉS de los estilos de index.html y solo cambia colores, superficies y marca:
+   no toca la estructura ni el comportamiento. Referencia de diseño: prototipo de Lovable "RISE HUB"
+   (re-implementado aquí en CSS; no se copia código del prototipo). */
+:root {
+  --bg: #060b14;
+  --card: rgba(20, 30, 48, .9);
+  --card2: rgba(31, 45, 70, .78);
+  --text: #eef4fb;
+  --muted: #9fb0c6;
+  --accent: #4aa8ff;          /* azul eléctrico */
+  --accent2: #7fdcf0;         /* cian */
+  --line: rgba(86, 128, 182, .34);
+  --ok: #6fe0b4;
+  --danger: #ff8a7a;
+  --rise-panel: rgba(18, 28, 46, .92);
+  --rise-panel-strong: rgba(24, 36, 58, .96);
+  --rise-glow: 0 0 32px rgba(74, 168, 255, .18);
+  --rise-shadow: 0 12px 36px rgba(2, 5, 12, .38), inset 0 1px 0 rgba(160, 205, 255, .05);
+  --rise-gradient: linear-gradient(130deg, rgba(74, 168, 255, .10), var(--rise-panel) 65%);
+  color-scheme: dark;
+}
+
+html, body { background: var(--bg); color: var(--text); }
+body { background: radial-gradient(ellipse at 70% -15%, rgba(40, 92, 170, .30), transparent 45%), var(--bg); }
+@media (min-width: 1024px) { body { background: radial-gradient(ellipse at 68% -20%, rgba(40, 92, 170, .34) 0, transparent 40%), var(--bg); } }
+
+/* Superficies de cristal */
+.hero, .card, .app, .authcard, .step, .product, .worlditem, .study-node, .study-stat, .study-extras {
+  background: var(--rise-gradient);
+  border-color: var(--line);
+  box-shadow: var(--rise-shadow);
+}
+/* Sin backdrop-filter en tarjetas: en Safari/WebKit obliga a repintar toda la pantalla y hace la app más lenta.
+   El efecto cristal se consigue con superficies semiopacas y brillo. */
+.quick div, .switch, .secondary { background: var(--card2); }
+textarea, input, select { background: rgba(10, 17, 30, .85); border-color: var(--line); color: var(--text); }
+textarea:focus-visible, input:focus-visible, select:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Botones y acentos */
+.primary, .home-cta, .update-banner button { background: var(--accent); color: #07111f; }
+.primary:hover, .home-cta:hover { box-shadow: var(--rise-glow); }
+.avatar, .check.done, .bar { background: var(--accent); color: #07111f; }
+.check.done { border-color: var(--accent); }
+.back, .microapp-context { color: var(--accent2); }
+.pill { background: rgba(74, 168, 255, .16); color: #cfe8ff; }
+.progress { background: rgba(86, 128, 182, .22); }
+input[type="checkbox"] { accent-color: var(--accent); }
+
+/* Navegación */
+.nav { background: rgba(6, 11, 20, .94); border-top-color: var(--line); }
+@media (min-width: 1024px) { .nav { border-right: 1px solid var(--line); } }
+.nav button.active { background: rgba(74, 168, 255, .14); color: var(--text); }
+.nav button:nth-child(n) .nav-icon { color: #8fb8e8; }
+.nav button.active .nav-icon { color: var(--accent2); filter: drop-shadow(0 0 8px rgba(127, 220, 240, .6)); }
+.microapp-back { background: rgba(20, 30, 48, .8); border-color: var(--line); color: #d6e6f8; }
+.microapp-back:hover { border-color: var(--accent); background: rgba(74, 168, 255, .12); }
+
+/* Marca: el cristal R */
+.brand-mark { filter: drop-shadow(0 0 8px rgba(74, 168, 255, .35)); }
+.authlogo { width: 76px; height: 76px; border-radius: 20px; box-shadow: 0 0 34px rgba(74, 168, 255, .32); }
+.home-intro-logo { border-radius: 7px; box-shadow: 0 0 14px rgba(74, 168, 255, .4); }
+
+/* Home: banda principal en azul eléctrico (antes violeta) */
+.home-intro {
+  background: radial-gradient(ellipse at 92% 8%, rgba(74, 168, 255, .30), transparent 55%), linear-gradient(115deg, rgba(30, 64, 120, .55), var(--rise-panel) 75%);
+  border-color: rgba(86, 140, 210, .45);
+  box-shadow: var(--rise-shadow), var(--rise-glow);
+}
+.home-intro:after { border-color: rgba(127, 200, 255, .25); box-shadow: 0 0 0 18px rgba(127, 200, 255, .05), 0 0 0 36px rgba(127, 200, 255, .03); }
+.home-intro .ey, .home-intro-copy .ey { color: var(--accent2); }
+.home-intro p { color: #c8d6e8; }
+.area-label { color: #d6e2f0; }
+.area-label svg { color: var(--accent2); }
+html .home-apps .app { background: linear-gradient(150deg, rgba(24, 38, 62, .92), rgba(14, 22, 38, .94)); border-color: var(--line); }
+html .home-apps .app:hover { background: linear-gradient(150deg, rgba(30, 48, 78, .94), rgba(16, 26, 44, .95)); border-color: rgba(74, 168, 255, .6); box-shadow: var(--rise-shadow), 0 0 20px rgba(74, 168, 255, .14); }
+.worldhero { background: radial-gradient(ellipse at top right, rgba(74, 168, 255, .25), transparent 65%), var(--card); border-color: rgba(86, 140, 210, .5); }
+.study-next { border-color: rgba(86, 140, 210, .5); background: radial-gradient(ellipse at 88% 0, rgba(74, 168, 255, .22), transparent 45%), var(--rise-panel); }
+
+/* Pestañas de área (My Finance) */
+.fin-tabs { background: rgba(255, 255, 255, .04); border-color: var(--line); }
+.fin-tabs button[aria-current=page], #payroll .fin-tabs button[aria-current=page] { background: var(--accent); color: #07111f; }
+
+/* Nóminas y Gastos: sus hojas de estilo se cargan después, por eso estas reglas llevan "html" delante
+   (más específicas). Los colores de estado (aprobada, pendiente, diferencia…) se mantienen. */
+html #payroll .card, html #gastos .card { background: var(--rise-gradient); border-color: var(--line); box-shadow: var(--rise-shadow); }
+html #payroll .pay-hero, html #gastos .gx-hero { background: linear-gradient(115deg, rgba(30, 64, 120, .6), var(--rise-panel) 75%); box-shadow: var(--rise-shadow), var(--rise-glow); }
+html #payroll button { background: rgba(31, 45, 70, .85); color: #e6f0fb; border-color: var(--line); }
+html #payroll button:hover { background: rgba(45, 68, 104, .9); }
+html #payroll [aria-pressed=true], html #payroll .pay-tabs button[aria-pressed=true], html #payroll [value=correct], html #payroll [value=approve] { background: var(--accent); color: #07111f; border-color: var(--accent); }
+html #payroll .pay-upload-pick, html #gastos .pay-upload-pick, html #gastos .pay-button { background: var(--accent); color: #07111f; }
+html #payroll .pay-upload-pick:focus-within, html #gastos .pay-upload-pick:focus-within { outline-color: var(--accent2); }
+html #payroll .fin-tabs button:not([aria-current]), html #payroll .microapp-back { background: transparent; }
+html #payroll .microapp-back { background: rgba(20, 30, 48, .8); }
+html #payroll .pay-chip, html #payroll .pay-year-unknown { background: rgba(60, 80, 112, .55); }
+html #payroll input, html #payroll select, html #payroll textarea, html #gastos select, html #gastos input { background: rgba(10, 17, 30, .85); border-color: var(--line); color: var(--text); }
+html #gastos .gx-bar i { background: linear-gradient(90deg, var(--accent), var(--accent2)); }
+html #gastos .gx-item { background: rgba(10, 17, 30, .7); }
+html #gastos .gx-ask { background: rgba(74, 168, 255, .10); }
+html #gastos .pay-actions button { background: rgba(31, 45, 70, .85); color: #e6f0fb; }
+html #gastos .pay-actions button[data-bank-save] { background: var(--accent); color: #07111f; }
+html #payroll .pay-extra-row { border-left-color: var(--accent); }
+
+/* Iconos de las microapps en Home: misma familia azul (antes violeta) */
+html .home-apps .app:nth-child(n) .app-icon { background: radial-gradient(circle at 80% 12%, rgba(127, 220, 240, .28), transparent 42%), linear-gradient(145deg, #1d3a66, #142238); border-color: rgba(127, 190, 255, .22); }
+
+.update-banner { background: var(--rise-panel-strong); border-color: var(--accent); }
+.env-badge { border-color: var(--line); }

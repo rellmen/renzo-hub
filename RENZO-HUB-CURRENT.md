@@ -1,7 +1,7 @@
-# Renzo Hub · versión vigente
+# RISE HUB (antes Renzo Hub) · versión vigente
 
 - **Producción (uso diario):** [renzo-hub.vercel.app](https://renzo-hub.vercel.app/) · release **2.11.0** (extracto de ING en Nóminas) · rama `main`, commit `af07e68` (merge del PR #23) · verificada 2026-10-12: READY, `release.json` 2.11.0, `deployment-info` production/main, smoke 15/15. Migraciones: todas las de `supabase/migrations/` hasta 20261010030000 (ver `docs/SUPABASE-SCHEMA.md`). Rollback app: Instant Rollback en Vercel
-- **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.14.0** (tras fusionar el PR) · rama `staging` · **No borrar la rama `staging` al fusionar PRs.**
+- **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.15.0** (tras fusionar el PR de RISE HUB, etapa 1) · rama `staging` · **No borrar la rama `staging` al fusionar PRs.**
 - **Experimental:** 2.6.0 Microapp OS Core · rama `experimental/os-core` (no se despliega)
 - **Fuente canónica:** `github.com/rellmen/renzo-hub` (privado). `main` = producción, `staging` = pruebas, `feature/*` = una rama por tarea con PR hacia `staging`
 - **Copias de seguridad:** `~/Projects/RENZO-HUB/backups/` y versiones verificadas en `~/Projects/RENZO-HUB/releases/`
@@ -10,6 +10,15 @@
 - **Referencias:** `RENZO_HUB_TECHNICAL_AUDIT.md` y `PHASE_1_EXECUTION_PLAN.md` (bóveda del proyecto y `~/Documents/HUB`)
 
 > La carpeta `~/.codex/.chatgpt-projects/.../renzo-hub-news` queda como espejo histórico de solo lectura. No editar ni desplegar desde ella.
+
+## 2.15.0 (2026-10-12): RISE HUB · nueva identidad (etapa 1 de 3)
+
+- Nombre visible **RISE HUB** (antes Renzo HUB): título, pantalla de acceso, menú, manifest de la PWA, icono de inicio y textos. Se mantienen las URLs, el repositorio `rellmen/renzo-hub`, los proyectos de Vercel y Supabase, el prefijo de caché `renzo-hub-` y el formato de copia `renzo-hub-export` (las copias antiguas siguen sirviendo).
+- Logo R de cristal aprobado en Lovable: iconos 180/192/512, 512 maskable, favicon y marca en webp (`assets/rise-*-v1.*`).
+- Paleta azul eléctrico y cian sobre fondo `#060b14` con superficies de cristal: `assets/rise-theme.css`, cargado después de los estilos de `index.html`. Solo colores y marca; no cambia estructura ni comportamiento. Nóminas y Gastos con reglas propias porque sus hojas se cargan después.
+- Diseño re-implementado en CSS a partir del prototipo de Lovable; no se copia código del prototipo y no se porta su módulo de Nodalys.
+- Caché `renzo-hub-cloud-v8.1-rise`. Copia descargada: `rise-hub-copia-AAAA-MM-DD.json`.
+- Siguientes etapas: 2) nueva Home (hero, Hoy, Áreas, Progreso); 3) portadas de microapps y animación de apertura. Cada una con su PR a staging.
 
 ## Esquema completo de producción comprobado (2026-10-12)
 

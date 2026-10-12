@@ -142,7 +142,7 @@ supabase.auth.onAuthStateChange((event,session)=>{
 
 let session=null;
 try{const {data,error}=await supabase.auth.getSession();if(error)throw error;session=data?.session||null;}
-catch(error){console.warn("Could not restore Renzo Hub session; keeping sign-in available",error);showAuth("No se pudo restaurar la sesión. Puedes volver a iniciar sesión.","err");}
+catch(error){console.warn("Could not restore RISE HUB session; keeping sign-in available",error);showAuth("No se pudo restaurar la sesión. Puedes volver a iniciar sesión.","err");}
 user=session?.user||null;
 if(user){showApp();const results=await Promise.allSettled([...signInLoads(),world.load(),profile.load(),phase1.load()]);if(results.some(result=>result.status==="rejected"))setSync("Conectado · algunos datos no se pudieron cargar","err");}else if(!document.getElementById("authMessage").textContent){showAuth();}
 
@@ -156,7 +156,7 @@ if("serviceWorker" in navigator){
    setInterval(()=>reg.update().catch(()=>{}),60*60*1000);
  }).catch(()=>{});
 }
-}catch(error){console.error("Renzo Hub startup failed",error);showStartupError(error);}
+}catch(error){console.error("RISE HUB startup failed",error);showStartupError(error);}
 }
 document.getElementById("bootRetry").addEventListener("click",()=>location.reload());
 startRenzoHub();
