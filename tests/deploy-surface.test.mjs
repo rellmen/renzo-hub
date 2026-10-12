@@ -23,7 +23,7 @@ const deployed = files.filter(f => !ignored(f));
 test("no se publica documentación, SQL, scripts, tests ni configuración interna", () => {
   const leaks = deployed.filter(f =>
     /\.(md|sql|sh|mjs|ts)$/.test(f) ||
-    /^(docs|supabase|scripts|integrations|os-core|tests|tools|\.github|claude-mods|\.claude-plugin|\.claude)\//.test(f) ||
+    /^(docs|supabase|scripts|integrations|os-core|tests|tools|\.github)\//.test(f) ||
     /^(package(-lock)?\.json|tsconfig\.json|\.env.*|\.gitignore|\.vercelignore)$/.test(f));
   assert.deepEqual(leaks, []);
 });

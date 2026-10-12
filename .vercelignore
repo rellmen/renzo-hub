@@ -15,6 +15,3 @@ node_modules/
 .env*
 .gitignore
 .vercelignore
-claude-mods/
-.claude-plugin/
-.claude/

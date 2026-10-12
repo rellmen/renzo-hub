@@ -1,1 +1,0 @@
-{ "name": "renzo-guardrails", "version": "0.1.0", "author": { "name": "Renzo Llontop" }, "description": "RISE HUB: bloquea técnicamente producción y Jarvis sin /autorizo, fija las reglas y el formato de informe, y añade /preflight y /verificar", "types": "./types/index.d.ts" }

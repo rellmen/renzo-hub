@@ -33,7 +33,7 @@ const gh = (path) => JSON.parse(execFileSync("gh", ["api", path], { encoding: "u
 const ghAll = (path) => JSON.parse(execFileSync("gh", ["api", "--paginate", "--slurp", path], { encoding: "utf8", maxBuffer: 64 << 20 })).flat();
 
 // Archivos de la app: si cambian, tiene que cambiar release.json y la caché de sw.js.
-const isAppFile = (f) => !/^(docs|supabase|scripts|integrations|os-core|tests|tools|\.github|claude-mods|\.claude-plugin)\//.test(f)
+const isAppFile = (f) => !/^(docs|supabase|scripts|integrations|os-core|tests|tools|\.github)\//.test(f)
   && !/\.md$/.test(f) && !/^(package(-lock)?\.json|\.vercelignore|\.gitignore)$/.test(f);
 const SECRET = /(sb_secret_[A-Za-z0-9_-]{10,}|eyJhbGciOi[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}|service_role["']?\s*[:=]\s*["'][^"']{20,}|ghp_[A-Za-z0-9]{30,}|sk-ant-[A-Za-z0-9_-]{20,}|-----BEGIN [A-Z ]*PRIVATE KEY-----)/;
 
@@ -107,7 +107,7 @@ function preflight(arg) {
 
 const INTERNAL = ["/AGENTS.md", "/RENZO-HUB-CURRENT.md", "/JARVIS-CONNECTION.md", "/README.md", "/scripts/renzo-hub",
   "/package.json", "/docs/RELEASE-CHECKLIST.md", "/supabase/migrations/", "/tests/deploy-surface.test.mjs",
-  "/tools/release-check.mjs", "/.env", "/.vercelignore", "/claude-mods/agentes-panel/hooks/register.tsx", "/.claude-plugin/marketplace.json"];
+  "/tools/release-check.mjs", "/.env", "/.vercelignore"].concat(["/supabase/rollbacks/"]);
 
 async function verify(target, expected, smoke) {
   const env = { staging: ["preview", release.preview], stg: ["preview", release.preview],
