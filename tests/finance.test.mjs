@@ -80,3 +80,66 @@ test("último extracto por banco y aviso de Revolut solo mientras no hay extract
   assert.equal(revolutGap(withRevolut, "2026-09"), 0);
   assert.equal(lastImported(withRevolut).Revolut, "2026-09-13");
 });
+
+// --- Etapa B: fijos y suscripciones ---
+import { recurring, fixedFlags, addMonth, freeMoney } from "../microapps/finance/insights.js";
+
+const fixedSample = () => categorizeAll([
+  tx("2026-07-01", "Huurbaas Ficticio", -1350, { description: "huur" }), tx("2026-08-01", "Huurbaas Ficticio", -1350, { description: "huur" }), tx("2026-09-01", "Huurbaas Ficticio", -1350, { description: "huur" }),
+  tx("2026-09-03", "K. Ficticia", 675, { code: "GT", counterparty: "NL00TEST" }),
+  tx("2026-08-04", "Spotify P2C", -11.99), tx("2026-09-04", "Spotify P2C", -11.99),
+  tx("2026-09-25", "Centraal Beheer verzekering", -62.4),
+  tx("2026-08-15", "Basic-Fit Nederland", -34.99), tx("2026-09-15", "Basic-Fit Nederland", -34.99),
+  tx("2026-08-20", "Kapsalon Ficticio", -25), tx("2026-09-21", "Kapsalon Ficticio", -27),
+  ...["02", "09", "16", "23"].map(d => tx(`2026-09-${d}`, "Albert Heijn 1234", -40)), tx("2026-08-10", "Albert Heijn 1234", -35),
+  tx("2026-08-05", "Jumbo Weert", -30), tx("2026-08-19", "Jumbo Weert", -28), tx("2026-09-05", "Jumbo Weert", -29), tx("2026-09-19", "Jumbo Weert", -30),
+  tx("2026-08-21", "McDonald's Weert", -11.9), tx("2026-09-21", "McDonald's Weert", -11.9),
+  tx("2026-08-11", "Restaurant Ficticio", -20), tx("2026-09-11", "Restaurant Ficticio", -95)
+]);
+
+test("fecha prevista: mismo día del mes siguiente, ajustado a fin de mes", () => {
+  assert.equal(addMonth("2026-09-04"), "2026-10-04");
+  assert.equal(addMonth("2026-01-31"), "2026-02-28");
+  assert.equal(addMonth("2026-12-15"), "2027-01-15");
+});
+
+test("fijos: categoría fija, repetidos con importe parecido y aporte al alquiler que resta", () => {
+  const r = recurring(fixedSample(), "2026-09");
+  const by = Object.fromEntries(r.items.map(i => [i.name, i]));
+  assert.equal(by["Huurbaas Ficticio"].monthly, 1350); assert.equal(by["Huurbaas Ficticio"].source, "categoria");
+  assert.equal(by["Huurbaas Ficticio"].nextDate, "2026-10-01");
+  assert.equal(by["K. Ficticia"].monthly, -675); assert.ok(by["K. Ficticia"].contribution);
+  assert.equal(by["Spotify"].subscription, true);
+  assert.equal(by["Centraal Beheer Verzekering"].source, "categoria", "un seguro cuenta aunque solo haya un mes");
+  assert.equal(by["Basic-Fit Nederland"].source, "repetido");
+  assert.equal(by["Kapsalon Ficticio"].source, "repetido", "25 € y 27 €: dentro del ±20 %");
+  assert.ok(!by["Albert Heijn"], "el supermercado (4 veces al mes) no es fijo");
+  assert.ok(!by["Restaurant Ficticio"], "importes muy distintos: no es fijo");
+  assert.ok(!by["Jumbo"], "súper con importe parecido cada quincena: gasto variable, no fijo");
+  assert.ok(!by["McDonald's"], "restaurante con el mismo importe: variable salvo que lo marques");
+  assert.equal(r.total, 1350 - 675 + 11.99 + 62.4 + 34.99 + 26);
+  assert.equal(r.subscriptions, 11.99);
+});
+
+test("tus marcas mandan: 'no es fijo' lo quita y 'es fijo' lo añade", () => {
+  const flags = fixedFlags([{ payload: { merchant: "basic-fit nederland", fixed: false } }, { payload: { merchant: "restaurant ficticio", fixed: true } }, { payload: { merchant: "spotify", category: "ocio" } }]);
+  assert.equal(flags.size, 2, "una regla solo de categoría no es una marca de fijo");
+  const r = recurring(fixedSample(), "2026-09", flags);
+  const names = r.items.map(i => i.name);
+  assert.ok(!names.includes("Basic-Fit Nederland"));
+  const rest = r.items.find(i => i.name === "Restaurant Ficticio");
+  assert.equal(rest.source, "manual"); assert.equal(rest.monthly, 57.5, "mediana de 20 y 95");
+});
+
+test("aporte al alquiler con 'huur' en la descripción también resta de los fijos", () => {
+  const items = categorizeAll([tx("2026-09-01", "Huurbaas Ficticio", -1350, { description: "huur" }), tx("2026-09-03", "K. Ficticia", 675, { description: "Huur deel" })]);
+  const r = recurring(items, "2026-09");
+  assert.equal(r.total, 675);
+  assert.equal(r.items.find(i => i.name === "K. Ficticia").contribution, true);
+  assert.deepEqual(r.items.map(i => i.name), ["Huurbaas Ficticio", "K. Ficticia"], "el aporte va justo debajo del alquiler");
+});
+
+test("dinero libre = ingresos − fijos; sin ingresos no se inventa", () => {
+  assert.equal(freeMoney(2400, 870.38), 1529.62);
+  assert.equal(freeMoney(0, 100), null);
+});
