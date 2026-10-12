@@ -48,6 +48,8 @@ export function mountFinanceSummary(root, db, getUser, go, { extras = [] } = {})
     if (owner === uid) { loading = false; render(); }
   }
 
+  const ctx = () => ({ month, root, rerender: render, reload: load });
+
   function alertsHTML(s) {
     const out = [];
     if (s.uncategorized) out.push(`<button type="button" class="fx-alert" data-fx-go="gastos" data-fx-focus="sin_categoria"><span aria-hidden="true">?</span><span><b>${s.uncategorized} sin categoría</b><small>Asígnales una para que el resumen sea exacto</small></span><span aria-hidden="true">›</span></button>`);
@@ -115,9 +117,10 @@ export function mountFinanceSummary(root, db, getUser, go, { extras = [] } = {})
     }
     const g = e.target.closest("[data-fx-go]");
     if (g) { financeNav.month = month; financeNav.focus = g.dataset.fxFocus || ""; go(g.dataset.fxGo); return; }
-    for (const x of extras) if (x.handleClick?.(e.target, { month, rerender: render, reload: load })) return;
+    for (const x of extras) if (x.handleClick?.(e.target, ctx())) return;
   });
-  root.addEventListener("change", e => { for (const x of extras) if (x.handleChange?.(e.target, { month, rerender: render, reload: load })) return; });
+  root.addEventListener("change", e => { for (const x of extras) if (x.handleChange?.(e.target, ctx())) return; });
+  root.addEventListener("submit", e => { e.preventDefault(); for (const x of extras) if (x.handleSubmit?.(e.target, ctx())) return; });
 
   return {
     // Pinta lo que ya tiene y recarga en segundo plano: así ve al momento lo que se importó en Gastos.

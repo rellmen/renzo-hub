@@ -132,3 +132,59 @@ export function recurring(items, month, flags = new Map()) {
 export function freeMoney(earned, fixedTotal) {
   return earned > 0 ? round(earned - fixedTotal) : null;
 }
+
+// --- Presupuesto semanal (etapa C) ---
+// La semana va de miércoles a martes: Renzo cobra los miércoles, así cada semana empieza con la nómina.
+const DAY_MS = 86400000;
+const iso = ms => new Date(ms).toISOString().slice(0, 10);
+const utc = d => Date.parse(`${d}T00:00:00Z`);
+export function payWeek(date) {
+  const t = utc(date), dow = new Date(t).getUTCDay(); // 0 domingo … 3 miércoles
+  const start = t - ((dow - 3 + 7) % 7) * DAY_MS;
+  return { start: iso(start), end: iso(start + 6 * DAY_MS) };
+}
+export const shiftWeek = (start, n) => iso(utc(start) + n * 7 * DAY_MS);
+
+// Gasto por categoría en un rango de fechas (abonos restan, como en el resumen mensual).
+export function spendBetween(items, start, end, expenseIds) {
+  const out = new Map();
+  for (const i of items) {
+    if (i.date < start || i.date > end || !expenseIds.has(i.category)) continue;
+    out.set(i.category, round((out.get(i.category) || 0) - i.amount));
+  }
+  return out;
+}
+
+// Sugerencia por categoría: media semanal de las últimas 4 semanas completas con datos (redondeada a 5 €).
+export function suggestBudgets(items, weekStart, expenseIds, weeks = 4) {
+  const last = items.reduce((m, i) => i.date > m ? i.date : m, "");
+  const sums = new Map(); let counted = 0;
+  for (let k = 1; k <= 12 && counted < weeks; k++) {
+    const start = shiftWeek(weekStart, -k), end = iso(utc(start) + 6 * DAY_MS);
+    if (end > last || !items.some(i => i.date >= start && i.date <= end)) continue;
+    counted++;
+    for (const [c, v] of spendBetween(items, start, end, expenseIds)) sums.set(c, (sums.get(c) || 0) + v);
+  }
+  const out = new Map();
+  if (!counted) return out;
+  for (const [c, v] of sums) { const avg = v / counted; if (avg > 0) out.set(c, Math.max(5, Math.round(avg / 5) * 5)); }
+  return out;
+}
+
+// Estado del presupuesto en una semana. budgets: { categoria: límite semanal }.
+// dataUntil: última fecha importada; si la semana no está cubierta, se avisa en vez de enseñar 0 €.
+export function budgetWeek(items, budgets, weekStart, expenseIds, today) {
+  const end = iso(utc(weekStart) + 6 * DAY_MS);
+  const spent = spendBetween(items, weekStart, end, expenseIds);
+  const dataUntil = items.reduce((m, i) => i.date > m ? i.date : m, "");
+  const rows = Object.entries(budgets || {}).filter(([c, v]) => expenseIds.has(c) && Number(v) > 0).map(([category, limit]) => {
+    const s = spent.get(category) || 0, l = Number(limit);
+    const pct = Math.round(s / l * 100);
+    return { category, limit: l, spent: round(s), left: round(l - s), pct, status: s > l ? "over" : pct >= 80 ? "warn" : "ok" };
+  }).sort((a, b) => b.pct - a.pct);
+  const limit = round(rows.reduce((t, r) => t + r.limit, 0)), used = round(rows.reduce((t, r) => t + r.spent, 0));
+  const isCurrent = today >= weekStart && today <= end;
+  const daysLeft = isCurrent ? Math.round((utc(end) - utc(today)) / DAY_MS) + 1 : 0;
+  return { start: weekStart, end, rows, limit, used, left: round(limit - used), daysLeft, isCurrent,
+    dataUntil: dataUntil || null, coverage: !dataUntil || dataUntil < weekStart ? "none" : dataUntil < (isCurrent ? today : end) ? "partial" : "full" };
+}
