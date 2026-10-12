@@ -1,4 +1,4 @@
-# Renzo Hub
+# RISE HUB (antes Renzo Hub)
 
 Consulta primero [AGENTS.md](AGENTS.md) y [RENZO-HUB-CURRENT.md](RENZO-HUB-CURRENT.md). La fuente canónica es esta carpeta.
 

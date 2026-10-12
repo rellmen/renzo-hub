@@ -110,7 +110,7 @@ export function parseIngCsv(text) {
 // Huella estable de un movimiento: mismo movimiento = mismo id aunque se importe dos veces o en otro idioma.
 // Usa fecha, importe con signo, saldo resultante y cuenta (el saldo hace único cada movimiento del día).
 export function transactionKey(t, ownerId) {
-  return [ownerId, "ING", t.account, t.date, t.amount.toFixed(2), t.balance == null ? "" : t.balance.toFixed(2), t.balance == null ? t.name + "|" + t.notes : ""].join("|");
+  return [ownerId, t.bank || "ING", t.bank === "Revolut" ? "" : t.account, t.date, t.amount.toFixed(2), t.balance == null ? "" : t.balance.toFixed(2), t.balance == null ? t.name + "|" + t.notes : ""].join("|");
 }
 
 // sha-256 → UUID con forma válida (versión 5, variante RFC 4122), para usarlo como id en hub_records.
@@ -131,7 +131,7 @@ export async function toRecord(t, ownerId) {
     title: t.name || "Movimiento", status: "confirmed", occurred_at: `${t.date}T12:00:00.000Z`,
     source: "import", requires_review: false,
     payload: {
-      bank: "ING", account: mask(t.account), date: t.date, amount: t.amount, name: t.name,
+      bank: t.bank || "ING", account: mask(t.account), date: t.date, amount: t.amount, name: t.name,
       counterparty: t.counterparty || null, code: t.code || null, type: t.type || null,
       description: t.description || null, notes: t.notes || null, balance: t.balance, tag: t.tag || null,
       payslip_numbers: t.payslipNumbers.length ? t.payslipNumbers : null
@@ -175,6 +175,7 @@ export function importSummary(parsed, payslips, expectedDate, existingIds = new 
     total: txs.length, from: parsed.from, to: parsed.to, accounts: parsed.accounts.map(mask),
     income: sum(txs.filter(t => t.amount > 0)), expenses: sum(txs.filter(t => t.amount < 0)),
     salaryCount: salary.length, salaryTotal: sum(salary), matched: matches.size, unmatched, mismatched,
-    alreadyImported: ids.filter(id => existingIds.has(id)).length, skippedLines: parsed.skippedLines
+    alreadyImported: ids.filter(id => existingIds.has(id)).length, skippedLines: parsed.skippedLines,
+    bank: parsed.bank || "ING", balanceBreaks: parsed.balanceBreaks || []
   };
 }

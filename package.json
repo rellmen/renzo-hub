@@ -1,7 +1,7 @@
 {
   "name": "renzo-hub",
   "private": true,
-  "description": "Renzo HUB · plataforma personal privada (no forma parte de Nodalys)",
+  "description": "RISE HUB (antes Renzo HUB) · plataforma personal privada (no forma parte de Nodalys)",
   "scripts": {
     "test": "node --test tests/*.test.mjs",
     "check": "for f in *.js api/*.js; do node --check \"$f\" || exit 1; done",

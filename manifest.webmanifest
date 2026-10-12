@@ -1,31 +1,31 @@
 {
-  "name": "Renzo Hub · Tu mundo",
-  "short_name": "Renzo Hub",
+  "name": "RISE HUB",
+  "short_name": "RISE HUB",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#070810",
-  "theme_color": "#070810",
-  "description": "Tu espacio personal para aprender, cuidarte y avanzar, sincronizado con tus datos privados.",
+  "background_color": "#060b14",
+  "theme_color": "#060b14",
+  "description": "Tu centro de mando personal: progreso, bienestar, aprendizaje y finanzas, sincronizado con tus datos privados.",
   "icons": [
     {
-      "src": "/assets/renzo-hub-icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any"
-    },
-    {
-      "src": "/assets/icon-192.png",
+      "src": "/assets/rise-icon-192-v1.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/assets/icon-512.png",
+      "src": "/assets/rise-icon-512-v1.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/rise-icon-512-maskable-v1.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }

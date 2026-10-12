@@ -143,7 +143,7 @@ async function receiveFromJarvis(req, res) {
   const completeFinancialData = Number.isFinite(financialAmount) && financialAmount > 0 &&
     (type !== "payslip" || (Number.isFinite(gross) && gross >= net && !!payPeriod));
   // Fase 1: ninguna operación financiera importada se registra sin revisión humana en AI Inbox,
-  // aunque la extracción tenga confianza alta. La aprobación se hace en Renzo Hub (System → Inbox).
+  // aunque la extracción tenga confianza alta. La aprobación se hace en RISE HUB (System → Inbox).
   const autoRecord = false;
   void completeFinancialData;
   const category = type === "payslip" ? "Salary" : expenseCategory === "car" ? "Car" : text(body.category || extracted.category, 40) || "Other";

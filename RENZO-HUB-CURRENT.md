@@ -1,7 +1,7 @@
-# Renzo Hub · versión vigente
+# RISE HUB (antes Renzo Hub) · versión vigente
 
-- **Producción (uso diario):** [renzo-hub.vercel.app](https://renzo-hub.vercel.app/) · release **2.10.1** (nóminas por mes de cobro y tipo) · rama `main`, commit `b73d505` (merge del PR #20) · verificada 2026-10-10: READY, `release.json` 2.10.1, `deployment-info` production/main, smoke 15/15. Migraciones: todas las de `supabase/migrations/` hasta 20261010030000 (ver `docs/SUPABASE-SCHEMA.md`). Rollback app: Instant Rollback en Vercel
-- **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.11.0** (tras fusionar el PR) · rama `staging` · **No borrar la rama `staging` al fusionar PRs.**
+- **Producción (uso diario):** [renzo-hub.vercel.app](https://renzo-hub.vercel.app/) · release **2.11.0** (extracto de ING en Nóminas) · rama `main`, commit `af07e68` (merge del PR #23) · verificada 2026-10-12: READY, `release.json` 2.11.0, `deployment-info` production/main, smoke 15/15. Migraciones: todas las de `supabase/migrations/` hasta 20261010030000 (ver `docs/SUPABASE-SCHEMA.md`). Rollback app: Instant Rollback en Vercel
+- **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.19.0** (tras fusionar el PR de nivel en Gym y Study) · rama `staging` · **No borrar la rama `staging` al fusionar PRs.**
 - **Experimental:** 2.6.0 Microapp OS Core · rama `experimental/os-core` (no se despliega)
 - **Fuente canónica:** `github.com/rellmen/renzo-hub` (privado). `main` = producción, `staging` = pruebas, `feature/*` = una rama por tarea con PR hacia `staging`
 - **Copias de seguridad:** `~/Projects/RENZO-HUB/backups/` y versiones verificadas en `~/Projects/RENZO-HUB/releases/`
@@ -10,6 +10,113 @@
 - **Referencias:** `RENZO_HUB_TECHNICAL_AUDIT.md` y `PHASE_1_EXECUTION_PLAN.md` (bóveda del proyecto y `~/Documents/HUB`)
 
 > La carpeta `~/.codex/.chatgpt-projects/.../renzo-hub-news` queda como espejo histórico de solo lectura. No editar ni desplegar desde ella.
+
+## 2.19.0 (2026-10-12): RISE HUB · Gym y Study muestran el nivel único
+
+- Renzo eligió la opción A: Gym (Ascend) y Study dejan de tener su propio XP visible y muestran el nivel único.
+- `microapps/xp-store.js`: phase1.js publica el nivel; Gym, Study y Home lo pintan con atributos `data-rise-*` que se actualizan en el sitio (sin repintar la microapp ni perder lo que estés escribiendo).
+- Para no perder mecánicas, el libro `xp_event` suma ahora también: récord personal en Gym +25 (no el primer registro de un ejercicio) y semana con 5 días entrenados +150. La ruta de Study suma los puntos que promete (aciertos × 10; repetir una lección ya hecha no suma). La sesión de Gym sigue valiendo 50 (las quests de Gym lo indican).
+- Rango de Gym (E–S) según el nivel único: E 1–4, D 5–9, C 10–14, B 15–19, A 20–29, S 30+.
+- phase1 lee también `exercises` de `gym_sessions` (solo lectura). Tests: 92/92 (nuevos de Gym/Study y de xp-store). Caché `renzo-hub-cloud-v8.5-nivel-gym-study`.
+
+## 2.18.0 (2026-10-12): RISE HUB · portadas de microapps y animación de apertura (etapa 3 de 3)
+
+- `assets/rise-covers.css`, solo CSS (sin tocar JS):
+  - Portada detrás de la cabecera de Body, Gym, Food, Skin, Study, Work, My Finance, Nóminas, Gastos y Notas, fundida con el fondo. Es un `::before` de la sección: sobrevive aunque la microapp repinte su contenido y solo se descarga al abrirla. En Nóminas y Gastos es más baja para no quitar espacio.
+  - Animación de apertura: la portada se acerca (0,7 s) y el contenido sube suavemente (0,34 s). Finita; desactivada con "reducir movimiento".
+  - Restos violeta de Gym (rango, quests, pestaña seleccionada) y Study (botón Empezar, ruta, lecciones, quiz) en la familia azul.
+- Con esto RISE HUB queda completo: marca (2.15), Home (2.16), nivel único (2.17) y portadas (2.18).
+- Pendiente de decidir: Gym (Ascend) y Study tienen su propio contador de XP interno, aparte del nivel único.
+- Caché `renzo-hub-cloud-v8.4-portadas`.
+
+## 2.17.0 (2026-10-12): RISE HUB · nivel único
+
+- Antes había dos niveles: Progreso (libro `xp_event` de `phase1.js`) y Daily Quests (`world.js`, 10 XP por actividad, sin guardar). Renzo eligió unificarlos (opción A).
+- Ahora el libro `xp_event` es la única fuente. Suma también, con id determinista (sin duplicados): check-in Body 10, práctica o repaso de neerlandés 10, entregable cerrado 20, movimiento de Money revisado 5.
+- La actividad pasada de esos tipos se añade al libro al cargar, así que el nivel puede subir la primera vez.
+- Daily Quests queda como checklist del día (x/4) sin nivel propio. La casilla "XP hoy" del panel, que en realidad mostraba un total, pasa a "Quests hoy"; el XP de hoy real está en Progreso.
+- La quest "Revisa un movimiento Money" cuenta solo movimientos marcados como revisados (antes cualquier movimiento del día).
+- Test unitario nuevo; caché `renzo-hub-cloud-v8.3-nivel-unico`.
+
+## 2.16.0 (2026-10-12): RISE HUB · nueva Home (etapa 2 de 3)
+
+- Home rehecha con el diseño de Lovable (re-implementado en `assets/rise-home.css`; no se copia código del prototipo ni su módulo de Nodalys):
+  - **Hero** con la ilustración nocturna, "RISE HUB", saludo según la hora (sin nombre: la cuenta no guarda ninguno) y el botón "Comenzar mi siguiente nivel" (abre Gym, igual que antes).
+  - **Hoy:** misiones = tus hábitos de System → Ajustes (marcar sigue guardando en Supabase); **Progreso** con nivel y XP reales, hábitos y entrenos de 7 días; debajo, el panel existente de Project Slots, Inbox, siguiente paso, alertas y Daily Quests.
+  - **Áreas:** tarjetas con portada (Gym, Food, My Finance, Study, Skin, Work, Notas); Car y News mantienen su icono. Los microapps del registro pueden tener portada con el campo `cover`.
+  - **Resumen del día:** peso, entrenos, skincare, comidas, neto del mes y vocabulario; "sin datos" cuando faltan.
+- Imágenes en `assets/rise/` (WebP, unos 300 KB en total), en la caché offline. Caché `renzo-hub-cloud-v8.2-rise-home`.
+- `phase1.js`: el resumen pasa a `#p1Overview` (misma lógica y datos). Test E2E ajustado.
+- Siguiente: etapa 3 (portadas dentro de cada microapp y animación de apertura).
+
+## 2.15.0 (2026-10-12): RISE HUB · nueva identidad (etapa 1 de 3)
+
+- Nombre visible **RISE HUB** (antes Renzo HUB): título, pantalla de acceso, menú, manifest de la PWA, icono de inicio y textos. Se mantienen las URLs, el repositorio `rellmen/renzo-hub`, los proyectos de Vercel y Supabase, el prefijo de caché `renzo-hub-` y el formato de copia `renzo-hub-export` (las copias antiguas siguen sirviendo).
+- Logo R de cristal aprobado en Lovable: iconos 180/192/512, 512 maskable, favicon y marca en webp (`assets/rise-*-v1.*`).
+- Paleta azul eléctrico y cian sobre fondo `#060b14` con superficies de cristal: `assets/rise-theme.css`, cargado después de los estilos de `index.html`. Solo colores y marca; no cambia estructura ni comportamiento. Nóminas y Gastos con reglas propias porque sus hojas se cargan después.
+- Diseño re-implementado en CSS a partir del prototipo de Lovable; no se copia código del prototipo y no se porta su módulo de Nodalys.
+- Caché `renzo-hub-cloud-v8.1-rise`. Copia descargada: `rise-hub-copia-AAAA-MM-DD.json`.
+- Siguientes etapas: 2) nueva Home (hero, Hoy, Áreas, Progreso); 3) portadas de microapps y animación de apertura. Cada una con su PR a staging.
+
+## Esquema completo de producción comprobado (2026-10-12)
+
+- Consulta 11 en producción (Renzo): **11 de 12 secciones idénticas a staging** (columnas, restricciones, índices, políticas de public y Storage, permisos de tablas y funciones, RLS, triggers, vistas, buckets).
+- Única diferencia: `set_hub_records_updated_at` (trigger de `updated_at` en `hub_records`). Producción tiene el mismo código en una sola línea (`begin new.updated_at := now(); return new; end;`); staging y el repositorio, en varias líneas. **Misma lógica y misma configuración de seguridad**: no hace falta tocar producción.
+- La consulta 11 ahora compara el código de funciones y vistas sin espacios ni saltos de línea; referencia de staging actualizada. Con esa normalización, producción = staging en las 12 secciones (la función normalizada da el mismo md5 en los dos entornos: `0146fd32…`).
+- Criterio "esquema reproducible": cumplido para todo el esquema, no solo Nóminas.
+
+## 2.14.0 (2026-10-12): copia de seguridad "Exportar mis datos" y huella del esquema completo
+
+**Auditoría (12 oct, verificada):** CI en verde en cada PR (sintaxis, unit, smoke, E2E de Nóminas Chromium y WebKit, réplica PostgreSQL 17 con migraciones, RLS y rollback). E2E con sesión contra staging solo en local (necesita credenciales). Supabase security advisors en ambos entornos: solo "Leaked password protection" (disponible desde el plan Pro). **Organización de Supabase en plan Free: sin copias automáticas** (Supabase solo hace copias diarias en Pro, Team y Enterprise). Historial de migraciones de Supabase con versiones distintas a los archivos del repositorio (varias se aplicaron desde el SQL Editor): no afecta al esquema, pero no es un registro limpio.
+
+| Qué | Dónde |
+|---|---|
+| System → **Copia de seguridad → Exportar mis datos**: descarga un JSON con todas las tablas de `public` (solo filas del usuario, filtradas por su columna de dueño) y los archivos de Storage (`payroll`, `hub-private`, `portfolio-files`, `progress-photos`, hasta 60 MB). Sin credenciales: usa la sesión y RLS | `microapps/backup/export.js`, `app.js`, `index.html` |
+| Registra la fecha de cada copia (`hub_records` system/`backup_export`) y avisa si han pasado 7 días o más | |
+| Restauración: `tools/backup/snapshot_to_sql.py` (tablas, `insert … on conflict do nothing`, no borra nada) y `tools/backup/extract_files.py` (archivos a carpeta para volver a subir) | `tools/backup/` |
+| Test que obliga a añadir a la copia cualquier tabla nueva creada por una migración | `tests/backup.test.mjs` |
+| Huella del esquema completo (12 secciones: columnas, restricciones, índices, políticas, funciones, vistas, triggers, permisos, RLS, buckets). Referencia de staging guardada; falta ejecutarla en producción y comparar | `tools/db-checks/11_huella_esquema_completo.sql`, `tests/db/fixtures/schema_full_staging_2026-10-12.json` |
+
+Pruebas: `tests/backup.test.mjs` 5/5 (incluye restaurar con los dos scripts), unit 88/88, E2E autenticado contra staging 36/36 (descarga la copia, comprueba que solo trae filas del usuario y que registra la fecha).
+
+## 2.13.1 (2026-10-12): pago de deudas y comercios identificados por Renzo
+
+- Categoría nueva **Pago de deudas** (gasto, separada del consumo). Decisión de Renzo: lo que envía a su familia son deudas que ha pagado; lo que se mueve con su hermana son préstamos y devoluciones (categoría "Préstamos y devoluciones", no cuenta como gasto). Esas dos reglas son por persona: Renzo las crea en la app con "Todos de <nombre>" (los nombres de familia no van en el código).
+- Reglas por defecto nuevas: Umans = gasolinera (gasolina), Body Supplies = suplementos (salud), Ls Smaeck, FEG Exploitatie y De Brouwer Weert = restaurantes.
+- Simulación con septiembre real y esas reglas (local): gasto 4.305,50 € (de ellos 2.490 € pago de deudas, 1.815,50 € de consumo), ingresos 3.961,15 €, ingresos − gastos −344,35 €, 1 movimiento sin categoría.
+
+## 2.13.0 (2026-10-12): extracto de Revolut · Gastos con ING + Revolut (etapa 2b)
+
+| Qué | Dónde |
+|---|---|
+| Lector del extracto de Revolut en **PDF** (neerlandés, inglés o español; pdf.js en el dispositivo, por posición de columnas) y en **CSV** de la app (solo completados en EUR, comisión incluida) | `microapps/bank/revolut.js` |
+| Comprobación de saldo movimiento a movimiento; si no cuadra, aviso en la vista previa. Ignora secciones de movimientos revertidos o pendientes | `balanceBreaks` |
+| El importador detecta el banco solo (PDF → Revolut; CSV con "Completed Date" → Revolut; resto → ING). Mismo botón en Nóminas y Gastos | `bank-import-ui.js` (`parseStatement`) |
+| Recargas desde la tarjeta de ING = traspaso (no gasto). Id estable por movimiento también en Revolut (PDF y CSV del mismo movimiento → mismo id) | `ing-csv.js` |
+| Categorías nuevas: Viajes y alojamiento, Ayuda a la familia (gasto) y Préstamos y devoluciones (no cuenta). Reglas nuevas: kvk, peluquería, Rituals, Airbnb, HMSHost… | `categories.js` |
+| `extractRows` admite más páginas (`maxPages`, 80 para extractos) | `payroll-pdf.js` |
+
+Pruebas: `tests/revolut.test.mjs` 7/7 (filas ficticias, CSV ficticio, detección del banco), unit 83/83, E2E autenticado contra staging 35/35 (ahora también importa un PDF ficticio de Revolut, `tests/fixtures/revolut-ficticio.pdf`, generado con `tools/fixtures/make_revolut_pdf.py`). Con el extracto real de septiembre (local): 64 movimientos, entradas 4.443,73 € y salidas 4.355,60 € = resumen del extracto, saldos encadenados sin errores.
+
+## 2.12.0 (2026-10-12): Gastos por categoría · etapa 2 de la Fase 2
+
+Nueva microapp **Gastos** (My Finance → pestaña Gastos), creada con `./scripts/renzo-hub new-microapp gastos "Gastos" money money --tab`.
+
+| Qué | Dónde |
+|---|---|
+| Categorías calculadas al vuelo desde los movimientos del banco: supermercado, restaurantes, alquiler, gasolina, coche y parking, transporte, seguros, suscripciones, teléfono, energía, salud, compras, ocio, impuestos, banco, personas, nómina, toeslagen, traspasos | `microapps/gastos/categories.js` |
+| Nombre limpio del comercio y marcas agrupadas (todas las tiendas de Albert Heijn = "Albert Heijn"), para ver en qué supermercado o restaurante se gasta | `merchantName` |
+| Prioridad: categoría puesta a mano > regla del usuario por comercio (`hub_records` money/`money_rule`) > reglas por defecto > "Sin categoría" (no se inventa) | `categorize` |
+| Al cambiar una categoría: "Solo este" o "Todos de <comercio>" (crea la regla y se aplica también a lo que se importe después) | `microapps/gastos/gastos.js` |
+| Abonos en una categoría de gasto restan (devoluciones, Tikkies). Aporte al alquiler: ingreso de una persona por el importe del alquiler o la mitad (±1 €) a ≤10 días del pago → cuenta en Alquiler y resta (decisión de Renzo: alquiler 1.350 €, aporte habitual 675 €) | `rentContributions` |
+| Traspasos a tus cuentas (Revolut, ahorro) no cuentan como gasto; aviso cuando hay dinero pasado a Revolut sin su extracto importado | |
+| Importación del CSV de ING también desde Gastos (sin las líneas de nóminas) | `bank-import-ui.js` (`payroll: false`) |
+
+Pruebas: `tests/gastos.test.mjs` 7/7, unit 76/76, E2E autenticado contra staging 35/35 (incluye Gastos: importar CSV ficticio, categorías, regla por comercio y limpieza), E2E Nóminas (Chromium) OK. Con el extracto real de septiembre (local, fuera del repositorio): 5 movimientos sin categoría (comercios desconocidos), alquiler neto 0 € ese mes (aporte de 1.350 €), 2.811,15 € de traspasos a Revolut.
+
+Corrección: al cerrar sesión justo después de hacer scroll, el guardado de la posición (180 ms después) leía un usuario ya nulo y daba un error de JS (lo detectó el E2E de Nóminas en WebKit). Ahora comprueba que la sesión sigue siendo la misma (`app.js`).
+
+Pendiente (etapa 2b): importar el CSV de Revolut (falta el archivo de Renzo).
 
 ## 2.11.0 (2026-10-11): extracto de ING en Nóminas · inicio de la Fase 2
 

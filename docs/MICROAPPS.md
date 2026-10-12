@@ -1,4 +1,4 @@
-# Microapps en Renzo Hub
+# Microapps en RISE HUB
 
 Desde la 2.9.0 cada microapp se declara una sola vez en `microapps/registry.js`. El shell (`app.js`) genera a partir del registro:
 
@@ -54,7 +54,15 @@ export function mountX(root, db, getUser, go) {
 
 `microapps/errors.js` guarda los errores de la app en `hub_records` (system / app_error) y System los muestra. Si una microapp falla al cargar, también queda registrado.
 
+## Ejemplo completo: Gastos
+
+`microapps/gastos/` (2.12.0) usa datos de otra pieza (`microapps/bank/`, movimientos importados del banco) y guarda solo lo que el usuario decide (categoría manual y reglas por comercio en `hub_records`). La lógica pura vive en `categories.js` con sus tests en `tests/gastos.test.mjs`; la interfaz en `gastos.js` y sus estilos en `gastos.css` (registrados con `css` en el registro).
+
 ## Pendiente
 
 - Skin ya es módulo (`microapps/skin/skin.js`, 2.9.2). Food y Settings siguen dentro de `index.html` (sin `module` en el registro); Food solo tiene HTML estático y lo rellenan `profile.js` y `phase1.js`.
 - Las áreas (Home, Body, Money...) siguen en `world.js`.
+
+## Portada en Home (2.16.0)
+
+Campo opcional `cover` en `microapps/registry.js`: ruta a una imagen propia en `/assets/` (WebP, unos 640 px de ancho). Con portada, la tarjeta de Home se ve como las Áreas; sin ella, se usa `icon`. Añade la imagen a `CORE` en `sw.js`.

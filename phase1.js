@@ -2,6 +2,7 @@
 // Persistencia: public.hub_records (RLS por owner_id) y public.user_settings (lista de hábitos).
 // Reglas: nunca se inventan datos (sin registros = "sin datos"); el XP se calcula a partir de registros
 // reales y se guarda en un libro (record_type xp_event) con id determinista, así no se duplica.
+import { publishXp } from "./microapps/xp-store.js";
 const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 export const dayKey = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 const addDays = (key, n) => { const [y, m, d] = key.split("-").map(Number); return dayKey(new Date(y, m - 1, d + n)); };
@@ -9,7 +10,10 @@ const num = v => { const n = Number(String(v ?? "").replace(",", ".")); return N
 const fmt = (n, digits = 0) => new Intl.NumberFormat("es-ES", { maximumFractionDigits: digits }).format(n);
 const euros = n => new Intl.NumberFormat("nl-NL", { style: "currency", currency: "EUR" }).format(n);
 
-export const XP_RULES = { workout: 50, skincare: 10, food_day: 10, weight_day: 5, habit: 5, vocabulary: 2, portfolio: 20 };
+// Nivel único de RISE HUB (2.17.0): este libro de XP es la única fuente; el panel Daily Quests ya no calcula su propio nivel.
+export const XP_RULES = { workout: 50, skincare: 10, food_day: 10, weight_day: 5, habit: 5, vocabulary: 2, portfolio: 20, checkin: 10, dutch_practice: 10, deliverable: 20, money_review: 5, gym_pr: 25, gym_week: 150 };
+// Mejor marca de un ejercicio (misma fórmula que Gym): peso × (1 + reps/30) de las series completadas.
+const setScore = e => Math.max(0, ...(e?.sets || []).filter(x => x?.completed).map(x => (Number(x.weight) || 0) * (1 + (Number(x.reps) || 0) / 30)));
 export const levelFor = xp => { const level = Math.floor(Math.sqrt(Math.max(0, xp) / 50)) + 1; const next = 50 * level * level; return { level, next, toNext: Math.max(0, next - xp) }; };
 
 export async function stableId(...parts) {
@@ -23,13 +27,36 @@ export async function stableId(...parts) {
 export function xpEvents(d) {
   const ev = [];
   for (const s of d.gym || []) if (s.completed_at) ev.push({ kind: "workout", sourceId: s.id, date: s.workout_date });
+  // Gym (2.19.0): récords personales (+25, no el primer registro de un ejercicio) y semanas con 5 días entrenados (+150).
+  const best = {}, weeks = {};
+  for (const s of (d.gym || []).filter(r => r.completed_at).sort((a, b) => a.completed_at.localeCompare(b.completed_at))) {
+    for (const e of Array.isArray(s.exercises) ? s.exercises : []) {
+      const score = setScore(e); if (!e?.name || !(score > (best[e.name] || 0))) continue;
+      if (best[e.name]) ev.push({ kind: "gym_pr", sourceId: `${s.id}:${e.name}`, date: s.workout_date });
+      best[e.name] = score;
+    }
+    if (s.workout_date) { const [y, m, dd] = s.workout_date.split("-").map(Number), mon = new Date(y, m - 1, dd); mon.setDate(mon.getDate() - ((mon.getDay() + 6) % 7)); (weeks[dayKey(mon)] ??= new Set()).add(s.workout_date); }
+  }
+  for (const [week, days] of Object.entries(weeks)) if (days.size >= 5) ev.push({ kind: "gym_week", sourceId: week, date: [...days].sort()[4] });
   for (const s of d.skin || []) if (Array.isArray(s.completed_steps) && s.completed_steps.length) ev.push({ kind: "skincare", sourceId: `${s.routine_date}:${s.session}`, date: s.routine_date });
   for (const day of new Set((d.food || []).map(r => r.payload?.date).filter(Boolean))) ev.push({ kind: "food_day", sourceId: day, date: day });
   for (const day of new Set((d.weight || []).map(r => r.payload?.date || r.occurred_at?.slice(0, 10)).filter(Boolean))) ev.push({ kind: "weight_day", sourceId: day, date: day });
   for (const h of d.habits || []) if (h.payload?.done) ev.push({ kind: "habit", sourceId: h.id, date: h.payload.date });
   for (const v of d.vocabulary || []) ev.push({ kind: "vocabulary", sourceId: v.id, date: v.occurred_at?.slice(0, 10) });
   for (const p of d.portfolio || []) ev.push({ kind: "portfolio", sourceId: p.id, date: p.occurred_at?.slice(0, 10) });
-  return ev.map(e => ({ ...e, points: XP_RULES[e.kind] }));
+  // Actividad registrada en Body, Study y Work (renzo_event) y movimientos revisados (renzo_money): antes solo sumaba en Daily Quests.
+  for (const r of d.events || []) {
+    const p = r.payload || {}, date = p.date || r.occurred_at?.slice(0, 10);
+    if (p.kind === "body") ev.push({ kind: "checkin", sourceId: r.id, date });
+    else if (p.kind === "learning" && ["Application", "Review"].includes(p.stage)) {
+      // Lección de la ruta de Study: los puntos que promete (aciertos × 10; repetir una lección ya hecha = 0).
+      const pts = p.practice === "Study path" && Number.isFinite(Number(p.xp)) ? Number(p.xp) : XP_RULES.dutch_practice;
+      if (pts > 0) ev.push({ kind: "dutch_practice", sourceId: r.id, date, points: pts });
+    }
+    else if (["output", "project_done"].includes(p.kind)) ev.push({ kind: "deliverable", sourceId: r.id, date });
+  }
+  for (const r of d.money || []) if (r.payload?.reviewed && r.status !== "void") ev.push({ kind: "money_review", sourceId: r.id, date: r.payload.date || r.occurred_at?.slice(0, 10) });
+  return ev.map(e => ({ ...e, points: e.points ?? XP_RULES[e.kind] }));
 }
 
 export function weekStats(d, today, habitNames = []) {
@@ -85,14 +112,14 @@ export function mountPhase1(supabase, getUser) {
     const user = getUser(); if (!user || loading) return; loading = true;
     try {
       const uid = user.id;
-      const [food, weight, habits, vocabulary, portfolio, money, xp, gym, skin, settings] = await Promise.all([
+      const [food, weight, habits, vocabulary, portfolio, money, events, xp, gym, skin, settings] = await Promise.all([
         records(uid, "food_log"), records(uid, "body_weight"), records(uid, "habit_log"), records(uid, "renzo_vocabulary", "id,occurred_at"),
-        records(uid, "renzo_portfolio", "id,occurred_at"), records(uid, "renzo_money"), records(uid, "xp_event", "id,payload"),
-        fetchAll(() => supabase.from("gym_sessions").select("id,workout_date,completed_at").eq("user_id", uid).order("workout_date")),
+        records(uid, "renzo_portfolio", "id,occurred_at"), records(uid, "renzo_money"), records(uid, "renzo_event"), records(uid, "xp_event", "id,payload"),
+        fetchAll(() => supabase.from("gym_sessions").select("id,workout_date,completed_at,exercises").eq("user_id", uid).order("workout_date")),
         fetchAll(() => supabase.from("skin_routine_logs").select("routine_date,session,completed_steps").eq("user_id", uid).order("routine_date")),
         readSettings(uid)]);
       if (getUser()?.id !== uid) return;
-      data = { food, weight, habits, vocabulary, portfolio, money, xp, gym, skin };
+      data = { food, weight, habits, vocabulary, portfolio, money, events, xp, gym, skin };
       habitNames = Array.isArray(settings.habits) ? settings.habits.slice(0, 12) : [];
       await syncXp(uid);
       render();
@@ -120,6 +147,7 @@ export function mountPhase1(supabase, getUser) {
 
   function render() {
     renderFood(); renderWeight(); renderHome(); renderHabitSettings();
+    const xp = totalXp(); publishXp({ xp, ...levelFor(xp) }); // Gym, Study y Home leen el mismo nivel
   }
 
   function renderFood() {
@@ -185,19 +213,24 @@ export function mountPhase1(supabase, getUser) {
     const box = $("p1Home"); if (!box) return;
     const t = today(), s = weekStats(data, t, habitNames), xp = totalXp(), lv = levelFor(xp);
     const doneToday = new Set((data.habits || []).filter(h => h.payload?.date === t && h.payload?.done).map(h => h.payload.habit));
-    const stat = (label, value) => `<div class="card"><b>${value}</b><span class="small">${label}</span></div>`;
-    box.innerHTML = `<div class="section"><h3>Hábitos de hoy</h3><span class="small">${habitNames.length ? `${doneToday.size}/${habitNames.length}` : ""}</span></div>
-      <div class="card">${habitNames.length ? habitNames.map(h => `<label class="row" style="padding:6px 0"><span>${esc(h)}</span><input type="checkbox" data-habit="${esc(h)}" ${doneToday.has(h) ? "checked" : ""}></label>`).join("") : `<p class="small">Sin hábitos definidos. Añádelos en System → Ajustes → Hábitos.</p>`}</div>
-      <div class="section"><h3>Progreso · últimos 7 días</h3><span class="small">Nivel ${lv.level} · ${fmt(xp)} XP</span></div>
-      <div class="card"><div class="small">Faltan ${fmt(lv.toNext)} XP para el nivel ${lv.level + 1}</div><div style="height:8px;border-radius:9px;background:var(--card2);margin-top:8px;overflow:hidden"><div style="height:100%;width:${Math.min(100, Math.round((xp - 50 * (lv.level - 1) ** 2) / (lv.next - 50 * (lv.level - 1) ** 2) * 100))}%;background:var(--accent, #b9a3ff)"></div></div></div>
-      <div class="reportgrid" style="margin-top:8px">
-        ${stat("Entrenos completados", s.workouts || "sin datos")}
-        ${stat("Sesiones de skincare", s.skin || "sin datos")}
-        ${stat("Días con comidas registradas", s.foodDays ? `${s.foodDays}${s.kcalAvg !== null ? ` · ${fmt(s.kcalAvg)} kcal/día` : ""}` : "sin datos")}
+    const done = habitNames.filter(h => doneToday.has(h)).length, pct = habitNames.length ? Math.round(done / habitNames.length * 100) : 0;
+    const xpToday = data.xp.filter(r => r.payload?.date === t).reduce((n, r) => n + (Number(r.payload?.points) || 0), 0);
+    const base = 50 * (lv.level - 1) ** 2, lvPct = Math.min(100, Math.round((xp - base) / (lv.next - base) * 100));
+    const stat = (label, value) => `<div class="card rise-stat"><span class="small">${label}</span><b>${value}</b></div>`;
+    // Hoy: misiones (hábitos de System → Ajustes) y progreso real (XP de tus registros). Sin rangos ni cifras inventadas.
+    box.innerHTML = `<div class="card rise-quests"><div class="rise-card-head"><span class="ey">Misiones de hoy</span><span class="small">${habitNames.length ? `${done} de ${habitNames.length} · ${pct}%` : ""}</span></div>
+        ${habitNames.length ? `<div class="rise-meter" aria-hidden="true"><i style="width:${pct}%"></i></div><div class="rise-quest-list">${habitNames.map(h => `<label class="rise-quest${doneToday.has(h) ? " is-done" : ""}"><input type="checkbox" data-habit="${esc(h)}" ${doneToday.has(h) ? "checked" : ""}><span>${esc(h)}</span></label>`).join("")}</div>` : `<p class="small">Sin hábitos definidos. Añádelos en System → Ajustes → Hábitos.</p>`}</div>
+      <div class="card rise-level"><div class="rise-card-head"><h3>Progreso</h3><span class="small">Nivel ${lv.level} · ${fmt(xp)} XP</span></div>
+        <div class="rise-level-row"><div class="rise-level-badge" aria-hidden="true"><span>Nivel</span><b>${lv.level}</b></div><div class="rise-level-copy"><p class="small">Faltan ${fmt(lv.toNext)} XP para el nivel ${lv.level + 1}</p><div class="rise-meter" aria-hidden="true"><i style="width:${lvPct}%"></i></div></div></div>
+        <div class="rise-level-mini"><div><span class="small">Hoy</span><b>${habitNames.length ? `${done}/${habitNames.length}` : "sin datos"}</b></div><div><span class="small">Hábitos 7 días</span><b>${s.habits ? `${s.habits.done}/${s.habits.possible}` : "sin datos"}</b></div><div><span class="small">XP hoy</span><b>${fmt(xpToday)}</b></div></div></div>`;
+    const ov = $("p1Overview");
+    if (ov) ov.innerHTML = `<div class="reportgrid rise-stats">
         ${stat("Peso actual", s.weight ? `${fmt(s.weight.value, 1)} kg${s.weight.delta !== null ? ` (${s.weight.delta >= 0 ? "+" : ""}${fmt(s.weight.delta, 1)})` : ""}` : "sin datos")}
-        ${stat("Hábitos cumplidos", s.habits ? `${s.habits.done}/${s.habits.possible}` : "sin datos")}
+        ${stat("Entrenos completados · 7 días", s.workouts || "sin datos")}
+        ${stat("Sesiones de skincare · 7 días", s.skin || "sin datos")}
+        ${stat("Días con comidas registradas", s.foodDays ? `${s.foodDays}${s.kcalAvg !== null ? ` · ${fmt(s.kcalAvg)} kcal/día` : ""}` : "sin datos")}
         ${stat("Neto del mes (My Finance)", s.money ? euros(s.money.net) : "sin datos")}
-        ${stat("Vocabulario nuevo", s.vocab || "sin datos")}
+        ${stat("Vocabulario nuevo · 7 días", s.vocab || "sin datos")}
       </div>`;
     box.querySelectorAll("[data-habit]").forEach(cb => cb.onchange = async () => {
       const user = getUser(); if (!user) return; const habit = cb.dataset.habit, date = today();
@@ -232,6 +265,6 @@ export function mountPhase1(supabase, getUser) {
   async function refresh() { if (loading) { rerun = true; return; } await load(); if (rerun) { rerun = false; await load(); } }
   if (typeof document !== "undefined") document.addEventListener("renzo:synced", () => { if (getUser()) refresh().catch(e => console.warn("[renzo-hub] XP", e.message)); });
 
-  function reset() { data = {}; habitNames = []; for (const id of ["p1Food", "p1Weight", "p1Home", "habitsCard"]) { const n = $(id); if (n) n.replaceChildren(); } }
+  function reset() { data = {}; habitNames = []; for (const id of ["p1Food", "p1Weight", "p1Home", "p1Overview", "habitsCard"]) { const n = $(id); if (n) n.replaceChildren(); } publishXp(null); }
   return { load, reset };
 }

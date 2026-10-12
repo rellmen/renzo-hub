@@ -1,4 +1,5 @@
 import {installErrorLog} from "./microapps/errors.js";
+import {createDataExport} from "./microapps/backup/export.js";
 import {AREAS,MICROAPPS,SECTION_IDS,findMicroapp,navAreaOf,isFullscreen,areaTabsHTML,homeTilesHTML} from "./microapps/registry.js";
 import {mountWorld} from "./world.js";
 import {mountJarvis} from "./jarvis-ui.js";
@@ -31,6 +32,7 @@ let releasePromise=null;
 const currentRelease=()=>releasePromise||(releasePromise=fetch("/release.json",{cache:"no-store"}).then(r=>r.json()).then(j=>j.release||"?").catch(()=>"?"));
 // Registro de errores de la app (microapps/errors.js): se guardan en la fila del usuario y se ven en System.
 const errorLog=installErrorLog(supabase,()=>user,{release:currentRelease});
+const dataExport=createDataExport(supabase,()=>user,{release:currentRelease,project:new URL(supabaseConfig.supabaseUrl).hostname.split(".")[0]});
 fetchWithTimeout("/api/deployment-info",{cache:"no-store"},5000).then(r=>r.ok?r.json():Promise.reject()).then(info=>{
  const badge=document.getElementById("environmentBadge");
  const env=info.environment==="production"?"production":info.environment==="preview"?"preview":"unknown";
@@ -61,7 +63,7 @@ mounted.forEach((result,i)=>{
 const eachApp=fn=>Object.values(apps).forEach(api=>{try{fn(api);}catch(error){console.error(error);}});
 const signInLoads=()=>MICROAPPS.filter(m=>m.loadOnSignIn&&apps[m.id]?.load).map(m=>apps[m.id].load());
 document.querySelectorAll("[data-area-tabs]").forEach(node=>{node.outerHTML=areaTabsHTML(node.dataset.areaTabs,node.dataset.areaTabs);});
-{const tiles=homeTilesHTML(),box=document.querySelector("[data-microapp-tiles=home]");if(box&&tiles){box.querySelector("[data-tiles]").innerHTML=tiles;box.hidden=false;}}
+{const tiles=homeTilesHTML(),box=document.querySelector("[data-microapp-tiles=home]");if(box&&tiles){box.querySelector("[data-tiles]").insertAdjacentHTML("beforeend",tiles);box.hidden=false;}}
 
 // Enlace directo genérico: ?app=<id>&<deepLink>=<valor>
 const linkQuery=new URLSearchParams(location.search);
@@ -86,7 +88,17 @@ function showAuth(message="",kind=""){
   $("authMessage").textContent=message;
   $("authMessage").className="authmsg "+kind;
 }
+// Home RISE: saludo según la hora y fecha de hoy. El nombre solo si existe en la cuenta (no se inventa).
+function riseGreeting(){
+  const h=new Date().getHours(),hi=h>=6&&h<13?"Buenos días":h>=13&&h<20?"Buenas tardes":"Buenas noches";
+  const name=String(user?.user_metadata?.first_name||user?.user_metadata?.full_name||user?.user_metadata?.name||"").trim().split(/\s+/)[0];
+  const g=document.querySelector("[data-rise-greeting]"),d=document.querySelector("[data-rise-date]");
+  if(g)g.textContent=name?`${hi}, ${name}.`:`${hi}.`;
+  if(d){const t=new Intl.DateTimeFormat("es-ES",{weekday:"long",day:"numeric",month:"long"}).format(new Date());d.textContent=t.charAt(0).toUpperCase()+t.slice(1);}
+}
+setInterval(()=>{if(!document.hidden)riseGreeting();},60000);
 function showApp(){
+  riseGreeting();
   $("authScreen").classList.add("hidden");
   $("appShell").classList.remove("hidden");
   $("bottomNav").classList.remove("hidden");
@@ -105,7 +117,7 @@ function go(id,restore=false){
   if(!document.getElementById(id))id="home";
   for(const [appId,api] of Object.entries(apps)){try{if(appId===id)api.open?.();else api.close?.();}catch(error){console.error(error);}}
   if(AREAS[id])world.render(id);
-  if(id==="system")errorLog.renderPanel($("appErrors"));
+  if(id==="system"){dataExport.renderPanel($("appBackup"));errorLog.renderPanel($("appErrors"));}
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   $(id).classList.add("active");
   document.body.classList.toggle("microapp-open",isFullscreen(id));
@@ -120,7 +132,7 @@ function go(id,restore=false){
 // Un solo listener para todo [data-open], también para el HTML que las microapps pintan después.
 document.addEventListener("click",event=>{const b=event.target.closest("[data-open]");if(b&&SECTION_IDS.includes(b.dataset.open))go(b.dataset.open);});
 let navSaveTimer;
-window.addEventListener("scroll",()=>{if(!user)return;clearTimeout(navSaveTimer);navSaveTimer=setTimeout(()=>{const saved=readJSON(`renzo-nav:${user.id}`,{});writeJSON(`renzo-nav:${user.id}`,{...saved,scrollY:window.scrollY});},180);},{passive:true});
+window.addEventListener("scroll",()=>{if(!user)return;const uid=user.id;clearTimeout(navSaveTimer);navSaveTimer=setTimeout(()=>{if(user?.id!==uid)return;const saved=readJSON(`renzo-nav:${uid}`,{});writeJSON(`renzo-nav:${uid}`,{...saved,scrollY:window.scrollY});},180);},{passive:true});
 
 $("loginForm").addEventListener("submit",async e=>{
   e.preventDefault();
@@ -140,7 +152,7 @@ supabase.auth.onAuthStateChange((event,session)=>{
 
 let session=null;
 try{const {data,error}=await supabase.auth.getSession();if(error)throw error;session=data?.session||null;}
-catch(error){console.warn("Could not restore Renzo Hub session; keeping sign-in available",error);showAuth("No se pudo restaurar la sesión. Puedes volver a iniciar sesión.","err");}
+catch(error){console.warn("Could not restore RISE HUB session; keeping sign-in available",error);showAuth("No se pudo restaurar la sesión. Puedes volver a iniciar sesión.","err");}
 user=session?.user||null;
 if(user){showApp();const results=await Promise.allSettled([...signInLoads(),world.load(),profile.load(),phase1.load()]);if(results.some(result=>result.status==="rejected"))setSync("Conectado · algunos datos no se pudieron cargar","err");}else if(!document.getElementById("authMessage").textContent){showAuth();}
 
@@ -154,7 +166,7 @@ if("serviceWorker" in navigator){
    setInterval(()=>reg.update().catch(()=>{}),60*60*1000);
  }).catch(()=>{});
 }
-}catch(error){console.error("Renzo Hub startup failed",error);showStartupError(error);}
+}catch(error){console.error("RISE HUB startup failed",error);showStartupError(error);}
 }
 document.getElementById("bootRetry").addEventListener("click",()=>location.reload());
 startRenzoHub();

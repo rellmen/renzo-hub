@@ -1,7 +1,7 @@
-# Renzo Hub: instrucciones para cualquier IA
+# RISE HUB (antes Renzo Hub): instrucciones para cualquier IA
 
 ## Qué es
-Renzo HUB es la plataforma personal y privada de Renzo. **No forma parte de Nodalys**: no compartir código, datos, credenciales, documentación ni agentes con Nodalys.
+RISE HUB (antes Renzo HUB) es la plataforma personal y privada de Renzo. El cambio de nombre es solo visible: URLs, repositorio, proyectos de Vercel y Supabase, nombres de archivo y prefijos técnicos (`renzo-hub-…`) se mantienen. **No forma parte de Nodalys**: no compartir código, datos, credenciales, documentación ni agentes con Nodalys.
 
 ## Fuente vigente
 - Repositorio Git `~/Projects/RENZO-HUB/repo` (remoto previsto `rellmen/renzo-hub`). Lee este archivo y `RENZO-HUB-CURRENT.md` antes de editar.
