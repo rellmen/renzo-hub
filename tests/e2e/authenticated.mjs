@@ -173,7 +173,7 @@ await check("Copia de seguridad: Exportar mis datos descarga todas las tablas y 
 });
 
 await check("Gastos: importar CSV ficticio de ING, categorías, regla por comercio y limpieza (hub_records · money)", async () => {
-  const clean = () => rest(`/rest/v1/hub_records?owner_id=eq.${uid}&record_type=in.(bank_tx,money_rule)`, tok.access_token, { method: "DELETE" });
+  const clean = () => rest(`/rest/v1/hub_records?owner_id=eq.${uid}&record_type=in.(bank_tx,money_rule,money_budget)`, tok.access_token, { method: "DELETE" });
   await clean();
   await page.evaluate(() => document.querySelector('[data-open="gastos"]')?.click());
   await page.locator("#gastos.active [data-bank-file]").waitFor({ timeout: 10000 });
@@ -223,10 +223,20 @@ await check("Gastos: importar CSV ficticio de ING, categorías, regla por comerc
   const fixedRules = await rest(`/rest/v1/hub_records?owner_id=eq.${uid}&record_type=eq.money_rule&select=payload`, tok.access_token);
   assert.ok(fixedRules.body.some(r => r.payload.merchant === unfixKey && r.payload.fixed === false), "la marca 'no es fijo' se guarda en la regla del comercio");
   assert.equal(await page.locator(`#money [data-fx-unfix="${unfixKey}"]`).count(), 0, "desaparece de la lista de fijos");
+  // Presupuesto semanal: crear un límite y comprobar que se guarda (un registro money_budget)
+  await page.click("#money [data-fx-budget] [data-fx-bud-edit]");
+  const budInput = page.locator("#money [data-fx-bud-form] input[name]").first();
+  const budCat = await budInput.getAttribute("name");
+  await budInput.fill("50");
+  await page.click("#money [data-fx-bud-save]");
+  await page.locator("#money [data-fx-budget] .mx-notice", { hasText: "Presupuesto guardado" }).waitFor({ timeout: 10000 });
+  const budRows = await rest(`/rest/v1/hub_records?owner_id=eq.${uid}&record_type=eq.money_budget&select=payload`, tok.access_token);
+  assert.equal(budRows.body.length, 1); assert.equal(budRows.body[0].payload.weekly[budCat], 50);
+  assert.equal(budRows.body[0].payload.week_starts, "wednesday");
   await page.click("#money [data-fx-top] [data-fx-go='gastos']");
   await page.locator("#gastos.active [data-gx-summary]").waitFor({ timeout: 10000 });
   await clean();
-  const left = await rest(`/rest/v1/hub_records?owner_id=eq.${uid}&record_type=in.(bank_tx,money_rule)&select=id`, tok.access_token);
+  const left = await rest(`/rest/v1/hub_records?owner_id=eq.${uid}&record_type=in.(bank_tx,money_rule,money_budget)&select=id`, tok.access_token);
   assert.equal(left.body.length, 0, "no quedan datos de prueba");
 });
 

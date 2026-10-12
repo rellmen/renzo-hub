@@ -11,6 +11,17 @@
 
 > La carpeta `~/.codex/.chatgpt-projects/.../renzo-hub-news` queda como espejo histórico de solo lectura. No editar ni desplegar desde ella.
 
+## 2.22.0 (2026-10-12): My Finance · presupuesto semanal (etapa C de 3, My Finance cerrado)
+
+- Panel nuevo en el Resumen: **presupuesto semanal por categoría**, con la semana de **miércoles a martes** (Renzo cobra los miércoles). Flechas ‹ › entre semanas, días que quedan, barra por categoría (al 80 % avisa, pasado en rojo), lo que queda o cuánto te pasas, y el total.
+- Solo para gasto variable: alquiler, seguros, suscripciones, teléfono y energía ya están en "Gastos fijos".
+- Editor con **sugerencia por categoría**: media de las últimas 4 semanas completas con datos, redondeada a 5 €, anclada al último extracto importado. "Usar sugerencias" rellena los huecos.
+- Honestidad con los datos: el banco llega al importar el extracto. Si la semana no está importada se avisa (con enlace al importador) y no se enseña "0 € gastado"; si está a medias, se dice hasta qué día hay datos.
+- Guardado en un solo registro `hub_records` money/`money_budget` (`payload.weekly`, `week_starts: "wednesday"`). Sin migraciones.
+- Escritorio: Resumen en dos columnas equilibradas (ahorro, avisos y presupuesto a la izquierda; categorías y fijos a la derecha).
+- **Cierre de My Finance (Fase 2):** importar ING y Revolut ✓, gasto mensual por categoría ✓, ahorro real ✓, fijos y suscripciones ✓, presupuesto semanal ✓. Las fotos de tickets pasan a la Fase 3 (necesitan almacenamiento nuevo y lectura con Jarvis).
+- Tests: 110/110 (5 nuevos de presupuesto); E2E autenticado ampliado con crear un presupuesto. Caché `renzo-hub-cloud-v8.8-finance-presupuesto`.
+
 ## 2.21.0 (2026-10-12): My Finance · gastos fijos y suscripciones (etapa B de 3)
 
 - Panel nuevo en el Resumen: **fijos al mes**, % de tus ingresos, **dinero libre** (ingresos − fijos) y total de suscripciones.
