@@ -6,10 +6,17 @@
 #gastos .gx-hero{background:linear-gradient(120deg,#33214d,#1c1829)}#gastos .gx-hero p{margin:0}
 #gastos .gx-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:14px 0 0}#gastos .gx-kpis dt{color:var(--muted);font-size:13px}#gastos .gx-kpis dd{margin:2px 0 0;font-weight:800;font-size:1.15rem}
 #gastos .gx-warn{margin-top:12px!important;padding:10px 12px;border-radius:12px;background:#3a2f1a;color:#ffe3a8}
+#gastos .gx-warn--btn{display:block;width:100%;min-height:44px;text-align:left;border:1px solid rgba(255,214,138,.28);background:rgba(255,196,92,.09);color:#ffe3a8;font:inherit;font-weight:600;cursor:pointer}
+#gastos .gx-warn--btn:hover{background:rgba(255,196,92,.15)}
+#gastos .gx-group--todo{border-color:rgba(255,214,138,.4)!important}
+#gastos .gx-more{width:100%;min-height:44px;border-radius:12px}
+#gastos .gx-import-btn{min-height:44px;padding:8px 14px;border-radius:12px;white-space:nowrap;align-self:center}
+#gastos .gx-import-close{justify-self:start}
+#gastos .gx-bank{justify-self:start;padding:2px 8px;border-radius:20px;background:rgba(74,168,255,.14);color:#cfe8ff;font-size:12px}
 #gastos .gx-h{margin:10px 0 0;font-size:18px}
-#gastos .gx-group summary{display:grid;grid-template-columns:auto 1fr auto;gap:4px 10px;align-items:center;cursor:pointer;min-height:44px;list-style:none}#gastos .gx-group summary::-webkit-details-marker{display:none}
-#gastos .gx-icon{font-size:20px}#gastos .gx-name{font-weight:700;overflow-wrap:anywhere}#gastos .gx-total{font-weight:800}
-#gastos .gx-bar{grid-column:1/-1;height:6px;border-radius:6px;background:#ffffff14;overflow:hidden}#gastos .gx-bar i{display:block;height:100%;background:#9b7be0;border-radius:6px}
+#gastos .gx-group{padding:12px 16px}#gastos .gx-group summary{display:grid;grid-template-columns:28px 1fr auto;gap:4px 10px;align-items:center;cursor:pointer;min-height:44px;list-style:none}#gastos .gx-group summary::-webkit-details-marker{display:none}
+#gastos .gx-icon{font-size:18px;text-align:center}#gastos .gx-name{font-weight:700;overflow-wrap:anywhere;min-width:0}#gastos .gx-name small{display:block;font-weight:400;color:var(--muted);font-size:12px}#gastos .gx-total{display:flex;flex-direction:column;align-items:flex-end;gap:3px;font-weight:800;font-variant-numeric:tabular-nums}
+#gastos .gx-bar{grid-column:2/-1;height:5px;border-radius:6px;background:#ffffff14;overflow:hidden}#gastos .gx-bar i{display:block;height:100%;background:#9b7be0;border-radius:6px}
 #gastos .gx-group small{grid-column:1/-1}
 #gastos .gx-muted{color:var(--muted)}
 #gastos .gx-merchants{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:6px}#gastos .gx-merchants li{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px solid #ffffff10}
@@ -20,6 +27,6 @@
 #gastos .gx-tag{justify-self:start;padding:3px 10px;border-radius:20px;background:#1f3a30;color:#cdeedd}
 #gastos .gx-cat{font-size:13px;color:var(--muted)}#gastos .gx-cat select{margin-top:4px;color:#f5f0ff}
 #gastos .gx-ask{display:grid;gap:8px;padding:10px;border-radius:12px;background:#26203a}
-#gastos .gx-month{max-width:320px}
+#gastos .fx-monthnav{max-width:360px}
 #gastos button:focus-visible,#gastos select:focus-visible,#gastos summary:focus-visible{outline:3px solid #c4adff;outline-offset:2px}
 .fin-tabs{overflow-x:auto}

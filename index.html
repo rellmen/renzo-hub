@@ -107,6 +107,7 @@ body.microapp-open #appShell.shell{padding-bottom:calc(34px + env(safe-area-inse
 <link rel="stylesheet" href="/assets/rise-theme.css">
 <link rel="stylesheet" href="/assets/rise-home.css">
 <link rel="stylesheet" href="/assets/rise-covers.css">
+<link rel="stylesheet" href="/microapps/finance/finance.css">
 </head>
 <body>
 <aside id="environmentBadge" class="env-badge" data-env="unknown" aria-live="polite">ENTORNO SIN VERIFICAR</aside>
@@ -161,7 +162,7 @@ body.microapp-open #appShell.shell{padding-bottom:calc(34px + env(safe-area-inse
 
 <section id="car" class="page"><button class="back" data-open="home">← Home</button><div class="top pagehead"><div><div class="ey">🚘 VEHICLE · EXPENSES VIA JARVIS</div><h1>Car</h1></div><div class="avatar">🚗</div></div><div id="worldCar"></div></section>
 
-<section id="money" class="page"><button class="back" data-open="home">← Home</button><div class="top"><div><div class="ey">Movimientos y nóminas</div><h1>My Finance</h1></div><div class="avatar">€</div></div><div data-area-tabs="money"></div><div id="worldMoney"></div></section>
+<section id="money" class="page"><button class="back" data-open="home">← Home</button><div class="top"><div><div class="ey">Resumen del mes</div><h1>My Finance</h1></div><div class="avatar">€</div></div><div data-area-tabs="money"></div><div id="finSummary"></div><details class="fin-legacy" data-fin-legacy><summary><span>Registros a mano y de Jarvis<small>Efectivo, nóminas manuales y lo que envías por Telegram. No se suman al resumen del banco.</small></span></summary><div id="worldMoney"></div></details></section>
 
 <section id="payroll" class="page"></section>
 <section id="system" class="page"><button class="back" data-open="home">← Home</button><div class="top"><div><div class="ey">Reglas · contexto · privacidad</div><h1>System</h1></div><div class="avatar">S</div></div><div id="worldSystem"></div><div id="appBackup" class="mx-stack"></div><div id="appErrors" class="mx-stack"></div><div class="section"><h3>Finanzas</h3></div><button class="app" data-open="payroll"><span class="app-icon app-icon--work" aria-hidden="true">€</span><b>My Finance · Nóminas</b><span>Documentos de Jarvis, seguimiento y revisión.</span></button><div class="section"><h3>Noticias e inteligencia externa</h3></div><button class="app" data-open="news"><b>News</b><span>Resúmenes privados que ya están en Supabase.</span></button><div class="worldline"></div><button class="app" data-open="settings"><b>Cuenta y sincronización</b><span>Sesión, privacidad y datos existentes.</span></button></section>

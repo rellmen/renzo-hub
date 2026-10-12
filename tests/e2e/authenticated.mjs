@@ -195,6 +195,9 @@ await check("Gastos: importar CSV ficticio de ING, categorías, regla por comerc
   const ruleRows = await rest(`/rest/v1/hub_records?owner_id=eq.${uid}&record_type=eq.money_rule&select=payload`, tok.access_token);
   assert.deepEqual(ruleRows.body.map(r => r.payload), [{ merchant: "albert heijn", category: "restaurantes" }]);
   // Extracto de Revolut en PDF (ficticio): se lee con pdf.js en el navegador, saldos comprobados, recarga = traspaso
+  // Con movimientos, el importador queda plegado tras un botón en la cabecera
+  assert.equal(await page.locator("#gastos [data-bank-file]").count(), 0, "el importador se pliega cuando ya hay datos");
+  await page.click("#gastos [data-gx-import]");
   await page.locator("#gastos [data-bank-file]").setInputFiles("tests/fixtures/revolut-ficticio.pdf");
   await page.locator("#gastos [data-bank-preview]").waitFor({ timeout: 20000 });
   const rev = await page.locator("#gastos [data-bank-preview]").innerText();
@@ -206,6 +209,14 @@ await check("Gastos: importar CSV ficticio de ING, categorías, regla por comerc
   assert.equal(await page.locator("#gastos [data-gx-revolut]").count(), 0, "con Revolut importado ya no avisa de que falta");
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), "sin scroll horizontal");
   await page.screenshot({ path: "/tmp/gastos-e2e.png", fullPage: true });
+  // Resumen de My Finance: mismas cifras del banco, ahorro real y enlace a Gastos
+  await page.evaluate(() => document.querySelector('[data-open="money"]')?.click());
+  await page.locator("#money.active [data-fx-hero]").waitFor({ timeout: 15000 });
+  assert.match(await page.locator("#money [data-fx-hero]").innerText(), /Ahorro real/);
+  assert.match(await page.locator("#money [data-fx-top]").innerText(), /Dónde se fue el dinero/);
+  assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), "Resumen sin scroll horizontal");
+  await page.click("#money [data-fx-top] [data-fx-go='gastos']");
+  await page.locator("#gastos.active [data-gx-summary]").waitFor({ timeout: 10000 });
   await clean();
   const left = await rest(`/rest/v1/hub_records?owner_id=eq.${uid}&record_type=in.(bank_tx,money_rule)&select=id`, tok.access_token);
   assert.equal(left.body.length, 0, "no quedan datos de prueba");

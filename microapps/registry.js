@@ -26,7 +26,7 @@ export const AREAS = Object.freeze({
   body:   { name: "Body" },
   study:  { name: "Study" },
   work:   { name: "Work" },
-  money:  { name: "My Finance", tab: "Movimientos" },
+  money:  { name: "My Finance", tab: "Resumen" },
   system: { name: "System" },
   car:    { name: "Car", fullscreen: true }
 });

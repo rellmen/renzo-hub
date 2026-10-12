@@ -1,6 +1,6 @@
 {
-  "release": "2.19.0",
-  "name": "RISE HUB · Gym y Study muestran el nivel único",
+  "release": "2.20.0",
+  "name": "My Finance · Resumen del mes (Fase 2, etapa A)",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",

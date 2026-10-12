@@ -49,7 +49,7 @@ test("menú, pantalla completa y pestañas se derivan del registro", () => {
   assert.equal(isFullscreen("gym"), true);
   assert.equal(isFullscreen("payroll"), false);
   const tabs = areaTabsHTML("money", "payroll");
-  assert.match(tabs, /data-open="money">Movimientos</);
+  assert.match(tabs, /data-open="money">Resumen</);
   assert.match(tabs, /aria-current="page">Nóminas</);
   assert.equal(areaTabsHTML("home", "home"), "");
 });
