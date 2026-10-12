@@ -11,6 +11,34 @@
 
 > La carpeta `~/.codex/.chatgpt-projects/.../renzo-hub-news` queda como espejo histórico de solo lectura. No editar ni desplegar desde ella.
 
+## 2.22.0 (2026-10-12): My Finance · presupuesto semanal (etapa C de 3, My Finance cerrado)
+
+- Panel nuevo en el Resumen: **presupuesto semanal por categoría**, con la semana de **miércoles a martes** (Renzo cobra los miércoles). Flechas ‹ › entre semanas, días que quedan, barra por categoría (al 80 % avisa, pasado en rojo), lo que queda o cuánto te pasas, y el total.
+- Solo para gasto variable: alquiler, seguros, suscripciones, teléfono y energía ya están en "Gastos fijos".
+- Editor con **sugerencia por categoría**: media de las últimas 4 semanas completas con datos, redondeada a 5 €, anclada al último extracto importado. "Usar sugerencias" rellena los huecos.
+- Honestidad con los datos: el banco llega al importar el extracto. Si la semana no está importada se avisa (con enlace al importador) y no se enseña "0 € gastado"; si está a medias, se dice hasta qué día hay datos.
+- Guardado en un solo registro `hub_records` money/`money_budget` (`payload.weekly`, `week_starts: "wednesday"`). Sin migraciones.
+- Escritorio: Resumen en dos columnas equilibradas (ahorro, avisos y presupuesto a la izquierda; categorías y fijos a la derecha).
+- **Cierre de My Finance (Fase 2):** importar ING y Revolut ✓, gasto mensual por categoría ✓, ahorro real ✓, fijos y suscripciones ✓, presupuesto semanal ✓. Las fotos de tickets pasan a la Fase 3 (necesitan almacenamiento nuevo y lectura con Jarvis).
+- Tests: 110/110 (5 nuevos de presupuesto); E2E autenticado ampliado con crear un presupuesto. Caché `renzo-hub-cloud-v8.8-finance-presupuesto`.
+
+## 2.21.0 (2026-10-12): My Finance · gastos fijos y suscripciones (etapa B de 3)
+
+- Panel nuevo en el Resumen: **fijos al mes**, % de tus ingresos, **dinero libre** (ingresos − fijos) y total de suscripciones.
+- Cuenta como fijo: alquiler, seguros, suscripciones, teléfono y energía, más lo que se repite una vez al mes con importe parecido (±20 %) en al menos 2 de los últimos 3 meses. El gasto variable (súper, restaurantes, gasolina, compras…) solo cuenta si lo marcas tú.
+- El dinero que entra en Alquiler (el aporte de quien comparte piso) resta de los fijos y se muestra justo debajo del alquiler.
+- Cada fijo muestra la fecha prevista del próximo cargo (~, no confirmada). "No es fijo" y "Añadir un gasto fijo" se guardan como marca `fixed` en la regla del comercio (`money_rule`), la misma que guarda su categoría. Sin migraciones.
+- Tests: 105/105 (5 nuevos de fijos); E2E autenticado ampliado con "No es fijo". Caché `renzo-hub-cloud-v8.7-finance-fijos`.
+
+## 2.20.0 (2026-10-12): My Finance · Resumen del mes (cierre de My Finance, etapa A de 3)
+
+- Renzo eligió cerrar My Finance con la opción 1: A Resumen, B fijos y suscripciones, C presupuesto semanal. Los tickets pasan a la Fase 3.
+- La pestaña "Movimientos" pasa a ser **Resumen**: ahorro real del mes (ingresos − gastos del banco; los traspasos entre tus cuentas no cuentan) con su %, ingresos y gastos, comparación con el mes anterior (ahorro y gasto) y las 5 categorías con más gasto con su variación.
+- Una sola fuente para las cifras: los movimientos del banco (ING y Revolut). Los registros a mano y de Jarvis siguen intactos en un bloque plegable aparte, "Registros a mano y de Jarvis", que avisa de que no se suman al resumen. Antes había dos cifras distintas de ingresos del mes.
+- Avisos que se pulsan: movimientos sin categoría (abre Gastos con esa categoría desplegada), dinero pasado a Revolut sin extracto (abre el importador), entradas de dinero por revisar en AI Inbox.
+- Gastos: el importador se pliega cuando ya hay datos (botón "Importar" en la cabecera), flechas ‹ › de mes compartidas con el Resumen, filas compactas con variación frente al mes anterior, "Sin categoría" siempre primero, 6 categorías y "Ver más", "Ahorro real" en lugar de "Ingresos − gastos".
+- Código: `microapps/finance/` (insights.js puro y probado, data.js, summary.js, finance.css). Sin migraciones. Tests: 100/100 (8 nuevos en `tests/finance.test.mjs`); E2E autenticado ampliado con el Resumen. Caché `renzo-hub-cloud-v8.6-finance-resumen`.
+
 ## 2.19.0 (2026-10-12): RISE HUB · Gym y Study muestran el nivel único
 
 - Renzo eligió la opción A: Gym (Ascend) y Study dejan de tener su propio XP visible y muestran el nivel único.
@@ -28,6 +56,14 @@
 - Con esto RISE HUB queda completo: marca (2.15), Home (2.16), nivel único (2.17) y portadas (2.18).
 - Pendiente de decidir: Gym (Ascend) y Study tienen su propio contador de XP interno, aparte del nivel único.
 - Caché `renzo-hub-cloud-v8.4-portadas`.
+
+## Herramientas de trabajo (2026-10-12, sin cambio de versión: la app publicada no cambia)
+
+- `./scripts/renzo-hub preflight [nº PR]`: comprobaciones fijas antes de fusionar (destino, fusionable, CI por check, versión y caché si cambia la app, migraciones con rollback, claves en lo añadido). Sale con 1 si algo FALLA.
+- `./scripts/renzo-hub verify <staging|prod> [versión] [--smoke]`: versión servida, entorno, 14 rutas internas no expuestas y smoke opcional. Staging necesita `VERCEL_PROTECTION_BYPASS` en la shell.
+- `AGENTS.md`: reglas permanentes (Renzo ya no las repite en cada encargo) y Definition of Done con formato de informe obligatorio.
+- Los mods y skills de Claude no viven en este repo: son un plugin de la cuenta de claude.ai de Renzo (chats del proyecto "Rise HUB").
+- Comprobado al crearlo: preflight contra el PR #32 y verify contra producción. **Producción sirve 2.11.0 y staging 2.19.0**: hay 8 versiones pendientes de pasar a producción.
 
 ## 2.17.0 (2026-10-12): RISE HUB · nivel único
 

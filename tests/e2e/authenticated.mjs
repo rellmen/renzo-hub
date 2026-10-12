@@ -173,7 +173,7 @@ await check("Copia de seguridad: Exportar mis datos descarga todas las tablas y 
 });
 
 await check("Gastos: importar CSV ficticio de ING, categorías, regla por comercio y limpieza (hub_records · money)", async () => {
-  const clean = () => rest(`/rest/v1/hub_records?owner_id=eq.${uid}&record_type=in.(bank_tx,money_rule)`, tok.access_token, { method: "DELETE" });
+  const clean = () => rest(`/rest/v1/hub_records?owner_id=eq.${uid}&record_type=in.(bank_tx,money_rule,money_budget)`, tok.access_token, { method: "DELETE" });
   await clean();
   await page.evaluate(() => document.querySelector('[data-open="gastos"]')?.click());
   await page.locator("#gastos.active [data-bank-file]").waitFor({ timeout: 10000 });
@@ -195,6 +195,9 @@ await check("Gastos: importar CSV ficticio de ING, categorías, regla por comerc
   const ruleRows = await rest(`/rest/v1/hub_records?owner_id=eq.${uid}&record_type=eq.money_rule&select=payload`, tok.access_token);
   assert.deepEqual(ruleRows.body.map(r => r.payload), [{ merchant: "albert heijn", category: "restaurantes" }]);
   // Extracto de Revolut en PDF (ficticio): se lee con pdf.js en el navegador, saldos comprobados, recarga = traspaso
+  // Con movimientos, el importador queda plegado tras un botón en la cabecera
+  assert.equal(await page.locator("#gastos [data-bank-file]").count(), 0, "el importador se pliega cuando ya hay datos");
+  await page.click("#gastos [data-gx-import]");
   await page.locator("#gastos [data-bank-file]").setInputFiles("tests/fixtures/revolut-ficticio.pdf");
   await page.locator("#gastos [data-bank-preview]").waitFor({ timeout: 20000 });
   const rev = await page.locator("#gastos [data-bank-preview]").innerText();
@@ -206,8 +209,34 @@ await check("Gastos: importar CSV ficticio de ING, categorías, regla por comerc
   assert.equal(await page.locator("#gastos [data-gx-revolut]").count(), 0, "con Revolut importado ya no avisa de que falta");
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), "sin scroll horizontal");
   await page.screenshot({ path: "/tmp/gastos-e2e.png", fullPage: true });
+  // Resumen de My Finance: mismas cifras del banco, ahorro real y enlace a Gastos
+  await page.evaluate(() => document.querySelector('[data-open="money"]')?.click());
+  await page.locator("#money.active [data-fx-hero]").waitFor({ timeout: 15000 });
+  assert.match(await page.locator("#money [data-fx-hero]").innerText(), /Ahorro real/);
+  assert.match(await page.locator("#money [data-fx-top]").innerText(), /Dónde se fue el dinero/);
+  assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), "Resumen sin scroll horizontal");
+  // Fijos: el alquiler del CSV ficticio aparece como fijo; "No es fijo" lo guarda como marca en su regla
+  await page.locator("#money [data-fx-fixed] [data-fx-unfix]").first().waitFor({ timeout: 10000 });
+  const unfixKey = await page.locator("#money [data-fx-fixed] [data-fx-unfix]").first().getAttribute("data-fx-unfix");
+  await page.locator("#money [data-fx-fixed] [data-fx-unfix]").first().click();
+  await page.locator("#money [data-fx-fixed] .mx-notice", { hasText: "ya no cuenta como gasto fijo" }).waitFor({ timeout: 10000 });
+  const fixedRules = await rest(`/rest/v1/hub_records?owner_id=eq.${uid}&record_type=eq.money_rule&select=payload`, tok.access_token);
+  assert.ok(fixedRules.body.some(r => r.payload.merchant === unfixKey && r.payload.fixed === false), "la marca 'no es fijo' se guarda en la regla del comercio");
+  assert.equal(await page.locator(`#money [data-fx-unfix="${unfixKey}"]`).count(), 0, "desaparece de la lista de fijos");
+  // Presupuesto semanal: crear un límite y comprobar que se guarda (un registro money_budget)
+  await page.click("#money [data-fx-budget] [data-fx-bud-edit]");
+  const budInput = page.locator("#money [data-fx-bud-form] input[name]").first();
+  const budCat = await budInput.getAttribute("name");
+  await budInput.fill("50");
+  await page.click("#money [data-fx-bud-save]");
+  await page.locator("#money [data-fx-budget] .mx-notice", { hasText: "Presupuesto guardado" }).waitFor({ timeout: 10000 });
+  const budRows = await rest(`/rest/v1/hub_records?owner_id=eq.${uid}&record_type=eq.money_budget&select=payload`, tok.access_token);
+  assert.equal(budRows.body.length, 1); assert.equal(budRows.body[0].payload.weekly[budCat], 50);
+  assert.equal(budRows.body[0].payload.week_starts, "wednesday");
+  await page.click("#money [data-fx-top] [data-fx-go='gastos']");
+  await page.locator("#gastos.active [data-gx-summary]").waitFor({ timeout: 10000 });
   await clean();
-  const left = await rest(`/rest/v1/hub_records?owner_id=eq.${uid}&record_type=in.(bank_tx,money_rule)&select=id`, tok.access_token);
+  const left = await rest(`/rest/v1/hub_records?owner_id=eq.${uid}&record_type=in.(bank_tx,money_rule,money_budget)&select=id`, tok.access_token);
   assert.equal(left.body.length, 0, "no quedan datos de prueba");
 });
 
