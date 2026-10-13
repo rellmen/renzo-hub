@@ -30,3 +30,8 @@
 - Integraciones de Claude Desktop y Hermes, sujetas a sus capacidades y autorización de Renzo.
 - Notificaciones y vista de actividad incremental, paginación/contadores exactos según crecimiento.
 - E2E con sesión real en Supabase staging + comprobación de permisos, antes de cualquier promoción.
+
+## Cola de solicitudes 2.23.2 (nueva)
+- Formulario Agent Monitor añade solicitudes para Claude/Hermes/Jarvis con estado pending_approval; AI Inbox permite aprobar o rechazar.
+- La aprobación solo escribe status approved/rejected en hub_records del propietario. payload.executed=false y executionStatus=not_connected son explícitos: no se ejecuta nada en dispositivos externos.
+- La ejecución real necesitará backend firmado, capacidades verificadas del agente, reglas de aprobación y auditoría antes de habilitarla.

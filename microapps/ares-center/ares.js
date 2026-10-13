@@ -11,12 +11,13 @@ export function summarizeRecords(records) {
     lastActivity: rows.length ? rows.map(r => r.occurred_at).filter(Boolean).sort().at(-1) || null : null
   };
 }
-export const ARES_TYPES = Object.freeze(["renzo_project","renzo_task","renzo_inbox","renzo_event","ares_decision","ares_agent_run"]);
+export const ARES_TYPES = Object.freeze(["renzo_project","renzo_task","renzo_inbox","renzo_event","ares_decision","ares_agent_run","ares_operation"]);
 export const isInboxPending = r => Boolean(r && r.record_type === "renzo_inbox" &&
   !["reviewed","archived","confirmed","rejected"].includes(String(r.payload?.status || r.status || "needs_review").toLowerCase()));
 export const isTaskOpen = r => Boolean(r && r.record_type === "renzo_task" &&
   !["completed","done","cancelled","archived"].includes(String(r.payload?.status || r.status || "").toLowerCase()));
 export const isDecisionPending = r => Boolean(r && r.record_type === "ares_decision" && r.status === "pending");
+export const isOperationPending = r => Boolean(r && r.record_type === "ares_operation" && r.status === "pending_approval");
 export const isAgentEvent = r => Boolean(r && (r.record_type === "ares_agent_run" ||
   (r.record_type === "renzo_event" && (r.source === "automation" || ["jarvis","hermes","claude","n8n"].includes(String(r.payload?.source || "").toLowerCase())))));
 const $el = (tag, className, text) => {
@@ -85,12 +86,15 @@ export function mountAresCenter(root, supabase, getUser) {
     '<section data-ares-page="agents" class="ares-page" hidden>',
       '<div class="cc-panel"><div class="cc-panel-head"><h2>Agent Monitor</h2><span>Estados basados en evidencia</span></div>',
       '<div class="ares-agents"><div><b>Claude</b><small>Sin conexión directa de ejecución</small></div><div><b>Hermes</b><small>Sin conexión directa de ejecución</small></div><div><b>Jarvis / n8n</b><small data-agent-jarvis>Comprobando configuración…</small></div></div>',
+      '<p class="cc-detail">Puedes preparar una solicitud de ejecución. Quedará en AI Inbox hasta tu aprobación; aprobarla todavía NO la ejecuta.</p>',
+      '<form data-ares-form="operation" class="ares-form"><label>Agente responsable<select name="agent"><option>Claude</option><option>Hermes</option><option>Jarvis</option></select></label><label>Tarea solicitada<input name="title" required minlength="2" maxlength="180" placeholder="Ej.: preparar PR de Dutch Academy"></label><label>Instrucciones para el agente<input name="details" maxlength="600" placeholder="Alcance, restricciones y resultado esperado"></label><button type="submit" class="cc-refresh">Enviar a revisión</button></form>',
       '<p class="cc-detail">Ares no puede ejecutar ni vigilar en tiempo real a Claude o Hermes hasta configurar conectores autorizados. Nunca se muestran ejecuciones inventadas.</p>',
       '<form data-ares-form="agent" class="ares-form"><label>Registrar trabajo de un agente<select name="agent"><option>Claude</option><option>Hermes</option><option>Jarvis</option><option>Otro agente</option></select></label><label>Resultado<select name="status"><option value="completed">Completado</option><option value="failed">Error</option><option value="blocked">Bloqueado</option><option value="running">En curso (declarado)</option></select></label><label>Trabajo realizado<input name="title" required minlength="2" maxlength="180" placeholder="Qué sucedió"></label><button type="submit" class="cc-refresh">Registrar evento manual</button></form>',
       '<div class="ares-list" data-ares-list="agents"></div></div></section>',
     '<section data-ares-page="inbox" class="ares-page" hidden>',
       '<div class="cc-panel"><div class="cc-panel-head"><h2>AI Inbox</h2><span>Decisiones y revisiones</span></div>',
       '<p class="cc-detail">Las capturas y documentos de Jarvis siguen revisándose en Work. Ares no aprueba gastos ni nóminas automáticamente.</p>',
+      '<p class="cc-detail">Una aprobación de solicitud a un agente solo autoriza la intención y queda registrada. No se activa un proceso externo hasta que exista un ejecutor seguro.</p>',
       '<form data-ares-form="decision" class="ares-form"><label>Nueva decisión<input name="title" required minlength="2" maxlength="180" placeholder="Qué necesitas decidir"></label><label>Contexto<input name="details" maxlength="600" placeholder="Por qué requiere aprobación"></label><button type="submit" class="cc-refresh">Añadir a revisiones</button></form>',
       '<div class="ares-list" data-ares-list="inbox"></div></div></section>',
     '<p class="cc-footer">Privado · Datos de tu sesión · RLS por usuario · Las aprobaciones en Ares registran decisiones, no ejecutan acciones externas.</p>'
@@ -120,10 +124,10 @@ export function mountAresCenter(root, supabase, getUser) {
   function render() {
     if (!loaded)return;
     const projects=type("renzo_project"),tasks=type("renzo_task"),inbox=type("renzo_inbox").filter(isInboxPending),
-      decisions=type("ares_decision").filter(isDecisionPending),agents=rows.filter(isAgentEvent);
+      decisions=type("ares_decision").filter(isDecisionPending),operations=type("ares_operation"),pendingOperations=operations.filter(isOperationPending),agents=rows.filter(isAgentEvent);
     setMetric("projects",projects.filter(r=>rowStatus(r).toLowerCase()!=="completed").length);
     setMetric("tasks",tasks.filter(isTaskOpen).length);
-    setMetric("inbox",inbox.length+decisions.length);
+    setMetric("inbox",inbox.length+decisions.length+pendingOperations.length);
     setMetric("agents",agents.length);
     const activity=one('[data-ares-list="activity"]');activity.replaceChildren();
     const recent=rows.slice(0,12);
@@ -151,11 +155,21 @@ export function mountAresCenter(root, supabase, getUser) {
       const p=r.payload||{},item=record(r.title||"Evento",shortDate(r.occurred_at)+" · "+sourceLabel(r)+(p.agent?" · "+p.agent:""),r.status||"");
       agentList.append(item);
     }
+    for (const r of operations) {
+      const item=record(r.title,"Solicitud · "+(r.payload?.agent||"Agente")+" · "+r.status+" · "+shortDate(r.occurred_at),r.payload?.details||"Sin instrucciones adicionales");
+      if(isOperationPending(r))addButtons(item,newButton("Revisar en AI Inbox","go-inbox"));
+      agentList.append(item);
+    }
     const inboxList=one('[data-ares-list="inbox"]');inboxList.replaceChildren();
-    if (!inbox.length&&!decisions.length)appendEmpty(inboxList,"Sin revisiones pendientes en el conjunto consultado.");
+    if (!inbox.length&&!decisions.length&&!pendingOperations.length)appendEmpty(inboxList,"Sin revisiones pendientes en el conjunto consultado.");
     for (const r of inbox) {
       const p=r.payload||{},item=record(r.title||p.title,"Work · "+rowStatus(r)+" · "+shortDate(r.occurred_at),p.note||p.category||"");
       addButtons(item,newButton("Revisar en Work","go-work"));
+      inboxList.append(item);
+    }
+    for (const r of pendingOperations) {
+      const item=record(r.title,"Solicitud para "+(r.payload?.agent||"agente")+" · Pendiente de aprobación",r.payload?.details||"Sin instrucciones adicionales");
+      addButtons(item,newButton("Autorizar solicitud (no ejecuta)","approve-operation",r.id),newButton("Rechazar","reject-operation",r.id));
       inboxList.append(item);
     }
     for (const r of decisions) {
@@ -224,6 +238,9 @@ export function mountAresCenter(root, supabase, getUser) {
       fields={status:"Completed",payload:{...(row.payload||{}),status:"Completed",updatedAt:new Date().toISOString()}};
     } else if(["approve-decision","reject-decision"].includes(action)&&isDecisionPending(row)) {
       fields={status:action==="approve-decision"?"approved":"rejected",requires_review:false,payload:{...(row.payload||{}),decidedAt:new Date().toISOString(),decisionBy:"owner"}};
+    } else if(["approve-operation","reject-operation"].includes(action)&&isOperationPending(row)) {
+      const approved=action==="approve-operation";
+      fields={status:approved?"approved":"rejected",requires_review:false,payload:{...(row.payload||{}),approvedBy:"owner",reviewedAt:new Date().toISOString(),executionStatus:"not_connected",executed:false}};
     } else throw new Error("Esta acción no está permitida.");
     const {data,error}=await supabase.from("hub_records").update(fields).eq("owner_id",user.id).eq("id",id)
       .eq("record_type",row.record_type).select("id");
@@ -238,6 +255,7 @@ export function mountAresCenter(root, supabase, getUser) {
     const btn=event.target.closest("[data-ares-action]");
     if(!btn||!root.contains(btn))return;
     if(btn.dataset.aresAction==="go-work"){document.querySelector('[data-open="work"]')?.click();return;}
+    if(btn.dataset.aresAction==="go-inbox"){showTab("inbox");return;}
     btn.disabled=true;status("Guardando cambio…");
     void change(btn.dataset.aresId,btn.dataset.aresAction).then(load).catch(e=>status("Error: "+e.message)).finally(()=>{btn.disabled=false;});
   });
@@ -254,6 +272,7 @@ export function mountAresCenter(root, supabase, getUser) {
       if(form.dataset.aresForm==="task")data={domain:"work",record_type:"renzo_task",title,status:"Backlog",occurred_at:now,payload:{id:crypto.randomUUID(),title,status:"Backlog",priority:["High","Strategic"].includes(values.priority)?values.priority:"Normal",dueDate:"",project:trim(values.project,120),nextAction:"",blocker:"",aiCanDo:false,renzoMustDo:false,date}};
       if(form.dataset.aresForm==="decision")data={domain:"system",record_type:"ares_decision",title,status:"pending",occurred_at:now,requires_review:true,payload:{details:trim(values.details,600),requestedAt:now}};
       if(form.dataset.aresForm==="agent")data={domain:"system",record_type:"ares_agent_run",title,status:["completed","failed","blocked","running"].includes(values.status)?values.status:"blocked",occurred_at:now,payload:{agent:trim(values.agent,40),recordedManually:true}};
+      if(form.dataset.aresForm==="operation")data={domain:"system",record_type:"ares_operation",title,status:"pending_approval",requires_review:true,occurred_at:now,payload:{agent:["Claude","Hermes","Jarvis"].includes(values.agent)?values.agent:"Claude",details:trim(values.details,600),requestedAt:now,executionStatus:"not_connected",executed:false}};
       if(!data)return;
       const button=form.querySelector('[type="submit"]');button.disabled=true;
       status("Guardando en Supabase…");

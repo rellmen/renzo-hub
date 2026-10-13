@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {summarizeRecords,ARES_TYPES,isInboxPending,isDecisionPending,isTaskOpen,isAgentEvent} from "../microapps/ares-center/ares.js";
+import {summarizeRecords,ARES_TYPES,isInboxPending,isDecisionPending,isTaskOpen,isAgentEvent,isOperationPending} from "../microapps/ares-center/ares.js";
 
 test("summarizeRecords uses only returned rows", () => {
   const result = summarizeRecords([
@@ -36,7 +36,7 @@ test("visual identity of RISE HUB is inherited without global restyling", async 
 });
 
 test("Ares only monitors canonical RISE HUB types", () => {
-  assert.deepEqual(ARES_TYPES,["renzo_project","renzo_task","renzo_inbox","renzo_event","ares_decision","ares_agent_run"]);
+  assert.deepEqual(ARES_TYPES,["renzo_project","renzo_task","renzo_inbox","renzo_event","ares_decision","ares_agent_run","ares_operation"]);
 });
 test("Inbox excludes reviewed and archived legacy items", () => {
   assert.equal(isInboxPending({record_type:"renzo_inbox",payload:{status:"needs_review"}}),true);
@@ -56,3 +56,5 @@ test("Agent activity is evidence only, not fabricated online status", () => {
   assert.equal(isAgentEvent({record_type:"renzo_event",source:"manual",payload:{}}),false);
   assert.equal(isAgentEvent({record_type:"ares_agent_run",source:"manual",payload:{}}),true);
 });
+
+test("Agent operation approvals are separate from execution",()=>{assert.equal(isOperationPending({record_type:"ares_operation",status:"pending_approval"}),true);assert.equal(isOperationPending({record_type:"ares_operation",status:"approved"}),false);assert.equal(isOperationPending({record_type:"ares_decision",status:"pending_approval"}),false);});

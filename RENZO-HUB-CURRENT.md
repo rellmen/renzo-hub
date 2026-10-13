@@ -476,3 +476,9 @@ Worktree: `/Users/Nodalys/Renzo HUB/payroll-2.8`, creado desde `main` en `7c110e
 
 - Agent Monitor consulta /api/jarvis y muestra solo la configuración de los webhooks, no la conectividad real.
 - Cambio independiente desde el último staging conocido; no fusionar a main sin autorización.
+
+## 2.23.2 (2026-10-13): Ares · cola segura de solicitudes (feature)
+
+- Agent Monitor puede crear ares_operation para Claude/Hermes/Jarvis como pending_approval en hub_records, siempre a nombre de usuario bajo RLS.
+- AI Inbox permite aprobar/rechazar; el estado queda registrado con executionStatus not_connected y executed false. No se envía ninguna orden externa.
+- Integración real de ejecución diferida hasta autorización de proveedor, credenciales backend, seguridad y auditoría. No tocar main.
