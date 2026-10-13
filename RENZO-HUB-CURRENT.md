@@ -503,3 +503,10 @@ Worktree: `/Users/Nodalys/Renzo HUB/payroll-2.8`, creado desde `main` en `7c110e
 - Roadmap secuencial y estimaciones 382–626h, visible en Work sin exponer datos; tabla fuente en `microapps/work/roadmap.js`, detalles en `docs/RISE-HUB-4.0-ROADMAP.md`.
 - No incluye funcionalidad nueva de nóminas todavía: fase 1 Payroll se inicia tras verificar publicación 2.28.0. Sin migraciones ni modificaciones de Supabase.
 - Estado `closed` en Work se aplica solo tras PR, CI, validación autenticada, despliegue READY y smoke de producción.
+
+## 2.29.0 (2026-10-14): Shift Tracker UI · Fase 1 activa, no cerrada
+
+- Rama `feature/risehub4-shift-ui`: interfaz de contratos/agencias, turnos, descansos, tramos, bruto estimado, resumen semanal, CSV y comparador base+ORT; datos privados en `hub_records` con RLS; sin migraciones.
+- Resuelve re-render que interfería con la edición de turnos durante la sincronización de nóminas. Turnos ambiguos CET/CEST se rechazan, no se inventan horas.
+- Tests: 169/169 unidad, 15/15 smoke local, flujo autenticado de QA staging en móvil/escritorio con recuperación tras recarga y limpieza de QA, y pruebas E2E previas de Nóminas Chromium+WebKit.
+- Pendiente: reglas extras de festivos/horas extra por contrato, resolución DST con offsets, edición, auditoría real contra nómina vinculada, PR y release. No avanzar a My Finance.
