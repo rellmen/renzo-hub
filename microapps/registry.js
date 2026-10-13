@@ -38,6 +38,7 @@ export const MICROAPPS = Object.freeze([
   { id: "skin", name: "Skin", area: "body", module: "/microapps/skin/skin.js", mount: "mountSkin", fullscreen: true, loadOnSignIn: true },
   { id: "food", name: "Food", area: "body", fullscreen: true },
   { id: "settings", name: "Cuenta y sincronización", area: "system", fullscreen: true },
+  { id: "command-center", name: "Command Center", area: "home", module: "/microapps/command-center/command-center.js", mount: "mountCommandCenter", css: "/microapps/command-center/command-center.css", fullscreen: true, icon: "◈", home: "Actividad, servicios y agentes en un solo lugar. Solo lectura." },
   { id: "notes", name: "Notas", area: "home", module: "/microapps/notes/notes.js", mount: "mountNotes", icon: "✎", cover: "/assets/rise/area-productivity-v1.webp", home: "Apuntes rápidos, guardados en privado." },
   { id: "gastos", name: "Gastos", area: "money", module: "/microapps/gastos/gastos.js", mount: "mountGastos", css: "/microapps/gastos/gastos.css", tab: "Gastos" }
 ].map(Object.freeze));

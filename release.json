@@ -1,8 +1,8 @@
 {
-  "release": "2.22.1",
-  "name": "My Finance · ahorro provisional mientras falta el extracto de Revolut",
+  "release": "2.22.2",
+  "name": "Command Center · preview privado de supervisión",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",
-  "updated": "2026-10-12"
+  "updated": "2026-10-13"
 }
