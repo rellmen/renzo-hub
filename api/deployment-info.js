@@ -9,5 +9,6 @@ export default function handler(request, response) {
     environment: process.env.VERCEL_ENV || "unknown",
     project: process.env.VERCEL_PROJECT_NAME || "renzo-hub",
     branch: process.env.VERCEL_GIT_COMMIT_REF || null,
+    commit: process.env.VERCEL_GIT_COMMIT_SHA || null,
   });
 }

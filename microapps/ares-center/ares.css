@@ -1,7 +1,7 @@
-/* Command Center — RISE HUB visual identity (reference: live rise-theme.css/rise-home.css, 2026-10-13).
-   Scope all changes to the Command Center. No new font, no blur/backdrop-filter or global restyle. */
-#command-center{max-width:1180px}
-#command-center{--cc-ice:#eaf5ff;--cc-hint:#9fb0c6;--cc-blue:var(--accent,#4aa8ff);--cc-cyan:var(--accent2,#7fdcf0);--cc-line:var(--line,rgba(86,128,182,.34));--cc-card:var(--rise-panel,rgba(18,28,46,.92));--cc-surface:var(--rise-panel-strong,rgba(24,36,58,.96));--cc-shadow:var(--rise-shadow,0 12px 36px rgba(2,5,12,.38));color:var(--text,#eef4fb)}
+/* Ares Center — RISE HUB visual identity (reference: live rise-theme.css/rise-home.css, 2026-10-13).
+   Scope all changes to the Ares Center. No new font, no blur/backdrop-filter or global restyle. */
+#ares-center{max-width:1180px}
+#ares-center{--cc-ice:#eaf5ff;--cc-hint:#9fb0c6;--cc-blue:var(--accent,#4aa8ff);--cc-cyan:var(--accent2,#7fdcf0);--cc-line:var(--line,rgba(86,128,182,.34));--cc-card:var(--rise-panel,rgba(18,28,46,.92));--cc-surface:var(--rise-panel-strong,rgba(24,36,58,.96));--cc-shadow:var(--rise-shadow,0 12px 36px rgba(2,5,12,.38));color:var(--text,#eef4fb)}
 .cc-header{position:relative;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;min-height:210px;margin:8px 0 16px;padding:clamp(22px,3.4vw,36px);border-radius:24px;border:1px solid rgba(86,140,210,.45);overflow:hidden;isolation:isolate;background:radial-gradient(ellipse at 88% 8%,rgba(74,168,255,.24),transparent 49%),linear-gradient(120deg,rgba(29,63,116,.57),var(--cc-card) 75%);box-shadow:var(--cc-shadow),0 0 32px rgba(74,168,255,.11)}
 .cc-header:after{content:"";pointer-events:none;position:absolute;z-index:-1;right:8%;top:10%;width:150px;height:150px;border-radius:50%;border:1px solid rgba(127,220,240,.18);box-shadow:0 0 0 26px rgba(127,220,240,.032),0 0 0 54px rgba(127,220,240,.02)}
 .cc-header>div{position:relative;z-index:1;max-width:640px}
@@ -48,3 +48,36 @@
 @media(max-width:600px){.cc-header{min-height:245px;flex-direction:column;align-items:flex-start;justify-content:flex-end;padding:23px 20px}.cc-header h1{font-size:36px}.cc-refresh{width:100%}.cc-header:after{right:-24px;top:-35px}.cc-grid{gap:10px}.cc-metric{padding:16px 14px}.cc-panel{padding:17px}.cc-service{gap:10px}.cc-launch{font-size:14px;padding:14px}.cc-launch small{font-size:10px}}
 @media(max-width:380px){.cc-service{flex-direction:column;align-items:flex-start;gap:5px}.cc-service span{max-width:100%;text-align:left}.cc-metric small{font-size:10px}}
 @media(prefers-reduced-motion:reduce){.cc-refresh,.cc-metric,.cc-launch{transition:none!important}.cc-refresh:hover,.cc-metric:hover,.cc-launch:hover{transform:none!important}}
+
+/* Ares Center · tabs, shared operational lists and forms */
+#ares-center{max-width:1180px}
+#ares-center .ares-tabs{display:flex;align-items:center;gap:9px;margin:0 0 20px;overflow-x:auto;scrollbar-width:thin;padding:1px 0 7px}
+#ares-center .ares-tabs button{flex:0 0 auto;min-height:42px;padding:10px 16px;border:1px solid var(--cc-line);border-radius:13px;background:rgba(19,31,52,.82);color:#b6c9dd;font:inherit;font-size:12px;font-weight:850;white-space:nowrap;cursor:pointer}
+#ares-center .ares-tabs button[aria-selected="true"]{background:rgba(74,168,255,.2);color:#eff7ff;border-color:var(--cc-blue);box-shadow:0 0 18px rgba(74,168,255,.1)}
+#ares-center .ares-tabs button:focus-visible,#ares-center button:focus-visible{outline:2px solid var(--cc-blue);outline-offset:3px}
+#ares-center .ares-page[hidden]{display:none!important}
+#ares-center .ares-page>.cc-panel{margin-bottom:16px}
+#ares-center .ares-page .cc-panel{scroll-margin-top:24px}
+#ares-center .ares-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:end;gap:12px;margin:18px 0;padding:16px;border-radius:16px;background:rgba(5,13,24,.34);border:1px solid var(--cc-line)}
+#ares-center .ares-form label{display:flex;flex-direction:column;gap:7px;font-size:12px;font-weight:750;color:#c5d8eb}
+#ares-center .ares-form input,#ares-center .ares-form select{min-width:0;width:100%;min-height:43px;box-sizing:border-box;padding:10px 12px;border:1px solid var(--cc-line);border-radius:11px;font-size:13px;background:rgba(6,13,24,.82);color:#eaf5ff}
+#ares-center .ares-form button{justify-self:start;align-self:end}
+#ares-center .ares-list{display:grid;gap:11px}
+#ares-center .ares-item{border:1px solid rgba(86,128,182,.24);border-radius:15px;padding:15px 17px;background:linear-gradient(145deg,rgba(19,33,57,.78),rgba(14,22,37,.92));overflow-wrap:anywhere}
+#ares-center .ares-item>b{display:block;color:var(--cc-ice);font-size:14px;font-weight:850;line-height:1.45}
+#ares-center .ares-item>small{display:block;color:var(--cc-cyan);font-size:11px;margin-top:5px;line-height:1.55}
+#ares-center .ares-item>p{margin:9px 0 0;color:#bed0e1;font-size:12px;line-height:1.55}
+#ares-center .ares-buttons{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+#ares-center .ares-action,#ares-center .ares-links button{font:inherit;cursor:pointer;text-align:left;border:1px solid rgba(74,168,255,.4);background:rgba(74,168,255,.1);color:#dcefff;border-radius:10px;padding:9px 12px;font-size:12px;font-weight:800}
+#ares-center .ares-action:hover,#ares-center .ares-links button:hover{border-color:var(--cc-blue);background:rgba(74,168,255,.18)}
+#ares-center .ares-action:disabled{opacity:.5;cursor:wait}
+#ares-center .ares-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:15px}
+#ares-center .ares-agents{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:15px 0 11px}
+#ares-center .ares-agents>div{display:grid;gap:8px;border:1px solid rgba(74,168,255,.24);border-radius:14px;padding:16px;background:rgba(8,21,38,.7)}
+#ares-center .ares-agents b{font-size:14px;color:#edf7ff}
+#ares-center .ares-agents small{font-size:11px;line-height:1.5;color:#a7c2d9}
+#ares-center .ares-empty{margin:12px 0;color:#9fb0c6;font-size:13px;line-height:1.6}
+#ares-center .ares-page .cc-feed{padding-left:0}
+@media(max-width:770px){#ares-center .ares-agents{grid-template-columns:1fr}#ares-center .ares-form{grid-template-columns:1fr}#ares-center .ares-form button{width:100%}#ares-center .ares-links{grid-template-columns:1fr}}
+@media(max-width:480px){#ares-center .ares-tabs button{font-size:11px;padding:10px 12px}#ares-center .ares-form{padding:12px}#ares-center .ares-item{padding:13px}#ares-center .ares-agents>div{padding:13px}}
+@media(prefers-reduced-motion:reduce){#ares-center .ares-tabs *,#ares-center .ares-item *,#ares-center .ares-action{transition:none!important;animation:none!important}}
