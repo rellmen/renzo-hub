@@ -462,3 +462,12 @@ Worktree: `/Users/Nodalys/Renzo HUB/payroll-2.8`, creado desde `main` en `7c110e
 - Microapp registrada en microapps/registry.js, con acceso Home, sección privada bajo login, vista móvil/escritorio alineada con tema azul/cian de RISE HUB.
 - Datos recientes de Work/System consultados bajo RLS con sesión activa y límite 75; servicios por /api/deployment-info del propio entorno. Los agentes sin integración se indican como tales.
 - Sin migraciones, sin writes, sin credenciales añadidas, sin despliegue en producción; verificar preview/Vercel y aprobación para merge staging.
+
+## 2.23.0 (2026-10-13): Ares Center · operaciones (preview antes de producción)
+
+- Sustituye Command Center por Ares Center (id ares-center, enlazable con ?app=ares-center; mantiene enlace heredado).
+- Project Tracker lee y actualiza la fuente Work existente renzo_project/renzo_task; permite crear proyectos en backlog, tareas y cerrarlas. Work se refresca tras los cambios.
+- AI Inbox reúne renzo_inbox existente (solo redirige a Work para decisiones financieras y documentos) con solicitudes ares_decision que pueden aprobarse/rechazarse sin ejecutar acciones externas.
+- Agent Monitor presenta eventos reales renzo_event de origen automatizado y registros manuales ares_agent_run; sin afirmar estados live de Claude/Hermes.
+- Endpoint de despliegue y Supabase solo describen el entorno activo y datos reales; RLS por owner, cero migraciones.
+- Preparado en feature/ares-center-operations desde staging; no fusionar a producción sin autorización específica.

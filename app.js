@@ -70,7 +70,7 @@ document.querySelectorAll("[data-area-tabs]").forEach(node=>{node.outerHTML=area
 
 // Enlace directo genérico: ?app=<id>&<deepLink>=<valor>
 const linkQuery=new URLSearchParams(location.search);
-const linkApp=findMicroapp(linkQuery.get("app"));
+const linkApp=findMicroapp(linkQuery.get("app")==="command-center"?"ares-center":linkQuery.get("app"));
 let deepLink=linkApp?{id:linkApp.id,param:linkApp.deepLink?linkQuery.get(linkApp.deepLink):null}:null;
 if(deepLink){const clean=new URL(location.href);clean.searchParams.delete("app");if(linkApp.deepLink)clean.searchParams.delete(linkApp.deepLink);history.replaceState(null,"",clean);}
 
@@ -80,6 +80,8 @@ mountWorldExtensions(supabase,()=>user);
 try{apps.money=mountFinanceSummary(document.getElementById("finSummary"),supabase,()=>user,go,{extras:[createBudgetPanel({db:supabase,getUser:()=>user}),createFixedPanel({db:supabase,getUser:()=>user})]});}catch(error){console.error(error);errorLog.report(error,{kind:"microapp",source:"/microapps/finance/summary.js"});}
 const profile=mountProfile(supabase,()=>user);
 const phase1=mountPhase1(supabase,()=>user);
+// Ares comparte proyectos y tareas con Work; refrescar la vista tras escribir en Ares.
+document.addEventListener("ares:records-changed",()=>{if(user)void world.load().catch(error=>console.warn("Work refresh unavailable",error));});
 
 const $=id=>document.getElementById(id);
 function readJSON(key,fallback={}){try{const value=localStorage.getItem(key);return value?JSON.parse(value):fallback;}catch{return fallback;}}
