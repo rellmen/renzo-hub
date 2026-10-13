@@ -1,6 +1,6 @@
 {
-  "release": "2.23.1",
-  "name": "Ares Center · configuración de Jarvis integrada",
+  "release": "2.26.1",
+  "name": "SelfLearn · paquete aislado A0–B2 listo para producción",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",
