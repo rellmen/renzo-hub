@@ -35,3 +35,17 @@
 - Formulario Agent Monitor añade solicitudes para Claude/Hermes/Jarvis con estado pending_approval; AI Inbox permite aprobar o rechazar.
 - La aprobación solo escribe status approved/rejected en hub_records del propietario. payload.executed=false y executionStatus=not_connected son explícitos: no se ejecuta nada en dispositivos externos.
 - La ejecución real necesitará backend firmado, capacidades verificadas del agente, reglas de aprobación y auditoría antes de habilitarla.
+
+## Envío controlado a Jarvis 2.23.3 · preview
+
+- Nueva ruta POST /api/ares-dispatch, restringida a VERCEL_ENV=preview. No puede ejecutarse desde producción.
+- Requiere sesión Supabase autenticada, validación del usuario y fila hub_records propia ares_operation previamente aprobada.
+- Solo acepta destinatario Jarvis y tipo task. No admite finanzas, nóminas, acciones de GitHub ni acceso de escritura general.
+- Un paso de reserva atómica cambia la fila approved a dispatching para impedir envíos repetidos. El webhook recibe eventId/Idempotency-Key basado en la fila.
+- La UI exige una segunda confirmación explícita pulsando Enviar a Jarvis (preview), tras la aprobación en AI Inbox.
+- Si Jarvis acepta (HTTP 2xx), marca submitted. executed=false siempre: una entrega no certifica la ejecución de la tarea.
+- Una entrega fallida o de resultado incierto termina en delivery_unknown y NO se reintenta automáticamente.
+- Necesita 3 variables SOLO de preview en el proyecto Vercel de staging: JARVIS_WEBHOOK_URL, JARVIS_OUTBOUND_TOKEN, ARES_JARVIS_DISPATCH_ENABLED=true. Mantenerlas fuera del cliente y de Git.
+- No se enviarán tareas de Claude o Hermes sin un puente específico autenticado y verificable.
+- El proyecto de staging actualmente no tiene estas 3 variables configuradas; por tanto el envío seguirá inactivo hasta configurarlas.
+- Probar con cuenta autenticada en Supabase staging y una tarea inocua de prueba antes de permitir acciones significativas.

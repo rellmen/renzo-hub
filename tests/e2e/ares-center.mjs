@@ -8,6 +8,15 @@ try {
   for(const [label,width,height] of [["mobile",390,844],["desktop",1440,900]]) {
     const page=await browser.newPage({viewport:{width,height},deviceScaleFactor:1});
     await page.route(/\/app\.js(\?|$)/,route=>route.abort());
+    let delivered=0;
+    await page.route("**/api/ares-dispatch", async route=>{
+      delivered++;
+      assert.equal(route.request().headers().authorization,"Bearer fixture-token");
+      assert.ok(JSON.parse(route.request().postData()).operationId);
+      await route.fulfill({status:200,contentType:"application/json",body:JSON.stringify({ok:true,submitted:true,executed:false})});
+    });
+    page.on("dialog",dialog=>dialog.accept());
+
     await page.goto(process.env.BASE_URL||"http://localhost:4186",{waitUntil:"domcontentloaded",timeout:20000});
     await page.addStyleTag({url:"/microapps/ares-center/ares.css"});
     await page.evaluate(async()=>{
@@ -21,7 +30,7 @@ try {
         {id:id(5),owner_id:"test-session",domain:"system",record_type:"ares_decision",title:"¿Continuar?",status:"pending",payload:{details:"Decisión"},source:"manual",occurred_at:"2026-10-13T01:00:00Z"}
       ];
       let ownerFilter=null,typesFilter=null;
-      const api={from(name){
+      const api={auth:{getSession:async()=>({data:{session:{access_token:"fixture-token"}}})},from(name){
         if(name!=="hub_records")throw Error("Unexpected table: "+name);
         return {
           select(){return this},
@@ -67,6 +76,7 @@ try {
     await page.waitForFunction(()=>document.querySelector('[data-metric="agents"]')?.textContent==="2");
     assert.equal(await page.evaluate(()=>window.__ares.rows.find(x=>x.record_type==="ares_agent_run").source),"manual");
     // Authorization gate: approval is persisted but never starts Claude, Hermes or Jarvis.
+    await page.locator('[data-ares-form="operation"] select[name="agent"]').selectOption("Jarvis");
     await page.locator('[data-ares-form="operation"] input[name="title"]').fill("Preparar documentación B1");
     await page.locator('[data-ares-form="operation"] input[name="details"]').fill("Solo diseñar un plan, no desplegar");
     await page.locator('[data-ares-form="operation"] button').click();
@@ -80,13 +90,19 @@ try {
     assert.equal(operation.payload.executed,false);
     assert.equal(operation.payload.executionStatus,"not_connected");
     assert.equal(operation.requires_review,false);
+    assert.equal(delivered,0,"approval cannot automatically dispatch");
+    await page.locator('[data-ares-tab="agents"]').click();
+    await page.locator('[data-ares-action="send-jarvis"]').click();
+    await page.waitForFunction(()=>document.querySelector("[data-ares-status]")?.textContent.includes("Solicitud entregada"));
+    assert.equal(delivered,1,"one explicit dispatch only");
+
     await page.locator('[data-ares-tab="overview"]').click();
     const scroll=await page.evaluate(()=>document.documentElement.scrollWidth-innerWidth);assert.ok(scroll<=0,"no horizontal overflow");
     await page.screenshot({path:"/tmp/ares-center-"+label+".png",fullPage:true});
     await page.evaluate(()=>{window.__ares.setUser(null);window.__ares.center.reset();});
     assert.equal(await metric("tasks").textContent(),"—");
     assert.equal(await page.locator(".ares-item").count(),0);
-    console.log("Ares "+label+" · 22 functional checks OK");
+    console.log("Ares "+label+" · 26 functional checks OK");
     await page.close();
   }
 } finally {await browser.close();}

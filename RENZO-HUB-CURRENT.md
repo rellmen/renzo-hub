@@ -482,3 +482,12 @@ Worktree: `/Users/Nodalys/Renzo HUB/payroll-2.8`, creado desde `main` en `7c110e
 - Agent Monitor puede crear ares_operation para Claude/Hermes/Jarvis como pending_approval en hub_records, siempre a nombre de usuario bajo RLS.
 - AI Inbox permite aprobar/rechazar; el estado queda registrado con executionStatus not_connected y executed false. No se envía ninguna orden externa.
 - Integración real de ejecución diferida hasta autorización de proveedor, credenciales backend, seguridad y auditoría. No tocar main.
+
+## 2.23.3 (2026-10-13): Ares · integración segura de tareas aprobadas con Jarvis (preview)
+
+- Endpoint nuevo api/ares-dispatch.js: Supabase JWT + owner RLS; reserva condicional e idempotencia operacional; Jarvis HTTPS exclusivamente.
+- Nunca ejecuta en producción; flag ARES_JARVIS_DISPATCH_ENABLED debe estar activo en preview y credenciales solo en Vercel. Sin tocar la configuración actual.
+- En Agent Monitor, después de aprobar una tarea de Jarvis, botón de entrega con confirmación separada.
+- Estados guardados: dispatching/submitted/delivery_unknown; ninguno implica tarea completada.
+- No se requieren migraciones; sin contacto a servicios externos durante pruebas.
+- Pruebas de endpoint con red simulada; la conexión real no puede validarse hasta configurar los secretos de staging.

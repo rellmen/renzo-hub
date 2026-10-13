@@ -158,6 +158,8 @@ export function mountAresCenter(root, supabase, getUser) {
     for (const r of operations) {
       const item=record(r.title,"Solicitud · "+(r.payload?.agent||"Agente")+" · "+r.status+" · "+shortDate(r.occurred_at),r.payload?.details||"Sin instrucciones adicionales");
       if(isOperationPending(r))addButtons(item,newButton("Revisar en AI Inbox","go-inbox"));
+      if(r.status==="approved" && r.payload?.agent==="Jarvis" && r.payload?.executionStatus==="not_connected")
+        addButtons(item,newButton("Enviar a Jarvis (preview)","send-jarvis",r.id));
       agentList.append(item);
     }
     const inboxList=one('[data-ares-list="inbox"]');inboxList.replaceChildren();
@@ -256,6 +258,26 @@ export function mountAresCenter(root, supabase, getUser) {
     if(!btn||!root.contains(btn))return;
     if(btn.dataset.aresAction==="go-work"){document.querySelector('[data-open="work"]')?.click();return;}
     if(btn.dataset.aresAction==="go-inbox"){showTab("inbox");return;}
+    if(btn.dataset.aresAction==="send-jarvis"){
+      const row=rows.find(r=>r.id===btn.dataset.aresId);
+      if(!row||row.record_type!=="ares_operation"||row.status!=="approved"||row.payload?.agent!=="Jarvis")return;
+      if(!confirm("¿Enviar esta solicitud aprobada a Jarvis? Este botón intenta entregarla, pero no confirma que Jarvis haya terminado la tarea."))return;
+      btn.disabled=true;status("Entregando solicitud aprobada a Jarvis…");
+      void (async()=>{
+        const auth=await supabase.auth.getSession();
+        const accessToken=auth?.data?.session?.access_token;
+        if(!accessToken)throw new Error("Vuelve a iniciar sesión.");
+        const response=await fetch("/api/ares-dispatch",{
+          method:"POST",headers:{"content-type":"application/json",authorization:"Bearer "+accessToken},
+          body:JSON.stringify({operationId:row.id})
+        });
+        const answer=await response.json().catch(()=>({}));
+        if(!response.ok)throw new Error(answer.error||"No se pudo solicitar la entrega.");
+        await load();
+        status("Solicitud entregada a Jarvis; ejecución todavía no verificada.");
+      })().catch(e=>status("No se envió: "+e.message)).finally(()=>{btn.disabled=false;});
+      return;
+    }
     btn.disabled=true;status("Guardando cambio…");
     void change(btn.dataset.aresId,btn.dataset.aresAction).then(load).catch(e=>status("Error: "+e.message)).finally(()=>{btn.disabled=false;});
   });
