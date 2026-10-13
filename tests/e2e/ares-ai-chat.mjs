@@ -9,6 +9,14 @@ try{
   const page=await browser.newPage({viewport:{width,height},deviceScaleFactor:1});
   await page.route("**/app.js",r=>r.abort());
   await page.route("**/api/ares-ai",r=>r.fulfill({status:200,contentType:"application/json",body:'{"enabled":false}'}));
+  await page.route("**/api/ares-sources",r=>{
+    assert.equal(r.request().headers().authorization,"Bearer test-token");
+    return r.fulfill({status:200,contentType:"application/json",body:JSON.stringify({
+      github:{repository:"rellmen/renzo-hub",commits:[{sha:"abcd1234",title:"fix: Ares status"}],
+        pullRequests:[{number:42,title:"Ares status API",base:"staging"}],issues:[],available:{commits:true,pullRequests:true,issues:true}},
+      vercel:{project:"renzo-hub-2-1-staging",environment:"preview",deploymentBranch:"staging",deploymentCommit:"abcd12345678"}
+    })});
+  });
   await page.goto(process.env.BASE_URL||"http://localhost:4198",{waitUntil:"domcontentloaded"});
   await page.addStyleTag({url:"/assets/ares-chat.css"});
   await page.evaluate(async()=>{
@@ -37,6 +45,10 @@ try{
   await page.locator('[data-suggest="¿Cómo van mis proyectos?"]').click();
   await page.waitForFunction(()=>document.querySelector(".ares-chat-stream").textContent.includes("Dutch Academy"));
   assert.equal(await page.evaluate(()=>window.__aresTest.lastFilter),"sample");
+  await page.locator('[data-suggest="¿En qué fase de desarrollo está RISE HUB?"]').click();
+  await page.waitForFunction(()=>document.querySelector(".ares-chat-stream").textContent.includes("Estado técnico de RISE HUB"));
+  assert.equal(await page.locator(".ares-chat-stream").textContent().then(t=>t.includes("Ares status API")),true);
+
   await page.locator("#aresQuestion").fill("Pide a Claude que prepare una lección de neerlandés");
   await page.locator('.ares-chat-form button[type="submit"]').click();
   await page.getByRole("button",{name:"Crear solicitud pendiente"}).click();

@@ -1,4 +1,5 @@
 // Ares AI — chat privado de RISE HUB.
+import {isDevelopmentQuestion,formatDevelopmentSources} from "./ares-development.js";
 export const ARES_QUERY_TYPES = ["renzo_project", "renzo_task", "renzo_inbox", "ares_decision", "ares_operation", "ares_agent_run", "renzo_event"];
 export function aresNormalize(value){return String(value||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();}
 const f=v=>aresNormalize(v), st=r=>String(r.payload?.status||r.status||"sin estado");
@@ -29,7 +30,7 @@ const node=(tag,cls,value)=>{const n=document.createElement(tag);if(cls)n.classN
 export function mountAresAI({supabase,getUser,navigate}){
  const launch=node("button","ares-fab","✧  Ares AI");launch.type="button";launch.hidden=true;launch.setAttribute("aria-label","Hablar con Ares AI");
  const panel=node("section","ares-chat");panel.hidden=true;panel.setAttribute("role","dialog");panel.setAttribute("aria-modal","true");panel.setAttribute("aria-label","Ares AI");
- panel.innerHTML='<header class="ares-chat-head"><div class="ares-avatar">✧</div><div><strong>Ares AI</strong><small>Tu asistente personal de RISE HUB</small></div><button type="button" class="ares-close" aria-label="Cerrar Ares AI">✕</button></header><div class="ares-chat-stream" role="log" aria-live="polite"></div><div class="ares-chat-suggestions"><button type="button" data-suggest="¿Cómo van mis proyectos?">Proyectos</button><button type="button" data-suggest="¿Qué tareas tengo pendientes?">Mis tareas</button><button type="button" data-suggest="¿Qué debo aprobar?">Aprobaciones</button><button type="button" data-suggest="¿Qué han hecho mis agentes?">Agentes</button></div><form class="ares-chat-form"><label class="ares-sr" for="aresQuestion">Escribe a Ares AI</label><textarea id="aresQuestion" maxlength="500" rows="1" placeholder="Pregunta lo que quieras de tu Hub…" aria-label="Tu mensaje"></textarea><button type="submit" aria-label="Enviar">↑</button></form><p class="ares-chat-foot">Respuestas basadas en tu Hub · Sin IA generativa externa</p>';
+ panel.innerHTML='<header class="ares-chat-head"><div class="ares-avatar">✧</div><div><strong>Ares AI</strong><small>Tu asistente personal de RISE HUB</small></div><button type="button" class="ares-close" aria-label="Cerrar Ares AI">✕</button></header><div class="ares-chat-stream" role="log" aria-live="polite"></div><div class="ares-chat-suggestions"><button type="button" data-suggest="¿Cómo van mis proyectos?">Proyectos</button><button type="button" data-suggest="¿Qué tareas tengo pendientes?">Mis tareas</button><button type="button" data-suggest="¿Qué debo aprobar?">Aprobaciones</button><button type="button" data-suggest="¿Qué han hecho mis agentes?">Agentes</button><button type="button" data-suggest="¿En qué fase de desarrollo está RISE HUB?">Estado de desarrollo</button></div><form class="ares-chat-form"><label class="ares-sr" for="aresQuestion">Escribe a Ares AI</label><textarea id="aresQuestion" maxlength="500" rows="1" placeholder="Pregunta lo que quieras de tu Hub…" aria-label="Tu mensaje"></textarea><button type="submit" aria-label="Enviar">↑</button></form><p class="ares-chat-foot">Respuestas basadas en tu Hub · Sin IA generativa externa</p>';
  document.body.append(launch,panel);
  const stream=panel.querySelector(".ares-chat-stream"),input=panel.querySelector("textarea"),form=panel.querySelector("form");
  let owner=null,topic="",generation=0,busy=false,isOpen=false,aiEnabled=false;
@@ -44,7 +45,23 @@ export function mountAresAI({supabase,getUser,navigate}){
  async function records(){const id=owner;if(!id||id!==getUser()?.id)throw Error("Inicia sesión para preguntar.");const {data,error}=await supabase.from("hub_records").select("id,domain,record_type,title,status,occurred_at,payload,source,requires_review").eq("owner_id",id).in("record_type",ARES_QUERY_TYPES).order("occurred_at",{ascending:false}).limit(500);if(error)throw Error("La consulta privada ha fallado: "+error.message);if(id!==getUser()?.id)throw Error("La sesión ha cambiado.");return data||[];}
  const detectTask=question=>{const m=question.match(/^(?:pide|encarga|solicita|dile)\s+(?:a\s+)?(claude|hermes|jarvis)\s+(?:que\s+)?(.{4,})$/i);return m?{agent:m[1][0].toUpperCase()+m[1].slice(1).toLowerCase(),task:m[2].trim().slice(0,180)}:null;};
  async function send(value){const text=String(value||"").trim().slice(0,500);if(!text||busy||!owner)return;busy=true;const seq=++generation;input.value="";form.querySelector('[type="submit"]').disabled=true;bubble("user",text);const placeholder=bubble("bot","Consultando tus registros…");
-  try{const rows=await records();if(seq!==generation||owner!==getUser()?.id)return;placeholder.remove();const task=detectTask(text);if(task){bubble("bot",`He preparado una solicitud para ${task.agent}: “${task.task}”. Debes confirmarla para guardarla en AI Inbox. No ejecutará ninguna tarea.`,[{type:"request",label:"Crear solicitud pendiente",...task}]);topic="agents";}else{
+  try{
+    // GitHub/Vercel development queries are read-only and do not go to OpenRouter.
+    if(!detectTask(text)&&isDevelopmentQuestion(text)){
+      const session=await supabase.auth.getSession();
+      if(!session?.data?.session?.access_token)throw Error("Necesitas iniciar sesión para consultar las fuentes.");
+      const response=await fetch("/api/ares-sources",{
+        method:"GET",headers:{authorization:"Bearer "+session.data.session.access_token},
+        cache:"no-store",signal:AbortSignal.timeout(15000)
+      });
+      if(!response.ok)throw Error("GitHub/Vercel no están disponibles o requieren autorización.");
+      const development=await response.json();
+      if(seq!==generation||owner!==getUser()?.id)return;
+      placeholder.remove();topic="development";
+      bubble("bot",formatDevelopmentSources(development));
+      return;
+    }
+    const rows=await records();if(seq!==generation||owner!==getUser()?.id)return;placeholder.remove();const task=detectTask(text);if(task){bubble("bot",`He preparado una solicitud para ${task.agent}: “${task.task}”. Debes confirmarla para guardarla en AI Inbox. No ejecutará ninguna tarea.`,[{type:"request",label:"Crear solicitud pendiente",...task}]);topic="agents";}else{
         let aiReply=null,aiSource="OpenRouter/free · modelo externo";
         if(aiEnabled){
           try{

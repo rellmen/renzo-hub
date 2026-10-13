@@ -514,3 +514,11 @@ Worktree: `/Users/Nodalys/Renzo HUB/payroll-2.8`, creado desde `main` en `7c110e
 - Ares responde con precisión cuando Project Tracker no tiene datos: no confunde ausencia de registros de Work con ausencia de proyectos de desarrollo.
 - Respuestas sin proyectos no consumen solicitudes OpenRouter; etiqueta correctamente si procede de Supabase directo o modelo externo.
 - No escribe datos, no migra esquemas, no toca producción, no conecta GitHub/Vercel sin diseñar autorización.
+
+## 2.25.0 (2026-10-13): Ares AI · estado real de desarrollo, solo lectura (rama feature)
+
+- Nuevo endpoint /api/ares-sources: JWT Supabase staging verificado, origen mismo host, solo preview; consume la API pública de GitHub para rellmen/renzo-hub (últimos commits staging, PRs e issues abiertas) sin token. Devuelve únicamente metadatos simplificados.
+- Vercel se consulta con metadatos propios del despliegue servido, NO histórico de despliegues o errores en vivo. No se añade VERCEL_TOKEN.
+- Ares AI permite preguntar por GitHub, fase técnica, últimas PRs o despliegue desde el chat. Fuente directa, sin enviar GitHub a OpenRouter, no modifica datos ni agentes.
+- No infiere porcentaje completado o trabajo de Claude/Hermes a partir de PRs/issues; sin integración de monitor de agente sigue sin estado en vivo.
+- Requiere publicación de PR a staging y validación autenticada. Sin cambios de producción, migraciones ni variables de entorno.
