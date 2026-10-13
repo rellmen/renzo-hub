@@ -490,3 +490,10 @@ Worktree: `/Users/Nodalys/Renzo HUB/payroll-2.8`, creado desde `main` en `7c110e
 - Base: `origin/main` en rama `feature/selflearn-production-pack` (no incorpora los seis commits extra de Ares/Jarvis pendientes en `staging`).
 - SelfLearn A0–B2 con FSRS, audio y prueba de sesión de Supabase staging; ajuste `Permissions-Policy` para dictado voluntario. Sin migraciones ni cambios en cuentas de producción.
 - Verificación local: `npm run check`; `npm test`; E2E SelfLearn simulado; smoke 15/15; dos sesiones reales de QA de staging con guardado y recuperación de preferencias; QA restaurada. Publicación a `main` pendiente de autenticación GitHub y comprobación de despliegue.
+
+## 2.27.0 (2026-10-14): Ares AI central y cola de aprobaciones
+
+- Integra en `main` Ares AI global con chat privado RLS, consultas de proyectos/tareas/revisiones, acceso de solo lectura al desarrollo GitHub/Vercel, y solicitudes de Claude/Hermes/Jarvis pendientes de aprobación.
+- Los agentes NO se ejecutan con una aprobación; sin adaptador real, `executed=false`. La entrega de prueba a Jarvis sigue restringida a preview y requiere configuraciones independientes.
+- IA generativa OpenRouter sigue apagada en producción sin consentimiento y configuración explícita; las respuestas privadas funcionan sin enviar datos a proveedores de modelos.
+- Cambio de caché PWA v10, sin migraciones. Solo publicar si CI, pruebas autenticadas de staging y smoke pasan.
