@@ -1,5 +1,13 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## 2.26.0 (2026-10-13) · SelfLearn A0–B2 — preparado en feature, no desplegado
+
+- **En preparación; pendiente de PR a staging.** Se renombra el área visual `Study · Dutch` a **SelfLearn · Courses** (se conserva el identificador técnico `study`).
+- Ruta de 33 unidades A0–B2, diagnóstico orientativo de vocabulario, sesiones 5/10/20 minutos, contextos diarios/logísticos/analítica, escucha TTS y dictado opcional, y repaso FSRS con historial.
+- Conserva las 7 lecciones previas mediante `legacyDay`, y guarda las preferencias en `hub_user_state.state` sin migraciones. La ruta no certifica MCER ni sustituye los cuatro exámenes NT2.
+- Guía técnica y limitaciones: `docs/SELFLEARN.md`. No se ha cambiado producción.
+
+
 - **Producción (uso diario):** [renzo-hub.vercel.app](https://renzo-hub.vercel.app/) · release **2.11.0** (extracto de ING en Nóminas) · rama `main`, commit `af07e68` (merge del PR #23) · verificada 2026-10-12: READY, `release.json` 2.11.0, `deployment-info` production/main, smoke 15/15. Migraciones: todas las de `supabase/migrations/` hasta 20261010030000 (ver `docs/SUPABASE-SCHEMA.md`). Rollback app: Instant Rollback en Vercel
 - **Staging (revisión aislada):** [renzo-hub-2-1-staging.vercel.app](https://renzo-hub-2-1-staging.vercel.app/) · release **2.19.0** (tras fusionar el PR de nivel en Gym y Study) · rama `staging` · **No borrar la rama `staging` al fusionar PRs.**
 - **Experimental:** 2.6.0 Microapp OS Core · rama `experimental/os-core` (no se despliega)
