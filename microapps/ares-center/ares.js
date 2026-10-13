@@ -36,6 +36,12 @@ const sourceLabel = r => r.record_type === "ares_agent_run" ? "Registro manual" 
 const rowStatus = r => String(r.payload?.status || r.status || "Sin estado");
 const kindOf = r => r.record_type === "renzo_project" ? "proyecto" : r.record_type === "renzo_task" ? "tarea" : "registro";
 
+async function jarvisConfig() {
+  const response=await fetch("/api/jarvis",{cache:"no-store",signal:AbortSignal.timeout(6500)});
+  if(!response.ok)throw new Error("No accesible");
+  const result=await response.json();
+  return {outbound:result.outboundConfigured===true,inbound:result.inboundConfigured===true};
+}
 async function deploymentInfo() {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(),7000);
@@ -78,7 +84,7 @@ export function mountAresCenter(root, supabase, getUser) {
       '<div class="ares-list" data-ares-list="tasks"></div></div></section>',
     '<section data-ares-page="agents" class="ares-page" hidden>',
       '<div class="cc-panel"><div class="cc-panel-head"><h2>Agent Monitor</h2><span>Estados basados en evidencia</span></div>',
-      '<div class="ares-agents"><div><b>Claude</b><small>Sin conexión directa de ejecución</small></div><div><b>Hermes</b><small>Sin conexión directa de ejecución</small></div><div><b>Jarvis / n8n</b><small>Solo eventos realmente recibidos por Hub</small></div></div>',
+      '<div class="ares-agents"><div><b>Claude</b><small>Sin conexión directa de ejecución</small></div><div><b>Hermes</b><small>Sin conexión directa de ejecución</small></div><div><b>Jarvis / n8n</b><small data-agent-jarvis>Comprobando configuración…</small></div></div>',
       '<p class="cc-detail">Ares no puede ejecutar ni vigilar en tiempo real a Claude o Hermes hasta configurar conectores autorizados. Nunca se muestran ejecuciones inventadas.</p>',
       '<form data-ares-form="agent" class="ares-form"><label>Registrar trabajo de un agente<select name="agent"><option>Claude</option><option>Hermes</option><option>Jarvis</option><option>Otro agente</option></select></label><label>Resultado<select name="status"><option value="completed">Completado</option><option value="failed">Error</option><option value="blocked">Bloqueado</option><option value="running">En curso (declarado)</option></select></label><label>Trabajo realizado<input name="title" required minlength="2" maxlength="180" placeholder="Qué sucedió"></label><button type="submit" class="cc-refresh">Registrar evento manual</button></form>',
       '<div class="ares-list" data-ares-list="agents"></div></div></section>',
@@ -167,19 +173,24 @@ export function mountAresCenter(root, supabase, getUser) {
     one('[data-service="branch"]').textContent="Rama sin comprobar";
     one('[data-service="commit"]').textContent="Sin comprobar";
     one("[data-ares-refresh]").disabled=false;
+    one("[data-agent-jarvis]").textContent="Configuración sin comprobar";
     status("Inicia sesión para consultar Ares.");
   }
   async function load() {
     const user=getUser();if (!user?.id){reset();return;}
     const mySerial=++serial;lastOwner=user.id;loading=true;one("[data-ares-refresh]").disabled=true;
     status("Consultando registros privados y despliegue…");
-    const [recordsResult,infoResult]=await Promise.allSettled([
+    const [recordsResult,infoResult,jarvisResult]=await Promise.allSettled([
       supabase.from("hub_records").select("id,domain,record_type,title,status,occurred_at,payload,source,requires_review,updated_at")
         .eq("owner_id",user.id).in("record_type",ARES_TYPES).order("occurred_at",{ascending:false}).limit(450),
-      deploymentInfo()
+      deploymentInfo(),
+      jarvisConfig()
     ]);
     if (serial!==mySerial||getUser()?.id!==user.id)return;
     loading=false;one("[data-ares-refresh]").disabled=false;
+    one("[data-agent-jarvis]").textContent=jarvisResult.status==="fulfilled"
+      ?(jarvisResult.value.inbound&&jarvisResult.value.outbound?"Webhooks configurados (sin prueba de conexión)":jarvisResult.value.inbound?"Entrada configurada · salida pendiente":jarvisResult.value.outbound?"Salida configurada · entrada pendiente":"Webhooks no configurados")
+      :"No se pudo comprobar la configuración";
     if(infoResult.status==="fulfilled") {
       const info=infoResult.value;
       one('[data-service="deploy"]').textContent=info.project+" · "+info.environment;
