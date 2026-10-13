@@ -14,6 +14,7 @@
 
 ## Agent Monitor
 - Muestra eventos renzo_event recibidos y asociados a automatización y registros manuales ares_agent_run.
+- Consulta GET /api/jarvis para mostrar si los webhooks de entrada/salida están configurados, sin afirmar conectividad o ejecución en vivo.
 - Permite registrar resultados manuales de Claude/Hermes/Jarvis, siempre etiquetados como manuales.
 - No proporciona estado live, ejecución remota, activación de workflows o acceso real a Claude/Hermes.
 - Futuro: adaptadores backend autenticados a las APIs/proveedores que Renzo autorice, con auditoría y aprobación explícita.

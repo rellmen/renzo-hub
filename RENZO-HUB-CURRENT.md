@@ -471,3 +471,8 @@ Worktree: `/Users/Nodalys/Renzo HUB/payroll-2.8`, creado desde `main` en `7c110e
 - Agent Monitor presenta eventos reales renzo_event de origen automatizado y registros manuales ares_agent_run; sin afirmar estados live de Claude/Hermes.
 - Endpoint de despliegue y Supabase solo describen el entorno activo y datos reales; RLS por owner, cero migraciones.
 - Preparado en feature/ares-center-operations desde staging; no fusionar a producción sin autorización específica.
+
+## 2.23.1 (2026-10-13): Ares · configuración de Jarvis en preview
+
+- Agent Monitor consulta /api/jarvis y muestra solo la configuración de los webhooks, no la conectividad real.
+- Cambio independiente desde el último staging conocido; no fusionar a main sin autorización.
