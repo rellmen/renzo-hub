@@ -36,7 +36,7 @@ export function mountAresAI({supabase,getUser,navigate}){
  const foot=panel.querySelector(".ares-chat-foot");
  function bubble(role,content,actions=[]){const item=node("article","ares-msg ares-msg-"+role),body=node("div","ares-msg-body",content);item.append(body);if(actions.length){const bar=node("div","ares-msg-actions");for(const act of actions){const btn=node("button","",act.label);btn.type="button";btn.addEventListener("click",()=>void doAction(act,btn));bar.append(btn);}item.append(bar);}stream.append(item);stream.scrollTop=stream.scrollHeight;return item;}
  function clear(){generation++;stream.replaceChildren();topic="";busy=false;input.value="";form.querySelector('[type="submit"]').disabled=false;}
- async function checkAI(){try{const res=await fetch("/api/ares-ai",{cache:"no-store",signal:AbortSignal.timeout(5000)});const data=res.ok?await res.json():{};aiEnabled=data.enabled===true;foot.textContent=aiEnabled?"IA generativa activada · contexto privado minimizado":"Respuestas de tus datos · IA generativa externa aún no configurada";}catch{aiEnabled=false;foot.textContent="Consultas locales de tus registros";}}
+ async function checkAI(){try{const res=await fetch("/api/ares-ai",{cache:"no-store",signal:AbortSignal.timeout(5000)});const data=res.ok?await res.json():{};aiEnabled=data.enabled===true;foot.textContent=aiEnabled?"OpenRouter/free activado · solo nombres y estados seleccionados de proyectos/tareas":"Consultas privadas sin IA externa · activa OpenRouter en Vercel Preview si lo autorizas";}catch{aiEnabled=false;foot.textContent="Consultas locales de tus registros";}}
  function setSession(){const id=getUser()?.id||null;if(id!==owner){owner=id;clear();}launch.hidden=!id;if(!id){panel.hidden=true;isOpen=false;document.body.classList.remove("ares-chat-open");}}
  function open(){setSession();if(!owner)return;void checkAI();panel.hidden=false;isOpen=true;document.body.classList.add("ares-chat-open");if(!stream.children.length)bubble("bot","Hola, soy Ares AI. Puedo consultar tus proyectos, tareas, revisiones y agentes a partir de los registros reales de RISE HUB. ¿Qué quieres saber?");input.focus();}
  function close(){panel.hidden=true;isOpen=false;document.body.classList.remove("ares-chat-open");launch.focus();}
@@ -58,7 +58,7 @@ export function mountAresAI({supabase,getUser,navigate}){
         }
         if(seq!==generation||owner!==getUser()?.id)return;
         const answer=answerAres(text,rows,topic);topic=answer.topic;
-        bubble("bot",aiReply?aiReply+"\\n\\nFuente: respuesta de IA sobre una muestra privada de RISE HUB.":answer.text,aiReply?[]:answer.actions||[]);
+        bubble("bot",aiReply?aiReply+"\\n\\nFuente: OpenRouter/free · modelo externo sobre una muestra limitada de RISE HUB.":answer.text,aiReply?[]:answer.actions||[]);
       }}
   catch(e){if(seq===generation){placeholder.remove();bubble("bot","No he podido responder con datos verificados: "+String(e.message||e));}}
   finally{if(seq===generation){busy=false;form.querySelector('[type="submit"]').disabled=false;input.focus();}}

@@ -499,3 +499,11 @@ Worktree: `/Users/Nodalys/Renzo HUB/payroll-2.8`, creado desde `main` en `7c110e
 - No hay clave ni llamada a modelo generativo externo: respuestas deterministas, sin inventar fuentes; finanzas detalladas fuera del primer alcance.
 - Chat temporal sin persistencia entre sesiones; logout borra la conversación. No cambiar la microapp antigua hasta completar migración.
 - Desplegar únicamente en staging. Sin modificaciones de credenciales ni migraciones.
+
+## 2.24.1 (2026-10-13): Ares AI con OpenRouter gratuito (solo staging, opt-in)
+
+- Sustituye la ruta de OpenAI de pago por OpenRouter y fija el modelo exclusivamente en openrouter/free; ninguna opción de seleccionar modelos de pago.
+- Requiere en Vercel Preview: OPENROUTER_API_KEY, ARES_AI_ENABLED=true y ARES_AI_SHARE_PROJECT_DATA=true (aceptación explícita del propietario). No se modifican credenciales ni configuración actual.
+- Limita el contexto externo a 40 títulos/estados de proyectos, tareas y solicitudes, sin payloads, importes, nóminas o documentos. Filtra preguntas sensibles.
+- Sin coste por tokens del router gratuito, sujeto a cuotas y disponibilidad. Fallo del proveedor => consultas privadas de Ares siguen funcionando.
+- Ningún secreto en frontend, ningún cambio a main y ninguna ejecución de agentes desde IA.

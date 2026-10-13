@@ -72,3 +72,11 @@
 - Unitarias: npm test, incluyendo tests/ares-ai.test.mjs y tests/ares-ai-api.test.mjs.
 - E2E: tests/e2e/ares-ai-chat.mjs con Playwright, móvil y escritorio, datos ficticios, comprobación de login/logout, aprobaciones y ausencia de ejecución.
 - Probar en staging autenticado con los datos reales del propietario; la protección de Vercel puede bloquear la verificación automática.
+
+## Ares AI 2.24.1 · prueba gratuita con OpenRouter
+- Modelo fijo openrouter/free, API https://openrouter.ai/api/v1/chat/completions. No permite un modelo de pago por configuración o por entrada de usuario.
+- Variables de Vercel SOLO Preview: OPENROUTER_API_KEY (encrypted/sensitive), ARES_AI_ENABLED=true, ARES_AI_SHARE_PROJECT_DATA=true. No configurar OpenAI antigua ARES_AI_API_KEY ni ARES_AI_MODEL.
+- El tercer valor significa que el propietario acepta transmitir al proveedor externo la pregunta que escriba y hasta 40 títulos, estados y metadatos minimizados de sus proyectos/tareas/solicitudes. Pueden intervenir proveedores de modelos distintos según disponibilidad; revisar políticas de datos antes de activar.
+- Excluye registros de dinero, nóminas, finanzas, notas, documentos, datos de contacto y payloads completos. Intenta bloquear consultas sensibles en el servidor. No compartir datos personales sensibles con free models.
+- El router gratuito puede variar de modelo y tener cuotas, latencia y retención diferentes según proveedor. La prueba no implica garantía de privacidad empresarial, disponibilidad ni coste cero para otros modelos.
+- Sin activar estos flags, Ares mantiene sus respuestas estructuradas y ninguna llamada a OpenRouter. Tras configurar las variables hay que redesplegar preview y probar con una pregunta inocua.

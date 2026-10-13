@@ -1,6 +1,6 @@
 {
-  "release": "2.24.0",
-  "name": "Ares AI · conversación global integrada en RISE HUB",
+  "release": "2.24.1",
+  "name": "Ares AI · pruebas gratuitas con OpenRouter (opt-in)",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",
