@@ -1,6 +1,6 @@
 # RISE HUB 4.0 · Plan maestro por fases
 
-Fecha de inicio: 14 octubre 2026. Estado: **fase 0 en validación**; ninguna otra fase en desarrollo. Propietario: usuario de RISE HUB; producto **personal**, completamente independiente de Nodalys. Fuente visible: Work → RISE HUB 4.0. Plan estructurado: `microapps/work/roadmap.js`.
+Fecha de inicio: 14 octubre 2026. Estado: **fase 0 cerrada tras la publicación verificada de 2.28.0; fase 1 activa** (solo planificación de reglas contractuales inicial). Propietario: usuario de RISE HUB; producto **personal**, completamente independiente de Nodalys. Fuente visible: Work → RISE HUB 4.0. Plan estructurado: `microapps/work/roadmap.js`.
 
 ## Objetivo
 Completar las microapps existentes antes de iniciar la siguiente; preservar lo que ya funciona, mantener información personal privada, evitar duplicar módulos y permitir que Ares proponga acciones basadas en registros verificables. **No se garantiza ausencia absoluta de errores**: se exige un criterio de aceptación medible y revisiones tras el despliegue.
@@ -55,3 +55,6 @@ A 20 horas de trabajo efectivo por semana: aproximadamente 19–32 semanas (5–
 
 ## Informe estándar tras cada cierre
 `Fase n` · `Estado: cerrada` · `release` · `hash del PR` · `tests + E2E` · `staging/prod READY` · `datos reales validados` · `qué no está incluido` · `problemas resueltos` · `fase siguiente`.
+
+## Gate de publicación de fase 0
+Este estado `closed` solo es aplicable al despliegue 2.28.0 cuando el commit de la rama principal esté servido por Vercel READY, los tests de CI estén en verde y smoke autenticado de pruebas y smoke público sean correctos. En caso contrario no declarar fase 0 cerrada y revertir o corregir el release.
