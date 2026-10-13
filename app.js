@@ -1,4 +1,5 @@
 import {installErrorLog} from "./microapps/errors.js";
+import {mountAresAI} from "./microapps/ares-ai.js";
 import {createDataExport} from "./microapps/backup/export.js";
 import {AREAS,MICROAPPS,SECTION_IDS,findMicroapp,navAreaOf,isFullscreen,areaTabsHTML,homeTilesHTML} from "./microapps/registry.js";
 import {mountWorld} from "./world.js";
@@ -44,6 +45,7 @@ fetchWithTimeout("/api/deployment-info",{cache:"no-store"},5000).then(r=>r.ok?r.
 const world=mountWorld({home:document.getElementById("worldHome"),body:document.getElementById("worldBody"),work:document.getElementById("worldWork"),money:document.getElementById("worldMoney"),system:document.getElementById("worldSystem"),study:document.getElementById("worldStudy"),car:document.getElementById("worldCar")},()=>user,supabase);
 
 let user=null;
+const aresAI=mountAresAI({supabase,getUser:()=>user,navigate:go});
 // Microapps del registro (microapps/registry.js): se crean su sección y su CSS si faltan, se importan en
 // paralelo y se montan con el contrato mount(root, db, getUser, go). Si una falla, el resto sigue funcionando.
 const apps={};
@@ -110,8 +112,10 @@ function showApp(){
   $("appShell").classList.remove("hidden");
   $("bottomNav").classList.remove("hidden");
   $("userEmail").textContent=user?.email||"";
-  if(deepLink){const link=deepLink;deepLink=null;go(link.id);if(link.param)apps[link.id]?.open?.(link.param);return;}
+  aresAI.setSession();
+  if(deepLink){const link=deepLink;deepLink=null;if(link.id==="ares-center"){go("home");aresAI.open();return;}go(link.id);if(link.param)apps[link.id]?.open?.(link.param);return;}
   const saved=readJSON(`renzo-nav:${user?.id}`,null);
+  if(saved?.section==="ares-center"){go("home");aresAI.open();return;}
   if(saved&&SECTION_IDS.includes(saved.section))go(saved.section,true);
 }
 function setSync(text,kind="ok"){
@@ -121,6 +125,7 @@ function setSync(text,kind="ok"){
   dot.className="dot"+(kind==="busy"?" busy":kind==="err"?" err":"");
 }
 function go(id,restore=false){
+  if(id==="ares-center"){aresAI.open();return;}
   if(!document.getElementById(id))id="home";
   for(const [appId,api] of Object.entries(apps)){try{if(appId===id)api.open?.();else api.close?.();}catch(error){console.error(error);}}
   if(AREAS[id])world.render(id);
@@ -154,7 +159,7 @@ supabase.auth.onAuthStateChange((event,session)=>{
   if(user?.id!==session?.user?.id)eachApp(api=>api.reset?.());
   user=session?.user||null;
   if(user){showApp();errorLog.flush();setTimeout(()=>{Promise.allSettled([...signInLoads(),world.load(),profile.load(),phase1.load()]).then(results=>{if(results.some(result=>result.status==="rejected"))setSync("Conectado · algunos datos no se pudieron cargar","err");});},0);}
-  else{eachApp(api=>api.reset?.());world.reset();profile.reset();phase1.reset();showAuth();}
+  else{aresAI.reset();eachApp(api=>api.reset?.());world.reset();profile.reset();phase1.reset();showAuth();}
 });
 
 let session=null;

@@ -1,8 +1,8 @@
 {
-  "release": "2.26.1",
-  "name": "SelfLearn · paquete aislado A0–B2 listo para producción",
+  "release": "2.27.0",
+  "name": "Ares AI · asistente central y solicitudes con aprobación",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",
-  "updated": "2026-10-13"
+  "updated": "2026-10-14"
 }

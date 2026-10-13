@@ -30,3 +30,61 @@
 - Integraciones de Claude Desktop y Hermes, sujetas a sus capacidades y autorización de Renzo.
 - Notificaciones y vista de actividad incremental, paginación/contadores exactos según crecimiento.
 - E2E con sesión real en Supabase staging + comprobación de permisos, antes de cualquier promoción.
+
+## Cola de solicitudes 2.23.2 (nueva)
+- Formulario Agent Monitor añade solicitudes para Claude/Hermes/Jarvis con estado pending_approval; AI Inbox permite aprobar o rechazar.
+- La aprobación solo escribe status approved/rejected en hub_records del propietario. payload.executed=false y executionStatus=not_connected son explícitos: no se ejecuta nada en dispositivos externos.
+- La ejecución real necesitará backend firmado, capacidades verificadas del agente, reglas de aprobación y auditoría antes de habilitarla.
+
+## Envío controlado a Jarvis 2.23.3 · preview
+
+- Nueva ruta POST /api/ares-dispatch, restringida a VERCEL_ENV=preview. No puede ejecutarse desde producción.
+- Requiere sesión Supabase autenticada, validación del usuario y fila hub_records propia ares_operation previamente aprobada.
+- Solo acepta destinatario Jarvis y tipo task. No admite finanzas, nóminas, acciones de GitHub ni acceso de escritura general.
+- Un paso de reserva atómica cambia la fila approved a dispatching para impedir envíos repetidos. El webhook recibe eventId/Idempotency-Key basado en la fila.
+- La UI exige una segunda confirmación explícita pulsando Enviar a Jarvis (preview), tras la aprobación en AI Inbox.
+- Si Jarvis acepta (HTTP 2xx), marca submitted. executed=false siempre: una entrega no certifica la ejecución de la tarea.
+- Una entrega fallida o de resultado incierto termina en delivery_unknown y NO se reintenta automáticamente.
+- Necesita 3 variables SOLO de preview en el proyecto Vercel de staging: JARVIS_WEBHOOK_URL, JARVIS_OUTBOUND_TOKEN, ARES_JARVIS_DISPATCH_ENABLED=true. Mantenerlas fuera del cliente y de Git.
+- No se enviarán tareas de Claude o Hermes sin un puente específico autenticado y verificable.
+- El proyecto de staging actualmente no tiene estas 3 variables configuradas; por tanto el envío seguirá inactivo hasta configurarlas.
+- Probar con cuenta autenticada en Supabase staging y una tarea inocua de prueba antes de permitir acciones significativas.
+
+## Ares AI 2.24.0 · conversación global (feature)
+- Ares AI aparece como botón flotante en todas las pantallas tras el login, no como tarjeta ni sección en Home.
+- El enlace antiguo ?app=ares-center abre el chat; el motor Ares Center anterior permanece internamente para compatibilidad, pero no se muestra como destino principal.
+- La conversación es temporal (en memoria), nunca se guarda en localStorage ni en hub_records. Cerrar sesión borra chat y oculta el launcher.
+- Las consultas de Ares usan el cliente Supabase con JWT de sesión, políticas RLS y filtro owner_id. Hasta 500 registros recientes de proyectos, tareas, operaciones, revisiones y eventos. No se anuncian totales exhaustivos.
+- El chat permite redactar un encargo para Claude, Hermes o Jarvis. Solo tras pulsar Crear solicitud se escribe ares_operation en AI Inbox como pending_approval. No ejecuta nada.
+- Desde el chat pueden consultarse solicitudes y aprobarse/rechazarse con confirmación explícita. La ejecución sigue deshabilitada sin conector.
+- Respuestas estructuradas sin coste adicional; son reglas verificables y no se anuncian como un modelo IA libre ni cubren todos los temas.
+
+### IA generativa opcional, desactivada por defecto
+- Endpoint GET /api/ares-ai indica si el modo generativo está listo. POST /api/ares-ai solo funciona en VERCEL_ENV=preview.
+- El proveedor preparado es OpenAI Responses API; requiere ARES_AI_API_KEY, ARES_AI_MODEL y ARES_AI_ENABLED=true, todos únicamente en preview de Vercel y tras autorización del propietario.
+- La suscripción de ChatGPT no proporciona automáticamente una clave API y el uso de API se factura por separado.
+- La API verifica el JWT con Supabase Auth y consulta datos propios mediante RLS; solo envía al modelo una muestra limitada a 90 registros con título, estado, fecha, prioridad, proyecto y entregable. Nunca envía importes, nóminas, documentos ni notas privadas.
+- store:false; la respuesta del modelo no da permisos para ejecutar órdenes. Si la IA externa falla, la consulta estructurada de Ares sigue funcionando.
+- No configurar estas variables desde el chat ni incluir tokens en archivos, commits, capturas o el frontend.
+- No tocar producción hasta permiso expreso y una revisión de privacidad del modo generativo.
+
+### Validación antes de publicar
+- Unitarias: npm test, incluyendo tests/ares-ai.test.mjs y tests/ares-ai-api.test.mjs.
+- E2E: tests/e2e/ares-ai-chat.mjs con Playwright, móvil y escritorio, datos ficticios, comprobación de login/logout, aprobaciones y ausencia de ejecución.
+- Probar en staging autenticado con los datos reales del propietario; la protección de Vercel puede bloquear la verificación automática.
+
+## Ares AI 2.24.1 · prueba gratuita con OpenRouter
+- Modelo fijo openrouter/free, API https://openrouter.ai/api/v1/chat/completions. No permite un modelo de pago por configuración o por entrada de usuario.
+- Variables de Vercel SOLO Preview: OPENROUTER_API_KEY (encrypted/sensitive), ARES_AI_ENABLED=true, ARES_AI_SHARE_PROJECT_DATA=true. No configurar OpenAI antigua ARES_AI_API_KEY ni ARES_AI_MODEL.
+- El tercer valor significa que el propietario acepta transmitir al proveedor externo la pregunta que escriba y hasta 40 títulos, estados y metadatos minimizados de sus proyectos/tareas/solicitudes. Pueden intervenir proveedores de modelos distintos según disponibilidad; revisar políticas de datos antes de activar.
+- Excluye registros de dinero, nóminas, finanzas, notas, documentos, datos de contacto y payloads completos. Intenta bloquear consultas sensibles en el servidor. No compartir datos personales sensibles con free models.
+- El router gratuito puede variar de modelo y tener cuotas, latencia y retención diferentes según proveedor. La prueba no implica garantía de privacidad empresarial, disponibilidad ni coste cero para otros modelos.
+- Sin activar estos flags, Ares mantiene sus respuestas estructuradas y ninguna llamada a OpenRouter. Tras configurar las variables hay que redesplegar preview y probar con una pregunta inocua.
+
+## 2.27.0 · Ares AI central en producción
+
+- El chat y las consultas privadas por RLS están disponibles con sesión Supabase; no hay almacenamiento de conversaciones en backend.
+- `/api/ares-sources` acepta únicamente Vercel preview/production y JWT Supabase verificado. Acceso GitHub solo con API pública; si el repositorio es privado se indica **no disponible** sin suposiciones. No admite escrituras.
+- `/api/ares-ai` (OpenRouter) sigue **desactivado en producción**, sin configurar claves ni consentimiento para compartir títulos. La disponibilidad del chat no implica un LLM generativo activo.
+- `/api/ares-dispatch` permanece **preview-only** y desactivado salvo flags y webhooks de staging; aprobar una solicitud de Jarvis/Claude/Hermes NO la ejecuta.
+- No existe telemetría real de Claude Desktop o Hermes hasta integrar explícitamente sus APIs con permisos y límites; la pantalla debe indicar estado no conectado.
