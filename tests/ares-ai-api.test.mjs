@@ -64,13 +64,33 @@ test("Authenticated trial sends only permitted record summaries to openrouter/fr
   assert.equal(post.options.headers.authorization,"Bearer secret-test-key");
  } finally {global.fetch=oldFetch;}
 });
+test("Empty staging Project Tracker never invents missing GitHub projects or consumes free requests",async()=>{
+ env(full);
+ const beforeFetch=global.fetch,calls=[];
+ global.fetch=async(url)=>{
+   const target=String(url);calls.push(target);
+   if(target.endsWith("/auth/v1/user"))return Response.json({id:"11111111-1111-4111-8111-111111111111"});
+   if(target.includes("/rest/v1/hub_records"))return Response.json([]);
+   throw new Error("No external model call expected for empty tracker");
+ };
+ try{
+   const r=await ask("POST",headers,{question:"¿Qué proyectos tengo en RISE HUB?"});
+   assert.equal(r.code,200);
+   assert.match(r.body.text,/Project Tracker.*staging/);
+   assert.match(r.body.text,/NO significa/);
+   assert.match(r.body.text,/GitHub/);
+   assert.equal(r.body.model,null);
+   assert.match(r.body.source,/Supabase staging/);
+   assert.equal(calls.some(c=>c.includes("openrouter.ai")),false);
+ }finally{global.fetch=beforeFetch;}
+});
 test("OpenRouter rate limit is surfaced so chat can use private fallback",async()=>{
  env(full);
  const previous=global.fetch;
  global.fetch=async(url)=>{
   const target=String(url);
   if(target.endsWith("/auth/v1/user"))return Response.json({id:"11111111-1111-4111-8111-111111111111"});
-  if(target.includes("/rest/v1/hub_records"))return Response.json([]);
+  if(target.includes("/rest/v1/hub_records"))return Response.json([{record_type:"renzo_project",title:"Test sample",status:"active",payload:{}}]);
   return new Response(null,{status:429});
  };
  try{const r=await ask("POST",headers,{question:"Mis proyectos"});assert.equal(r.code,429);}

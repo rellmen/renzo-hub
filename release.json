@@ -1,6 +1,6 @@
 {
-  "release": "2.24.1",
-  "name": "Ares AI · pruebas gratuitas con OpenRouter (opt-in)",
+  "release": "2.24.2",
+  "name": "Ares AI · alcance honesto de datos de Project Tracker",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",

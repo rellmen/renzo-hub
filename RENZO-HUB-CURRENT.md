@@ -507,3 +507,10 @@ Worktree: `/Users/Nodalys/Renzo HUB/payroll-2.8`, creado desde `main` en `7c110e
 - Limita el contexto externo a 40 títulos/estados de proyectos, tareas y solicitudes, sin payloads, importes, nóminas o documentos. Filtra preguntas sensibles.
 - Sin coste por tokens del router gratuito, sujeto a cuotas y disponibilidad. Fallo del proveedor => consultas privadas de Ares siguen funcionando.
 - Ningún secreto en frontend, ningún cambio a main y ninguna ejecución de agentes desde IA.
+
+## 2.24.2 (2026-10-13): Ares AI · corregir inferencias de ausencia de proyectos
+
+- Staging 2026-10-13: consulta agregada indica hub_records con 0 renzo_project, 0 renzo_task; hub_user_state también 0 proyectos/tareas. El repositorio de GitHub y Vercel son fuentes distintas todavía no indexadas en Ares.
+- Ares responde con precisión cuando Project Tracker no tiene datos: no confunde ausencia de registros de Work con ausencia de proyectos de desarrollo.
+- Respuestas sin proyectos no consumen solicitudes OpenRouter; etiqueta correctamente si procede de Supabase directo o modelo externo.
+- No escribe datos, no migra esquemas, no toca producción, no conecta GitHub/Vercel sin diseñar autorización.

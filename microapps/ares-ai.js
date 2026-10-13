@@ -45,20 +45,20 @@ export function mountAresAI({supabase,getUser,navigate}){
  const detectTask=question=>{const m=question.match(/^(?:pide|encarga|solicita|dile)\s+(?:a\s+)?(claude|hermes|jarvis)\s+(?:que\s+)?(.{4,})$/i);return m?{agent:m[1][0].toUpperCase()+m[1].slice(1).toLowerCase(),task:m[2].trim().slice(0,180)}:null;};
  async function send(value){const text=String(value||"").trim().slice(0,500);if(!text||busy||!owner)return;busy=true;const seq=++generation;input.value="";form.querySelector('[type="submit"]').disabled=true;bubble("user",text);const placeholder=bubble("bot","Consultando tus registros…");
   try{const rows=await records();if(seq!==generation||owner!==getUser()?.id)return;placeholder.remove();const task=detectTask(text);if(task){bubble("bot",`He preparado una solicitud para ${task.agent}: “${task.task}”. Debes confirmarla para guardarla en AI Inbox. No ejecutará ninguna tarea.`,[{type:"request",label:"Crear solicitud pendiente",...task}]);topic="agents";}else{
-        let aiReply=null;
+        let aiReply=null,aiSource="OpenRouter/free · modelo externo";
         if(aiEnabled){
           try{
             const session=await supabase.auth.getSession();
             if(session?.data?.session?.access_token){
               const res=await fetch("/api/ares-ai",{method:"POST",headers:{"content-type":"application/json",authorization:"Bearer "+session.data.session.access_token},body:JSON.stringify({question:text}),signal:AbortSignal.timeout(28000)});
               const data=await res.json().catch(()=>({}));
-              if(res.ok && typeof data.text==="string")aiReply=data.text;
+              if(res.ok && typeof data.text==="string"){aiReply=data.text;aiSource=typeof data.source==="string"?data.source:aiSource;}
             }
           }catch{/* Fall back to direct read-only answers when the external model is unavailable. */}
         }
         if(seq!==generation||owner!==getUser()?.id)return;
         const answer=answerAres(text,rows,topic);topic=answer.topic;
-        bubble("bot",aiReply?aiReply+"\\n\\nFuente: OpenRouter/free · modelo externo sobre una muestra limitada de RISE HUB.":answer.text,aiReply?[]:answer.actions||[]);
+        bubble("bot",aiReply?aiReply+"\n\nFuente: "+aiSource:answer.text,aiReply?[]:answer.actions||[]);
       }}
   catch(e){if(seq===generation){placeholder.remove();bubble("bot","No he podido responder con datos verificados: "+String(e.message||e));}}
   finally{if(seq===generation){busy=false;form.querySelector('[type="submit"]').disabled=false;input.focus();}}
