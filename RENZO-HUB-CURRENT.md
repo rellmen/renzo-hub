@@ -497,3 +497,9 @@ Worktree: `/Users/Nodalys/Renzo HUB/payroll-2.8`, creado desde `main` en `7c110e
 - Los agentes NO se ejecutan con una aprobación; sin adaptador real, `executed=false`. La entrega de prueba a Jarvis sigue restringida a preview y requiere configuraciones independientes.
 - IA generativa OpenRouter sigue apagada en producción sin consentimiento y configuración explícita; las respuestas privadas funcionan sin enviar datos a proveedores de modelos.
 - Cambio de caché PWA v10, sin migraciones. Solo publicar si CI, pruebas autenticadas de staging y smoke pasan.
+
+## 2.28.0 (2026-10-14): proyecto RISE HUB 4.0 · fase 0: cierre en 2.28.0
+
+- Roadmap secuencial y estimaciones 382–626h, visible en Work sin exponer datos; tabla fuente en `microapps/work/roadmap.js`, detalles en `docs/RISE-HUB-4.0-ROADMAP.md`.
+- No incluye funcionalidad nueva de nóminas todavía: fase 1 Payroll se inicia tras verificar publicación 2.28.0. Sin migraciones ni modificaciones de Supabase.
+- Estado `closed` en Work se aplica solo tras PR, CI, validación autenticada, despliegue READY y smoke de producción.
