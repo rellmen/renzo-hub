@@ -491,3 +491,11 @@ Worktree: `/Users/Nodalys/Renzo HUB/payroll-2.8`, creado desde `main` en `7c110e
 - Estados guardados: dispatching/submitted/delivery_unknown; ninguno implica tarea completada.
 - No se requieren migraciones; sin contacto a servicios externos durante pruebas.
 - Pruebas de endpoint con red simulada; la conexión real no puede validarse hasta configurar los secretos de staging.
+
+## 2.24.0 (2026-10-13): Ares AI global (feature, preview primero)
+- Ares AI sustituye la tarjeta de Ares Center por un chat global flotante (todas las áreas, después del login). Enlace heredado ?app=ares-center abre el chat.
+- Conversación de consulta sobre proyectos, tareas, operaciones, revisiones y actividad real guardada en hub_records del usuario bajo RLS; datos limitados a los 500 registros recientes.
+- Crea solicitudes pendientes para agentes desde el chat tras confirmación y permite registrar aprobaciones/rechazos separados; ninguna orden externa se ejecuta automáticamente.
+- No hay clave ni llamada a modelo generativo externo: respuestas deterministas, sin inventar fuentes; finanzas detalladas fuera del primer alcance.
+- Chat temporal sin persistencia entre sesiones; logout borra la conversación. No cambiar la microapp antigua hasta completar migración.
+- Desplegar únicamente en staging. Sin modificaciones de credenciales ni migraciones.

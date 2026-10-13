@@ -49,3 +49,26 @@
 - No se enviarán tareas de Claude o Hermes sin un puente específico autenticado y verificable.
 - El proyecto de staging actualmente no tiene estas 3 variables configuradas; por tanto el envío seguirá inactivo hasta configurarlas.
 - Probar con cuenta autenticada en Supabase staging y una tarea inocua de prueba antes de permitir acciones significativas.
+
+## Ares AI 2.24.0 · conversación global (feature)
+- Ares AI aparece como botón flotante en todas las pantallas tras el login, no como tarjeta ni sección en Home.
+- El enlace antiguo ?app=ares-center abre el chat; el motor Ares Center anterior permanece internamente para compatibilidad, pero no se muestra como destino principal.
+- La conversación es temporal (en memoria), nunca se guarda en localStorage ni en hub_records. Cerrar sesión borra chat y oculta el launcher.
+- Las consultas de Ares usan el cliente Supabase con JWT de sesión, políticas RLS y filtro owner_id. Hasta 500 registros recientes de proyectos, tareas, operaciones, revisiones y eventos. No se anuncian totales exhaustivos.
+- El chat permite redactar un encargo para Claude, Hermes o Jarvis. Solo tras pulsar Crear solicitud se escribe ares_operation en AI Inbox como pending_approval. No ejecuta nada.
+- Desde el chat pueden consultarse solicitudes y aprobarse/rechazarse con confirmación explícita. La ejecución sigue deshabilitada sin conector.
+- Respuestas estructuradas sin coste adicional; son reglas verificables y no se anuncian como un modelo IA libre ni cubren todos los temas.
+
+### IA generativa opcional, desactivada por defecto
+- Endpoint GET /api/ares-ai indica si el modo generativo está listo. POST /api/ares-ai solo funciona en VERCEL_ENV=preview.
+- El proveedor preparado es OpenAI Responses API; requiere ARES_AI_API_KEY, ARES_AI_MODEL y ARES_AI_ENABLED=true, todos únicamente en preview de Vercel y tras autorización del propietario.
+- La suscripción de ChatGPT no proporciona automáticamente una clave API y el uso de API se factura por separado.
+- La API verifica el JWT con Supabase Auth y consulta datos propios mediante RLS; solo envía al modelo una muestra limitada a 90 registros con título, estado, fecha, prioridad, proyecto y entregable. Nunca envía importes, nóminas, documentos ni notas privadas.
+- store:false; la respuesta del modelo no da permisos para ejecutar órdenes. Si la IA externa falla, la consulta estructurada de Ares sigue funcionando.
+- No configurar estas variables desde el chat ni incluir tokens en archivos, commits, capturas o el frontend.
+- No tocar producción hasta permiso expreso y una revisión de privacidad del modo generativo.
+
+### Validación antes de publicar
+- Unitarias: npm test, incluyendo tests/ares-ai.test.mjs y tests/ares-ai-api.test.mjs.
+- E2E: tests/e2e/ares-ai-chat.mjs con Playwright, móvil y escritorio, datos ficticios, comprobación de login/logout, aprobaciones y ausencia de ejecución.
+- Probar en staging autenticado con los datos reales del propietario; la protección de Vercel puede bloquear la verificación automática.

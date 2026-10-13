@@ -1,6 +1,6 @@
 {
-  "release": "2.23.3",
-  "name": "Ares Center · entrega autenticada de solicitudes a Jarvis (preview)",
+  "release": "2.24.0",
+  "name": "Ares AI · conversación global integrada en RISE HUB",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",

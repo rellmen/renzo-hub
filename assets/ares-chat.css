@@ -1,0 +1,28 @@
+/* Ares AI · launcher global independiente del registro de microapps. */
+.ares-fab{position:fixed;right:clamp(16px,3vw,32px);bottom:calc(92px + env(safe-area-inset-bottom));z-index:95;border:1px solid rgba(127,220,240,.55);background:linear-gradient(125deg,#133968,#184779);box-shadow:0 12px 38px rgba(2,8,22,.52),0 0 22px rgba(74,168,255,.28);padding:13px 19px;min-height:52px;border-radius:999px;color:#eff9ff;font-size:14px;font-weight:900;letter-spacing:.01em;cursor:pointer}
+.ares-fab:hover{border-color:#7fdcf0;transform:translateY(-2px);box-shadow:0 14px 42px rgba(74,168,255,.3)}
+.ares-fab[hidden],.ares-chat[hidden]{display:none!important}
+.ares-chat{position:fixed;z-index:125;right:clamp(16px,3vw,32px);bottom:calc(22px + env(safe-area-inset-bottom));width:min(510px,calc(100vw - 32px));height:min(730px,calc(100dvh - 45px));box-sizing:border-box;border:1px solid rgba(109,177,246,.43);border-radius:23px;display:grid;grid-template-rows:auto minmax(0,1fr) auto auto auto;background:linear-gradient(145deg,#0d1c32,#09121f 80%);box-shadow:0 18px 75px rgba(0,0,0,.72),0 0 34px rgba(74,168,255,.15);overflow:hidden;color:#eef4fb}
+.ares-chat-head{display:flex;align-items:center;gap:12px;padding:21px 20px;background:linear-gradient(110deg,rgba(35,82,145,.55),rgba(12,28,49,.94));border-bottom:1px solid rgba(109,177,246,.2)}
+.ares-avatar{display:grid;place-items:center;flex:none;height:43px;width:43px;border:1px solid rgba(127,220,240,.4);border-radius:15px;background:rgba(74,168,255,.14);color:#7fdcf0;font-size:24px;box-shadow:0 0 18px rgba(74,168,255,.15)}
+.ares-chat-head strong{display:block;font-size:17px;font-weight:900;letter-spacing:-.01em}.ares-chat-head small{display:block;margin-top:3px;font-size:11px;color:#a5bdd9;line-height:1.4}
+.ares-close{margin-left:auto;flex:none;height:41px;width:41px;display:grid;place-items:center;background:rgba(9,17,30,.6);border:1px solid rgba(109,177,246,.25);border-radius:13px;color:#d4e4f7;cursor:pointer}
+.ares-chat-stream{min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:17px;padding:25px 20px 18px;scrollbar-width:thin;scrollbar-color:rgba(74,168,255,.35) transparent}
+.ares-msg{max-width:90%;display:flex;flex-direction:column;gap:10px;flex-shrink:0}
+.ares-msg-bot{align-self:flex-start}.ares-msg-user{align-self:flex-end}
+.ares-msg-body{white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px;line-height:1.7;padding:15px 16px;border-radius:17px;background:rgba(23,39,63,.9);border:1px solid rgba(112,166,233,.18);color:#e5f0fc}
+.ares-msg-user .ares-msg-body{background:linear-gradient(130deg,rgba(39,113,194,.66),rgba(23,79,146,.78));border-color:rgba(93,170,253,.35);border-bottom-right-radius:5px}
+.ares-msg-bot .ares-msg-body{border-bottom-left-radius:5px}
+.ares-msg-actions{display:flex;flex-wrap:wrap;gap:8px}.ares-msg-actions button{font-size:11px;line-height:1.4;padding:9px 11px;border:1px solid rgba(127,220,240,.43);border-radius:11px;background:rgba(74,168,255,.13);color:#d9f1ff;cursor:pointer;text-align:left}
+.ares-msg-actions button:disabled{opacity:.55;cursor:default}
+.ares-chat-suggestions{display:flex;gap:9px;overflow-x:auto;padding:10px 17px 13px;scrollbar-width:none}
+.ares-chat-suggestions button{flex:0 0 auto;border-radius:999px;padding:9px 12px;font-size:11px;font-weight:750;background:rgba(74,168,255,.09);border:1px solid rgba(101,151,204,.25);color:#d4e7fb;cursor:pointer}
+.ares-chat-form{display:flex;align-items:flex-end;gap:9px;margin:0 15px 0;padding:9px;border:1px solid rgba(97,160,229,.32);border-radius:16px;background:rgba(5,11,20,.86)}
+.ares-chat-form textarea{flex:1;min-width:0;max-height:120px;resize:vertical;min-height:28px;line-height:1.5;border:0!important;box-shadow:none!important;outline:0!important;padding:7px 8px;background:transparent!important;color:#eef4fb;font:inherit;font-size:13px}
+.ares-chat-form textarea::placeholder{color:#7e9bb6}.ares-chat-form button{flex:none;height:38px;width:38px;border:0;border-radius:12px;background:#4aa8ff;color:#06111f;font-size:23px;font-weight:900;cursor:pointer}
+.ares-chat-form button:disabled{opacity:.45;cursor:wait}.ares-chat-foot{text-align:center;font-size:10px;letter-spacing:.015em;color:#8ca8c2;padding:7px 12px 13px;margin:0;line-height:1.5}
+.ares-sr{position:absolute!important;height:1px;width:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.ares-chat button:focus-visible,.ares-fab:focus-visible{outline:2px solid #7fdcf0;outline-offset:2px}
+@media(min-width:1024px){.ares-fab{bottom:32px}}
+@media(max-width:650px){.ares-chat{inset:0;width:100vw;height:100dvh;max-height:none;border:0;border-radius:0;padding-bottom:env(safe-area-inset-bottom)}.ares-chat-head{padding:16px 17px}.ares-chat-stream{padding:20px 15px}.ares-chat-form{margin:0 12px}.ares-chat-suggestions{padding-left:12px}.ares-fab{right:15px;bottom:calc(82px + env(safe-area-inset-bottom))}}
+@media(prefers-reduced-motion:reduce){.ares-fab{transition:none!important}.ares-fab:hover{transform:none}}
