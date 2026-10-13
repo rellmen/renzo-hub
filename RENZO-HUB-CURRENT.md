@@ -455,3 +455,10 @@ PR #3 hacia `staging` abierto (CI verde). Mac: copia de producción movida a `ba
 | 2026-10-09 | Tarea 3 · Año (jaaropgave) | Pestaña Año: aviso de completitud arriba, valores oficiales de la última nómina separados de lo registrado, demo con año incompleto y completo. Aviso específico si lo registrado supera el oficial o falta el acumulado. | payroll.js, payroll.css, payroll-demo.js, sw.js, tests, docs | check OK; 21/21 unitarias; E2E Chromium y WebKit; smoke producción 15/15; cifras reales verificadas en la vista | commit Tarea 3; sin PR ni despliegue |
 
 Worktree: `/Users/Nodalys/Renzo HUB/payroll-2.8`, creado desde `main` en `7c110eb`. El checkout `e2e/fase1-2.6.2` conserva sus cambios. Caché `renzo-hub-cloud-v5.9-payroll`. Pendiente: revisión de Renzo, PR y despliegue con su OK. Detalles en `docs/PAYROLL-2.8-TAREA-1.md` y `docs/PAYROLL-2.8-TAREA-2-3.md`.
+
+## 2.22.2 (2026-10-13): Command Center solo en preview (feature)
+
+- Rama feature/command-center-preview creada desde origin/staging; NO fusionada a staging ni main.
+- Microapp registrada en microapps/registry.js, con acceso Home, sección privada bajo login, vista móvil/escritorio alineada con tema azul/cian de RISE HUB.
+- Datos recientes de Work/System consultados bajo RLS con sesión activa y límite 75; servicios por /api/deployment-info del propio entorno. Los agentes sin integración se indican como tales.
+- Sin migraciones, sin writes, sin credenciales añadidas, sin despliegue en producción; verificar preview/Vercel y aprobación para merge staging.
