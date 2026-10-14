@@ -1,6 +1,6 @@
 {
-  "release": "2.28.0",
-  "name": "RISE HUB 4.0 · tablero de fases y hoja de ruta",
+  "release": "2.29.1",
+  "name": "RISE HUB 4.0 · Shift Tracker: importación confirmada de saldos (fase 1 abierta)",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",

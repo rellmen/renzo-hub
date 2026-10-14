@@ -18,10 +18,10 @@ const errors=[];
 const securityHeaders=Object.fromEntries(JSON.parse(await readFile('vercel.json','utf8')).headers.find(x=>x.source==='/(.*)').headers.map(x=>[x.key,x.value]));
 const window_upload=[];
 for(const engine of [chromium,webkit]){
- const browser=await engine.launch();const page=await browser.newPage({viewport:{width:390,height:844},serviceWorkers:'block'});
+ const browser=await engine.launch();const context=await browser.newContext({viewport:{width:390,height:844},serviceWorkers:'block'});let page=await context.newPage();
  page.on('pageerror',e=>errors.push(e.message));
- await page.route('https://cdn.jsdelivr.net/**',r=>r.fulfill({contentType:'text/javascript',body:mock}));
- await page.route(base+'/**',async r=>{
+ await context.route('https://cdn.jsdelivr.net/**',r=>r.fulfill({contentType:'text/javascript',body:mock}));
+ await context.route(base+'/**',async r=>{
   const path=new URL(r.request().url()).pathname;
   if(path==='/api/payroll-upload'){window_upload.push({auth:r.request().headers().authorization,body:JSON.parse(r.request().postData()||'{}')});return r.fulfill({status:201,json:{ok:true,payslipId:null,reviewStatus:'pending',isCorrection:false}});}
   if(path==='/api/supabase-config')return r.fulfill({json:{supabaseUrl:'https://example.supabase.co',publishableKey:'test-public'}});
@@ -78,6 +78,10 @@ for(const engine of [chromium,webkit]){
  await page.locator('#payroll [data-home]').click();assert.ok(await page.evaluate(()=>window.removed>0));
  for(const section of ['home','skin','gym','food','news','system']){await page.evaluate(id=>document.querySelector('[data-open="'+id+'"]').click(),section);assert.equal(await page.locator('#'+section+'.active').count(),1);}
  await page.evaluate(()=>window.testDb.auth.signOut());await page.locator('#authScreen:not(.hidden)').waitFor();assert.equal(await page.locator('#payroll').innerHTML(),'');
+ // The demo is a separate browser document; reusing a signed-out page can race
+ // against pending navigation/auth resets under GitHub Actions.
+ // Context routes still serve every asset locally; no real staging data are fetched.
+ await page.close();page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
  // Demo follows the same deep link and never invokes the real RPC adapter.
  await page.goto(base+'/?demo=1&app=payroll&payslip=00000000-0000-4000-8000-000000000112');await page.locator('#email').fill('demo@example.test');await page.locator('#password').fill('fake-test-password');await page.locator('#loginForm button[type=submit]').click();await page.locator('[data-review]').waitFor();await page.locator('button[value=approve]').click();await page.locator('[data-review]').waitFor({state:'detached'});assert.equal(await page.evaluate(()=>window.calls.length),0);
  await page.locator('.pay-tabs [data-tab=monthly]').click();

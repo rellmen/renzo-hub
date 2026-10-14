@@ -503,3 +503,27 @@ Worktree: `/Users/Nodalys/Renzo HUB/payroll-2.8`, creado desde `main` en `7c110e
 - Roadmap secuencial y estimaciones 382–626h, visible en Work sin exponer datos; tabla fuente en `microapps/work/roadmap.js`, detalles en `docs/RISE-HUB-4.0-ROADMAP.md`.
 - No incluye funcionalidad nueva de nóminas todavía: fase 1 Payroll se inicia tras verificar publicación 2.28.0. Sin migraciones ni modificaciones de Supabase.
 - Estado `closed` en Work se aplica solo tras PR, CI, validación autenticada, despliegue READY y smoke de producción.
+
+## 2.29.0 (2026-10-14): Shift Tracker UI · Fase 1 activa, no cerrada
+
+- Rama `feature/risehub4-shift-ui`: interfaz de contratos/agencias, turnos, descansos, tramos, bruto estimado, resumen semanal, CSV y comparador base+ORT; datos privados en `hub_records` con RLS; sin migraciones.
+- Resuelve re-render que interfería con la edición de turnos durante la sincronización de nóminas. Turnos ambiguos CET/CEST se rechazan, no se inventan horas.
+- Tests: 169/169 unidad, 15/15 smoke local, flujo autenticado de QA staging en móvil/escritorio con recuperación tras recarga y limpieza de QA, y pruebas E2E previas de Nóminas Chromium+WebKit.
+- Pendiente: reglas extras de festivos/horas extra por contrato, resolución DST con offsets, edición, auditoría real contra nómina vinculada, PR y release. No avanzar a My Finance.
+
+## 2.29.0 WIP (2026-10-14): reglas personales incorporadas a Payroll
+
+- Rama `feature/risehub4-shift-ui`, PR #51 en borrador: semana 2026-10-12 mañana, alternancia semanal mañana/tarde, horario 06-15 / 15-00, descanso real 30 min no pagado, salidas anticipadas editables, 150 % solo al superar 40h trabajadas por agencia, no acumulación de pluses, saldo vacacional independiente para festivos/días libres.
+- Nuevos módulos de cálculo semanal, rotación y saldo; interfaz de edición e historial, propuesta del turno y movimientos privados. Prueba E2E autenticada real staging con recuperación y limpieza de datos de prueba.
+- Queda abierta la fase 1. Ningún cambio en producción de este PR; un festivo pagado del saldo no se cuenta como hora trabajada extraordinaria.
+
+## 2.29.0 (WIP, 14/10/2026): importación de vacaciones y Keuzebudget
+
+- PR #51: importación segura al cierre de nómina original con confirmación, sin duplicados y con verificación de documento y propietario. Vacaciones en minutos y Keuzebudget en céntimos, sin cruzar datos.
+- Migración aplicada **solo en Supabase staging**, E2E real autenticado con saldo ficticio y limpieza de registros, 186 pruebas unitarias y 15 smoke correctas. Producción 2.28.0 sin cambios y sin saldos importados.
+- La fase 1 continúa ABIERTA; se requiere desplegar la migración en producción antes de publicar interfaz y completar auditoría salarial, festivos y DST.
+
+### Gate del release de saldos (2026-10-14)
+
+- Runbook versionado: `docs/PAYROLL-BALANCES-RELEASE-RUNBOOK.md`. Producción **sin migrar**, PR #51 **borrador**. Requiere aprobación de migración productiva y PR de `staging` a `main`, además de verificación real del deployment staging antes de publicar.
+- Comparación de esquema solo lectura staging vs producción correcta: 8 campos de nómina, 5 del PDF y 5 de `hub_records`; staging tiene importador, producción aún no. No se ha guardado la instantánea real.
