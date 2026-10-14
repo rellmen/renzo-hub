@@ -522,3 +522,8 @@ Worktree: `/Users/Nodalys/Renzo HUB/payroll-2.8`, creado desde `main` en `7c110e
 - PR #51: importación segura al cierre de nómina original con confirmación, sin duplicados y con verificación de documento y propietario. Vacaciones en minutos y Keuzebudget en céntimos, sin cruzar datos.
 - Migración aplicada **solo en Supabase staging**, E2E real autenticado con saldo ficticio y limpieza de registros, 186 pruebas unitarias y 15 smoke correctas. Producción 2.28.0 sin cambios y sin saldos importados.
 - La fase 1 continúa ABIERTA; se requiere desplegar la migración en producción antes de publicar interfaz y completar auditoría salarial, festivos y DST.
+
+### Gate del release de saldos (2026-10-14)
+
+- Runbook versionado: `docs/PAYROLL-BALANCES-RELEASE-RUNBOOK.md`. Producción **sin migrar**, PR #51 **borrador**. Requiere aprobación de migración productiva y PR de `staging` a `main`, además de verificación real del deployment staging antes de publicar.
+- Comparación de esquema solo lectura staging vs producción correcta: 8 campos de nómina, 5 del PDF y 5 de `hub_records`; staging tiene importador, producción aún no. No se ha guardado la instantánea real.
