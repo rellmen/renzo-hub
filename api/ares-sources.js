@@ -1,4 +1,4 @@
-// Ares AI · read-only project-development status; preview only.
+// Ares AI · read-only project-development status, staging and production.
 // GitHub repository data is public; access to this endpoint still requires a
 // valid RISE HUB session. No GitHub token, no Vercel token, no write API.
 const REPO="rellmen/renzo-hub";
@@ -20,7 +20,7 @@ export function simplifyGitHub({commits=[],pulls=[],issues=[]}={}){
 }
 export default async function handler(req,res){
  if(req.method!=="GET"){res.setHeader("Allow","GET");return json(res,405,{error:"Method not allowed"});}
- if(process.env.VERCEL_ENV!=="preview")return json(res,403,{error:"La integración solo está disponible en staging."});
+ if(!["preview","production"].includes(process.env.VERCEL_ENV))return json(res,403,{error:"Entorno de despliegue no admitido."});
  if(req.headers?.origin){try{if(new URL(req.headers.origin).host!==req.headers.host)return json(res,403,{error:"Origen no autorizado"});}catch{return json(res,403,{error:"Origen no autorizado"});}}
  const bearer=req.headers?.authorization?.match(/^Bearer\s+(.+)$/i)?.[1];
  if(!bearer)return json(res,401,{error:"Necesitas iniciar sesión."});
@@ -40,17 +40,19 @@ export default async function handler(req,res){
  ];
  const results=await Promise.allSettled(queries);
  const present=results.filter(r=>r.status==="fulfilled").length;
- if(present===0)return json(res,503,{error:"GitHub no ha podido consultarse. No es posible verificar el estado de desarrollo."});
+ // If GitHub is made private or its public API fails, report unavailable sections.
+ // Deployment metadata can still be returned without inventing missing commits/PRs.
+
  const pick=i=>results[i].status==="fulfilled"?results[i].value:[];
  const github=simplifyGitHub({commits:pick(0),pulls:pick(1),issues:pick(2)});
  return json(res,200,{
-   source:"GitHub API pública y metadatos del despliegue actual de Vercel",
+   source:present>0?"GitHub API pública y metadatos del despliegue actual de Vercel":"Metadatos del despliegue actual de Vercel (GitHub no accesible)",
    checkedAt:new Date().toISOString(),
    github:{repository:REPO,repositoryUrl:"https://github.com/"+REPO,branch:"staging",...github,
      available:{commits:results[0].status==="fulfilled",pullRequests:results[1].status==="fulfilled",issues:results[2].status==="fulfilled"}},
    vercel:{project:clean(process.env.VERCEL_PROJECT_NAME||"sin datos",90),environment:clean(process.env.VERCEL_ENV||"desconocido",20),
      deploymentBranch:clean(process.env.VERCEL_GIT_COMMIT_REF||"",90)||null,deploymentCommit:clean(process.env.VERCEL_GIT_COMMIT_SHA||"",40)||null,
      scope:"Despliegue que sirve esta respuesta; no incluye histórico de despliegues ni registros de fallos."},
-   limitations:"Commits, PRs e issues NO equivalen a tareas completas, porcentaje de progreso, fases ni actividad en vivo de agentes."
+   limitations:"Commits, PRs e issues NO equivalen a tareas completas, porcentaje de progreso, fases ni actividad en vivo de agentes. Datos de GitHub no disponibles si el repositorio es privado o la API rechaza la consulta."
  });
 }

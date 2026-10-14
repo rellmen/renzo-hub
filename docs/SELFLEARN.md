@@ -1,6 +1,6 @@
 # SelfLearn · Nederlands A0–B2 (RISE HUB)
 
-**Estado**: desarrollo en rama `feature/selflearn-a0-b2`, destino `staging`. No fusionar ni publicar en producción automáticamente.
+**Estado**: en `staging` 2.26.0; paquete aislado 2.26.1 preparado desde `main` para revisión y publicación en producción solo bajo autorización del propietario. No incluye las otras seis novedades de Ares/Jarvis que permanecen en `staging`.
 
 ## Alcance implementado
 
@@ -51,6 +51,8 @@ npm run check
 npm test
 npm run dev
 node tests/e2e/selflearn.mjs
+# Solo con credenciales de QA staging en entorno privado:
+# BASE_URL=http://localhost:4181 node tests/e2e/selflearn-staging.mjs
 ```
 
-El E2E de SelfLearn emplea una cuenta ficticia con Supabase simulado, y **no verifica las políticas ni los permisos de la instancia real**. Hacer pruebas autenticadas en staging antes del PR de producción.
+El E2E de SelfLearn emplea Supabase simulado para cuestionarios y tarjetas FSRS. `tests/e2e/selflearn-staging.mjs` comprueba la persistencia real de las preferencias con una cuenta de pruebas existente de **Supabase staging** usando dos sesiones independientes y restaura después sus preferencias. Verificar las tarjetas con cuenta real en pruebas controladas antes de declararlas comprobadas en vivo.

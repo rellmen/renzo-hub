@@ -1,8 +1,8 @@
 {
-  "release": "2.26.0",
-  "name": "SelfLearn · itinerario neerlandés A0–B2 y repaso inteligente",
+  "release": "2.28.0",
+  "name": "RISE HUB 4.0 · tablero de fases y hoja de ruta",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",
-  "updated": "2026-10-13"
+  "updated": "2026-10-14"
 }

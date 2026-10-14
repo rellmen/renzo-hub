@@ -35,11 +35,12 @@ const call=async(method="GET",headers={})=>{
  const res={code:null,setHeader(){return this},status(n){this.code=n;return this},json(data){this.data=data;return this;}};
  await handler({method,headers},res);return res;
 };
-test("sources reject production and unauthenticated requests",async()=>{
+test("sources require authentication on both production and staging",async()=>{
  config();process.env.VERCEL_ENV="production";
- let r=await call("GET",{authorization:"Bearer demo"});assert.equal(r.code,403);
+ let r=await call();assert.equal(r.code,401);
  process.env.VERCEL_ENV="preview";r=await call();assert.equal(r.code,401);
  r=await call("POST");assert.equal(r.code,405);
+ process.env.VERCEL_ENV="development";r=await call("GET",{authorization:"Bearer demo"});assert.equal(r.code,403);
 });
 test("authenticated read-only connector returns real-source structures without keys",async()=>{
  config();
@@ -67,4 +68,15 @@ test("authenticated read-only connector returns real-source structures without k
 });
 test.after(()=>{
  for(const [k,v] of Object.entries(prev)){if(v===undefined)delete process.env[k];else process.env[k]=v;}
+});
+
+test("production reports missing private GitHub data without inventing commits",async()=>{
+ config();process.env.VERCEL_ENV="production";process.env.VERCEL_GIT_COMMIT_REF="main";
+ const originalFetch=global.fetch;
+ global.fetch=async(url)=>String(url).endsWith("/auth/v1/user")?Response.json({id:"11111111-1111-4111-8111-111111111111"}):Response.json({message:"Not Found"},{status:404});
+ try {
+  const r=await call("GET",{host:"renzo-hub.vercel.app",origin:"https://renzo-hub.vercel.app",authorization:"Bearer demo"});
+  assert.equal(r.code,200);assert.equal(r.data.github.available.commits,false);assert.equal(r.data.github.commits.length,0);
+  assert.equal(r.data.vercel.environment,"production");assert.equal(r.data.vercel.deploymentBranch,"main");
+ }finally{global.fetch=originalFetch;}
 });

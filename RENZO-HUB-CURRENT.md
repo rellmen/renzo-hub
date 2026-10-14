@@ -485,48 +485,21 @@ Worktree: `/Users/Nodalys/Renzo HUB/payroll-2.8`, creado desde `main` en `7c110e
 - Agent Monitor consulta /api/jarvis y muestra solo la configuración de los webhooks, no la conectividad real.
 - Cambio independiente desde el último staging conocido; no fusionar a main sin autorización.
 
-## 2.23.2 (2026-10-13): Ares · cola segura de solicitudes (feature)
+## 2.26.1 (2026-10-13): SelfLearn · paquete separado para producción
 
-- Agent Monitor puede crear ares_operation para Claude/Hermes/Jarvis como pending_approval en hub_records, siempre a nombre de usuario bajo RLS.
-- AI Inbox permite aprobar/rechazar; el estado queda registrado con executionStatus not_connected y executed false. No se envía ninguna orden externa.
-- Integración real de ejecución diferida hasta autorización de proveedor, credenciales backend, seguridad y auditoría. No tocar main.
+- Base: `origin/main` en rama `feature/selflearn-production-pack` (no incorpora los seis commits extra de Ares/Jarvis pendientes en `staging`).
+- SelfLearn A0–B2 con FSRS, audio y prueba de sesión de Supabase staging; ajuste `Permissions-Policy` para dictado voluntario. Sin migraciones ni cambios en cuentas de producción.
+- Verificación local: `npm run check`; `npm test`; E2E SelfLearn simulado; smoke 15/15; dos sesiones reales de QA de staging con guardado y recuperación de preferencias; QA restaurada. Publicación a `main` pendiente de autenticación GitHub y comprobación de despliegue.
 
-## 2.23.3 (2026-10-13): Ares · integración segura de tareas aprobadas con Jarvis (preview)
+## 2.27.0 (2026-10-14): Ares AI central y cola de aprobaciones
 
-- Endpoint nuevo api/ares-dispatch.js: Supabase JWT + owner RLS; reserva condicional e idempotencia operacional; Jarvis HTTPS exclusivamente.
-- Nunca ejecuta en producción; flag ARES_JARVIS_DISPATCH_ENABLED debe estar activo en preview y credenciales solo en Vercel. Sin tocar la configuración actual.
-- En Agent Monitor, después de aprobar una tarea de Jarvis, botón de entrega con confirmación separada.
-- Estados guardados: dispatching/submitted/delivery_unknown; ninguno implica tarea completada.
-- No se requieren migraciones; sin contacto a servicios externos durante pruebas.
-- Pruebas de endpoint con red simulada; la conexión real no puede validarse hasta configurar los secretos de staging.
+- Integra en `main` Ares AI global con chat privado RLS, consultas de proyectos/tareas/revisiones, acceso de solo lectura al desarrollo GitHub/Vercel, y solicitudes de Claude/Hermes/Jarvis pendientes de aprobación.
+- Los agentes NO se ejecutan con una aprobación; sin adaptador real, `executed=false`. La entrega de prueba a Jarvis sigue restringida a preview y requiere configuraciones independientes.
+- IA generativa OpenRouter sigue apagada en producción sin consentimiento y configuración explícita; las respuestas privadas funcionan sin enviar datos a proveedores de modelos.
+- Cambio de caché PWA v10, sin migraciones. Solo publicar si CI, pruebas autenticadas de staging y smoke pasan.
 
-## 2.24.0 (2026-10-13): Ares AI global (feature, preview primero)
-- Ares AI sustituye la tarjeta de Ares Center por un chat global flotante (todas las áreas, después del login). Enlace heredado ?app=ares-center abre el chat.
-- Conversación de consulta sobre proyectos, tareas, operaciones, revisiones y actividad real guardada en hub_records del usuario bajo RLS; datos limitados a los 500 registros recientes.
-- Crea solicitudes pendientes para agentes desde el chat tras confirmación y permite registrar aprobaciones/rechazos separados; ninguna orden externa se ejecuta automáticamente.
-- No hay clave ni llamada a modelo generativo externo: respuestas deterministas, sin inventar fuentes; finanzas detalladas fuera del primer alcance.
-- Chat temporal sin persistencia entre sesiones; logout borra la conversación. No cambiar la microapp antigua hasta completar migración.
-- Desplegar únicamente en staging. Sin modificaciones de credenciales ni migraciones.
+## 2.28.0 (2026-10-14): proyecto RISE HUB 4.0 · fase 0: cierre en 2.28.0
 
-## 2.24.1 (2026-10-13): Ares AI con OpenRouter gratuito (solo staging, opt-in)
-
-- Sustituye la ruta de OpenAI de pago por OpenRouter y fija el modelo exclusivamente en openrouter/free; ninguna opción de seleccionar modelos de pago.
-- Requiere en Vercel Preview: OPENROUTER_API_KEY, ARES_AI_ENABLED=true y ARES_AI_SHARE_PROJECT_DATA=true (aceptación explícita del propietario). No se modifican credenciales ni configuración actual.
-- Limita el contexto externo a 40 títulos/estados de proyectos, tareas y solicitudes, sin payloads, importes, nóminas o documentos. Filtra preguntas sensibles.
-- Sin coste por tokens del router gratuito, sujeto a cuotas y disponibilidad. Fallo del proveedor => consultas privadas de Ares siguen funcionando.
-- Ningún secreto en frontend, ningún cambio a main y ninguna ejecución de agentes desde IA.
-
-## 2.24.2 (2026-10-13): Ares AI · corregir inferencias de ausencia de proyectos
-
-- Staging 2026-10-13: consulta agregada indica hub_records con 0 renzo_project, 0 renzo_task; hub_user_state también 0 proyectos/tareas. El repositorio de GitHub y Vercel son fuentes distintas todavía no indexadas en Ares.
-- Ares responde con precisión cuando Project Tracker no tiene datos: no confunde ausencia de registros de Work con ausencia de proyectos de desarrollo.
-- Respuestas sin proyectos no consumen solicitudes OpenRouter; etiqueta correctamente si procede de Supabase directo o modelo externo.
-- No escribe datos, no migra esquemas, no toca producción, no conecta GitHub/Vercel sin diseñar autorización.
-
-## 2.25.0 (2026-10-13): Ares AI · estado real de desarrollo, solo lectura (rama feature)
-
-- Nuevo endpoint /api/ares-sources: JWT Supabase staging verificado, origen mismo host, solo preview; consume la API pública de GitHub para rellmen/renzo-hub (últimos commits staging, PRs e issues abiertas) sin token. Devuelve únicamente metadatos simplificados.
-- Vercel se consulta con metadatos propios del despliegue servido, NO histórico de despliegues o errores en vivo. No se añade VERCEL_TOKEN.
-- Ares AI permite preguntar por GitHub, fase técnica, últimas PRs o despliegue desde el chat. Fuente directa, sin enviar GitHub a OpenRouter, no modifica datos ni agentes.
-- No infiere porcentaje completado o trabajo de Claude/Hermes a partir de PRs/issues; sin integración de monitor de agente sigue sin estado en vivo.
-- Requiere publicación de PR a staging y validación autenticada. Sin cambios de producción, migraciones ni variables de entorno.
+- Roadmap secuencial y estimaciones 382–626h, visible en Work sin exponer datos; tabla fuente en `microapps/work/roadmap.js`, detalles en `docs/RISE-HUB-4.0-ROADMAP.md`.
+- No incluye funcionalidad nueva de nóminas todavía: fase 1 Payroll se inicia tras verificar publicación 2.28.0. Sin migraciones ni modificaciones de Supabase.
+- Estado `closed` en Work se aplica solo tras PR, CI, validación autenticada, despliegue READY y smoke de producción.

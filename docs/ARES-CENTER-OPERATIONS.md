@@ -80,3 +80,11 @@
 - Excluye registros de dinero, nóminas, finanzas, notas, documentos, datos de contacto y payloads completos. Intenta bloquear consultas sensibles en el servidor. No compartir datos personales sensibles con free models.
 - El router gratuito puede variar de modelo y tener cuotas, latencia y retención diferentes según proveedor. La prueba no implica garantía de privacidad empresarial, disponibilidad ni coste cero para otros modelos.
 - Sin activar estos flags, Ares mantiene sus respuestas estructuradas y ninguna llamada a OpenRouter. Tras configurar las variables hay que redesplegar preview y probar con una pregunta inocua.
+
+## 2.27.0 · Ares AI central en producción
+
+- El chat y las consultas privadas por RLS están disponibles con sesión Supabase; no hay almacenamiento de conversaciones en backend.
+- `/api/ares-sources` acepta únicamente Vercel preview/production y JWT Supabase verificado. Acceso GitHub solo con API pública; si el repositorio es privado se indica **no disponible** sin suposiciones. No admite escrituras.
+- `/api/ares-ai` (OpenRouter) sigue **desactivado en producción**, sin configurar claves ni consentimiento para compartir títulos. La disponibilidad del chat no implica un LLM generativo activo.
+- `/api/ares-dispatch` permanece **preview-only** y desactivado salvo flags y webhooks de staging; aprobar una solicitud de Jarvis/Claude/Hermes NO la ejecuta.
+- No existe telemetría real de Claude Desktop o Hermes hasta integrar explícitamente sus APIs con permisos y límites; la pantalla debe indicar estado no conectado.
