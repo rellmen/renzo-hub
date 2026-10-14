@@ -516,3 +516,9 @@ Worktree: `/Users/Nodalys/Renzo HUB/payroll-2.8`, creado desde `main` en `7c110e
 - Rama `feature/risehub4-shift-ui`, PR #51 en borrador: semana 2026-10-12 mañana, alternancia semanal mañana/tarde, horario 06-15 / 15-00, descanso real 30 min no pagado, salidas anticipadas editables, 150 % solo al superar 40h trabajadas por agencia, no acumulación de pluses, saldo vacacional independiente para festivos/días libres.
 - Nuevos módulos de cálculo semanal, rotación y saldo; interfaz de edición e historial, propuesta del turno y movimientos privados. Prueba E2E autenticada real staging con recuperación y limpieza de datos de prueba.
 - Queda abierta la fase 1. Ningún cambio en producción de este PR; un festivo pagado del saldo no se cuenta como hora trabajada extraordinaria.
+
+## 2.29.0 (WIP, 14/10/2026): importación de vacaciones y Keuzebudget
+
+- PR #51: importación segura al cierre de nómina original con confirmación, sin duplicados y con verificación de documento y propietario. Vacaciones en minutos y Keuzebudget en céntimos, sin cruzar datos.
+- Migración aplicada **solo en Supabase staging**, E2E real autenticado con saldo ficticio y limpieza de registros, 186 pruebas unitarias y 15 smoke correctas. Producción 2.28.0 sin cambios y sin saldos importados.
+- La fase 1 continúa ABIERTA; se requiere desplegar la migración en producción antes de publicar interfaz y completar auditoría salarial, festivos y DST.

@@ -11,6 +11,7 @@
     "build:selflearn": "esbuild microapps/selflearn/fsrs-entry.js --bundle --format=esm --platform=browser --target=es2020 --outfile=microapps/selflearn/fsrs-bundle.js"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "0.3.14",
     "esbuild": "^0.28.2",
     "playwright": "1.64.0"
   },

@@ -71,12 +71,15 @@ export function createShiftTracker({db,getUser,root}){
  const contractsDb=createRecords(db,getUser,{domain:'money',type:'shift_contract'});
  const shiftsDb=createRecords(db,getUser,{domain:'work',type:'shift_log'});
  const leaveDb=createRecords(db,getUser,{domain:'money',type:'shift_leave_event'});
- let contracts=[],shifts=[],leaveRows=[],weeklyDetailCache=new Map(),ready=false,busy=false,error='',notice='',epoch=0;
- const clean=()=>{epoch++;contracts=[];shifts=[];leaveRows=[];ready=false;busy=false;error=notice='';};
+ let contracts=[],shifts=[],leaveRows=[],balanceImport=null,balanceAvailable=false,weeklyDetailCache=new Map(),ready=false,busy=false,error='',notice='',epoch=0;
+ const clean=()=>{epoch++;contracts=[];shifts=[];leaveRows=[];balanceImport=null;balanceAvailable=false;ready=false;busy=false;error=notice='';};
+ const allLeave=async()=>{
+  const result=[];for(let offset=0;;offset+=500){const r=await db.from('hub_records').select('id,payload,created_at').eq('owner_id',getUser()?.id).eq('domain','money').eq('record_type','shift_leave_event').order('id').range(offset,offset+499);if(r.error)throw r.error;result.push(...r.data||[]);if((r.data||[]).length<500)return result;}
+ };
  const refresh=async()=>{
   if(busy)return;const e=++epoch;busy=true;error='';
-  try{const [c,s,l]=await Promise.all([contractsDb.list({limit:200}),shiftsDb.list({limit:300}),leaveDb.list({limit:300})]);
-   if(e!==epoch)return;contracts=c;shifts=s;leaveRows=l;ready=true;
+  try{const [c,s,l,b]=await Promise.all([contractsDb.list({limit:200}),shiftsDb.list({limit:300}),allLeave(),db.from('payroll_balance_imports').select('*').eq('owner_id',getUser()?.id).maybeSingle()]);
+   if(e!==epoch)return;contracts=c;shifts=s;leaveRows=l;balanceImport=b.error?null:b.data;balanceAvailable=!b.error;ready=true;
   }catch(err){if(e===epoch)error=err.message||'No se pudieron cargar turnos.';}finally{if(e===epoch)busy=false;}
  };
  const contractSelect=()=>contracts.map(c=>`<option value="${esc(c.id)}">${esc(c.title)} · ${cash(c.payload?.hourlyRate||0)}/h</option>`).join('');
@@ -96,7 +99,7 @@ export function createShiftTracker({db,getUser,root}){
  <details class="card shift-contract" ${contracts.length?'':'open'}><summary>1. Configurar contrato / agencia (${contracts.length})</summary><form data-shift-contract><label>Agencia o empresa<input name="agency" maxlength="100" required placeholder="Nombre que figura en tu contrato"></label><label>Tarifa bruta por hora (€)<input name="hourlyRate" type="number" min="0.01" max="1000" step="0.01" required></label><div class="shift-fields"><label>Límite semanal de extra (h)<input name="overtimeThresholdHours" type="number" min="1" max="100" step="0.5" value="40" required></label><label>Horas extra: % de tarifa total<input name="overtimePercent" type="number" min="100" max="500" step="1" value="150" required></label></div><div class="shift-fields"><label>Desde (vigencia)<input name="effectiveFrom" type="date" required></label><label>Hasta (opcional)<input name="effectiveTo" type="date"></label></div><label>Franjas horarias y porcentaje de TARIFA TOTAL<textarea name="bands" required rows="4" placeholder="00:00-06:00=100\n06:00-18:00=100\n18:00-00:00=130"></textarea></label><p class="small">Un 130% significa 1,30 × la tarifa; introduce los valores de tu contrato. Las franjas deben cubrir las 24 horas sin solaparse. Puedes crear otra versión del contrato si cambian.</p><button type="submit" class="primary">Guardar contrato</button></form><ul>${contracts.map(card).join('')}</ul></details>
  <div class="card"><h3>2. Registrar turno</h3>${contracts.length?`<p role="status" data-shift-feedback></p><form data-shift-log><input type="hidden" name="shiftId" value=""><label>Contrato verificado<select name="contractId" required>${contractSelect()}</select></label><div class="shift-fields"><label>Fecha de inicio<input name="date" type="date" required></label><label>Entrada<input name="start" type="time" required></label><label>Salida<input name="end" type="time" required></label></div><label>Descansos (uno por línea; vacío si no hubo)<textarea name="breaks" rows="2" placeholder="19:00-19:30;sinpago\n21:00-21:15;pagado"></textarea></label><p class="small">Los turnos que atraviesan medianoche se dividen automáticamente por franjas. En cambios de horario CET/CEST se exige revisión manual. Las horas extra se recalculan por semana; los festivos/días libres se descuentan del saldo solo si los registras.</p><button type="submit" class="primary">Guardar turno</button></form>`:'<p>Crea primero un contrato con sus tramos y porcentajes confirmados.</p>'}</div>
  ${weeklyHTML(payslips)}
- ${extrasHTML(leaveRows)}
+ ${balanceAvailable?extrasHTML(leaveRows,undefined,balanceImport):'<div class="card" role="alert">Saldo de vacaciones no disponible. Los turnos siguen accesibles; actualiza para comprobar la conexión antes de registrar vacaciones.</div>'}
  <div class="card"><h3>4. Historial de turnos (${shifts.length})</h3><ul class="shift-list">${shifts.slice().sort((a,b)=>String(b.payload?.date).localeCompare(String(a.payload?.date))).slice(0,60).map(shiftCard).join('')||'<li>Sin turnos registrados.</li>'}</ul></div>`}
  </section>`;
  async function submit(form){if(busy)return;error=notice='';try{
@@ -119,7 +122,9 @@ export function createShiftTracker({db,getUser,root}){
    if(old)await shiftsDb.update(old.id,fields);else await shiftsDb.add(fields);
    notice=`Turno guardado · ${n2(summary.paidMinutes/60)} h remuneradas. Comprueba el importe semanal con horas extra en el resumen; el cálculo de un turno aislado no incluye el umbral de 40 h.`;
   }else if(form.hasAttribute('data-leave-event')){
-   const movement=leaveFormData(v);const existing=leaveBalance(leaveRows);
+   if(!balanceAvailable)throw Error('No se puede comprobar el saldo documentado. Actualiza antes de registrar vacaciones.');
+   const movement=leaveFormData(v);const existing=leaveBalance(leaveRows,balanceImport);
+   if(balanceImport&&movement.date<=balanceImport.as_of)throw Error('Ese movimiento ya está incluido en el saldo documentado.');
    if(movement.kind==='opening'&&existing.known)throw Error('Ya existe un saldo inicial. Registra diferencias como corrección.');
    await leaveDb.add({title:`${movement.date} · ${movement.kind}`,occurred_at:`${movement.date}T12:00:00Z`,status:'recorded',payload:movement});
    notice='Movimiento de vacaciones guardado. Comprueba el saldo con tu nómina de SD Worx.';

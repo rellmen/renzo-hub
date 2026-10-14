@@ -61,8 +61,12 @@ await check("sincronización world con registro de Jarvis presente (B-02)", asyn
 
 for (const section of SECTION_IDS) {
   await check(`navegación: ${section}`, async () => {
-    await page.evaluate(s => document.querySelector(`[data-open="${s}"]`)?.click(), section);
-    await page.waitForSelector(`#${section}.page.active`, { timeout: 5000 });
+    if(section==='ares-center')await page.locator('.ares-fab').click();
+    else await page.evaluate(s => document.querySelector(`[data-open="${s}"]`)?.click(), section);
+    if(section==='ares-center'){
+      await page.getByRole('dialog',{name:'Ares AI',exact:true}).waitFor();
+      await page.getByRole('button',{name:'Cerrar Ares AI',exact:true}).click();
+    }else await page.waitForSelector(`#${section}.page.active`, { timeout: 5000 });
   });
 }
 
@@ -137,7 +141,14 @@ await check("Progreso y XP: datos reales y sin duplicados tras recargar", async 
 // Cada microapp con módulo del registro se monta y pinta algo al abrirla (sin test escrito a mano).
 for (const m of MICROAPPS.filter(m => m.module)) {
   await check(`microapp ${m.id}: se monta y pinta su pantalla`, async () => {
-    await page.evaluate(id => document.querySelector(`[data-open="${id}"]`)?.click(), m.id);
+    if(m.id==='ares-center')await page.locator('.ares-fab').click();
+    else await page.evaluate(id => document.querySelector(`[data-open="${id}"]`)?.click(), m.id);
+    if(m.id==='ares-center'){
+      await page.getByRole('dialog',{name:'Ares AI',exact:true}).waitFor();
+      await page.locator('#aresQuestion').waitFor();
+      await page.getByRole('button',{name:'Cerrar Ares AI',exact:true}).click();
+      return;
+    }
     await page.waitForSelector(`#${m.id}.page.active`, { timeout: 5000 });
     await page.waitForFunction(id => document.getElementById(id).innerText.trim().length > 0, m.id, { timeout: 10000 });
     assert.ok(!(await page.innerText(`#${m.id}`)).includes("No se pudo cargar"), "el módulo cargó");
@@ -175,6 +186,10 @@ await check("Copia de seguridad: Exportar mis datos descarga todas las tablas y 
 await check("Gastos: importar CSV ficticio de ING, categorías, regla por comercio y limpieza (hub_records · money)", async () => {
   const clean = () => rest(`/rest/v1/hub_records?owner_id=eq.${uid}&record_type=in.(bank_tx,money_rule,money_budget)`, tok.access_token, { method: "DELETE" });
   await clean();
+  try{
+  // Reload after external QA cleanup: the mounted finance module may cache earlier rows.
+  await page.reload({waitUntil:'networkidle'});
+  await page.waitForSelector('#appShell:not(.hidden)');
   await page.evaluate(() => document.querySelector('[data-open="gastos"]')?.click());
   await page.locator("#gastos.active [data-bank-file]").waitFor({ timeout: 10000 });
   await page.locator("#gastos [data-bank-file]").setInputFiles("tests/fixtures/ing-ficticio.csv");
@@ -212,6 +227,7 @@ await check("Gastos: importar CSV ficticio de ING, categorías, regla por comerc
   // Resumen de My Finance: mismas cifras del banco, ahorro real y enlace a Gastos
   await page.evaluate(() => document.querySelector('[data-open="money"]')?.click());
   await page.locator("#money.active [data-fx-hero]").waitFor({ timeout: 15000 });
+  await page.locator("#money [data-fx-hero]",{hasText:"Ahorro real"}).waitFor({timeout:15000});
   assert.match(await page.locator("#money [data-fx-hero]").innerText(), /Ahorro real/);
   assert.match(await page.locator("#money [data-fx-top]").innerText(), /Dónde se fue el dinero/);
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), "Resumen sin scroll horizontal");
@@ -238,6 +254,7 @@ await check("Gastos: importar CSV ficticio de ING, categorías, regla por comerc
   await clean();
   const left = await rest(`/rest/v1/hub_records?owner_id=eq.${uid}&record_type=in.(bank_tx,money_rule,money_budget)&select=id`, tok.access_token);
   assert.equal(left.body.length, 0, "no quedan datos de prueba");
+  }finally{await clean();}
 });
 
 await check("Skin: marcar un paso, guardar en Supabase, releer tras recargar y desmarcar", async () => {

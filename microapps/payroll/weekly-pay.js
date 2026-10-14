@@ -57,15 +57,19 @@ export function calculateWeeklyPayroll(rows,{thresholdHours=40,overtimePercent=1
  return {thresholdHours,overtimePercent,weeks,shifts:details};
 }
 
-export function leaveBalance(rows){
+export function leaveBalance(rows,snapshot=null){
  const movements=rows.map(r=>({...r,payload:r.payload||r})).sort((a,b)=>`${a.payload.date}|${a.created_at||''}`.localeCompare(`${b.payload.date}|${b.created_at||''}`));
- let minutes=null;const history=[];
+ const openings=movements.filter(r=>r.payload.kind==='opening');
+ if(openings.length>1||snapshot&&openings.length)throw Error('Hay más de un saldo inicial: concilia los registros.');
+ if(snapshot&&(!Number.isInteger(snapshot.leave_minutes)||snapshot.leave_minutes<0||snapshot.leave_minutes>24000||!/^\d{4}-\d{2}-\d{2}$/.test(snapshot.as_of)))throw Error('Saldo documentado inválido.');
+ let minutes=snapshot?snapshot.leave_minutes:null;const history=[];
  for(const item of movements){const e=item.payload;
   if(!['opening','accrual','used','adjustment'].includes(e.kind))throw Error('Movimiento de vacaciones inválido.');
   if(!/^\d{4}-\d{2}-\d{2}$/.test(e.date)||!Number.isInteger(e.minutes)||Math.abs(e.minutes)>24000)throw Error('Horas de vacaciones inválidas.');
+  if(snapshot&&e.date<=snapshot.as_of){history.push({...e,includedInSnapshot:true,balanceMinutes:null});continue;}
   if(e.kind==='opening'){if(e.minutes<0)throw Error('Saldo inicial negativo.');minutes=e.minutes;}
   else if(minutes!==null){if(e.kind==='used'&&e.minutes<=0)throw Error('El descuento exige horas positivas.');if(e.kind==='accrual'&&e.minutes<=0)throw Error('La acumulación exige horas positivas.');minutes+=e.kind==='used'?-e.minutes:e.minutes;}
   history.push({...e,balanceMinutes:minutes});
  }
- return {known:minutes!==null,minutes,history,overdrawn:minutes!==null&&minutes<0};
+ return {known:minutes!==null,minutes,history,asOf:snapshot?.as_of||null,overdrawn:minutes!==null&&minutes<0};
 }
