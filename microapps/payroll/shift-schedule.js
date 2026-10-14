@@ -1,0 +1,8 @@
+// RISE HUB: explicit user-reported rotating shift pattern, not a legal work calendar.
+export const ROTATION_REFERENCE='2026-10-12'; // Monday of confirmed morning week, ISO W42
+const DAY=86400000;
+const parseDate=value=>{if(!/^\d{4}-\d{2}-\d{2}$/.test(String(value||'')))throw Error('Fecha YYYY-MM-DD inválida.');const millis=Date.parse(value+'T00:00:00Z');if(!Number.isFinite(millis)||new Date(millis).toISOString().slice(0,10)!==value)throw Error('Fecha inexistente.');return millis;};
+export function weekMonday(date){const at=parseDate(date),weekday=new Date(at).getUTCDay()||7;return new Date(at-(weekday-1)*DAY).toISOString().slice(0,10);}
+export function rotationForDate(date,anchor=ROTATION_REFERENCE){const week=parseDate(weekMonday(date)),reference=parseDate(weekMonday(anchor));const weeks=Math.floor((week-reference)/(7*DAY));return {type:((weeks%2)+2)%2===0?'morning':'afternoon',weekStart:weekMonday(date)};}
+export function proposedShift(date,anchor=ROTATION_REFERENCE){const weekday=new Date(parseDate(date)).getUTCDay();const rotation=rotationForDate(date,anchor);return {date,weekday,workingDay:weekday>0&&weekday<6,rotation:rotation.type,start:rotation.type==='morning'?'06:00':'15:00',end:rotation.type==='morning'?'15:00':'00:00',expectedUnpaidBreakMinutes:30,breaks:[],editable:true};}
+export function periodWeeks(date=ROTATION_REFERENCE,anchor=ROTATION_REFERENCE,count=4){if(!Number.isInteger(count)||count<1||count>26)throw Error('Número de semanas inválido.');const start=parseDate(weekMonday(date));return Array.from({length:count},(_,i)=>{const date=new Date(start+i*7*DAY).toISOString().slice(0,10);const r=rotationForDate(date,anchor);return {...r,date,label:r.type==='morning'?'Mañana 06:00–15:00':'Tarde 15:00–00:00'};});}

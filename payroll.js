@@ -141,7 +141,7 @@ export function mountPayroll(root, db, getUser, go){
  let active=false, owner=null, epoch=0, busy=false, ready=false, queued=false, channel=null, timer=null, poll=null, connected=false;
  let tab='summary', selected=null, detail=null, detailEpoch=0, loadingDetail=false, year=String(new Date().getFullYear()), employer='', message='', error='', saving=false;
  let pendingId=null, monthlyYear='', listView='month';
- const shiftTracker=createShiftTracker({db,getUser});
+ const shiftTracker=createShiftTracker({db,getUser,root});
  let data={}, errors={}, draft=null, pdfUrl=null, pdfBusy=false, demo=false, fixture=null;
  const upload=createPayrollUpload({db,onChange:()=>{if(active)render();},onDone:async body=>{await load();if(body?.payslipId&&uuid.test(body.payslipId))loadDetail('payslip',body.payslipId);}});
  const bankImport=createBankImport({db,getUser,getPayslips:()=>all('payslips'),expectedDate:payDate,onChange:()=>{if(active)render();},onDone:()=>load()});
@@ -278,7 +278,7 @@ export function mountPayroll(root, db, getUser, go){
  root.addEventListener('change',event=>{if(upload.handleChange(event.target)||bankImport.handleChange(event.target))return;if(event.target.matches('[data-list-view]')){listView=event.target.value;render();return;}if(event.target.matches('[data-monthly-year]')){monthlyYear=event.target.value;render();}if(event.target.matches('[data-year]')){year=event.target.value;render();}if(event.target.matches('[data-employer]')){employer=event.target.value;render();}});
  root.addEventListener('click',async event=>{
   if(upload.handleClick(event.target)||bankImport.handleClick(event.target))return;
-  if(event.target.closest('[data-shift-delete],[data-shift-reload],[data-shift-export]')){await shiftTracker.handleClick(event.target.closest('button'));render();return;}
+  if(event.target.closest('[data-shift-delete],[data-shift-reload],[data-shift-export],[data-shift-edit],[data-shift-propose]')){const button=event.target.closest('button');await shiftTracker.handleClick(button);if(!button.hasAttribute('data-shift-edit')&&!button.hasAttribute('data-shift-propose'))render();return;}
   const b=event.target.closest('button');if(!b||saving)return;
   if(b.dataset.useBankDate){const input=root.querySelector('[data-review] input[name=payment_date]');if(input){input.value=b.dataset.useBankDate;draft=Object.fromEntries(new FormData(input.form));input.closest('details')?.setAttribute('open','');input.focus();message='Fecha del banco puesta en el formulario. Pulsa «Guardar correcciones y aprobar» para guardarla.';const n=root.querySelector('[data-notice]');if(n)n.textContent=message;}return;}
   if(b.hasAttribute('data-home'))return go('money');
@@ -294,7 +294,7 @@ export function mountPayroll(root, db, getUser, go){
   if(b.dataset.alert&&!saving){const uid=owner,e=epoch;saving=true;render();try{if(demo){const a=fixture.anomalies.find(a=>a.id===b.dataset.alert);a.status=b.dataset.state;a.resolved_at=new Date().toISOString();}else{const r=await db.from('payroll_anomalies').update({status:b.dataset.state,resolved_at:new Date().toISOString()}).eq('id',b.dataset.alert).eq('user_id',uid).select('id');if(!alive(uid,e))return;if(r.error)throw r.error;if(r.data?.length!==1)throw new Error('La alerta no se actualizó. Comprueba los permisos.');}if(!alive(uid,e))return;message='Alerta actualizada.';await load();}catch(err){if(alive(uid,e))error=err.message;}if(alive(uid,e)){saving=false;render();}}
  });
  root.addEventListener('submit',async event=>{
-  if(event.target.matches('[data-shift-contract],[data-shift-log]')){event.preventDefault();await shiftTracker.submit(event.target);render();return;}
+  if(event.target.matches('[data-shift-contract],[data-shift-log],[data-leave-event]')){event.preventDefault();await shiftTracker.submit(event.target);render();return;}
   if(!event.target.matches('[data-review]'))return;event.preventDefault();if(saving)return;
   const p=detail.p,uid=owner,e=epoch,seq=detailEpoch,values=Object.fromEntries(new FormData(event.target));draft=values;
   try{

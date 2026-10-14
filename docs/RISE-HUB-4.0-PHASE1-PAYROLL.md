@@ -29,3 +29,18 @@ Estado: fase 1 **en desarrollo**. El motor inicial está fusionado a main median
 - Permitir corrección/edición controlada de turnos (actualmente alta y eliminación con confirmación, más nuevo contrato por vigencia).
 - Auditoría completa de un ciclo semanal real con identificación inequívoca de nómina/agencia, tratamiento de correcciones y exportación de informe revisable, no reclamación automática.
 - PR/CI, staging, autorización de despliegue, producción READY, verificación posterior y rollback. No cambiar el estado de fase 1 a closed hasta completar esos gates.
+
+## Datos confirmados por el propietario · 14 de octubre de 2026
+- Rotación semanal: semana ISO del **12–18 octubre 2026 = mañana**; 19–25 octubre = tarde, alternándose sucesivamente los lunes. Propuesta laboral lunes-viernes, pero **sin registrar horas hasta confirmarlas**.
+- Horarios habituales: **mañana 06:00–15:00**, **tarde 15:00–00:00**. Normalmente **30 minutos de descanso no remunerado**, cuya ubicación exacta puede variar; no descontar una franja automática sin confirmar cuándo descansó. Se pueden editar el inicio, la salida y los descansos, incluidos viernes especiales y días que sale antes.
+- Horas extraordinarias: **150 % de tarifa total únicamente a partir de 40 horas trabajadas dentro de una misma semana por agencia**; no sumar 130 % + 150 %. Una hora nocturna a 150 % u otro plus superior conserva su porcentaje más alto. Las vacaciones y festivos cargados al saldo acumulado no computan como trabajo efectivo para ese umbral.
+- Festivos y días libres: registrar como **uso de horas acumuladas de vacaciones** según lo declarado por el usuario; no atribuir automáticamente un extra de festivo en € ni inventar horas de saldo. Pendiente saldo inicial validado en SD Worx.
+- Interpretación del 150 % sujeta a confirmación documental del convenio y cortes de nómina (alguna agencia puede seguir otra política o tratar descansos pagados de otra manera); campos ajustables por contrato.
+
+### Progreso adicional fase 1 (PR #51 sigue en borrador)
+- Motor `microapps/payroll/shift-schedule.js`: rotación anclada a 2026-10-12; propuesta de turno editable, sin presumir que todos los días se trabajaron.
+- Motor `microapps/payroll/weekly-pay.js`: cálculo minuto a minuto del bruto semanal por agencia, con umbral 40 h/150 % configurable en el contrato y prioridad exclusiva sobre otros pluses. También control del saldo de vacaciones a partir de movimientos reales.
+- UI: botón de plantilla rotativa, edición de turnos con historial de revisiones, formularios para saldo inicial, horas acumuladas, horas consumidas por festivo/día libre y ajustes justificados. Si falta el saldo inicial, muestra «desconocido».
+- CSV ahora refleja tarifa extraordinaria efectiva del turno, en lugar del bruto aislado que excluía horas extra.
+- E2E autenticado staging cubre mañana/tarde, salida anticipada, recuperación de datos tras recarga y saldo 20→12 horas; borrado de la información ficticia.
+- Esta entrega no queda cerrada ni publicada en `main` por sí sola. Faltan comprobación de correspondencia entre agencia y nómina, cálculo para cambios de horario con offsets y verificación de un ciclo completo contra PDF real.
