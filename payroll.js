@@ -1,7 +1,9 @@
+import {balanceImportHTML,parseBalanceConfirmation} from './microapps/payroll/balance-import.js';
 import {areaTabsHTML} from './microapps/registry.js';
 import {createPayrollUpload} from './payroll-upload-ui.js';
 import {createBankImport} from './microapps/bank/bank-import-ui.js';
 import {matchPayslips} from './microapps/bank/ing-csv.js';
+import {createShiftTracker} from './microapps/payroll/shift-tracker.js';
 const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money = value => value == null ? 'Sin datos' : new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(Number(value));
 const number = value => value == null ? 'Sin datos' : new Intl.NumberFormat('es-ES',{maximumFractionDigits:2}).format(Number(value));
@@ -140,6 +142,7 @@ export function mountPayroll(root, db, getUser, go){
  let active=false, owner=null, epoch=0, busy=false, ready=false, queued=false, channel=null, timer=null, poll=null, connected=false;
  let tab='summary', selected=null, detail=null, detailEpoch=0, loadingDetail=false, year=String(new Date().getFullYear()), employer='', message='', error='', saving=false;
  let pendingId=null, monthlyYear='', listView='month';
+ const shiftTracker=createShiftTracker({db,getUser,root});
  let data={}, errors={}, draft=null, pdfUrl=null, pdfBusy=false, demo=false, fixture=null;
  const upload=createPayrollUpload({db,onChange:()=>{if(active)render();},onDone:async body=>{await load();if(body?.payslipId&&uuid.test(body.payslipId))loadDetail('payslip',body.payslipId);}});
  const bankImport=createBankImport({db,getUser,getPayslips:()=>all('payslips'),expectedDate:payDate,onChange:()=>{if(active)render();},onDone:()=>load()});
@@ -148,7 +151,7 @@ export function mountPayroll(root, db, getUser, go){
  const bankChip=p=>{const m=bankFor(p);if(!m)return '';const d=new Intl.DateTimeFormat('es-ES',{day:'numeric',month:'short',timeZone:'UTC'}).format(new Date(m.date+'T00:00:00Z'));return Math.abs(m.diff)>0.02?`<span class="pay-chip pay-bank-diff" data-bank-chip>Banco ${esc(d)} · diferencia ${money(m.diff)}</span>`:`<span class="pay-chip pay-bank-ok" data-bank-chip>En el banco ${esc(d)}</span>`;};
  const alive=(uid,e)=>active&&getUser()?.id===uid&&owner===uid&&epoch===e;
  const revoke=()=>{if(pdfUrl)URL.revokeObjectURL(pdfUrl);pdfUrl=null;};
- function close(){active=false;epoch++;detailEpoch++;busy=false;ready=false;queued=false;clearTimeout(timer);clearInterval(poll);timer=poll=null;if(channel){db.removeChannel(channel);channel=null;}connected=false;revoke();data={};errors={};detail=null;draft=null;selected=null;pendingId=null;saving=false;pdfBusy=false;loadingDetail=false;root.innerHTML='';}
+ function close(){shiftTracker.reset();active=false;epoch++;detailEpoch++;busy=false;ready=false;queued=false;clearTimeout(timer);clearInterval(poll);timer=poll=null;if(channel){db.removeChannel(channel);channel=null;}connected=false;revoke();data={};errors={};detail=null;draft=null;selected=null;pendingId=null;saving=false;pdfBusy=false;loadingDetail=false;root.innerHTML='';}
  function reset(){close();upload.reset();bankImport.reset();owner=null;fixture=null;tab='summary';monthlyYear='';message=error='';}
  const all=(key)=>data[key]||[];
  const employerName=p=>p.employer_name||all('employers').find(e=>e.id===p.employer_id)?.name||'Empresa sin identificar';
@@ -181,9 +184,9 @@ export function mountPayroll(root, db, getUser, go){
   if(!alive(uid,e))return;
   results.forEach((r,i)=>{const key=specs[i][0];if(r.status==='fulfilled'){data[key]=r.value;delete errors[key];}else{errors[key]=r.reason?.message||'No se pudo consultar';}});
   busy=false;ready=true;
-  if(selected&&!draft&&!saving&&!loadingDetail)await loadDetail(selected.kind,selected.id,false);
+  if(selected&&!draft&&!saving&&!loadingDetail&&!root.querySelector('[data-balance-import][data-dirty]'))await loadDetail(selected.kind,selected.id,false);
   if(!alive(uid,e))return;
-  if(!draft)render();else renderStatus();if(queued){queued=false;schedule();}
+  if(!draft&&!root.querySelector('[data-balance-import][data-dirty]')&&(tab!=='shifts'||!root.querySelector('.shift-tracker')))render();else renderStatus();if(queued){queued=false;schedule();}
  }
  async function loadDetail(kind,id,paint=true){
   if(!uuid.test(id)){error='El enlace de nómina no es válido.';render();return;}
@@ -197,6 +200,7 @@ export function mountPayroll(root, db, getUser, go){
    if(!doc&&p?.document_id&&!demo){const r=await db.from('payroll_documents').select('*').eq('id',p.document_id).eq('user_id',uid).maybeSingle();if(!alive(uid,e)||seq!==detailEpoch)return;if(r.error)throw r.error;doc=r.data;}
    const requests=[['events',()=>rows('payroll_events',q=>q.eq('document_id',doc?.id||p.document_id).order('created_at').order('id'))]];
    if(p)requests.push(['lines',()=>rows('payroll_line_items',q=>q.eq('payslip_id',p.id).order('sort_order'))],['validations',()=>rows('payroll_validations',q=>q.eq('payslip_id',p.id).order('rule_code'))],['versions',()=>rows('payroll_payslip_versions',q=>q.eq('payslip_id',p.id))]);
+   if(p&&!demo)requests.push(['balanceImports',()=>rows('payroll_balance_imports',q=>q.eq('owner_id',uid))]);
    const results=await Promise.allSettled(requests.map(([key,fn])=>demo?Promise.resolve((fixture[key]||[]).filter(x=>key==='events'?x.document_id===doc?.id:x.payslip_id===p?.id)):fn()));
    if(!alive(uid,e)||seq!==detailEpoch)return;
    detail={p,doc,issues:[]};results.forEach((r,i)=>{if(r.status==='fulfilled')detail[requests[i][0]]=r.value;else detail.issues.push(`${requests[i][0]}: ${r.reason?.message||'no disponible'}`);});
@@ -256,6 +260,7 @@ export function mountPayroll(root, db, getUser, go){
   const {p,doc}=detail;
   const fields=Object.entries(groups).map(([title,keys])=>{const present=keys.split(' ').filter(k=>p?.[k]!=null&&p[k]!=='');return present.length?`<div class="card"><h3>${title}</h3><dl class="pay-fields">${present.map(k=>`<div class="${p.field_confidence?.[k]!=null&&p.field_confidence[k]<.85?'pay-low':''}"><dt>${esc(names[k])}${p.field_confidence?.[k]!=null&&p.field_confidence[k]<.85?' · revisar':''}</dt><dd>${esc(textFields.has(k)?k==='payment_date'?date(p[k]):p[k]:k.includes('hours')?number(p[k]):money(p[k]))}</dd></div>`).join('')}</dl></div>`:'';}).join('');
   return `<button data-back>← Volver</button>${detail.issues.length?`<p role="alert">Algunos detalles no están disponibles: ${esc(detail.issues.join(' · '))}</p>`:''}<div class="card"><h2>${esc(p?.period_label||doc?.original_file_name)}</h2>${p?`<p>${esc(employerName(p))} · Cobro ${esc(date(payDate(p)))}${p.is_correction?' · pago adicional (corrección)':''}</p><p data-tax-rate>Retención: ${esc(percent(taxRate(p)))}${p.is_correction?' · los pagos extra tributan con la tarifa especial (bijzonder tarief), por eso el porcentaje es más alto':''}</p>${chip(p.validation_status)} ${chip(p.review_status)}<p>Confianza: ${p.confidence_overall==null?'Sin datos':number(p.confidence_overall*100)+'%'}</p><p>${esc(p.summary)}</p>`:''}${doc?`<p>${esc(doc.original_file_name)} · ${chip(doc.status)}</p>`:''}${doc?.storage_path_archive||doc?.storage_path_raw||demo?`<button data-pdf ${pdfBusy?'disabled':''}>${pdfBusy?'Preparando…':'Ver PDF'}</button>`:'<p>PDF aún no disponible.</p>'}${pdfUrl?`<a class="pay-button" href="${esc(pdfUrl)}" target="_blank" rel="noopener">Abrir PDF</a>`:''}</div>
+   ${p&&!demo?balanceImportHTML(p,doc,detail.balanceImports):''}
    ${p?bankCard(p):''}${p?fields:''}${p?`<div class="card"><h3>Datos NL adicionales</h3>${['loonheffingskorting_applied','bijzonder_tarief_pct','tabel_type','reserveringen'].filter(k=>p[k]!=null).map(k=>`<p>${esc(k)}: ${esc(typeof p[k]==='object'?JSON.stringify(p[k]):p[k])}</p>`).join('')||'Sin datos adicionales'}</div>`:''}
    ${p&&p.review_status==='pending'?reviewForm(p):''}
    ${p?`<div class="card"><h3>Líneas originales</h3><div class="pay-table"><table><thead><tr><th>Concepto</th><th>Tipo</th><th>Cantidad</th><th>Tarifa</th><th>Importe</th></tr></thead><tbody>${(detail.lines||[]).map(l=>`<tr><td>${esc(l.label_original)} <small>${esc(l.code)} ${esc(l.period_ref)}</small></td><td>${esc(l.category)}</td><td>${number(l.quantity)}</td><td>${money(l.rate)}</td><td>${money(l.amount)}</td></tr>`).join('')}</tbody></table></div></div><div class="card"><h3>Validaciones</h3>${(detail.validations||[]).map(v=>`<p>${v.passed?'✓':'✗'} ${esc(v.rule_code)} · ${esc(v.severity)} · ${esc(v.message)}<br><small>Esperado ${esc(v.expected)} · Actual ${esc(v.actual)} · Diferencia ${esc(v.difference)}</small></p>`).join('')||'Sin validaciones'}</div>${alerts(all('anomalies').filter(a=>a.payslip_id===p.id))}<details class="card"><summary>Historial de versiones (${(detail.versions||[]).length})</summary>${(detail.versions||[]).map(v=>`<pre>${esc(JSON.stringify(v,null,2))}</pre>`).join('')}</details>`:''}
@@ -266,21 +271,30 @@ export function mountPayroll(root, db, getUser, go){
  function reviewForm(p){return `<form data-review class="card"><h3>Revisión de nómina</h3><p>Comprueba los valores contra el PDF. Las correcciones se guardan con la aprobación.</p>${bankDateHint(p)}<fieldset ${saving?'disabled':''}>${Object.entries(groups).map(([title,keys])=>`<details ${title==='Neto'?'open':''}><summary>${title}</summary><div class="pay-grid">${keys.split(' ').map(k=>`<label class="${p.field_confidence?.[k]<.85?'pay-low':''}">${esc(names[k])}<input name="${k}" type="${k==='payment_date'?'date':textFields.has(k)?'text':'number'}" ${textFields.has(k)?'':'step="any"'} value="${esc(draft?.[k]??p[k]??'')}"><span>Tipo de error</span><select name="error_${k}"><option value="">Sin especificar</option>${Object.entries({misread:'Lectura incorrecta',missing:'Faltante',wrong_field:'Campo equivocado',format:'Formato',hallucination:'Inventado',sign:'Signo',other:'Otro'}).map(([v,t])=>`<option value="${v}" ${draft?.['error_'+k]===v?'selected':''}>${t}</option>`).join('')}</select></label>`).join('')}</div></details>`).join('')}<label>Nota de revisión<textarea name="note" maxlength="4000">${esc(draft?.note||'')}</textarea></label><div class="pay-actions"><button type="submit" value="approve">Aprobar</button><button type="submit" value="correct">Guardar correcciones y aprobar</button><button type="submit" value="reject">Rechazar</button></div></fieldset></form>`;}
  function render(){
   if(!active)return;
+  const priorBalanceForm=root.querySelector('[data-balance-import]');
+  const balanceDraft=priorBalanceForm?{id:priorBalanceForm.dataset.payslipId,revision:priorBalanceForm.dataset.revision,values:Object.fromEntries(new FormData(priorBalanceForm)),open:priorBalanceForm.closest('details')?.open,dirty:priorBalanceForm.dataset.dirty}:null;
   bankMap=matchPayslips(all('payslips'),all('bank'),payDate);
   const years=[...new Set([String(new Date().getFullYear()),...all('payslips').map(p=>String(p.period_year)),...all('payslips').map(p=>String(payDate(p)||'').slice(0,4)),...all('ytd').map(y=>String(y.year))])].filter(y=>/^\d{4}$/.test(y)).sort().reverse();
-  root.innerHTML=`<button class="microapp-back" data-home>← My Finance</button><div class="top"><div><div class="ey">My Finance · Documentos de Jarvis y revisión</div><h1>Nóminas</h1></div><button data-refresh ${busy?'disabled':''}>Actualizar</button></div>${areaTabsHTML('money','payroll')}<p data-live role="status"></p><div data-notice role="status" aria-live="polite">${esc(message)}</div>${error?`<p role="alert">${esc(error)}</p>`:''}${Object.keys(errors).length?`<div class="card" role="alert"><b>No se pudieron actualizar algunos datos</b><p>${esc(Object.entries(errors).map(([k,v])=>`${k}: ${v}`).join(' · '))}</p><p>Los datos anteriores pueden estar desactualizados.</p></div>`:''}<nav class="pay-tabs" aria-label="Secciones de Nóminas">${Object.entries({summary:'Resumen',inbox:'Bandeja',payslips:'Nóminas',monthly:'Mensual',year:'Año',alerts:'Alertas',rates:'Tarifa'}).map(([k,v])=>`<button data-tab="${k}" aria-pressed="${tab===k&&!selected}">${v}</button>`).join('')}</nav>
-   ${selected?detailView():!ready?'<p role="status">Cargando nóminas…</p>':`${!demo&&['summary','payslips','inbox'].includes(tab)?upload.html():''}${!demo&&tab==='summary'?bankImport.html():''}${['summary','payslips'].includes(tab)?`<label>Año <select data-year>${years.map(y=>`<option ${y===year?'selected':''}>${y}</option>`).join('')}</select></label>`:''}${tab==='summary'?stats():tab==='monthly'?monthlyView():tab==='year'?yearView():tab==='inbox'?all('documents').map(d=>`<button class="card pay-row" data-document="${esc(d.id)}"><b>${esc(d.original_file_name||'Documento')}</b><span>${d.source==='telegram'?'✈ ':d.source==='drive'?'▱ ':''}${esc(d.source)} · ${esc(date(d.created_at))}</span>${chip(d.status)}<span>${esc(all('payslips').find(p=>p.document_id===d.id)?.period_label||'Periodo pendiente')} · ${number(d.attempt_count??0)} intentos</span>${d.last_error_message?`<span>${esc(d.last_error_code)}: ${esc(d.last_error_message)}</span>`:''}${d.duplicate_of?`<small>Duplicado de ${esc(d.duplicate_of)}</small>`:''}</button>`).join('')||empty:tab==='payslips'?`<label>Empresa <select data-employer><option value="">Todas</option>${all('employers').map(e=>`<option value="${esc(e.id)}" ${e.id===employer?'selected':''}>${esc(e.name)}</option>`).join('')}</select></label><label>Ordenar <select data-list-view><option value="month" ${listView==='month'?'selected':''}>Por mes de cobro</option><option value="week" ${listView==='week'?'selected':''}>Por semana trabajada</option></select></label>${listView==='month'?payMonthView(all('payslips').filter(p=>String(payDate(p)||'').slice(0,4)===year&&(!employer||p.employer_id===employer)))||empty:groupByWeek(all('payslips').filter(p=>String(p.period_year)===year&&(!employer||p.employer_id===employer))).map(g=>payslipCard(g.main)+g.extras.map(x=>payslipCard(x,g.main)).join('')).join('')||empty}`:tab==='alerts'?alerts(all('anomalies').filter(a=>['open','acknowledged'].includes(a.status))):all('rates').map(r=>`<div class="card"><h3>${esc(r.employer_code)}</h3><strong>${money(r.hourly_rate)} / hora</strong><p>${esc(r.from_period)} → ${esc(r.to_period)} · ${number(r.payslips)} nóminas</p></div>`).join('')||'<div class="card">Sin historial de tarifas confirmado.</div>'}`}`;
+  root.innerHTML=`<button class="microapp-back" data-home>← My Finance</button><div class="top"><div><div class="ey">My Finance · Documentos de Jarvis y revisión</div><h1>Nóminas</h1></div><button data-refresh ${busy?'disabled':''}>Actualizar</button></div>${areaTabsHTML('money','payroll')}<p data-live role="status"></p><div data-notice role="status" aria-live="polite">${esc(message)}</div>${error?`<p role="alert">${esc(error)}</p>`:''}${Object.keys(errors).length?`<div class="card" role="alert"><b>No se pudieron actualizar algunos datos</b><p>${esc(Object.entries(errors).map(([k,v])=>`${k}: ${v}`).join(' · '))}</p><p>Los datos anteriores pueden estar desactualizados.</p></div>`:''}<nav class="pay-tabs" aria-label="Secciones de Nóminas">${Object.entries({summary:'Resumen',inbox:'Bandeja',payslips:'Nóminas',monthly:'Mensual',year:'Año',alerts:'Alertas',rates:'Tarifa',shifts:'Turnos'}).map(([k,v])=>`<button data-tab="${k}" aria-pressed="${tab===k&&!selected}">${v}</button>`).join('')}</nav>
+   ${selected?detailView():!ready?'<p role="status">Cargando nóminas…</p>':`${!demo&&['summary','payslips','inbox'].includes(tab)?upload.html():''}${!demo&&tab==='summary'?bankImport.html():''}${['summary','payslips'].includes(tab)?`<label>Año <select data-year>${years.map(y=>`<option ${y===year?'selected':''}>${y}</option>`).join('')}</select></label>`:''}${tab==='summary'?stats():tab==='monthly'?monthlyView():tab==='year'?yearView():tab==='inbox'?all('documents').map(d=>`<button class="card pay-row" data-document="${esc(d.id)}"><b>${esc(d.original_file_name||'Documento')}</b><span>${d.source==='telegram'?'✈ ':d.source==='drive'?'▱ ':''}${esc(d.source)} · ${esc(date(d.created_at))}</span>${chip(d.status)}<span>${esc(all('payslips').find(p=>p.document_id===d.id)?.period_label||'Periodo pendiente')} · ${number(d.attempt_count??0)} intentos</span>${d.last_error_message?`<span>${esc(d.last_error_code)}: ${esc(d.last_error_message)}</span>`:''}${d.duplicate_of?`<small>Duplicado de ${esc(d.duplicate_of)}</small>`:''}</button>`).join('')||empty:tab==='payslips'?`<label>Empresa <select data-employer><option value="">Todas</option>${all('employers').map(e=>`<option value="${esc(e.id)}" ${e.id===employer?'selected':''}>${esc(e.name)}</option>`).join('')}</select></label><label>Ordenar <select data-list-view><option value="month" ${listView==='month'?'selected':''}>Por mes de cobro</option><option value="week" ${listView==='week'?'selected':''}>Por semana trabajada</option></select></label>${listView==='month'?payMonthView(all('payslips').filter(p=>String(payDate(p)||'').slice(0,4)===year&&(!employer||p.employer_id===employer)))||empty:groupByWeek(all('payslips').filter(p=>String(p.period_year)===year&&(!employer||p.employer_id===employer))).map(g=>payslipCard(g.main)+g.extras.map(x=>payslipCard(x,g.main)).join('')).join('')||empty}`:tab==='alerts'?alerts(all('anomalies').filter(a=>['open','acknowledged'].includes(a.status))):tab==='shifts'?shiftTracker.html(all('payslips')):all('rates').map(r=>`<div class="card"><h3>${esc(r.employer_code)}</h3><strong>${money(r.hourly_rate)} / hora</strong><p>${esc(r.from_period)} → ${esc(r.to_period)} · ${number(r.payslips)} nóminas</p></div>`).join('')||'<div class="card">Sin historial de tarifas confirmado.</div>'}`}`;
+  const nextBalanceForm=root.querySelector('[data-balance-import]');
+  if(balanceDraft&&nextBalanceForm?.dataset.payslipId===balanceDraft.id&&nextBalanceForm.dataset.revision===balanceDraft.revision){
+   for(const field of nextBalanceForm.elements){if(field.name){if(field.type==='checkbox')field.checked=balanceDraft.values[field.name]==='on';else field.value=balanceDraft.values[field.name]??'';}}
+   nextBalanceForm.closest('details').open=balanceDraft.open;
+   if(balanceDraft.dirty)nextBalanceForm.dataset.dirty=balanceDraft.dirty;
+  }
   renderStatus();
  }
  root.addEventListener('input',event=>{const form=event.target.closest('[data-review]');if(form)draft=Object.fromEntries(new FormData(form));});
  root.addEventListener('change',event=>{if(upload.handleChange(event.target)||bankImport.handleChange(event.target))return;if(event.target.matches('[data-list-view]')){listView=event.target.value;render();return;}if(event.target.matches('[data-monthly-year]')){monthlyYear=event.target.value;render();}if(event.target.matches('[data-year]')){year=event.target.value;render();}if(event.target.matches('[data-employer]')){employer=event.target.value;render();}});
  root.addEventListener('click',async event=>{
   if(upload.handleClick(event.target)||bankImport.handleClick(event.target))return;
+  if(event.target.closest('[data-shift-delete],[data-shift-reload],[data-shift-export],[data-shift-edit],[data-shift-propose]')){const button=event.target.closest('button');await shiftTracker.handleClick(button);if(!button.hasAttribute('data-shift-edit')&&!button.hasAttribute('data-shift-propose'))render();return;}
   const b=event.target.closest('button');if(!b||saving)return;
   if(b.dataset.useBankDate){const input=root.querySelector('[data-review] input[name=payment_date]');if(input){input.value=b.dataset.useBankDate;draft=Object.fromEntries(new FormData(input.form));input.closest('details')?.setAttribute('open','');input.focus();message='Fecha del banco puesta en el formulario. Pulsa «Guardar correcciones y aprobar» para guardarla.';const n=root.querySelector('[data-notice]');if(n)n.textContent=message;}return;}
   if(b.hasAttribute('data-home'))return go('money');
   if(b.hasAttribute('data-refresh'))return load();
-  if(b.dataset.tab||b.hasAttribute('data-back')){detailEpoch++;loadingDetail=false;revoke();selected=detail=draft=null;error='';tab=b.dataset.tab||tab;render();return;}
+  if(b.dataset.tab||b.hasAttribute('data-back')){detailEpoch++;loadingDetail=false;revoke();selected=detail=draft=null;error='';tab=b.dataset.tab||tab;if(tab==='shifts')await shiftTracker.load();render();return;}
   if(b.dataset.payslip)return loadDetail('payslip',b.dataset.payslip);
   if(b.dataset.document)return loadDetail('document',b.dataset.document);
   if(b.hasAttribute('data-pdf')){
@@ -290,7 +304,26 @@ export function mountPayroll(root, db, getUser, go){
   }
   if(b.dataset.alert&&!saving){const uid=owner,e=epoch;saving=true;render();try{if(demo){const a=fixture.anomalies.find(a=>a.id===b.dataset.alert);a.status=b.dataset.state;a.resolved_at=new Date().toISOString();}else{const r=await db.from('payroll_anomalies').update({status:b.dataset.state,resolved_at:new Date().toISOString()}).eq('id',b.dataset.alert).eq('user_id',uid).select('id');if(!alive(uid,e))return;if(r.error)throw r.error;if(r.data?.length!==1)throw new Error('La alerta no se actualizó. Comprueba los permisos.');}if(!alive(uid,e))return;message='Alerta actualizada.';await load();}catch(err){if(alive(uid,e))error=err.message;}if(alive(uid,e)){saving=false;render();}}
  });
+ root.addEventListener('input',event=>{const f=event.target.closest('[data-balance-import]');if(f)f.dataset.dirty='true';});
  root.addEventListener('submit',async event=>{
+  if(event.target.matches('[data-balance-import]')){
+   event.preventDefault();if(saving||demo)return;
+   const form=event.target,uid=owner,e=epoch,seq=detailEpoch,p=detail?.p;
+   const feedback=form.querySelector('[data-balance-feedback]'),button=form.querySelector('button[type=submit]');
+   try{
+    if(!uid||getUser()?.id!==uid||!p)throw Error('Inicia sesión y abre la nómina.');
+    const values=parseBalanceConfirmation(Object.fromEntries(new FormData(form)));
+    saving=true;button.disabled=true;feedback.textContent='Guardando la confirmación…';
+    const result=await db.rpc('payroll_import_balances',{p_payslip_id:p.id,p_expected_updated_at:p.updated_at,p_document_sha256:detail.doc.file_sha256,p_leave_minutes:values.leaveMinutes,p_keuzebudget_cents:values.keuzebudgetCents,p_confirmed:true});
+    if(!alive(uid,e)||seq!==detailEpoch)return;
+    if(result.error)throw Error(result.error.code==='23505'?'Ya hay una importación. Actualiza para verla; no se ha duplicado.':result.error.message);
+    message='Saldos importados y vinculados a la nómina. Keuzebudget se conserva por separado.';
+    saving=false;await loadDetail('payslip',p.id);await shiftTracker.load();
+   }catch(err){if(alive(uid,e)&&seq===detailEpoch)feedback.textContent=err.message||'No se pudo importar.';}
+   finally{if(alive(uid,e)){saving=false;button.disabled=false;}}return;
+  }
+
+  if(event.target.matches('[data-shift-contract],[data-shift-log],[data-leave-event]')){event.preventDefault();await shiftTracker.submit(event.target);render();return;}
   if(!event.target.matches('[data-review]'))return;event.preventDefault();if(saving)return;
   const p=detail.p,uid=owner,e=epoch,seq=detailEpoch,values=Object.fromEntries(new FormData(event.target));draft=values;
   try{

@@ -19,10 +19,29 @@ export function validateContract(contract){
  }
  return {...contract,hourlyRate:rate,bands:bands.map(b=>({...b,percent:Number(b.percent)}))};
 }
+// Europe/Amsterdam DST: clock-only shifts crossing 02:00–03:00 on the last Sunday
+// of March or October have ambiguous/nonexistent local minutes. Reject until offsets
+// are captured, rather than silently under/overpaying one hour.
+export function crossesAmsterdamDst(shift){
+ const stamp=Date.parse(String(shift?.date||'')+'T00:00:00Z');
+ if(!Number.isFinite(stamp))return false;
+ const start=minutesOf(shift.start),end=minutesOf(shift.end),duration=(end-start+1440)%1440;
+ const from=stamp+start*MINUTE,to=from+duration*MINUTE;
+ for(const mo of [2,9]){
+  for(const yr of [new Date(stamp).getUTCFullYear(),new Date(stamp).getUTCFullYear()+1]){
+   const last=new Date(Date.UTC(yr,mo+1,0));last.setUTCDate(last.getUTCDate()-last.getUTCDay());
+   const boundary=last.getTime()+120*MINUTE;
+   const windowEnd=boundary+60*MINUTE;
+   if(from<windowEnd&&to>boundary)return true;
+  }
+ }
+ return false;
+}
 export function calculateShift(shift,contract){
  const c=validateContract(contract);
  if(!iso.test(String(shift?.date||''))||!Number.isFinite(Date.parse(shift.date+'T00:00:00Z'))||dateKey(shift.date+'T00:00:00Z')!==shift.date)throw Error('Fecha inválida.');
  const start=minutesOf(shift.start),end=minutesOf(shift.end),duration=(end-start+1440)%1440;
+ if(crossesAmsterdamDst(shift))throw Error('Turno en cambio de horario CET/CEST: verifica offsets y nómina manualmente.');
  if(!duration||duration>16*60)throw Error('Duración de turno inválida o excesiva.');
  const breaks=shift.breaks||[];if(!Array.isArray(breaks))throw Error('Descansos inválidos.');
  const total=Array(1440).fill(null);
