@@ -18,3 +18,12 @@ export function nextCalendarDay(date){
  const t=Date.parse(date+'T00:00:00Z');if(!Number.isFinite(t))throw Error('Fecha inválida.');
  return new Date(t+86400000).toISOString().slice(0,10);
 }
+
+export function resolveAmsterdamLocalMinute(date,clock){
+ const label=date+'T'+clock;
+ const wall=Date.parse(label+':00Z');
+ if(!Number.isFinite(wall)||new Date(wall).toISOString().slice(0,16)!==label)throw Error('Fecha inválida u hora local inválida.');
+ const matches=[60,120].map(offset=>wall-offset*60000).filter(ms=>{const local=localAmsterdamMinute(ms);return local.date===date&&local.clock===clock;});
+ if(matches.length!==1)throw Error('Hora local ambigua o inexistente CET/CEST: introduce instantes con offset.');
+ return matches[0];
+}

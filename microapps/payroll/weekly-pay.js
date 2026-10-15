@@ -2,6 +2,7 @@
 // 40 paid WORK minutes per hour threshold per agency / ISO week; unpaid breaks and
 // paid holidays charged to an accrued balance never count as worked overtime.
 import {shiftMinuteTimeline} from './shifts.js';
+import {instantInAmsterdam,resolveAmsterdamLocalMinute} from './amsterdam-time.js';
 const MINUTE=60000;
 const isoWeek=date=>{const d=new Date(date+'T00:00:00Z');d.setUTCDate(d.getUTCDate()+4-(d.getUTCDay()||7));const year=d.getUTCFullYear();const first=Date.UTC(year,0,1);return `${year}-W${String(Math.ceil(((d.getTime()-first)/86400000+1)/7)).padStart(2,'0')}`;};
 const days=date=>Date.parse(date+'T00:00:00Z');
@@ -14,7 +15,8 @@ export function calculateWeeklyPayroll(rows,{thresholdHours=40,overtimePercent=1
  if(!Number.isFinite(thresholdHours)||thresholdHours<0||thresholdHours>100)throw Error('Límite semanal de horas inválido.');
  if(!Number.isFinite(overtimePercent)||overtimePercent<100||overtimePercent>500)throw Error('Porcentaje extra inválido.');
  const groups=new Map(),details=[];
- const shifts=rows.map(r=>({id:r.id||null,shift:r.payload||r})).sort((a,b)=>{const x=Date.parse(a.shift.startInstant||'')||Date.parse(a.shift.date+'T'+a.shift.start+':00Z'),y=Date.parse(b.shift.startInstant||'')||Date.parse(b.shift.date+'T'+b.shift.start+':00Z');return x-y;});
+ const startMs=s=>s.startInstant?instantInAmsterdam(s.startInstant):resolveAmsterdamLocalMinute(s.date,s.start);
+ const shifts=rows.map(r=>({id:r.id||null,shift:r.payload||r})).sort((a,b)=>startMs(a.shift)-startMs(b.shift));
  const seen=new Map();
  for(const {id,shift} of shifts){
   const c=shift.contractSnapshot;
