@@ -22,7 +22,7 @@ export function nextCalendarDay(date){
 export function resolveAmsterdamLocalMinute(date,clock){
  const label=date+'T'+clock;
  const wall=Date.parse(label+':00Z');
- if(!Number.isFinite(wall)||new Date(wall).toISOString().slice(0,16)!==label)throw Error('Fecha u hora local inválida.');
+ if(!Number.isFinite(wall)||new Date(wall).toISOString().slice(0,16)!==label)throw Error('Fecha inválida u hora local inválida.');
  const matches=[60,120].map(offset=>wall-offset*60000).filter(ms=>{const local=localAmsterdamMinute(ms);return local.date===date&&local.clock===clock;});
  if(matches.length!==1)throw Error('Hora local ambigua o inexistente CET/CEST: introduce instantes con offset.');
  return matches[0];
