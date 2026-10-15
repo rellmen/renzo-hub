@@ -1,8 +1,8 @@
 {
-  "release": "2.29.1",
-  "name": "RISE HUB 4.0 · Shift Tracker: importación confirmada de saldos (fase 1 abierta)",
+  "release": "2.29.2",
+  "name": "RISE HUB 4.0 · PWA: caché reparada para Turnos y Payroll (fase 1 abierta)",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",
-  "updated": "2026-10-14"
+  "updated": "2026-10-15"
 }

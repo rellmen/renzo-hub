@@ -35,6 +35,7 @@ jobs:
           node tools/dev-server.mjs 4173 &
           sleep 1
           node tests/e2e/smoke.mjs
+          node tests/e2e/pwa-cache-install.mjs
       - name: E2E de Nóminas (datos ficticios, Chromium y WebKit)
         run: node tests/e2e/payroll.mjs
 

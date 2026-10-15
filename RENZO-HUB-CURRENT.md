@@ -527,3 +527,8 @@ Worktree: `/Users/Nodalys/Renzo HUB/payroll-2.8`, creado desde `main` en `7c110e
 
 - Runbook versionado: `docs/PAYROLL-BALANCES-RELEASE-RUNBOOK.md`. Producción **sin migrar**, PR #51 **borrador**. Requiere aprobación de migración productiva y PR de `staging` a `main`, además de verificación real del deployment staging antes de publicar.
 - Comparación de esquema solo lectura staging vs producción correcta: 8 campos de nómina, 5 del PDF y 5 de `hub_records`; staging tiene importador, producción aún no. No se ha guardado la instantánea real.
+
+## 2.29.2 WIP (2026-10-15): Corrección del Service Worker de staging
+
+- En `2.29.1` el array `CORE` de `sw.js` repetía `/microapps/payroll/shifts.js`: `Cache.addAll` rechaza con `InvalidStateError` las peticiones duplicadas y deja al navegador controlado por el Service Worker antiguo, que oculta Turnos aunque los recursos nuevos estén desplegados. Reproducido con Chromium Cache API y observado en Safari staging.
+- La versión `2.29.2` elimina el recurso duplicado y cambia la caché a `v14`; test automatizado de unicidad y activación real del SW. Hotfix limitado a staging. El cierre de fase 1 y la migración a producción siguen pendientes.
