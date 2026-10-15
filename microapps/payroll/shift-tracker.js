@@ -1,6 +1,6 @@
 import {createRecords} from '../records.js';
 import {calculateShift,validateContract} from './shifts.js';
-import {calculateWeeklyPayroll,leaveBalance} from './weekly-pay.js';
+import {calculateWeeklyPayroll,leaveBalance,reconcileOfficialPayroll} from './weekly-pay.js';
 import {extrasHTML,leaveFormData,proposedForDate} from './shift-extras.js';
 const esc=x=>String(x??'').replace(/[&<>"']/g,k=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&quot;'}[k]));
 const cash=x=>new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(x);
@@ -22,9 +22,9 @@ export function parseBands(value){
 export function parseBreaks(value){
  const raw=String(value||'').trim();if(!raw)return [];
  return raw.split(/\n/).map(line=>{
-  const m=/^([01]\d|2[0-3]):([0-5]\d)\s*-\s*([01]\d|2[0-3]):([0-5]\d)\s*;\s*(pagado|sinpago)$/i.exec(line.trim());
+  const m=/^([01]\d|2[0-3]):([0-5]\d)\s*-\s*([01]\d|2[0-3]):([0-5]\d)\s*;\s*(pagado|sinpago)(?:\s*;\s*([^;]+)\s*;\s*([^;]+))?$/i.exec(line.trim());
   if(!m)throw Error('Descanso inválido. Escribe una línea como 19:00-19:30;sinpago o 10:00-10:15;pagado.');
-  return {start:`${m[1]}:${m[2]}`,end:`${m[3]}:${m[4]}`,paid:m[5].toLowerCase()==='pagado'};
+  return {start:`${m[1]}:${m[2]}`,end:`${m[3]}:${m[4]}`,paid:m[5].toLowerCase()==='pagado',...(m[6]?{startInstant:m[6].trim(),endInstant:m[7].trim()}:{})};
  });
 }
 export function isoWeek(date){
@@ -71,15 +71,15 @@ export function createShiftTracker({db,getUser,root}){
  const contractsDb=createRecords(db,getUser,{domain:'money',type:'shift_contract'});
  const shiftsDb=createRecords(db,getUser,{domain:'work',type:'shift_log'});
  const leaveDb=createRecords(db,getUser,{domain:'money',type:'shift_leave_event'});
- let contracts=[],shifts=[],leaveRows=[],balanceImport=null,balanceAvailable=false,weeklyDetailCache=new Map(),ready=false,busy=false,error='',notice='',epoch=0;
- const clean=()=>{epoch++;contracts=[];shifts=[];leaveRows=[];balanceImport=null;balanceAvailable=false;ready=false;busy=false;error=notice='';};
+ let employers=[],contracts=[],shifts=[],leaveRows=[],balanceImport=null,balanceAvailable=false,weeklyDetailCache=new Map(),ready=false,busy=false,error='',notice='',epoch=0;
+ const clean=()=>{epoch++;employers=[];contracts=[];shifts=[];leaveRows=[];balanceImport=null;balanceAvailable=false;ready=false;busy=false;error=notice='';};
  const allLeave=async()=>{
   const result=[];for(let offset=0;;offset+=500){const r=await db.from('hub_records').select('id,payload,created_at').eq('owner_id',getUser()?.id).eq('domain','money').eq('record_type','shift_leave_event').order('id').range(offset,offset+499);if(r.error)throw r.error;result.push(...r.data||[]);if((r.data||[]).length<500)return result;}
  };
  const refresh=async()=>{
   if(busy)return;const e=++epoch;busy=true;error='';
-  try{const [c,s,l,b]=await Promise.all([contractsDb.list({limit:200}),shiftsDb.list({limit:300}),allLeave(),db.from('payroll_balance_imports').select('*').eq('owner_id',getUser()?.id).maybeSingle()]);
-   if(e!==epoch)return;contracts=c;shifts=s;leaveRows=l;balanceImport=b.error?null:b.data;balanceAvailable=!b.error;ready=true;
+  try{const [c,s,l,b,emp]=await Promise.all([contractsDb.list({limit:200}),shiftsDb.list({limit:300}),allLeave(),db.from('payroll_balance_imports').select('*').eq('owner_id',getUser()?.id).maybeSingle(),db.from('payroll_employers').select('id,name').eq('user_id',getUser()?.id)]);
+   if(e!==epoch)return;contracts=c;shifts=s;leaveRows=l;employers=emp.error?[]:(emp.data||[]);balanceImport=b.error?null:b.data;balanceAvailable=!b.error;ready=true;
   }catch(err){if(e===epoch)error=err.message||'No se pudieron cargar turnos.';}finally{if(e===epoch)busy=false;}
  };
  const contractSelect=()=>contracts.map(c=>`<option value="${esc(c.id)}">${esc(c.title)} · ${cash(c.payload?.hourlyRate||0)}/h</option>`).join('');
@@ -87,8 +87,8 @@ export function createShiftTracker({db,getUser,root}){
  const weeklyHTML=(payslips=[])=>{
   let result;
   try{result=calculateWeeklyPayroll(shifts);weeklyDetailCache=new Map(result.shifts.filter(d=>d.id).map(d=>[d.id,d]));}catch(e){weeklyDetailCache=new Map();return `<div class="card" role="alert"><h3>Resumen semanal no calculable</h3><p>${esc(e.message)}</p><p>Revisa turnos duplicados y condiciones de la agencia antes de comparar con Nóminas.</p></div>`;}
-  const summary=result.weeks;
-  return `<div class="card"><h3>3. Resumen por semana · horas extra al 150 %</h3>${summary.length?`<ul class="shift-list">${summary.map(w=>`<li><b>${esc(w.week)} · ${esc(w.agency)}</b> · ${n2(w.minutes/60)} h pagadas · <b>${cash(w.gross)}</b> bruto estimado. <div class="shift-segments">${w.byPercentage.map(x=>`<span>${n2(x.minutes/60)} h al ${n2(x.percent)} %${x.kind==='overtime'?' (extra)':''}</span>`).join('')}</div>${w.overtimeMinutes?`<small>Extra al 150 %: ${n2(w.overtimeMinutes/60)} h (se aplican después de 40 h trabajadas, no se suma con el plus normal).</small>`:''}<small>Comparar con nómina solo tras vincular contrato/empleador y separar pluses, festivos y correcciones.</small></li>`).join('')}</ul><button type="button" data-shift-export>Exportar CSV de turnos</button>`:'<p>Sin turnos registrados.</p>'}<p class="small">Los días libres y festivos pagados del saldo de vacaciones NO cuentan para las 40 horas trabajadas. Agrupación por semana ISO y agencia; los cambios de horario CET/CEST requieren revisión.</p></div>`;
+  const summary=reconcileOfficialPayroll(result.weeks,payslips);
+  return `<div class="card"><h3>3. Resumen por semana · horas extra al 150 %</h3>${summary.length?`<ul class="shift-list">${summary.map(w=>`<li><b>${esc(w.week)} · ${esc(w.agency)}</b> · ${n2(w.minutes/60)} h pagadas · <b>${cash(w.gross)}</b> bruto estimado. <div class="shift-segments">${w.byPercentage.map(x=>`<span>${n2(x.minutes/60)} h al ${n2(x.percent)} %${x.kind==='overtime'?' (extra)':''}</span>`).join('')}</div>${w.overtimeMinutes?`<small>Extra al 150 %: ${n2(w.overtimeMinutes/60)} h (se aplican después de 40 h trabajadas, no se suma con el plus normal).</small>`:''}<small>${esc(w.comparisonStatus)}</small>${w.comparison?`<small>Horas nómina: ${n2(w.comparison.paidHours)} h (desviación ${n2(w.comparison.hourDifference)} h); base + ORT + extras: ${cash(w.comparison.official)}; estimado: ${cash(w.gross)}; diferencia orientativa: ${cash(w.comparison.difference)}.</small>`:''}</li>`).join('')}</ul><button type="button" data-shift-export>Exportar CSV de turnos</button>`:'<p>Sin turnos registrados.</p>'}<p class="small">Los días libres y festivos pagados del saldo de vacaciones NO cuentan para las 40 horas trabajadas. Agrupación por semana ISO y agencia; los cambios de horario CET/CEST requieren revisión.</p></div>`;
  };
  const shiftCard=r=>{const x=r.payload||{};let v,weeklyDetail;try{v=calculateShift(x,x.contractSnapshot);weeklyDetail=weeklyDetailCache.get(r.id);} catch(err){return `<li class="shift-item" role="alert">${esc(x.date)}: ${esc(err.message)}</li>`;}
   return `<li class="shift-item"><div class="shift-item-head"><b>${esc(x.date)} · ${esc(x.start)}–${esc(x.end)}</b><b>${cash(weeklyDetail?.gross??v.estimatedGross)}</b></div><span>${esc(v.agency)} · ${n2(v.paidMinutes/60)} h remuneradas · ${n2(v.unpaidBreakMinutes)} min sin pago · estimación bruta</span><div class="shift-segments">${(weeklyDetail?.segments||v.segments).map(s=>`<span>${n2((s.minutes??(s.hours*60))/60)} h × ${n2(s.percent)} %${s.kind==='overtime'?' extra':''} = ${cash(s.amount)}</span>`).join('')}</div><button type="button" data-shift-edit="${esc(r.id)}">Editar</button> <button type="button" data-shift-delete="${esc(r.id)}">Eliminar turno</button></li>`;
@@ -96,8 +96,8 @@ export function createShiftTracker({db,getUser,root}){
  const html=(payslips=[])=>`<section class="shift-tracker" aria-label="Registro de turnos y ORT"><div class="card shift-hero"><div class="ey">PAYROLL / WORK HOURS</div><h2>Shift Tracker · horas y pluses</h2><p>Previsión **bruta**, no nómina verificada. Los pluses dependen de tu agencia, convenio y contrato. Registra siempre descansos no remunerados; no se aplican reglas legales inventadas.</p></div>
  ${error?`<p role="alert" class="shift-error">${esc(error)}</p>`:''}${notice?`<p role="status">${esc(notice)}</p>`:''}
  ${!ready?`<div class="card" role="status">${busy?'Cargando agencias y turnos…':error?'Pulsa Reintentar.':'Sin cargar.'}<button type="button" data-shift-reload>Reintentar</button></div>`:`
- <details class="card shift-contract" ${contracts.length?'':'open'}><summary>1. Configurar contrato / agencia (${contracts.length})</summary><form data-shift-contract><label>Agencia o empresa<input name="agency" maxlength="100" required placeholder="Nombre que figura en tu contrato"></label><label>Tarifa bruta por hora (€)<input name="hourlyRate" type="number" min="0.01" max="1000" step="0.01" required></label><div class="shift-fields"><label>Límite semanal de extra (h)<input name="overtimeThresholdHours" type="number" min="1" max="100" step="0.5" value="40" required></label><label>Horas extra: % de tarifa total<input name="overtimePercent" type="number" min="100" max="500" step="1" value="150" required></label></div><div class="shift-fields"><label>Desde (vigencia)<input name="effectiveFrom" type="date" required></label><label>Hasta (opcional)<input name="effectiveTo" type="date"></label></div><label>Franjas horarias y porcentaje de TARIFA TOTAL<textarea name="bands" required rows="4" placeholder="00:00-06:00=100\n06:00-18:00=100\n18:00-00:00=130"></textarea></label><p class="small">Un 130% significa 1,30 × la tarifa; introduce los valores de tu contrato. Las franjas deben cubrir las 24 horas sin solaparse. Puedes crear otra versión del contrato si cambian.</p><button type="submit" class="primary">Guardar contrato</button></form><ul>${contracts.map(card).join('')}</ul></details>
- <div class="card"><h3>2. Registrar turno</h3>${contracts.length?`<p role="status" data-shift-feedback></p><form data-shift-log><input type="hidden" name="shiftId" value=""><label>Contrato verificado<select name="contractId" required>${contractSelect()}</select></label><div class="shift-fields"><label>Fecha de inicio<input name="date" type="date" required></label><label>Entrada<input name="start" type="time" required></label><label>Salida<input name="end" type="time" required></label></div><label>Descansos (uno por línea; vacío si no hubo)<textarea name="breaks" rows="2" placeholder="19:00-19:30;sinpago\n21:00-21:15;pagado"></textarea></label><p class="small">Los turnos que atraviesan medianoche se dividen automáticamente por franjas. En cambios de horario CET/CEST se exige revisión manual. Las horas extra se recalculan por semana; los festivos/días libres se descuentan del saldo solo si los registras.</p><button type="submit" class="primary">Guardar turno</button></form>`:'<p>Crea primero un contrato con sus tramos y porcentajes confirmados.</p>'}</div>
+ <details class="card shift-contract" ${contracts.length?'':'open'}><summary>1. Configurar contrato / agencia (${contracts.length})</summary><form data-shift-contract><label>Agencia o empresa<input name="agency" maxlength="100" required placeholder="Nombre que figura en tu contrato"></label><label>Empresa oficial de la nómina<select name="employerId"><option value="">Sin vincular · no comparar todavía</option>${employers.map(e=>`<option value="${esc(e.id)}">${esc(e.name)}</option>`).join('')}</select></label><label>Tarifa bruta por hora (€)<input name="hourlyRate" type="number" min="0.01" max="1000" step="0.01" required></label><div class="shift-fields"><label>Límite semanal de extra (h)<input name="overtimeThresholdHours" type="number" min="1" max="100" step="0.5" value="40" required></label><label>Horas extra: % de tarifa total<input name="overtimePercent" type="number" min="100" max="500" step="1" value="150" required></label></div><div class="shift-fields"><label>Desde (vigencia)<input name="effectiveFrom" type="date" required></label><label>Hasta (opcional)<input name="effectiveTo" type="date"></label></div><label>Franjas horarias y porcentaje de TARIFA TOTAL<textarea name="bands" required rows="4" placeholder="00:00-06:00=100\n06:00-18:00=100\n18:00-00:00=130"></textarea></label><p class="small">Un 130% significa 1,30 × la tarifa; introduce los valores de tu contrato. Las franjas deben cubrir las 24 horas sin solaparse. Puedes crear otra versión del contrato si cambian.</p><button type="submit" class="primary">Guardar contrato</button></form><ul>${contracts.map(card).join('')}</ul></details>
+ <div class="card"><h3>2. Registrar turno</h3>${contracts.length?`<p role="status" data-shift-feedback></p><form data-shift-log><input type="hidden" name="shiftId" value=""><label>Contrato verificado<select name="contractId" required>${contractSelect()}</select></label><div class="shift-fields"><label>Fecha de inicio<input name="date" type="date" required></label><label>Entrada<input name="start" type="time" required></label><label>Salida<input name="end" type="time" required></label></div><details><summary>CET/CEST · instantes con offset (casos especiales)</summary><p class="small">Para cambios de hora: introduce ambos instantes, por ejemplo 2026-10-25T01:30+02:00 y 2026-10-25T03:30+01:00. Si hay descansos, indica también sus instantes en la línea del descanso.</p><label>Entrada con offset<input name="startInstant" type="text" placeholder="2026-10-25T01:30+02:00"></label><label>Salida con offset<input name="endInstant" type="text" placeholder="2026-10-25T03:30+01:00"></label></details><label>Descansos (uno por línea; vacío si no hubo)<textarea name="breaks" rows="2" placeholder="19:00-19:30;sinpago\n02:15-02:45;sinpago;2026-10-25T02:15+02:00;2026-10-25T02:45+01:00"></textarea></label><p class="small">Los turnos que atraviesan medianoche se dividen automáticamente por franjas. En cambios de horario CET/CEST se exige revisión manual. Las horas extra se recalculan por semana; los festivos/días libres se descuentan del saldo solo si los registras.</p><button type="submit" class="primary">Guardar turno</button></form>`:'<p>Crea primero un contrato con sus tramos y porcentajes confirmados.</p>'}</div>
  ${weeklyHTML(payslips)}
  ${balanceAvailable?extrasHTML(leaveRows,undefined,balanceImport):'<div class="card" role="alert">Saldo de vacaciones no disponible. Los turnos siguen accesibles; actualiza para comprobar la conexión antes de registrar vacaciones.</div>'}
  <div class="card"><h3>4. Historial de turnos (${shifts.length})</h3><ul class="shift-list">${shifts.slice().sort((a,b)=>String(b.payload?.date).localeCompare(String(a.payload?.date))).slice(0,60).map(shiftCard).join('')||'<li>Sin turnos registrados.</li>'}</ul></div>`}
@@ -106,7 +106,8 @@ export function createShiftTracker({db,getUser,root}){
   const v=Object.fromEntries(new FormData(form));
   if(form.hasAttribute('data-shift-contract')){
    if(!validDate(v.effectiveFrom)||v.effectiveTo&&!validDate(v.effectiveTo)||v.effectiveTo&&v.effectiveTo<v.effectiveFrom)throw Error('Vigencia del contrato inválida.');
-   const c=validateContract({agency:String(v.agency||'').trim(),hourlyRate:v.hourlyRate,bands:parseBands(v.bands),overtimeThresholdHours:Number(v.overtimeThresholdHours),overtimePercent:Number(v.overtimePercent),effectiveFrom:v.effectiveFrom,effectiveTo:v.effectiveTo||null});
+   if(v.employerId&&!employers.some(e=>e.id===v.employerId))throw Error('La empresa seleccionada no pertenece a tu cuenta.');
+   const c=validateContract({employerId:v.employerId||null,agency:String(v.agency||'').trim(),hourlyRate:v.hourlyRate,bands:parseBands(v.bands),overtimeThresholdHours:Number(v.overtimeThresholdHours),overtimePercent:Number(v.overtimePercent),effectiveFrom:v.effectiveFrom,effectiveTo:v.effectiveTo||null});
    if(!Number.isFinite(c.overtimeThresholdHours)||c.overtimeThresholdHours<=0||c.overtimeThresholdHours>100||!Number.isFinite(c.overtimePercent)||c.overtimePercent<100||c.overtimePercent>500)throw Error('Reglas de horas extra inválidas.');
    if(!c.agency)throw Error('Indica agencia o empresa.');
    await contractsDb.add({title:c.agency,status:'active',payload:c});notice='Contrato guardado. Los turnos conservarán una copia de estas condiciones.';
@@ -114,7 +115,7 @@ export function createShiftTracker({db,getUser,root}){
    const record=contracts.find(c=>c.id===v.contractId);if(!record)throw Error('Selecciona un contrato guardado.');
    const contract=record.payload;
    if(v.date<contract.effectiveFrom||contract.effectiveTo&&v.date>contract.effectiveTo)throw Error('El contrato no estaba vigente en esa fecha.');
-   const shift={date:v.date,start:v.start,end:v.end,breaks:parseBreaks(v.breaks),contractId:record.id,contractSnapshot:structuredClone(contract)};
+   const shift={date:v.date,start:v.start,end:v.end,startInstant:v.startInstant||null,endInstant:v.endInstant||null,breaks:parseBreaks(v.breaks),contractId:record.id,contractSnapshot:structuredClone(contract)};
    const summary=calculateShift(shift,contract);
    const old=v.shiftId?shifts.find(r=>r.id===v.shiftId):null;
    if(v.shiftId&&!old)throw Error('No se encuentra el turno que quieres modificar.');
@@ -139,7 +140,7 @@ export function createShiftTracker({db,getUser,root}){
    const proposal=proposedForDate(date);
    if(!proposal.workingDay){error='Es fin de semana. Introduce las horas reales solo si trabajaste.';return true;}
    form.querySelector('[name=start]').value=proposal.start;form.querySelector('[name=end]').value=proposal.end;
-   form.querySelector('[name=breaks]').value='';
+   form.querySelector('[name=breaks]').value='';form.querySelector('[name=startInstant]').value='';form.querySelector('[name=endInstant]').value='';
    notice=`Turno ${proposal.rotation==='morning'?'mañana':'tarde'} sugerido para ${date}. Ajusta la salida y registra el descanso real (30 min normalmente).`;
    const msg=root.querySelector('[data-shift-feedback]');if(msg)msg.textContent=notice;
    form.querySelector('[name=start]').focus();return true;
@@ -148,9 +149,9 @@ export function createShiftTracker({db,getUser,root}){
    const record=shifts.find(r=>r.id===button.dataset.shiftEdit),form=root.querySelector('[data-shift-log]');
    if(!record||!form){error='No se ha encontrado el turno editable.';return true;}
    const p=record.payload||{};
-   for(const k of ['date','start','end','contractId']){const field=form.querySelector(`[name=${k}]`);if(field)field.value=p[k]||'';}
+   for(const k of ['date','start','end','contractId','startInstant','endInstant']){const field=form.querySelector(`[name=${k}]`);if(field)field.value=p[k]||'';}
    form.querySelector('[name=shiftId]').value=record.id;
-   form.querySelector('[name=breaks]').value=(p.breaks||[]).map(b=>`${b.start}-${b.end};${b.paid?'pagado':'sinpago'}`).join('\n');
+   form.querySelector('[name=breaks]').value=(p.breaks||[]).map(b=>`${b.start}-${b.end};${b.paid?'pagado':'sinpago'}${b.startInstant?';'+b.startInstant+';'+b.endInstant:''}`).join('\n');
    const noticeNode=root.querySelector('[data-shift-feedback]');if(noticeNode)noticeNode.textContent='Editando turno existente: revisa y pulsa Guardar cambios. El historial anterior queda asociado al registro.';
    const submit=form.querySelector('button[type=submit]');if(submit)submit.textContent='Guardar cambios en el turno';
    form.scrollIntoView({behavior:'smooth',block:'start'});return true;

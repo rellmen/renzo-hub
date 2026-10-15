@@ -1,6 +1,6 @@
 {
-  "release": "2.29.2",
-  "name": "RISE HUB 4.0 · PWA: caché reparada para Turnos y Payroll (fase 1 abierta)",
+  "release": "2.29.3",
+  "name": "RISE HUB 4.0 · Payroll DST + conciliación segura (fase 1 en validación)",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",

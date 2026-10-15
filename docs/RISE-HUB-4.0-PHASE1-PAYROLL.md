@@ -54,3 +54,12 @@ Estado: fase 1 **en desarrollo**. El motor inicial está fusionado a main median
 - Comprobaciones de regresión: **186/186** unitarias, **15/15** smoke, Nóminas E2E Chromium/WebKit, base de datos PGlite con rollback de QA y RLS.
 - **Producción NO migrada**: PR #51 sigue `draft`; no exponer interfaz de importación en producción sin aplicar antes la migración de modo autorizado y verificarlo. El saldo real tampoco está importado: el usuario deberá confirmar sus 49 h 24 min y 333,22 € en la pantalla tras abrir su PDF.
 - Antes de cerrar la fase 1: finalizar auditoría de nóminas semanal por agencia, reglas específicas por convenio y festivos, DST con offsets explícitos, CI y rollout de producción con rollback documentado. No avanzar a My Finance hasta que esté cerrada.
+
+## 2.29.3 WIP · CET/CEST y conciliación por empleador (15/10/2026)
+
+- Motor de fechas Europe/Amsterdam con instantes locales y offsets explícitos, que cuenta la hora repetida en otoño, omite la inexistente en primavera y respeta descansos reales. Turnos DST sin instantes completos siguen rechazados.
+- La UI permite introducir inicio y fin con offset y descansos especiales con instantes de inicio/fin.
+- Cada contrato puede vincularse a la empresa registrada en payroll_employers. La conciliación solo calcula diferencias ante nómina de esa misma empresa/semana, sin duplicados, no correctiva, revisada, con desglose y horas suficientes. No se compara una nómina pendiente.
+- QA del candidato: 203/203 pruebas unitarias, 15/15 smoke con configuración staging, instalación PWA Chromium/WebKit con 75 assets, regresión de Nóminas en ambos motores y E2E de turnos + vacaciones con Supabase staging móvil/escritorio (6 registros QA eliminados).
+- La semana real aún NO está conciliada: en producción 0 turnos, 0 saldos importados, y las nóminas 40/41 figuran pendiente de revisión. Los porcentajes del convenio y la ubicación de los descansos necesitan confirmación documental.
+- No cerrar fase 1 ni arrancar fase 2 hasta CI, staging real, despliegue seguro y conciliación verificable de un ciclo real.
