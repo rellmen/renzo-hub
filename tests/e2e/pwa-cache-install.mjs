@@ -15,6 +15,12 @@ for(const browserType of [chromium,webkit]){
   const ctx=await browser.newContext({serviceWorkers:'allow'});const page=await ctx.newPage();
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto(BASE_URL+'/?app=payroll',{waitUntil:'networkidle'});
+  // WebKit may resolve navigator.serviceWorker.ready while active.state is still
+  // 'activating'. Wait for the actual state transition before asserting.
+  await page.waitForFunction(async()=>{
+   const reg=await navigator.serviceWorker.getRegistration();
+   return reg?.active?.state==='activated';
+  },null,{timeout:20000});
   const result=await page.evaluate(async cacheName=>{
    const timeout=new Promise((_,reject)=>setTimeout(()=>reject(Error('PWA worker activation exceeded 18 seconds')),18000));
    const reg=await Promise.race([navigator.serviceWorker.ready,timeout]);
