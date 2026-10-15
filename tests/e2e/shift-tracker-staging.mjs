@@ -16,7 +16,7 @@ const b=await chromium.launch({headless:true});
 const agency='RH4 QA TEST '+Date.now();
 try{
  for (const width of [390,1440]){
-  const p=await b.newPage({viewport:{width,height:844}}),errors=[];
+  const p=await b.newPage({viewport:{width,height:844},serviceWorkers:'block'}),errors=[];
   p.on('pageerror',err=>errors.push(err.message));
   await p.goto(BASE_URL+'/?app=payroll',{waitUntil:'networkidle'});
   await p.locator('#email').fill(e);await p.locator('#password').fill(pw);
