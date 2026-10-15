@@ -1,3 +1,4 @@
+import {buildPaidMinuteTimeline} from './dst-timeline.js';
 // Shift Tracker · pure estimate engine: does not assume NL agency rules or legal entitlement.
 // Clock minutes and ISO local dates, Europe/Amsterdam is represented by local input labels;
 // DST transitions require an explicit offset-aware extension before being accepted.
@@ -37,32 +38,22 @@ export function crossesAmsterdamDst(shift){
  }
  return false;
 }
+export function shiftMinuteTimeline(shift,contract){
+ const c=validateContract(contract);
+ return buildPaidMinuteTimeline(shift,c,crossesAmsterdamDst);
+}
 export function calculateShift(shift,contract){
  const c=validateContract(contract);
- if(!iso.test(String(shift?.date||''))||!Number.isFinite(Date.parse(shift.date+'T00:00:00Z'))||dateKey(shift.date+'T00:00:00Z')!==shift.date)throw Error('Fecha inválida.');
- const start=minutesOf(shift.start),end=minutesOf(shift.end),duration=(end-start+1440)%1440;
- if(crossesAmsterdamDst(shift))throw Error('Turno en cambio de horario CET/CEST: verifica offsets y nómina manualmente.');
- if(!duration||duration>16*60)throw Error('Duración de turno inválida o excesiva.');
- const breaks=shift.breaks||[];if(!Array.isArray(breaks))throw Error('Descansos inválidos.');
- const total=Array(1440).fill(null);
- const paidBreaks=[];
- for(const br of breaks){const from=(minutesOf(br.start)-start+1440)%1440,to=(minutesOf(br.end)-start+1440)%1440;if(to<=from||to>duration)throw Error('Descanso fuera del turno o que cruza el inicio: divídelo en tramos.');
-  for(let i=from;i<to;i++){if(total[i])throw Error('Descansos superpuestos.');total[i]=br.paid===true?'paid':'unpaid';}
-  paidBreaks.push({minutes:to-from,paid:br.paid===true});
- }
- const summary=new Map(),lines=[];
- const paidBreakMinutes=paidBreaks.filter(b=>b.paid).reduce((x,b)=>x+b.minutes,0),unpaidBreakMinutes=paidBreaks.filter(b=>!b.paid).reduce((x,b)=>x+b.minutes,0);
- for(let offset=0;offset<duration;offset++){
-  if(total[offset]==='unpaid')continue;
-  const clock=(start+offset)%1440;
-  const band=c.bands.find(b=>{const a=minutesOf(b.start),e=minutesOf(b.end);return a<e?clock>=a&&clock<e:clock>=a||clock<e;});
-  const k=`${band.percent}`;summary.set(k,(summary.get(k)||0)+1);
- }
- let grossCents=0,minutes=0;for(const [percent,count] of summary){
-  const pay=+((count/60)*c.hourlyRate*(Number(percent)/100)).toFixed(2);
-  minutes+=count;grossCents+=Math.round(pay*100);
-  lines.push({percent:Number(percent),minutes:count,hours:count/60,amount:pay});
+ const result=buildPaidMinuteTimeline(shift,c,crossesAmsterdamDst);
+ const totals=new Map();
+ for(const minute of result.minutes)totals.set(minute.percent,(totals.get(minute.percent)||0)+1);
+ const lines=[];
+ let grossCents=0;
+ for(const [percent,count] of totals){
+  const amount=Math.round(count*c.hourlyRate*percent/(60*100)*100)/100;
+  grossCents+=Math.round(amount*100);
+  lines.push({percent,minutes:count,hours:count/60,amount});
  }
  lines.sort((a,b)=>a.percent-b.percent);
- return {date:shift.date,agency:String(c.agency||'Sin agencia'),scheduledMinutes:duration,unpaidBreakMinutes,paidBreakMinutes,paidMinutes:minutes,workedHours:minutes/60,segments:lines,estimatedGross:Math.round(grossCents)/100,currency:'EUR',source:'estimación contractual no verificada con nómina'};
+ return {date:shift.date,agency:String(c.agency||'Sin agencia'),scheduledMinutes:result.scheduledMinutes,unpaidBreakMinutes:result.unpaidBreakMinutes,paidBreakMinutes:result.paidBreakMinutes,paidMinutes:result.paidMinutes,workedHours:result.paidMinutes/60,segments:lines,estimatedGross:grossCents/100,currency:'EUR',source:'estimación contractual no verificada con nómina'};
 }
