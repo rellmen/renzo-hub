@@ -39,8 +39,14 @@ export function mountAresAI({supabase,getUser,navigate}){
  function clear(){generation++;stream.replaceChildren();topic="";busy=false;input.value="";form.querySelector('[type="submit"]').disabled=false;}
  async function checkAI(){try{const res=await fetch("/api/ares-ai",{cache:"no-store",signal:AbortSignal.timeout(5000)});const data=res.ok?await res.json():{};aiEnabled=data.enabled===true;foot.textContent=aiEnabled?"OpenRouter/free activado · solo nombres y estados seleccionados de proyectos/tareas":"Consultas privadas sin IA externa · sin envío de datos a modelos externos";}catch{aiEnabled=false;foot.textContent="Consultas locales de tus registros";}}
  function setSession(){const id=getUser()?.id||null;if(id!==owner){owner=id;clear();}launch.hidden=!id;if(!id){panel.hidden=true;isOpen=false;document.body.classList.remove("ares-chat-open");}}
- function open(){setSession();if(!owner)return;void checkAI();panel.hidden=false;isOpen=true;document.body.classList.add("ares-chat-open");if(!stream.children.length)bubble("bot","Hola, soy Ares AI. Puedo consultar tus proyectos, tareas, revisiones y agentes a partir de los registros reales de RISE HUB. ¿Qué quieres saber?");input.focus();}
- function close(){panel.hidden=true;isOpen=false;document.body.classList.remove("ares-chat-open");launch.focus();}
+ function open(){setSession();if(!owner)return;void checkAI();panel.hidden=false;isOpen=true;document.body.classList.add("ares-chat-open");fitViewport();if(!history.state?.aresChat)history.pushState({...(history.state||{}),aresChat:true},"");if(!stream.children.length)bubble("bot","Hola, soy Ares AI. Puedo consultar tus proyectos, tareas, revisiones y agentes a partir de los registros reales de RISE HUB. ¿Qué quieres saber?");if(!touch())input.focus();}
+ function close({fromHistory=false}={}){if(!isOpen&&panel.hidden)return;if(panel.contains(document.activeElement))document.activeElement.blur();panel.hidden=true;isOpen=false;document.body.classList.remove("ares-chat-open");panel.style.removeProperty("height");panel.style.removeProperty("top");if(!fromHistory&&history.state?.aresChat)history.back();if(!touch())launch.focus();}
+ // Móvil: sin foco automático (el teclado tapaba la cabecera y el botón de cerrar al terminar una respuesta),
+ // el panel se ajusta al área visible cuando aparece el teclado y el gesto/botón "atrás" cierra el chat.
+ function touch(){return matchMedia("(pointer:coarse)").matches;}
+ function fitViewport(){const vv=window.visualViewport;if(!vv||!isOpen||!matchMedia("(max-width:650px)").matches){panel.style.removeProperty("height");panel.style.removeProperty("top");return;}panel.style.height=vv.height+"px";panel.style.top=vv.offsetTop+"px";}
+ window.visualViewport?.addEventListener("resize",fitViewport);window.visualViewport?.addEventListener("scroll",fitViewport);
+ window.addEventListener("popstate",()=>{if(isOpen)close({fromHistory:true});});
  function reset(){owner=null;clear();panel.hidden=true;launch.hidden=true;isOpen=false;document.body.classList.remove("ares-chat-open");}
  async function records(){const id=owner;if(!id||id!==getUser()?.id)throw Error("Inicia sesión para preguntar.");const {data,error}=await supabase.from("hub_records").select("id,domain,record_type,title,status,occurred_at,payload,source,requires_review").eq("owner_id",id).in("record_type",ARES_QUERY_TYPES).order("occurred_at",{ascending:false}).limit(500);if(error)throw Error("La consulta privada ha fallado: "+error.message);if(id!==getUser()?.id)throw Error("La sesión ha cambiado.");return data||[];}
  const detectTask=question=>{const m=question.match(/^(?:pide|encarga|solicita|dile)\s+(?:a\s+)?(claude|hermes|jarvis)\s+(?:que\s+)?(.{4,})$/i);return m?{agent:m[1][0].toUpperCase()+m[1].slice(1).toLowerCase(),task:m[2].trim().slice(0,180)}:null;};
@@ -78,7 +84,7 @@ export function mountAresAI({supabase,getUser,navigate}){
         bubble("bot",aiReply?aiReply+"\n\nFuente: "+aiSource:answer.text,aiReply?[]:answer.actions||[]);
       }}
   catch(e){if(seq===generation){placeholder.remove();bubble("bot","No he podido responder con datos verificados: "+String(e.message||e));}}
-  finally{if(seq===generation){busy=false;form.querySelector('[type="submit"]').disabled=false;input.focus();}}
+  finally{if(seq===generation){busy=false;form.querySelector('[type="submit"]').disabled=false;if(isOpen&&!touch())input.focus();}}
  }
  async function doAction(action,button){if(!owner||owner!==getUser()?.id)return;button.disabled=true;
   try{
@@ -101,7 +107,7 @@ export function mountAresAI({supabase,getUser,navigate}){
    }
   }catch(e){bubble("bot","No he podido realizar la acción: "+String(e.message||e));button.disabled=false;}
  }
- launch.addEventListener("click",open);panel.querySelector(".ares-close").addEventListener("click",close);
+ launch.addEventListener("click",open);panel.querySelector(".ares-close").addEventListener("click",()=>close());
  panel.querySelectorAll("[data-suggest]").forEach(b=>b.addEventListener("click",()=>void send(b.dataset.suggest)));
  form.addEventListener("submit",e=>{e.preventDefault();void send(input.value);});
  input.addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();form.requestSubmit();}});
