@@ -10,10 +10,46 @@ export function mountSkin(root, db, getUser) {
     const dot = el.querySelector(".dot");
     dot.className = "dot" + (kind === "busy" ? " busy" : kind === "err" ? " err" : "");
   }
-  const PRODUCTS=[["Arencia Fresh Green Rice Mochi Cleanser", "Limpiador principal", "Diario", "assets/skin_6.jpeg"], ["CeraVe Foaming Cleanser", "Limpiador alternativo", "Si notas más grasa", "assets/skin_7.jpeg"], ["Eucerin DermoPure Clinical Correcting Cleanser 2%", "Limpiador exfoliante", "1 vez/semana", "assets/skin_8.jpeg"], ["COSRX Advanced Snail 96 Mucin Power Essence", "Hidratación", "Mañana y noche", "assets/skin_1.jpeg"], ["SKIN1004 Madagascar Centella Ampoule", "Calmante", "Según rutina", "assets/skin_1.jpeg"], ["Paula’s Choice Skin Perfecting 2% BHA Liquid", "Puntos negros", "2 noches/semana", "assets/skin_2.jpeg"], ["Dr. Althea Vitamin C Boosting Serum", "Luminosidad", "3–4 mañanas/semana", "assets/skin_2.jpeg"], ["Anua Niacinamide 10% + TXA 4%", "Manchas y tono", "2 noches/semana", "assets/skin_2.jpeg"], ["ILLIYOON Ceramide Ato Concentrate Cream", "Barrera", "Principalmente noche", "assets/skin_3.jpeg"], ["AXIS-Y Dark Spot Correcting Glow Serum", "Antimanchas alternativo", "Alternativa al Anua", "assets/skin_3.jpeg"], ["Heliocare 360 Pigment Solution Fluid SPF50+", "Protector solar", "Cada mañana", "assets/skin_4.jpeg"], ["Avène Sunsimed Pigment", "Protector solar alternativo", "Alternativa al Heliocare", "assets/skin_4.jpeg"], ["NUXE Zinc Power", "Imperfecciones", "Opcional", "assets/skin_3.jpeg"]];
-  const AM=[["Limpiar","Arencia Fresh Green Rice Mochi Cleanser · o CeraVe si notas más grasa"],["Calmar","SKIN1004 Madagascar Centella Ampoule"],["Cuidar el tono y las manchas","Dr. Althea Vitamin C Boosting Serum · solo si lo toleras"],["Hidratar","COSRX Advanced Snail 96"],["Barrera","ILLIYOON Ceramide Cream · si lo necesitas"],["Proteger y prevenir nuevas manchas","Heliocare 360 Pigment Solution SPF50+ · o Avène Sunsimed Pigment"]];
+  const PRODUCTS=[
+    ["Arencia Fresh Green Rice Mochi Cleanser","Limpiador elegido","Diario; usa solo agua si amaneces muy seco","assets/skin_6.jpeg"],
+    ["Anua Niacinamide 10% + TXA 4% Dark Spot Correcting Serum","Antimanchas principal","Pausado mientras haya descamación; después 2 mañanas/semana","assets/skin_2.jpeg"],
+    ["Dr. Althea Vitamin C Boosting Serum","Vitamina C duplicada por ahora","Pausado durante la recuperación","assets/skin_2.jpeg"],
+    ["Paula’s Choice Skin Perfecting 2% BHA Liquid","Exfoliante BHA","Pausado; no combinar con retinal durante esta fase","assets/skin_2.jpeg"],
+    ["SKIN1004 Madagascar Centella Tone Brightening Capsule Ampoule","Calmante opcional","Solo si no escuece; no imprescindible","assets/skin_1.jpeg"],
+    ["COSRX Advanced Snail 96 Mucin Power Essence","Hidratación","AM/PM si no escuece","assets/skin_1.jpeg"],
+    ["Isntree Hyaluronic Acid Toner Plus","Hidratación alternativa","Alternativa al COSRX, no necesitas ambos","assets/skin_1.jpeg"],
+    ["NUXE Zinc Power Blemish and Spot Control Serum","Imperfecciones","Pausado; solo considerar si hay acné activo","assets/skin_3.jpeg"],
+    ["AXIS-Y Dark Spot Correcting Glow Serum","Antimanchas alternativo","No usar junto a Anua ni Ondo","assets/skin_3.jpeg"],
+    ["Illiyoon Ceramide Ato Concentrate Cream","Crema de barrera","Principal hidratante AM/PM","assets/skin_3.jpeg"],
+    ["Heliocare 360 Pigment Solution Fluid SPF50+","Protector solar elegido","Cada mañana; reaplicar según etiqueta y exposición","assets/skin_4.jpeg"],
+    ["Aceite de ricino Deliplus","No incluido en la rutina facial","Excluir del rostro","assets/skin_3.jpeg"],
+    ["celimax Retinal Shot Tightening Booster 0.1%","Retinal elegido para reintroducción","NO usar con descamación; más adelante 1 noche/semana","assets/skin_3.jpeg"],
+    ["Ondo Beauty Tranexamic Acid & Licorice Dark Spot Treatment","Antimanchas alternativo","No usar junto a Anua ni AXIS-Y","assets/skin_3.jpeg"],
+    ["Differine adapaleno 0.1%","Retinoide alternativo","No combinar con retinal; si fue prescrito, consultar antes de cambiar","assets/skin_3.jpeg"],
+    ["NUXE Zinc Power Mattifying Fluid Pore Minimizer","Matificante opcional","Prescindible mientras la piel esté seca","assets/skin_3.jpeg"],
+    ["Avène Sunsimed Pigment","Protector solar alternativo","No alternar por obligación: Heliocare es el elegido","assets/skin_4.jpeg"],
+    ["AXIS-Y Vegan Collagen Eye Serum","Contorno opcional","Prescindible; pausar si irrita","assets/skin_3.jpeg"]
+  ];
+  const AM=[
+    ["Limpiar suavemente","Arencia Fresh Green Rice Mochi Cleanser; si amaneces tirante, solo agua tibia"],
+    ["Tratar manchas (fase 2)","Ahora omitir. Cuando lleves 7 días sin descamación: Anua, 2 mañanas/semana; no añadir otros sérums antimanchas"],
+    ["Hidratar","COSRX Snail 96; si escuece, omitir y usar solo Illiyoon"],
+    ["Reforzar barrera","Illiyoon Ceramide Ato Concentrate Cream, capa fina"],
+    ["Proteger","Heliocare 360 Pigment Solution Fluid SPF50+, cantidad generosa"],
+    ["Mantener protección","Reaplicar según etiqueta, especialmente al aire libre, sudar o limpiarte"]
+  ];
 
   const PM={
+  0:[["Limpiar suavemente","Arencia; sin frotar ni agua caliente"],["Recuperar barrera","No usar activos mientras haya descamación"],["Hidratar","COSRX Snail 96 si no escuece"],["Sellar","Illiyoon Ceramide Cream"]],
+  1:[["Limpiar suavemente","Arencia; sin frotar ni agua caliente"],["Recuperar barrera","No usar retinal, BHA ni sérums antimanchas mientras haya descamación"],["Hidratar","COSRX Snail 96 si no escuece"],["Sellar","Illiyoon Ceramide Cream"]],
+  2:[["Limpiar suavemente","Arencia; sin frotar ni agua caliente"],["Recuperar barrera","Sin activos hasta que la piel esté estable 7 días seguidos"],["Hidratar","COSRX Snail 96 si no escuece"],["Sellar","Illiyoon Ceramide Cream"]],
+  3:[["Limpiar suavemente","Arencia; sin frotar ni agua caliente"],["Fase 2: antimanchas","Solo tras 7 días sin descamación: Anua en esta noche o por la mañana, no ambos; empieza 2 veces/semana"],["Hidratar","COSRX Snail 96 si no escuece"],["Sellar","Illiyoon Ceramide Cream"]],
+  4:[["Limpiar suavemente","Arencia; sin frotar ni agua caliente"],["Recuperar barrera","No usar retinal, BHA ni sérums antimanchas mientras haya descamación"],["Hidratar","COSRX Snail 96 si no escuece"],["Sellar","Illiyoon Ceramide Cream"]],
+  5:[["Limpiar suavemente","Arencia; sin frotar ni agua caliente"],["Retinal futuro, no ahora","Celimax solo cuando lleves 7 días sin descamación; reintroducir 1 noche/semana, sin BHA ni Differin"],["Hidratar","COSRX Snail 96 si no escuece"],["Sellar","Illiyoon Ceramide Cream"]],
+  6:[["Limpiar suavemente","Arencia; sin frotar ni agua caliente"],["Recuperar barrera","Si sigue la sequedad, solo hidratación; no compensar con exfoliación"],["Hidratar","COSRX Snail 96 si no escuece"],["Sellar","Illiyoon Ceramide Cream"]]
+  };
+
+{
   0:[["Limpiar","Arencia"],["Calmar","SKIN1004 Centella"],["Hidratar","COSRX Snail 96"],["Sellar","ILLIYOON"]],
   1:[["Limpiar","Arencia"],["Reducir puntos negros","Paula’s Choice 2% BHA · omitir si hay irritación"],["Hidratar","COSRX Snail 96"],["Sellar","ILLIYOON"]],
   2:[["Limpiar","Arencia o CeraVe"],["Calmar","SKIN1004 Centella"],["Tratar manchas","Anua Niacinamide 10% + TXA 4% · o AXIS-Y como alternativa; solo uno y si lo toleras"],["Hidratar","COSRX Snail 96"],["Sellar","ILLIYOON"]],
@@ -148,8 +184,8 @@ export function mountSkin(root, db, getUser) {
     $("gentleBtn").setAttribute("aria-pressed",String(gentle));$("gentleHint").classList.toggle("hidden",!gentle);
 
     $("skinDate").textContent=new Intl.DateTimeFormat("es",{weekday:"long",day:"numeric",month:"long",year:"numeric"}).format(now);
-    const focus={0:"Recuperación e hidratación",1:"Puntos negros",2:"Cuidado de las manchas",3:"Limpieza y cuidado de la barrera",4:"Puntos negros",5:"Cuidado de las manchas",6:"Recuperación e hidratación"};
-    $("skinFocus").textContent=mode==="am"?"Hoy por la mañana: tono uniforme y protección solar":"Hoy por la noche: "+focus[now.getDay()];
+    const focus={0:"Recuperación de la barrera",1:"Recuperación de la barrera",2:"Recuperación de la barrera",3:"Antimanchas solo cuando la piel esté estable",4:"Recuperación de la barrera",5:"Retinal futuro; no usar con descamación",6:"Recuperación de la barrera"};
+    $("skinFocus").textContent=mode==="am"?"Hoy por la mañana: reparar la barrera y proteger las manchas":"Hoy por la noche: "+focus[now.getDay()];
     const arr=current(), done=new Set(cloudState[mode]||[]);
     $("pill").textContent=mode==="am"?"MAÑANA":"NOCHE";
     $("switchBtn").textContent=mode==="am"?"Cambiar a noche":"Cambiar a mañana";
