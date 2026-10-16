@@ -29,6 +29,7 @@ export const CATEGORIES = Object.freeze([
   { id: "personas_recibido", name: "Recibido de personas", kind: "income", icon: "↙" },
   { id: "otros_ingresos", name: "Otros ingresos", kind: "income", icon: "+" },
   { id: "traspaso", name: "Traspaso entre tus cuentas", kind: "transfer", icon: "⇄" },
+  { id: "inversion", name: "Aporte a inversión", kind: "transfer", icon: "📈" },
   { id: "prestamos", name: "Préstamos y devoluciones", kind: "transfer", icon: "↔" },
   { id: "sin_categoria", name: "Sin categoría", kind: "expense", icon: "?" }
 ].map(Object.freeze));
@@ -65,6 +66,8 @@ export const merchantKey = raw => merchantName(raw).toLowerCase();
 const R = (category, pattern, when = "any") => ({ category, re: new RegExp(pattern, "i"), when });
 // when: debit (salida) · credit (entrada) · any
 export const DEFAULT_RULES = Object.freeze([
+  // Aportes a plataformas de inversión: dinero que sigue siendo tuyo; no es gasto (cuenta en Objetivos y Patrimonio).
+  R("inversion", "trade ?republic|degiro|flatex|scalable ?capital|meesman|bitvavo|trading ?212|brand ?new ?day|interactive ?brokers|\\bibkr\\b", "debit"),
   R("traspaso", "recarga desde tu tarjeta|geld toevoegen|\\btop.?up\\b|\\brevolut\\b|\\bbunq\\b.*(top ?up|opwaarderen)|spaarrekening|oranje spaar|eigen rekening"),
   R("nomina", "loonslip|salaris|salary|\\bsd ?worx\\b", "credit"),
   R("toeslagen", "toeslag|belastingdienst", "credit"),
