@@ -118,3 +118,21 @@ test("endpoint: el mismo PDF otra vez no crea otra nómina", async () => {
   assert.equal(r.body.duplicate, true);
   assert.ok(!f.calls.some(c => c.url.includes("/storage/") || c.url.endsWith("/rpc/payroll_ingest")));
 });
+
+test("reconoce 'Loon overwerkuren 150%' (formato SD Worx W40/W41) y cuadra el bruto", () => {
+  // Nómina FICTICIA: se mueve 1 h del ORT a horas extra sin cambiar el bruto total.
+  const r = structuredClone(rows);
+  const declOrt = r.find(x => x.items[0].s === "ORT -Loon onregelmatige uren 130");
+  declOrt.items.find(i => i.s === "20:00 à").s = "19:00 à";
+  r.splice(r.indexOf(declOrt) + 1, 0, { ...declOrt, y: declOrt.y - 1, items: [
+    { ...declOrt.items[0], s: "Loon overwerkuren 150" }, { ...declOrt.items[1], s: "1:00 à" },
+    { ...declOrt.items[2], s: "150,00%" }, { ...declOrt.items[3], s: "15,00" }, { ...declOrt.items[4], s: "22,50" }] });
+  const tableOrt = r.find(x => x.items[0].s === "ORT -Loon onregelmatige uren 130%");
+  tableOrt.items.forEach(i => { if (i.s === "390,00") i.s = "367,50"; });
+  r.splice(r.indexOf(tableOrt) + 1, 0, { ...tableOrt, y: tableOrt.y - 1, items: tableOrt.items.map((i, k) => ({ ...i, s: k === 0 ? "Loon overwerkuren 150%" : i.s === "367,50" ? "22,50" : i.s })) });
+  const p = parseSdWorx(r), s = p.payslip;
+  assert.equal(s.overtime_pay, 22.5); assert.equal(s.shift_allowance, 367.5);
+  assert.equal(s.overtime_hours, 1); assert.equal(s.worked_hours, 30);
+  assert.ok(p.checks.every(c => c.passed), JSON.stringify(p.checks));
+  assert.ok(p.line_items.some(l => l.code === "overtime_pay" && l.label_original === "Loon overwerkuren 150%"));
+});
