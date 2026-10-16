@@ -1,15 +1,16 @@
 // Build actual paid minutes for Amsterdam shifts. DST folds/gaps need explicit offset-bearing instants.
-import {instantInAmsterdam,localAmsterdamMinute,nextCalendarDay} from './amsterdam-time.js';
-const DAY=86400000,MINUTE=60000;
+import {instantInAmsterdam,localAmsterdamMinute,nextCalendarDay,resolveAmsterdamLocalMinute} from './amsterdam-time.js';
+const MINUTE=60000;
 const clockMinutes=x=>{if(!/^([01]\d|2[0-3]):[0-5]\d$/.test(String(x||'')))throw Error('Hora no válida.');return Number(x.slice(0,2))*60+Number(x.slice(3));};
-const day=x=>{const t=Date.parse(String(x)+'T00:00:00Z');if(!Number.isFinite(t)||new Date(t).toISOString().slice(0,10)!==x)throw Error('Fecha inválida.');return t;};
+
 export function buildPaidMinuteTimeline(shift,contract,crossesDst){
- const startClock=clockMinutes(shift.start),endClock=clockMinutes(shift.end),at=day(shift.date);
+ const startClock=clockMinutes(shift.start),endClock=clockMinutes(shift.end);
  const instants=!!(shift.startInstant||shift.endInstant);
  if(instants&&(!shift.startInstant||!shift.endInstant))throw Error('Para el cambio de hora hacen falta ambos instantes con offset.');
  if(!instants&&crossesDst(shift))throw Error('Turno en cambio de horario CET/CEST: introduce ambos instantes con offset.');
- const start=instants?instantInAmsterdam(shift.startInstant):at+startClock*MINUTE;
- const end=instants?instantInAmsterdam(shift.endInstant):start+((endClock-startClock+1440)%1440)*MINUTE;
+ const start=instants?instantInAmsterdam(shift.startInstant):resolveAmsterdamLocalMinute(shift.date,shift.start);
+ const endDate=endClock<=startClock?nextCalendarDay(shift.date):shift.date;
+ const end=instants?instantInAmsterdam(shift.endInstant):resolveAmsterdamLocalMinute(endDate,shift.end);
  if(instants){
   const a=localAmsterdamMinute(start),b=localAmsterdamMinute(end);
   const validDate=b.date===shift.date||b.date===nextCalendarDay(shift.date);
@@ -39,7 +40,7 @@ export function buildPaidMinuteTimeline(shift,contract,crossesDst){
  for(let i=0;i<duration;i++){
   if(paidMask[i]===2)continue;
   const when=start+i*MINUTE;
-  const local=instants?localAmsterdamMinute(when):{date:new Date(at+(startClock+i)*MINUTE).toISOString().slice(0,10),clock:String(Math.floor((startClock+i)%1440/60)).padStart(2,'0')+':'+String((startClock+i)%60).padStart(2,'0')};
+  const local=localAmsterdamMinute(when);
   const minute=clockMinutes(local.clock);
   const matches=contract.bands.filter(b=>{const a=clockMinutes(b.start),e=clockMinutes(b.end);return a<e?minute>=a&&minute<e:minute>=a||minute<e;});
   if(matches.length!==1)throw Error('Franjas salariales sin cobertura o solapadas.');
