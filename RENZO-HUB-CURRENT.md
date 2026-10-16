@@ -1,5 +1,17 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## 2.32.0 (2026-10-17) · My Finance completo (fase 2B patrimonio + 2C objetivos) y arreglos · PR a staging
+
+- **Patrimonio** (panel del Resumen): saldo de cierre de cada cuenta desde el último extracto (ING y Revolut, también con varios movimientos el mismo día), inversiones y deudas como valoraciones con fecha (`hub_records` money/`money_asset`, nunca se sobrescriben), patrimonio neto y evolución mensual; valores de más de 45 días marcados como antiguos.
+- **Objetivos**: fondo de emergencia (N meses de gastos fijos reales frente al saldo), meta con fecha (ahorro real desde el mes de inicio y € por semana hasta el plazo) y aporte mensual a inversión (`money_goal`; "Archivar" sin borrar).
+- Categoría nueva **Aporte a inversión** (Trade Republic, DEGIRO, Scalable, etc.): es traspaso, no gasto.
+- **Ares AI**: en móvil ya no reabre el teclado al terminar cada respuesta (tapaba el botón de cerrar), el panel se ajusta al teclado y "atrás" cierra el chat.
+- Portadas de microapps: `overflow-x: clip` (la animación de apertura creaba 2 px de scroll horizontal).
+- Tests: 219 unitarios (6 nuevos), E2E `finance-complete` (Chromium y WebKit) y `ares-ai-chat` ampliado. Caché `renzo-hub-cloud-v19-finance-completa`. Sin migraciones.
+
+## 2.29.4 → 2.31.0 (2026-10-16) · Fase 1 cerrada, fase 2A en producción
+- 2.29.4: arreglo CET/CEST (#59) y lector `Loon overwerkuren`, caché v16 (#60, #61). 2.30.0: fase 1 cerrada en el plan (#64). 2.31.0: "Ingresos del mes" nómina ↔ banco sin duplicados (#65, en producción con #66).
+
 ## 2.26.0 (2026-10-13) · SelfLearn A0–B2 — preparado en feature, no desplegado
 
 - **En preparación; pendiente de PR a staging.** Se renombra el área visual `Study · Dutch` a **SelfLearn · Courses** (se conserva el identificador técnico `study`).
