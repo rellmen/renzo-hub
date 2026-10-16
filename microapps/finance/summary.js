@@ -48,7 +48,7 @@ export function mountFinanceSummary(root, db, getUser, go, { extras = [] } = {})
       const [fin, inbox] = await Promise.all([loadFinance(db, uid), loadPendingInbox(db, uid).catch(() => 0)]);
       if (owner !== uid) return;
       items = fin.items; pending = inbox;
-      for (const x of extras) x.setData?.(fin);
+      await Promise.all(extras.map(x => x.setData?.(fin)));
       const months = monthsOf(items);
       if (!months.includes(month)) month = months.includes(financeNav.month) ? financeNav.month : months[0] || "";
     } catch (e) { if (owner === uid) error = e.message; }

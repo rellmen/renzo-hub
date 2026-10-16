@@ -37,7 +37,9 @@ jobs:
           node tests/e2e/smoke.mjs
           node tests/e2e/pwa-cache-install.mjs
       - name: E2E de Nóminas (datos ficticios, Chromium y WebKit)
-        run: node tests/e2e/payroll.mjs
+        run: |
+          node tests/e2e/payroll.mjs
+          node tests/e2e/finance-income.mjs
 
   db-migrations:
     # Réplica local PostgreSQL 17 con los privilegios reales de producción (sin conectar a Supabase).

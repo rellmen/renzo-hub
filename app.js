@@ -10,6 +10,7 @@ import {mountPhase1} from "./phase1.js";
 import {mountFinanceSummary} from "./microapps/finance/summary.js";
 import {createFixedPanel} from "./microapps/finance/fixed.js";
 import {createBudgetPanel} from "./microapps/finance/budget.js";
+import {createIncomePanel} from "./microapps/finance/income-panel.js";
 
 function showStartupError(error){
   const message=error instanceof Error?error.message:String(error||"");
@@ -79,7 +80,7 @@ if(deepLink){const clean=new URL(location.href);clean.searchParams.delete("app")
 mountJarvis(supabase,()=>user);
 mountWorldExtensions(supabase,()=>user);
 // Resumen de My Finance: vive en la página del área money (no es una microapp con sección propia).
-try{apps.money=mountFinanceSummary(document.getElementById("finSummary"),supabase,()=>user,go,{extras:[createBudgetPanel({db:supabase,getUser:()=>user}),createFixedPanel({db:supabase,getUser:()=>user})]});}catch(error){console.error(error);errorLog.report(error,{kind:"microapp",source:"/microapps/finance/summary.js"});}
+try{apps.money=mountFinanceSummary(document.getElementById("finSummary"),supabase,()=>user,go,{extras:[createIncomePanel({db:supabase,getUser:()=>user}),createBudgetPanel({db:supabase,getUser:()=>user}),createFixedPanel({db:supabase,getUser:()=>user})]});}catch(error){console.error(error);errorLog.report(error,{kind:"microapp",source:"/microapps/finance/summary.js"});}
 const profile=mountProfile(supabase,()=>user);
 const phase1=mountPhase1(supabase,()=>user);
 // Ares comparte proyectos y tareas con Work; refrescar la vista tras escribir en Ares.
