@@ -1,6 +1,6 @@
 # RISE HUB 4.0 · Plan maestro por fases
 
-Fecha de inicio: 14 octubre 2026. Estado: **fase 0 cerrada tras la publicación verificada de 2.28.0; fase 1 activa** (solo planificación de reglas contractuales inicial). Propietario: usuario de RISE HUB; producto **personal**, completamente independiente de Nodalys. Fuente visible: Work → RISE HUB 4.0. Plan estructurado: `microapps/work/roadmap.js`.
+Fecha de inicio: 14 octubre 2026. Estado: **fases 0 y 1 cerradas; fase 2 (My Finance conectado) activa** desde el 16 oct 2026. Propietario: usuario de RISE HUB; producto **personal**, completamente independiente de Nodalys. Fuente visible: Work → RISE HUB 4.0. Plan estructurado: `microapps/work/roadmap.js`.
 
 ## Objetivo
 Completar las microapps existentes antes de iniciar la siguiente; preservar lo que ya funciona, mantener información personal privada, evitar duplicar módulos y permitir que Ares proponga acciones basadas en registros verificables. **No se garantiza ausencia absoluta de errores**: se exige un criterio de aceptación medible y revisiones tras el despliegue.
