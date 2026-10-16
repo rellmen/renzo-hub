@@ -18,3 +18,8 @@ test('storage isolates goals by user account',()=>{
   assert.equal(getGymGoals('owner-b').targetWeight,null);
  }finally{delete globalThis.localStorage;}
 });
+
+test('cloud metadata is used when available for cross-device goals',()=>{
+ const result=getGymGoals('owner-c',{gym_goals:{priority:'Fuerza',sessionsPerWeek:5,targetWeight:72}});
+ assert.equal(result.sessionsPerWeek,5);assert.equal(result.targetWeight,72);
+});
