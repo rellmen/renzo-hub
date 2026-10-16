@@ -13,12 +13,12 @@ Activa desde el 16 oct 2026. Ya en producción antes de la fase: Resumen del mes
 - Nómina aprobada sin cobro en el banco: aviso "No cobrada" solo si el extracto llega a esa fecha; si no, "importa un extracto más reciente".
 - Criterios de aceptación: nómina + otros = ingresos del mes; ningún importe de nómina se suma al total; rechazadas o fallidas se ignoran; correcciones con su fecha de pago; mes vacío sin errores. Pruebas: `tests/finance-income.test.mjs` (6) y `tests/e2e/finance-income.mjs` (Chromium y WebKit, 390 px).
 
-## B · Patrimonio (pendiente)
+## B · Patrimonio (2.32.0, `networth.js` y `networth-panel.js`)
 - Saldos ING y Revolut desde el último saldo de cada extracto importado (ING trae saldo resultante); inversiones y deudas como registros manuales con fecha.
 - Patrimonio neto = cuentas + inversiones − deudas, con evolución mensual; cada cifra muestra su fecha y su fuente.
 - Aceptación: sin saldo conocido se muestra "sin datos"; traspasos entre cuentas no cambian el total.
 
-## C · Objetivos (pendiente)
+## C · Objetivos (2.32.0, `goals.js` y `goals-panel.js`; aportes por la categoría nueva "Aporte a inversión")
 - Fondo de emergencia: N meses de gastos fijos reales (etapa B de My Finance).
 - Meta con fecha: importe, fecha y ahorro semanal necesario (semana de miércoles a martes).
 - Aporte mensual a inversión: importe objetivo frente a lo realmente aportado en el banco.
