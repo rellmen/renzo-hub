@@ -1,5 +1,5 @@
 // Recovery signals are self-reported trends, not measured physiological readiness.
-function validScore(value){return Number.isFinite(Number(value))&&Number(value)>=1&&Number(value)<=10?Number(value):null;}
+function validScore(value){if(value===null||value===undefined||value==='')return null;return Number.isFinite(Number(value))&&Number(value)>=1&&Number(value)<=10?Number(value):null;}
 export function recoveryInsights(sessions,referenceDate=new Date()){
  const now=new Date(referenceDate);now.setHours(12,0,0,0);
  const earliest=new Date(now);earliest.setDate(earliest.getDate()-13);
@@ -11,7 +11,8 @@ export function recoveryInsights(sessions,referenceDate=new Date()){
  const energies=scored.map(s=>s.energy).filter(v=>v!==null);
  const fatigues=scored.map(s=>s.fatigue).filter(v=>v!==null);
  const averageEnergy=mean(energies),averageFatigue=mean(fatigues);
- const hasEnough=energies.length>=3&&fatigues.length>=3;
+ const scoredSessions=scored.filter(s=>s.energy!==null&&s.fatigue!==null).length;
+ const hasEnough=scoredSessions>=3;
  let interpretation='Datos insuficientes: registra energía y fatiga en al menos tres sesiones.';
  if(hasEnough){
   if(averageFatigue>=7||averageEnergy<=4) interpretation='Los registros reflejan fatiga alta o energía baja. Considera una sesión suave o descanso y revisa sueño y molestias.';
@@ -19,5 +20,5 @@ export function recoveryInsights(sessions,referenceDate=new Date()){
   else interpretation='Tus registros recientes son favorables, pero no garantizan recuperación muscular.';
  }
  const latest=recent.at(-1)?.workout_date||null;
- return {sessions:recent.length,scoredSessions:Math.min(energies.length,fatigues.length),averageEnergy,averageFatigue,hasEnough,interpretation,latest,scored};
+ return {sessions:recent.length,scoredSessions,averageEnergy,averageFatigue,hasEnough,interpretation,latest,scored};
 }
