@@ -1,5 +1,13 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## 2.29.5 (2026-10-16) · Skin Routine — preparado en feature, pendiente de PR/revisión
+
+- Rutina ajustada al inventario identificado y a la piel actualmente seca/con descamación: fase inicial de recuperación sin activos irritantes.
+- Arencia como limpiador, Heliocare 360 Pigment Solution SPF50+ como fotoprotector, COSRX como hidratación opcional e Illiyoon como crema de barrera.
+- Anua como único sérum antimanchas principal para reintroducir gradualmente; retinal celimax solo después de 7 días sin descamación y a 1 noche semanal inicialmente. Differin, BHA, vitamina C y otros sérums antimanchas quedan fuera de la fase inicial.
+- Sin migraciones ni cambios de datos personales; se conserva el registro de progreso existente. No desplegado ni verificado en staging.
+
+
 ## 2.26.0 (2026-10-13) · SelfLearn A0–B2 — preparado en feature, no desplegado
 
 - **En preparación; pendiente de PR a staging.** Se renombra el área visual `Study · Dutch` a **SelfLearn · Courses** (se conserva el identificador técnico `study`).
