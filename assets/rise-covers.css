@@ -4,6 +4,8 @@
 
 /* Portada detrás de la cabecera, fundida con el fondo */
 #body, #gym, #food, #skin, #study, #work, #money, #payroll, #gastos, #notes { position: relative; isolation: isolate; }
+/* La portada se escala al abrir (rise-cover-in) y sobresalía ~2 px: scroll horizontal en móvil. clip no crea contenedor de scroll. */
+#body, #gym, #food, #skin, #study, #work, #money, #payroll, #gastos, #notes { overflow-x: clip; }
 #body::before, #gym::before, #food::before, #skin::before, #study::before, #work::before,
 #money::before, #payroll::before, #gastos::before, #notes::before {
   content: ""; position: absolute; z-index: -1; left: 0; right: 0; top: -8px; height: 300px; pointer-events: none;
