@@ -7,7 +7,7 @@
 - Categoría nueva **Aporte a inversión** (Trade Republic, DEGIRO, Scalable, etc.): es traspaso, no gasto.
 - **Ares AI**: en móvil ya no reabre el teclado al terminar cada respuesta (tapaba el botón de cerrar), el panel se ajusta al teclado y "atrás" cierra el chat.
 - Portadas de microapps: `overflow-x: clip` (la animación de apertura creaba 2 px de scroll horizontal).
-- Tests: 219 unitarios (6 nuevos), E2E `finance-complete` (Chromium y WebKit) y `ares-ai-chat` ampliado. Caché `renzo-hub-cloud-v19-finance-completa`. Sin migraciones.
+- Tests: 219 unitarios (6 nuevos), E2E `finance-complete` (Chromium y WebKit) y `ares-ai-chat` ampliado. Caché `renzo-hub-cloud-v25-finance-completa` (incluye los módulos Gym fusionados directamente en `main`, #67 a #72). Sin migraciones.
 
 ## 2.29.4 → 2.31.0 (2026-10-16) · Fase 1 cerrada, fase 2A en producción
 - 2.29.4: arreglo CET/CEST (#59) y lector `Loon overwerkuren`, caché v16 (#60, #61). 2.30.0: fase 1 cerrada en el plan (#64). 2.31.0: "Ingresos del mes" nómina ↔ banco sin duplicados (#65, en producción con #66).
