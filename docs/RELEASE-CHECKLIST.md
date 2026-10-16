@@ -3,6 +3,14 @@
 Flujo único: `feature/*` → PR a `staging` → validar → PR `staging` → `main` → producción (Vercel publica `main` automáticamente).
 Nada se publica por CLI. Renzo fusiona los PR; Claude prepara y verifica.
 
+## Reglas de publicación (decisión de Renzo, 16 oct 2026: `main` sin protección en GitHub)
+`main` no tiene protección de rama; estas reglas la sustituyen y son obligatorias:
+1. **Nunca** se fusiona a `main` una rama `feature/*` ni nada que no sea `staging`. Motivo: el PR #58 llegó a producción sin pasar por staging.
+2. Antes de abrir o fusionar `staging` → `main`, todo lo pendiente hacia `staging` debe estar fusionado y desplegado en staging. Motivo: el #57 entró antes que el #60 y producción quedó con la caché vieja (hizo falta el #61).
+3. Solo se fusiona con CI en verde (`test` y `db-migrations`) sobre el **último** commit del PR.
+4. Si cambia cualquier fichero de la PWA, se renombra la caché de `sw.js` en el mismo PR; si no, los dispositivos instalados no reciben el cambio.
+5. Tras publicar: `/api/deployment-info` con el commit esperado, `release.json`, caché nueva y smoke contra producción.
+
 ## 1. Antes de abrir el PR a staging
 - [ ] Rama `feature/<tarea>` desde `staging` actualizado.
 - [ ] `release.json` incrementado; caché de `sw.js` renombrada.
