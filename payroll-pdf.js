@@ -71,7 +71,8 @@ function columns(r) {
 const RULES = [
   [/^Loon normale uren/i, "income", "regular_pay"],
   [/^ORT/i, "income", "shift_allowance"],
-  [/^Overuren|^Overwerk/i, "income", "overtime_pay"],
+  // SD Worx etiqueta las horas extra como "Loon overwerkuren 130%" / "Loon overwerkuren 150%" (W40/W41 2026).
+  [/^(Loon\s+)?(Overuren|Overwerk)/i, "income", "overtime_pay"],
   [/^Vakantiedagen/i, "income", "holiday_pay"],
   [/^Feestdagen/i, "income", "holiday_pay"],
   [/^Vakantiegeld/i, "income", "vakantiegeld"],
@@ -135,7 +136,7 @@ export function parseSdWorx(rows) {
     if (totals[k] == null) throw new PayslipParseError(`No encuentro el importe "${k}" en la nómina.`);
 
   // Bloque de declaración (encima de la tabla): horas y tarifa por hora.
-  let regularHours = 0, shiftHours = 0, hourlyRate = null;
+  let regularHours = 0, shiftHours = 0, overtimeHours = 0, hourlyRate = null;
   for (const r of rows.slice(0, head)) {
     if (r.page !== 1) continue;
     const h = r.items.map(i => hours(i.s.replace(/\s*à$/, ""))).find(v => v != null);
@@ -143,7 +144,7 @@ export function parseSdWorx(rows) {
     const rate = r.items.find(i => NUM.test(i.s) && i.x >= 225 && i.x < 260);
     if (/^Loon normale uren/i.test(label(r))) { regularHours += h; if (rate) hourlyRate = num(rate.s); }
     else if (/^ORT/i.test(label(r))) shiftHours += h;
-    else if (/^Over/i.test(label(r))) regularHours += 0;
+    else if (/^(Loon\s+)?(Overuren|Overwerk)/i.test(label(r))) overtimeHours += h;
   }
 
   // Página 2: acumulados del año y saldo de vacaciones.
@@ -171,7 +172,8 @@ export function parseSdWorx(rows) {
     period_type: "weekly", period_year: year, period_number: week, period_label: `${year}-W${String(week).padStart(2, "0")}`,
     period_start: isoDate(periode?.[1]), period_end: isoDate(periode?.[2]),
     payment_date: verloning, document_date: verloning || administratie, currency: "EUR",
-    hourly_rate: hourlyRate, worked_hours: round2(regularHours + shiftHours) || null, regular_hours: round2(regularHours) || null,
+    hourly_rate: hourlyRate, worked_hours: round2(regularHours + shiftHours + overtimeHours) || null, regular_hours: round2(regularHours) || null,
+    overtime_hours: round2(overtimeHours) || null,
     holiday_hours: holidayTaken || null,
     gross_salary: totals.gross_salary, regular_pay: out.regular_pay || null, overtime_pay: out.overtime_pay || null,
     holiday_pay: out.holiday_pay || null, vakantiegeld: out.vakantiegeld || null, shift_allowance: out.shift_allowance || null,
