@@ -6,7 +6,7 @@ const {chromium}=require("playwright");
 const browser=await chromium.launch({headless:true});
 try{
  for(const [label,width,height] of [["mobile",390,844],["desktop",1440,900]]){
-  const page=await browser.newPage({viewport:{width,height},deviceScaleFactor:1});
+  const page=await browser.newPage({viewport:{width,height},deviceScaleFactor:1,...(label==="mobile"?{isMobile:true,hasTouch:true}:{})});
   await page.route("**/app.js",r=>r.abort());
   await page.route("**/api/ares-ai",r=>r.fulfill({status:200,contentType:"application/json",body:'{"enabled":false}'}));
   await page.route("**/api/ares-sources",r=>{
@@ -45,6 +45,8 @@ try{
   await page.locator('[data-suggest="¿Cómo van mis proyectos?"]').click();
   await page.waitForFunction(()=>document.querySelector(".ares-chat-stream").textContent.includes("Dutch Academy"));
   assert.equal(await page.evaluate(()=>window.__aresTest.lastFilter),"sample");
+  // En táctil no se vuelve a abrir el teclado al terminar la respuesta (tapaba el botón de cerrar).
+  if(label==="mobile")assert.notEqual(await page.evaluate(()=>document.activeElement?.id),"aresQuestion");
   await page.locator('[data-suggest="¿En qué fase de desarrollo está RISE HUB?"]').click();
   await page.waitForFunction(()=>document.querySelector(".ares-chat-stream").textContent.includes("Estado técnico de RISE HUB"));
   assert.equal(await page.locator(".ares-chat-stream").textContent().then(t=>t.includes("Ares status API")),true);
@@ -64,6 +66,13 @@ try{
   const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-innerWidth);
   assert.ok(overflow<=0,"no horizontal overflow");
   await page.screenshot({path:"/tmp/ares-ai-chat-"+label+".png",fullPage:false});
+  // Cerrar después de una respuesta: botón ✕, Escape y "atrás" del navegador; sin dejar el body bloqueado.
+  const closed=async()=>{assert.equal(await page.locator(".ares-chat").isVisible(),false);assert.equal(await page.evaluate(()=>document.body.classList.contains("ares-chat-open")),false);};
+  await page.locator(".ares-close").click();await closed();
+  await page.locator(".ares-fab").click();await page.keyboard.press("Escape");await closed();
+  await page.locator(".ares-fab").click();assert.equal(await page.locator(".ares-chat").isVisible(),true);
+  await page.goBack();await page.waitForFunction(()=>document.querySelector(".ares-chat").hidden);await closed();
+  assert.ok(page.url().startsWith(process.env.BASE_URL||"http://localhost:4198"),"atrás no debe salir de la app");
   await page.evaluate(()=>{window.__aresTest.setUser(null);window.__aresTest.app.reset();});
   assert.equal(await page.locator(".ares-fab").isVisible(),false);
   assert.equal(await page.locator(".ares-chat").isVisible(),false);
