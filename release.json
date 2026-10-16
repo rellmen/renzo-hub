@@ -1,6 +1,6 @@
 {
-  "release": "2.29.4",
-  "name": "RISE HUB 4.0 · Payroll DST (solapes absolutos) + lector overwerkuren (fase 1 en validación)",
+  "release": "2.30.0",
+  "name": "RISE HUB 4.0 · Fase 1 cerrada, Fase 2 (My Finance conectado) activa",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",

@@ -63,3 +63,11 @@ Estado: fase 1 **en desarrollo**. El motor inicial está fusionado a main median
 - QA del candidato: 203/203 pruebas unitarias, 15/15 smoke con configuración staging, instalación PWA Chromium/WebKit con 75 assets, regresión de Nóminas en ambos motores y E2E de turnos + vacaciones con Supabase staging móvil/escritorio (6 registros QA eliminados).
 - La semana real aún NO está conciliada: en producción 0 turnos, 0 saldos importados, y las nóminas 40/41 figuran pendiente de revisión. Los porcentajes del convenio y la ubicación de los descansos necesitan confirmación documental.
 - No cerrar fase 1 ni arrancar fase 2 hasta CI, staging real, despliegue seguro y conciliación verificable de un ciclo real.
+
+## Cierre de la fase 1 (16 oct 2026, decisión de Renzo)
+- Producción 2.29.4 (`c3b3a9c`): arreglo CET/CEST (#59), lector `Loon overwerkuren` y caché v16 (#60, #61). CI verde, smoke 15/15, rollback comprobado (despliegues anteriores en GitHub y `git revert` en seco).
+- QA autenticada en staging: turno 15:00 a 00:00 con ORT, noche del cambio de hora con offsets, rechazo sin offsets y detección de solapes.
+- Supabase: tablas de nómina con RLS en ambos proyectos; `payroll_balance_import` registrada.
+- Nóminas W40 y W41 corregidas y aprobadas por la revisión oficial (overtime 159,36 € / 22,98 €).
+- Conciliación W41 con turnos reales (lunes a jueves 15:00 a 00:00, viernes 07:00 a 13:00, pausa 1 h con 30 min pagados, ORT desde 18:00): SD Worx paga 37,25 h + 1 h extra frente a 39,5 a 40 h esperadas; diferencia bruta estimada 50,57 a 59,77 €. **Pendiente de respuesta de SD Worx** (email preparado). La regla de horas extra (130 % en W40, 150 % en W41) sigue sin documentar y no se ha programado.
+- Excluido: conciliación de un mes completo, cambios de agencia y reglas de festivos; el motor sigue sin presuponer reglas no confirmadas.

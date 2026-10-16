@@ -2,8 +2,8 @@
 // No user-level data or estimated completion percentage is inferred.
 export const RISE4_PHASES = Object.freeze([
  {id:0,title:'Plan maestro y criterios de cierre',hours:[6,10],status:'closed',scope:'Inventario, arquitectura, tablero y reglas de calidad.',deliverable:'Roadmap accesible en Work y especificación versionada.'},
- {id:1,title:'Payroll · Shift Tracker',hours:[35,55],status:'active',scope:'Agencias, turnos, descansos no pagados, franjas y porcentajes contractuales, previsión y contraste con nómina.',deliverable:'Turnos verificados frente a un mes de nóminas.'},
- {id:2,title:'My Finance conectado',hours:[30,55],status:'queued',scope:'Ingreso confirmado, presupuestos, ahorros, patrimonio y objetivos.',deliverable:'Dashboard privado sin ingresos duplicados.'},
+ {id:1,title:'Payroll · Shift Tracker',hours:[35,55],status:'closed',scope:'Agencias, turnos, descansos no pagados, franjas y porcentajes contractuales, previsión y contraste con nómina.',deliverable:'Turnos verificados frente a un mes de nóminas.'},
+ {id:2,title:'My Finance conectado',hours:[30,55],status:'active',scope:'Ingreso confirmado, presupuestos, ahorros, patrimonio y objetivos.',deliverable:'Dashboard privado sin ingresos duplicados.'},
  {id:3,title:'SelfLearn Academy',hours:[70,120],status:'queued',scope:'Gramática, escucha, conversación, práctica escrita, refuerzo adaptativo y preparación NT2.',deliverable:'Ejercicios por destreza y rúbricas, no certificados ficticios.'},
  {id:4,title:'Gym · progresión',hours:[35,55],status:'queued',scope:'Rutinas, cargas, récords, recuperación y seguimiento de métricas.',deliverable:'Entrenamientos reales y progresión verificable.'},
  {id:5,title:'Food · planificación',hours:[30,50],status:'queued',scope:'Menús, macros, lista de compra, presupuesto y horarios.',deliverable:'Plan semanal reproducible con cantidades.'},
