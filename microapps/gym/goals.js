@@ -9,9 +9,10 @@ export function validateGymGoals(raw){
  if(!priority)throw Error('Introduce una prioridad de entrenamiento');
  return {priority,sessionsPerWeek:sessions,targetWeight};
 }
-export function getGymGoals(owner){
+export function getGymGoals(owner,userMetadata){
  if(!owner)return {...GYM_GOALS_DEFAULT};
- try{const data=globalThis.localStorage?.getItem('rise-hub-gym-goals-'+owner);
+ try{if(userMetadata?.gym_goals)return validateGymGoals({...GYM_GOALS_DEFAULT,...userMetadata.gym_goals});
+  const data=globalThis.localStorage?.getItem('rise-hub-gym-goals-'+owner);
   return data?validateGymGoals({...GYM_GOALS_DEFAULT,...JSON.parse(data)}):{...GYM_GOALS_DEFAULT};
  }catch{return {...GYM_GOALS_DEFAULT};}
 }
