@@ -1,6 +1,8 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
-## 2.32.0 (2026-10-17) · My Finance completo (fase 2B patrimonio + 2C objetivos) y arreglos · PR a staging
+## 2.33.0 (2026-10-17) · Release agrupada: My Finance completo + Gym Ascend (rama de ChatGPT `release/gym-ascend-bundle`) + arreglos · PR #74 a staging
+
+- Integra `release/gym-ascend-bundle` (#75: registro rápido de series y editor de rutinas) para publicar todo en un solo lote, según `docs/RELEASE_POLICY.md` (límite diario de Vercel Hobby). Caché `renzo-hub-cloud-v27-rise-finance-gym`.
 
 - **Patrimonio** (panel del Resumen): saldo de cierre de cada cuenta desde el último extracto (ING y Revolut, también con varios movimientos el mismo día), inversiones y deudas como valoraciones con fecha (`hub_records` money/`money_asset`, nunca se sobrescriben), patrimonio neto y evolución mensual; valores de más de 45 días marcados como antiguos.
 - **Objetivos**: fondo de emergencia (N meses de gastos fijos reales frente al saldo), meta con fecha (ahorro real desde el mes de inicio y € por semana hasta el plazo) y aporte mensual a inversión (`money_goal`; "Archivar" sin borrar).

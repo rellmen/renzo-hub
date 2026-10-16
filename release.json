@@ -1,6 +1,6 @@
 {
-  "release": "2.32.0",
-  "name": "RISE HUB 4.0 · My Finance completo: patrimonio y objetivos (fase 2B y 2C) + arreglos Ares AI",
+  "release": "2.33.0",
+  "name": "RISE HUB 4.0 · release agrupada: My Finance completo (patrimonio y objetivos) + Gym Ascend (registro rápido y editor de rutinas) + arreglos Ares AI",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",
