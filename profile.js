@@ -1,3 +1,4 @@
+import {PERSONAL_CONTEXT_SUGGESTIONS,PERSONAL_CONTEXT_KEYS,sanitizePersonalContext} from './microapps/personal-context.js';
 // Perfil corporal privado: se guarda en public.user_settings.settings.bodyProfile (RLS por usuario).
 // Sustituye los datos personales que antes estaban fijos en index.html. Sin datos, muestra "sin datos".
 export const HISTORICAL_BODY_SUGGESTION = Object.freeze({startWeight:84,height:1.70,phases:"78, 74.5",status:"Datos comunicados anteriormente; comprobar vigencia antes de guardar"});
@@ -31,6 +32,7 @@ export function mountProfile(supabase, getUser) {
   function render() {
     const suggestionText = $("bodyProfileSuggestionText");
     if (suggestionText) suggestionText.textContent = `Referencias históricas comunicadas: ${HISTORICAL_BODY_SUGGESTION.startWeight} kg, ${fmt(HISTORICAL_BODY_SUGGESTION.height, 2)} m y metas ${HISTORICAL_BODY_SUGGESTION.phases} kg.`;
+    renderPersonalContext();
     const p = settings.bodyProfile || {};
     const start = Number.isFinite(p.startWeight)
       ? `Punto de partida: ${fmt(p.startWeight, 1)} kg${Number.isFinite(p.height) ? ` · ${fmt(p.height, 2)} m` : ""}.`
@@ -60,6 +62,37 @@ export function mountProfile(supabase, getUser) {
     }
   }
 
+  function renderPersonalContext(){
+    const host=$("personalContextRows");if(!host)return;host.replaceChildren();
+    const confirmed=settings.personalContext||{};
+    for(const key of PERSONAL_CONTEXT_KEYS){
+      const proposed=PERSONAL_CONTEXT_SUGGESTIONS[key],saved=confirmed[key],label=document.createElement("label");
+      label.textContent=key==='residence'?'Residencia':key==='nativeLanguages'?'Idiomas principales':key==='dutchGoal'?'Objetivo neerlandés':key==='career'?'Trabajo y carrera':'Turnos';
+      const input=document.createElement("input");input.name=key;input.maxLength=240;input.value=saved?.value||proposed.value;
+      const confirm=document.createElement("input");confirm.type="checkbox";confirm.name=key+"Confirmed";confirm.checked=Boolean(saved?.confirmed);confirm.setAttribute("aria-label","Confirmar "+label.textContent);
+      const explanation=document.createElement("span");explanation.className="small";explanation.textContent=(saved?.confirmed?'Confirmado '+(saved.confirmedAt||'sin fecha'):'Sugerido · sin confirmar')+" · "+proposed.source;
+      label.append(input,confirm,explanation);host.append(label);
+    }
+  }
+  const personalForm=$("personalContextForm");
+  if(personalForm)personalForm.addEventListener("submit",async e=>{
+    e.preventDefault();const user=getUser();if(!user)return;
+    const status=$("personalContextStatus"),button=personalForm.querySelector('button[type="submit"]');
+    button.disabled=true;status.textContent="Guardando…";
+    try{
+      const draft={};
+      for(const key of PERSONAL_CONTEXT_KEYS){const input=personalForm.elements[key];const confirmed=personalForm.elements[key+"Confirmed"]?.checked;
+        if(confirmed)draft[key]={value:input.value,confirmed:true,confirmedAt:new Date().toISOString(),source:"Confirmado por el usuario"};}
+      const fresh=await supabase.from("user_settings").select("settings").eq("user_id",user.id).maybeSingle();
+      if(fresh.error)throw fresh.error;
+      if(getUser()?.id!==user.id)throw Error("La sesión ha cambiado");
+      const current=fresh.data?.settings&&typeof fresh.data.settings==="object"?fresh.data.settings:{};
+      const next={...current,personalContext:sanitizePersonalContext(draft)};
+      const result=await supabase.from("user_settings").upsert({user_id:user.id,settings:next,updated_at:new Date().toISOString()},{onConflict:"user_id"});
+      if(result.error)throw result.error;
+      settings=next;renderPersonalContext();status.textContent="Datos confirmados guardados.";
+    }catch(err){status.textContent="No se pudo guardar: "+err.message;}finally{button.disabled=false;}
+  });
   async function load() {
     const user = getUser();
     if (!user) return reset();
