@@ -33,6 +33,7 @@ export function mountProfile(supabase, getUser) {
     const suggestionText = $("bodyProfileSuggestionText");
     if (suggestionText) suggestionText.textContent = getUser() ? `Referencias históricas comunicadas: ${HISTORICAL_BODY_SUGGESTION.startWeight} kg, ${fmt(HISTORICAL_BODY_SUGGESTION.height, 2)} m y metas ${HISTORICAL_BODY_SUGGESTION.phases} kg.` : "Inicia sesión para revisar tus datos.";
     renderPersonalContext();
+    renderHomeSummary();
     const p = settings.bodyProfile || {};
     const start = Number.isFinite(p.startWeight)
       ? `Punto de partida: ${fmt(p.startWeight, 1)} kg${Number.isFinite(p.height) ? ` · ${fmt(p.height, 2)} m` : ""}.`
@@ -62,6 +63,17 @@ export function mountProfile(supabase, getUser) {
     }
   }
 
+  function renderHomeSummary(){
+    const host=$("personalHomeSummary");if(!host)return;
+    host.replaceChildren();host.hidden=true;
+    if(!getUser())return;
+    const data=sanitizePersonalContext(settings.personalContext||{});
+    const entries=[['workShifts','Turnos'],['dutchGoal','Neerlandés'],['career','Carrera']].filter(([key])=>data[key]?.confirmed);
+    if(!entries.length)return;
+    const heading=document.createElement("b");heading.textContent="Tu contexto confirmado";host.append(heading);
+    for(const [key,label] of entries){const line=document.createElement("p");line.className="small";line.textContent=label+": "+data[key].value;host.append(line);}
+    host.hidden=false;
+  }
   function renderPersonalContext(){
     const host=$("personalContextRows");if(!host)return;host.replaceChildren();
     if(!getUser())return;
@@ -91,7 +103,7 @@ export function mountProfile(supabase, getUser) {
       const next={...current,personalContext:sanitizePersonalContext(draft)};
       const result=await supabase.from("user_settings").upsert({user_id:user.id,settings:next,updated_at:new Date().toISOString()},{onConflict:"user_id"});
       if(result.error)throw result.error;
-      settings=next;renderPersonalContext();status.textContent="Datos confirmados guardados.";
+      settings=next;renderPersonalContext();renderHomeSummary();status.textContent="Datos confirmados guardados.";
     }catch(err){status.textContent="No se pudo guardar: "+err.message;}finally{button.disabled=false;}
   });
   async function load() {
