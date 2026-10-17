@@ -30,4 +30,4 @@ App de registro de entrenamiento con IA: planes personalizados, **sobrecarga pro
 - `exercise-info.js` exporta `exerciseInfo(name)` → `{pattern,equipment,cues:[…],mistake,barbell}`; si un ejercicio no tiene ficha devuelve `null` (la UI lo tolera).
 
 ## Pendiente de integrar (módulos nuevos para `sw.js`)
-- (vacío)
+- `microapps/gym/onboarding.js` — [chatgpt], añadir al precache por Claude cuando se integre en la UI; genera propuestas, todavía no conectado a `gym.js`.
