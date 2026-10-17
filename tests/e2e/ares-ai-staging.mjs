@@ -11,8 +11,8 @@ try {
  await p.fill('#email',E2E_EMAIL);await p.fill('#password',E2E_PASSWORD);
  await p.click('#loginForm button[type=submit]');await p.waitForSelector('#appShell:not(.hidden)',{timeout:15000});
  await p.waitForFunction(()=>document.querySelector('#worldSyncStatus')?.textContent==='Sincronizado con Supabase',null,{timeout:15000});
- await p.locator('.ares-fab').waitFor({state:'visible'});
- await p.locator('.ares-fab').click();await p.locator('.ares-chat:visible').waitFor();
+ await p.locator('#bottomNav .nav-ares').waitFor({state:'visible'});
+ await p.locator('#bottomNav .nav-ares').click();await p.locator('.ares-chat:visible').waitFor();
  await p.locator('[data-suggest="¿Cómo van mis proyectos?"]').click();
  await p.waitForFunction(()=>/Proyectos registrados activos|Proyecto:/.test(document.querySelector('.ares-chat-stream')?.textContent||''),null,{timeout:15000});
  assert(!(await p.locator('.ares-chat-stream').textContent()).includes('No he podido responder con datos verificados'));
@@ -21,7 +21,7 @@ try {
  assert.deepEqual(errors,[]);
  console.log('PASS Ares AI staging: login real, chat global, private RLS query and approvals read-only');
  await p.reload({waitUntil:'networkidle'});await p.waitForSelector('#appShell:not(.hidden)',{timeout:15000});
- await p.locator('.ares-fab').waitFor({state:'visible'});
+ await p.locator('#bottomNav .nav-ares').waitFor({state:'visible'});
  assert.equal(await p.locator('.ares-chat .ares-msg').count(),0,'Chat must not be persisted across reloads');
  console.log('PASS Ares AI: chat history not retained after reload');
  await p.close();
