@@ -1,4 +1,5 @@
 import {readSkinInventory,updateSkinInventory} from './inventory.js';
+import {validateSkinPhoto,skinPhotoFolder,skinPhotoPath} from './photos.js';
 // Microapp Skin (rutina de piel AM/PM, notas y progreso semanal). Extraída de app.js en 2.9.2 sin cambios
 // visibles. Datos: tablas skin_routine_logs y skin_notes (RLS por user_id). El HTML sigue en index.html (#skin).
 export function mountSkin(root, db, getUser) {
@@ -99,6 +100,7 @@ export function mountSkin(root, db, getUser) {
     inventoryState=savedInventory&&typeof savedInventory==="object"&&!Array.isArray(savedInventory)?savedInventory:readSkinInventory(requestedUser);
     render();
     renderInventory();
+    void loadPhotos();
     homeStats();
     setSync("Sincronizado","ok");
   }
@@ -259,6 +261,51 @@ export function mountSkin(root, db, getUser) {
   }
   renderInventory();
 
+  const photoStatus=$("skinPhotoStatus"),photoList=$("skinPhotoList"),photoInput=$("skinPhotoInput"),photoUpload=$("skinPhotoUpload");
+  async function loadPhotos(){
+    const user=getUser();if(!user||!photoList)return;
+    const ownerId=user.id;photoList.replaceChildren();photoStatus.textContent="Cargando fotos privadas…";
+    try{
+      const folder=skinPhotoFolder(ownerId),bucket=db.storage.from('progress-photos');
+      const result=await bucket.list(folder,{limit:50,sortBy:{column:'created_at',order:'desc'}});
+      if(result.error)throw result.error;if(getUser()?.id!==ownerId)return;
+      const photos=(result.data||[]).filter(p=>/^[0-9a-f-]{36}\.(jpg|png|webp)$/i.test(p.name)).slice(0,20);
+      if(!photos.length){photoStatus.textContent="No hay fotos guardadas.";return;}
+      photoStatus.textContent=photos.length+" fotos privadas (máximo 20 mostradas).";
+      for(const file of photos){
+        const path=folder+'/'+file.name;
+        const signed=await bucket.createSignedUrl(path,120);if(getUser()?.id!==ownerId)return;
+        if(signed.error)continue;
+        const row=document.createElement('div');row.className='product';
+        const img=document.createElement('img');img.src=signed.data.signedUrl;img.alt='Foto privada de seguimiento';img.width=112;img.height=112;img.loading='lazy';
+        const box=document.createElement('div'),date=document.createElement('span');date.className='small';date.textContent=file.created_at?new Date(file.created_at).toLocaleDateString('es-ES'):'Foto guardada';
+        const button=document.createElement('button');button.textContent='Eliminar foto';button.type='button';button.className='secondary';
+        button.onclick=async()=>{
+          if(!getUser()||getUser().id!==ownerId||!window.confirm('¿Eliminar definitivamente esta foto de seguimiento?'))return;
+          button.disabled=true;
+          const deleted=await bucket.remove([path]);
+          if(deleted.error){photoStatus.textContent='No se pudo borrar la foto: '+deleted.error.message;button.disabled=false;return;}
+          await loadPhotos();
+        };
+        box.append(date,button);row.append(img,box);photoList.append(row);
+      }
+    }catch(err){if(getUser()?.id===ownerId)photoStatus.textContent='No se pudieron cargar fotos: '+err.message;}
+  }
+  photoUpload?.addEventListener('click',async()=>{
+    const user=getUser();if(!user||!photoInput?.files?.length){photoStatus.textContent='Selecciona una imagen primero.';return;}
+    const ownerId=user.id,file=photoInput.files[0];photoUpload.disabled=true;
+    try{
+      validateSkinPhoto(file);
+      const path=skinPhotoPath(ownerId,crypto.randomUUID(),file.type);
+      const upload=await db.storage.from('progress-photos').upload(path,file,{contentType:file.type,upsert:false});
+      if(upload.error)throw upload.error;
+      if(getUser()?.id!==ownerId)return;
+      photoInput.value='';photoStatus.textContent='Foto guardada de forma privada.';
+      await loadPhotos();
+    }catch(err){photoStatus.textContent='No se pudo guardar la foto: '+err.message;}
+    finally{photoUpload.disabled=false;}
+  });
+
   function homeStats(){
     renderWeek();
   }
@@ -266,6 +313,6 @@ export function mountSkin(root, db, getUser) {
   window.addEventListener("focus", () => { if (getUser()) loadCloudState(); });
   return {
     load: loadCloudState,
-    reset() { loadSequence++; selectedDay = null; weekRows = []; inventoryState={}; gentle = true; cloudState = { am: [], pm: [] }; clearTimeout(noteTimer); $("note").value = ""; }
+    reset() { loadSequence++; selectedDay = null; weekRows = []; inventoryState={}; if(photoList)photoList.replaceChildren();if(photoStatus)photoStatus.textContent="";if(photoInput)photoInput.value=""; gentle = true; cloudState = { am: [], pm: [] }; clearTimeout(noteTimer); $("note").value = ""; }
   };
 }
