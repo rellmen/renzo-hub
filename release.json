@@ -1,6 +1,6 @@
 {
-  "release": "2.35.1",
-  "name": "RISE HUB 4.0 · interfaz editorial de Lovable completa: barra sobria y elegante, Home \"Lo importante, hoy\" / \"El progreso es personal\" y búsqueda ⌘K",
+  "release": "2.36.0",
+  "name": "RISE HUB 4.0 · Gym tipo Symmetry: progresión automática por serie, rangos Hierro→Élite con mapa corporal, técnica, descanso y récords",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",

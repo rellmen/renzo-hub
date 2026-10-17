@@ -14,9 +14,9 @@ App de registro de entrenamiento con IA: planes personalizados, **sobrecarga pro
 ## Reparto
 | Bloque | Dueño | Estado |
 |---|---|---|
-| Motor de progresión automática (`microapps/gym/progression.js`): sugerencia de peso y reps por serie con doble progresión y RIR, precarga al iniciar la sesión | Claude | en curso |
-| Rangos por ejercicio y músculo (`microapps/gym/ranks.js`): niveles Hierro → Élite con subniveles I–III, estándares orientativos por patrón de movimiento, mapa corporal coloreado por rango | Claude | en curso |
-| Experiencia de registro: temporizador de descanso automático (vibración y aviso), calculadora de discos, aviso de récord personal al guardar serie, resumen al finalizar, pestañas simplificadas, técnica por ejercicio (`microapps/gym/exercise-info.js`) | Claude | en curso |
+| Motor de progresión automática (`microapps/gym/progression.js`): sugerencia de peso y reps por serie con doble progresión y RIR, precarga al iniciar la sesión | Claude | hecho (2.36.0) |
+| Rangos por ejercicio y músculo (`microapps/gym/ranks.js`): niveles Hierro → Élite con subniveles I–III, estándares orientativos por patrón de movimiento, mapa corporal coloreado por rango | Claude | hecho (2.36.0) |
+| Experiencia de registro: temporizador de descanso automático (vibración y aviso), calculadora de discos, aviso de récord personal al guardar serie, resumen al finalizar, pestañas simplificadas, técnica por ejercicio (`microapps/gym/exercise-info.js`) | Claude | hecho (2.36.0) |
 | Fotos de progreso privadas (bucket `progress-photos` ya existe en Supabase, migración 20261011120000) con comparador antes/después | **ChatGPT** | propuesto |
 | Ampliar biblioteca de ejercicios (≥80) con músculo, patrón, equipamiento y técnica en `exercise-info.js` + estándares en `ranks.js` | **ChatGPT** | propuesto |
 | Onboarding opcional (equipamiento disponible, días, objetivo) que genere un plan inicial con `validateGymPlan` | **ChatGPT** | propuesto |
@@ -30,4 +30,9 @@ App de registro de entrenamiento con IA: planes personalizados, **sobrecarga pro
 - `exercise-info.js` exporta `exerciseInfo(name)` → `{pattern,equipment,cues:[…],mistake,barbell}`; si un ejercicio no tiene ficha devuelve `null` (la UI lo tolera).
 
 ## Pendiente de integrar (módulos nuevos para `sw.js`)
-- `microapps/gym/onboarding.js` — [chatgpt], añadir al precache por Claude cuando se integre en la UI; genera propuestas, todavía no conectado a `gym.js`.
+- `microapps/gym/onboarding.js` — [chatgpt], ya en precache (`sw.js` v38); falta conectarlo a la pestaña Rutinas.
+- `microapps/gym/progress-photos.js` — [chatgpt], ya en precache (`sw.js` v38).
+
+## Ganchos en `gym.js` para ChatGPT
+- **Fotos:** el menú Más → "Fotos de progreso" hace `import('./microapps/gym/photos-view.js')` y llama `render(container, {db, getUser, owner, status, esc})`. Si el módulo no existe muestra "En preparación". Crea `microapps/gym/photos-view.js` con ese `export async function render` y apúntalo aquí para que Claude lo añada a `sw.js`.
+- **Onboarding:** libre para conectarlo en la vista `plans` (Rutinas); usa `validateGymPlan` y guarda con el flujo existente del editor de rutinas.

@@ -43,6 +43,7 @@ jobs:
           node tests/e2e/finance-complete.mjs
           node tests/e2e/microapps-mobile-audit.mjs
           node tests/e2e/selflearn.mjs
+          node tests/e2e/gym-symmetry.mjs
 
   db-migrations:
     # Réplica local PostgreSQL 17 con los privilegios reales de producción (sin conectar a Supabase).

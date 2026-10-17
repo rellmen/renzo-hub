@@ -1,0 +1,61 @@
+/* Gym · Ascend tipo Symmetry (2.36.0): objetivo de hoy, técnica, descanso, récords y rangos.
+   Mismo lenguaje editorial que el resto de RISE HUB (grafito, marfil, iris). */
+#gym .gymtabs { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; margin: 14px 0 10px; }
+#gym .gymtabs::-webkit-scrollbar { display: none; }
+#gym .gymtabs .switch { flex: none; min-height: 40px; padding: 8px 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--card); color: var(--muted); font-weight: 650; }
+#gym .gymtabs .switch.selected { background: var(--rx-strong, #2a2a2d); color: var(--text); border-color: var(--rx-border, #424245); box-shadow: inset 0 -2px var(--accent); }
+#gym .gymtabs select.gym-more { appearance: none; -webkit-appearance: none; width: auto; padding-right: 30px; background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%); background-position: calc(100% - 15px) 50%, calc(100% - 10px) 50%; background-size: 5px 5px; background-repeat: no-repeat; }
+
+/* Objetivo de hoy (progresión automática) */
+.gym-target { margin: 8px 0 4px; padding: 10px 12px; border-radius: 10px; background: var(--rx-strong, #2a2a2d); font-size: 13px; line-height: 1.45; color: var(--text); }
+.gym-target b { display: inline-block; margin-right: 6px; color: var(--accent2); font-weight: 750; }
+.gym-target-increase { box-shadow: inset 3px 0 #89c8a7; }
+.gym-target-increase b { color: #89c8a7; }
+.gym-target-deload { box-shadow: inset 3px 0 #d7be89; }
+.gym-target-deload b { color: #d7be89; }
+.gym-target-reps { box-shadow: inset 3px 0 var(--accent); }
+.gym-tech { margin: 6px 0; font-size: 13px; }
+.gym-tech summary { min-height: 40px; display: flex; align-items: center; color: var(--accent2); font-weight: 650; }
+.gym-tech ul { margin: 4px 0 6px; padding-left: 18px; line-height: 1.55; }
+.gym-plates-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 6px 0 10px; }
+.gym-plates-row .secondary { min-height: 38px; padding: 6px 12px; border-radius: 9px; }
+
+/* Temporizador de descanso */
+.gym-rest { position: fixed; z-index: 90; left: 50%; transform: translateX(-50%); bottom: calc(14px + env(safe-area-inset-bottom)); width: min(460px, calc(100vw - 20px)); display: grid; grid-template-columns: 46px 1fr auto; align-items: center; gap: 12px; padding: 10px 12px; border: 1px solid var(--rx-border, #424245); border-radius: 16px; background: rgba(27, 27, 30, .96); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); box-shadow: 0 18px 40px -12px rgba(0, 0, 0, .8); color: var(--text); }
+.gym-rest[hidden] { display: none; }
+.gym-rest-ring svg { width: 46px; height: 46px; transform: rotate(-90deg); }
+.gym-rest-ring circle { fill: none; stroke: var(--rx-strong, #2a2a2d); stroke-width: 3.5; }
+.gym-rest-ring .gym-rest-arc { stroke: var(--accent); stroke-linecap: round; stroke-dasharray: 97.4; stroke-dashoffset: 0; transition: stroke-dashoffset .25s linear; }
+.gym-rest-label { display: block; font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gym-rest-time { display: block; font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.gym-rest-actions { display: flex; gap: 6px; }
+.gym-rest-actions button { min-width: 44px; min-height: 44px; padding: 0 10px; border-radius: 10px; border: 1px solid var(--line); background: var(--rx-strong, #2a2a2d); color: var(--text); font-weight: 700; }
+.gym-rest.done { border-color: #89c8a7; }
+.gym-rest.done .gym-rest-time { font-size: 17px; color: #89c8a7; }
+@media (max-width: 420px) { .gym-rest { gap: 8px; } .gym-rest-actions button { min-width: 42px; padding: 0 8px; } }
+@media (max-width: 360px) { .gym-rest { grid-template-columns: 40px 1fr; } .gym-rest-actions { grid-column: 1 / -1; } .gym-rest-actions button { flex: 1; } }
+
+/* Aviso de récord */
+.gym-toast { position: fixed; z-index: 95; left: 50%; top: calc(14px + env(safe-area-inset-top)); transform: translate(-50%, -140%); width: min(440px, calc(100vw - 24px)); padding: 12px 16px; border: 1px solid #e3c47e; border-radius: 12px; background: #1d1b17; color: #f3e3bd; font-weight: 650; box-shadow: 0 16px 36px -10px rgba(0, 0, 0, .7); transition: transform .3s cubic-bezier(.2, .9, .3, 1.2); }
+.gym-toast.on { transform: translate(-50%, 0); }
+
+/* Resumen de sesión */
+.gym-summary { border-color: color-mix(in srgb, var(--accent) 45%, var(--line)) !important; }
+.gym-summary h2 { margin: 6px 0 12px; }
+.gym-summary h3 { margin: 16px 0 6px; font-size: 15px; }
+
+/* Rangos */
+.gym-rank-hero h2 { font-size: clamp(28px, 7vw, 38px); margin: 6px 0; font-weight: 600; }
+.gym-tier-legend { display: flex; flex-wrap: wrap; gap: 6px 12px; margin-top: 10px; font-size: 11px; color: var(--muted); }
+.gym-tier-legend i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 5px; vertical-align: middle; }
+.gym-rank-list { display: grid; gap: 12px; }
+.gym-rank-row { display: grid; grid-template-columns: 12px 1fr auto; gap: 4px 10px; align-items: center; }
+.gym-rank-row .progress { grid-column: 2 / -1; height: 4px; }
+.gym-tier-dot { width: 10px; height: 10px; border-radius: 50%; }
+.gym-tier-badge { display: inline-block; padding: 3px 9px; border-radius: 999px; font-size: 12px; font-weight: 700; color: var(--c); background: color-mix(in srgb, var(--c) 14%, transparent); border: 1px solid color-mix(in srgb, var(--c) 40%, transparent); white-space: nowrap; }
+.gym-rank-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.gym-rank-ex { padding-top: 14px !important; padding-bottom: 12px !important; }
+.gym-rank-ex p { margin: 6px 0 0; }
+.gym-body-rank { stroke: rgba(0, 0, 0, .35); stroke-width: 1; }
+.gym-body-empty { fill: #2f2f33; }
+@media (prefers-reduced-motion: reduce) { .gym-toast, .gym-rest-ring .gym-rest-arc { transition: none; } }
