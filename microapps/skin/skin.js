@@ -94,6 +94,7 @@ export function mountSkin(root, db, getUser) {
     if(!weekError){weekRows=week||[];renderWeek();}else{$("weekProgress").textContent="No se pudo cargar el progreso semanal.";}
     const inventoryQuery=await db.from("user_settings").select("settings").eq("user_id",requestedUser).maybeSingle();
     if(seq!==loadSequence||getUser()?.id!==requestedUser)return;
+    gentle=inventoryQuery.data?.settings?.skinPhase!=="maintenance";
     const savedInventory=inventoryQuery.data?.settings?.skinInventory;
     inventoryState=savedInventory&&typeof savedInventory==="object"&&!Array.isArray(savedInventory)?savedInventory:readSkinInventory(requestedUser);
     render();
@@ -153,7 +154,7 @@ export function mountSkin(root, db, getUser) {
     const history=Boolean(selectedDay);
     $("note").readOnly=history;$("clearBtn").disabled=history;$("completeBtn").disabled=history;$("gentleBtn").disabled=history;
     $("nextDay").disabled=!history;$("historyLabel").textContent=history?"Historial · solo lectura":"Rutina de hoy";
-    $("gentleBtn").textContent=gentle?"Rutina suave activada · volver al plan":"Activar rutina suave";
+    $("gentleBtn").textContent=gentle?"Fase barrera · cambiar a mantenimiento":"Fase mantenimiento · volver a barrera";
     $("gentleBtn").setAttribute("aria-pressed",String(gentle));$("gentleHint").classList.toggle("hidden",!gentle);
 
     $("skinDate").textContent=new Intl.DateTimeFormat("es",{weekday:"long",day:"numeric",month:"long",year:"numeric"}).format(now);
@@ -194,12 +195,23 @@ export function mountSkin(root, db, getUser) {
    clearTimeout(noteTimer);
    if(!selectedDay&&$("noteState").textContent==="Pendiente…")await saveNote($("note").value);
    const d=new Date(now);d.setDate(d.getDate()+offset);const key=localDate(d);
-   selectedDay=key===localDate(new Date())?null:key;gentle=true;await loadCloudState();
+   selectedDay=key===localDate(new Date())?null:key;await loadCloudState();
   }
   $("prevDay").addEventListener("click",()=>chooseDay(-1));
   $("nextDay").addEventListener("click",()=>chooseDay(1));
-  $("todayBtn").addEventListener("click",async()=>{clearTimeout(noteTimer);if(!selectedDay&&$("noteState").textContent==="Pendiente…")await saveNote($("note").value);selectedDay=null;gentle=true;await loadCloudState();});
-  $("gentleBtn").addEventListener("click",()=>{gentle=!gentle;render();});
+  $("todayBtn").addEventListener("click",async()=>{clearTimeout(noteTimer);if(!selectedDay&&$("noteState").textContent==="Pendiente…")await saveNote($("note").value);selectedDay=null;await loadCloudState();});
+  $("gentleBtn").addEventListener("click",async()=>{
+    const user=getUser();if(!user||selectedDay)return;
+    const previous=gentle;gentle=!gentle;render();setSync("Guardando fase de rutina…","busy");
+    try{
+      const current=await db.from("user_settings").select("settings").eq("user_id",user.id).maybeSingle();if(current.error)throw current.error;
+      if(getUser()?.id!==user.id)throw Error("La sesión ha cambiado");
+      const settings=current.data?.settings&&typeof current.data.settings==="object"?current.data.settings:{};
+      const next={...settings,skinPhase:gentle?"repair":"maintenance"};
+      const write=await db.from("user_settings").upsert({user_id:user.id,settings:next,updated_at:new Date().toISOString()},{onConflict:"user_id"});if(write.error)throw write.error;
+      setSync(gentle?"Fase de barrera guardada":"Fase de mantenimiento guardada");
+    }catch(err){gentle=previous;render();setSync("No se pudo cambiar la fase: "+err.message,"err");}
+  });
   $("switchBtn").addEventListener("click",()=>{mode=mode==="am"?"pm":"am";render()});
   $("clearBtn").addEventListener("click",async()=>{
     const session=mode,previous=[...(cloudState[session]||[])];cloudState[session]=[];render();homeStats();
