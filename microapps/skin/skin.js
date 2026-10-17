@@ -1,3 +1,4 @@
+import {readSkinInventory,updateSkinInventory} from './inventory.js';
 // Microapp Skin (rutina de piel AM/PM, notas y progreso semanal). Extraída de app.js en 2.9.2 sin cambios
 // visibles. Datos: tablas skin_routine_logs y skin_notes (RLS por user_id). El HTML sigue en index.html (#skin).
 export function mountSkin(root, db, getUser) {
@@ -91,6 +92,7 @@ export function mountSkin(root, db, getUser) {
     if(seq!==loadSequence||getUser()?.id!==requestedUser)return;
     if(!weekError){weekRows=week||[];renderWeek();}else{$("weekProgress").textContent="No se pudo cargar el progreso semanal.";}
     render();
+    renderInventory();
     homeStats();
     setSync("Sincronizado","ok");
   }
@@ -208,7 +210,23 @@ export function mountSkin(root, db, getUser) {
     noteTimer=setTimeout(()=>saveNote($("note").value,true),600);
   });
 
-  $("productList").innerHTML=PRODUCTS.map(p=>'<div class="product"><img src="'+p[3]+'" alt=""><div><b>'+p[0]+'</b><span>'+p[1]+'</span><span>'+p[2]+'</span></div></div>').join("");
+  function renderInventory(){
+    const user=getUser(),currentInventory=readSkinInventory(user?.id);
+    const list=$("productList");list.replaceChildren();
+    PRODUCTS.forEach((p,i)=>{
+      const card=document.createElement("div");card.className="product";
+      const img=document.createElement("img");img.src=p[3];img.alt="";card.append(img);
+      const body=document.createElement("div"),name=document.createElement("b");name.textContent=p[0];body.append(name);
+      for(const note of [p[1],p[2]]){const label=document.createElement("span");label.textContent=note;body.append(label);}
+      const select=document.createElement("select");select.setAttribute("aria-label","Inventario: "+p[0]);select.disabled=!user;
+      const options=[["available","Lo tengo"],["paused","En pausa"],["finished","Terminado / no disponible"]];
+      for(const [value,text] of options){const o=document.createElement("option");o.value=value;o.textContent=text;select.append(o);}
+      select.value=currentInventory["p"+i]||"available";
+      select.addEventListener("change",()=>{try{updateSkinInventory(user.id,"p"+i,select.value);setSync("Inventario guardado en este dispositivo");}catch{setSync("No se pudo guardar inventario","err");}});
+      body.append(select);card.append(body);list.append(card);
+    });
+  }
+  renderInventory();
 
   function homeStats(){
     renderWeek();
