@@ -1,6 +1,6 @@
 {
-  "release": "2.35.0",
-  "name": "RISE HUB 4.0 · interfaz editorial de Lovable integrada (grafito, marfil e iris, Manrope, monograma R) y barra de navegación con iconos bicolor y Ares en el centro",
+  "release": "2.35.1",
+  "name": "RISE HUB 4.0 · interfaz editorial de Lovable completa: barra sobria y elegante, Home \"Lo importante, hoy\" / \"El progreso es personal\" y búsqueda ⌘K",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",

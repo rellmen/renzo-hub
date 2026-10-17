@@ -74,3 +74,12 @@ test("todos los módulos de microapps/ están en la caché sin conexión", async
   }
   for (const f of files) assert.ok(core.includes(f), `añade ${f} a CORE en sw.js`);
 });
+
+import {paletteItems, filterItems} from "../microapps/command/palette.js";
+test("Búsqueda ⌘K: lista todas las secciones y prioriza coincidencias por nombre", () => {
+  const items = paletteItems();
+  assert.equal(items.length, SECTION_IDS.length);
+  assert.equal(filterItems(items, "nomi")[0].id, "payroll");
+  assert.equal(filterItems(items, "ingles")[0].id, "study");
+  assert.equal(filterItems(items, "").length, items.length);
+});

@@ -1,5 +1,12 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## 2.35.1 (2026-10-17) · Ajuste "elegante y sofisticado" sobre 2.35.0
+
+- Barra de navegación sobria: iconos marfil de 24 px con relleno muy suave, activo en iris sobre grafito, Ares como pieza iris cuadrada; se quitan las pastillas de colores por área.
+- Home como en Lovable: "Lo importante, hoy." y "El progreso es personal." en bloques editoriales sin tarjetas, nivel en número grande iris; en escritorio, dos columnas.
+- Búsqueda rápida **⌘K / Ctrl+K** (`microapps/command/palette.js`) y botón Buscar en Home: navega a cualquier área o microapp del registro.
+- 267 tests unitarios (1 nuevo); E2E completos OK. Caché `renzo-hub-cloud-v37-editorial`.
+
 ## 2.35.0 (2026-10-17) · Interfaz editorial (Lovable) + barra de navegación nueva · PR hacia staging (sin desplegar)
 
 - **Origen:** rediseño hecho por ChatGPT en Lovable ("Renzo Sandbox", commit `352f46f`, prototipo con datos simulados). Se re-implementa su lenguaje visual en CSS propio sobre la app real; no se copia código React ni datos mock.
