@@ -22,7 +22,8 @@ Este archivo es el canal de coordinación: cada IA lo lee antes de empezar y lo 
 ## Reparto por microapp
 | Área | Dueño principal | Revisa |
 |---|---|---|
-| Gym (Ascend), Skin, Food | ChatGPT | Claude |
+| Gym (Ascend) · versión tipo Symmetry (`docs/GYM-SYMMETRY.md`, rama `feature/gym-symmetry`) | Claude + ChatGPT (reparto en el doc) | ambos |
+| Skin, Food | ChatGPT | Claude |
 | My Finance, Gastos, Nóminas, Banco, Shift Tracker | Claude | ChatGPT |
 | Ares AI, Work/roadmap, PWA/caché, CI y tests E2E transversales | Claude | ChatGPT |
 | SelfLearn | Claude (petición de Renzo, 17 oct: SelfLearn 3) | ChatGPT |
