@@ -87,7 +87,7 @@ try{
  await page.waitForTimeout(300);
  const after=await page.evaluate(({KEY,unit})=>{const s=JSON.parse(localStorage.getItem(KEY)),cloudRecs=[...window.__cloud.records.values()];return {
   entry:s.entries.find(x=>x.courseLessonId===unit&&x.practice==="Study path"),run:s.learningRuns.nl||null,cards:s.vocabulary.filter(v=>v.course==="nl").length,
-  cloudEntry:cloudRecs.some(r=>r.payload.courseLessonId===unit),cloudCards:cloudRecs.filter(r=>r.record_type==="renzo_vocabulary").length,dueNow:s.vocabulary.filter(v=>v.nextReview<=new Date().toISOString().slice(0,10)).length};},{KEY,unit:mid.unit});
+  cloudEntry:cloudRecs.some(r=>r.payload.courseLessonId===unit),cloudCards:cloudRecs.filter(r=>r.record_type==="renzo_vocabulary").length,dueNow:s.vocabulary.filter(v=>v.nextReview<=new Date().toLocaleDateString('sv-SE')).length /* día local, como today() de la app */};},{KEY,unit:mid.unit});
  assert.ok(after.entry&&after.entry.passed);assert.ok(after.entry.score<after.entry.totalQuestions,"el fallo debería restar en la nota");
  assert.equal(after.run,null);assert.equal(after.cards,8);assert.ok(after.cloudEntry);assert.equal(after.cloudCards,8);assert.ok(after.dueNow>=1,"la palabra fallada debe quedar para repasar");
  console.log(`OK: lección completada con un fallo repetido (${after.entry.score}/${after.entry.totalQuestions}), 8 tarjetas y registro en Supabase`);
