@@ -31,7 +31,7 @@ export function mountProfile(supabase, getUser) {
 
   function render() {
     const suggestionText = $("bodyProfileSuggestionText");
-    if (suggestionText) suggestionText.textContent = `Referencias históricas comunicadas: ${HISTORICAL_BODY_SUGGESTION.startWeight} kg, ${fmt(HISTORICAL_BODY_SUGGESTION.height, 2)} m y metas ${HISTORICAL_BODY_SUGGESTION.phases} kg.`;
+    if (suggestionText) suggestionText.textContent = getUser() ? `Referencias históricas comunicadas: ${HISTORICAL_BODY_SUGGESTION.startWeight} kg, ${fmt(HISTORICAL_BODY_SUGGESTION.height, 2)} m y metas ${HISTORICAL_BODY_SUGGESTION.phases} kg.` : "Inicia sesión para revisar tus datos.";
     renderPersonalContext();
     const p = settings.bodyProfile || {};
     const start = Number.isFinite(p.startWeight)
@@ -64,6 +64,7 @@ export function mountProfile(supabase, getUser) {
 
   function renderPersonalContext(){
     const host=$("personalContextRows");if(!host)return;host.replaceChildren();
+    if(!getUser())return;
     const confirmed=settings.personalContext||{};
     for(const key of PERSONAL_CONTEXT_KEYS){
       const proposed=PERSONAL_CONTEXT_SUGGESTIONS[key],saved=confirmed[key],label=document.createElement("label");
