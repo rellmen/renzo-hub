@@ -1,5 +1,6 @@
 // Perfil corporal privado: se guarda en public.user_settings.settings.bodyProfile (RLS por usuario).
 // Sustituye los datos personales que antes estaban fijos en index.html. Sin datos, muestra "sin datos".
+export const HISTORICAL_BODY_SUGGESTION = Object.freeze({startWeight:84,height:1.70,phases:"78, 74.5",status:"Datos comunicados anteriormente; comprobar vigencia antes de guardar"});
 const FIELDS = ["startWeight", "height", "kcalMin", "kcalMax", "proteinMin", "proteinMax", "budgetMin", "budgetMax"];
 const fmt = (n, digits = 0) => new Intl.NumberFormat("es-ES", { maximumFractionDigits: digits, minimumFractionDigits: 0 }).format(n);
 const range = (a, b, unit = "", digits = 0) => {
@@ -65,11 +66,19 @@ export function mountProfile(supabase, getUser) {
     if (error) { if ($("bodyProfileStatus")) $("bodyProfileStatus").textContent = `No se pudo cargar el perfil: ${error.message}`; throw error; }
     settings = data?.settings && typeof data.settings === "object" ? data.settings : {};
     render();
+    const suggestion = $("bodyProfileSuggestion");
+    if (suggestion) suggestion.hidden = Number.isFinite(settings.bodyProfile?.startWeight) && Number.isFinite(settings.bodyProfile?.height);
   }
 
   function reset() { settings = {}; render(); if ($("bodyProfileStatus")) $("bodyProfileStatus").textContent = ""; }
 
   const form = $("bodyProfileForm");
+  const suggestButton = $("bodyProfileApplySuggestion");
+  if (suggestButton && form) suggestButton.addEventListener("click", () => {
+    for (const key of ["startWeight", "height"]) if (form.elements[key] && !form.elements[key].value) form.elements[key].value = HISTORICAL_BODY_SUGGESTION[key];
+    if (form.elements.phases && !form.elements.phases.value) form.elements.phases.value = HISTORICAL_BODY_SUGGESTION.phases;
+    if ($("bodyProfileStatus")) $("bodyProfileStatus").textContent = "Propuesta histórica cargada. Comprueba los valores y pulsa Guardar perfil para confirmarlos.";
+  });
   if (form) form.addEventListener("submit", async event => {
     event.preventDefault();
     const user = getUser(); if (!user) return;
