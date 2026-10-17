@@ -1,5 +1,14 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## 2.36.0 (2026-10-17) · Gym tipo Symmetry (Claude + ChatGPT en `feature/gym-symmetry`, issue #79) · PR hacia staging (sin desplegar)
+
+- **Progresión automática** (`microapps/gym/progression.js`): al iniciar la sesión cada serie llega precargada con el peso y las reps sugeridas (doble progresión con RIR objetivo: compuestos 2, aislamiento 1; +2,5 kg / +1,25 kg; descarga del 5 % si las reps caen por debajo del mínimo). Cada ejercicio muestra el motivo ("Sube carga", "Suma reps", "Descarga") y tu récord estimado (e1RM Epley, solo series de hasta 12 reps).
+- **Rangos Hierro → Bronce → Plata → Oro → Platino → Diamante → Élite** con subniveles 1–3 (`ranks.js`), por ejercicio y por músculo, a partir de e1RM ÷ peso corporal con estándares orientativos por patrón de movimiento. Pestaña **Rangos** con rango global, **mapa corporal coloreado por rango** y "te faltan X kg para el siguiente".
+- **Registro sin distracciones:** técnica de cada ejercicio (3 claves + error típico, 35 ejercicios, `exercise-info.js`), calculadora de discos por lado (barra olímpica, EZ 10 kg), **temporizador de descanso automático** al guardar una serie (150 s compuestos / 90 s aislamiento, −15/+15/Saltar, vibración y aviso sonoro, sobrevive a recargas), **aviso de récord** al momento y **resumen al terminar** (series, volumen, minutos, récords).
+- **Pestañas simplificadas:** Entrenar, Rangos, Fuerza, Progreso, Rutinas + menú "Más" (Fotos de progreso, Objetivos, Medidas, Historial, Volumen, Recuperación, Lados, Turnos, Coach).
+- **ChatGPT:** generador de plan por onboarding (`onboarding.js`) y API privada de fotos de progreso (`progress-photos.js`, bucket privado existente, URLs firmadas de 60 s). Su interfaz de fotos y el onboarding en Rutinas se integran en esta misma rama; mientras tanto, "Fotos de progreso" muestra "En preparación".
+- Sin cambios de esquema ni migraciones. Tests: 272 unitarios (5 nuevos de Gym) y E2E `tests/e2e/gym-symmetry.mjs` (precarga 60×10 → 62,5×6, técnica, discos, récord + descanso, resumen, rangos y mapa, 390 px sin scroll horizontal). Caché `renzo-hub-cloud-v38-gym-symmetry`.
+
 ## 2.35.1 (2026-10-17) · Ajuste "elegante y sofisticado" sobre 2.35.0
 
 - Barra de navegación sobria: iconos marfil de 24 px con relleno muy suave, activo en iris sobre grafito, Ares como pieza iris cuadrada; se quitan las pastillas de colores por área.
