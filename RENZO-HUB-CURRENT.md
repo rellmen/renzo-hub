@@ -1,5 +1,19 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## 2.33.0 (2026-10-17) · Release agrupada: My Finance completo + Gym Ascend (rama de ChatGPT `release/gym-ascend-bundle`) + arreglos · PR #74 a staging
+
+- Integra `release/gym-ascend-bundle` (#75: registro rápido de series y editor de rutinas) para publicar todo en un solo lote, según `docs/RELEASE_POLICY.md` (límite diario de Vercel Hobby). Caché `renzo-hub-cloud-v27-rise-finance-gym`.
+
+- **Patrimonio** (panel del Resumen): saldo de cierre de cada cuenta desde el último extracto (ING y Revolut, también con varios movimientos el mismo día), inversiones y deudas como valoraciones con fecha (`hub_records` money/`money_asset`, nunca se sobrescriben), patrimonio neto y evolución mensual; valores de más de 45 días marcados como antiguos.
+- **Objetivos**: fondo de emergencia (N meses de gastos fijos reales frente al saldo), meta con fecha (ahorro real desde el mes de inicio y € por semana hasta el plazo) y aporte mensual a inversión (`money_goal`; "Archivar" sin borrar).
+- Categoría nueva **Aporte a inversión** (Trade Republic, DEGIRO, Scalable, etc.): es traspaso, no gasto.
+- **Ares AI**: en móvil ya no reabre el teclado al terminar cada respuesta (tapaba el botón de cerrar), el panel se ajusta al teclado y "atrás" cierra el chat.
+- Portadas de microapps: `overflow-x: clip` (la animación de apertura creaba 2 px de scroll horizontal).
+- Tests: 219 unitarios (6 nuevos), E2E `finance-complete` (Chromium y WebKit) y `ares-ai-chat` ampliado. Caché `renzo-hub-cloud-v25-finance-completa` (incluye los módulos Gym fusionados directamente en `main`, #67 a #72). Sin migraciones.
+
+## 2.29.4 → 2.31.0 (2026-10-16) · Fase 1 cerrada, fase 2A en producción
+- 2.29.4: arreglo CET/CEST (#59) y lector `Loon overwerkuren`, caché v16 (#60, #61). 2.30.0: fase 1 cerrada en el plan (#64). 2.31.0: "Ingresos del mes" nómina ↔ banco sin duplicados (#65, en producción con #66).
+
 ## 2.26.0 (2026-10-13) · SelfLearn A0–B2 — preparado en feature, no desplegado
 
 - **En preparación; pendiente de PR a staging.** Se renombra el área visual `Study · Dutch` a **SelfLearn · Courses** (se conserva el identificador técnico `study`).

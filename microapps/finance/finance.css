@@ -122,3 +122,11 @@
 .bank-detected{display:inline-block;margin:0 0 8px;padding:4px 12px;border-radius:20px;font-weight:800;font-size:14px}
 .bank-detected--ing{background:rgba(255,140,0,.16);color:#ffb15c}
 .bank-detected--revolut{background:rgba(74,168,255,.16);color:#9fd0ff}
+/* Fase 2B/2C · formularios de Patrimonio y Objetivos */
+.fx-form{display:grid;gap:10px;margin-top:6px}
+.fx-form label{display:grid;gap:4px;font-size:13px;color:var(--muted)}
+.fx-form input,.fx-form select{min-height:44px;border-radius:10px;padding:8px 10px;font:inherit;border:1px solid var(--line);min-width:0}
+.fx-form button{min-height:44px;border-radius:10px}
+.fx-row-name .fx-row-bar{display:block;margin-top:6px}
+.fx-row-total .fx-link{font-size:12px}
+@media(min-width:700px){.fx-form{grid-template-columns:1fr 1fr}.fx-form button{grid-column:1/-1}}
