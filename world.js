@@ -1,6 +1,7 @@
 import { xpView } from "./microapps/xp-store.js";
 import { riseRoadmapHTML } from "./microapps/work/roadmap.js";
-import { foundationLessons, expansionLessons, DUTCH_LEVELS } from "./microapps/selflearn/catalog.js";
+import { mountSelfLearn } from "./microapps/selflearn/view.js";
+import { newerRun, COURSE_IDS } from "./microapps/selflearn/engine.js";
 import { fsrs, createEmptyCard, Rating } from "./microapps/selflearn/fsrs-bundle.js";
 const esc = value => String(value ?? "").replace(/[&<>\"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 // hub_records.source solo admite estos valores (CHECK en Supabase). El origen real se conserva en payload.source.
@@ -8,7 +9,7 @@ export const DB_SOURCES = new Set(["manual","capture","import","automation","ai_
 export const dbSource = value => { const v=String(value||"").toLowerCase(); if (DB_SOURCES.has(v)) return v; if (v==="jarvis"||v==="telegram"||v==="n8n") return "automation"; return "manual"; };
 const today = () => { const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`; };
 const dateOf = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
-const blank = () => ({profile:{limit:2,coolingHours:48},shifts:{},shiftTemplates:{},projects:[],ideas:[],entries:[],money:[],tasks:[],sprint:{},feedback:[],inbox:[],vocabulary:[],learningSkills:{},learningSettings:{startingLevel:"A1",sessionMinutes:10,focus:"Mixto"},_modifiedAt:null});
+const blank = () => ({profile:{limit:2,coolingHours:48},shifts:{},shiftTemplates:{},projects:[],ideas:[],entries:[],money:[],tasks:[],sprint:{},feedback:[],inbox:[],vocabulary:[],learningSkills:{},learningSettings:{startingLevel:"A1",sessionMinutes:10,focus:"Mixto"},learningRuns:{},_modifiedAt:null});
 const COLLECTIONS = {projects:"renzo_project",ideas:"renzo_idea",entries:"renzo_event",money:"renzo_money",tasks:"renzo_task",feedback:"renzo_feedback",inbox:"renzo_inbox",vocabulary:"renzo_vocabulary"};
 const DOMAINS = {projects:"work",ideas:"work",entries:"system",money:"money",tasks:"work",feedback:"system",inbox:"system",vocabulary:"learning"};
 const PERSONAL_FIELDS = [
@@ -20,13 +21,19 @@ const PERSONAL_FIELDS = [
 const MONEY_CATEGORIES = ["Car","Groceries","Fuel","Subscriptions","Housing","Transport","Personal","Leisure","Projects","Education","Other"];
 
 export function mountWorld(roots,getUser,supabase){
- let data=blank(),owner=null,cloudStatus="Pendiente",cloudBodySessions=0,saveQueue=Promise.resolve(),activeDutchLesson=null;
+ let data=blank(),owner=null,cloudStatus="Pendiente",cloudBodySessions=0,saveQueue=Promise.resolve(),selflearn=null,learnTimer=null;
+ const synced=new Map(); // id → JSON del último payload confirmado en Supabase: solo se reenvían los registros que cambian.
  const key=()=>`renzo-world-v2:${owner}`;
  const legacyKey=()=>`renzo-world-preview-v1:${owner}`;
- function localSave(){if(owner){data._modifiedAt=new Date().toISOString();localStorage.setItem(key(),JSON.stringify(data));}}
+ // localSave = cambio del usuario (marca la hora); localWrite = copia local sin cambio real (no debe ganar a la nube).
+ function localWrite(){if(!owner)return;try{localStorage.setItem(key(),JSON.stringify(data));}catch(error){console.warn("[renzo-hub] copia local no guardada",error?.message);}}
+ function localSave(){if(owner){data._modifiedAt=new Date().toISOString();localWrite();}}
  function setCloudStatus(text,kind="ok"){cloudStatus=text;const n=roots.system?.querySelector("#worldSyncStatus");if(n){n.textContent=text;n.className=`small ${kind==="err"?"worlddanger":kind==="busy"?"":"worldok"}`;}}
- function arrays(){for(const k of [...Object.keys(COLLECTIONS)])if(!Array.isArray(data[k]))data[k]=[];if(!data.profile||typeof data.profile!=="object")data.profile={};data.profile.limit=Math.max(1,Math.min(2,Number(data.profile.limit)||2));data.profile.coolingHours=Math.max(48,Math.min(72,Number(data.profile.coolingHours)||48));if(!data.shifts||typeof data.shifts!=="object")data.shifts={};if(!data.shiftTemplates||typeof data.shiftTemplates!=="object")data.shiftTemplates={};if(!data.sprint||typeof data.sprint!=="object")data.sprint={};if(!data.learningSkills||typeof data.learningSkills!=="object")data.learningSkills={};if(!data.learningSettings||typeof data.learningSettings!=="object")data.learningSettings={};data.learningSettings={startingLevel:"A1",sessionMinutes:10,focus:"Mixto",...data.learningSettings};}
- function mergeRows(local,remote){const map=new Map();for(const x of remote)map.set(x.id,x);for(const x of local)if(!map.has(x.id))map.set(x.id,x);return [...map.values()];}
+ function arrays(){for(const k of [...Object.keys(COLLECTIONS)])if(!Array.isArray(data[k]))data[k]=[];if(!data.profile||typeof data.profile!=="object")data.profile={};data.profile.limit=Math.max(1,Math.min(2,Number(data.profile.limit)||2));data.profile.coolingHours=Math.max(48,Math.min(72,Number(data.profile.coolingHours)||48));if(!data.shifts||typeof data.shifts!=="object")data.shifts={};if(!data.shiftTemplates||typeof data.shiftTemplates!=="object")data.shiftTemplates={};if(!data.sprint||typeof data.sprint!=="object")data.sprint={};if(!data.learningSkills||typeof data.learningSkills!=="object")data.learningSkills={};if(!data.learningSettings||typeof data.learningSettings!=="object")data.learningSettings={};data.learningSettings={startingLevel:"A1",sessionMinutes:10,focus:"Mixto",...data.learningSettings};if(!data.learningRuns||typeof data.learningRuns!=="object")data.learningRuns={};}
+ // Une local y nube por id. Gana la nube, salvo que la copia local tenga un updatedAt posterior (cambio aún sin subir, p. ej. un repaso FSRS sin conexión).
+ function mergeRows(local,remote){const map=new Map();for(const x of remote)map.set(x.id,x);for(const x of local){const r=map.get(x.id);if(!r||(Date.parse(x.updatedAt||"")||0)>(Date.parse(r.updatedAt||"")||0))map.set(x.id,x);}return [...map.values()];}
+ const STATE_KEYS=["profile","shifts","shiftTemplates","sprint","learningSkills","learningSettings","learningRuns"];
+ const stateOf=d=>Object.fromEntries(STATE_KEYS.map(k=>[k,d[k]]));
  async function load(){
   owner=getUser()?.id||null;if(!owner){data=blank();return;}
   let local=null;try{local=JSON.parse(localStorage.getItem(key())||localStorage.getItem(legacyKey())||"null");}catch{}
@@ -40,31 +47,49 @@ export function mountWorld(roots,getUser,supabase){
   if(stateError||rowsError){setCloudStatus(`Sin sincronizar: ${stateError?.message||rowsError?.message}`,"err");renderAll();return;}
   cloudBodySessions=sessionsError?0:(sessions||[]).length;
   const cloudState=stateRow?.state||null;
-  if(cloudState){const localTime=Date.parse(data._modifiedAt||"")||0,cloudTime=Date.parse(stateRow.updated_at||"")||0;if(localTime>cloudTime){data={...data,...cloudState,_modifiedAt:data._modifiedAt};}else{data={...data,...cloudState,_modifiedAt:stateRow.updated_at};}}
+  let stateNeedsSync=false;
+  if(cloudState){
+   // Antes la nube pisaba siempre al estado local, aunque el local fuera más reciente (preferencias de SelfLearn perdidas).
+   const localTime=Date.parse(data._modifiedAt||"")||0,cloudTime=Date.parse(stateRow.updated_at||"")||0,localState=stateOf(data),localRuns=data.learningRuns||{};
+   if(local&&localTime>cloudTime){data={...data,...cloudState,...localState,_modifiedAt:data._modifiedAt};stateNeedsSync=true;}
+   else data={...data,...cloudState,_modifiedAt:stateRow.updated_at};
+   // La lección a medias se conserva en ambos sentidos: gana la versión con la última respuesta.
+   const cloudRuns=cloudState.learningRuns||{},runs={};
+   for(const c of COURSE_IDS){const r=newerRun(localRuns[c],cloudRuns[c]);if(r)runs[c]=r;if(r&&r!==cloudRuns[c])stateNeedsSync=true;}
+   data.learningRuns=runs;
+  }
   const cloud={};for(const k of Object.keys(COLLECTIONS))cloud[k]=[];
   for(const row of rows||[]){const name=Object.keys(COLLECTIONS).find(k=>COLLECTIONS[k]===row.record_type);if(name)cloud[name].push({...row.payload,id:row.id,updatedAt:row.updated_at,recordStatus:row.status});}
   let hasLocalOnlyRows=false;
-  for(const k of Object.keys(COLLECTIONS)){const remoteIds=new Set(cloud[k].map(x=>x.id));if(data[k].some(x=>!remoteIds.has(x.id)))hasLocalOnlyRows=true;data[k]=mergeRows(data[k],cloud[k]);}
-  arrays();localSave();renderAll();
-  if((!stateRow&&local)||hasLocalOnlyRows){await sync();}
+  synced.clear();
+  for(const k of Object.keys(COLLECTIONS)){const remote=new Map(cloud[k].map(x=>[x.id,x]));data[k]=mergeRows(data[k],cloud[k]);for(const x of data[k]){if(remote.get(x.id)===x)synced.set(x.id,JSON.stringify(x));else hasLocalOnlyRows=true;}}
+  arrays();localWrite();renderAll();
+  if((!stateRow&&local)||hasLocalOnlyRows||stateNeedsSync){await sync();}
   else setCloudStatus("Sincronizado con Supabase");
  }
- async function sync(){if(!owner)return;localSave();setCloudStatus("Guardando en Supabase…","busy");
-  const state={profile:data.profile,shifts:data.shifts,shiftTemplates:data.shiftTemplates,sprint:data.sprint,learningSkills:data.learningSkills,learningSettings:data.learningSettings};
+ async function sync(force=false){if(!owner)return;localWrite();setCloudStatus("Guardando en Supabase…","busy");
+  const state=stateOf(data);
   const stateResult=await supabase.from("hub_user_state").upsert({owner_id:owner,state,updated_at:new Date().toISOString()},{onConflict:"owner_id"});
   if(stateResult.error){setCloudStatus(`Error de sincronización: ${stateResult.error.message}`,"err");return;}
   const records=[];
   for(const name of Object.keys(COLLECTIONS))for(const item of data[name]){
    if(!item.id)item.id=crypto.randomUUID();
+   // Solo se suben los registros nuevos o modificados desde la última confirmación (antes se reenviaba todo en cada guardado).
+   if(!force&&synced.get(item.id)===JSON.stringify(item))continue;
    const date=item.date||today();
    records.push({id:item.id,owner_id:owner,domain:DOMAINS[name],record_type:COLLECTIONS[name],title:String(item.title||item.name||item.kind||name).slice(0,500),status:String(item.status||item.recordStatus||"active").slice(0,100),occurred_at:`${date}T12:00:00.000Z`,payload:item,source:dbSource(item.source),confidence:typeof item.confidence==="number"?item.confidence:null,requires_review:!!item.requiresReview});
   }
-  if(records.length){const {error}=await supabase.from("hub_records").upsert(records,{onConflict:"id"});if(error){const failed=await upsertIndividually(records);if(failed.length){setCloudStatus(`Sincronizado salvo ${failed.length} registro(s) rechazado(s): ${failed[0].message}`,"err");return;}}}
+  const mark=(list,failedIds=new Set())=>{for(const r of list)if(!failedIds.has(r.id))synced.set(r.id,JSON.stringify(r.payload));};
+  if(records.length){const {error}=await supabase.from("hub_records").upsert(records,{onConflict:"id"});if(error){const failed=await upsertIndividually(records);mark(records,new Set(failed.map(f=>f.id)));if(failed.length){setCloudStatus(`Sincronizado salvo ${failed.length} registro(s) rechazado(s): ${failed[0].message}`,"err");return;}}else mark(records);}
   setCloudStatus("Sincronizado con Supabase");document.dispatchEvent(new CustomEvent("renzo:synced"));
  }
  // Si el lote falla, guarda registro a registro para que uno inválido no bloquee el resto.
  async function upsertIndividually(records){const failed=[];for(let i=0;i<records.length;i+=25){const chunk=records.slice(i,i+25);const {error}=await supabase.from("hub_records").upsert(chunk,{onConflict:"id"});if(!error)continue;for(const record of chunk){const r=await supabase.from("hub_records").upsert(record,{onConflict:"id"});if(r.error)failed.push({id:record.id,record_type:record.record_type,message:r.error.message});}}if(failed.length)console.warn("[renzo-hub] registros no sincronizados",failed);return failed;}
- function save(){localSave();saveQueue=saveQueue.then(sync).catch(error=>setCloudStatus(`Error de sincronización: ${error.message}`,"err"));return saveQueue;}
+ function save(){localSave();saveQueue=saveQueue.then(()=>sync()).catch(error=>setCloudStatus(`Error de sincronización: ${error.message}`,"err"));return saveQueue;}
+ // SelfLearn guarda en local al instante tras cada respuesta y agrupa la subida a Supabase (1,2 s) para no saturarla.
+ function persistLearning(immediate=false){localSave();clearTimeout(learnTimer);learnTimer=null;if(immediate){void save();return;}learnTimer=setTimeout(()=>{learnTimer=null;void save();},1200);}
+ function flushLearning(){if(learnTimer){clearTimeout(learnTimer);learnTimer=null;void save();}}
+ if(typeof document!=="undefined"){document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="hidden")flushLearning();});window.addEventListener?.("pagehide",flushLearning);}
  function audit(action,previousValue,newValue){data.entries.push({id:crypto.randomUUID(),kind:"audit",title:action,date:today(),source:"manual",actor:owner,previousValue,newValue});}
  function renderAll(){for(const k of Object.keys(roots))render(k);}
  function render(area){if(!owner)return;({home:homeView,body:bodyView,work:workView,money:moneyView,system:systemView,study:studyView,car:carView}[area]||(()=>{}))();}
@@ -96,105 +121,8 @@ export function mountWorld(roots,getUser,supabase){
  function projectList(){const rows=data.projects.length?data.projects.slice().sort((a,b)=>(b.date||"").localeCompare(a.date||"")).map(p=>`<div class="worlditem"><div class="row"><b>${esc(p.title)}</b><span class="worldbadge">${esc(p.slot||p.status||"backlog")}</span></div><small>${esc(p.area||"Área sin clasificar")} · ${dateText(p.date)}</small>${p.output?`<p class="small">Entregable: ${esc(p.output)}</p>`:""}<div class="actions"><button class="secondary" data-action="slot" data-id="${esc(p.id)}">Cambiar slot</button><button class="secondary" data-action="done" data-id="${esc(p.id)}">Marcar cerrado</button></div></div>`).join(""):blankMsg("No hay proyectos introducidos.");return `<div class="worldlist">${rows}</div>`;}
  function ideaList(){return data.ideas.length?`<div class="worldlist">${data.ideas.slice().reverse().map(i=>{const ready=Date.now()>=(i.coolingUntil||0),status=i.status||"cooling";return `<div class="worlditem"><div class="row"><b>${esc(i.title)}</b><span class="worldbadge">${status==="promoted"?"Promoted":status==="archived"?"Archived":ready?"Review":"Cooling"}</span></div><small>Capturada ${dateText(i.date)} · ${ready?"lista para revisar":`revisión desde ${new Intl.DateTimeFormat("es",{dateStyle:"medium",timeStyle:"short"}).format(i.coolingUntil)}`}</small>${i.note?`<p class="small">${esc(i.note)}</p>`:""}${["promoted","archived"].includes(status)?"":`<div class="actions"><button class="primary" data-action="promote" data-id="${esc(i.id)}">Promover${ready?"":" · override"}</button><button class="secondary" data-action="archive" data-id="${esc(i.id)}">Archivar</button></div>`}</div>`}).join("")}</div>`:blankMsg("Idea Vault vacío. Una idea capturada no se convierte automáticamente en compromiso.");}
  function taskRows(){const statuses=["Today","This Week","Blocked","Waiting","Backlog","Completed"];return statuses.map(status=>{const rows=data.tasks.filter(x=>x.status===status);return `${sectionTitle(status,rows.length)}${rows.length?`<div class="worldlist">${rows.map(t=>`<div class="worlditem"><b>${esc(t.title)}</b><small>${esc(t.priority||"Normal")} · ${dateText(t.dueDate)}${t.project?` · ${esc(t.project)}`:""}</small>${t.nextAction?`<p class="small">Siguiente: ${esc(t.nextAction)}</p>`:""}${t.blocker?`<p class="small worlddanger">Bloqueo: ${esc(t.blocker)}</p>`:""}<select data-task-status="${esc(t.id)}">${statuses.map(x=>`<option ${x===t.status?"selected":""}>${x}</option>`).join("")}</select></div>`).join("")}</div>`:blankMsg("Sin tareas registradas.")}`;}).join("");}
- const legacyDutchCourse=[
-  {title:"En el almacén · ubicaciones",focus:"Pregunta y responde dónde está una carga.",words:[["het magazijn","el almacén"],["de pallet","el palé"],["het gangpad","el pasillo"],["de locatie","la ubicación"]],phrase:"Waar staat de pallet? — De pallet staat in gangpad drie.",translation:"¿Dónde está el palé? — El palé está en el pasillo tres.",grammar:"En una frase afirmativa sencilla, el verbo conjugado va normalmente en segunda posición: De pallet staat…",challenge:"Di en neerlandés dónde está una caja o palé. Puedes cambiar gangpad drie por una ubicación que conozcas."},
-  {title:"Cantidades · recibir cajas",focus:"Cuenta y comunica una cantidad recibida.",words:[["de doos","la caja"],["ontvangen","recibir"],["het aantal","la cantidad"],["tien / twintig","diez / veinte"]],phrase:"We hebben twintig dozen ontvangen.",translation:"Hemos recibido veinte cajas.",grammar:"El perfecto usa hebben + participio: We hebben … ontvangen.",challenge:"Escribe una frase diciendo cuántas cajas has recibido. Cambia twintig por una cantidad real del ejercicio."},
-  {title:"Entregas · cuándo llega",focus:"Pregunta por una entrega y comunica su hora.",words:[["de bestelling","el pedido"],["de levering","la entrega"],["aankomen","llegar"],["morgen","mañana"]],phrase:"Wanneer komt de levering aan? — De levering komt morgen aan.",translation:"¿Cuándo llega la entrega? — La entrega llega mañana.",grammar:"En preguntas con una palabra interrogativa, el verbo conjugado suele ir antes del sujeto: Wanneer komt de levering aan?",challenge:"Responde cuándo llegará un pedido: morgen, vandaag (hoy) o om acht uur (a las ocho)."},
-  {title:"Pedir ayuda · conversación",focus:"Pide apoyo de forma educada.",words:[["helpen","ayudar"],["kunt u…?","¿puede usted…?"],["controleren","comprobar"],["alstublieft","por favor"]],phrase:"Kunt u mij helpen met deze bestelling, alstublieft?",translation:"¿Puede ayudarme con este pedido, por favor?",grammar:"Kunt u…? es una forma cortés con u. El infinitivo helpen aparece al final en esta construcción.",challenge:"Pide a una compañera o compañero que te ayude a comprobar un pedido."},
-  {title:"Hora y rutina · comienzo del turno",focus:"Pregunta y di a qué hora empieza una actividad.",words:[["hoe laat","a qué hora"],["beginnen","empezar"],["de dienst","el turno"],["om zes uur","a las seis"]],phrase:"Hoe laat begint je dienst? — Mijn dienst begint om zes uur.",translation:"¿A qué hora empieza tu turno? — Mi turno empieza a las seis.",grammar:"Para horas exactas usa om: om zes uur. Esta lección no supone cuál es tu horario real.",challenge:"Completa con una hora elegida para practicar: Mijn dienst begint om … uur."},
-  {title:"Resolver incidencias · comunicar un problema",focus:"Describe una diferencia o un código que no funciona.",words:[["ontbreken","faltar"],["de barcode","el código de barras"],["het probleem","el problema"],["controleren","comprobar"]],phrase:"Er ontbreken twee dozen. De barcode werkt niet.",translation:"Faltan dos cajas. El código de barras no funciona.",grammar:"Er ontbreken… comunica que faltan cosas. werkt niet es la negación de werkt (funciona).",challenge:"Escribe un aviso corto: qué falta o qué no funciona y qué necesitas que se compruebe."},
-  {title:"Repaso · explicar una tarea",focus:"Recupera vocabulario, fraseo y una pregunta de logística.",words:[["de locatie","la ubicación"],["ontvangen","recibir"],["de levering","la entrega"],["ontbreken","faltar"]],phrase:"De levering is aangekomen. Ik controleer het aantal en de locatie.",translation:"La entrega ha llegado. Compruebo la cantidad y la ubicación.",grammar:"Combina una frase en perfecto con una acción en presente. Revisa tus tarjetas pendientes después de la clase.",challenge:"Explica en dos frases qué ha llegado y qué vas a comprobar."}
- ];
- const dutchCourse=[...foundationLessons,...legacyDutchCourse.map((lesson,legacyDay)=>({...lesson,id:`a1-legacy-${legacyDay}`,level:"A1",legacyDay,topic:"Logística"})),...expansionLessons];
- function currentDutchLessonIndex(){return nextStudyIndex();}
- function dutchLessonDone(day){const lesson=dutchCourse[day];return !!lesson&&data.entries.some(x=>x.kind==="learning"&&["Study path","Daily lesson"].includes(x.practice)&&(x.courseLessonId===lesson.id?(x.practice==="Study path"&&x.passed!==false):(!x.courseLessonId&&lesson.legacyDay!=null&&Number(x.lessonDay)===lesson.legacyDay)));}
- function dutchStudyStats(){
-  const sessions=data.entries.filter(x=>x.kind==="learning"&&["Study path","Daily lesson"].includes(x.practice));
-  const dates=new Set(sessions.map(x=>x.date).filter(Boolean));let cursor=new Date();cursor.setHours(12,0,0,0);if(!dates.has(dateOf(cursor)))cursor.setDate(cursor.getDate()-1);let streak=0;
-  while(dates.has(dateOf(cursor))&&streak<365){streak++;cursor.setDate(cursor.getDate()-1);}
-  const xp=sessions.reduce((sum,x)=>sum+(Number.isFinite(Number(x.xp))?Number(x.xp):10),0);
-  return {sessions,dates,streak,xp,done:dutchCourse.filter((_,i)=>dutchLessonDone(i)).length};
- }
-
- const nextStudyIndex=()=>{
-  const preferred=data.learningSettings.startingLevel||"A1";
-  const start=Math.max(0,dutchCourse.findIndex(x=>x.level===preferred));
-  const next=dutchCourse.findIndex((_,i)=>i>=start&&!dutchLessonDone(i));
-  return next<0?dutchCourse.length-1:next;
- };
- function startDutchLesson(day,overrideMinutes){
-  const lesson=dutchCourse[day];if(!lesson)return;
-  const minutes=overrideMinutes||Number(data.learningSettings.sessionMinutes)||10;
-  const bank=dutchCourse.filter(x=>x.level===lesson.level).flatMap(x=>x.words);
-  const shuffle=items=>[...items].sort(()=>Math.random()-.5);
-  const wordQuestions=shuffle(lesson.words).slice(0,minutes===5?3:4).map(([word,meaning])=>{
-   const distractors=shuffle([...new Set(bank.filter(x=>x[0]!==word).map(x=>x[0]))]).slice(0,3);
-   return {prompt:`¿Cómo se dice «${meaning}» en neerlandés?`,answer:word,options:shuffle([word,...distractors]),explanation:`${word} = ${meaning}.`,level:lesson.level};
-  });
-  const allPhrases=shuffle(dutchCourse.filter(x=>x.level===lesson.level&&x.id!==lesson.id).map(x=>x.translation)).slice(0,3);
-  wordQuestions.push({prompt:"Escucha y elige la traducción correcta",audio:lesson.phrase,answer:lesson.translation,options:shuffle([lesson.translation,...allPhrases]),explanation:lesson.translation,level:lesson.level});
-  if(minutes===20)wordQuestions.push(...shuffle(lesson.words).map(([word,meaning])=>{
-   const choices=shuffle([...new Set(bank.filter(x=>x[1]!==meaning).map(x=>x[1]))]).slice(0,3);
-   return {prompt:`¿Qué significa «${word}»?`,answer:meaning,options:shuffle([meaning,...choices]),explanation:`${word} = ${meaning}.`,level:lesson.level};
-  }));
-  activeDutchLesson={mode:"lesson",day,questions:wordQuestions,index:0,correct:0,selected:null,startedAt:Date.now()};
-  studyView();
- }
- function startDutchDiagnostic(){
-  const shuffle=items=>[...items].sort(()=>Math.random()-.5);
-  const questions=DUTCH_LEVELS.flatMap(({id:level})=>{
-   const bank=dutchCourse.filter(x=>x.level===level).flatMap(x=>x.words);
-   return shuffle(bank).slice(0,3).map(([word,meaning])=>{
-    const others=shuffle([...new Set(bank.filter(x=>x[0]!==word).map(x=>x[0]))]).slice(0,3);
-    return {prompt:`¿Cómo se dice «${meaning}»?`,answer:word,options:shuffle([word,...others]),explanation:`${word} = ${meaning}.`,level};
-   });
-  });
-  activeDutchLesson={mode:"diagnostic",questions,index:0,correct:0,selected:null,startedAt:Date.now(),answers:[]};
-  studyView();
- }
- function renderDutchQuiz(){
-  const run=activeDutchLesson,diagnostic=run.mode==="diagnostic";
-  const lesson=diagnostic?{title:"Diagnóstico de entrada · orientativo"}:dutchCourse[run.day];
-  const complete=run.index>=run.questions.length,passed=run.correct>=Math.ceil(run.questions.length*.8);
-  if(complete)return `<div class="study-quiz"><div class="study-quiz-top"><button class="study-exit" data-study-action="exit">← SelfLearn</button><div class="study-progress"><span style="width:100%"></span></div><span class="study-progress-copy">${run.questions.length}/${run.questions.length}</span></div><div class="study-finish"><div class="study-finish-icon">◎</div><div class="ey">${diagnostic?"RESULTADO ORIENTATIVO":passed?"UNIDAD SUPERADA":"REPASO RECOMENDADO"}</div><h2>${diagnostic?"Diagnóstico completado":passed?"Goed gedaan!":"Sigue practicando"}</h2><p>${run.correct}/${run.questions.length} respuestas correctas. ${diagnostic?"Este cuestionario no certifica un nivel.":passed?"Puedes continuar con la siguiente unidad.":"Necesitas al menos 80 % para avanzar; puedes repetir la unidad."}</p><p>${esc(lesson.title)}</p><button class="primary" data-study-action="finish">${diagnostic?"Guardar recomendación":"Guardar intento"}</button></div></div>`;
-  const q=run.questions[run.index],selected=run.selected,correctAnswer=q.options.indexOf(q.answer);
-  const options=q.options.map((option,i)=>{let state="";if(selected!==null&&i===correctAnswer)state=" correct";else if(selected===i&&i!==correctAnswer)state=" incorrect";return `<button class="study-answer${state}" data-study-action="answer" data-choice="${i}" ${selected!==null?"disabled":""}>${esc(option)}</button>`;}).join("");
-  return `<div class="study-quiz"><div class="study-quiz-top"><button class="study-exit" data-study-action="exit">← Ruta</button><div class="study-progress"><span style="width:${Math.round(run.index/run.questions.length*100)}%"></span></div><span class="study-progress-copy">${run.index+1}/${run.questions.length}</span></div><div class="study-question-card"><div class="ey">${diagnostic?esc(q.level):"🇳🇱 "+esc(lesson.title)}</div><h2>${esc(q.prompt)}</h2>${q.audio?`<button type="button" class="secondary" data-study-action="speak" data-text="${esc(q.audio)}">🔊 Escuchar neerlandés</button><details class="study-transcript"><summary>Leer transcripción si el audio no funciona</summary><p lang="nl">${esc(q.audio)}</p></details>`:""}<div class="study-answer-list">${options}</div>${selected===null?"":`<div class="study-feedback ${q.options[selected]===q.answer?"good":"retry"}"><b>${q.options[selected]===q.answer?"¡Correcto!":"Repasa esta respuesta"}</b> · ${esc(q.explanation)}</div><button class="study-continue" data-study-action="continue">${run.index+1===run.questions.length?"Ver resultado":"Continuar →"}</button>`}</div></div>`;
- }
- // FSRS schedules intra-day learning steps; don't round due timestamps to a date.
- function dueDutchVocab(item){
-  const timestamp=item.fsrsCard?.due?Date.parse(item.fsrsCard.due):NaN;
-  return Number.isFinite(timestamp)?timestamp<=Date.now():!item.nextReview||item.nextReview<=today();
- }
- function learningPanel(){const due=data.vocabulary.filter(dueDutchVocab),day=currentDutchLessonIndex(),lesson=dutchCourse[day],complete=data.entries.some(x=>x.kind==="learning"&&x.practice==="Daily lesson"&&x.lessonDay===day&&x.date===today()),level=data.learningSkills.overall||"Por determinar";return `<div class="hero study-lesson"><div class="row"><span class="worldbadge">🇳🇱 CLASE ${day+1} · ${complete?"COMPLETADA":"DE HOY"}</span><span class="small">${due.length} tarjetas pendientes</span></div><h2 style="margin-top:12px">${esc(lesson.title)}</h2><p>${esc(lesson.focus)}</p><div class="lesson-steps">${lesson.words.map(([nl,es])=>`<div class="lesson-step"><b>${esc(nl)}</b><p>${esc(es)}</p></div>`).join("")}<div class="lesson-step"><b>🗣️ Frase modelo</b><button type="button" class="secondary" data-study-action="speak" data-text="${esc(lesson.phrase)}">🔊 Escuchar pronunciación</button><p class="lesson-dutch">${esc(lesson.phrase)}</p><p>${esc(lesson.translation)}</p></div><div class="lesson-step"><b>🧩 Construye la frase</b><p>${esc(lesson.grammar)}</p></div><div class="lesson-step"><b>✍️ Aplica</b><p>${esc(lesson.challenge)}</p></div><div class="lesson-step"><b>Tu práctica · ${esc(data.learningSettings.focus)}</b><p>${esc(({"Vida diaria":"Inicia una conversación en una tienda o con una persona del vecindario.","Logística":"Explica a un compañero dónde está un palé y qué has comprobado.","Analítica":"Describe una cifra, diferencia o mejora en un proceso logístico ficticio.","Mixto":"Practica una frase que podrías utilizar hoy fuera o dentro del trabajo."})[data.learningSettings.focus]||"Practica una frase de tu día.")}</p></div></div><form class="worldform" data-form="lesson"><label>Tu respuesta o reflexión<textarea name="answer" rows="3" maxlength="1200" placeholder="Escribe tu frase en neerlandés…"></textarea></label><button class="secondary" type="button" data-study-action="record">🎤 Dictar mi respuesta (si el navegador lo permite)</button><p class="small" id="studySpeechStatus" role="status">También puedes escribir: la transcripción no es una nota de pronunciación.</p><label>¿Cuánto practicaste? (minutos)<input name="minutes" type="number" min="1" max="180" value="${Number(data.learningSettings.sessionMinutes)||10}"></label><button class="primary" ${complete?"disabled":""}>${complete?"✅ Clase registrada hoy":"Marcar clase completada"}</button><p class="small">La práctica se guarda en tu historial. El dictado opcional puede usar servicios de voz del navegador; úsalo solo si aceptas su tratamiento.</p></form></div><details class="card" style="margin-top:10px"><summary>📊 Mi nivel y habilidades · ${esc(level)}</summary><div class="worldgrid" style="margin-top:10px"><div class="card"><b>Overall</b><p>${esc(level)}</p></div>${["Vocabulary","Grammar","Listening","Reading","Writing","Pronunciation","Practical Dutch","Logistics Dutch"].map(k=>`<div class="card"><b>${k}</b><p>${esc(data.learningSkills[k]||"Por determinar")}</p></div>`).join("")}</div><form class="card worldform" data-form="assessment"><label>Dimensión<select name="skill">${["overall","Vocabulary","Grammar","Listening","Reading","Writing","Pronunciation","Practical Dutch","Logistics Dutch"].map(x=>`<option>${x}</option>`).join("")}</select></label><label>Tu autoevaluación<input name="level" maxlength="40" placeholder="A1, A2, B1 o pendiente"></label><button class="secondary">Guardar nivel</button></form></details><details class="card" style="margin-top:10px"><summary>🧠 Vocabulario personal · ${due.length} para repasar</summary><form class="worldform" data-form="vocabulary" style="margin-top:12px"><label>Neerlandés<input name="front" required maxlength="160" placeholder="Palabra o frase en neerlandés"></label><label>Significado y ejemplo<input name="back" required maxlength="300" placeholder="Significado o ejemplo propio"></label><label>Área<select name="area"><option>Everyday Dutch</option><option>Logistics Dutch</option></select></label><button class="secondary">Añadir tarjeta</button></form><div class="worldlist" style="margin-top:10px">${due.slice(0,12).map(v=>`<div class="worlditem"><b>${esc(v.front)}</b><details><summary>Ver significado</summary><p>${esc(v.back)}</p></details><div class="actions"><button class="secondary" data-action="review-vocab" data-id="${esc(v.id)}" data-grade="again">Otra vez</button><button class="secondary" data-action="review-vocab" data-id="${esc(v.id)}" data-grade="hard">Difícil</button><button class="primary" data-action="review-vocab" data-id="${esc(v.id)}" data-grade="good">Bien</button><button class="primary" data-action="review-vocab" data-id="${esc(v.id)}" data-grade="easy">Fácil</button></div></div>`).join("")||blankMsg("No hay tarjetas pendientes. Añade vocabulario que quieras practicar.")}</div></details><details class="card" style="margin-top:10px"><summary>📈 Historial de aprendizaje</summary>${sectionTitle("Esta semana",`${data.entries.filter(x=>x.kind==="learning"&&x.date>=weekly()).length} sesiones`)}<div class="worldlist">${data.entries.filter(x=>x.kind==="learning").slice().reverse().slice(0,10).map(x=>`<div class="worlditem"><b>${esc(x.title)}</b><small>${dateText(x.date)} · ${esc(x.stage||"")}${x.minutes?` · ${x.minutes} min`:""}</small>${x.note?`<p class="small">${esc(x.note)}</p>`:""}</div>`).join("")||blankMsg("Tus clases y prácticas aparecerán aquí.")}</div></details>`;}
-
- function studyHome(){
-  if(activeDutchLesson)return renderDutchQuiz();
-  const xv=xpView(),stats=dutchStudyStats(),next=nextStudyIndex(),nextLesson=dutchCourse[next];
-  const settings=data.learningSettings,startingLevel=settings.startingLevel||"A1";
-  const startIndex=Math.max(0,dutchCourse.findIndex(x=>x.level===startingLevel));
-  const due=data.vocabulary.filter(dueDutchVocab).length;
-  const wordsKnown=data.vocabulary.filter(v=>v.fsrsCard&&Number(v.fsrsCard.stability)>=21).length;
-  const placement=settings.placement;
-  const path=DUTCH_LEVELS.map(level=>{
-   const lessons=dutchCourse.map((lesson,i)=>({lesson,i})).filter(x=>x.lesson.level===level.id);
-   const doneCount=lessons.filter(x=>dutchLessonDone(x.i)).length;
-   const nodes=lessons.map(({lesson,i})=>{
-    const done=dutchLessonDone(i),open=done||i<=next||i<startIndex,cls=done?"completed":i===next?"current":"locked";
-    return `<button class="study-node ${cls}" data-study-action="start" data-day="${i}" ${open?"":"disabled"} aria-label="${esc(lesson.title)}"><span class="study-node-icon">${done?"✓":open?"✦":"·"}</span><span class="study-level-tag">${esc(level.id)} · ${esc(lesson.topic||"Vida diaria")}</span><h3>${esc(lesson.title)}</h3><p>${esc(lesson.focus)}</p><span class="study-node-foot">${done?"Completada · repasar":open?"Practicar · "+settings.sessionMinutes+" min":"Aún no desbloqueada"}</span></button>`;
-   }).join("");
-   return `<section class="study-level"><div class="study-section-title"><h2>${esc(level.id)} · ${esc(level.name)}</h2><span>${doneCount}/${lessons.length} unidades</span></div><p class="study-goal">${esc(level.goal)}</p><div class="study-path">${nodes}</div></section>`;
-  }).join("");
-  return `<div class="study-head"><div><div class="ey">SELFLEARN / COURSES / NEDERLANDS</div><h1>Neerlandés a tu ritmo · A0 → B2</h1><p>Aprende desde cero, sin perder lo que ya sabes. Español como apoyo, neerlandés real para vivir en Países Bajos, trabajar con la carretilla y avanzar hacia Logistics Data Analyst.</p></div><div class="study-stats"><div class="study-stat"><strong>${stats.streak} días</strong><span>Racha de práctica</span></div><div class="study-stat"><strong>NV. <b data-rise-level>${xv.level}</b></strong><span><b data-rise-xp>${xv.xp}</b> XP global</span></div><div class="study-stat"><strong>${stats.done}/${dutchCourse.length}</strong><span>Unidades completadas</span></div></div></div>
-  <div class="study-course-card"><b>Curso 01 · Nederlands</b><span>Vida diaria · Logística · Analítica · 4 destrezas</span><p>Los niveles describen el itinerario, no acreditan tu competencia. Para B1/B2 prepara también lectura, comprensión auditiva, expresión oral y escrita con modelos del Staatsexamen NT2.</p></div>
-  <div class="study-next"><div><div class="ey">TU SIGUIENTE PASO · ${esc(nextLesson.level)}</div><h2>${esc(nextLesson.title)}</h2><p>${esc(nextLesson.focus)} · Sesión ${settings.sessionMinutes} min · ${esc(settings.focus)}${currentMode()?" · Tienes un turno configurado: puedes elegir 5 min":""}</p></div><button class="study-start" data-study-action="start" data-day="${next}">Empezar sesión</button><button class="secondary" data-study-action="quick" title="Sesión rápida de repaso">Express · 5 min</button></div>
-  <div class="study-controls"><form class="study-preferences" data-form="study-settings"><b>Mi ruta personalizada</b><div class="study-pref-grid"><label>Empezar desde<select name="startingLevel">${DUTCH_LEVELS.map(level=>`<option value="${level.id}" ${startingLevel===level.id?"selected":""}>${level.id} · ${esc(level.name)}</option>`).join("")}</select></label><label>Tiempo disponible<select name="sessionMinutes">${[5,10,20].map(min=>`<option value="${min}" ${Number(settings.sessionMinutes)===min?"selected":""}>${min} minutos</option>`).join("")}</select></label><label>Priorizar ejemplos<select name="focus">${["Mixto","Vida diaria","Logística","Analítica"].map(focus=>`<option ${settings.focus===focus?"selected":""}>${focus}</option>`).join("")}</select></label></div><button class="secondary" type="submit">Guardar preferencias</button><p class="small">Nivel inicial sugerido A1 por tu contexto previo; no es un diagnóstico. Puedes comenzar en A0 cuando quieras.</p></form><div class="study-placement"><b>¿Desde qué nivel empezar?</b><p>15 preguntas de vocabulario, 3 por nivel. Orienta el punto de partida, pero no mide las cuatro destrezas.</p><button class="secondary" data-study-action="diagnostic">Hacer diagnóstico</button>${placement?`<p class="small">Última recomendación: <b>${esc(placement.recommended)}</b> · ${esc(placement.date)} · ${Number(placement.correct)||0}/15 aciertos.</p>`:""}</div></div>
-  <div class="study-section-title"><h2>Tu memoria activa</h2><span>${due} repasos pendientes</span></div><div class="study-memory"><div><strong>${due}</strong><small>tarjetas que toca repasar</small></div><div><strong>${wordsKnown}</strong><small>tarjetas con estabilidad ≥ 21 días (FSRS)</small></div><div><strong>${settings.sessionMinutes} min</strong><small>tu sesión habitual</small></div></div>
-  ${path}
-  <div class="study-section-title"><h2>Laboratorio personal</h2><span>Audio · expresión · repaso</span></div><details class="study-extras"><summary>Vocabulario inteligente, práctica oral, escritura e historial</summary>${learningPanel()}</details>
-  <p class="study-goal">Próximos cursos: la sección SelfLearn permite añadirlos más adelante sin mezclar progreso de idiomas y otros contenidos.</p>`;
- }
- function studyView(){roots.study.innerHTML=studyHome();wireStudy();}
+ // SelfLearn vive en microapps/selflearn/view.js: aquí solo se monta en el área "study".
+ function studyView(){if(!selflearn)selflearn=mountSelfLearn({root:roots.study,getData:()=>data,persist:persistLearning,today,xpView,currentMode});selflearn.render();}
  function carView(){const jarvisExpenses=data.money.filter(x=>x.source==="jarvis"&&x.kind==="expense"&&(x.expenseCategory==="car"||x.category==="Car")).slice().sort((a,b)=>(b.date||"").localeCompare(a.date||""));const pending=data.inbox.filter(x=>x.source==="jarvis"&&["expense","receipt"].includes(x.category)&&(x.extracted?.expenseCategory==="car"||x.extracted?.category==="Car"));roots.car.innerHTML=`<div class="hero car-hero"><div class="ey">⛽ GASTOS DEL COCHE</div><h2>Car · Jarvis</h2><p>Los gastos claros que envías a Jarvis aparecen aquí y en My Finance. Si faltan datos o Jarvis no está seguro, la entrada queda en AI Inbox para revisar.</p></div><div class="section"><h3>Gastos registrados</h3><span class="worldbadge">${jarvisExpenses.length}</span></div><div class="worldlist">${jarvisExpenses.slice(0,8).map(x=>`<div class="worlditem"><div class="row"><b>${esc(x.title)}</b><b>${money(x.amount)}</b></div><small>${dateText(x.date)} · ${esc(x.category||"Car")}</small>${x.note?`<p class="small">${esc(x.note)}</p>`:""}</div>`).join("")||blankMsg("Todavía no hay gastos de Car recibidos desde Jarvis.")}</div>${pending.length?`<div class="section"><h3>Requieren revisión</h3><span class="worldbadge">${pending.length}</span></div><div class="worldlist">${pending.slice().reverse().map(x=>`<div class="worlditem"><b>${esc(x.title)}</b><small>${dateText(x.date)} · AI Inbox</small>${x.extracted?.amount?`<p class="small">Importe detectado: ${money(x.extracted.amount)}</p>`:""}${x.note?`<p class="small">${esc(x.note)}</p>`:""}</div>`).join("")}</div>`:""}`;}
 
  function inboxRows(){return data.inbox.slice().reverse().map(x=>{const extracted=x.extracted||{},facts=[extracted.amount!=null?`Importe: ${money(extracted.amount)}`:"",extracted.net!=null?`Neto: ${money(extracted.net)}`:"",extracted.gross!=null?`Bruto: ${money(extracted.gross)}`:"",extracted.period?`Período: ${esc(extracted.period)}`:""].filter(Boolean).join(" · ");return `<div class="worlditem"><div class="row"><b>${esc(x.title)}</b><span class="worldbadge">${esc(x.status||"needs_review")}</span></div><small>${esc(x.category||"Sin clasificar")} · ${dateText(x.date)}${x.source==="jarvis"?" · Jarvis":""}</small>${facts?`<p class="small">${facts}</p>`:""}${x.note?`<p class="small">${esc(x.note)}</p>`:""}${x.attachment?`<p class="small"><button class="secondary" data-action="attachment" data-id="${esc(x.id)}">Abrir ${esc(x.attachment.name)}</button></p>`:""}${x.status!=="reviewed"?`<div class="actions"><button class="primary" data-action="inbox-review" data-id="${esc(x.id)}">Confirmar y guardar</button><button class="secondary" data-action="inbox-archive" data-id="${esc(x.id)}">Archivar</button></div>`:""}</div>`;}).join("")||blankMsg("AI Inbox vacío.");}
@@ -239,89 +167,6 @@ export function mountWorld(roots,getUser,supabase){
  roots.work.querySelectorAll("[data-task-status]").forEach(select=>select.onchange=async()=>{const task=data.tasks.find(x=>x.id===select.dataset.taskStatus);if(task){const previous=task.status;task.status=select.value;task.updatedAt=new Date().toISOString();audit("Estado de tarea actualizado",{id:task.id,status:previous},{id:task.id,status:task.status});await save();workView();}});
  }
 
- function wireStudy(){
-  wireCommon();
-  roots.study.querySelectorAll("form[data-form]").forEach(form=>form.onsubmit=async event=>{
-   event.preventDefault();const v=Object.fromEntries(new FormData(form)),type=form.dataset.form;
-   if(type==="study-settings"){
-    data.learningSettings.startingLevel=DUTCH_LEVELS.some(x=>x.id===v.startingLevel)?v.startingLevel:"A1";
-    data.learningSettings.sessionMinutes=[5,10,20].includes(Number(v.sessionMinutes))?Number(v.sessionMinutes):10;
-    data.learningSettings.focus=["Mixto","Vida diaria","Logística","Analítica"].includes(v.focus)?v.focus:"Mixto";
-   }else if(type==="lesson"){
-    const day=currentDutchLessonIndex(),lesson=dutchCourse[day];
-    if(data.entries.some(x=>x.kind==="learning"&&x.practice==="Daily lesson"&&x.courseLessonId===lesson.id&&x.date===today()))return;
-    data.entries.push({id:crypto.randomUUID(),kind:"learning",area:"Dutch",title:`Práctica libre · ${lesson.title}`,stage:"Application",practice:"Daily lesson",courseLessonId:lesson.id,lessonDay:day,passed:true,minutes:Math.max(1,Number(v.minutes)||10),note:String(v.answer||"").trim(),date:today()});
-   }else if(type==="assessment"){
-    data.learningSkills[v.skill]=String(v.level||"").trim()||"Por determinar";
-    data.entries.push({id:crypto.randomUUID(),kind:"learning_assessment",title:`${v.skill}: ${v.level}`,area:"Dutch",date:today()});
-   }else if(type==="vocabulary"){
-    const front=String(v.front||"").trim(),back=String(v.back||"").trim();
-    if(!front||!back)return;
-    data.vocabulary.push({id:crypto.randomUUID(),front,back,area:v.area,intervalDays:0,nextReview:today(),date:today(),repetitions:0});
-   }
-   await save();studyView();
-  });
-  roots.study.querySelectorAll('[data-action="review-vocab"]').forEach(b=>b.onclick=()=>void action(b));
-  roots.study.querySelectorAll("[data-study-action]").forEach(button=>button.onclick=async()=>{
-   const actionName=button.dataset.studyAction;
-   if(actionName==="diagnostic"){startDutchDiagnostic();return;}
-   if(actionName==="start"){startDutchLesson(Number(button.dataset.day));return;}
-   if(actionName==="quick"){startDutchLesson(nextStudyIndex(),5);return;}
-   if(actionName==="exit"){activeDutchLesson=null;studyView();return;}
-   if(actionName==="speak"){
-    const phrase=button.dataset.text;if(!phrase||!("speechSynthesis" in window))return;
-    const utterance=new SpeechSynthesisUtterance(phrase);utterance.lang="nl-NL";utterance.rate=.83;
-    window.speechSynthesis.cancel();window.speechSynthesis.speak(utterance);return;
-   }
-   if(actionName==="record"){
-    const Speech=window.SpeechRecognition||window.webkitSpeechRecognition;
-    const status=roots.study.querySelector("#studySpeechStatus");
-    if(!Speech){if(status)status.textContent="Reconocimiento no disponible en este navegador: escribe tu respuesta.";return;}
-    const recognition=new Speech();recognition.lang="nl-NL";recognition.interimResults=false;recognition.maxAlternatives=1;
-    if(status)status.textContent="Escuchando… Permite el uso del micrófono solo si deseas dictar.";
-    recognition.onresult=event=>{const box=roots.study.querySelector('textarea[name="answer"]');if(box)box.value=event.results[0][0].transcript;if(status)status.textContent="Transcripción insertada. Revísala: no constituye una nota de pronunciación.";};
-    recognition.onerror=event=>{if(status)status.textContent=`No se pudo transcribir (${event.error}). Puedes escribir manualmente.`;};
-    try{recognition.start();}catch{if(status)status.textContent="No se pudo iniciar el micrófono.";}
-    return;
-   }
-   if(actionName==="answer"&&activeDutchLesson&&activeDutchLesson.selected===null){
-    const choice=Number(button.dataset.choice),run=activeDutchLesson,q=run.questions[run.index];
-    if(!Number.isInteger(choice)||choice<0||choice>=q.options.length)return;
-    run.selected=choice;const right=q.options[choice]===q.answer;
-    if(right)run.correct++;
-    if(run.mode==="diagnostic")run.answers.push({level:q.level,correct:right});
-    studyView();return;
-   }
-   if(actionName==="continue"&&activeDutchLesson&&activeDutchLesson.selected!==null){
-    activeDutchLesson.index++;activeDutchLesson.selected=null;studyView();return;
-   }
-   if(actionName==="finish"&&activeDutchLesson){
-    const run=activeDutchLesson;
-    if(run.index<run.questions.length)return;
-    if(run.mode==="diagnostic"){
-     const scores=Object.fromEntries(DUTCH_LEVELS.map(x=>[x.id,run.answers.filter(a=>a.level===x.id&&a.correct).length]));
-     let recommended="A0";
-     for(let i=0;i<DUTCH_LEVELS.length;i++){
-      if(scores[DUTCH_LEVELS[i].id]>=2)recommended=DUTCH_LEVELS[Math.min(i+1,DUTCH_LEVELS.length-1)].id;
-      else break;
-     }
-     data.learningSettings.startingLevel=recommended;
-     data.learningSettings.placement={date:today(),scores,recommended,correct:run.correct,total:run.questions.length};
-     data.entries.push({id:crypto.randomUUID(),kind:"learning_assessment",area:"Dutch",title:`Diagnóstico orientativo: ${recommended}`,practice:"Placement",date:today(),correct:run.correct,total:run.questions.length});
-    }else{
-     const lesson=dutchCourse[run.day],passed=run.correct>=Math.ceil(run.questions.length*.8);
-     const alreadyDone=dutchLessonDone(run.day),xp=passed&&!alreadyDone?run.correct*10:0;
-     data.entries.push({id:crypto.randomUUID(),kind:"learning",area:"Dutch",title:`Dutch · ${lesson.title}`,stage:"Application",practice:"Study path",lessonDay:run.day,courseLessonId:lesson.id,passed,score:run.correct,totalQuestions:run.questions.length,xp,minutes:Math.max(1,Math.round((Date.now()-run.startedAt)/60000)),date:today()});
-     if(passed)for(const [front,back] of lesson.words){
-      if(!data.vocabulary.some(v=>v.front.toLocaleLowerCase("nl")===front.toLocaleLowerCase("nl"))){
-       data.vocabulary.push({id:crypto.randomUUID(),front,back,area:lesson.topic||"Everyday Dutch",nextReview:today(),date:today(),intervalDays:0,repetitions:0});
-      }
-     }
-    }
-    activeDutchLesson=null;await save();studyView();
-   }
-  });
- }
  function wireSystem(){roots.system.querySelectorAll("form[data-form]").forEach(form=>form.onsubmit=async event=>{event.preventDefault();const v=Object.fromEntries(new FormData(form));if(form.dataset.form==="profile"){const previous={...data.profile};data.profile={...data.profile,career:v.career.trim(),limit:Number(v.limit)||2,coolingHours:Number(v.coolingHours)||48};for(const [k] of PERSONAL_FIELDS)data.profile[k]=v[k].trim();audit("Personal Engine actualizado",previous,data.profile);}
   if(form.dataset.form==="shift"){const d=v.date,previous=data.shifts[d]||null;if(v.mode)data.shifts[d]=v.mode;else delete data.shifts[d];audit("Contexto de fecha actualizado",{date:d,mode:previous},{date:d,mode:data.shifts[d]||null,note:v.note.trim()});}
   if(form.dataset.form==="shift-pattern"){const previous={...data.shiftTemplates};for(let i=0;i<7;i++){const value=v[`day-${i}`];if(value)data.shiftTemplates[i]=value;else delete data.shiftTemplates[i];}audit("Horario recurrente actualizado",previous,data.shiftTemplates);}
@@ -329,7 +174,7 @@ export function mountWorld(roots,getUser,supabase){
  function wireCommon(root=roots.system){root?.querySelectorAll("[data-action]").forEach(b=>b.onclick=()=>void action(b));}
  async function action(button){const id=button.dataset.id,kind=button.dataset.action;
   if(kind==="export"){const a=document.createElement("a"),url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:"application/json"}));a.href=url;a.download="renzo-hub-export.json";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
-  else if(kind==="sync-now"){await sync();systemView();}
+  else if(kind==="sync-now"){await sync(true);systemView();}
   else if(kind==="clear-local"){if(confirm("¿Borrar la copia local de esta cuenta? Los datos sincronizados de Supabase se conservarán.")){localStorage.removeItem(key());alert("Caché local borrada. Tus datos sincronizados permanecen en Supabase.");}}
   else if(kind==="slot"){const p=data.projects.find(x=>x.id===id);if(!p)return;const dest=prompt("Escribe primary, secondary o backlog",p.slot||"backlog");if(!["primary","secondary","backlog"].includes(dest))return;if(dest!=="backlog"&&activeProjects().some(x=>x.id!==id&&x.slot===dest)){alert("Ese slot ya está ocupado.");return;}const prev=p.slot;p.slot=dest==="backlog"?"":dest;p.status=dest==="backlog"?"backlog":"active";audit("Project Slot actualizado",{id,title:p.title,slot:prev},{id,title:p.title,slot:p.slot});await save();workView();}
   else if(kind==="done"){const p=data.projects.find(x=>x.id===id);if(p){const previous={status:p.status,slot:p.slot};p.slot="";p.status="completed";p.date=today();data.entries.push({id:crypto.randomUUID(),kind:"project_done",title:p.title,date:today(),projectId:p.id});audit("Proyecto cerrado",{id:p.id,...previous},{id:p.id,status:"completed"});await save();workView();}}
@@ -357,5 +202,5 @@ export function mountWorld(roots,getUser,supabase){
  }
  function moneyViewWire(){}
  function homeWire(){/* Los [data-open] de Home los gestiona el listener único de app.js. */}
- return {load,render,reset(){owner=null;data=blank();cloudBodySessions=0;for(const root of Object.values(roots))root.innerHTML="";}};
+ return {load,render,reset(){flushLearning();owner=null;data=blank();cloudBodySessions=0;synced.clear();selflearn?.reset();for(const root of Object.values(roots))root.innerHTML="";}};
 }

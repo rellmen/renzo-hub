@@ -1,6 +1,6 @@
 {
-  "release": "2.33.0",
-  "name": "RISE HUB 4.0 · release agrupada: My Finance completo (patrimonio y objetivos) + Gym Ascend (registro rápido y editor de rutinas) + arreglos Ares AI",
+  "release": "2.34.0",
+  "name": "RISE HUB 4.0 · SelfLearn 3: lecciones tipo Babbel, progreso guardado tras cada respuesta, Nederlands A0–B2 (63 lecciones) y English B1–C2 (44 lecciones)",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",

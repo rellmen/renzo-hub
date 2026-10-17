@@ -1,5 +1,14 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## 2.34.0 (2026-10-17) · SelfLearn 3: tipo Babbel + progreso que sí se guarda · PR hacia staging (sin desplegar)
+
+- **Causas de "no se guarda mi progreso" (corregidas):** el quiz solo se guardaba al pulsar "Guardar intento" al final; con 5 min hacía falta 4/4 (umbral 80 % sobre 4 preguntas); "Marcar clase completada" no contaba para la ruta; al recargar, el estado de la nube pisaba al local aunque fuera más nuevo; y una copia local más nueva de un registro (p. ej. un repaso FSRS sin conexión) se perdía frente a la de la nube.
+- **Ahora:** la lección se guarda tras cada respuesta (local al instante, Supabase agrupado en 1,2 s y forzado al cerrar u ocultar la app) en `hub_user_state.state.learningRuns`; al volver aparece "Lección en curso · Continuar". Gana la versión con la última respuesta entre dispositivos.
+- **Lecciones tipo Babbel:** palabra nueva con audio y ejemplo → comprobación → gramática → emparejar → escuchar → completar huecos → ordenar frase con fichas → escribir (tolera artículo, acentos y una errata) → diálogo → (20 min) hablar con dictado voluntario. Los fallos se repiten al final; la lección se completa siempre (la nota es aciertos a la primera). Palabras al repaso FSRS; las falladas quedan para hoy.
+- **Cursos:** Nederlands A0→B2 (63 lecciones, conserva los 33 IDs antiguos y su progreso) y English B1→C2 (44), personalizados (Brabante, inventario y turnos, gimnasio, finanzas, camino a datos, entrevistas internacionales). Preferencias, diagnóstico y sesión a medias independientes por curso.
+- **Sincronización más ligera para todo RISE HUB:** `world.js` solo sube los registros nuevos o cambiados (antes reenviaba todos en cada guardado); "Sincronizar ahora" sigue forzando el envío completo. Sin migraciones.
+- Tests: 266 unitarios OK (10 de SelfLearn), E2E `tests/e2e/selflearn.mjs` reescrito (recarga a mitad de lección sin copia local, fallo repetido, inglés independiente, repaso, diagnóstico, 390 px sin scroll horizontal). Caché `renzo-hub-cloud-v35-selflearn`.
+
 ## 2.33.0 (2026-10-17) · Release agrupada: My Finance completo + Gym Ascend (rama de ChatGPT `release/gym-ascend-bundle`) + arreglos · PR #74 a staging
 
 - Integra `release/gym-ascend-bundle` (#75: registro rápido de series y editor de rutinas) para publicar todo en un solo lote, según `docs/RELEASE_POLICY.md` (límite diario de Vercel Hobby). Caché `renzo-hub-cloud-v27-rise-finance-gym`.
