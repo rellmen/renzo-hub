@@ -10,19 +10,21 @@ export function mountSkin(root, db, getUser) {
     const dot = el.querySelector(".dot");
     dot.className = "dot" + (kind === "busy" ? " busy" : kind === "err" ? " err" : "");
   }
-  const PRODUCTS=[["Arencia Fresh Green Rice Mochi Cleanser", "Limpiador principal", "Diario", "assets/skin_6.jpeg"], ["CeraVe Foaming Cleanser", "Limpiador alternativo", "Si notas más grasa", "assets/skin_7.jpeg"], ["Eucerin DermoPure Clinical Correcting Cleanser 2%", "Limpiador exfoliante", "1 vez/semana", "assets/skin_8.jpeg"], ["COSRX Advanced Snail 96 Mucin Power Essence", "Hidratación", "Mañana y noche", "assets/skin_1.jpeg"], ["SKIN1004 Madagascar Centella Ampoule", "Calmante", "Según rutina", "assets/skin_1.jpeg"], ["Paula’s Choice Skin Perfecting 2% BHA Liquid", "Puntos negros", "2 noches/semana", "assets/skin_2.jpeg"], ["Dr. Althea Vitamin C Boosting Serum", "Luminosidad", "3–4 mañanas/semana", "assets/skin_2.jpeg"], ["Anua Niacinamide 10% + TXA 4%", "Manchas y tono", "2 noches/semana", "assets/skin_2.jpeg"], ["ILLIYOON Ceramide Ato Concentrate Cream", "Barrera", "Principalmente noche", "assets/skin_3.jpeg"], ["AXIS-Y Dark Spot Correcting Glow Serum", "Antimanchas alternativo", "Alternativa al Anua", "assets/skin_3.jpeg"], ["Heliocare 360 Pigment Solution Fluid SPF50+", "Protector solar", "Cada mañana", "assets/skin_4.jpeg"], ["Avène Sunsimed Pigment", "Protector solar alternativo", "Alternativa al Heliocare", "assets/skin_4.jpeg"], ["NUXE Zinc Power", "Imperfecciones", "Opcional", "assets/skin_3.jpeg"]];
-  const AM=[["Limpiar","Arencia Fresh Green Rice Mochi Cleanser · o CeraVe si notas más grasa"],["Calmar","SKIN1004 Madagascar Centella Ampoule"],["Cuidar el tono y las manchas","Dr. Althea Vitamin C Boosting Serum · solo si lo toleras"],["Hidratar","COSRX Advanced Snail 96"],["Barrera","ILLIYOON Ceramide Cream · si lo necesitas"],["Proteger y prevenir nuevas manchas","Heliocare 360 Pigment Solution SPF50+ · o Avène Sunsimed Pigment"]];
-
+  const PRODUCTS=[["Arencia Fresh Green Rice Mochi Cleanser", "Limpiador principal", "Diario", "assets/skin_6.jpeg"], ["CeraVe Foaming Cleanser", "Limpiador alternativo", "Si notas más grasa", "assets/skin_7.jpeg"], ["Eucerin DermoPure Clinical Correcting Cleanser 2%", "Limpiador exfoliante", "Pausar durante descamación; no combinar con otros exfoliantes", "assets/skin_8.jpeg"], ["COSRX Advanced Snail 96 Mucin Power Essence", "Hidratación", "Mañana y noche", "assets/skin_1.jpeg"], ["SKIN1004 Madagascar Centella Ampoule", "Calmante", "Según rutina", "assets/skin_1.jpeg"], ["Paula’s Choice Skin Perfecting 2% BHA Liquid", "Puntos negros", "Pausar durante descamación; no usar en noches de retinal", "assets/skin_2.jpeg"], ["Dr. Althea Vitamin C Boosting Serum", "Luminosidad", "Pausar hasta recuperar barrera; retomar solo si toleras", "assets/skin_2.jpeg"], ["Anua Niacinamide 10% + TXA 4%", "Manchas y tono", "Posponer hasta recuperación; no combinar activos al iniciar retinal", "assets/skin_2.jpeg"], ["ILLIYOON Ceramide Ato Concentrate Cream", "Barrera", "Principalmente noche", "assets/skin_3.jpeg"], ["AXIS-Y Dark Spot Correcting Glow Serum", "Antimanchas alternativo", "Alternativa al Anua", "assets/skin_3.jpeg"], ["Heliocare 360 Pigment Solution Fluid SPF50+", "Protector solar", "Cada mañana", "assets/skin_4.jpeg"], ["Avène Sunsimed Pigment", "Protector solar alternativo", "Alternativa al Heliocare", "assets/skin_4.jpeg"], ["Celimax retinal", "Retinoide nocturno", "Solo al recuperarse la barrera; empezar 1 noche/semana", "assets/skin_3.jpeg"], ["NUXE Zinc Power", "Imperfecciones", "Pausar durante descamación", "assets/skin_3.jpeg"]];
+  // Barrier-first for reported dryness/flaking. Retinal may be resumed only when comfortable.
+  const AM=[["Limpiar suavemente","Arencia Fresh Green Rice Mochi Cleanser · sin limpiadores exfoliantes"],
+    ["Calmar (opcional)","SKIN1004 Centella Ampoule"],
+    ["Hidratar (opcional)","COSRX Snail 96 · si lo toleras"],
+    ["Reforzar barrera","ILLIYOON Ceramide Ato Concentrate Cream"],
+    ["Protección imprescindible","Heliocare 360 Pigment Solution SPF50+ · aplicar cantidad suficiente y reaplicar durante exposición"]];
+  const BASE=[["Limpiar","Arencia Fresh Green Rice Mochi Cleanser"],
+    ["Calmar e hidratar","SKIN1004 Centella o COSRX Snail 96 · elegir según tolerancia"],
+    ["Reparar barrera","ILLIYOON Ceramide Ato Concentrate Cream"]];
   const PM={
-  0:[["Limpiar","Arencia"],["Calmar","SKIN1004 Centella"],["Hidratar","COSRX Snail 96"],["Sellar","ILLIYOON"]],
-  1:[["Limpiar","Arencia"],["Reducir puntos negros","Paula’s Choice 2% BHA · omitir si hay irritación"],["Hidratar","COSRX Snail 96"],["Sellar","ILLIYOON"]],
-  2:[["Limpiar","Arencia o CeraVe"],["Calmar","SKIN1004 Centella"],["Tratar manchas","Anua Niacinamide 10% + TXA 4% · o AXIS-Y como alternativa; solo uno y si lo toleras"],["Hidratar","COSRX Snail 96"],["Sellar","ILLIYOON"]],
-  3:[["Limpiar exfoliando","Eucerin DermoPure 2% · opcional, según etiqueta; usa Arencia si hay sensibilidad"],["Calmar","SKIN1004 Centella"],["Hidratar","COSRX Snail 96"],["Sellar","ILLIYOON"]],
-  4:[["Limpiar","Arencia"],["Reducir puntos negros","Paula’s Choice 2% BHA · omitir si hay irritación"],["Hidratar","COSRX Snail 96"],["Sellar","ILLIYOON"]],
-  5:[["Limpiar","Arencia o CeraVe"],["Calmar","SKIN1004 Centella"],["Tratar manchas","Anua Niacinamide 10% + TXA 4% · o AXIS-Y como alternativa; solo uno y si lo toleras"],["Hidratar","COSRX Snail 96"],["Sellar","ILLIYOON"]],
-  6:[["Limpiar","Arencia"],["Calmar","SKIN1004 Centella"],["Hidratar","COSRX Snail 96"],["Sellar","ILLIYOON"]]
+    0:BASE,1:BASE,2:BASE,3:BASE,4:BASE,
+    5:[BASE[0],["Retinal opcional (solo piel recuperada)","Celimax retinal · cantidad pequeña, sobre piel seca. Empezar una noche/semana; no usar con descamación o irritación. Evitar durante embarazo."],BASE[2]],
+    6:BASE
   };
-
   const DAYS=["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
   let now=new Date();
   const localDate=d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,"0"),String(d.getDate()).padStart(2,"0")].join("-");
@@ -31,14 +33,14 @@ export function mountSkin(root, db, getUser) {
   let cloudState={am:[],pm:[]};
   let noteTimer=null;
   let selectedDay=null;
-  let gentle=false;
+  let gentle=true;
   let weekRows=[];
   let loadSequence=0;
   function current(){
    const steps=mode==="am"?AM:PM[now.getDay()];
    if(!gentle)return steps;
    return steps.map(([title,product])=>{
-    if(title==="Reducir puntos negros"||title==="Tratar manchas"||title==="Cuidar el tono y las manchas")return ["Pausar este activo","Rutina suave: omite este producto hoy"];
+    if(title==="Retinal opcional (solo piel recuperada)"||title==="Reducir puntos negros"||title==="Tratar manchas"||title==="Cuidar el tono y las manchas")return ["Pausar este activo","Rutina suave: omite este producto hoy"];
     if(title==="Limpiar exfoliando")return ["Limpiar suavemente","Arencia o CeraVe · sin limpiador exfoliante"];
     return [title,product];
    });
@@ -148,7 +150,7 @@ export function mountSkin(root, db, getUser) {
     $("gentleBtn").setAttribute("aria-pressed",String(gentle));$("gentleHint").classList.toggle("hidden",!gentle);
 
     $("skinDate").textContent=new Intl.DateTimeFormat("es",{weekday:"long",day:"numeric",month:"long",year:"numeric"}).format(now);
-    const focus={0:"Recuperación e hidratación",1:"Puntos negros",2:"Cuidado de las manchas",3:"Limpieza y cuidado de la barrera",4:"Puntos negros",5:"Cuidado de las manchas",6:"Recuperación e hidratación"};
+    const focus={0:"Barrera e hidratación",1:"Barrera e hidratación",2:"Barrera e hidratación",3:"Barrera e hidratación",4:"Barrera e hidratación",5:"Retinal solo si no hay irritación",6:"Barrera e hidratación"};
     $("skinFocus").textContent=mode==="am"?"Hoy por la mañana: tono uniforme y protección solar":"Hoy por la noche: "+focus[now.getDay()];
     const arr=current(), done=new Set(cloudState[mode]||[]);
     $("pill").textContent=mode==="am"?"MAÑANA":"NOCHE";
@@ -166,9 +168,14 @@ export function mountSkin(root, db, getUser) {
       const i=Number(b.dataset.i);
       let next=[...(cloudState[mode]||[])];
       next=next.includes(i)?next.filter(v=>v!==i):next.concat(i);
-      cloudState[mode]=next;
+      const session=mode, previous=[...(cloudState[session]||[])];
+      cloudState[session]=next;
       render();homeStats();
-      await saveSession(mode,next,true);
+      if(!await saveSession(session,next,true)){
+        cloudState[session]=previous;
+        render();homeStats();
+        setSync("No se pudo guardar; se restauró el registro anterior","err");
+      }
     }));
     $("steps").querySelectorAll(".check").forEach(b=>b.disabled=history);
     const pct=Math.round(done.size/arr.length*100);
@@ -180,18 +187,20 @@ export function mountSkin(root, db, getUser) {
    clearTimeout(noteTimer);
    if(!selectedDay&&$("noteState").textContent==="Pendiente…")await saveNote($("note").value);
    const d=new Date(now);d.setDate(d.getDate()+offset);const key=localDate(d);
-   selectedDay=key===localDate(new Date())?null:key;gentle=false;await loadCloudState();
+   selectedDay=key===localDate(new Date())?null:key;gentle=true;await loadCloudState();
   }
   $("prevDay").addEventListener("click",()=>chooseDay(-1));
   $("nextDay").addEventListener("click",()=>chooseDay(1));
-  $("todayBtn").addEventListener("click",async()=>{clearTimeout(noteTimer);if(!selectedDay&&$("noteState").textContent==="Pendiente…")await saveNote($("note").value);selectedDay=null;gentle=false;await loadCloudState();});
+  $("todayBtn").addEventListener("click",async()=>{clearTimeout(noteTimer);if(!selectedDay&&$("noteState").textContent==="Pendiente…")await saveNote($("note").value);selectedDay=null;gentle=true;await loadCloudState();});
   $("gentleBtn").addEventListener("click",()=>{gentle=!gentle;render();});
   $("switchBtn").addEventListener("click",()=>{mode=mode==="am"?"pm":"am";render()});
   $("clearBtn").addEventListener("click",async()=>{
-    cloudState[mode]=[];render();homeStats();await saveSession(mode,[],true);
+    const session=mode,previous=[...(cloudState[session]||[])];cloudState[session]=[];render();homeStats();
+    if(!await saveSession(session,[],true)){cloudState[session]=previous;render();homeStats();setSync("No se pudo guardar; se restauró el registro anterior","err");}
   });
   $("completeBtn").addEventListener("click",async()=>{
-    const next=current().map((_,i)=>i);cloudState[mode]=next;render();homeStats();await saveSession(mode,next,true);
+    const session=mode,previous=[...(cloudState[session]||[])],next=current().map((_,i)=>i);cloudState[session]=next;render();homeStats();
+    if(!await saveSession(session,next,true)){cloudState[session]=previous;render();homeStats();setSync("No se pudo guardar; se restauró el registro anterior","err");}
   });
   $("note").addEventListener("input",()=>{
     $("noteState").textContent="Pendiente…";
@@ -208,6 +217,6 @@ export function mountSkin(root, db, getUser) {
   window.addEventListener("focus", () => { if (getUser()) loadCloudState(); });
   return {
     load: loadCloudState,
-    reset() { loadSequence++; selectedDay = null; weekRows = []; gentle = false; cloudState = { am: [], pm: [] }; clearTimeout(noteTimer); $("note").value = ""; }
+    reset() { loadSequence++; selectedDay = null; weekRows = []; gentle = true; cloudState = { am: [], pm: [] }; clearTimeout(noteTimer); $("note").value = ""; }
   };
 }

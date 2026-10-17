@@ -13,3 +13,12 @@ test('invalid or absent scores are excluded rather than treated as zero',()=>{
  const r=recoveryInsights([row('2026-10-16',null,11)],new Date('2026-10-16T12:00:00'));
  assert.equal(r.averageEnergy,null);assert.equal(r.averageFatigue,null);
 });
+
+test('recovery interpretation needs three sessions containing both values',()=>{
+ const r=recoveryInsights([
+ row('2026-10-12',2,null),row('2026-10-13',3,null),row('2026-10-14',4,null),
+ row('2026-10-15',null,8),row('2026-10-16',null,9),row('2026-10-11',null,7)
+ ],new Date('2026-10-16T12:00:00'));
+ assert.equal(r.scoredSessions,0);assert.equal(r.hasEnough,false);
+ assert.match(r.interpretation,/insuficientes/);
+});
