@@ -1,5 +1,5 @@
 // Inventory is a local, account-scoped UI preference; it is not sent to external AI services.
-export const SKIN_STATES=Object.freeze(['available','paused','finished']);
+export const SKIN_STATES=Object.freeze(['unknown','available','paused','finished']);
 export function inventoryKey(userId){if(typeof userId!=='string'||!userId)throw Error('Cuenta necesaria');return 'rise-skin-inventory-v1:'+userId;}
 export function readSkinInventory(userId,storage=globalThis.localStorage){
  if(!userId||!storage)return {};
