@@ -53,7 +53,7 @@ export function mountSkin(root, db, getUser) {
     const logs=weekRows.filter(r=>r.routine_date===key);
     const status=session=>{
      const log=logs.find(r=>r.session===session);const count=(log?.completed_steps||[]).filter(v=>Number.isInteger(v)&&v>=0&&v<(session==="am"?AM.length:PM[d.getDay()].length)).length;
-     return count===0?"sin registro":count===(session==="am"?AM.length:PM[d.getDay()].length)?"completa":count+" pasos";
+     return count===0?"sin registro":count+" pasos registrados";
     };
     rows.push(new Intl.DateTimeFormat("es",{weekday:"short",day:"numeric"}).format(d)+" · AM: "+status("am")+" · PM: "+status("pm"));
    }
@@ -153,8 +153,8 @@ export function mountSkin(root, db, getUser) {
 
     $("skinDate").textContent=new Intl.DateTimeFormat("es",{weekday:"long",day:"numeric",month:"long",year:"numeric"}).format(now);
     const focus={0:"Barrera e hidratación",1:"Barrera e hidratación",2:"Barrera e hidratación",3:"Barrera e hidratación",4:"Barrera e hidratación",5:"Retinal solo si no hay irritación",6:"Barrera e hidratación"};
-    $("skinFocus").textContent=mode==="am"?"Hoy por la mañana: tono uniforme y protección solar":"Hoy por la noche: "+focus[now.getDay()];
-    const arr=current(), done=new Set(cloudState[mode]||[]);
+    $("skinFocus").textContent=history?"Historial anterior: conservamos los pasos marcados, pero las etiquetas del antiguo plan no están versionadas.":mode==="am"?"Hoy por la mañana: tono uniforme y protección solar":"Hoy por la noche: "+focus[now.getDay()];
+    const arr=history?Array.from({length:Math.max(0,...(cloudState[mode]||[]).filter(Number.isInteger).map(n=>n+1))},(_,i)=>["Paso "+(i+1)+" del registro histórico","Nombre del producto no disponible para esta versión de rutina"]):current(), done=new Set(cloudState[mode]||[]);
     $("pill").textContent=mode==="am"?"MAÑANA":"NOCHE";
     $("switchBtn").textContent=mode==="am"?"Cambiar a noche":"Cambiar a mañana";
     $("routineTitle").textContent=mode==="am"?"Rutina de "+DAYS[now.getDay()]+" por la mañana":"Rutina de "+DAYS[now.getDay()]+" por la noche";
@@ -180,7 +180,7 @@ export function mountSkin(root, db, getUser) {
       }
     }));
     $("steps").querySelectorAll(".check").forEach(b=>b.disabled=history);
-    const pct=Math.round(done.size/arr.length*100);
+    const pct=arr.length?Math.round(done.size/arr.length*100):0;
     $("bar").style.width=pct+"%";
     $("prog").textContent=done.size+" de "+arr.length+" pasos · "+pct+"%";
   }
