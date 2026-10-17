@@ -219,9 +219,9 @@ export function mountSkin(root, db, getUser) {
       const body=document.createElement("div"),name=document.createElement("b");name.textContent=p[0];body.append(name);
       for(const note of [p[1],p[2]]){const label=document.createElement("span");label.textContent=note;body.append(label);}
       const select=document.createElement("select");select.setAttribute("aria-label","Inventario: "+p[0]);select.disabled=!user;
-      const options=[["available","Lo tengo"],["paused","En pausa"],["finished","Terminado / no disponible"]];
+      const options=[["unknown","Sin confirmar"],["available","Lo tengo"],["paused","En pausa"],["finished","Terminado / no disponible"]];
       for(const [value,text] of options){const o=document.createElement("option");o.value=value;o.textContent=text;select.append(o);}
-      select.value=currentInventory["p"+i]||"available";
+      select.value=currentInventory["p"+i]||"unknown";
       select.addEventListener("change",()=>{try{updateSkinInventory(user.id,"p"+i,select.value);setSync("Inventario guardado en este dispositivo");}catch{setSync("No se pudo guardar inventario","err");}});
       body.append(select);card.append(body);list.append(card);
     });
