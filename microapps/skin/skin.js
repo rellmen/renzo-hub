@@ -1,3 +1,5 @@
+import {readSkinInventory,updateSkinInventory} from './inventory.js';
+import {validateSkinPhoto,skinPhotoFolder,skinPhotoPath} from './photos.js';
 // Microapp Skin (rutina de piel AM/PM, notas y progreso semanal). Extraída de app.js en 2.9.2 sin cambios
 // visibles. Datos: tablas skin_routine_logs y skin_notes (RLS por user_id). El HTML sigue en index.html (#skin).
 export function mountSkin(root, db, getUser) {
@@ -10,10 +12,10 @@ export function mountSkin(root, db, getUser) {
     const dot = el.querySelector(".dot");
     dot.className = "dot" + (kind === "busy" ? " busy" : kind === "err" ? " err" : "");
   }
-  const PRODUCTS=[["Arencia Fresh Green Rice Mochi Cleanser", "Limpiador principal", "Diario", "assets/skin_6.jpeg"], ["CeraVe Foaming Cleanser", "Limpiador alternativo", "Si notas más grasa", "assets/skin_7.jpeg"], ["Eucerin DermoPure Clinical Correcting Cleanser 2%", "Limpiador exfoliante", "Pausar durante descamación; no combinar con otros exfoliantes", "assets/skin_8.jpeg"], ["COSRX Advanced Snail 96 Mucin Power Essence", "Hidratación", "Mañana y noche", "assets/skin_1.jpeg"], ["SKIN1004 Madagascar Centella Ampoule", "Calmante", "Según rutina", "assets/skin_1.jpeg"], ["Paula’s Choice Skin Perfecting 2% BHA Liquid", "Puntos negros", "Pausar durante descamación; no usar en noches de retinal", "assets/skin_2.jpeg"], ["Dr. Althea Vitamin C Boosting Serum", "Luminosidad", "Pausar hasta recuperar barrera; retomar solo si toleras", "assets/skin_2.jpeg"], ["Anua Niacinamide 10% + TXA 4%", "Manchas y tono", "Posponer hasta recuperación; no combinar activos al iniciar retinal", "assets/skin_2.jpeg"], ["ILLIYOON Ceramide Ato Concentrate Cream", "Barrera", "Principalmente noche", "assets/skin_3.jpeg"], ["AXIS-Y Dark Spot Correcting Glow Serum", "Antimanchas alternativo", "Alternativa al Anua", "assets/skin_3.jpeg"], ["Heliocare 360 Pigment Solution Fluid SPF50+", "Protector solar", "Cada mañana", "assets/skin_4.jpeg"], ["Avène Sunsimed Pigment", "Protector solar alternativo", "Alternativa al Heliocare", "assets/skin_4.jpeg"], ["Celimax retinal", "Retinoide nocturno", "Solo al recuperarse la barrera; empezar 1 noche/semana", "assets/skin_3.jpeg"], ["NUXE Zinc Power", "Imperfecciones", "Pausar durante descamación", "assets/skin_3.jpeg"]];
+  const PRODUCTS=[["Arencia Fresh Green Rice Mochi Cleanser", "Limpiador principal", "Diario", "assets/skin_6.jpeg"], ["CeraVe Foaming Cleanser", "Limpiador alternativo", "Si notas más grasa", "assets/skin_7.jpeg"], ["Eucerin DermoPure Clinical Correcting Cleanser 2%", "Limpiador exfoliante", "Pausar durante descamación; no combinar con otros exfoliantes", "assets/skin_8.jpeg"], ["COSRX Advanced Snail 96 Mucin Power Essence", "Hidratación", "Mañana y noche", "assets/skin_1.jpeg"], ["SKIN1004 Madagascar Centella Tone Brightening Capsule Ampoule", "Calmante y tono", "Opcional si la piel lo tolera", "assets/skin_1.jpeg"], ["Paula’s Choice Skin Perfecting 2% BHA Liquid", "Puntos negros", "Pausar durante descamación; no usar en noches de retinal", "assets/skin_2.jpeg"], ["Dr. Althea Vitamin C Boosting Serum", "Luminosidad", "Pausar hasta recuperar barrera; retomar solo si toleras", "assets/skin_2.jpeg"], ["Anua Niacinamide 10% + TXA 4%", "Manchas y tono", "Posponer hasta recuperación; no combinar activos al iniciar retinal", "assets/skin_2.jpeg"], ["ILLIYOON Ceramide Ato Concentrate Cream", "Barrera", "Principalmente noche", "assets/skin_3.jpeg"], ["AXIS-Y Dark Spot Correcting Glow Serum", "Antimanchas alternativo", "Alternativa al Anua", "assets/skin_3.jpeg"], ["Heliocare 360 Pigment Solution Fluid SPF50+", "Protector solar", "Cada mañana", "assets/skin_4.jpeg"], ["Avène Sunsimed Pigment", "Protector solar alternativo", "Alternativa al Heliocare", "assets/skin_4.jpeg"], ["celimax Retinal Shot Tightening Booster", "Retinoide nocturno", "Pausar con descamación; introducir gradualmente cuando la barrera se recupere", "assets/skin_3.jpeg"], ["NUXE Zinc Power", "Imperfecciones", "Pausar durante descamación", "assets/skin_3.jpeg"], ["Isntree Hyaluronic Acid Toner Plus", "Tónico hidratante", "Opcional: evita duplicar demasiadas capas hidratantes", "assets/skin_1.jpeg"], ["AXIS-Y Vegan Collagen Eye Serum", "Contorno de ojos", "Opcional; no necesario para manchas faciales", "assets/skin_3.jpeg"], ["Ondo Beauty 36.5 Dark Spot Treatment", "Tratamiento de manchas", "Reservar como alternativa, no combinar múltiples activos inicialmente", "assets/skin_2.jpeg"], ["Differin 0.1% (adapaleno)", "Retinoide alternativo", "No combinar con retinal Celimax; consultar indicación y tolerancia", "assets/skin_3.jpeg"], ["Aceite de ricino Deliplus", "Aceite", "Fuera de la rutina facial principal", "assets/skin_3.jpeg"]];
   // Barrier-first for reported dryness/flaking. Retinal may be resumed only when comfortable.
   const AM=[["Limpiar suavemente","Arencia Fresh Green Rice Mochi Cleanser · sin limpiadores exfoliantes"],
-    ["Calmar (opcional)","SKIN1004 Centella Ampoule"],
+    ["Calmar (opcional)","SKIN1004 Centella Tone Brightening Capsule Ampoule"],
     ["Hidratar (opcional)","COSRX Snail 96 · si lo toleras"],
     ["Reforzar barrera","ILLIYOON Ceramide Ato Concentrate Cream"],
     ["Protección imprescindible","Heliocare 360 Pigment Solution SPF50+ · aplicar cantidad suficiente y reaplicar durante exposición"]];
@@ -22,7 +24,7 @@ export function mountSkin(root, db, getUser) {
     ["Reparar barrera","ILLIYOON Ceramide Ato Concentrate Cream"]];
   const PM={
     0:BASE,1:BASE,2:BASE,3:BASE,4:BASE,
-    5:[BASE[0],["Retinal opcional (solo piel recuperada)","Celimax retinal · cantidad pequeña, sobre piel seca. Empezar una noche/semana; no usar con descamación o irritación. Evitar durante embarazo."],BASE[2]],
+    5:[BASE[0],["Retinal opcional (solo piel recuperada)","celimax Retinal Shot Tightening Booster · cantidad pequeña, sobre piel seca. Empezar una noche/semana; no usar con descamación o irritación. Evitar durante embarazo."],BASE[2]],
     6:BASE
   };
   const DAYS=["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
@@ -35,6 +37,7 @@ export function mountSkin(root, db, getUser) {
   let selectedDay=null;
   let gentle=true;
   let weekRows=[];
+  let inventoryState={};
   let loadSequence=0;
   function current(){
    const steps=mode==="am"?AM:PM[now.getDay()];
@@ -52,7 +55,7 @@ export function mountSkin(root, db, getUser) {
     const logs=weekRows.filter(r=>r.routine_date===key);
     const status=session=>{
      const log=logs.find(r=>r.session===session);const count=(log?.completed_steps||[]).filter(v=>Number.isInteger(v)&&v>=0&&v<(session==="am"?AM.length:PM[d.getDay()].length)).length;
-     return count===0?"sin registro":count===(session==="am"?AM.length:PM[d.getDay()].length)?"completa":count+" pasos";
+     return count===0?"sin registro":count+" pasos registrados";
     };
     rows.push(new Intl.DateTimeFormat("es",{weekday:"short",day:"numeric"}).format(d)+" · AM: "+status("am")+" · PM: "+status("pm"));
    }
@@ -90,7 +93,14 @@ export function mountSkin(root, db, getUser) {
     const {data:week,error:weekError}=await db.from("skin_routine_logs").select("routine_date,session,completed_steps").eq("user_id",requestedUser).gte("routine_date",localDate(since)).lte("routine_date",localDate(new Date()));
     if(seq!==loadSequence||getUser()?.id!==requestedUser)return;
     if(!weekError){weekRows=week||[];renderWeek();}else{$("weekProgress").textContent="No se pudo cargar el progreso semanal.";}
+    const inventoryQuery=await db.from("user_settings").select("settings").eq("user_id",requestedUser).maybeSingle();
+    if(seq!==loadSequence||getUser()?.id!==requestedUser)return;
+    gentle=inventoryQuery.data?.settings?.skinPhase!=="maintenance";
+    const savedInventory=inventoryQuery.data?.settings?.skinInventory;
+    inventoryState=savedInventory&&typeof savedInventory==="object"&&!Array.isArray(savedInventory)?savedInventory:readSkinInventory(requestedUser);
     render();
+    renderInventory();
+    void loadPhotos();
     homeStats();
     setSync("Sincronizado","ok");
   }
@@ -146,13 +156,13 @@ export function mountSkin(root, db, getUser) {
     const history=Boolean(selectedDay);
     $("note").readOnly=history;$("clearBtn").disabled=history;$("completeBtn").disabled=history;$("gentleBtn").disabled=history;
     $("nextDay").disabled=!history;$("historyLabel").textContent=history?"Historial · solo lectura":"Rutina de hoy";
-    $("gentleBtn").textContent=gentle?"Rutina suave activada · volver al plan":"Activar rutina suave";
+    $("gentleBtn").textContent=gentle?"Fase barrera · cambiar a mantenimiento":"Fase mantenimiento · volver a barrera";
     $("gentleBtn").setAttribute("aria-pressed",String(gentle));$("gentleHint").classList.toggle("hidden",!gentle);
 
     $("skinDate").textContent=new Intl.DateTimeFormat("es",{weekday:"long",day:"numeric",month:"long",year:"numeric"}).format(now);
     const focus={0:"Barrera e hidratación",1:"Barrera e hidratación",2:"Barrera e hidratación",3:"Barrera e hidratación",4:"Barrera e hidratación",5:"Retinal solo si no hay irritación",6:"Barrera e hidratación"};
-    $("skinFocus").textContent=mode==="am"?"Hoy por la mañana: tono uniforme y protección solar":"Hoy por la noche: "+focus[now.getDay()];
-    const arr=current(), done=new Set(cloudState[mode]||[]);
+    $("skinFocus").textContent=history?"Historial anterior: conservamos los pasos marcados, pero las etiquetas del antiguo plan no están versionadas.":mode==="am"?"Hoy por la mañana: tono uniforme y protección solar":"Hoy por la noche: "+focus[now.getDay()];
+    const arr=history?Array.from({length:Math.max(0,...(cloudState[mode]||[]).filter(n=>Number.isInteger(n)&&n>=0&&n<20).map(n=>n+1))},(_,i)=>["Paso "+(i+1)+" del registro histórico","Nombre del producto no disponible para esta versión de rutina"]):current(), done=new Set(cloudState[mode]||[]);
     $("pill").textContent=mode==="am"?"MAÑANA":"NOCHE";
     $("switchBtn").textContent=mode==="am"?"Cambiar a noche":"Cambiar a mañana";
     $("routineTitle").textContent=mode==="am"?"Rutina de "+DAYS[now.getDay()]+" por la mañana":"Rutina de "+DAYS[now.getDay()]+" por la noche";
@@ -178,7 +188,7 @@ export function mountSkin(root, db, getUser) {
       }
     }));
     $("steps").querySelectorAll(".check").forEach(b=>b.disabled=history);
-    const pct=Math.round(done.size/arr.length*100);
+    const pct=arr.length?Math.round(done.size/arr.length*100):0;
     $("bar").style.width=pct+"%";
     $("prog").textContent=done.size+" de "+arr.length+" pasos · "+pct+"%";
   }
@@ -187,12 +197,23 @@ export function mountSkin(root, db, getUser) {
    clearTimeout(noteTimer);
    if(!selectedDay&&$("noteState").textContent==="Pendiente…")await saveNote($("note").value);
    const d=new Date(now);d.setDate(d.getDate()+offset);const key=localDate(d);
-   selectedDay=key===localDate(new Date())?null:key;gentle=true;await loadCloudState();
+   selectedDay=key===localDate(new Date())?null:key;await loadCloudState();
   }
   $("prevDay").addEventListener("click",()=>chooseDay(-1));
   $("nextDay").addEventListener("click",()=>chooseDay(1));
-  $("todayBtn").addEventListener("click",async()=>{clearTimeout(noteTimer);if(!selectedDay&&$("noteState").textContent==="Pendiente…")await saveNote($("note").value);selectedDay=null;gentle=true;await loadCloudState();});
-  $("gentleBtn").addEventListener("click",()=>{gentle=!gentle;render();});
+  $("todayBtn").addEventListener("click",async()=>{clearTimeout(noteTimer);if(!selectedDay&&$("noteState").textContent==="Pendiente…")await saveNote($("note").value);selectedDay=null;await loadCloudState();});
+  $("gentleBtn").addEventListener("click",async()=>{
+    const user=getUser();if(!user||selectedDay)return;
+    const previous=gentle;gentle=!gentle;render();setSync("Guardando fase de rutina…","busy");
+    try{
+      const current=await db.from("user_settings").select("settings").eq("user_id",user.id).maybeSingle();if(current.error)throw current.error;
+      if(getUser()?.id!==user.id)throw Error("La sesión ha cambiado");
+      const settings=current.data?.settings&&typeof current.data.settings==="object"?current.data.settings:{};
+      const next={...settings,skinPhase:gentle?"repair":"maintenance"};
+      const write=await db.from("user_settings").upsert({user_id:user.id,settings:next,updated_at:new Date().toISOString()},{onConflict:"user_id"});if(write.error)throw write.error;
+      setSync(gentle?"Fase de barrera guardada":"Fase de mantenimiento guardada");
+    }catch(err){gentle=previous;render();setSync("No se pudo cambiar la fase: "+err.message,"err");}
+  });
   $("switchBtn").addEventListener("click",()=>{mode=mode==="am"?"pm":"am";render()});
   $("clearBtn").addEventListener("click",async()=>{
     const session=mode,previous=[...(cloudState[session]||[])];cloudState[session]=[];render();homeStats();
@@ -208,7 +229,82 @@ export function mountSkin(root, db, getUser) {
     noteTimer=setTimeout(()=>saveNote($("note").value,true),600);
   });
 
-  $("productList").innerHTML=PRODUCTS.map(p=>'<div class="product"><img src="'+p[3]+'" alt=""><div><b>'+p[0]+'</b><span>'+p[1]+'</span><span>'+p[2]+'</span></div></div>').join("");
+  function renderInventory(){
+    const user=getUser(),currentInventory=inventoryState;
+    const list=$("productList");list.replaceChildren();
+    PRODUCTS.forEach((p,i)=>{
+      const card=document.createElement("div");card.className="product";
+      const img=document.createElement("img");img.src=p[3];img.alt="";card.append(img);
+      const body=document.createElement("div"),name=document.createElement("b");name.textContent=p[0];body.append(name);
+      for(const note of [p[1],p[2]]){const label=document.createElement("span");label.textContent=note;body.append(label);}
+      const select=document.createElement("select");select.setAttribute("aria-label","Inventario: "+p[0]);select.disabled=!user;
+      const options=[["unknown","Sin confirmar"],["available","Lo tengo"],["paused","En pausa"],["finished","Terminado / no disponible"]];
+      for(const [value,text] of options){const o=document.createElement("option");o.value=value;o.textContent=text;select.append(o);}
+      select.value=currentInventory["p"+i]||"unknown";
+      select.addEventListener("change",async()=>{
+        if(!user||getUser()?.id!==user.id)return;
+        const id="p"+i,value=select.value,old=inventoryState[id]||"unknown";select.disabled=true;setSync("Guardando inventario…","busy");
+        try{
+          const current=await db.from("user_settings").select("settings").eq("user_id",user.id).maybeSingle();if(current.error)throw current.error;
+          if(getUser()?.id!==user.id)throw Error("La sesión ha cambiado");
+          const settings=current.data?.settings&&typeof current.data.settings==="object"?current.data.settings:{};
+          const nextInventory={...(settings.skinInventory||inventoryState),[id]:value};
+          const write=await db.from("user_settings").upsert({user_id:user.id,settings:{...settings,skinInventory:nextInventory},updated_at:new Date().toISOString()},{onConflict:"user_id"});
+          if(write.error)throw write.error;
+          inventoryState=nextInventory;try{updateSkinInventory(user.id,id,value);}catch{}
+          setSync("Inventario sincronizado con tu cuenta");
+        }catch(err){select.value=old;setSync("No se pudo guardar: "+err.message,"err");}
+        finally{select.disabled=false;}
+      });
+      body.append(select);card.append(body);list.append(card);
+    });
+  }
+  renderInventory();
+
+  const photoStatus=$("skinPhotoStatus"),photoList=$("skinPhotoList"),photoInput=$("skinPhotoInput"),photoUpload=$("skinPhotoUpload");
+  async function loadPhotos(){
+    const user=getUser();if(!user||!photoList)return;
+    const ownerId=user.id;photoList.replaceChildren();photoStatus.textContent="Cargando fotos privadas…";
+    try{
+      const folder=skinPhotoFolder(ownerId),bucket=db.storage.from('progress-photos');
+      const result=await bucket.list(folder,{limit:50,sortBy:{column:'created_at',order:'desc'}});
+      if(result.error)throw result.error;if(getUser()?.id!==ownerId)return;
+      const photos=(result.data||[]).filter(p=>/^[0-9a-f-]{36}\.(jpg|png|webp)$/i.test(p.name)).slice(0,20);
+      if(!photos.length){photoStatus.textContent="No hay fotos guardadas.";return;}
+      photoStatus.textContent=photos.length+" fotos privadas (máximo 20 mostradas).";
+      for(const file of photos){
+        const path=folder+'/'+file.name;
+        const signed=await bucket.createSignedUrl(path,120);if(getUser()?.id!==ownerId)return;
+        if(signed.error)continue;
+        const row=document.createElement('div');row.className='product';
+        const img=document.createElement('img');img.src=signed.data.signedUrl;img.alt='Foto privada de seguimiento';img.width=112;img.height=112;img.loading='lazy';
+        const box=document.createElement('div'),date=document.createElement('span');date.className='small';date.textContent=file.created_at?new Date(file.created_at).toLocaleDateString('es-ES'):'Foto guardada';
+        const button=document.createElement('button');button.textContent='Eliminar foto';button.type='button';button.className='secondary';
+        button.onclick=async()=>{
+          if(!getUser()||getUser().id!==ownerId||!window.confirm('¿Eliminar definitivamente esta foto de seguimiento?'))return;
+          button.disabled=true;
+          const deleted=await bucket.remove([path]);
+          if(deleted.error){photoStatus.textContent='No se pudo borrar la foto: '+deleted.error.message;button.disabled=false;return;}
+          await loadPhotos();
+        };
+        box.append(date,button);row.append(img,box);photoList.append(row);
+      }
+    }catch(err){if(getUser()?.id===ownerId)photoStatus.textContent='No se pudieron cargar fotos: '+err.message;}
+  }
+  photoUpload?.addEventListener('click',async()=>{
+    const user=getUser();if(!user||!photoInput?.files?.length){photoStatus.textContent='Selecciona una imagen primero.';return;}
+    const ownerId=user.id,file=photoInput.files[0];photoUpload.disabled=true;
+    try{
+      validateSkinPhoto(file);
+      const path=skinPhotoPath(ownerId,crypto.randomUUID(),file.type);
+      const upload=await db.storage.from('progress-photos').upload(path,file,{contentType:file.type,upsert:false});
+      if(upload.error)throw upload.error;
+      if(getUser()?.id!==ownerId)return;
+      photoInput.value='';photoStatus.textContent='Foto guardada de forma privada.';
+      await loadPhotos();
+    }catch(err){photoStatus.textContent='No se pudo guardar la foto: '+err.message;}
+    finally{photoUpload.disabled=false;}
+  });
 
   function homeStats(){
     renderWeek();
@@ -217,6 +313,6 @@ export function mountSkin(root, db, getUser) {
   window.addEventListener("focus", () => { if (getUser()) loadCloudState(); });
   return {
     load: loadCloudState,
-    reset() { loadSequence++; selectedDay = null; weekRows = []; gentle = true; cloudState = { am: [], pm: [] }; clearTimeout(noteTimer); $("note").value = ""; }
+    reset() { loadSequence++; selectedDay = null; weekRows = []; inventoryState={}; if(photoList)photoList.replaceChildren();if(photoStatus)photoStatus.textContent="";if(photoInput)photoInput.value=""; gentle = true; cloudState = { am: [], pm: [] }; clearTimeout(noteTimer); $("note").value = ""; }
   };
 }

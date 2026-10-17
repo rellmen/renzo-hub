@@ -1,4 +1,5 @@
-// User-controlled local settings. Never upload these values to Supabase implicitly.
+// User-controlled local settings. Saved account values always take priority over suggested defaults.
+export const GYM_USER_REFERENCE={heightCm:170,lastReportedWeightKg:84,initialTargetKg:78,laterTargetRangeKg:[74,75],trainingFocus:'Hipertrofia y reducción gradual de grasa',shiftPattern:'Semanas alternas 06:00–15:00 y 15:00–00:00; descansos no remunerados de 30 minutos',dataStatus:'Autodeclarado previamente; confirmar cambios recientes'};
 export const GYM_GOALS_DEFAULT={priority:'Brazos y pérdida de grasa',sessionsPerWeek:4,targetWeight:null};
 export function validateGymGoals(raw){
  const sessions=Number(raw?.sessionsPerWeek),weight=raw?.targetWeight;

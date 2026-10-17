@@ -1,5 +1,7 @@
+import {PERSONAL_CONTEXT_SUGGESTIONS,PERSONAL_CONTEXT_KEYS,sanitizePersonalContext} from './microapps/personal-context.js';
 // Perfil corporal privado: se guarda en public.user_settings.settings.bodyProfile (RLS por usuario).
 // Sustituye los datos personales que antes estaban fijos en index.html. Sin datos, muestra "sin datos".
+export const HISTORICAL_BODY_SUGGESTION = Object.freeze({startWeight:84,height:1.70,phases:"78, 74.5",status:"Datos comunicados anteriormente; comprobar vigencia antes de guardar"});
 const FIELDS = ["startWeight", "height", "kcalMin", "kcalMax", "proteinMin", "proteinMax", "budgetMin", "budgetMax"];
 const fmt = (n, digits = 0) => new Intl.NumberFormat("es-ES", { maximumFractionDigits: digits, minimumFractionDigits: 0 }).format(n);
 const range = (a, b, unit = "", digits = 0) => {
@@ -28,6 +30,10 @@ export function mountProfile(supabase, getUser) {
   const $ = id => document.getElementById(id);
 
   function render() {
+    const suggestionText = $("bodyProfileSuggestionText");
+    if (suggestionText) suggestionText.textContent = getUser() ? `Referencias históricas comunicadas: ${HISTORICAL_BODY_SUGGESTION.startWeight} kg, ${fmt(HISTORICAL_BODY_SUGGESTION.height, 2)} m y metas ${HISTORICAL_BODY_SUGGESTION.phases} kg.` : "Inicia sesión para revisar tus datos.";
+    renderPersonalContext();
+    renderHomeSummary();
     const p = settings.bodyProfile || {};
     const start = Number.isFinite(p.startWeight)
       ? `Punto de partida: ${fmt(p.startWeight, 1)} kg${Number.isFinite(p.height) ? ` · ${fmt(p.height, 2)} m` : ""}.`
@@ -57,6 +63,49 @@ export function mountProfile(supabase, getUser) {
     }
   }
 
+  function renderHomeSummary(){
+    const host=$("personalHomeSummary");if(!host)return;
+    host.replaceChildren();host.hidden=true;
+    if(!getUser())return;
+    const data=sanitizePersonalContext(settings.personalContext||{});
+    const entries=[['workShifts','Turnos'],['dutchGoal','Neerlandés'],['career','Carrera']].filter(([key])=>data[key]?.confirmed);
+    if(!entries.length)return;
+    const heading=document.createElement("b");heading.textContent="Tu contexto confirmado";host.append(heading);
+    for(const [key,label] of entries){const line=document.createElement("p");line.className="small";line.textContent=label+": "+data[key].value;host.append(line);}
+    host.hidden=false;
+  }
+  function renderPersonalContext(){
+    const host=$("personalContextRows");if(!host)return;host.replaceChildren();
+    if(!getUser())return;
+    const confirmed=settings.personalContext||{};
+    for(const key of PERSONAL_CONTEXT_KEYS){
+      const proposed=PERSONAL_CONTEXT_SUGGESTIONS[key],saved=confirmed[key],label=document.createElement("label");
+      label.textContent=key==='residence'?'Residencia':key==='nativeLanguages'?'Idiomas principales':key==='dutchGoal'?'Objetivo neerlandés':key==='career'?'Trabajo y carrera':'Turnos';
+      const input=document.createElement("input");input.name=key;input.maxLength=240;input.value=saved?.value||proposed.value;
+      const confirm=document.createElement("input");confirm.type="checkbox";confirm.name=key+"Confirmed";confirm.checked=Boolean(saved?.confirmed);confirm.setAttribute("aria-label","Confirmar "+label.textContent);
+      const explanation=document.createElement("span");explanation.className="small";explanation.textContent=(saved?.confirmed?'Confirmado '+(saved.confirmedAt||'sin fecha'):'Sugerido · sin confirmar')+" · "+proposed.source;
+      label.append(input,confirm,explanation);host.append(label);
+    }
+  }
+  const personalForm=$("personalContextForm");
+  if(personalForm)personalForm.addEventListener("submit",async e=>{
+    e.preventDefault();const user=getUser();if(!user)return;
+    const status=$("personalContextStatus"),button=personalForm.querySelector('button[type="submit"]');
+    button.disabled=true;status.textContent="Guardando…";
+    try{
+      const draft={};
+      for(const key of PERSONAL_CONTEXT_KEYS){const input=personalForm.elements[key];const confirmed=personalForm.elements[key+"Confirmed"]?.checked;
+        if(confirmed)draft[key]={value:input.value,confirmed:true,confirmedAt:new Date().toISOString(),source:"Confirmado por el usuario"};}
+      const fresh=await supabase.from("user_settings").select("settings").eq("user_id",user.id).maybeSingle();
+      if(fresh.error)throw fresh.error;
+      if(getUser()?.id!==user.id)throw Error("La sesión ha cambiado");
+      const current=fresh.data?.settings&&typeof fresh.data.settings==="object"?fresh.data.settings:{};
+      const next={...current,personalContext:sanitizePersonalContext(draft)};
+      const result=await supabase.from("user_settings").upsert({user_id:user.id,settings:next,updated_at:new Date().toISOString()},{onConflict:"user_id"});
+      if(result.error)throw result.error;
+      settings=next;renderPersonalContext();renderHomeSummary();status.textContent="Datos confirmados guardados.";
+    }catch(err){status.textContent="No se pudo guardar: "+err.message;}finally{button.disabled=false;}
+  });
   async function load() {
     const user = getUser();
     if (!user) return reset();
@@ -65,11 +114,19 @@ export function mountProfile(supabase, getUser) {
     if (error) { if ($("bodyProfileStatus")) $("bodyProfileStatus").textContent = `No se pudo cargar el perfil: ${error.message}`; throw error; }
     settings = data?.settings && typeof data.settings === "object" ? data.settings : {};
     render();
+    const suggestion = $("bodyProfileSuggestion");
+    if (suggestion) suggestion.hidden = Number.isFinite(settings.bodyProfile?.startWeight) && Number.isFinite(settings.bodyProfile?.height);
   }
 
   function reset() { settings = {}; render(); if ($("bodyProfileStatus")) $("bodyProfileStatus").textContent = ""; }
 
   const form = $("bodyProfileForm");
+  const suggestButton = $("bodyProfileApplySuggestion");
+  if (suggestButton && form) suggestButton.addEventListener("click", () => {
+    for (const key of ["startWeight", "height"]) if (form.elements[key] && !form.elements[key].value) form.elements[key].value = HISTORICAL_BODY_SUGGESTION[key];
+    if (form.elements.phases && !form.elements.phases.value) form.elements.phases.value = HISTORICAL_BODY_SUGGESTION.phases;
+    if ($("bodyProfileStatus")) $("bodyProfileStatus").textContent = "Propuesta histórica cargada. Comprueba los valores y pulsa Guardar perfil para confirmarlos.";
+  });
   if (form) form.addEventListener("submit", async event => {
     event.preventDefault();
     const user = getUser(); if (!user) return;
