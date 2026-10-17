@@ -36,6 +36,7 @@ export function mountSkin(root, db, getUser) {
   let selectedDay=null;
   let gentle=true;
   let weekRows=[];
+  let inventoryState={};
   let loadSequence=0;
   function current(){
    const steps=mode==="am"?AM:PM[now.getDay()];
@@ -91,6 +92,10 @@ export function mountSkin(root, db, getUser) {
     const {data:week,error:weekError}=await db.from("skin_routine_logs").select("routine_date,session,completed_steps").eq("user_id",requestedUser).gte("routine_date",localDate(since)).lte("routine_date",localDate(new Date()));
     if(seq!==loadSequence||getUser()?.id!==requestedUser)return;
     if(!weekError){weekRows=week||[];renderWeek();}else{$("weekProgress").textContent="No se pudo cargar el progreso semanal.";}
+    const inventoryQuery=await db.from("user_settings").select("settings").eq("user_id",requestedUser).maybeSingle();
+    if(seq!==loadSequence||getUser()?.id!==requestedUser)return;
+    const savedInventory=inventoryQuery.data?.settings?.skinInventory;
+    inventoryState=savedInventory&&typeof savedInventory==="object"&&!Array.isArray(savedInventory)?savedInventory:readSkinInventory(requestedUser);
     render();
     renderInventory();
     homeStats();
@@ -211,7 +216,7 @@ export function mountSkin(root, db, getUser) {
   });
 
   function renderInventory(){
-    const user=getUser(),currentInventory=readSkinInventory(user?.id);
+    const user=getUser(),currentInventory=inventoryState;
     const list=$("productList");list.replaceChildren();
     PRODUCTS.forEach((p,i)=>{
       const card=document.createElement("div");card.className="product";
@@ -222,7 +227,21 @@ export function mountSkin(root, db, getUser) {
       const options=[["unknown","Sin confirmar"],["available","Lo tengo"],["paused","En pausa"],["finished","Terminado / no disponible"]];
       for(const [value,text] of options){const o=document.createElement("option");o.value=value;o.textContent=text;select.append(o);}
       select.value=currentInventory["p"+i]||"unknown";
-      select.addEventListener("change",()=>{try{updateSkinInventory(user.id,"p"+i,select.value);setSync("Inventario guardado en este dispositivo");}catch{setSync("No se pudo guardar inventario","err");}});
+      select.addEventListener("change",async()=>{
+        if(!user||getUser()?.id!==user.id)return;
+        const id="p"+i,value=select.value,old=inventoryState[id]||"unknown";select.disabled=true;setSync("Guardando inventario…","busy");
+        try{
+          const current=await db.from("user_settings").select("settings").eq("user_id",user.id).maybeSingle();if(current.error)throw current.error;
+          if(getUser()?.id!==user.id)throw Error("La sesión ha cambiado");
+          const settings=current.data?.settings&&typeof current.data.settings==="object"?current.data.settings:{};
+          const nextInventory={...(settings.skinInventory||inventoryState),[id]:value};
+          const write=await db.from("user_settings").upsert({user_id:user.id,settings:{...settings,skinInventory:nextInventory},updated_at:new Date().toISOString()},{onConflict:"user_id"});
+          if(write.error)throw write.error;
+          inventoryState=nextInventory;try{updateSkinInventory(user.id,id,value);}catch{}
+          setSync("Inventario sincronizado con tu cuenta");
+        }catch(err){select.value=old;setSync("No se pudo guardar: "+err.message,"err");}
+        finally{select.disabled=false;}
+      });
       body.append(select);card.append(body);list.append(card);
     });
   }
@@ -235,6 +254,6 @@ export function mountSkin(root, db, getUser) {
   window.addEventListener("focus", () => { if (getUser()) loadCloudState(); });
   return {
     load: loadCloudState,
-    reset() { loadSequence++; selectedDay = null; weekRows = []; gentle = true; cloudState = { am: [], pm: [] }; clearTimeout(noteTimer); $("note").value = ""; }
+    reset() { loadSequence++; selectedDay = null; weekRows = []; inventoryState={}; gentle = true; cloudState = { am: [], pm: [] }; clearTimeout(noteTimer); $("note").value = ""; }
   };
 }
