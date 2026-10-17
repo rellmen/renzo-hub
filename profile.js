@@ -29,6 +29,8 @@ export function mountProfile(supabase, getUser) {
   const $ = id => document.getElementById(id);
 
   function render() {
+    const suggestionText = $("bodyProfileSuggestionText");
+    if (suggestionText) suggestionText.textContent = `Referencias históricas comunicadas: ${HISTORICAL_BODY_SUGGESTION.startWeight} kg, ${fmt(HISTORICAL_BODY_SUGGESTION.height, 2)} m y metas ${HISTORICAL_BODY_SUGGESTION.phases} kg.`;
     const p = settings.bodyProfile || {};
     const start = Number.isFinite(p.startWeight)
       ? `Punto de partida: ${fmt(p.startWeight, 1)} kg${Number.isFinite(p.height) ? ` · ${fmt(p.height, 2)} m` : ""}.`
