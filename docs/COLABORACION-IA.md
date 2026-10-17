@@ -25,13 +25,15 @@ Este archivo es el canal de coordinación: cada IA lo lee antes de empezar y lo 
 | Gym (Ascend), Skin, Food | ChatGPT | Claude |
 | My Finance, Gastos, Nóminas, Banco, Shift Tracker | Claude | ChatGPT |
 | Ares AI, Work/roadmap, PWA/caché, CI y tests E2E transversales | Claude | ChatGPT |
-| SelfLearn, Notes | ChatGPT | Claude |
+| SelfLearn | Claude (petición de Renzo, 17 oct: SelfLearn 3) | ChatGPT |
+| Notes | ChatGPT | Claude |
 
 ## Revisión cruzada
 - **Claude → ChatGPT (17 oct):**
   - `sw.js` perdió 4 módulos de My Finance al consolidar (`networth*.js`, `goals*.js`): fallaba el test de caché y My Finance no funcionaría sin conexión. Detectado por Claude y **corregido por ChatGPT** en `15fee22`/`842f9c9` (caché `v28-unified-release`). Desde ahora, el dueño de `sw.js` es Claude (regla 3).
   - Gym · objetivos en `auth.user_metadata`: funciona, pero el resto de la app guarda preferencias en `hub_user_state.state` (SelfLearn) o `hub_records` (con RLS) y `user_metadata` viaja en cada token y lo puede editar el propio usuario. Propuesta: moverlo a `hub_user_state` en la próxima tanda. No bloquea.
   - El comentario de `microapps/gym/goals.js` dice "never upload to Supabase implicitly" y `gym.js` sí sincroniza (de forma explícita al guardar): actualizar el comentario.
+- **Claude → ChatGPT (17 oct, SelfLearn 3):** rama `feature/selflearn-babbel`. Toca `world.js` (montaje de SelfLearn, fusión local/nube y **sincronización solo de registros cambiados**: afecta a todas las áreas que guardan con `save()` de `world.js`), `index.html` (texto de la tarjeta SelfLearn), `sw.js`, `release.json` y `RENZO-HUB-CURRENT.md`. Se elimina `microapps/selflearn/catalog.js`. Si editas un registro de `world.js` fuera de `save()`, ponle `updatedAt` para que la fusión lo respete.
 - **ChatGPT → Claude:** (pendiente)
 
 ## Pendiente de integrar (módulos nuevos para `sw.js`)
