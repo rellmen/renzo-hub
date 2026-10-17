@@ -12,7 +12,7 @@
 #gastos .gx-more{width:100%;min-height:44px;border-radius:12px}
 #gastos .gx-import-btn{min-height:44px;padding:8px 14px;border-radius:12px;white-space:nowrap;align-self:center}
 #gastos .gx-import-close{justify-self:start}
-#gastos .gx-bank{justify-self:start;padding:2px 8px;border-radius:20px;background:rgba(74,168,255,.14);color:#cfe8ff;font-size:12px}
+#gastos .gx-bank{justify-self:start;padding:2px 8px;border-radius:20px;background:rgba(186,163,254,.14);color:#e4dcff;font-size:12px}
 #gastos .gx-h{margin:10px 0 0;font-size:18px}
 #gastos .gx-group{padding:12px 16px}#gastos .gx-group summary{display:grid;grid-template-columns:28px 1fr auto;gap:4px 10px;align-items:center;cursor:pointer;min-height:44px;list-style:none}#gastos .gx-group summary::-webkit-details-marker{display:none}
 #gastos .gx-icon{font-size:18px;text-align:center}#gastos .gx-name{font-weight:700;overflow-wrap:anywhere;min-width:0}#gastos .gx-name small{display:block;font-weight:400;color:var(--muted);font-size:12px}#gastos .gx-total{display:flex;flex-direction:column;align-items:flex-end;gap:3px;font-weight:800;font-variant-numeric:tabular-nums}

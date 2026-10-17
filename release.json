@@ -1,6 +1,6 @@
 {
-  "release": "2.34.0",
-  "name": "RISE HUB 4.0 · SelfLearn 3: lecciones tipo Babbel, progreso guardado tras cada respuesta, Nederlands A0–B2 (63 lecciones) y English B1–C2 (44 lecciones)",
+  "release": "2.35.1",
+  "name": "RISE HUB 4.0 · interfaz editorial de Lovable completa: barra sobria y elegante, Home \"Lo importante, hoy\" / \"El progreso es personal\" y búsqueda ⌘K",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",

@@ -1,5 +1,21 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## 2.35.1 (2026-10-17) · Ajuste "elegante y sofisticado" sobre 2.35.0
+
+- Barra de navegación sobria: iconos marfil de 24 px con relleno muy suave, activo en iris sobre grafito, Ares como pieza iris cuadrada; se quitan las pastillas de colores por área.
+- Home como en Lovable: "Lo importante, hoy." y "El progreso es personal." en bloques editoriales sin tarjetas, nivel en número grande iris; en escritorio, dos columnas.
+- Búsqueda rápida **⌘K / Ctrl+K** (`microapps/command/palette.js`) y botón Buscar en Home: navega a cualquier área o microapp del registro.
+- 267 tests unitarios (1 nuevo); E2E completos OK. Caché `renzo-hub-cloud-v37-editorial`.
+
+## 2.35.0 (2026-10-17) · Interfaz editorial (Lovable) + barra de navegación nueva · PR hacia staging (sin desplegar)
+
+- **Origen:** rediseño hecho por ChatGPT en Lovable ("Renzo Sandbox", commit `352f46f`, prototipo con datos simulados). Se re-implementa su lenguaje visual en CSS propio sobre la app real; no se copia código React ni datos mock.
+- **Sistema editorial** (`assets/rise-editorial.css`, se carga la última): grafito `#151516`, marfil `#f0ece3`, acento iris `#baa3fe`, tipografía **Manrope** auto-alojada (`assets/fonts/`, la CSP no permite fuentes externas), superficies sobrias sin neón, radios de 10–14 px. Paleta azul anterior remapeada en `rise-covers`, `rise-home`, `ares-chat`, `finance` y `gastos`.
+- **Marca:** monograma "R" v2 de Lovable (`assets/rise-monogram-v2.svg`) en login, barra lateral, favicon e iconos PWA v2 (192/512/maskable/180) generados del SVG.
+- **Home:** hero editorial ("Un buen día empieza con claridad."), Áreas en rejilla editorial con miniatura (las portadas se conservan).
+- **Barra de navegación:** iconos bicolor (relleno suave + trazo) a 24 px dentro de una pastilla con el color de cada área, etiqueta más legible, estado activo con brillo; **Ares AI como orbe central** (sustituye al botón flotante cuando hay sesión). Móvil: barra flotante con desenfoque, 7 accesos sin perder ninguno. Escritorio: barra lateral con Ares bajo Home.
+- Tests: 266 unitarios OK; E2E smoke, caché PWA v36 (Chromium/WebKit), nóminas, finanzas, auditoría móvil 16 secciones × 2 motores, SelfLearn, Ares chat y Ares center OK. Caché `renzo-hub-cloud-v36-editorial`.
+
 ## 2.34.0 (2026-10-17) · SelfLearn 3: tipo Babbel + progreso que sí se guarda · PR hacia staging (sin desplegar)
 
 - **Causas de "no se guarda mi progreso" (corregidas):** el quiz solo se guardaba al pulsar "Guardar intento" al final; con 5 min hacía falta 4/4 (umbral 80 % sobre 4 preguntas); "Marcar clase completada" no contaba para la ruta; al recargar, el estado de la nube pisaba al local aunque fuera más nuevo; y una copia local más nueva de un registro (p. ej. un repaso FSRS sin conexión) se perdía frente a la de la nube.

@@ -3,6 +3,7 @@ import {mountAresAI} from "./microapps/ares-ai.js";
 import {createDataExport} from "./microapps/backup/export.js";
 import {AREAS,MICROAPPS,SECTION_IDS,findMicroapp,navAreaOf,isFullscreen,areaTabsHTML,homeTilesHTML} from "./microapps/registry.js";
 import {mountWorld} from "./world.js";
+import "./microapps/command/palette.js";
 import {mountJarvis} from "./jarvis-ui.js";
 import {mountWorldExtensions} from "./world-extensions.js";
 import {mountProfile} from "./profile.js";

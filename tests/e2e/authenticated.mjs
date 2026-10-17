@@ -61,7 +61,7 @@ await check("sincronización world con registro de Jarvis presente (B-02)", asyn
 
 for (const section of SECTION_IDS) {
   await check(`navegación: ${section}`, async () => {
-    if(section==='ares-center')await page.locator('.ares-fab').click();
+    if(section==='ares-center')await page.locator('#bottomNav .nav-ares').click();
     else await page.evaluate(s => document.querySelector(`[data-open="${s}"]`)?.click(), section);
     if(section==='ares-center'){
       await page.getByRole('dialog',{name:'Ares AI',exact:true}).waitFor();
@@ -141,7 +141,7 @@ await check("Progreso y XP: datos reales y sin duplicados tras recargar", async 
 // Cada microapp con módulo del registro se monta y pinta algo al abrirla (sin test escrito a mano).
 for (const m of MICROAPPS.filter(m => m.module)) {
   await check(`microapp ${m.id}: se monta y pinta su pantalla`, async () => {
-    if(m.id==='ares-center')await page.locator('.ares-fab').click();
+    if(m.id==='ares-center')await page.locator('#bottomNav .nav-ares').click();
     else await page.evaluate(id => document.querySelector(`[data-open="${id}"]`)?.click(), m.id);
     if(m.id==='ares-center'){
       await page.getByRole('dialog',{name:'Ares AI',exact:true}).waitFor();
