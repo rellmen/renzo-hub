@@ -14,6 +14,6 @@ test('PWA precache resources exist on disk',()=>{
  for(const pathname of names){if(pathname==='/')continue;assert(existsSync(new URL('..'+pathname,import.meta.url)),`Missing asset ${pathname}`);}
 });
 test('PWA cache version is advanced after fixing broken install',()=>{
- assert.match(sw,/renzo-hub-cloud-v33-skin-photos/);
+ assert.match(sw,/renzo-hub-cloud-v34-home-body/);
  assert.match(sw,/cache[s]?\.open\(CACHE\)/);
 });
