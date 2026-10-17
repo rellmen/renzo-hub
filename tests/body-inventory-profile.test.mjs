@@ -6,7 +6,7 @@ test('photographed inventory includes newly identified distinct products',()=>{
 });
 test('gym default references are reported estimates, not fictitious history',()=>{
  assert.equal(GYM_USER_REFERENCE.heightCm,170);assert.equal(GYM_USER_REFERENCE.lastReportedWeightKg,84);
- assert.equal(GYM_GOALS_DEFAULT.targetWeight,78);
+ assert.equal(GYM_GOALS_DEFAULT.targetWeight,null);
  const metadata={gym_goals:{priority:'Fuerza',sessionsPerWeek:3,targetWeight:80}};
  assert.equal(getGymGoals('user',metadata).targetWeight,80);
 });
