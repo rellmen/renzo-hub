@@ -168,9 +168,14 @@ export function mountSkin(root, db, getUser) {
       const i=Number(b.dataset.i);
       let next=[...(cloudState[mode]||[])];
       next=next.includes(i)?next.filter(v=>v!==i):next.concat(i);
-      cloudState[mode]=next;
+      const session=mode, previous=[...(cloudState[session]||[])];
+      cloudState[session]=next;
       render();homeStats();
-      await saveSession(mode,next,true);
+      if(!await saveSession(session,next,true)){
+        cloudState[session]=previous;
+        render();homeStats();
+        setSync("No se pudo guardar; se restauró el registro anterior","err");
+      }
     }));
     $("steps").querySelectorAll(".check").forEach(b=>b.disabled=history);
     const pct=Math.round(done.size/arr.length*100);
@@ -190,10 +195,12 @@ export function mountSkin(root, db, getUser) {
   $("gentleBtn").addEventListener("click",()=>{gentle=!gentle;render();});
   $("switchBtn").addEventListener("click",()=>{mode=mode==="am"?"pm":"am";render()});
   $("clearBtn").addEventListener("click",async()=>{
-    cloudState[mode]=[];render();homeStats();await saveSession(mode,[],true);
+    const session=mode,previous=[...(cloudState[session]||[])];cloudState[session]=[];render();homeStats();
+    if(!await saveSession(session,[],true)){cloudState[session]=previous;render();homeStats();setSync("No se pudo guardar; se restauró el registro anterior","err");}
   });
   $("completeBtn").addEventListener("click",async()=>{
-    const next=current().map((_,i)=>i);cloudState[mode]=next;render();homeStats();await saveSession(mode,next,true);
+    const session=mode,previous=[...(cloudState[session]||[])],next=current().map((_,i)=>i);cloudState[session]=next;render();homeStats();
+    if(!await saveSession(session,next,true)){cloudState[session]=previous;render();homeStats();setSync("No se pudo guardar; se restauró el registro anterior","err");}
   });
   $("note").addEventListener("input",()=>{
     $("noteState").textContent="Pendiente…";
