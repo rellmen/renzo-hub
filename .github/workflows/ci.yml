@@ -42,6 +42,7 @@ jobs:
           node tests/e2e/finance-income.mjs
           node tests/e2e/finance-complete.mjs
           node tests/e2e/microapps-mobile-audit.mjs
+          node tests/e2e/ares-mobile-exit.mjs
           node tests/e2e/selflearn.mjs
           node tests/e2e/gym-symmetry.mjs
           BROWSER=webkit node tests/e2e/gym-symmetry.mjs
