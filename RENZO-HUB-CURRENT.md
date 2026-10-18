@@ -1,5 +1,10 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## 2.41.1 (2026-10-18) · Acceso directo al CRM de Nodalys · preparado para staging
+
+- Work → "Accesos externos": tarjeta que abre el CRM de Nodalys en claude.ai en una pestaña nueva. Es solo un enlace: sin código, datos, credenciales ni agentes de Nodalys en RISE HUB (se mantiene la separación de AGENTS.md).
+- Caché `renzo-hub-cloud-v44-crm-link`; sin migraciones ni cambios de configuración.
+
 ## 2.41.0 (2026-10-18) · Contexto personal autorizado · preparado para staging
 
 - Datos privados sincronizados exclusivamente en las tablas existentes de producción, con procedencia y fecha; sin migraciones, cambios de permisos ni copia de datos a staging. Los valores y las copias previas quedan fuera de Git.
