@@ -1,6 +1,6 @@
 {
-  "release": "2.41.0",
-  "name": "RISE HUB · contexto personal autorizado con fecha y procedencia",
+  "release": "2.41.1",
+  "name": "RISE HUB · acceso directo externo al CRM de Nodalys en Work",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",
