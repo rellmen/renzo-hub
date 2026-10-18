@@ -1,3 +1,4 @@
+import {exerciseLibrary} from './exercise-info.js';
 // Safe editor for the existing five-day plan schema; prior workouts remain immutable.
 export function validateGymPlan(plan){
  if(!Array.isArray(plan)||plan.length!==5)return false;
@@ -24,16 +25,5 @@ export function moveGymExercise(plan,day,index,direction){
 export function replaceGymExercise(plan,day,index,exercise){
  return updateGymExercise(plan,day,index,{name:exercise.name,muscle:exercise.muscle});
 }
-export const GYM_LIBRARY=[
- {name:'Leg Press',muscle:'Piernas'}, {name:'Romanian Deadlift',muscle:'Piernas'},
- {name:'Leg Curl',muscle:'Piernas'},{name:'Leg Extension',muscle:'Piernas'},
- {name:'Calf Raise',muscle:'Piernas'},{name:'Hip Thrust',muscle:'Glúteos'},
- {name:'Chest Press',muscle:'Pecho'},{name:'Incline Dumbbell Press',muscle:'Pecho'},
- {name:'Cable Fly',muscle:'Pecho'},{name:'Lat Pulldown',muscle:'Espalda'},
- {name:'Chest Supported Row',muscle:'Espalda'},{name:'Single Arm Row',muscle:'Espalda'},
- {name:'Seated Cable Row',muscle:'Espalda'},{name:'Lateral Raise',muscle:'Hombros'},
- {name:'Shoulder Press',muscle:'Hombros'},{name:'Reverse Pec Deck',muscle:'Hombros'},
- {name:'EZ Bar Curl',muscle:'Bíceps'},{name:'Hammer Curl',muscle:'Bíceps'},
- {name:'Preacher Curl',muscle:'Bíceps'},{name:'Triceps Pushdown',muscle:'Tríceps'},
- {name:'Overhead Cable Extension',muscle:'Tríceps'},{name:'Cable Crunch',muscle:'Core'}
-];
+// Biblioteca del editor: todas las fichas de técnica (100+), agrupables por músculo.
+export const GYM_LIBRARY=exerciseLibrary();

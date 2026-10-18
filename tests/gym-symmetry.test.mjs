@@ -65,3 +65,75 @@ test("Gym · fichas de técnica para todo el plan inicial y la biblioteca", () =
   assert.equal(exerciseInfo("Inventado"), null);
   assert.equal(restSeconds({ compound: true }), 150); assert.equal(restSeconds({}), 90); assert.equal(fmtClock(95), "1:35");
 });
+
+test("Gym 2.37 · biblioteca de 100+ ejercicios con ficha, músculo y rango coherente", async () => {
+  const { exerciseLibrary, LIBRARY_MUSCLES } = await import("../microapps/gym/exercise-info.js");
+  const lib = exerciseLibrary();
+  assert.ok(lib.length >= 80, "≥80 ejercicios");
+  assert.equal(new Set(lib.map(x => x.name)).size, lib.length);
+  for (const x of lib) { assert.ok(LIBRARY_MUSCLES.includes(x.muscle), x.name); assert.ok(x.pattern && x.equipment, x.name); }
+  assert.equal(GYM_LIBRARY.length, lib.length);
+  // Patrones que antes caían en el grupo equivocado.
+  assert.equal(standardFor("Leg Press Calf Raise").pattern, "Gemelos");
+  assert.equal(standardFor("Rear Delt Fly").pattern, "Deltoide posterior");
+  assert.equal(standardFor("Cable Upright Row").pattern, "Remo al mentón");
+  assert.equal(standardFor("Bulgarian Split Squat").pattern, "Zancada (por mancuerna)");
+  assert.equal(standardFor("Close-Grip Bench Press").muscle, "Tríceps");
+  assert.equal(standardFor("Seated Dumbbell Shoulder Press").pattern, "Press de hombro con mancuernas");
+  assert.equal(standardFor("Cable Glute Kickback"), null);
+  // Con el propio peso o asistidos: sin rango (el kg registrado no es la carga real).
+  for (const n of ["Pull-Up", "Assisted Pull-Up", "Chin-Up", "Push-Up", "Plank", "Chest Dip"]) assert.equal(standardFor(n), null, n);
+  assert.equal(standardFor("Dip Machine").pattern, "Fondos");
+});
+
+test("Gym 2.37 · rutina por preguntas: cinco días válidos, cardio real y compuestos marcados", async () => {
+  const { buildOnboardingPlan } = await import("../microapps/gym/onboarding.js");
+  const { validateGymPlan } = await import("../microapps/gym/plan-editor.js");
+  const { exerciseInfo } = await import("../microapps/gym/exercise-info.js");
+  for (const days of [2, 3, 4, 5]) for (const equipment of ["gym", "machines"]) for (const goal of ["hypertrophy", "strength", "general"]) {
+    const plan = buildOnboardingPlan({ days, equipment, goal });
+    assert.ok(validateGymPlan(plan));
+    plan.forEach((d, i) => {
+      assert.match(d[1], /^\d+-\d+$/, "el 2.º campo es cardio en minutos");
+      assert.equal(d[0].startsWith("Opcional"), i >= days);
+      d[2].forEach(e => assert.ok(exerciseInfo(e[0]), "ficha para " + e[0]));
+    });
+    assert.ok(plan[0][2].some(e => e[5] === 1), "hay compuestos");
+  }
+  const strength = buildOnboardingPlan({ days: 3, equipment: "gym", goal: "strength" });
+  assert.deepEqual(strength[0][2][0], ["Chest Press", 4, 4, 6, "Pecho", 1]);
+  const machines = buildOnboardingPlan({ days: 3, equipment: "machines", goal: "hypertrophy" });
+  const legs = machines[2][2].map(e => e[0]);
+  assert.ok(!legs.includes("Romanian Deadlift") && legs.includes("Seated Leg Curl"));
+  assert.equal(machines[2][2].find(e => e[0] === "Seated Leg Curl")[5], undefined, "curl femoral no es compuesto");
+  assert.throws(() => buildOnboardingPlan({ days: 6 }));
+});
+
+test("Gym 2.37 · fotos privadas: ruta en <usuario>/gym con fecha y pose, y nada fuera", async () => {
+  const P = await import("../microapps/gym/progress-photos.js");
+  const u = "11111111-2222-4333-8444-555555555555", id = "aaaaaaaa-bbbb-4ccc-8ddd-eeeeeeeeeeee";
+  const path = P.progressPhotoPath(u, id, { date: "2026-10-18", pose: "side" });
+  assert.equal(path, `${u}/gym/2026-10-18_side_${id}.jpg`);
+  assert.deepEqual(P.parsePhotoName(path.split("/").pop()), { date: "2026-10-18", pose: "side", id });
+  assert.equal(P.parsePhotoName("skin"), null);
+  assert.throws(() => P.progressPhotoPath(u, id, { date: "2026-13-45" }));
+  assert.throws(() => P.progressPhotoPath(u, id, { date: "2026-10-18", pose: "selfie" }));
+  assert.throws(() => P.progressPhotoPath("../x", id, { date: "2026-10-18" }));
+  assert.equal(P.daysBetween("2026-07-01", "2026-10-01"), 92);
+  // Lista: ignora otras carpetas y archivos ajenos; ordena por fecha de la foto.
+  const calls = [];
+  const db = { storage: { from: () => ({
+    list: async dir => { calls.push(dir); return { data: [{ name: `2026-08-01_front_${id}.jpg` }, { name: "skin" }, { name: "foto.jpg" }, { name: `2026-10-01_front_${id.replace("a", "b")}.jpg` }], error: null }; },
+    createSignedUrls: async (paths) => ({ data: paths.map(p => ({ path: p, signedUrl: "blob:" + p })), error: null }),
+    remove: async () => ({ error: null })
+  }) } };
+  const list = await P.listProgressPhotos(db, u);
+  assert.equal(calls[0], `${u}/gym`);
+  assert.deepEqual(list.map(x => x.date), ["2026-10-01", "2026-08-01"]);
+  const urls = await P.signedProgressPhotoUrls(db, u, list.map(x => x.path));
+  assert.equal(Object.keys(urls).length, 2);
+  await assert.rejects(() => P.signedProgressPhotoUrls(db, u, [`otro/gym/2026-10-01_front_${id}.jpg`]));
+  await assert.rejects(() => P.deleteProgressPhoto(db, u, `${u}/skin/x.jpg`));
+  assert.throws(() => P.assertProgressPhoto({ type: "image/gif", size: 10 }));
+  assert.throws(() => P.assertProgressPhoto({ type: "image/jpeg", size: 9 * 1024 * 1024 }));
+});
