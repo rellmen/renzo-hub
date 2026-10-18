@@ -59,3 +59,30 @@
 .gym-body-rank { stroke: rgba(0, 0, 0, .35); stroke-width: 1; }
 .gym-body-empty { fill: #2f2f33; }
 @media (prefers-reduced-motion: reduce) { .gym-toast, .gym-rest-ring .gym-rest-arc { transition: none; } }
+
+/* 2.37.0 · Fotos de progreso privadas y comparador */
+.gym-photo-form { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-items: end; }
+.gym-photo-form label:first-child, .gym-photo-form button { grid-column: 1 / -1; }
+.gym-photo-poses { display: flex; gap: 6px; margin: 14px 0 10px; }
+.gym-photo-poses .switch { flex: 1; min-height: 40px; border-radius: 10px; border: 1px solid var(--line); background: var(--card); color: var(--muted); font-weight: 650; }
+.gym-photo-poses .switch.selected { background: var(--rx-strong, #2a2a2d); color: var(--text); box-shadow: inset 0 -2px var(--accent); }
+.gym-photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 8px; margin-top: 10px; }
+.gym-photo { margin: 0; border-radius: 10px; overflow: hidden; border: 1px solid var(--line); background: var(--card); }
+.gym-photo img { display: block; width: 100%; aspect-ratio: 3 / 4; object-fit: cover; background: var(--rx-strong, #2a2a2d); }
+.gym-photo figcaption { display: flex; justify-content: space-between; align-items: center; gap: 4px; padding: 6px 8px; font-size: 11px; color: var(--muted); }
+.gym-photo-del { min-height: 32px; padding: 0 8px; border: 0; border-radius: 8px; background: transparent; color: var(--muted); font-size: 11px; }
+.gym-compare-pick { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.gym-compare-stage { --split: 50%; position: relative; margin: 12px 0 8px; border-radius: 12px; overflow: hidden; aspect-ratio: 3 / 4; max-height: 70vh; background: var(--rx-strong, #2a2a2d); }
+.gym-compare-stage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.gym-compare-after { clip-path: inset(0 0 0 var(--split)); }
+.gym-compare-line { position: absolute; top: 0; bottom: 0; left: var(--split); width: 2px; transform: translateX(-1px); background: var(--text); box-shadow: 0 0 0 1px rgba(0, 0, 0, .35); pointer-events: none; }
+.gym-compare-tag { position: absolute; top: 8px; padding: 3px 8px; border-radius: 999px; background: rgba(21, 21, 22, .72); color: var(--text); font-size: 11px; font-weight: 700; }
+.gym-compare-tag-l { left: 8px; } .gym-compare-tag-r { right: 8px; }
+.gym-compare input[type="range"] { width: 100%; accent-color: var(--accent); min-height: 32px; }
+
+/* Rutina con 3 preguntas */
+.gym-onboard summary { min-height: 44px; display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
+.gym-onboard-form { display: grid; gap: 10px; margin-top: 10px; }
+.gym-onboard-preview { display: grid; gap: 10px; margin: 12px 0; }
+.gym-onboard-day { padding: 10px 12px; border-radius: 10px; background: var(--rx-strong, #2a2a2d); }
+.gym-onboard-day b { display: block; } .gym-onboard-day ul { margin: 6px 0 0; padding-left: 18px; line-height: 1.55; font-size: 13px; }

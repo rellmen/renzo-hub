@@ -1,8 +1,8 @@
 {
-  "release": "2.36.0",
-  "name": "RISE HUB 4.0 · Gym tipo Symmetry: progresión automática por serie, rangos Hierro→Élite con mapa corporal, técnica, descanso y récords",
+  "release": "2.37.0",
+  "name": "RISE HUB 4.0 · Gym completo: fotos de progreso privadas con comparador, rutina con 3 preguntas y biblioteca de 107 ejercicios",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",
-  "updated": "2026-10-17"
+  "updated": "2026-10-18"
 }

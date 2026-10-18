@@ -16,36 +16,46 @@ export const TIERS = [
 // Umbrales (e1RM ÷ peso corporal) para empezar Bronce, Plata, Oro, Platino, Diamante y Élite.
 // Mancuernas: peso de UNA mancuerna. Orden importa: el primer patrón que coincide gana.
 const STANDARDS = [
+  [/calf|gemelo/i, "Gemelos", [0.5, 0.8, 1.1, 1.5, 1.9, 2.3], "Gemelos"],
   [/leg press|prensa/i, "Prensa", [1.0, 1.5, 2.0, 2.75, 3.5, 4.5], "Cuádriceps"],
-  [/romanian|rdl|peso muerto rumano/i, "Peso muerto rumano", [0.6, 0.9, 1.25, 1.6, 2.0, 2.4], "Isquiotibiales"],
+  [/romanian|rdl|peso muerto rumano|good morning/i, "Peso muerto rumano", [0.6, 0.9, 1.25, 1.6, 2.0, 2.4], "Isquiotibiales"],
   [/deadlift|peso muerto/i, "Peso muerto", [0.9, 1.25, 1.6, 2.0, 2.4, 2.8], "Isquiotibiales"],
+  [/split squat|lunge|step-?up|zancada/i, "Zancada (por mancuerna)", [0.15, 0.25, 0.35, 0.45, 0.55, 0.65], "Cuádriceps"],
+  [/goblet/i, "Sentadilla goblet", [0.2, 0.3, 0.4, 0.5, 0.6, 0.7], "Cuádriceps"],
   [/squat|sentadilla|hack/i, "Sentadilla", [0.75, 1.1, 1.4, 1.75, 2.1, 2.5], "Cuádriceps"],
-  [/hip thrust/i, "Hip thrust", [0.75, 1.1, 1.5, 2.0, 2.5, 3.0], "Glúteos"],
+  [/hip thrust|glute bridge/i, "Hip thrust", [0.75, 1.1, 1.5, 2.0, 2.5, 3.0], "Glúteos"],
   [/leg curl|femoral/i, "Curl femoral", [0.3, 0.45, 0.65, 0.85, 1.05, 1.25], "Isquiotibiales"],
   [/leg extension|extensi[oó]n de cu[aá]driceps/i, "Extensión de cuádriceps", [0.35, 0.5, 0.7, 0.9, 1.1, 1.3], "Cuádriceps"],
-  [/calf|gemelo/i, "Gemelos", [0.5, 0.8, 1.1, 1.5, 1.9, 2.3], "Gemelos"],
+  [/close-?grip/i, "Press cerrado", [0.4, 0.6, 0.85, 1.05, 1.3, 1.5], "Tríceps"],
   [/dumbbell (bench |chest )?press|db press/i, "Press con mancuernas", [0.18, 0.27, 0.36, 0.45, 0.55, 0.65], "Pecho"],
+  [/dumbbell shoulder press|arnold/i, "Press de hombro con mancuernas", [0.12, 0.18, 0.25, 0.32, 0.4, 0.48], "Hombros"],
   [/shoulder press|overhead press|military|press militar/i, "Press de hombro", [0.35, 0.5, 0.7, 0.85, 1.0, 1.2], "Hombros"],
   [/bench|chest press|smith press|incline.*press|press banca/i, "Press de pecho", [0.5, 0.75, 1.0, 1.25, 1.5, 1.75], "Pecho"],
-  [/dip/i, "Fondos", [0.5, 0.8, 1.1, 1.4, 1.7, 2.0], "Tríceps"],
-  [/fly|pec deck|aperturas/i, "Aperturas", [0.25, 0.4, 0.55, 0.7, 0.85, 1.0], "Pecho"],
+  [/dip machine/i, "Fondos", [0.5, 0.8, 1.1, 1.4, 1.7, 2.0], "Tríceps"],
   [/reverse pec|face pull|rear delt/i, "Deltoide posterior", [0.15, 0.25, 0.35, 0.45, 0.55, 0.65], "Hombros"],
-  [/single arm.*row|one arm.*row|single arm row/i, "Remo a una mano", [0.25, 0.35, 0.45, 0.6, 0.75, 0.9], "Espalda"],
+  [/fly|pec deck|aperturas/i, "Aperturas", [0.25, 0.4, 0.55, 0.7, 0.85, 1.0], "Pecho"],
+  [/upright/i, "Remo al mentón", [0.25, 0.35, 0.5, 0.65, 0.8, 0.95], "Hombros"],
+  [/shrug|encogimiento/i, "Encogimientos", [0.6, 0.9, 1.2, 1.5, 1.8, 2.1], "Espalda"],
+  [/single arm.*row|one arm.*row|single arm row|meadows/i, "Remo a una mano", [0.25, 0.35, 0.45, 0.6, 0.75, 0.9], "Espalda"],
   [/single arm lat|single arm pulldown/i, "Jalón a una mano", [0.25, 0.35, 0.45, 0.55, 0.65, 0.75], "Espalda"],
   [/straight arm/i, "Pullover en polea", [0.2, 0.3, 0.4, 0.5, 0.6, 0.7], "Espalda"],
-  [/pulldown|jal[oó]n|pull-?up|dominada/i, "Jalón", [0.5, 0.7, 0.9, 1.1, 1.3, 1.5], "Espalda"],
+  [/pulldown|jal[oó]n/i, "Jalón", [0.5, 0.7, 0.9, 1.1, 1.3, 1.5], "Espalda"],
   [/row|remo/i, "Remo", [0.5, 0.7, 0.9, 1.1, 1.3, 1.5], "Espalda"],
   [/cable lateral|machine.*lateral/i, "Elevación lateral en polea/máquina", [0.03, 0.05, 0.08, 0.11, 0.14, 0.17], "Hombros"],
   [/lateral raise|elevaci[oó]n lateral/i, "Elevación lateral", [0.05, 0.08, 0.11, 0.14, 0.17, 0.2], "Hombros"],
-  [/ez bar curl|barbell curl|curl con barra/i, "Curl con barra", [0.2, 0.3, 0.4, 0.55, 0.7, 0.85], "Bíceps"],
-  [/cable curl|bayesian|preacher/i, "Curl en polea/predicador", [0.15, 0.22, 0.3, 0.4, 0.5, 0.6], "Bíceps"],
+  [/ez bar curl|barbell curl|curl con barra|reverse curl/i, "Curl con barra", [0.2, 0.3, 0.4, 0.55, 0.7, 0.85], "Bíceps"],
+  [/cable curl|bayesian|preacher|machine curl/i, "Curl en polea/predicador", [0.15, 0.22, 0.3, 0.4, 0.5, 0.6], "Bíceps"],
   [/curl/i, "Curl con mancuerna", [0.08, 0.12, 0.17, 0.23, 0.29, 0.35], "Bíceps"],
+  [/triceps kickback/i, "Patada de tríceps", [0.05, 0.08, 0.12, 0.16, 0.2, 0.25], "Tríceps"],
   [/pushdown|overhead.*extension|skull|tr[ií]ceps/i, "Extensión de tríceps", [0.2, 0.3, 0.42, 0.55, 0.68, 0.8], "Tríceps"],
-  [/crunch/i, "Crunch en polea", [0.3, 0.5, 0.7, 0.9, 1.1, 1.3], "Core"]
+  [/cable crunch/i, "Crunch en polea", [0.3, 0.5, 0.7, 0.9, 1.1, 1.3], "Core"]
 ];
+// Ejercicios con el propio peso (o con asistencia): el kg registrado no es la carga real, así que no tienen rango.
+const BODYWEIGHT = /pull-?up|chin-?up|push-?up|plank|dead bug|nordic|ab wheel|hanging|chest dip|back extension|pallof|decline crunch|dominada|flexi[oó]n/i;
 const MUSCLE_MAP = { Piernas: "Cuádriceps", Glúteos: "Glúteos", Pecho: "Pecho", Espalda: "Espalda", Hombros: "Hombros", "Bíceps": "Bíceps", "Tríceps": "Tríceps", Core: "Core" };
 
 export function standardFor(name) {
+  if (BODYWEIGHT.test(String(name || ""))) return null;
   const hit = STANDARDS.find(([re]) => re.test(String(name || "")));
   return hit ? { pattern: hit[1], thresholds: hit[2], muscle: hit[3] } : null;
 }
