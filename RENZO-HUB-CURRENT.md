@@ -1,5 +1,12 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## 2.43.0 (2026-10-19) · Nodalys CRM en la Home en lugar de Car · Jarvis · PR hacia staging
+
+- Home: la tarjeta **Car · Jarvis** se sustituye por **Nodalys CRM**, que abre el CRM en claude.ai en una pestaña nueva. Decisión de Renzo (19 oct). Sigue siendo solo un enlace: sin código, datos, credenciales ni agentes de Nodalys en RISE HUB.
+- No se borra nada: la página `#car`, `jarvis-ui.js`, `/api/jarvis` y los gastos del coche ya guardados siguen intactos (Jarvis puede seguir registrándolos y aparecen en My Finance → "Registros a mano y de Jarvis"). Solo desaparece el acceso desde la Home.
+- El CRM (claude.ai) se adaptó al móvil en su misma URL: tablero de una etapa a la vez con "Mover a", lista en tarjetas, campos de 16 px y botones de 44 px. Sus datos no se tocaron (27 leads comprobados tras publicar).
+- Caché `renzo-hub-cloud-v46-home-crm`. Sin migraciones ni cambios de configuración.
+
 ## 2.42.0 (2026-10-18) · SelfLearn conserva la última respuesta al cerrar sesión + estado de sincronización
 
 - "Cerrar sesión" sube antes lo pendiente de SelfLearn (`world.flush()`, máx. 4 s); antes la última respuesta quedaba solo en el dispositivo. E2E nuevo en `tests/e2e/selflearn.mjs`.
