@@ -4,6 +4,7 @@
 import {createRequire} from 'node:module';
 import {readFile} from 'node:fs/promises';
 import {resolve,extname} from 'node:path';
+import assert from 'node:assert/strict';
 import {SECTION_IDS} from '../../microapps/registry.js';
 const require=createRequire(import.meta.url);
 const {chromium,webkit}=require('playwright');
@@ -22,8 +23,9 @@ const TYPES={'.js':'text/javascript','.mjs':'text/javascript','.css':'text/css',
 const problems=[];
 for(const engine of [chromium,webkit]){
  const browser=await engine.launch();
- const context=await browser.newContext({viewport:{width:390,height:844},isMobile:engine===chromium,hasTouch:true,serviceWorkers:'block'});
+ const context=await browser.newContext({viewport:{width:390,height:844},isMobile:!process.env.EDITORIAL_DESKTOP&&engine===chromium,hasTouch:!process.env.EDITORIAL_DESKTOP,serviceWorkers:'block'});
  const page=await context.newPage();
+ page.setDefaultTimeout(15000);
  let current='login';
  page.on('pageerror',e=>problems.push(`${engine.name()} · ${current}: error JS ${e.message}`));
  await context.route('https://cdn.jsdelivr.net/**',r=>r.fulfill({contentType:'text/javascript',body:mock}));
@@ -39,6 +41,41 @@ for(const engine of [chromium,webkit]){
  await page.locator('#email').fill('demo@example.test');await page.locator('#password').fill('fake-test-password');
  await page.locator('#loginForm button[type=submit]').click();
  await page.locator('#authScreen').waitFor({state:'hidden'});
+ // La presentación y la búsqueda deben usar la navegación real en cualquier tamaño.
+ for(const width of [320,390,768,1440]){
+  current=`editorial-${width}`;
+  await page.setViewportSize({width,height:900});
+  await page.locator('#bottomNav [data-open="home"]').click();
+  await page.locator('[data-rise-search]').click();
+  const search=page.locator('#risePalette input');
+  assert.equal(await search.getAttribute('role'),'combobox','La búsqueda debe anunciar su selección');
+  for(let n=0;n<14;n++)await search.press('ArrowDown');
+  const active=await search.getAttribute('aria-activedescendant');
+  assert(active,'La selección de teclado tiene un destino accesible');
+  assert(await page.locator(`#${active}`).evaluate(el=>{const b=el.getBoundingClientRect(),p=el.parentElement.getBoundingClientRect();return b.top>=p.top-1&&b.bottom<=p.bottom+1;}),'La selección de teclado permanece visible');
+  await search.fill('nomi');
+  await search.press('Enter');
+  await page.locator('#payroll.page.active').waitFor();
+  await page.locator('#bottomNav [data-open="home"]').evaluate(el=>el.click());
+  await page.keyboard.press('Control+k');
+  assert.equal(await page.getByRole('dialog',{name:'Ares AI',exact:true}).isVisible(),false,'⌘K abre solo la búsqueda');
+  await search.fill('zzzzzzzz');
+  if(await page.locator('#risePalette .empty').count()!==1)problems.push(`${engine.name()} · ${current}: búsqueda sin resultados`);
+  await search.press('ArrowDown');
+  await search.fill('gym');
+  await search.press('Enter');
+  await page.locator('#gym.page.active').waitFor();
+  assert(await page.locator('.ares-fab').isVisible(),'Ares permanece disponible en Gym');
+  await page.locator('#bottomNav [data-open="home"]').evaluate(el=>el.click());
+  await page.locator('#bottomNav [data-open="ares-center"]').click();
+  await page.getByRole('dialog',{name:'Ares AI',exact:true}).waitFor();
+  await page.keyboard.press('Escape');
+  if(process.env.EDITORIAL_DESKTOP)assert(await page.locator('#bottomNav [data-open="ares-center"]').evaluate(el=>document.activeElement===el),'Cerrar Ares devuelve el foco a su botón visible');
+  const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-innerWidth);
+  if(overflow>1)problems.push(`${engine.name()} · ${current}: desborde ${overflow}px`);
+  if(process.env.EDITORIAL_SCREENSHOTS&&engine===chromium&&(width===390||width===1440))await page.screenshot({path:resolve(process.env.EDITORIAL_SCREENSHOTS,`rise-editorial-${width}.png`),fullPage:true,animations:'disabled'});
+ }
+ await page.setViewportSize({width:390,height:844});
  for(const id of SECTION_IDS){
   current=id;
   if(id==='ares-center'){ // Ares AI se abre como chat sobre Home, no como sección
@@ -71,3 +108,4 @@ for(const engine of [chromium,webkit]){
 }
 if(problems.length){console.error(problems.join('\n'));process.exit(1);}
 console.log(`Auditoría móvil OK: ${SECTION_IDS.length} secciones × Chromium y WebKit a 390 px`);
+console.log('Editorial OK: búsqueda, teclado, Ares y diseño a 320/390/768/1440 px × Chromium y WebKit');

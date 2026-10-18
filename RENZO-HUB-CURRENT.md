@@ -1,5 +1,12 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## 2.36.1 (2026-10-18) · Publicación selectiva del diseño editorial
+
+- Preparado, todavía no publicado: traslada exclusivamente la integración visual de PR #78 (f31cf4c y 5f977d0) sobre producción 3124b70. No incorpora las ampliaciones posteriores de Gym/SelfLearn de staging.
+- Marca R v2, Manrope local, grafito/marfil/iris, dashboard editorial y navegación con Ares y búsqueda. Conserva autenticación, datos, APIs, microapps y funciones actuales de main.
+- Caché `renzo-hub-cloud-v39-editorial-production`; sin migraciones ni cambios de configuración. QA local verificado y alcance en `docs/RISE-EDITORIAL-RELEASE.md`; falta confirmar CI y despliegue antes de afirmar publicación.
+
+
 ## 2.33.0 (2026-10-17) · Release agrupada: My Finance completo + Gym Ascend (rama de ChatGPT `release/gym-ascend-bundle`) + arreglos · PR #74 a staging
 
 - Integra `release/gym-ascend-bundle` (#75: registro rápido de series y editor de rutinas) para publicar todo en un solo lote, según `docs/RELEASE_POLICY.md` (límite diario de Vercel Hobby). Caché `renzo-hub-cloud-v27-rise-finance-gym`.
