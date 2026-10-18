@@ -5,24 +5,24 @@
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#060b14",
-  "theme_color": "#060b14",
+  "background_color": "#151516",
+  "theme_color": "#151516",
   "description": "Tu centro de mando personal: progreso, bienestar, aprendizaje y finanzas, sincronizado con tus datos privados.",
   "icons": [
     {
-      "src": "/assets/rise-icon-192-v1.png",
+      "src": "/assets/rise-icon-192-v2.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/assets/rise-icon-512-v1.png",
+      "src": "/assets/rise-icon-512-v2.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/assets/rise-icon-512-maskable-v1.png",
+      "src": "/assets/rise-icon-512-maskable-v2.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"

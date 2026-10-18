@@ -3,12 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#060b14">
+<meta name="theme-color" content="#151516">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="RISE HUB">
-<link rel="apple-touch-icon" sizes="180x180" href="/assets/rise-icon-180-v1.png">
-<link rel="icon" type="image/png" sizes="48x48" href="/assets/rise-favicon-48-v1.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/rise-icon-180-v2.png">
+<link rel="icon" type="image/svg+xml" href="/assets/rise-monogram-v2.svg">
+<link rel="icon" type="image/png" sizes="48x48" href="/assets/rise-favicon-48-v2.png">
+<link rel="preload" href="/assets/fonts/manrope-latin-v1.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="manifest" href="/manifest.webmanifest">
 <title>RISE HUB</title>
 <style>
@@ -117,7 +119,7 @@ body.microapp-open #appShell.shell{padding-bottom:calc(34px + env(safe-area-inse
 <section id="bootError" class="shell hidden" role="alert"><div class="boot-error"><div class="ey">RISE HUB</div><h1>No se pudo iniciar</h1><p id="bootErrorMessage">Comprueba tu conexión y vuelve a intentarlo.</p><button id="bootRetry" type="button">Reintentar</button></div></section>
 <div id="authScreen" class="shell">
   <div class="authwrap">
-    <div class="authlogo"><img class="brand-mark" src="/assets/rise-mark-384-v1.webp" width="384" height="384" alt=""></div>
+    <div class="authlogo"><img class="brand-mark" src="/assets/rise-monogram-v2.svg" width="76" height="76" alt=""></div>
     <div class="authcard">
       <div class="ey">Acceso privado</div>
       <h1>RISE HUB</h1>
@@ -139,8 +141,8 @@ body.microapp-open #appShell.shell{padding-bottom:calc(34px + env(safe-area-inse
 
 <div id="appShell" class="shell hidden">
 <section id="home" class="page active">
-<div class="rise-home-head"><div><h2>Tu centro de mando</h2><p class="small" data-rise-date></p></div></div>
-<div class="rise-hero"><picture><source media="(min-width: 700px)" srcset="/assets/rise/hero-1536-v1.webp"><img class="rise-hero-img" src="/assets/rise/hero-900-v1.webp" width="900" height="450" alt="" fetchpriority="high"></picture><div class="rise-hero-copy"><div class="ey">Personal command center</div><h1>RISE HUB</h1><p class="rise-hero-greet" data-rise-greeting>Hola.</p><p>Tu día. Tus misiones. Tu siguiente nivel.</p><button class="home-cta" data-open="gym">Comenzar mi siguiente nivel <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button></div></div>
+<div class="rise-home-head"><div><h2>Tu centro de mando</h2><p class="small" data-rise-date></p></div><button type="button" class="rise-search" data-rise-search aria-label="Buscar en RISE HUB (⌘K)"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span>Buscar</span><kbd>⌘K</kbd></button></div>
+<div class="rise-hero"><picture><img class="rise-hero-img" src="/assets/rise/editorial-v2.jpg" width="1536" height="768" alt="" fetchpriority="high"></picture><div class="rise-hero-copy"><div class="ey">RISE HUB / Tu espacio personal</div><h1>Un buen día empieza con claridad.</h1><p class="rise-hero-greet" data-rise-greeting>Hola.</p><p>Menos ruido. Espacio para lo que importa.</p><button class="home-cta" data-open="gym">Comenzar mi siguiente nivel <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button></div></div>
 <div class="section rise-section"><h3>Hoy</h3></div>
 <div id="personalHomeSummary" class="card" hidden aria-live="polite"></div>
 <div id="bodyHomeSummary" class="card" hidden aria-live="polite"></div>
@@ -226,19 +228,21 @@ body.microapp-open #appShell.shell{padding-bottom:calc(34px + env(safe-area-inse
 </section>
 </div>
 
-<nav id="bottomNav" class="nav hidden" aria-label="Navegación principal"><div class="nav-brand"><span class="nav-brand-mark"><img class="brand-mark" src="/assets/rise-mark-96-v1.webp" width="96" height="96" alt=""></span><span><span class="nav-brand-name">RISE HUB</span><span class="nav-brand-sub">PERSONAL COMMAND CENTER</span></span></div><div class="navin">
-<button class="active" data-open="home"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-6v-7h-4v7H4a1 1 0 0 1-1-1z"/></svg><span>Home</span></button>
-<button data-open="body"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2.2-6 4.2 12 2.2-6H21"/></svg><span>Body</span></button>
-<button data-open="study"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v17H6.5A2.5 2.5 0 0 0 4 22z"/><path d="M4 5.5v14A2.5 2.5 0 0 1 6.5 17H20M8 7h8M8 10h7"/></svg><span>SelfLearn</span></button>
-<button data-open="work"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg><span>Work</span></button>
-<button data-open="money"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15 8.5c-.6-.6-1.5-1-2.7-1-1.6 0-2.7.8-2.7 2s1.1 1.8 2.7 2.2 2.7 1 2.7 2.3-1.1 2.1-2.8 2.1c-1.2 0-2.2-.4-3-1.1M12 5.8v12.4"/></svg><span>My Finance</span></button>
-<button data-open="system"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 1.7 6.3L20 10l-6.3 1.7L12 18l-1.7-6.3L4 10l6.3-1.7z"/><path d="m19 16 .8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/></svg><span>System</span></button>
+<nav id="bottomNav" class="nav hidden" aria-label="Navegación principal"><div class="nav-brand"><span class="nav-brand-mark"><img class="brand-mark" src="/assets/rise-monogram-v2.svg" width="40" height="40" alt=""></span><span><span class="nav-brand-name">RISE HUB</span><span class="nav-brand-sub">PERSONAL OPERATING SYSTEM</span></span></div><div class="navin">
+<button class="active" data-open="home"><span class="nav-chip" aria-hidden="true"><svg class="nav-icon" viewBox="0 0 24 24"><path class="d" d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-4.5v-6h-5v6H5a1 1 0 0 1-1-1z"/><path d="M3 11 12 3.5 21 11M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5"/></svg></span><span class="nav-label"><span class="l-short">Home</span><span class="l-long">Home</span></span></button>
+<button data-open="body"><span class="nav-chip" aria-hidden="true"><svg class="nav-icon" viewBox="0 0 24 24"><path class="d" d="M12 20.5s-8-4.6-8-10.4A4.4 4.4 0 0 1 12 7.6a4.4 4.4 0 0 1 8 2.5c0 5.8-8 10.4-8 10.4z"/><path d="M12 20.5s-8-4.6-8-10.4A4.4 4.4 0 0 1 12 7.6a4.4 4.4 0 0 1 8 2.5c0 5.8-8 10.4-8 10.4z"/><path d="M6.5 12.5h3l1.5-3 2 5 1.5-2h3"/></svg></span><span class="nav-label"><span class="l-short">Body</span><span class="l-long">Body</span></span></button>
+<button data-open="study"><span class="nav-chip" aria-hidden="true"><svg class="nav-icon" viewBox="0 0 24 24"><path class="d" d="M3 5.5c3-1.2 6-1 9 1 3-2 6-2.2 9-1V19c-3-1.2-6-1-9 1-3-2-6-2.2-9-1z"/><path d="M3 5.5c3-1.2 6-1 9 1 3-2 6-2.2 9-1V19c-3-1.2-6-1-9 1-3-2-6-2.2-9-1zM12 6.5V20"/></svg></span><span class="nav-label"><span class="l-short">Learn</span><span class="l-long">SelfLearn</span></span></button>
+<button class="nav-ares" data-open="ares-center" aria-label="Abrir Ares AI"><span class="nav-orb" aria-hidden="true"><svg class="nav-icon" viewBox="0 0 24 24"><path class="f" d="M12 2.5c.6 4.4 2.9 6.8 7.3 7.4-4.4.6-6.7 3-7.3 7.4-.6-4.4-2.9-6.8-7.3-7.4 4.4-.6 6.7-3 7.3-7.4z"/><path class="f" d="M18.6 15.2c.25 1.7 1.1 2.6 2.8 2.85-1.7.25-2.55 1.15-2.8 2.85-.25-1.7-1.1-2.6-2.8-2.85 1.7-.25 2.55-1.15 2.8-2.85z"/></svg></span><span class="nav-label"><span class="l-short">ARES</span><span class="l-long">Ares AI</span></span></button>
+<button data-open="work"><span class="nav-chip" aria-hidden="true"><svg class="nav-icon" viewBox="0 0 24 24"><rect class="d" x="3" y="7.5" width="18" height="12.5" rx="2.5"/><rect x="3" y="7.5" width="18" height="12.5" rx="2.5"/><path d="M8.5 7.5V6a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v1.5M3 13h18M10.5 13v1.5h3V13"/></svg></span><span class="nav-label"><span class="l-short">Work</span><span class="l-long">Work</span></span></button>
+<button data-open="money"><span class="nav-chip" aria-hidden="true"><svg class="nav-icon" viewBox="0 0 24 24"><path class="d" d="M4 7.5h14a2 2 0 0 1 2 2V18a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M4 7.5h14a2 2 0 0 1 2 2V18a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zM4 7.5V6.5a2 2 0 0 1 2-2h9.5"/><path d="M15 12.5h5v3.5h-5a1.75 1.75 0 0 1 0-3.5z"/><circle class="f" cx="16" cy="14.25" r=".9"/></svg></span><span class="nav-label"><span class="l-short">Finance</span><span class="l-long">My Finance</span></span></button>
+<button data-open="system"><span class="nav-chip" aria-hidden="true"><svg class="nav-icon" viewBox="0 0 24 24"><rect class="d" x="3" y="3" width="18" height="18" rx="5"/><path d="M7 8h10M7 12h10M7 16h10"/><circle class="k" cx="10" cy="8" r="1.9"/><circle class="k" cx="15" cy="12" r="1.9"/><circle class="k" cx="9" cy="16" r="1.9"/></svg></span><span class="nav-label"><span class="l-short">System</span><span class="l-long">System</span></span></button>
 </div></nav>
 <div id="updateBanner" class="update-banner hidden" role="status">Nueva versión disponible.<button id="updateNow">Actualizar</button></div>
 
 <link rel="stylesheet" href="/assets/rise-roadmap.css">
 <link rel="stylesheet" href="/assets/shift-tracker.css">
 <link rel="stylesheet" href="/assets/ares-chat.css">
+<link rel="stylesheet" href="/assets/rise-editorial.css">
 <script type="module" src="/app.js"></script>
 </body>
 </html>
