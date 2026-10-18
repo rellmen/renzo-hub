@@ -1,5 +1,11 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## 2.42.0 (2026-10-18) · SelfLearn conserva la última respuesta al cerrar sesión + estado de sincronización
+
+- "Cerrar sesión" sube antes lo pendiente de SelfLearn (`world.flush()`, máx. 4 s); antes la última respuesta quedaba solo en el dispositivo. E2E nuevo en `tests/e2e/selflearn.mjs`.
+- Datos personales autorizados actualizados en Supabase de producción (sin migraciones, con historial). Estado real y pruebas: `docs/DATA-SYNC-STATUS.md`; pendientes: `docs/DATA-SYNC-HANDOFF.md`.
+- Caché `renzo-hub-cloud-v45-data-sync`. PR hacia `staging`; producción sigue en 2.36.1 hasta que Renzo fusione.
+
 ## 2.41.1 (2026-10-18) · Acceso directo al CRM de Nodalys · preparado para staging
 
 - Work → "Accesos externos": tarjeta que abre el CRM de Nodalys en claude.ai en una pestaña nueva. Es solo un enlace: sin código, datos, credenciales ni agentes de Nodalys en RISE HUB (se mantiene la separación de AGENTS.md).

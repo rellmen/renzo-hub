@@ -163,7 +163,11 @@ $("loginForm").addEventListener("submit",async e=>{
   try{const {error}=await supabase.auth.signInWithPassword({email:$("email").value.trim(),password:$("password").value});if(error)throw error;}
   catch(error){$("authMessage").textContent=error?.message||"No se pudo iniciar sesión. Comprueba la conexión e inténtalo de nuevo.";$("authMessage").className="authmsg err";}
 });
-$("logoutBtn").addEventListener("click",async()=>{await supabase.auth.signOut();});
+$("logoutBtn").addEventListener("click",async()=>{
+  // Sube el progreso pendiente (SelfLearn agrupa 1,2 s) antes de invalidar la sesión; como mucho espera 4 s.
+  try{await Promise.race([world.flush(),new Promise(r=>setTimeout(r,4000))]);}catch(error){console.warn("[renzo-hub] no se pudo subir lo pendiente antes de salir",error?.message);}
+  await supabase.auth.signOut();
+});
 
 supabase.auth.onAuthStateChange((event,session)=>{
   if(user?.id!==session?.user?.id){confirmedContext.reset();eachApp(api=>api.reset?.());}

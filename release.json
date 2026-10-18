@@ -1,6 +1,6 @@
 {
-  "release": "2.41.1",
-  "name": "RISE HUB · acceso directo externo al CRM de Nodalys en Work",
+  "release": "2.42.0",
+  "name": "RISE HUB · SelfLearn conserva la última respuesta al cerrar sesión + estado de sincronización de datos",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",

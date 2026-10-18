@@ -127,5 +127,18 @@ try{
  const diag=await page.evaluate(KEY=>JSON.parse(localStorage.getItem(KEY)).learningSettings.courses.en.placement,KEY);
  assert.equal(diag.total,12);assert.equal(diag.recommended,"C2");
  console.log("OK: diagnóstico de inglés guardado (recomienda C2 con 12/12)");
+ // Cerrar sesión justo después de responder y abrir en "otro dispositivo" (sin copia local).
+ // Antes de 2.42.0, reset() llegaba tras signOut() y la última respuesta (aún en el temporizador de 1,2 s) no subía.
+ await page.evaluate(()=>{document.querySelector('[data-sl="close-summary"]')?.click();document.querySelector('[data-sl="course"][data-course="nl"]').click();});
+ await page.evaluate(()=>document.querySelector('.sl-next [data-sl="start"]').click());
+ await page.evaluate(()=>window.__answer("nl"));await page.evaluate(()=>window.__answer("nl"));
+ const beforeLogout=await page.evaluate(KEY=>({local:JSON.parse(localStorage.getItem(KEY)).learningRuns.nl.index,cloud:window.__cloud.state?.state?.learningRuns?.nl?.index??null}),KEY);
+ assert.equal(beforeLogout.local,2);assert.notEqual(beforeLogout.cloud,2,"la subida debería estar aún agrupada (control del test)");
+ await page.evaluate(async()=>{await window.__selflearn.app.flush();window.__selflearn.app.reset();});
+ await page.evaluate(KEY=>localStorage.removeItem(KEY),KEY);
+ await page.evaluate(()=>window.__mount());
+ const otherDevice=await page.evaluate(()=>({cloud:window.__cloud.state?.state?.learningRuns?.nl?.index,resume:document.querySelector(".sl-resume small")?.textContent||""}));
+ assert.equal(otherDevice.cloud,2,"la respuesta previa a cerrar sesión no llegó a Supabase");assert.match(otherDevice.resume,/^2\//);
+ console.log("OK: cerrar sesión 0,1 s después de responder conserva el progreso en otro dispositivo");
  assert.deepEqual(errors,[],"errores de JavaScript en la página");
 }finally{await browser.close();}
