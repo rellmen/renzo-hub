@@ -1,6 +1,6 @@
 {
-  "release": "2.36.1",
-  "name": "RISE HUB · diseño editorial de Lovable sobre las funciones de producción",
+  "release": "2.42.0",
+  "name": "RISE HUB · SelfLearn conserva la última respuesta al cerrar sesión + estado de sincronización de datos",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",

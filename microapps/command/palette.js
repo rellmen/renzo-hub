@@ -3,7 +3,7 @@
 import { AREAS, MICROAPPS } from "../registry.js";
 
 const HINTS = {
-  home: "Tu día", body: "Gym, comida y skincare", study: "Neerlandés A0–B2 y cursos", work: "Proyectos y tareas",
+  home: "Tu día", body: "Gym, comida y skincare", study: "Neerlandés A0–B2 e inglés B1–C2", work: "Proyectos y tareas",
   money: "Resumen, nóminas y gastos", system: "Ajustes, hábitos y sincronización", car: "Gastos del coche",
   payroll: "Nóminas de SD Worx", gym: "Entrenamiento", news: "Resúmenes", skin: "Rutina AM/PM", food: "Plan diario y compra",
   settings: "Cuenta", "ares-center": "Tu asistente", notes: "Apuntes privados", gastos: "Movimientos del banco"

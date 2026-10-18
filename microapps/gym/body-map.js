@@ -20,11 +20,13 @@ export function intensity(sets,max){
  if(!Number.isFinite(sets)||sets<=0)return 0;
  return Math.min(4,Math.max(1,Math.ceil(sets/Math.max(1,max)*4)));
 }
-export function bodyMapSvg(counts={},view='front'){
+// fills (opcional): {músculo: color} para pintar el mapa por rango en vez de por volumen.
+export function bodyMapSvg(counts={},view='front',fills=null){
  const parts=view==='back'?back:front;
  const max=Math.max(1,...Object.values(counts).map(v=>Number(v)||0));
  const regions=parts.map(([muscle,paths])=>{
   const count=Number(counts[muscle])||0,level=intensity(count,max);
+  if(fills){const color=fills[muscle];return `<path d="${paths}" class="gym-body-region gym-body-rank${color?'':' gym-body-empty'}" data-muscle="${escapeHtml(muscle)}" ${color?`style="fill:${escapeHtml(color)}"`:''} role="img" aria-label="${escapeHtml(muscle)}: ${color?'con rango':'sin datos'}"><title>${escapeHtml(muscle)}</title></path>`;}
   return `<path d="${paths}" class="gym-body-region gym-body-level-${level}" data-muscle="${escapeHtml(muscle)}" tabindex="0" role="img" aria-label="${escapeHtml(muscle)}: ${count} series" ><title>${escapeHtml(muscle)}: ${count} series</title></path>`;
  }).join('');
  return `<svg viewBox="40 0 160 350" class="gym-body-svg" role="group" aria-label="Mapa ilustrativo ${view==='front'?'frontal':'posterior'} de series semanales"><path d="M108 11 Q120 0 132 11 L133 35 L126 47 L127 58 L145 52 Q170 50 177 68 L190 121 L178 148 L163 143 L166 170 L151 185 L154 259 L149 334 L126 334 L120 258 L114 334 L91 334 L86 259 L89 185 L74 170 L77 143 L62 148 L50 121 L63 68 Q70 50 95 52 L113 58 L114 47 L107 35 Z" fill="var(--card2,#1b1e35)" stroke="currentColor" stroke-opacity=".35" stroke-width="2"/>${regions}</svg>`;

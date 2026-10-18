@@ -80,6 +80,7 @@ test("Búsqueda ⌘K: lista todas las secciones y prioriza coincidencias por nom
   const items = paletteItems();
   assert.equal(items.length, SECTION_IDS.length);
   assert.equal(filterItems(items, "nomi")[0].id, "payroll");
+  assert.equal(filterItems(items, "ingles")[0].id, "study");
   assert.equal(filterItems(items, "neerlandes")[0].id, "study");
   assert.equal(filterItems(items, "").length, items.length);
 });

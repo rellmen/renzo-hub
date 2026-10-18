@@ -1,0 +1,39 @@
+/* RISE HUB 2.40.0 · microapps con más aire.
+   Trae al repo la mejora de densidad del prototipo de Lovable (18 oct): más espacio interior, textos
+   pequeños legibles, filas y campos cómodos de tocar. Solo presentación, sin cambiar estructura,
+   datos ni comportamiento. Se limita a la microapp abierta (nunca a Home ni a la navegación) y se
+   carga la última para ganar a las capas anteriores sin !important. */
+
+html body #appShell .page.active:not(#home) { line-height: 1.55; }
+html body #appShell .page.active:not(#home) :where(p, li) { line-height: 1.6; }
+
+/* Cabecera de cada microapp: título y descripción menos amontonados */
+html body #appShell .page.active:not(#home) :where(.back, .microapp-back) { min-height: 44px; margin-bottom: 14px; display: inline-flex; align-items: center; }
+html body #appShell .page.active:not(#home) .top { margin-bottom: 24px; }
+html body #appShell .page.active:not(#home) .top h1 { margin-top: 6px; line-height: 1.2; }
+
+/* Tarjetas: más espacio interior y separación entre bloques */
+html body #appShell .page.active:not(#home) :where(.card, .app, .product, .worldhero, .study-next, .study-extras) { padding: 20px; }
+html body #appShell .page.active:not(#home) :where(:not(.worldgrid, .mx-stack, .reportgrid, .products, .apps, .pay-grid, .quick)) > :where(.card, .app, .hero) + :where(.card, .app, .hero) { margin-top: 20px; }
+html body #appShell .page.active:not(#home) :where(.worldgrid, .mx-stack, .reportgrid, .products, .apps, .pay-grid) { gap: 20px; }
+html body #appShell .page.active:not(#home) :where(.worldform, .sl-form, .car-form, .quick, .sl-units, .sl-stats, .actions, .step) { gap: 14px; }
+
+/* Textos pequeños: nada por debajo de 12 px; notas y ayudas a 13 px */
+html body #appShell .page.active:not(#home) :where(small, .small, .worldhint, .hint, .sl-note, .sl-exam, label) { font-size: 13px; line-height: 1.5; }
+html body #appShell .page.active:not(#home) :where(.ey, .worldbadge, .sl-unit-go, .microapp-context, .pill, code, .sl-skills span, .product > div > span) { font-size: 12px; line-height: 1.45; }
+
+/* Objetivos táctiles y filas cómodas */
+html body #appShell .page.active:not(#home) :where(button, [role="button"], a.button) { min-height: 44px; }
+html body #appShell .page.active:not(#home) summary { min-height: 48px; padding-block: 12px; }
+html body #appShell .page.active:not(#home) .sl-unit { gap: 12px; padding: 16px; min-height: 64px; }
+
+/* Formularios: campos más altos y separados; 16 px evita el zoom automático de iOS */
+html body #appShell .page.active:not(#home) :where(input:not([type="checkbox"], [type="radio"], [type="range"], [type="file"], [type="color"]), select) { min-height: 48px; font-size: 16px; padding: 12px 14px; box-sizing: border-box; }
+html body #appShell .page.active:not(#home) textarea { min-height: 96px; font-size: 16px; padding: 12px 14px; line-height: 1.5; }
+html body #appShell .page.active:not(#home) label > :where(input, select, textarea) { margin-top: 8px; }
+
+@media (min-width: 1024px) {
+  html body #appShell .page.active:not(#home) :where(.card, .app, .product, .worldhero, .study-next, .study-extras) { padding: 28px; }
+  html body #appShell .page.active:not(#home) :where(.worldgrid, .mx-stack, .reportgrid, .products, .apps, .pay-grid) { gap: 24px; }
+  html body #appShell .page.active:not(#home) :where(input:not([type="checkbox"], [type="radio"], [type="range"], [type="file"], [type="color"]), select, textarea) { font-size: 15px; }
+}

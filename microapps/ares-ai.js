@@ -1,6 +1,7 @@
 // Ares AI — chat privado de RISE HUB.
 import {isDevelopmentQuestion,formatDevelopmentSources} from "./ares-development.js";
-export const ARES_QUERY_TYPES = ["renzo_project", "renzo_task", "renzo_inbox", "ares_decision", "ares_operation", "ares_agent_run", "renzo_event"];
+import {personalTopic,contextAnswer,confirmedFacts,isExternalSummaryQuestion} from './confirmed-context.js';
+export const ARES_QUERY_TYPES = ["renzo_project", "renzo_task", "renzo_inbox", "ares_decision", "ares_operation", "ares_agent_run", "renzo_event", "personal_fact"];
 export function aresNormalize(value){return String(value||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();}
 const f=v=>aresNormalize(v), st=r=>String(r.payload?.status||r.status||"sin estado");
 const openTask=r=>!["completed","done","cancelled","archived"].includes(f(st(r)));
@@ -9,6 +10,8 @@ const agentEvent=r=>r.record_type==="ares_agent_run"||(r.record_type==="renzo_ev
 const summary=(title,rows)=>title+(rows.length?"\n"+rows.slice(0,8).map((r,i)=>`${i+1}. ${r.title||"Sin título"} — ${st(r)}`).join("\n")+(rows.length>8?`\n... y ${rows.length-8} más.`:""):"\nNo hay registros en los datos consultados.");
 export function answerAres(q,records,previous=""){
   const rows=Array.isArray(records)?records:[],text=f(q),by=t=>rows.filter(r=>r.record_type===t),limited=rows.length>=500?" (muestra parcial de 500 registros recientes)":"";
+  const personal=personalTopic(q,previous);
+  if(personal&&(personal!=='finance'||confirmedFacts(rows,'finance').length))return {topic:personal,text:contextAnswer(rows,personal)};
   const projects=by("renzo_project").filter(r=>f(st(r))!=="completed"),tasks=by("renzo_task").filter(openTask);
   const review=by("renzo_inbox").filter(pendingInbox),operations=by("ares_operation").filter(r=>r.status==="pending_approval"),decisions=by("ares_decision").filter(r=>r.status==="pending");
   const events=rows.filter(agentEvent);
@@ -30,7 +33,7 @@ const node=(tag,cls,value)=>{const n=document.createElement(tag);if(cls)n.classN
 export function mountAresAI({supabase,getUser,navigate}){
  const launch=node("button","ares-fab","✧  Ares AI");launch.type="button";launch.hidden=true;launch.setAttribute("aria-label","Hablar con Ares AI");
  const panel=node("section","ares-chat");panel.hidden=true;panel.setAttribute("role","dialog");panel.setAttribute("aria-modal","true");panel.setAttribute("aria-label","Ares AI");
- panel.innerHTML='<header class="ares-chat-head"><div class="ares-avatar">✧</div><div><strong>Ares AI</strong><small>Tu asistente personal de RISE HUB</small></div><button type="button" class="ares-close" aria-label="Cerrar Ares AI">✕</button></header><div class="ares-chat-stream" role="log" aria-live="polite"></div><div class="ares-chat-suggestions"><button type="button" data-suggest="¿Cómo van mis proyectos?">Proyectos</button><button type="button" data-suggest="¿Qué tareas tengo pendientes?">Mis tareas</button><button type="button" data-suggest="¿Qué debo aprobar?">Aprobaciones</button><button type="button" data-suggest="¿Qué han hecho mis agentes?">Agentes</button><button type="button" data-suggest="¿En qué fase de desarrollo está RISE HUB?">Estado de desarrollo</button></div><form class="ares-chat-form"><label class="ares-sr" for="aresQuestion">Escribe a Ares AI</label><textarea id="aresQuestion" maxlength="500" rows="1" placeholder="Pregunta lo que quieras de tu Hub…" aria-label="Tu mensaje"></textarea><button type="submit" aria-label="Enviar">↑</button></form><p class="ares-chat-foot">Respuestas basadas en tu Hub · Sin IA generativa externa</p>';
+ panel.innerHTML='<header class="ares-chat-head"><button type="button" class="ares-back" aria-label="Salir de Ares AI"><span aria-hidden="true">←</span><span class="ares-back-text">Salir</span></button><div class="ares-avatar">✧</div><div><strong>Ares AI</strong><small>Tu asistente personal de RISE HUB</small></div><button type="button" class="ares-close" aria-label="Cerrar Ares AI">✕</button></header><div class="ares-chat-stream" role="log" aria-live="polite"></div><div class="ares-chat-suggestions"><button type="button" data-suggest="¿Cómo van mis proyectos?">Proyectos</button><button type="button" data-suggest="¿Qué tareas tengo pendientes?">Mis tareas</button><button type="button" data-suggest="¿Qué debo aprobar?">Aprobaciones</button><button type="button" data-suggest="¿Qué han hecho mis agentes?">Agentes</button><button type="button" data-suggest="¿En qué fase de desarrollo está RISE HUB?">Estado de desarrollo</button></div><form class="ares-chat-form"><label class="ares-sr" for="aresQuestion">Escribe a Ares AI</label><textarea id="aresQuestion" maxlength="500" rows="1" placeholder="Pregunta lo que quieras de tu Hub…" aria-label="Tu mensaje"></textarea><button type="submit" aria-label="Enviar">↑</button></form><p class="ares-chat-foot">Respuestas basadas en tu Hub · Sin IA generativa externa</p>';
  document.body.append(launch,panel);
  const stream=panel.querySelector(".ares-chat-stream"),input=panel.querySelector("textarea"),form=panel.querySelector("form");
  let owner=null,topic="",generation=0,busy=false,isOpen=false,aiEnabled=false,returnFocus=null;
@@ -39,13 +42,15 @@ export function mountAresAI({supabase,getUser,navigate}){
  function clear(){generation++;stream.replaceChildren();topic="";busy=false;input.value="";form.querySelector('[type="submit"]').disabled=false;}
  async function checkAI(){try{const res=await fetch("/api/ares-ai",{cache:"no-store",signal:AbortSignal.timeout(5000)});const data=res.ok?await res.json():{};aiEnabled=data.enabled===true;foot.textContent=aiEnabled?"OpenRouter/free activado · solo nombres y estados seleccionados de proyectos/tareas":"Consultas privadas sin IA externa · sin envío de datos a modelos externos";}catch{aiEnabled=false;foot.textContent="Consultas locales de tus registros";}}
  function setSession(){const id=getUser()?.id||null;if(id!==owner){owner=id;clear();}launch.hidden=!id;if(!id){panel.hidden=true;isOpen=false;document.body.classList.remove("ares-chat-open");}}
- function open(){setSession();if(!owner)return;if(!isOpen)returnFocus=document.activeElement;void checkAI();panel.hidden=false;isOpen=true;document.body.classList.add("ares-chat-open");fitViewport();if(!history.state?.aresChat)history.pushState({...(history.state||{}),aresChat:true},"");if(!stream.children.length)bubble("bot","Hola, soy Ares AI. Puedo consultar tus proyectos, tareas, revisiones y agentes a partir de los registros reales de RISE HUB. ¿Qué quieres saber?");if(!touch())input.focus();}
- function close({fromHistory=false}={}){if(!isOpen&&panel.hidden)return;if(panel.contains(document.activeElement))document.activeElement.blur();panel.hidden=true;isOpen=false;document.body.classList.remove("ares-chat-open");panel.style.removeProperty("height");panel.style.removeProperty("top");if(!fromHistory&&history.state?.aresChat)history.back();if(!touch()){const target=[returnFocus,document.querySelector('#bottomNav [data-open="ares-center"]'),launch].find(el=>el instanceof HTMLElement&&el!==document.body&&el.getClientRects().length&&getComputedStyle(el).visibility!=="hidden");target?.focus();}returnFocus=null;}
+ function open(){setSession();if(!owner)return;if(!isOpen)returnFocus=document.activeElement;void checkAI();panel.hidden=false;isOpen=true;document.body.classList.add("ares-chat-open");syncNav();fitViewport();if(!history.state?.aresChat)history.pushState({...(history.state||{}),aresChat:true},"");if(!stream.children.length)bubble("bot","Hola, soy Ares AI. Puedo consultar tus proyectos, tareas, revisiones y agentes a partir de los registros reales de RISE HUB. ¿Qué quieres saber?");if(!touch())input.focus();}
+ function close({fromHistory=false}={}){if(!isOpen&&panel.hidden)return;if(panel.contains(document.activeElement))document.activeElement.blur();panel.hidden=true;isOpen=false;document.body.classList.remove("ares-chat-open","ares-kb");syncNav();panel.style.removeProperty("height");panel.style.removeProperty("top");if(!fromHistory&&history.state?.aresChat)history.back();if(!touch()){const target=[returnFocus,document.querySelector('#bottomNav [data-open="ares-center"]'),launch].find(el=>el instanceof HTMLElement&&el!==document.body&&el.getClientRects().length&&getComputedStyle(el).visibility!=="hidden");target?.focus();}returnFocus=null;}
  // Móvil: sin foco automático (el teclado tapaba la cabecera y el botón de cerrar al terminar una respuesta),
  // el panel se ajusta al área visible cuando aparece el teclado y el gesto/botón "atrás" cierra el chat.
  function touch(){return matchMedia("(pointer:coarse)").matches;}
- function fitViewport(){const vv=window.visualViewport;if(!vv||!isOpen||!matchMedia("(max-width:650px)").matches){panel.style.removeProperty("height");panel.style.removeProperty("top");return;}panel.style.height=vv.height+"px";panel.style.top=vv.offsetTop+"px";}
- window.visualViewport?.addEventListener("resize",fitViewport);window.visualViewport?.addEventListener("scroll",fitViewport);
+ function navSpace(keyboard){const nav=document.getElementById("bottomNav");if(keyboard||!nav||nav.classList.contains("hidden"))return 0;const r=nav.getBoundingClientRect();return r.height?Math.max(0,Math.round(innerHeight-r.top+8)):0;}
+ // Móvil: la barra inferior sigue visible debajo del chat (su botón central lo cierra); con el teclado abierto se oculta.
+ function fitViewport(){const vv=window.visualViewport;const mobile=matchMedia("(max-width:650px)").matches;if(!isOpen||!mobile){panel.style.removeProperty("height");panel.style.removeProperty("top");document.body.classList.remove("ares-kb");return;}const h=vv?vv.height:innerHeight;const keyboard=h<innerHeight*0.75;document.body.classList.toggle("ares-kb",keyboard);panel.style.height=Math.max(240,h-navSpace(keyboard))+"px";panel.style.top=(vv?vv.offsetTop:0)+"px";}
+ window.visualViewport?.addEventListener("resize",fitViewport);window.visualViewport?.addEventListener("scroll",fitViewport);window.addEventListener("resize",fitViewport);
  window.addEventListener("popstate",()=>{if(isOpen)close({fromHistory:true});});
  function reset(){owner=null;clear();panel.hidden=true;launch.hidden=true;isOpen=false;document.body.classList.remove("ares-chat-open");}
  async function records(){const id=owner;if(!id||id!==getUser()?.id)throw Error("Inicia sesión para preguntar.");const {data,error}=await supabase.from("hub_records").select("id,domain,record_type,title,status,occurred_at,payload,source,requires_review").eq("owner_id",id).in("record_type",ARES_QUERY_TYPES).order("occurred_at",{ascending:false}).limit(500);if(error)throw Error("La consulta privada ha fallado: "+error.message);if(id!==getUser()?.id)throw Error("La sesión ha cambiado.");return data||[];}
@@ -69,7 +74,8 @@ export function mountAresAI({supabase,getUser,navigate}){
     }
     const rows=await records();if(seq!==generation||owner!==getUser()?.id)return;placeholder.remove();const task=detectTask(text);if(task){bubble("bot",`He preparado una solicitud para ${task.agent}: “${task.task}”. Debes confirmarla para guardarla en AI Inbox. No ejecutará ninguna tarea.`,[{type:"request",label:"Crear solicitud pendiente",...task}]);topic="agents";}else{
         let aiReply=null,aiSource="OpenRouter/free · modelo externo";
-        if(aiEnabled){
+        const privateTopic=personalTopic(text,topic);
+        if(aiEnabled&&!privateTopic&&isExternalSummaryQuestion(text)){
           try{
             const session=await supabase.auth.getSession();
             if(session?.data?.session?.access_token){
@@ -107,10 +113,12 @@ export function mountAresAI({supabase,getUser,navigate}){
    }
   }catch(e){bubble("bot","No he podido realizar la acción: "+String(e.message||e));button.disabled=false;}
  }
- launch.addEventListener("click",open);panel.querySelector(".ares-close").addEventListener("click",()=>close());
+ launch.addEventListener("click",open);panel.querySelector(".ares-close").addEventListener("click",()=>close());panel.querySelector(".ares-back").addEventListener("click",()=>close());
  panel.querySelectorAll("[data-suggest]").forEach(b=>b.addEventListener("click",()=>void send(b.dataset.suggest)));
  form.addEventListener("submit",e=>{e.preventDefault();void send(input.value);});
  input.addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();form.requestSubmit();}});
  window.addEventListener("keydown",e=>{if(e.key==="Escape"&&isOpen)close();if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==="k"&&owner){e.preventDefault();isOpen?close():open();}});
- return {open,close,reset,setSession,send};
+ function syncNav(){const b=document.querySelector('#bottomNav [data-open="ares-center"]');if(!b)return;b.setAttribute("aria-expanded",String(isOpen));b.setAttribute("aria-label",isOpen?"Ocultar Ares AI":"Abrir Ares AI");}
+ function toggle(){isOpen?close():open();}
+ return {open,close,toggle,isOpen:()=>isOpen,reset,setSession,send};
 }

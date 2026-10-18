@@ -1,11 +1,98 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## 2.42.0 (2026-10-18) · SelfLearn conserva la última respuesta al cerrar sesión + estado de sincronización
+
+- "Cerrar sesión" sube antes lo pendiente de SelfLearn (`world.flush()`, máx. 4 s); antes la última respuesta quedaba solo en el dispositivo. E2E nuevo en `tests/e2e/selflearn.mjs`.
+- Datos personales autorizados actualizados en Supabase de producción (sin migraciones, con historial). Estado real y pruebas: `docs/DATA-SYNC-STATUS.md`; pendientes: `docs/DATA-SYNC-HANDOFF.md`.
+- Caché `renzo-hub-cloud-v45-data-sync`. PR hacia `staging`; producción sigue en 2.36.1 hasta que Renzo fusione.
+
+## 2.41.1 (2026-10-18) · Acceso directo al CRM de Nodalys · preparado para staging
+
+- Work → "Accesos externos": tarjeta que abre el CRM de Nodalys en claude.ai en una pestaña nueva. Es solo un enlace: sin código, datos, credenciales ni agentes de Nodalys en RISE HUB (se mantiene la separación de AGENTS.md).
+- Caché `renzo-hub-cloud-v44-crm-link`; sin migraciones ni cambios de configuración.
+
+## 2.41.0 (2026-10-18) · Contexto personal autorizado · preparado para staging
+
+- Datos privados sincronizados exclusivamente en las tablas existentes de producción, con procedencia y fecha; sin migraciones, cambios de permisos ni copia de datos a staging. Los valores y las copias previas quedan fuera de Git.
+- Nuevo tipo `personal_fact`: separa declaraciones confirmadas, referencias históricas, identificaciones fotográficas y datos pendientes. No genera saldos, pagos, sesiones, niveles ni certificados.
+- Paneles privados en Perfil/System, My Finance, Work, SelfLearn, Gym y Skin. Ares usa esas mismas fuentes con filtros por propietario y respuestas locales para temas personales; no amplía el acceso del proveedor externo.
+- Conserva registros, vocabulario, preferencias y sesiones de SelfLearn. Añade soporte para guardar la meta de inglés en el contexto existente de perfil.
+- Verificación local: 285 tests unitarios; E2E de contexto privado (0 POSTs a IA externa), SelfLearn y Ares en móvil/escritorio. Pruebas de lectura e inserción/actualización entre propietarios ejecutadas contra la base real y revertidas.
+- Producción comprobada: 2.36.1, commit `80739b24eebb1c4db93f99fb3af38f7c7cf0ad1c`, Vercel `READY`. Staging comprobado: 2.39.0. Esta versión 2.41.0 todavía no está desplegada.
+- Caché `renzo-hub-cloud-v43-confirmed-context`; alcance y límites en `docs/CONFIRMED-CONTEXT.md`.
+
+## 2.40.0 (2026-10-18) · Ares fácil de cerrar en el móvil y microapps con más aire · PR hacia staging (sin desplegar)
+
+- **Ares AI en el móvil:** botón **Salir** grande a la izquierda de la cabecera (zona del pulgar) además del ✕; la cabecera queda por debajo de la barra de estado del iPhone (la app usa `black-translucent`, antes el ✕ quedaba debajo de la hora y la isla). La barra inferior sigue visible encima del chat y su botón central es un **interruptor** (abre y cierra, con `aria-expanded`); tocar otra sección de la barra cierra Ares y la abre. Con el teclado abierto la barra se oculta y el chat ocupa la zona visible. Escape, ✕ y "atrás" siguen funcionando y los mensajes se conservan.
+- **Microapps con más aire** (`assets/rise-microapps-air.css`, se carga la última y solo afecta a la microapp abierta, nunca a Home ni a la navegación): tarjetas con 20 px de margen interior en móvil y 28 px en escritorio, más separación entre bloques, textos pequeños a 12–13 px (antes había de 10,5–11 px), interlineado 1,55–1,6, botones de al menos 44 px, desplegables de 48 px y campos de formulario de 48 px con letra de 16 px (evita el zoom de iOS). Medido a 390 px: textos < 12 px pasan de 231 a 0 en las 14 secciones; sin scroll horizontal.
+- Trae al repo lo hecho en el prototipo de Lovable (18 oct) re-implementado en CSS propio, sin cambiar estructura, datos ni comportamiento. Toca la presentación de Gym, Skin, Food y SelfLearn (áreas de ChatGPT) solo a través de esta capa común: avisado en `docs/COLABORACION-IA.md`.
+- E2E nuevo `tests/e2e/ares-mobile-exit.mjs` (Chromium y WebKit, en CI). Caché `renzo-hub-cloud-v42-ares-air`. Sin migraciones ni cambios de esquema.
+
+## 2.39.0 (2026-10-18) · Versión unificada: producción + staging · PR hacia staging (sin desplegar)
+
+- **Por qué:** el PR #83 publicó en producción (2.36.1) la interfaz editorial con correcciones de QA, sin pasar por staging. Staging tenía esa misma interfaz más SelfLearn 3 y el Gym completo (2.34–2.38). Hacía falta unir las dos ramas antes de que staging pueda pasar a main.
+- **Se conserva de producción:** búsqueda ⌘K accesible (combobox, opción activa visible, "Sin resultados" anunciado) y sin abrir Ares a la vez, retorno de foco de Ares, launcher de Ares visible dentro de las microapps, portada exacta de Lovable (`editorial-v2.jpg`), iconos sin reflejos desbordados y sus pruebas E2E de navegación.
+- **Se conserva de staging:** todo SelfLearn 3 y el Gym 2.36–2.38; la búsqueda mantiene la pista "Neerlandés A0–B2 e inglés B1–C2".
+- Caché `renzo-hub-cloud-v41-unified` (unión de los recursos de ambas). Sin migraciones ni cambios de esquema.
+
+## 2.38.0 (2026-10-18) · Gym terminado: pack final · PR hacia staging (sin desplegar)
+
+- **Calentamiento automático** en compuestos (barra vacía × 8 → 60 % × 5 → 80 % × 3; en máquina 50 % × 8 → 75 % × 4). No se anota ni cuenta en volumen ni récords.
+- **Gráfica de fuerza** en cada ejercicio de la sesión: evolución del e1RM por sesión y cambio en las últimas 4 semanas ("↑ 4,3 % en 28 días"; "= sin cambios" si no se mueve).
+- **Superseries**: casilla "Superserie con el siguiente" en el editor de rutinas (se guarda como 7.º campo del ejercicio, sin cambios de esquema). En la sesión se marcan A1/A2 y, tras una serie de A1, no salta el descanso: "pasa a A2 sin descanso".
+- **Cambiar ejercicio en mitad de la sesión** (máquina ocupada o molestia): alternativas del mismo patrón y músculo, recalcula la sugerencia con tu historial de ese ejercicio. Solo en esa sesión, la rutina no cambia; no se permite si ya hay series hechas.
+- **Pantalla encendida** durante la sesión (Screen Wake Lock); se suelta al terminar o salir de Entrenar.
+- **Semana de descarga**: aviso si llevas ≥6 semanas seguidas con 2+ sesiones o si ≥2 compuestos llevan 3 sesiones sin superar su récord. Al activarla, las sesiones de esa semana llevan la mitad de series y −10 % de carga; caduca sola el lunes.
+- **Balance semanal por músculo** en Progreso: series de esta semana frente al rango orientativo 10–20, con la semana pasada entre paréntesis.
+- **Recordatorio de foto de progreso** cada 4 semanas en Entrenar, con "Ahora no" (7 días).
+- Nuevos módulos `microapps/gym/coach.js` (funciones puras) y `wake-lock.js`. Tests: 280 unitarios (5 nuevos en `tests/gym-coach.test.mjs`) y E2E `gym-symmetry.mjs` ampliado en Chromium y WebKit. Caché `renzo-hub-cloud-v40-gym-final`.
+
+## 2.37.0 (2026-10-18) · Gym completo: fotos, rutina por preguntas y biblioteca 107 · PR hacia staging (sin desplegar)
+
+- **Fotos de progreso privadas** (`photos-view.js` + `progress-photos.js`): subir con fecha y pose (frontal, lateral, espalda), galería por pose y **comparador antes/después con deslizador** ("12 semanas de diferencia"). Antes de subir, la foto se reduce a 1600 px y se vuelve a guardar en JPEG en el propio móvil, lo que **borra los datos EXIF y la ubicación GPS**. Bucket privado existente `progress-photos`, carpeta `<usuario>/gym/` (Skin sigue en `<usuario>/skin/`), enlaces firmados de 5 min, borrar con confirmación. Sin migraciones: fecha y pose van en el nombre del archivo.
+- **Rutina con 3 preguntas** en Rutinas (días 2–5, gimnasio completo o solo máquinas, objetivo músculo/fuerza/salud): enseña la propuesta de cinco días, la carga como borrador y **solo se guarda al pulsar Guardar rutina**. Corrige la base de ChatGPT: el objetivo ocupaba el campo de cardio y los compuestos no estaban marcados (afectaba a progresión y descanso).
+- **Biblioteca de 107 ejercicios** con técnica (3 claves + error típico), músculo y equipamiento; el editor la agrupa por músculo. Rangos revisados: patrones nuevos (zancadas, press cerrado, press con mancuernas de hombro, remo al mentón, encogimientos, patada de tríceps) y arreglos de orden (gemelos en prensa, deltoide posterior con mancuernas). Dominadas, flexiones, planchas y fondos con el propio peso **no reciben rango** (el kg anotado no es la carga real).
+- Tests: 275 unitarios (3 nuevos) y E2E `gym-symmetry.mjs` ampliado (rutina por preguntas sin guardar hasta confirmar, subir dos fotos, JPEG 1600 px, comparador, borrar). Caché `renzo-hub-cloud-v39-gym-complete`.
+
 ## 2.36.1 (2026-10-18) · Publicación selectiva del diseño editorial
 
 - Preparado, todavía no publicado: traslada exclusivamente la integración visual de PR #78 (f31cf4c y 5f977d0) sobre producción 3124b70. No incorpora las ampliaciones posteriores de Gym/SelfLearn de staging.
 - Marca R v2, Manrope local, grafito/marfil/iris, dashboard editorial y navegación con Ares y búsqueda. Conserva autenticación, datos, APIs, microapps y funciones actuales de main.
 - Caché `renzo-hub-cloud-v39-editorial-production`; sin migraciones ni cambios de configuración. QA local verificado y alcance en `docs/RISE-EDITORIAL-RELEASE.md`; falta confirmar CI y despliegue antes de afirmar publicación.
 
+## 2.36.0 (2026-10-17) · Gym tipo Symmetry (Claude + ChatGPT en `feature/gym-symmetry`, issue #79) · PR hacia staging (sin desplegar)
+
+- **Progresión automática** (`microapps/gym/progression.js`): al iniciar la sesión cada serie llega precargada con el peso y las reps sugeridas (doble progresión con RIR objetivo: compuestos 2, aislamiento 1; +2,5 kg / +1,25 kg; descarga del 5 % si las reps caen por debajo del mínimo). Cada ejercicio muestra el motivo ("Sube carga", "Suma reps", "Descarga") y tu récord estimado (e1RM Epley, solo series de hasta 12 reps).
+- **Rangos Hierro → Bronce → Plata → Oro → Platino → Diamante → Élite** con subniveles 1–3 (`ranks.js`), por ejercicio y por músculo, a partir de e1RM ÷ peso corporal con estándares orientativos por patrón de movimiento. Pestaña **Rangos** con rango global, **mapa corporal coloreado por rango** y "te faltan X kg para el siguiente".
+- **Registro sin distracciones:** técnica de cada ejercicio (3 claves + error típico, 35 ejercicios, `exercise-info.js`), calculadora de discos por lado (barra olímpica, EZ 10 kg), **temporizador de descanso automático** al guardar una serie (150 s compuestos / 90 s aislamiento, −15/+15/Saltar, vibración y aviso sonoro, sobrevive a recargas), **aviso de récord** al momento y **resumen al terminar** (series, volumen, minutos, récords).
+- **Pestañas simplificadas:** Entrenar, Rangos, Fuerza, Progreso, Rutinas + menú "Más" (Fotos de progreso, Objetivos, Medidas, Historial, Volumen, Recuperación, Lados, Turnos, Coach).
+- **ChatGPT:** generador de plan por onboarding (`onboarding.js`) y API privada de fotos de progreso (`progress-photos.js`, bucket privado existente, URLs firmadas de 60 s). Su interfaz de fotos y el onboarding en Rutinas se integran en esta misma rama; mientras tanto, "Fotos de progreso" muestra "En preparación".
+- Sin cambios de esquema ni migraciones. Tests: 272 unitarios (5 nuevos de Gym) y E2E `tests/e2e/gym-symmetry.mjs` (precarga 60×10 → 62,5×6, técnica, discos, récord + descanso, resumen, rangos y mapa, 390 px sin scroll horizontal). Caché `renzo-hub-cloud-v38-gym-symmetry`.
+
+## 2.35.1 (2026-10-17) · Ajuste "elegante y sofisticado" sobre 2.35.0
+
+- Barra de navegación sobria: iconos marfil de 24 px con relleno muy suave, activo en iris sobre grafito, Ares como pieza iris cuadrada; se quitan las pastillas de colores por área.
+- Home como en Lovable: "Lo importante, hoy." y "El progreso es personal." en bloques editoriales sin tarjetas, nivel en número grande iris; en escritorio, dos columnas.
+- Búsqueda rápida **⌘K / Ctrl+K** (`microapps/command/palette.js`) y botón Buscar en Home: navega a cualquier área o microapp del registro.
+- 267 tests unitarios (1 nuevo); E2E completos OK. Caché `renzo-hub-cloud-v37-editorial`.
+
+## 2.35.0 (2026-10-17) · Interfaz editorial (Lovable) + barra de navegación nueva · PR hacia staging (sin desplegar)
+
+- **Origen:** rediseño hecho por ChatGPT en Lovable ("Renzo Sandbox", commit `352f46f`, prototipo con datos simulados). Se re-implementa su lenguaje visual en CSS propio sobre la app real; no se copia código React ni datos mock.
+- **Sistema editorial** (`assets/rise-editorial.css`, se carga la última): grafito `#151516`, marfil `#f0ece3`, acento iris `#baa3fe`, tipografía **Manrope** auto-alojada (`assets/fonts/`, la CSP no permite fuentes externas), superficies sobrias sin neón, radios de 10–14 px. Paleta azul anterior remapeada en `rise-covers`, `rise-home`, `ares-chat`, `finance` y `gastos`.
+- **Marca:** monograma "R" v2 de Lovable (`assets/rise-monogram-v2.svg`) en login, barra lateral, favicon e iconos PWA v2 (192/512/maskable/180) generados del SVG.
+- **Home:** hero editorial ("Un buen día empieza con claridad."), Áreas en rejilla editorial con miniatura (las portadas se conservan).
+- **Barra de navegación:** iconos bicolor (relleno suave + trazo) a 24 px dentro de una pastilla con el color de cada área, etiqueta más legible, estado activo con brillo; **Ares AI como orbe central** (sustituye al botón flotante cuando hay sesión). Móvil: barra flotante con desenfoque, 7 accesos sin perder ninguno. Escritorio: barra lateral con Ares bajo Home.
+- Tests: 266 unitarios OK; E2E smoke, caché PWA v36 (Chromium/WebKit), nóminas, finanzas, auditoría móvil 16 secciones × 2 motores, SelfLearn, Ares chat y Ares center OK. Caché `renzo-hub-cloud-v36-editorial`.
+
+## 2.34.0 (2026-10-17) · SelfLearn 3: tipo Babbel + progreso que sí se guarda · PR hacia staging (sin desplegar)
+
+- **Causas de "no se guarda mi progreso" (corregidas):** el quiz solo se guardaba al pulsar "Guardar intento" al final; con 5 min hacía falta 4/4 (umbral 80 % sobre 4 preguntas); "Marcar clase completada" no contaba para la ruta; al recargar, el estado de la nube pisaba al local aunque fuera más nuevo; y una copia local más nueva de un registro (p. ej. un repaso FSRS sin conexión) se perdía frente a la de la nube.
+- **Ahora:** la lección se guarda tras cada respuesta (local al instante, Supabase agrupado en 1,2 s y forzado al cerrar u ocultar la app) en `hub_user_state.state.learningRuns`; al volver aparece "Lección en curso · Continuar". Gana la versión con la última respuesta entre dispositivos.
+- **Lecciones tipo Babbel:** palabra nueva con audio y ejemplo → comprobación → gramática → emparejar → escuchar → completar huecos → ordenar frase con fichas → escribir (tolera artículo, acentos y una errata) → diálogo → (20 min) hablar con dictado voluntario. Los fallos se repiten al final; la lección se completa siempre (la nota es aciertos a la primera). Palabras al repaso FSRS; las falladas quedan para hoy.
+- **Cursos:** Nederlands A0→B2 (63 lecciones, conserva los 33 IDs antiguos y su progreso) y English B1→C2 (44), personalizados (Brabante, inventario y turnos, gimnasio, finanzas, camino a datos, entrevistas internacionales). Preferencias, diagnóstico y sesión a medias independientes por curso.
+- **Sincronización más ligera para todo RISE HUB:** `world.js` solo sube los registros nuevos o cambiados (antes reenviaba todos en cada guardado); "Sincronizar ahora" sigue forzando el envío completo. Sin migraciones.
+- Tests: 266 unitarios OK (10 de SelfLearn), E2E `tests/e2e/selflearn.mjs` reescrito (recarga a mitad de lección sin copia local, fallo repetido, inglés independiente, repaso, diagnóstico, 390 px sin scroll horizontal). Caché `renzo-hub-cloud-v35-selflearn`.
 
 ## 2.33.0 (2026-10-17) · Release agrupada: My Finance completo + Gym Ascend (rama de ChatGPT `release/gym-ascend-bundle`) + arreglos · PR #74 a staging
 

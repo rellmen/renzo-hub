@@ -1,5 +1,6 @@
 import {installErrorLog} from "./microapps/errors.js";
 import {mountAresAI} from "./microapps/ares-ai.js";
+import {mountConfirmedContext} from './microapps/confirmed-context.js';
 import {createDataExport} from "./microapps/backup/export.js";
 import {AREAS,MICROAPPS,SECTION_IDS,findMicroapp,navAreaOf,isFullscreen,areaTabsHTML,homeTilesHTML} from "./microapps/registry.js";
 import {mountWorld} from "./world.js";
@@ -51,6 +52,7 @@ const world=mountWorld({home:document.getElementById("worldHome"),body:document.
 
 let user=null;
 const aresAI=mountAresAI({supabase,getUser:()=>user,navigate:go});
+const confirmedContext=mountConfirmedContext({db:supabase,getUser:()=>user});
 // Microapps del registro (microapps/registry.js): se crean su sección y su CSS si faltan, se importan en
 // paralelo y se montan con el contrato mount(root, db, getUser, go). Si una falla, el resto sigue funcionando.
 const apps={};
@@ -132,6 +134,7 @@ function setSync(text,kind="ok"){
 }
 function go(id,restore=false){
   if(id==="ares-center"){aresAI.open();return;}
+  if(aresAI.isOpen())aresAI.close(); // ir a otra sección desde la barra cierra Ares
   if(!document.getElementById(id))id="home";
   for(const [appId,api] of Object.entries(apps)){try{if(appId===id)api.open?.();else api.close?.();}catch(error){console.error(error);}}
   if(AREAS[id])world.render(id);
@@ -148,7 +151,8 @@ function go(id,restore=false){
   requestAnimationFrame(()=>window.scrollTo(0,scrollY));
 }
 // Un solo listener para todo [data-open], también para el HTML que las microapps pintan después.
-document.addEventListener("click",event=>{const b=event.target.closest("[data-open]");if(b&&SECTION_IDS.includes(b.dataset.open))go(b.dataset.open);});
+// El botón central de Ares funciona como interruptor: si el chat está abierto, lo cierra.
+document.addEventListener("click",event=>{const b=event.target.closest("[data-open]");if(!b||!SECTION_IDS.includes(b.dataset.open))return;if(b.dataset.open==="ares-center"&&aresAI.isOpen()){aresAI.close();return;}go(b.dataset.open);});
 let navSaveTimer;
 window.addEventListener("scroll",()=>{if(!user)return;const uid=user.id;clearTimeout(navSaveTimer);navSaveTimer=setTimeout(()=>{if(user?.id!==uid)return;const saved=readJSON(`renzo-nav:${uid}`,{});writeJSON(`renzo-nav:${uid}`,{...saved,scrollY:window.scrollY});},180);},{passive:true});
 
@@ -159,20 +163,24 @@ $("loginForm").addEventListener("submit",async e=>{
   try{const {error}=await supabase.auth.signInWithPassword({email:$("email").value.trim(),password:$("password").value});if(error)throw error;}
   catch(error){$("authMessage").textContent=error?.message||"No se pudo iniciar sesión. Comprueba la conexión e inténtalo de nuevo.";$("authMessage").className="authmsg err";}
 });
-$("logoutBtn").addEventListener("click",async()=>{await supabase.auth.signOut();});
+$("logoutBtn").addEventListener("click",async()=>{
+  // Sube el progreso pendiente (SelfLearn agrupa 1,2 s) antes de invalidar la sesión; como mucho espera 4 s.
+  try{await Promise.race([world.flush(),new Promise(r=>setTimeout(r,4000))]);}catch(error){console.warn("[renzo-hub] no se pudo subir lo pendiente antes de salir",error?.message);}
+  await supabase.auth.signOut();
+});
 
 supabase.auth.onAuthStateChange((event,session)=>{
-  if(user?.id!==session?.user?.id)eachApp(api=>api.reset?.());
+  if(user?.id!==session?.user?.id){confirmedContext.reset();eachApp(api=>api.reset?.());}
   user=session?.user||null;
-  if(user){showApp();errorLog.flush();setTimeout(()=>{Promise.allSettled([...signInLoads(),world.load(),profile.load(),phase1.load(),homeBody.load()]).then(results=>{if(results.some(result=>result.status==="rejected"))setSync("Conectado · algunos datos no se pudieron cargar","err");});},0);}
-  else{aresAI.reset();eachApp(api=>api.reset?.());world.reset();profile.reset();phase1.reset();homeBody.reset();showAuth();}
+  if(user){showApp();errorLog.flush();setTimeout(()=>{Promise.allSettled([...signInLoads(),world.load(),profile.load(),phase1.load(),homeBody.load(),confirmedContext.load()]).then(results=>{if(results.some(result=>result.status==="rejected"))setSync("Conectado · algunos datos no se pudieron cargar","err");});},0);}
+  else{aresAI.reset();confirmedContext.reset();eachApp(api=>api.reset?.());world.reset();profile.reset();phase1.reset();homeBody.reset();showAuth();}
 });
 
 let session=null;
 try{const {data,error}=await supabase.auth.getSession();if(error)throw error;session=data?.session||null;}
 catch(error){console.warn("Could not restore RISE HUB session; keeping sign-in available",error);showAuth("No se pudo restaurar la sesión. Puedes volver a iniciar sesión.","err");}
 user=session?.user||null;
-if(user){showApp();const results=await Promise.allSettled([...signInLoads(),world.load(),profile.load(),phase1.load()]);if(results.some(result=>result.status==="rejected"))setSync("Conectado · algunos datos no se pudieron cargar","err");}else if(!document.getElementById("authMessage").textContent){showAuth();}
+if(user){showApp();const results=await Promise.allSettled([...signInLoads(),world.load(),profile.load(),phase1.load(),confirmedContext.load()]);if(results.some(result=>result.status==="rejected"))setSync("Conectado · algunos datos no se pudieron cargar","err");}else if(!document.getElementById("authMessage").textContent){showAuth();}
 
 if("serviceWorker" in navigator){
  navigator.serviceWorker.register("/sw.js").then(reg=>{

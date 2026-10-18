@@ -15,13 +15,15 @@ const current = async () => {
   await page.locator("#loginForm button[type=submit]").click();
   await page.locator("#appShell:not(.hidden)").waitFor({ timeout: 15000 });
   await page.locator('[data-open="study"]:visible').first().click();
-  await page.locator("#study .study-level").first().waitFor({ timeout: 15000 });
-  await page.waitForFunction(() => document.querySelector('#worldSyncStatus')?.textContent === 'Sincronizado con Supabase', null, { timeout: 15000 });
+  await page.locator("#study .sl-level").first().waitFor({ timeout: 15000 });
+  await page.locator('#study [data-sl="course"][data-course="nl"]').click();
+  await page.locator("#study details.sl-panel").first().evaluate(d => { d.open = true; });
   return page;
 };
-const snapshot = async page => page.locator('#study form[data-form="study-settings"]').evaluate(
+const snapshot = async page => page.locator('#study form[data-sl-form="settings"]').evaluate(
   el => Object.fromEntries(new FormData(el))
 );
+const pickSettings = s => s && { startingLevel: s.startingLevel, sessionMinutes: String(s.sessionMinutes), focus: s.focus };
 const cloudSnapshot = async page => page.evaluate(async () => {
   const storageKey = Object.keys(localStorage).find(k => k.startsWith('sb-') && k.endsWith('-auth-token'));
   const session = JSON.parse(localStorage.getItem(storageKey) || 'null');
@@ -33,33 +35,30 @@ const cloudSnapshot = async page => page.evaluate(async () => {
   return { status: response.status, settings: rows[0]?.state?.learningSettings || null };
 });
 const setPreferences = async (page, values) => {
-  const f = page.locator('#study form[data-form="study-settings"]');
+  await page.locator("#study details.sl-panel").first().evaluate(d => { d.open = true; });
+  const f = page.locator('#study form[data-sl-form="settings"]');
   for (const [key, value] of Object.entries(values)) await f.locator(`[name="${key}"]`).selectOption(String(value));
   const [response] = await Promise.all([
     page.waitForResponse(r => r.url().includes('/rest/v1/hub_user_state') && r.request().method() === 'POST', { timeout: 15000 }),
     f.locator('button[type=submit]').click()
   ]);
   assert(response.ok(), `Error saving preferences: ${response.status()}`);
-  await page.waitForFunction(
-    () => document.querySelector("#worldSyncStatus")?.textContent === "Sincronizado con Supabase",
-    null, { timeout: 15000 }
-  );
 };
 let original = null;
 try {
   const page = await current();
   original = await snapshot(page);
-  assert.equal(await page.locator("#study .study-level").count(), 5);
+  assert.equal(await page.locator("#study .sl-level").count(), 5);
   const chosen = {
     startingLevel: original.startingLevel === "A0" ? "A1" : "A0",
     sessionMinutes: original.sessionMinutes === "5" ? "10" : "5",
     focus: original.focus === "Logística" ? "Mixto" : "Logística"
   };
   await setPreferences(page, chosen);
-  assert.deepEqual((await cloudSnapshot(page)).settings, { ...chosen });
+  assert.deepEqual(pickSettings((await cloudSnapshot(page)).settings), { ...chosen });
   await page.close();
   const anotherBrowserSession = await current(); // Sin datos de localStorage de la sesión anterior.
-  assert.deepEqual((await cloudSnapshot(anotherBrowserSession)).settings, { ...chosen });
+  assert.deepEqual(pickSettings((await cloudSnapshot(anotherBrowserSession)).settings), { ...chosen });
   assert.deepEqual(await snapshot(anotherBrowserSession), chosen);
   console.log("PASS: preferencias guardadas y recuperadas desde Supabase staging en sesión nueva");
   await anotherBrowserSession.close();

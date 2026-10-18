@@ -42,6 +42,11 @@ jobs:
           node tests/e2e/finance-income.mjs
           node tests/e2e/finance-complete.mjs
           node tests/e2e/microapps-mobile-audit.mjs
+          node tests/e2e/ares-mobile-exit.mjs
+          node tests/e2e/selflearn.mjs
+          BASE_URL=http://localhost:4173 node tests/e2e/confirmed-context.mjs
+          node tests/e2e/gym-symmetry.mjs
+          BROWSER=webkit node tests/e2e/gym-symmetry.mjs
 
   db-migrations:
     # Réplica local PostgreSQL 17 con los privilegios reales de producción (sin conectar a Supabase).
