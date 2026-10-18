@@ -1,5 +1,12 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## 2.39.0 (2026-10-18) · Versión unificada: producción + staging · PR hacia staging (sin desplegar)
+
+- **Por qué:** el PR #83 publicó en producción (2.36.1) la interfaz editorial con correcciones de QA, sin pasar por staging. Staging tenía esa misma interfaz más SelfLearn 3 y el Gym completo (2.34–2.38). Hacía falta unir las dos ramas antes de que staging pueda pasar a main.
+- **Se conserva de producción:** búsqueda ⌘K accesible (combobox, opción activa visible, "Sin resultados" anunciado) y sin abrir Ares a la vez, retorno de foco de Ares, launcher de Ares visible dentro de las microapps, portada exacta de Lovable (`editorial-v2.jpg`), iconos sin reflejos desbordados y sus pruebas E2E de navegación.
+- **Se conserva de staging:** todo SelfLearn 3 y el Gym 2.36–2.38; la búsqueda mantiene la pista "Neerlandés A0–B2 e inglés B1–C2".
+- Caché `renzo-hub-cloud-v41-unified` (unión de los recursos de ambas). Sin migraciones ni cambios de esquema.
+
 ## 2.38.0 (2026-10-18) · Gym terminado: pack final · PR hacia staging (sin desplegar)
 
 - **Calentamiento automático** en compuestos (barra vacía × 8 → 60 % × 5 → 80 % × 3; en máquina 50 % × 8 → 75 % × 4). No se anota ni cuenta en volumen ni récords.
@@ -18,6 +25,12 @@
 - **Rutina con 3 preguntas** en Rutinas (días 2–5, gimnasio completo o solo máquinas, objetivo músculo/fuerza/salud): enseña la propuesta de cinco días, la carga como borrador y **solo se guarda al pulsar Guardar rutina**. Corrige la base de ChatGPT: el objetivo ocupaba el campo de cardio y los compuestos no estaban marcados (afectaba a progresión y descanso).
 - **Biblioteca de 107 ejercicios** con técnica (3 claves + error típico), músculo y equipamiento; el editor la agrupa por músculo. Rangos revisados: patrones nuevos (zancadas, press cerrado, press con mancuernas de hombro, remo al mentón, encogimientos, patada de tríceps) y arreglos de orden (gemelos en prensa, deltoide posterior con mancuernas). Dominadas, flexiones, planchas y fondos con el propio peso **no reciben rango** (el kg anotado no es la carga real).
 - Tests: 275 unitarios (3 nuevos) y E2E `gym-symmetry.mjs` ampliado (rutina por preguntas sin guardar hasta confirmar, subir dos fotos, JPEG 1600 px, comparador, borrar). Caché `renzo-hub-cloud-v39-gym-complete`.
+
+## 2.36.1 (2026-10-18) · Publicación selectiva del diseño editorial
+
+- Preparado, todavía no publicado: traslada exclusivamente la integración visual de PR #78 (f31cf4c y 5f977d0) sobre producción 3124b70. No incorpora las ampliaciones posteriores de Gym/SelfLearn de staging.
+- Marca R v2, Manrope local, grafito/marfil/iris, dashboard editorial y navegación con Ares y búsqueda. Conserva autenticación, datos, APIs, microapps y funciones actuales de main.
+- Caché `renzo-hub-cloud-v39-editorial-production`; sin migraciones ni cambios de configuración. QA local verificado y alcance en `docs/RISE-EDITORIAL-RELEASE.md`; falta confirmar CI y despliegue antes de afirmar publicación.
 
 ## 2.36.0 (2026-10-17) · Gym tipo Symmetry (Claude + ChatGPT en `feature/gym-symmetry`, issue #79) · PR hacia staging (sin desplegar)
 

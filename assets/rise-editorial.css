@@ -110,7 +110,8 @@ html .home-apps .rise-area .rise-area-go { position: static; flex: none; width: 
 html .home-apps .rise-area:hover { background: rgba(255, 255, 255, .025); }
 html .home-apps .rise-area:hover .rise-area-go { color: var(--accent); }
 html .home-apps .rise-area--plain { background: transparent; }
-html .home-apps .rise-area--plain .app-icon { position: static; }
+html .home-apps .rise-area--plain .app-icon { position: relative; flex-shrink: 0; }
+html .home-apps .app-icon::after { content: none; }
 html .home-apps .app:nth-child(n) .app-icon { background: var(--card2); border-color: var(--line); }
 @media (min-width: 1024px) { html #appShell .home-apps.rise-areas { grid-template-columns: repeat(3, minmax(0, 1fr)); } html .home-apps .rise-area:nth-child(n) { padding: 16px 14px; border-left: 0; } html .home-apps .rise-area:not(:nth-child(3n+1)) { border-left: 1px solid var(--line); } }
 
@@ -142,7 +143,7 @@ html #bottomNav .nav-ares:hover .nav-orb { transform: translateY(-1px); }
 html #bottomNav .nav-ares:active .nav-orb { transform: scale(.95); }
 html body.ares-chat-open #bottomNav .nav-orb { box-shadow: 0 0 0 4px var(--bg), 0 0 0 5px rgba(186, 163, 254, .55); }
 /* El botón flotante de Ares queda sustituido por la pieza central de la barra. */
-html body:has(#bottomNav:not(.hidden)) .ares-fab { display: none !important; }
+html body:not(.microapp-open):has(#bottomNav:not(.hidden)) .ares-fab { display: none !important; }
 
 @media (max-width: 1023px) {
   html #bottomNav.nav { left: 10px; right: 10px; bottom: calc(10px + env(safe-area-inset-bottom)); padding: 6px 4px; border: 1px solid var(--line); border-radius: 18px; background: rgba(23, 23, 25, .92); -webkit-backdrop-filter: blur(20px) saturate(130%); backdrop-filter: blur(20px) saturate(130%); box-shadow: 0 16px 36px -14px rgba(0, 0, 0, .8); }
