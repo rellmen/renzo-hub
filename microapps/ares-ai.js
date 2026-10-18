@@ -1,6 +1,7 @@
 // Ares AI — chat privado de RISE HUB.
 import {isDevelopmentQuestion,formatDevelopmentSources} from "./ares-development.js";
-export const ARES_QUERY_TYPES = ["renzo_project", "renzo_task", "renzo_inbox", "ares_decision", "ares_operation", "ares_agent_run", "renzo_event"];
+import {personalTopic,contextAnswer,confirmedFacts,isExternalSummaryQuestion} from './confirmed-context.js';
+export const ARES_QUERY_TYPES = ["renzo_project", "renzo_task", "renzo_inbox", "ares_decision", "ares_operation", "ares_agent_run", "renzo_event", "personal_fact"];
 export function aresNormalize(value){return String(value||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();}
 const f=v=>aresNormalize(v), st=r=>String(r.payload?.status||r.status||"sin estado");
 const openTask=r=>!["completed","done","cancelled","archived"].includes(f(st(r)));
@@ -9,6 +10,8 @@ const agentEvent=r=>r.record_type==="ares_agent_run"||(r.record_type==="renzo_ev
 const summary=(title,rows)=>title+(rows.length?"\n"+rows.slice(0,8).map((r,i)=>`${i+1}. ${r.title||"Sin título"} — ${st(r)}`).join("\n")+(rows.length>8?`\n... y ${rows.length-8} más.`:""):"\nNo hay registros en los datos consultados.");
 export function answerAres(q,records,previous=""){
   const rows=Array.isArray(records)?records:[],text=f(q),by=t=>rows.filter(r=>r.record_type===t),limited=rows.length>=500?" (muestra parcial de 500 registros recientes)":"";
+  const personal=personalTopic(q,previous);
+  if(personal&&(personal!=='finance'||confirmedFacts(rows,'finance').length))return {topic:personal,text:contextAnswer(rows,personal)};
   const projects=by("renzo_project").filter(r=>f(st(r))!=="completed"),tasks=by("renzo_task").filter(openTask);
   const review=by("renzo_inbox").filter(pendingInbox),operations=by("ares_operation").filter(r=>r.status==="pending_approval"),decisions=by("ares_decision").filter(r=>r.status==="pending");
   const events=rows.filter(agentEvent);
@@ -71,7 +74,8 @@ export function mountAresAI({supabase,getUser,navigate}){
     }
     const rows=await records();if(seq!==generation||owner!==getUser()?.id)return;placeholder.remove();const task=detectTask(text);if(task){bubble("bot",`He preparado una solicitud para ${task.agent}: “${task.task}”. Debes confirmarla para guardarla en AI Inbox. No ejecutará ninguna tarea.`,[{type:"request",label:"Crear solicitud pendiente",...task}]);topic="agents";}else{
         let aiReply=null,aiSource="OpenRouter/free · modelo externo";
-        if(aiEnabled){
+        const privateTopic=personalTopic(text,topic);
+        if(aiEnabled&&!privateTopic&&isExternalSummaryQuestion(text)){
           try{
             const session=await supabase.auth.getSession();
             if(session?.data?.session?.access_token){

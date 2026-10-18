@@ -3,6 +3,7 @@
 export const PERSONAL_CONTEXT_SUGGESTIONS=Object.freeze({
  residence:{value:'Leende, Países Bajos',source:'Conversaciones anteriores',sensitive:false},
  nativeLanguages:{value:'Español, catalán',source:'Conversaciones anteriores',sensitive:false},
+ englishGoal:{value:'',source:'Meta de inglés introducida por el usuario',sensitive:false},
  dutchGoal:{value:'A1–A2 → B1',source:'Conversaciones anteriores',sensitive:false},
  career:{value:'Logística en entorno ASML; objetivo Logistics Data Analyst',source:'Conversaciones anteriores',sensitive:false},
  workShifts:{value:'Semanas alternas 06:00–15:00 / 15:00–00:00',source:'Conversaciones anteriores',sensitive:false}

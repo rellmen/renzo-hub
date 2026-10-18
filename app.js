@@ -1,5 +1,6 @@
 import {installErrorLog} from "./microapps/errors.js";
 import {mountAresAI} from "./microapps/ares-ai.js";
+import {mountConfirmedContext} from './microapps/confirmed-context.js';
 import {createDataExport} from "./microapps/backup/export.js";
 import {AREAS,MICROAPPS,SECTION_IDS,findMicroapp,navAreaOf,isFullscreen,areaTabsHTML,homeTilesHTML} from "./microapps/registry.js";
 import {mountWorld} from "./world.js";
@@ -51,6 +52,7 @@ const world=mountWorld({home:document.getElementById("worldHome"),body:document.
 
 let user=null;
 const aresAI=mountAresAI({supabase,getUser:()=>user,navigate:go});
+const confirmedContext=mountConfirmedContext({db:supabase,getUser:()=>user});
 // Microapps del registro (microapps/registry.js): se crean su sección y su CSS si faltan, se importan en
 // paralelo y se montan con el contrato mount(root, db, getUser, go). Si una falla, el resto sigue funcionando.
 const apps={};
@@ -164,17 +166,17 @@ $("loginForm").addEventListener("submit",async e=>{
 $("logoutBtn").addEventListener("click",async()=>{await supabase.auth.signOut();});
 
 supabase.auth.onAuthStateChange((event,session)=>{
-  if(user?.id!==session?.user?.id)eachApp(api=>api.reset?.());
+  if(user?.id!==session?.user?.id){confirmedContext.reset();eachApp(api=>api.reset?.());}
   user=session?.user||null;
-  if(user){showApp();errorLog.flush();setTimeout(()=>{Promise.allSettled([...signInLoads(),world.load(),profile.load(),phase1.load(),homeBody.load()]).then(results=>{if(results.some(result=>result.status==="rejected"))setSync("Conectado · algunos datos no se pudieron cargar","err");});},0);}
-  else{aresAI.reset();eachApp(api=>api.reset?.());world.reset();profile.reset();phase1.reset();homeBody.reset();showAuth();}
+  if(user){showApp();errorLog.flush();setTimeout(()=>{Promise.allSettled([...signInLoads(),world.load(),profile.load(),phase1.load(),homeBody.load(),confirmedContext.load()]).then(results=>{if(results.some(result=>result.status==="rejected"))setSync("Conectado · algunos datos no se pudieron cargar","err");});},0);}
+  else{aresAI.reset();confirmedContext.reset();eachApp(api=>api.reset?.());world.reset();profile.reset();phase1.reset();homeBody.reset();showAuth();}
 });
 
 let session=null;
 try{const {data,error}=await supabase.auth.getSession();if(error)throw error;session=data?.session||null;}
 catch(error){console.warn("Could not restore RISE HUB session; keeping sign-in available",error);showAuth("No se pudo restaurar la sesión. Puedes volver a iniciar sesión.","err");}
 user=session?.user||null;
-if(user){showApp();const results=await Promise.allSettled([...signInLoads(),world.load(),profile.load(),phase1.load()]);if(results.some(result=>result.status==="rejected"))setSync("Conectado · algunos datos no se pudieron cargar","err");}else if(!document.getElementById("authMessage").textContent){showAuth();}
+if(user){showApp();const results=await Promise.allSettled([...signInLoads(),world.load(),profile.load(),phase1.load(),confirmedContext.load()]);if(results.some(result=>result.status==="rejected"))setSync("Conectado · algunos datos no se pudieron cargar","err");}else if(!document.getElementById("authMessage").textContent){showAuth();}
 
 if("serviceWorker" in navigator){
  navigator.serviceWorker.register("/sw.js").then(reg=>{
