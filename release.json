@@ -1,8 +1,8 @@
 {
-  "release": "2.42.0",
-  "name": "RISE HUB · SelfLearn conserva la última respuesta al cerrar sesión + estado de sincronización de datos",
+  "release": "2.43.0",
+  "name": "RISE HUB · Nodalys CRM sustituye a Car · Jarvis en la Home",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",
-  "updated": "2026-10-18"
+  "updated": "2026-10-19"
 }
