@@ -74,15 +74,15 @@ ${resume}
 <div class="sl-next"><div class="ey">TU SIGUIENTE LECCIÓN · ${esc(next.level)} · ${esc(next.topic)}</div><h2>${esc(next.title)}</h2><p>${esc(next.goal)}</p><div class="sl-row"><button class="sl-primary" data-sl="start" data-unit="${esc(next.id)}">${run?.mode === "lesson" && run.unitId === next.id ? "Continuar lección" : "Empezar lección"} · ${cfg.sessionMinutes} min</button><button class="sl-secondary" data-sl="review" ${due ? "" : "disabled"}>🧠 Repaso · ${due} ${due === 1 ? "palabra" : "palabras"}</button></div>${currentMode() ? `<p class="sl-note">Hoy tienes turno configurado: un repaso corto también cuenta para la racha.</p>` : ""}</div>
 <div class="sl-section"><h2>Ruta del curso</h2><span>${done.size} de ${units.length} completadas</span></div>
 ${levelHtml}
-<details class="sl-panel"><summary>⚙️ Mi ruta personalizada</summary>${settingsForm(c, cfg)}</details>
+<details class="sl-panel" open><summary>⚙️ Mi ruta personalizada · gramática y pronunciación</summary>${settingsForm(c, cfg)}</details>
 <details class="sl-panel"><summary>✍️ Práctica libre, mis tarjetas e historial</summary>${labView(c, cfg)}</details>
 <p class="sl-note">${esc(course.examNote)} Los niveles orientan la ruta; no certifican tu nivel.</p>
 </div>`;
   }
 
   function settingsForm(c, cfg) {
-    const course = E.COURSES[c], placement = cfg.placement;
-    return `<form class="sl-form" data-sl-form="settings"><label>Empezar desde<select name="startingLevel">${course.levels.map(l => `<option value="${l.id}" ${cfg.startingLevel === l.id ? "selected" : ""}>${l.id} · ${esc(l.name)}</option>`).join("")}</select></label><label>Duración de cada lección<select name="sessionMinutes">${[[5, "Corta · 5 min"], [10, "Normal · 10 min"], [20, "Extendida · 20 min (con dictado)"]].map(([m, t]) => `<option value="${m}" ${cfg.sessionMinutes === m ? "selected" : ""}>${t}</option>`).join("")}</select></label><label>Priorizar temas<select name="focus">${E.FOCUS[c].map(f => `<option ${cfg.focus === f ? "selected" : ""}>${f}</option>`).join("")}</select></label><button class="sl-secondary" type="submit">Guardar preferencias</button></form>
+    const course = E.COURSES[c], placement = cfg.placement, p = E.personalization(settings(),c);
+    return `<form class="sl-form" data-sl-form="settings"><label>Empezar desde<select name="startingLevel">${course.levels.map(l => `<option value="${l.id}" ${cfg.startingLevel === l.id ? "selected" : ""}>${l.id} · ${esc(l.name)}</option>`).join("")}</select></label><label>Duración de cada lección<select name="sessionMinutes">${[[5, "Corta · 5 min"], [10, "Normal · 10 min"], [20, "Extendida · 20 min (con dictado)"]].map(([m, t]) => `<option value="${m}" ${cfg.sessionMinutes === m ? "selected" : ""}>${t}</option>`).join("")}</select></label><label>Priorizar temas<select name="focus">${E.FOCUS[c].map(f => `<option ${cfg.focus === f ? "selected" : ""}>${f}</option>`).join("")}</select></label><fieldset><legend>Prioridades de aprendizaje · ${esc(p.goalLevel)} como objetivo</legend><p class="sl-note">Distribución de tiempo orientativa. Se normaliza automáticamente; no cambia tus lecciones completadas.</p>${[["grammar","Gramática"],["pronunciation","Pronunciación y escucha"],["context","Conversación y situaciones reales"],["review","Repaso"]].map(([k,label])=>`<label>${label}<input name="priority_${k}" type="number" min="0" max="100" step="5" value="${p.priorities[k]}"></label>`).join("")}</fieldset><button class="sl-secondary" type="submit">Guardar preferencias</button></form>
 <div class="sl-diag"><b>¿Desde qué nivel empezar?</b><p>Prueba orientativa: 3 palabras por nivel. Ajusta tu punto de partida; no mide las cuatro destrezas.</p><button class="sl-secondary" data-sl="diagnostic">Hacer diagnóstico</button>${placement ? `<p class="sl-note">Última recomendación: <b>${esc(placement.recommended)}</b> · ${esc(placement.date)} · ${Number(placement.correct) || 0}/${Number(placement.total) || 0} aciertos.</p>` : ""}</div>`;
   }
 
@@ -262,6 +262,7 @@ ${levelHtml}
       const course = E.COURSES[c], level = course.levels.some(l => l.id === v.startingLevel) ? v.startingLevel : course.levels[0].id, focus = E.FOCUS[c].includes(v.focus) ? v.focus : "Mixto";
       s.sessionMinutes = [5, 10, 20].includes(Number(v.sessionMinutes)) ? Number(v.sessionMinutes) : 10;
       if (c === "nl") { s.startingLevel = level; s.focus = focus; } else s.courses = { ...(s.courses || {}), [c]: { ...(s.courses?.[c] || {}), startingLevel: level, focus } };
+      E.savePersonalization(s,c,{priorities:Object.fromEntries(E.LEARNING_PRIORITIES.map(k=>[k,Number(v[`priority_${k}`])]))});
     } else if (kind === "practice") {
       const note = String(v.answer || "").trim(); if (!note) return;
       d.entries.push({ id: crypto.randomUUID(), kind: "learning", area: E.areaFor(c), course: c, title: `Práctica libre · ${E.COURSES[c].name}`, stage: "Application", practice: "Free practice", minutes: Math.max(1, Number(v.minutes) || 10), note, date: today() });
