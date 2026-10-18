@@ -36,7 +36,6 @@ Bloque Gym tipo Symmetry completo. Claude terminó la parte de ChatGPT a petici�
 - `exercise-info.js`: 107 fichas con músculo; `GYM_LIBRARY = exerciseLibrary()`; `ranks.js` sin rango para ejercicios con el propio peso.
 Todos los módulos están en el precache (`sw.js` v39). No queda nada pendiente de integrar.
 
-## Ideas siguientes (no empezadas)
-- Superseries y series de calentamiento marcadas.
-- Gráfica de e1RM por ejercicio dentro de la ficha.
-- Recordatorio de foto de progreso cada 4 semanas.
+## Estado 2.38.0 (2026-10-18) · microapp terminada
+Pack final hecho: calentamiento, gráfica de fuerza, superseries, cambio de ejercicio en sesión, pantalla encendida, semana de descarga, balance semanal por músculo y recordatorio de foto (`coach.js`, `wake-lock.js`).
+Formato de ejercicio en el plan: `[nombre, series, repsMin, repsMax, músculo, compuesto(1|0), superserieConSiguiente(1)]`; los campos 6.º y 7.º son opcionales.

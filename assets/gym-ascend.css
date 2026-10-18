@@ -86,3 +86,30 @@
 .gym-onboard-preview { display: grid; gap: 10px; margin: 12px 0; }
 .gym-onboard-day { padding: 10px 12px; border-radius: 10px; background: var(--rx-strong, #2a2a2d); }
 .gym-onboard-day b { display: block; } .gym-onboard-day ul { margin: 6px 0 0; padding-left: 18px; line-height: 1.55; font-size: 13px; }
+
+/* 2.38.0 · Pack final: calentamiento, tendencia, cambio de ejercicio, superseries, avisos y balance */
+.gym-warmup { margin: 6px 0; }
+.gym-warmup b { color: var(--accent2); margin-right: 4px; }
+.gym-warmup span { color: var(--muted); }
+.gym-trend { display: flex; align-items: center; gap: 10px; margin: 6px 0; color: var(--accent); }
+.gym-trend .small { color: var(--muted); }
+.gym-spark { flex: none; }
+.gym-swap-row { margin: 6px 0 10px; }
+.gym-swap-row > .secondary { min-height: 38px; padding: 6px 12px; border-radius: 9px; }
+.gym-swap-row [data-swap-panel]:not(:empty) { display: grid; gap: 8px; margin-top: 8px; padding: 10px; border-radius: 10px; background: var(--rx-strong, #2a2a2d); }
+.gym-ss { box-shadow: inset 3px 0 var(--accent); }
+.gym-ss-badge { display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; color: var(--accent2); border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent); vertical-align: middle; }
+.gym-ss-check { display: flex; align-items: center; gap: 8px; min-height: 40px; font-size: 13px; }
+.gym-ss-check input { width: 20px; height: 20px; accent-color: var(--accent); }
+.gym-awake { color: var(--muted); }
+.gym-remind { display: grid; gap: 6px; }
+.gym-remind p { margin: 0; }
+.gym-remind-deload { box-shadow: inset 3px 0 #d7be89; }
+.gym-balance h3 { margin-top: 0; }
+.gym-balance-row { display: grid; grid-template-columns: 92px 1fr 28px 34px; align-items: center; gap: 8px; min-height: 30px; font-size: 13px; }
+.gym-balance-row > b { text-align: right; font-variant-numeric: tabular-nums; }
+.gym-balance-track { position: relative; height: 8px; border-radius: 999px; background: var(--rx-strong, #2a2a2d); overflow: hidden; }
+.gym-balance-band { position: absolute; top: 0; bottom: 0; background: color-mix(in srgb, #89c8a7 22%, transparent); }
+.gym-balance-bar { position: absolute; left: 0; top: 2px; bottom: 2px; border-radius: 999px; background: var(--muted); }
+.gym-balance-ok .gym-balance-bar { background: #89c8a7; }
+.gym-balance-high .gym-balance-bar { background: #d7be89; }

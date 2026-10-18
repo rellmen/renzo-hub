@@ -1,5 +1,17 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## 2.38.0 (2026-10-18) · Gym terminado: pack final · PR hacia staging (sin desplegar)
+
+- **Calentamiento automático** en compuestos (barra vacía × 8 → 60 % × 5 → 80 % × 3; en máquina 50 % × 8 → 75 % × 4). No se anota ni cuenta en volumen ni récords.
+- **Gráfica de fuerza** en cada ejercicio de la sesión: evolución del e1RM por sesión y cambio en las últimas 4 semanas ("↑ 4,3 % en 28 días"; "= sin cambios" si no se mueve).
+- **Superseries**: casilla "Superserie con el siguiente" en el editor de rutinas (se guarda como 7.º campo del ejercicio, sin cambios de esquema). En la sesión se marcan A1/A2 y, tras una serie de A1, no salta el descanso: "pasa a A2 sin descanso".
+- **Cambiar ejercicio en mitad de la sesión** (máquina ocupada o molestia): alternativas del mismo patrón y músculo, recalcula la sugerencia con tu historial de ese ejercicio. Solo en esa sesión, la rutina no cambia; no se permite si ya hay series hechas.
+- **Pantalla encendida** durante la sesión (Screen Wake Lock); se suelta al terminar o salir de Entrenar.
+- **Semana de descarga**: aviso si llevas ≥6 semanas seguidas con 2+ sesiones o si ≥2 compuestos llevan 3 sesiones sin superar su récord. Al activarla, las sesiones de esa semana llevan la mitad de series y −10 % de carga; caduca sola el lunes.
+- **Balance semanal por músculo** en Progreso: series de esta semana frente al rango orientativo 10–20, con la semana pasada entre paréntesis.
+- **Recordatorio de foto de progreso** cada 4 semanas en Entrenar, con "Ahora no" (7 días).
+- Nuevos módulos `microapps/gym/coach.js` (funciones puras) y `wake-lock.js`. Tests: 280 unitarios (5 nuevos en `tests/gym-coach.test.mjs`) y E2E `gym-symmetry.mjs` ampliado en Chromium y WebKit. Caché `renzo-hub-cloud-v40-gym-final`.
+
 ## 2.37.0 (2026-10-18) · Gym completo: fotos, rutina por preguntas y biblioteca 107 · PR hacia staging (sin desplegar)
 
 - **Fotos de progreso privadas** (`photos-view.js` + `progress-photos.js`): subir con fecha y pose (frontal, lateral, espalda), galería por pose y **comparador antes/después con deslizador** ("12 semanas de diferencia"). Antes de subir, la foto se reduce a 1600 px y se vuelve a guardar en JPEG en el propio móvil, lo que **borra los datos EXIF y la ubicación GPS**. Bucket privado existente `progress-photos`, carpeta `<usuario>/gym/` (Skin sigue en `<usuario>/skin/`), enlaces firmados de 5 min, borrar con confirmación. Sin migraciones: fecha y pose van en el nombre del archivo.
