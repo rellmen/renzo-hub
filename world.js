@@ -202,5 +202,8 @@ export function mountWorld(roots,getUser,supabase){
  }
  function moneyViewWire(){}
  function homeWire(){/* Los [data-open] de Home los gestiona el listener único de app.js. */}
- return {load,render,reset(){flushLearning();owner=null;data=blank();cloudBodySessions=0;synced.clear();selflearn?.reset();for(const root of Object.values(roots))root.innerHTML="";}};
+ // Antes de cerrar sesión: sube lo pendiente de SelfLearn mientras el token sigue siendo válido.
+ // reset() llega después de signOut(): sync() ya no tiene owner y la última respuesta solo quedaba en este dispositivo.
+ async function flush(){if(!owner)return;if(learnTimer){clearTimeout(learnTimer);learnTimer=null;save();}await saveQueue;}
+ return {load,render,flush,reset(){flushLearning();owner=null;data=blank();cloudBodySessions=0;synced.clear();selflearn?.reset();for(const root of Object.values(roots))root.innerHTML="";}};
 }

@@ -10,6 +10,8 @@
 4. `world.js` **sobrescribía siempre el estado local con el de la nube** al recargar, aunque el local fuera más nuevo.
 5. Al fusionar registros, la **copia de la nube ganaba siempre**: un repaso FSRS hecho sin conexión se perdía.
 
+6. (2.42.0) Al cerrar sesión, `signOut()` llegaba antes que la subida agrupada (1,2 s): la última respuesta no pasaba a otros dispositivos. Ahora se sube antes de cerrar la sesión.
+
 ## Qué cambia
 
 | Antes | Ahora |
