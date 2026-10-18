@@ -13,10 +13,11 @@ export const LEARNING_PRIORITIES = Object.freeze(["grammar","pronunciation","con
 export function personalization(settings = {}, courseId = "nl") {
   const stored = settings.courses?.[courseId]?.personalization || {};
   const raw = stored.priorities || {};
-  const priorities = Object.fromEntries(LEARNING_PRIORITIES.map(k => [k, Math.max(0, Math.min(100, Number.isFinite(Number(raw[k])) ? Number(raw[k]) : ({grammar:40,pronunciation:30,context:20,review:10}[k])))]));
+  const priorities = Object.fromEntries(LEARNING_PRIORITIES.map(k => [k, Math.max(0, Math.min(100, raw[k] !== undefined && raw[k] !== null && raw[k] !== "" && Number.isFinite(Number(raw[k])) ? Number(raw[k]) : ({grammar:40,pronunciation:30,context:20,review:10}[k])))]));
   const total = Object.values(priorities).reduce((a,b)=>a+b,0);
-  const normalized = total ? Object.fromEntries(Object.entries(priorities).map(([k,v])=>[k,Math.round(v*100/total)])) : {grammar:40,pronunciation:30,context:20,review:10};
-  return {goalLevel:LANGUAGE_GOALS[courseId] || "B2",priorities:normalized,explanationLanguage:"es",...stored,priorities:normalized};
+  const normalized = total ? Object.fromEntries(Object.entries(priorities).map(([k,v])=>[k,Math.floor(v*100/total)])) : {grammar:40,pronunciation:30,context:20,review:10};
+  if(total){const remainder=100-Object.values(normalized).reduce((a,b)=>a+b,0);normalized.grammar+=remainder;}
+  return {goalLevel:LANGUAGE_GOALS[courseId] || "B2",explanationLanguage:"es",...stored,priorities:normalized};
 }
 export function savePersonalization(settings, courseId, patch = {}) {
   if (!COURSES[courseId]) throw Error("Curso no válido");
