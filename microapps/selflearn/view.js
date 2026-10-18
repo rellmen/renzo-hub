@@ -2,6 +2,7 @@
 // El progreso se guarda tras CADA respuesta: run activo en hub_user_state.state.learningRuns,
 // unidades completadas en hub_records (renzo_event "Study path") y tarjetas FSRS en renzo_vocabulary.
 import * as E from "./engine.js";
+import { pronunciationDrills } from "./pronunciation.js";
 import { fsrs, createEmptyCard, Rating } from "./fsrs-bundle.js";
 
 const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -75,7 +76,7 @@ ${resume}
 <div class="sl-section"><h2>Ruta del curso</h2><span>${done.size} de ${units.length} completadas</span></div>
 ${levelHtml}
 <details class="sl-panel" open><summary>⚙️ Mi ruta personalizada · gramática y pronunciación</summary>${settingsForm(c, cfg)}</details>
-<details class="sl-panel"><summary>✍️ Práctica libre, mis tarjetas e historial</summary>${labView(c, cfg)}</details>
+<details class="sl-panel"><summary>🗣️ Entrenador de pronunciación · ${pronunciationDrills(c).length} ejercicios</summary>${pronunciationView(c)}</details>\n<details class="sl-panel"><summary>✍️ Práctica libre, mis tarjetas e historial</summary>${labView(c, cfg)}</details>
 <p class="sl-note">${esc(course.examNote)} Los niveles orientan la ruta; no certifican tu nivel.</p>
 </div>`;
   }
@@ -84,6 +85,10 @@ ${levelHtml}
     const course = E.COURSES[c], placement = cfg.placement, p = E.personalization(settings(),c);
     return `<form class="sl-form" data-sl-form="settings"><label>Empezar desde<select name="startingLevel">${course.levels.map(l => `<option value="${l.id}" ${cfg.startingLevel === l.id ? "selected" : ""}>${l.id} · ${esc(l.name)}</option>`).join("")}</select></label><label>Duración de cada lección<select name="sessionMinutes">${[[5, "Corta · 5 min"], [10, "Normal · 10 min"], [20, "Extendida · 20 min (con dictado)"]].map(([m, t]) => `<option value="${m}" ${cfg.sessionMinutes === m ? "selected" : ""}>${t}</option>`).join("")}</select></label><label>Priorizar temas<select name="focus">${E.FOCUS[c].map(f => `<option ${cfg.focus === f ? "selected" : ""}>${f}</option>`).join("")}</select></label><fieldset><legend>Prioridades de aprendizaje · ${esc(p.goalLevel)} como objetivo</legend><p class="sl-note">Distribución de tiempo orientativa. Se normaliza automáticamente; no cambia tus lecciones completadas.</p>${[["grammar","Gramática"],["pronunciation","Pronunciación y escucha"],["context","Conversación y situaciones reales"],["review","Repaso"]].map(([k,label])=>`<label>${label}<input name="priority_${k}" type="number" min="0" max="100" step="5" value="${p.priorities[k]}"></label>`).join("")}</fieldset><button class="sl-secondary" type="submit">Guardar preferencias</button></form>
 <div class="sl-diag"><b>¿Desde qué nivel empezar?</b><p>Prueba orientativa: 3 palabras por nivel. Ajusta tu punto de partida; no mide las cuatro destrezas.</p><button class="sl-secondary" data-sl="diagnostic">Hacer diagnóstico</button>${placement ? `<p class="sl-note">Última recomendación: <b>${esc(placement.recommended)}</b> · ${esc(placement.date)} · ${Number(placement.correct) || 0}/${Number(placement.total) || 0} aciertos.</p>` : ""}</div>`;
+  }
+
+  function pronunciationView(c) {
+    return `<div class="sl-lab"><p class="sl-note">Escucha y repite cada contraste. No se graba audio ni se asigna una nota automática. La voz depende de tu dispositivo.</p>${pronunciationDrills(c).map(d=>`<div class="sl-card"><div class="ey">${esc(d.level)} · PRONUNCIACIÓN</div><h3>${esc(d.title)}</h3><p>${esc(d.tip)}</p><p><b>${esc(d.contrast)}</b> ${audioBtn(d.contrast,"🔊 Escuchar contraste")}</p><p>${esc(d.example)} ${audioBtn(d.example,"🔊 Escuchar ejemplo")}</p></div>`).join("")}</div>`;
   }
 
   function labView(c, cfg) {
