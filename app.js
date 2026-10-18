@@ -132,6 +132,7 @@ function setSync(text,kind="ok"){
 }
 function go(id,restore=false){
   if(id==="ares-center"){aresAI.open();return;}
+  if(aresAI.isOpen())aresAI.close(); // ir a otra sección desde la barra cierra Ares
   if(!document.getElementById(id))id="home";
   for(const [appId,api] of Object.entries(apps)){try{if(appId===id)api.open?.();else api.close?.();}catch(error){console.error(error);}}
   if(AREAS[id])world.render(id);
@@ -148,7 +149,8 @@ function go(id,restore=false){
   requestAnimationFrame(()=>window.scrollTo(0,scrollY));
 }
 // Un solo listener para todo [data-open], también para el HTML que las microapps pintan después.
-document.addEventListener("click",event=>{const b=event.target.closest("[data-open]");if(b&&SECTION_IDS.includes(b.dataset.open))go(b.dataset.open);});
+// El botón central de Ares funciona como interruptor: si el chat está abierto, lo cierra.
+document.addEventListener("click",event=>{const b=event.target.closest("[data-open]");if(!b||!SECTION_IDS.includes(b.dataset.open))return;if(b.dataset.open==="ares-center"&&aresAI.isOpen()){aresAI.close();return;}go(b.dataset.open);});
 let navSaveTimer;
 window.addEventListener("scroll",()=>{if(!user)return;const uid=user.id;clearTimeout(navSaveTimer);navSaveTimer=setTimeout(()=>{if(user?.id!==uid)return;const saved=readJSON(`renzo-nav:${uid}`,{});writeJSON(`renzo-nav:${uid}`,{...saved,scrollY:window.scrollY});},180);},{passive:true});
 

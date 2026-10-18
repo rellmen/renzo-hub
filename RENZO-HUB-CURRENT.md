@@ -1,5 +1,12 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## 2.40.0 (2026-10-18) · Ares fácil de cerrar en el móvil y microapps con más aire · PR hacia staging (sin desplegar)
+
+- **Ares AI en el móvil:** botón **Salir** grande a la izquierda de la cabecera (zona del pulgar) además del ✕; la cabecera queda por debajo de la barra de estado del iPhone (la app usa `black-translucent`, antes el ✕ quedaba debajo de la hora y la isla). La barra inferior sigue visible encima del chat y su botón central es un **interruptor** (abre y cierra, con `aria-expanded`); tocar otra sección de la barra cierra Ares y la abre. Con el teclado abierto la barra se oculta y el chat ocupa la zona visible. Escape, ✕ y "atrás" siguen funcionando y los mensajes se conservan.
+- **Microapps con más aire** (`assets/rise-microapps-air.css`, se carga la última y solo afecta a la microapp abierta, nunca a Home ni a la navegación): tarjetas con 20 px de margen interior en móvil y 28 px en escritorio, más separación entre bloques, textos pequeños a 12–13 px (antes había de 10,5–11 px), interlineado 1,55–1,6, botones de al menos 44 px, desplegables de 48 px y campos de formulario de 48 px con letra de 16 px (evita el zoom de iOS). Medido a 390 px: textos < 12 px pasan de 231 a 0 en las 14 secciones; sin scroll horizontal.
+- Trae al repo lo hecho en el prototipo de Lovable (18 oct) re-implementado en CSS propio, sin cambiar estructura, datos ni comportamiento. Toca la presentación de Gym, Skin, Food y SelfLearn (áreas de ChatGPT) solo a través de esta capa común: avisado en `docs/COLABORACION-IA.md`.
+- E2E nuevo `tests/e2e/ares-mobile-exit.mjs` (Chromium y WebKit, en CI). Caché `renzo-hub-cloud-v42-ares-air`. Sin migraciones ni cambios de esquema.
+
 ## 2.39.0 (2026-10-18) · Versión unificada: producción + staging · PR hacia staging (sin desplegar)
 
 - **Por qué:** el PR #83 publicó en producción (2.36.1) la interfaz editorial con correcciones de QA, sin pasar por staging. Staging tenía esa misma interfaz más SelfLearn 3 y el Gym completo (2.34–2.38). Hacía falta unir las dos ramas antes de que staging pueda pasar a main.

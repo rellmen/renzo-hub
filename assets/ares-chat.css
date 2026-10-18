@@ -6,7 +6,7 @@
 .ares-chat-head{display:flex;align-items:center;gap:12px;padding:21px 20px;background:linear-gradient(110deg,rgba(35,82,145,.55),rgba(12,28,49,.94));border-bottom:1px solid rgba(109,177,246,.2)}
 .ares-avatar{display:grid;place-items:center;flex:none;height:43px;width:43px;border:1px solid rgba(205,191,255,.4);border-radius:15px;background:rgba(186,163,254,.14);color:#cdbfff;font-size:24px;box-shadow:0 0 18px rgba(186,163,254,.15)}
 .ares-chat-head strong{display:block;font-size:17px;font-weight:900;letter-spacing:-.01em}.ares-chat-head small{display:block;margin-top:3px;font-size:11px;color:#bdb8ae;line-height:1.4}
-.ares-close{margin-left:auto;flex:none;height:41px;width:41px;display:grid;place-items:center;background:rgba(21,21,22,.6);border:1px solid rgba(109,177,246,.25);border-radius:13px;color:#e7e2f2;cursor:pointer}
+.ares-close{margin-left:auto;flex:none;height:44px;width:44px;display:grid;place-items:center;background:rgba(21,21,22,.6);border:1px solid rgba(109,177,246,.25);border-radius:13px;color:#e7e2f2;cursor:pointer}
 .ares-chat-stream{min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:17px;padding:25px 20px 18px;scrollbar-width:thin;scrollbar-color:rgba(186,163,254,.35) transparent}
 .ares-msg{max-width:90%;display:flex;flex-direction:column;gap:10px;flex-shrink:0}
 .ares-msg-bot{align-self:flex-start}.ares-msg-user{align-self:flex-end}
@@ -25,4 +25,18 @@
 .ares-chat button:focus-visible,.ares-fab:focus-visible{outline:2px solid #cdbfff;outline-offset:2px}
 @media(min-width:1024px){.ares-fab{bottom:32px}}
 @media(max-width:650px){.ares-chat{inset:0;width:100vw;height:100dvh;max-height:none;border:0;border-radius:0;padding-bottom:env(safe-area-inset-bottom)}.ares-chat-head{padding:16px 17px}.ares-chat-stream{padding:20px 15px}.ares-chat-form{margin:0 12px}.ares-chat-suggestions{padding-left:12px}.ares-fab{right:15px;bottom:calc(82px + env(safe-area-inset-bottom))}}
+/* 2.40.0 · salir de Ares con facilidad en el móvil: botón "Salir" grande a la izquierda (zona del pulgar),
+   cabecera por debajo de la barra de estado del iPhone (la app usa black-translucent) y barra inferior visible. */
+.ares-back{display:none;flex:none;align-items:center;gap:6px;min-height:44px;padding:0 14px 0 10px;margin-right:2px;border:1px solid rgba(205,191,255,.35);border-radius:13px;background:rgba(21,21,22,.6);color:#f0ece3;font:inherit;font-size:14px;font-weight:800;cursor:pointer}
+.ares-back span[aria-hidden]{font-size:18px;line-height:1}
+@media(max-width:650px){
+ .ares-chat{bottom:auto;padding-bottom:0}
+ .ares-chat-head{padding:calc(10px + env(safe-area-inset-top)) 14px 12px;gap:10px}
+ .ares-back{display:inline-flex}
+ .ares-avatar{height:38px;width:38px;font-size:20px}
+ .ares-chat-head small{display:none}
+ .ares-chat-foot{padding-bottom:10px}
+ body.ares-chat-open:not(.ares-kb) #bottomNav.nav{z-index:130}
+ body.ares-kb #bottomNav.nav{visibility:hidden}
+}
 @media(prefers-reduced-motion:reduce){.ares-fab{transition:none!important}.ares-fab:hover{transform:none}}
