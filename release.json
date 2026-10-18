@@ -1,6 +1,6 @@
 {
-  "release": "2.40.0",
-  "name": "RISE HUB 4.0 · salir de Ares fácil en el móvil y microapps con más aire (sobre la versión unificada 2.39.0)",
+  "release": "2.41.0",
+  "name": "RISE HUB · contexto personal autorizado con fecha y procedencia",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",

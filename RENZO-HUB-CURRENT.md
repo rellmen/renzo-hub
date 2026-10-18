@@ -1,5 +1,15 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## 2.41.0 (2026-10-18) · Contexto personal autorizado · preparado para staging
+
+- Datos privados sincronizados exclusivamente en las tablas existentes de producción, con procedencia y fecha; sin migraciones, cambios de permisos ni copia de datos a staging. Los valores y las copias previas quedan fuera de Git.
+- Nuevo tipo `personal_fact`: separa declaraciones confirmadas, referencias históricas, identificaciones fotográficas y datos pendientes. No genera saldos, pagos, sesiones, niveles ni certificados.
+- Paneles privados en Perfil/System, My Finance, Work, SelfLearn, Gym y Skin. Ares usa esas mismas fuentes con filtros por propietario y respuestas locales para temas personales; no amplía el acceso del proveedor externo.
+- Conserva registros, vocabulario, preferencias y sesiones de SelfLearn. Añade soporte para guardar la meta de inglés en el contexto existente de perfil.
+- Verificación local: 285 tests unitarios; E2E de contexto privado (0 POSTs a IA externa), SelfLearn y Ares en móvil/escritorio. Pruebas de lectura e inserción/actualización entre propietarios ejecutadas contra la base real y revertidas.
+- Producción comprobada: 2.36.1, commit `80739b24eebb1c4db93f99fb3af38f7c7cf0ad1c`, Vercel `READY`. Staging comprobado: 2.39.0. Esta versión 2.41.0 todavía no está desplegada.
+- Caché `renzo-hub-cloud-v43-confirmed-context`; alcance y límites en `docs/CONFIRMED-CONTEXT.md`.
+
 ## 2.40.0 (2026-10-18) · Ares fácil de cerrar en el móvil y microapps con más aire · PR hacia staging (sin desplegar)
 
 - **Ares AI en el móvil:** botón **Salir** grande a la izquierda de la cabecera (zona del pulgar) además del ✕; la cabecera queda por debajo de la barra de estado del iPhone (la app usa `black-translucent`, antes el ✕ quedaba debajo de la hora y la isla). La barra inferior sigue visible encima del chat y su botón central es un **interruptor** (abre y cierra, con `aria-expanded`); tocar otra sección de la barra cierra Ares y la abre. Con el teclado abierto la barra se oculta y el chat ocupa la zona visible. Escape, ✕ y "atrás" siguen funcionando y los mensajes se conservan.

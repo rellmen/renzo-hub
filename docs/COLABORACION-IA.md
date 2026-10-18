@@ -51,3 +51,7 @@ Este archivo es el canal de coordinación: cada IA lo lee antes de empezar y lo 
 | 4 | Corregir lo que la auditoría encuentre en Gym/Skin/SelfLearn/Notes | ChatGPT | sin hallazgos · si añades pantallas, la auditoría las cubre sola (lee `SECTION_IDS`) |
 | 5 | Gym: objetivos a `hub_user_state` | ChatGPT | propuesto |
 | 6 | Redirigir PR #75 a `staging` antes de la compilación controlada | Renzo | pendiente |
+
+## ChatGPT · 18 oct · sincronización personal autorizada
+
+Rama `feature/authorized-personal-sync`, desde staging vigente. Ares y app.js incorporan una lectura local de `personal_fact`, paneles privados en las áreas existentes y soporte de meta de inglés en perfil. No se modifica el motor de SelfLearn ni su estado. Los datos de producción se guardan en Supabase y las copias de seguridad quedan fuera del repositorio. No se copian datos de producción a staging. Se actualizan release/caché en esta rama para que el PR sea autocontenido; no se fusiona ni se despliega a main.
