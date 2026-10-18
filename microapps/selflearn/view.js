@@ -3,6 +3,7 @@
 // unidades completadas en hub_records (renzo_event "Study path") y tarjetas FSRS en renzo_vocabulary.
 import * as E from "./engine.js";
 import { pronunciationDrills } from "./pronunciation.js";
+import { grammarDrills,checkGrammar } from "./grammar.js";
 import { fsrs, createEmptyCard, Rating } from "./fsrs-bundle.js";
 
 const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -16,7 +17,7 @@ const PRACTICE_PROMPTS = {
 };
 
 export function mountSelfLearn({ root, getData, persist, today, xpView, currentMode, onChange }) {
-  let ui = fresh(), summary = null, voices = [];
+  let ui = fresh(), summary = null, voices = [], grammarFeedback = {};
   function fresh() { return { selected: null, feedback: null, built: [], matchLeft: null, matchDone: [], matchErrors: 0, typed: "", speech: "" }; }
   if (typeof window !== "undefined" && "speechSynthesis" in window) { const load = () => { voices = window.speechSynthesis.getVoices() || []; }; load(); window.speechSynthesis.onvoiceschanged = load; }
 
@@ -76,7 +77,7 @@ ${resume}
 <div class="sl-section"><h2>Ruta del curso</h2><span>${done.size} de ${units.length} completadas</span></div>
 ${levelHtml}
 <details class="sl-panel" open><summary>⚙️ Mi ruta personalizada · gramática y pronunciación</summary>${settingsForm(c, cfg)}</details>
-<details class="sl-panel"><summary>🗣️ Entrenador de pronunciación · ${pronunciationDrills(c).length} ejercicios</summary>${pronunciationView(c)}</details>\n<details class="sl-panel"><summary>✍️ Práctica libre, mis tarjetas e historial</summary>${labView(c, cfg)}</details>
+<details class="sl-panel"><summary>📖 Entrenador de gramática · ${grammarDrills(c).length} ejercicios</summary>${grammarView(c)}</details>\n<details class="sl-panel"><summary>🗣️ Entrenador de pronunciación · ${pronunciationDrills(c).length} ejercicios</summary>${pronunciationView(c)}</details>\n<details class="sl-panel"><summary>✍️ Práctica libre, mis tarjetas e historial</summary>${labView(c, cfg)}</details>
 <p class="sl-note">${esc(course.examNote)} Los niveles orientan la ruta; no certifican tu nivel.</p>
 </div>`;
   }
@@ -85,6 +86,11 @@ ${levelHtml}
     const course = E.COURSES[c], placement = cfg.placement, p = E.personalization(settings(),c);
     return `<form class="sl-form" data-sl-form="settings"><label>Empezar desde<select name="startingLevel">${course.levels.map(l => `<option value="${l.id}" ${cfg.startingLevel === l.id ? "selected" : ""}>${l.id} · ${esc(l.name)}</option>`).join("")}</select></label><label>Duración de cada lección<select name="sessionMinutes">${[[5, "Corta · 5 min"], [10, "Normal · 10 min"], [20, "Extendida · 20 min (con dictado)"]].map(([m, t]) => `<option value="${m}" ${cfg.sessionMinutes === m ? "selected" : ""}>${t}</option>`).join("")}</select></label><label>Priorizar temas<select name="focus">${E.FOCUS[c].map(f => `<option ${cfg.focus === f ? "selected" : ""}>${f}</option>`).join("")}</select></label><fieldset><legend>Prioridades de aprendizaje · ${esc(p.goalLevel)} como objetivo</legend><p class="sl-note">Distribución de tiempo orientativa. Se normaliza automáticamente; no cambia tus lecciones completadas.</p>${[["grammar","Gramática"],["pronunciation","Pronunciación y escucha"],["context","Conversación y situaciones reales"],["review","Repaso"]].map(([k,label])=>`<label>${label}<input name="priority_${k}" type="number" min="0" max="100" step="5" value="${p.priorities[k]}"></label>`).join("")}</fieldset><button class="sl-secondary" type="submit">Guardar preferencias</button></form>
 <div class="sl-diag"><b>¿Desde qué nivel empezar?</b><p>Prueba orientativa: 3 palabras por nivel. Ajusta tu punto de partida; no mide las cuatro destrezas.</p><button class="sl-secondary" data-sl="diagnostic">Hacer diagnóstico</button>${placement ? `<p class="sl-note">Última recomendación: <b>${esc(placement.recommended)}</b> · ${esc(placement.date)} · ${Number(placement.correct) || 0}/${Number(placement.total) || 0} aciertos.</p>` : ""}</div>`;
+  }
+
+  function grammarView(c) {
+    const score = E.grammarAccuracy(data().entries,c);
+    return `<div class="sl-lab"><p class="sl-note">Práctica específica de tus puntos débiles · ${score.total ? `${score.pct}% de aciertos (${score.total} intentos)` : "sin intentos todavía"}. Cada respuesta se guarda para seguir tu evolución.</p>${grammarDrills(c).map(d=>{const fb=grammarFeedback[d.id];return `<div class="sl-card"><div class="ey">${esc(d.level)} · ${esc(d.rule)}</div><h3>${esc(d.prompt)}</h3><div class="sl-options">${d.options.map((option,i)=>`<button class="sl-option" type="button" data-sl="grammar-answer" data-id="${esc(d.id)}" data-i="${i}" ${fb?"disabled":""}>${esc(option)}</button>`).join("")}</div>${fb?`<p class="sl-note" role="status"><b>${fb.ok?"Correcto":"Respuesta correcta: "+esc(d.answer)}</b> · ${esc(d.explanation)}</p>`:""}</div>`;}).join("")}<button type="button" class="sl-secondary" data-sl="grammar-reset">Repetir ejercicios</button></div>`;
   }
 
   function pronunciationView(c) {
@@ -232,6 +238,8 @@ ${levelHtml}
     const btn = event.target.closest("[data-sl]"); if (!btn || !root.contains(btn) || btn.disabled) return;
     const act = btn.dataset.sl, run = activeRun(), step = E.currentStep(run);
     if (act === "speak") { speak(btn.dataset.text, lang()); return; }
+    if (act === "grammar-reset") { grammarFeedback = {}; render(); return; }
+    if (act === "grammar-answer") { const drill = grammarDrills(activeCourse()).find(d=>d.id===btn.dataset.id); if(!drill || grammarFeedback[drill.id])return; const choice=drill.options[Number(btn.dataset.i)]; const ok=checkGrammar(drill,choice);grammarFeedback[drill.id]={ok};data().entries.push({id:crypto.randomUUID(),kind:"learning_assessment",area:E.areaFor(activeCourse()),course:activeCourse(),skill:"grammar",rule:drill.id,title:drill.rule,correct:ok?1:0,totalQuestions:1,date:today()});save(true);render();return; }
     if (act === "course") { settings().activeCourse = btn.dataset.course; ui = fresh(); save(true); render(); return; }
     if (act === "start") { startLesson(btn.dataset.unit); return; }
     if (act === "resume") { ui = { ...fresh(), playing: true }; render(); if (run) speakIfIntro(run); return; }
