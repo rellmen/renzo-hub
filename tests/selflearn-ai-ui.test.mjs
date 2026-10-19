@@ -12,3 +12,10 @@ test("access token comes from Supabase session and is not stored in learning rec
  assert.match(view,/Authorization:"Bearer "\+token/);
  assert.doesNotMatch(view,/note:token/);
 });
+
+test("AI controls are only rendered when preview capability is enabled",()=>{
+ assert.match(view,/fetch\("\/api\/selflearn-tutor",\{method:"GET",cache:"no-store"\}\)/);
+ assert.match(view,/aiAvailable=info\?\.enabled===true/);
+ assert.match(view,/\$\{aiAvailable\?\x60<label/);
+ assert.match(view,/Tutor IA externo desactivado en este entorno/);
+});
