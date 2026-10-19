@@ -21,3 +21,10 @@ test("sync helper does not claim remote writes or ownership verification",()=>{
  assert.equal(SYNC_REQUIREMENTS.remoteWritePerformed,false);assert.equal(SYNC_REQUIREMENTS.sameAuthenticatedUser,true);
  assert.equal(SYNC_REQUIREMENTS.atomicWriteRequired,true);
 });
+
+test("repeated cloud reconciliation does not multiply identical legacy entries",()=>{
+ const legacy={course:"nl",kind:"learning",lessonDay:3};
+ const once=mergeLearningEntries([legacy],[{...legacy}]);
+ const twice=mergeLearningEntries(once,[{...legacy}]);
+ assert.equal(once.length,1);assert.equal(twice.length,1);
+});
