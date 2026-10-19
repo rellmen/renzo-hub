@@ -1,5 +1,18 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## 2.48.0 (2026-10-19) · Gym · Entrenar con un ejercicio a la vez · PR hacia staging
+
+- Idea de Renzo con una captura de otra app de gimnasio como referencia de **forma**. No se copian sus ilustraciones ni su marca: cada ejercicio usa el mapa corporal propio de RISE HUB con el músculo trabajado.
+- `microapps/gym/player.js` reorganiza en pantalla el formulario de sesión de `gym.js` **sin cambiar sus campos ni `save()`**:
+  - Barra superior fija: cambiar de vista, reloj de la sesión, empezar descanso, datos de la sesión (⚙; peso, cardio, notas) y **Finalizar**.
+  - **Tira de ejercicios** en círculos, con la figura, el número y ✓ cuando está terminado.
+  - Un ejercicio a la vez: figura grande, nombre, chips **Rango**, **Técnica**, **Cambiar**, **Notas** y **Descanso**.
+  - Tabla **Nº · Anterior · kg · Reps · RIR · ✓**. "Anterior" es la misma serie de tu última sesión. El ✓ guarda la serie como "✓ Guardar serie" (récord y descanso incluidos); pulsado otra vez, la desmarca.
+  - Al terminar la última serie de un ejercicio, pasa solo al siguiente pendiente. Botones Anterior y Siguiente.
+  - "Ver todos" vuelve a la vista completa de siempre. Repetir, lado y nota de cada serie, y las notas del ejercicio, aparecen con "Notas".
+- El descanso queda abajo del todo (en Gym no hay barra inferior), cabe en 375 px y oculta el botón de Ares mientras cuenta.
+- Tests: `tests/gym-player.test.mjs`. `tests/e2e/gym-lovable.mjs` completa un ejercicio con el ✓ y comprueba el paso automático. `tests/e2e/gym-symmetry.mjs` usa "Ver todos". Caché `renzo-hub-cloud-v51-gym-player`.
+
 ## 2026-10-19 · Nombre real del proyecto de producción en Vercel (solo documentación)
 
 - El proyecto de Vercel de producción se llama **`rise-hub`** (id `prj_G7Rzu7cpQuKo3wnByqNVgQ6gpjDd`): es el antiguo `renzo-hub` renombrado. El dominio `renzo-hub.vercel.app`, la rama de producción (`main`) y Supabase no cambian. Ya no existe ningún proyecto llamado `renzo-hub`.
