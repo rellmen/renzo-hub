@@ -61,6 +61,8 @@ for(const engine of [chromium,webkit]){
   // Food
   await open(page,'food');
   await page.locator('#foodToday .food-meter').first().waitFor();
+  // El resumen se pinta al momento y se completa cuando Food termina de cargar las comidas de hoy
+  await page.waitForFunction(()=>/1000\s*kcal/.test(document.getElementById('foodToday')?.innerText||''));
   const today=await page.locator('#foodToday').innerText();
   assert.match(today,/1000\s*kcal/);assert.match(today,/Faltan 1200 kcal para el mínimo/);assert.match(today,/Faltan 69 g para el mínimo/);
   assert.equal(await page.locator('#p1Food .food-meal').count(),4);
