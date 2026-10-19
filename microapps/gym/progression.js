@@ -30,7 +30,8 @@ export function lastSets(sessions, name, excludeId = null) {
   return null;
 }
 
-export const targetRir = exercise => (exercise?.compound ? 2 : 1);
+// RIR objetivo: el que marque el programa para ese ejercicio (Recomp) o, si no hay, 2 en compuestos y 1 en aislamiento.
+export const targetRir = exercise => (Number.isFinite(Number(exercise?.rir)) && exercise?.rir !== null && exercise?.rir !== "" ? Number(exercise.rir) : exercise?.compound ? 2 : 1);
 // Incremento mínimo: 2,5 kg en compuestos; 1,25 kg en aislamiento (mancuernas, poleas y máquinas pequeñas).
 export const increment = exercise => (exercise?.compound ? 2.5 : 1.25);
 const round = (w, step = 0.25) => Math.round(w / step) * step;
