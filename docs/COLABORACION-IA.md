@@ -94,3 +94,11 @@ Renzo autorizó a Claude a cambiar Gym sin esperar a ChatGPT ("te doy permiso…
 - `gym.js`: nuevo import de `./microapps/gym/player.js`. Al final del pintado de la sesión (tras `form.onsubmit`) se llama a `enhanceSession(content,{active,previous,startRest,saveDraft,rankOf,info})`. **No cambia** la plantilla del formulario, sus `name`, ni `save()`.
 - `player.js` mueve nodos ya pintados: añade `.gp-bar`, `.gp-strip`, `.gp-hero` por ejercicio y `.gp-nav`. Mete el botón `[data-quick-done]` dentro de la fila como `.gp-tick` y agrupa repetir, lado y nota en `.gp-set-extra`. Oculta la casilla `c-i-j` (sigue en el formulario). El estado (ejercicio activo, vista) se guarda en memoria por id de sesión.
 - Si cambias la plantilla de sesión (orden `.setrow` → `.gym-quick-actions` → lado → nota), revisa `player.js` y pasa `tests/e2e/gym-lovable.mjs`. Para pruebas que recorren todos los ejercicios, pulsa antes `[data-gp-list]` (vista completa).
+
+## Claude · 19 oct · Validación y arreglo del PR #94 (SelfLearn Language Academy) · 2.49.0
+
+Renzo pidió a Claude validar, arreglar y publicar el #94 (rama de ChatGPT). Cambios de Claude en la rama:
+- Merge de `staging` (Body/Gym/Food/Skin 2.44–2.48) con conflictos resueltos en `sw.js` y `tests/pwa-cache-unique.test.mjs`. Se mantiene el test genérico de ChatGPT; `CORE` = lista de staging + los 11 módulos nuevos de `microapps/selflearn/`.
+- `supabase/migrations/20261019030000_selflearn_tutor_quota.sql` → `supabase/pending/` + `.rollback.sql`, porque no está aplicada (por eso fallaba `tests/backup.test.mjs`). `tests/selflearn-ai-quota.test.mjs` apunta a `pending/`.
+- Para activar el tutor IA hace falta, en este orden: aplicar la migración en staging con OK de Renzo, poner las variables solo en preview y probar. En producción sigue apagado por código (`VERCEL_ENV==="preview"`).
+- Versión 2.49.0 y `RENZO-HUB-CURRENT.md`.

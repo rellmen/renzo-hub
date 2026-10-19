@@ -1,6 +1,6 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
-## 2.49.0 (2026-10-19) · Gym · Programa Recomp 12 semanas y Finalizar arreglado · PR hacia staging
+## 2.50.0 (2026-10-19) · Gym · Programa Recomp 12 semanas y Finalizar arreglado · PR hacia staging
 
 - **Programa nuevo** (`recomp_rise_hub.csv` de Renzo, copia en `tests/fixtures/`): `microapps/gym/recomp-plan.js` es el plan por defecto (Lunes Push, Martes Pull, Miércoles Legs + Core, Viernes Upper, Sábado Arms + Lower). Cada ejercicio lleva su descanso, RIR, nota y superserie del CSV; "8-12 por pierna/lado" se muestra con la unidad. Mismo formato de plan de siempre (`validateGymPlan`), con un 8.º campo de opciones.
   - Quien ya tiene una rutina guardada en `gym_plans` ve un aviso **"Usar este programa"** (confirmación). La rutina anterior queda como copia en el dispositivo y hay un botón **"Volver a mi rutina anterior"**. Las sesiones pasadas no cambian.
@@ -12,7 +12,17 @@
   2. Con "un ejercicio a la vez", un campo no válido de otro ejercicio (oculto) bloqueaba el envío sin enseñar nada. Ahora los campos de series sin marcar no bloquean, y si algo bloquea se muestra ese ejercicio con un aviso.
   3. Sin ninguna serie hecha no había salida. Nuevo botón **Descartar sesión** (borra solo ese borrador sin terminar, con confirmación).
 - El temporizador de descanso no recupera restos de más de 15 min.
-- Tests: `tests/gym-recomp.test.mjs` (CSV completo frente al plan, descanso, RIR, superseries, rangos, reloj). E2E `tests/e2e/gym-recomp-finish.mjs` (Chromium y WebKit a 375 px). Caché `renzo-hub-cloud-v52-gym-recomp`.
+- Tests: `tests/gym-recomp.test.mjs` (CSV completo frente al plan, descanso, RIR, superseries, rangos, reloj). E2E `tests/e2e/gym-recomp-finish.mjs` (Chromium y WebKit a 375 px). Caché `renzo-hub-cloud-v53-gym-recomp`.
+## 2.49.0 (2026-10-19) · SelfLearn Language Academy (PR #94 de ChatGPT, validado y arreglado por Claude)
+
+- Renzo pidió validar, arreglar y publicar el #94. Contenido de ChatGPT: prioridades por idioma (gramática, pronunciación, contexto, repaso), ejercicios de gramática y pronunciación con explicaciones en español, diagnóstico, repaso de errores gramaticales, progreso por destreza, sincronización de historial sin duplicados (`sync.js`) y tutor local. Solo neerlandés e inglés.
+- **Tutor IA remoto** (`api/selflearn-tutor.js`, OpenRouter): **apagado en producción**. Solo podría activarse en preview con `SELFLEARN_AI_ENABLED`, `SELFLEARN_AI_RATE_LIMIT_READY` y `OPENROUTER_API_KEY`, y con consentimiento en cada envío. Sin eso, la app usa el tutor local.
+- Arreglos de Claude:
+  - El CI fallaba porque la migración de cuota del tutor estaba en `supabase/migrations/` sin estar aplicada. Se mueve a **`supabase/pending/`** con su rollback (no se aplica en ninguna base).
+  - Conflictos con staging resueltos en `sw.js` (lista de staging + 11 módulos nuevos de SelfLearn) y en el test de caché (se adopta la versión genérica de ChatGPT, que no hay que tocar en cada versión).
+- Dictado de voz: el micrófono solo se activa al pulsar "Iniciar dictado", con aviso. No guarda audio ni puntúa pronunciación.
+- Pruebas: `npm test` 359/359; E2E smoke, PWA, auditoría móvil, SelfLearn, Ares, Gym (symmetry y player), Body y Food/Skin en verde. Caché `renzo-hub-cloud-v52-selflearn-academy`.
+- Sigue pendiente según la lista del propio PR: tutor IA activable con cuota aplicada, planificador adaptativo completo, panel por destreza, separación de formación técnica a Career y prueba autenticada en staging.
 
 ## 2.48.0 (2026-10-19) · Gym · Entrenar con un ejercicio a la vez · PR hacia staging
 
