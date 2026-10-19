@@ -178,7 +178,7 @@ body.microapp-open #appShell.shell{padding-bottom:calc(34px + env(safe-area-inse
 <section id="skin" class="page"><button class="microapp-back" data-open="body">← Body</button>
 <div class="top"><div><div class="ey">Manchas · puntos negros · barrera</div><h1>Skin Routine</h1><div id="skinDate" class="small" style="margin-top:8px"></div></div><div class="avatar">S</div></div>
 <div class="card" style="margin-top:16px">
-<div class="row"><span id="pill" class="pill">MAÑANA</span><button id="switchBtn" class="switch">Cambiar a noche</button></div>
+<div class="skin-seg" role="group" aria-label="Rutina de mañana o de noche"><button type="button" class="skin-seg-btn" data-skin-mode="am" aria-pressed="true">Mañana</button><button type="button" class="skin-seg-btn" data-skin-mode="pm" aria-pressed="false">Noche</button></div><div class="row skin-legacy-switch"><span id="pill" class="pill">MAÑANA</span><button id="switchBtn" class="switch">Cambiar a noche</button></div>
 <div class="row" style="margin-top:12px;gap:8px"><button id="prevDay" class="switch" aria-label="Ver el día anterior">←</button><button id="todayBtn" class="switch">Hoy</button><button id="nextDay" class="switch" aria-label="Ver el día siguiente">→</button><span id="historyLabel" class="small"></span></div>
 <div id="routineTitle" class="title"></div><div class="progress"><div id="bar" class="bar"></div></div>
 <div class="row" style="margin-top:7px"><div id="prog" class="small"></div><div id="syncState" class="small status"><span class="dot"></span><span>Sincronizado</span></div></div>
@@ -196,8 +196,8 @@ body.microapp-open #appShell.shell{padding-bottom:calc(34px + env(safe-area-inse
 
 <section id="food" class="page"><button class="microapp-back" data-open="body">← Body</button>
 <div class="top"><div><div class="ey">Comer bien · trabajar · estudiar</div><h1>Food</h1></div><div class="avatar">F</div></div>
-<div class="hero"><h2>Tu plan diario</h2><p>Una estructura sencilla y repetible. <span id="bpStart">Configura tu perfil corporal en Ajustes.</span></p><div class="quick"><div><b id="bpKcal">sin datos</b><span class="small">kcal / día</span></div><div><b id="bpProtein">sin datos</b><span class="small">Proteína / día</span></div><div><b id="bpBudget">sin datos</b><span class="small">Objetivo / mes</span></div></div></div>
-<div id="p1Food"></div><div class="section"><h3>Objetivo por fases</h3></div>
+<div id="foodToday" aria-live="polite"></div><div id="p1Food"></div><div class="hero"><h2>Tu plan diario</h2><p>Una estructura sencilla y repetible. <span id="bpStart">Configura tu perfil corporal en Ajustes.</span></p><div class="quick"><div><b id="bpKcal">sin datos</b><span class="small">kcal / día</span></div><div><b id="bpProtein">sin datos</b><span class="small">Proteína / día</span></div><div><b id="bpBudget">sin datos</b><span class="small">Objetivo / mes</span></div></div></div>
+<div class="section"><h3>Objetivo por fases</h3></div>
 <div class="card"><div class="row" id="bpPhases"><span class="small">Sin objetivos guardados. Añádelos en Ajustes → Perfil corporal.</span></div><p class="small" id="bpPhasesNote"></p></div>
 <div class="section"><h3>Dieta que puedes repetir</h3></div>
 <div class="card"><b>Desayuno</b><p class="small">Quark/skyr natural, avena y fruta. Preparación rápida para empezar el día.</p></div>
@@ -246,6 +246,8 @@ body.microapp-open #appShell.shell{padding-bottom:calc(34px + env(safe-area-inse
 <link rel="stylesheet" href="/assets/gym-ascend.css">
 <link rel="stylesheet" href="/assets/rise-microapps-air.css">
 <link rel="stylesheet" href="/microapps/body/body.css">
+<link rel="stylesheet" href="/microapps/food/food.css">
+<link rel="stylesheet" href="/microapps/skin/skin.css">
 <link rel="stylesheet" href="/assets/gym-lovable.css">
 <script type="module" src="/app.js"></script>
 </body>

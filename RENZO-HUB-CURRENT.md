@@ -1,5 +1,19 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## 2.47.0 (2026-10-19) · Food y Skin con el diseño de Lovable · PR hacia staging
+
+- Mismo lenguaje visual que Body y Gym. Solo datos guardados. Con permiso de Renzo para tocar zonas de ChatGPT, con constancia en `docs/COLABORACION-IA.md`.
+- **Food**
+  - Nuevo **Hoy** arriba (`microapps/food/today.js`): kcal y proteína de hoy frente a los rangos de tu perfil corporal (barra con marca del mínimo, "Faltan X para el mínimo", "Dentro del objetivo" o "Por encima"). Sin perfil, lo dice.
+  - Registrar comida: la comida se elige con **chips grandes** (preseleccionada según la hora). Las comidas de hoy salen **agrupadas** por Desayuno, Comida, Snack y Cena, con borrar de 44 px.
+  - **Compra mensual** con casillas de "comprado" (se guardan en este dispositivo y se reinician cada mes). Fases y plan diario con nueva presentación.
+  - Se corrige un caso: un perfil con mínimo y sin máximo ya no pierde el objetivo.
+- **Skin**
+  - Interruptor **Mañana/Noche segmentado** de 48 px (el botón antiguo sigue en el DOM, oculto, para compatibilidad).
+  - Pasos grandes con casilla de 48 px. Los hechos quedan en gris, sin tachar. Aviso de **rutina terminada** al completar todos.
+  - Navegación de día, rutina suave y plan con zonas táctiles de 44 px.
+- Tests: `tests/food-today.test.mjs` y E2E `tests/e2e/food-skin.mjs` (Chromium y WebKit a 375 y 430 px). `authenticated.mjs` usa el interruptor nuevo. Caché `renzo-hub-cloud-v50-food-skin`.
+
 ## 2.46.0 (2026-10-19) · Gym: pantallas del diseño de Lovable · PR hacia staging
 
 - Renzo autorizó a Claude a cambiar `gym.js` sin esperar a ChatGPT, dejando constancia (ver `docs/COLABORACION-IA.md`).

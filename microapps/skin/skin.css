@@ -1,0 +1,43 @@
+/* Skin Routine 2.47.0 · diseño del prototipo de Lovable (19 oct 2026). Solo afecta a #skin.
+   Interruptor Mañana/Noche segmentado de 48 px, pasos grandes con casilla de 48 px, progreso visible,
+   zonas táctiles de 44 px y campos con letra de 16 px. */
+
+html body #skin { --skin-pad: 18px; }
+html body #skin .small { font-size: 14px; }
+html body #skin .card { padding: var(--skin-pad); border-radius: 12px; }
+
+/* Mañana / Noche */
+html body #skin .skin-legacy-switch { display: none; }
+html body #skin .skin-seg { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px; border-radius: 12px; background: var(--card2); }
+html body #skin .skin-seg-btn { min-height: 48px; border: 0; border-radius: 9px; background: transparent; color: var(--muted); font: inherit; font-size: 16px; font-weight: 650; cursor: pointer; }
+html body #skin .skin-seg-btn[aria-pressed="true"] { background: var(--accent); color: var(--rx-ink, #111116); }
+html body #skin .skin-seg-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Navegación de día */
+html body #skin #prevDay, html body #skin #nextDay, html body #skin #todayBtn { min-width: 44px; min-height: 44px; border-radius: 10px; font-size: 16px; }
+html body #skin #historyLabel { margin-left: 4px; }
+html body #skin #routineTitle { margin-top: 16px; font-size: 20px; line-height: 1.3; font-weight: 700; }
+html body #skin .progress { height: 10px; border-radius: 99px; margin-top: 12px; }
+html body #skin #prog { font-size: 15px; font-weight: 600; color: var(--text); font-variant-numeric: tabular-nums; }
+
+/* Pasos */
+html body #skin #steps { display: grid; gap: 10px; margin: 16px 0; }
+html body #skin #steps .step { display: grid; grid-template-columns: minmax(0, 1fr) 48px; align-items: center; gap: 14px; min-height: 72px; padding: 14px var(--skin-pad); border-radius: 12px; background: var(--card); border: 1px solid var(--line); }
+html body #skin #steps .step .txt { grid-column: 1; grid-row: 1; min-width: 0; }
+html body #skin #steps .step .check { grid-column: 2; grid-row: 1; width: 48px; height: 48px; min-height: 48px; padding: 0; border-radius: 12px; border: 2px solid var(--line); background: var(--card2); color: var(--rx-ink, #111116); font-size: 22px; font-weight: 800; cursor: pointer; }
+html body #skin #steps .step .check.done { background: var(--ok); border-color: var(--ok); }
+html body #skin #steps .step .st { font-size: 16px; font-weight: 650; line-height: 1.35; overflow-wrap: anywhere; }
+html body #skin #steps .step .ss { margin-top: 4px; font-size: 14px; line-height: 1.5; color: var(--muted); overflow-wrap: anywhere; }
+html body #skin #steps .step.done { border-color: color-mix(in srgb, var(--ok) 45%, var(--line)); }
+html body #skin #steps .step.done :where(.st, .ss) { color: var(--muted); text-decoration: none; }
+html body #skin .skin-finished { margin: 4px 0 0; padding: 14px var(--skin-pad); border-radius: 12px; background: color-mix(in srgb, var(--ok) 16%, var(--card)); color: var(--text); font-size: 15px; font-weight: 600; }
+
+/* Rutina suave, foco y plan */
+html body #skin #gentleBtn { min-height: 52px; font-size: 16px; border-radius: 12px; }
+html body #skin #gentleBtn[aria-pressed="true"] { background: var(--accent); color: var(--rx-ink, #111116); border-color: var(--accent); }
+html body #skin #skinFocus { display: block; font-size: 17px; line-height: 1.4; }
+html body #skin details.card > summary { min-height: 44px; display: flex; align-items: center; font-size: 17px; font-weight: 650; cursor: pointer; }
+html body #skin :where(input:not([type=checkbox]):not([type=radio]):not([type=file]), select, textarea) { font-size: 16px; min-height: 48px; border-radius: 10px; }
+html body #skin :where(button.switch, button.secondary, button.primary) { min-height: 44px; }
+
+@media (max-width: 380px) { html body #skin { --skin-pad: 16px; } }

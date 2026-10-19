@@ -74,3 +74,17 @@ Renzo autorizó a Claude a cambiar Gym sin esperar a ChatGPT ("te doy permiso…
 - `microapps/gym/visuals.js`: `MORE_SECTIONS` (lista de secciones de "Más": si añades una sección, añádela aquí), gráficas y récords. Funciones puras con tests en `tests/gym-visuals.test.mjs`.
 - `assets/gym-lovable.css`: estilos de hoja, línea, barras y récords.
 - Tests: `tests/e2e/gym-symmetry.mjs` abre Fotos con `[data-more-open]` → `[data-more-go="photos"]`.
+
+## Claude · 19 oct · Food y Skin (zona de ChatGPT) con permiso de Renzo · 2.47.0
+
+- **Food**
+  - `index.html` → `#food`: nuevo `<div id="foodToday">` arriba. `#p1Food` sube por encima del plan diario.
+  - `phase1.js` → `renderFood`: el `<select name="meal">` pasa a radios `name="meal"` dentro de `fieldset.food-meals`; el `FormData` y el guardado no cambian.
+  - Las comidas de hoy se agrupan por comida (`.food-group`). Al final de cada render se emite `document.dispatchEvent(new CustomEvent("rise:food-changed",{detail:{date,kcal,protein,meals}}))`.
+  - `microapps/food/today.js` escucha ese evento y lee `user_settings.settings.bodyProfile` (kcalMin/Max, proteinMin/Max) para pintar "Hoy". También añade casillas a `.food-list` (en `localStorage`, por mes).
+  - Estilos en `microapps/food/food.css`.
+- **Skin**
+  - `index.html` → `#skin`: nuevo `.skin-seg` con `[data-skin-mode="am|pm"]`. `#pill` y `#switchBtn` siguen existiendo dentro de `.skin-legacy-switch`, oculto con CSS.
+  - `microapps/skin/skin.js` → `render()`: marca `aria-pressed` del segmentado y, si están todos los pasos, añade `.skin-finished`. En la inicialización, los botones `[data-skin-mode]` cambian `mode` y llaman a `render()`. No cambia el guardado.
+  - Estilos en `microapps/skin/skin.css`.
+- **Tests**: `tests/e2e/authenticated.mjs` usa `[data-skin-mode="am|pm"]` en vez de `#switchBtn`; nuevos `tests/food-today.test.mjs` y `tests/e2e/food-skin.mjs`.

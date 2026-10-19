@@ -1,0 +1,69 @@
+/* Food 2.47.0 · diseño del prototipo de Lovable (19 oct 2026). Solo afecta a #food.
+   Mobile first: márgenes de 16–20 px, texto mínimo 14 px, cifras de 28–36 px, zonas táctiles de 44 px
+   y campos de 48 px con letra de 16 px (el iPhone no hace zoom). */
+
+html body #food { --food-pad: 18px; }
+html body #food .small { font-size: 14px; }
+
+/* Hoy: kcal y proteína frente al objetivo del perfil */
+html body #food .food-today { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: var(--food-pad); margin-bottom: 18px; display: grid; gap: 16px; }
+html body #food .food-today-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+html body #food .food-today-head h2 { margin: 0; font-size: 22px; }
+html body #food .food-meter-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+html body #food .food-meter-head > span { font-size: 15px; color: var(--muted); font-weight: 600; }
+html body #food .food-meter-head b { font-size: 30px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+html body #food .food-meter-head b .small { font-size: 15px; font-weight: 500; margin-left: 2px; }
+html body #food .food-bar { position: relative; height: 10px; border-radius: 99px; background: var(--card2); overflow: visible; }
+html body #food .food-bar i { display: block; height: 100%; border-radius: inherit; background: var(--accent); }
+html body #food .food-bar s { position: absolute; top: -3px; bottom: -3px; width: 2px; margin-left: -1px; background: var(--text); opacity: .6; text-decoration: none; }
+html body #food .food-in .food-bar i { background: var(--ok); }
+html body #food .food-over .food-bar i { background: var(--warn); }
+html body #food .food-meter > .small { margin: 8px 0 0; }
+
+/* Registrar comida: chips de comida y campos grandes */
+html body #food .food-form { padding: var(--food-pad); border-radius: 12px; }
+html body #food .food-meals { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 6px; padding: 0; border: 0; min-width: 0; }
+html body #food .food-meals legend { width: 100%; margin-bottom: 8px; font-size: 14px; color: var(--muted); padding: 0; }
+html body #food .food-meal { position: relative; flex: 1 1 calc(50% - 4px); margin: 0; }
+html body #food .food-meal input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+html body #food .food-meal span { display: flex; align-items: center; justify-content: center; min-height: 48px; border-radius: 10px; border: 1px solid var(--line); background: var(--card2); font-size: 16px; font-weight: 600; color: var(--muted); }
+html body #food .food-meal input:checked + span { background: var(--accent); border-color: var(--accent); color: var(--rx-ink, #111116); }
+html body #food .food-meal input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+html body #food :where(#p1Food) :where(input:not([type=radio]), select) { font-size: 16px; min-height: 48px; border-radius: 10px; }
+html body #food #p1Food button[type="submit"] { width: 100%; min-height: 52px; font-size: 16px; }
+
+/* Comidas de hoy agrupadas */
+html body #food .food-group { margin-top: 16px; }
+html body #food .food-group h4 { margin: 0 0 8px; font-size: 14px; letter-spacing: .04em; text-transform: uppercase; color: var(--accent2); }
+html body #food .food-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px var(--food-pad); border-radius: 12px; }
+html body #food .food-item + .food-item { margin-top: 8px; }
+html body #food .food-desc { font-size: 16px; font-weight: 600; overflow-wrap: anywhere; }
+html body #food .food-item button { min-width: 44px; min-height: 44px; flex-shrink: 0; border-radius: 10px; }
+
+/* Plan diario, fases, dieta y compra */
+html body #food .hero { padding: var(--food-pad); border-radius: 12px; margin-top: 18px; }
+html body #food .hero .quick { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+html body #food .hero .quick > div { min-width: 0; padding: 12px; border-radius: 10px; background: var(--card2); }
+html body #food .hero .quick b { display: block; font-size: 18px; line-height: 1.25; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+html body #food #bpPhases { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+html body #food #bpPhases .pill { min-height: 36px; display: inline-flex; align-items: center; padding: 6px 12px; font-size: 15px; font-weight: 650; font-variant-numeric: tabular-nums; }
+html body #food #bpPhases .pill:first-child { background: var(--accent); color: var(--rx-ink, #111116); }
+html body #food .card > b { font-size: 17px; }
+html body #food .food-list { display: grid; gap: 0; margin: 0; }
+html body #food .food-list > div { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; align-items: center; gap: 12px; min-height: 52px; border-bottom: 1px solid var(--line); }
+html body #food .food-list > div:last-child { border-bottom: 0; }
+html body #food .food-list dt { font-size: 16px; overflow-wrap: anywhere; }
+html body #food .food-list dd { margin: 0; font-size: 14px; color: var(--muted); text-align: right; font-variant-numeric: tabular-nums; }
+html body #food .food-shop-hit { display: grid; place-items: center; width: 44px; height: 44px; margin: 0; cursor: pointer; }
+html body #food .food-shop-check { width: 26px; height: 26px; margin: 0; accent-color: var(--accent); cursor: pointer; }
+html body #food .food-bought dt, html body #food .food-bought dd { text-decoration: line-through; opacity: .55; }
+html body #food .food-list > div:not(:has(.food-shop-hit)) { grid-template-columns: minmax(0, 1fr) auto; }
+
+@media (max-width: 380px) {
+  html body #food { --food-pad: 16px; }
+  html body #food .hero .quick b { font-size: 16px; }
+}
+@media (min-width: 900px) {
+  html body #food .food-today { grid-template-columns: auto 1fr 1fr; align-items: start; column-gap: 28px; }
+  html body #food .food-meal { flex: 1 1 0; }
+}

@@ -269,7 +269,7 @@ await check("Skin: marcar un paso, guardar en Supabase, releer tras recargar y d
   assert.deepEqual(row.body[0]?.completed_steps, [0]);
   await page.reload({ waitUntil: "networkidle" }); await page.waitForSelector("#appShell:not(.hidden)");
   await page.evaluate(() => document.querySelector('[data-open="skin"]')?.click());
-  if ((await page.textContent("#pill")).trim() !== (session === "am" ? "MAÑANA" : "NOCHE")) await page.click("#switchBtn");
+  if ((await page.textContent("#pill")).trim() !== (session === "am" ? "MAÑANA" : "NOCHE")) await page.click(`[data-skin-mode="${session}"]`); // interruptor segmentado desde 2.47.0
   await page.waitForFunction(() => document.querySelector('#steps .check[data-i="0"]')?.classList.contains("done"), null, { timeout: 10000 });
   assert.match(await page.textContent("#prog"), /^1 de \d+ pasos/);
   const note = `E2E nota piel ${run}`;
