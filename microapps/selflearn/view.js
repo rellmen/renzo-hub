@@ -4,6 +4,7 @@
 import * as E from "./engine.js";
 import { pronunciationDrills } from "./pronunciation.js";
 import { grammarDrills,checkGrammar } from "./grammar.js";
+import { diagnosticQuestions,evaluateDiagnostic } from "./diagnostic.js";
 import { fsrs, createEmptyCard, Rating } from "./fsrs-bundle.js";
 
 const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -77,6 +78,7 @@ ${resume}
 <div class="sl-section"><h2>Ruta del curso</h2><span>${done.size} de ${units.length} completadas</span></div>
 ${levelHtml}
 <details class="sl-panel" open><summary>⚙️ Mi ruta personalizada · gramática y pronunciación</summary>${settingsForm(c, cfg)}</details>
+<details class="sl-panel"><summary>🧭 Diagnóstico inicial por destreza</summary>${diagnosticView(c)}</details>
 <details class="sl-panel"><summary>📖 Entrenador de gramática · ${grammarDrills(c).length} ejercicios</summary>${grammarView(c)}</details>
 <details class="sl-panel"><summary>🗣️ Entrenador de pronunciación · ${pronunciationDrills(c).length} ejercicios</summary>${pronunciationView(c)}</details>
 <details class="sl-panel"><summary>✍️ Práctica libre, mis tarjetas e historial</summary>${labView(c, cfg)}</details>
@@ -88,6 +90,18 @@ ${levelHtml}
     const course = E.COURSES[c], placement = cfg.placement, p = E.personalization(settings(),c);
     return `<form class="sl-form" data-sl-form="settings"><label>Empezar desde<select name="startingLevel">${course.levels.map(l => `<option value="${l.id}" ${cfg.startingLevel === l.id ? "selected" : ""}>${l.id} · ${esc(l.name)}</option>`).join("")}</select></label><label>Duración de cada lección<select name="sessionMinutes">${[[5, "Corta · 5 min"], [10, "Normal · 10 min"], [20, "Extendida · 20 min (con dictado)"]].map(([m, t]) => `<option value="${m}" ${cfg.sessionMinutes === m ? "selected" : ""}>${t}</option>`).join("")}</select></label><label>Priorizar temas<select name="focus">${E.FOCUS[c].map(f => `<option ${cfg.focus === f ? "selected" : ""}>${f}</option>`).join("")}</select></label><fieldset><legend>Prioridades de aprendizaje · ${esc(p.goalLevel)} como objetivo</legend><p class="sl-note">Distribución de tiempo orientativa. Se normaliza automáticamente; no cambia tus lecciones completadas.</p>${[["grammar","Gramática"],["pronunciation","Pronunciación y escucha"],["context","Conversación y situaciones reales"],["review","Repaso"]].map(([k,label])=>`<label>${label}<input name="priority_${k}" type="number" min="0" max="100" step="5" value="${p.priorities[k]}"></label>`).join("")}</fieldset><button class="sl-secondary" type="submit">Guardar preferencias</button></form>
 <div class="sl-diag"><b>¿Desde qué nivel empezar?</b><p>Prueba orientativa: 3 palabras por nivel. Ajusta tu punto de partida; no mide las cuatro destrezas.</p><button class="sl-secondary" data-sl="diagnostic">Hacer diagnóstico</button>${placement ? `<p class="sl-note">Última recomendación: <b>${esc(placement.recommended)}</b> · ${esc(placement.date)} · ${Number(placement.correct) || 0}/${Number(placement.total) || 0} aciertos.</p>` : ""}</div>`;
+  }
+
+  function diagnosticView(c) {
+    const q=diagnosticQuestions(c);
+    const latest=data().entries.filter(x=>x.kind==="learning_assessment"&&x.course===c&&x.skill==="diagnostic").at(-1);
+    return `<div class="sl-lab"><p class="sl-note">Evaluación orientativa de gramática, comprensión lectora y producción escrita. La escritura se guarda para revisión, no se califica automáticamente.</p>
+    ${latest?`<p class="sl-note">Último diagnóstico: ${esc(latest.date)} · gramática ${latest.grammarCorrect}/${latest.grammarTotal} · lectura ${latest.readingCorrect}/1 · escritura pendiente de revisión.</p>`:""}
+    <form class="sl-form" data-sl-form="skill-diagnostic">
+    <h3>Gramática</h3>${q.grammar.map((d,i)=>`<fieldset><legend>${esc(d.prompt)}</legend>${d.options.map(option=>`<label><input type="radio" name="grammar_${i}" value="${esc(option)}" required> ${esc(option)}</label>`).join("")}</fieldset>`).join("")}
+    <h3>Comprensión lectora</h3><p>${esc(q.reading.text)}</p><fieldset><legend>${esc(q.reading.question)}</legend>${q.reading.options.map((option,i)=>`<label><input type="radio" name="reading" value="${i}" required> ${esc(option)}</label>`).join("")}</fieldset>
+    <h3>Producción escrita</h3><p>${esc(q.writing)}</p><textarea name="writing" rows="3" maxlength="1200" required></textarea>
+    <button class="sl-primary" type="submit">Guardar diagnóstico por destreza</button></form></div>`;
   }
 
   function grammarView(c) {
@@ -272,6 +286,14 @@ ${levelHtml}
     const form = event.target.closest("form[data-sl-form]"); if (!form) return;
     event.preventDefault();
     const kind = form.dataset.slForm, v = Object.fromEntries(new FormData(form)), c = activeCourse(), d = data(), s = settings();
+    if (kind === "skill-diagnostic") {
+      const q=diagnosticQuestions(c);
+      const answers={grammar:q.grammar.map((_,i)=>v[`grammar_${i}`]),reading:v.reading===""?null:Number(v.reading),writing:v.writing};
+      if(answers.grammar.some(x=>x===undefined)||!Number.isInteger(answers.reading)||!String(answers.writing||"").trim())return;
+      const result=evaluateDiagnostic(c,answers);
+      d.entries.push({id:crypto.randomUUID(),kind:"learning_assessment",area:E.areaFor(c),course:c,skill:"diagnostic",title:"Diagnóstico por destreza",date:today(),grammarCorrect:result.grammar.correct,grammarTotal:result.grammar.total,readingCorrect:result.reading.correct,writing:result.writing.text,writingAssessed:false,grammarDetails:result.grammar.details});
+      save(true);render();return;
+    }
     if (kind === "type") { const run = activeRun(), step = E.currentStep(run); if (!run || !step || ui.feedback) return; ui.typed = String(v.typed || ""); const r = E.checkTyped(ui.typed, step.answer, run.course); grade(run, r.ok, step.answer, r.typo); speak(step.answer, lang()); return; }
     if (kind === "settings") {
       const course = E.COURSES[c], level = course.levels.some(l => l.id === v.startingLevel) ? v.startingLevel : course.levels[0].id, focus = E.FOCUS[c].includes(v.focus) ? v.focus : "Mixto";
