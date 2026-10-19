@@ -88,3 +88,9 @@ Renzo autorizó a Claude a cambiar Gym sin esperar a ChatGPT ("te doy permiso…
   - `microapps/skin/skin.js` → `render()`: marca `aria-pressed` del segmentado y, si están todos los pasos, añade `.skin-finished`. En la inicialización, los botones `[data-skin-mode]` cambian `mode` y llaman a `render()`. No cambia el guardado.
   - Estilos en `microapps/skin/skin.css`.
 - **Tests**: `tests/e2e/authenticated.mjs` usa `[data-skin-mode="am|pm"]` en vez de `#switchBtn`; nuevos `tests/food-today.test.mjs` y `tests/e2e/food-skin.mjs`.
+
+## Claude · 19 oct · Gym · Entrenar con un ejercicio a la vez (con permiso de Renzo) · 2.48.0
+
+- `gym.js`: nuevo import de `./microapps/gym/player.js`. Al final del pintado de la sesión (tras `form.onsubmit`) se llama a `enhanceSession(content,{active,previous,startRest,saveDraft,rankOf,info})`. **No cambia** la plantilla del formulario, sus `name`, ni `save()`.
+- `player.js` mueve nodos ya pintados: añade `.gp-bar`, `.gp-strip`, `.gp-hero` por ejercicio y `.gp-nav`. Mete el botón `[data-quick-done]` dentro de la fila como `.gp-tick` y agrupa repetir, lado y nota en `.gp-set-extra`. Oculta la casilla `c-i-j` (sigue en el formulario). El estado (ejercicio activo, vista) se guarda en memoria por id de sesión.
+- Si cambias la plantilla de sesión (orden `.setrow` → `.gym-quick-actions` → lado → nota), revisa `player.js` y pasa `tests/e2e/gym-lovable.mjs`. Para pruebas que recorren todos los ejercicios, pulsa antes `[data-gp-list]` (vista completa).
