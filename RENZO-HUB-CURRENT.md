@@ -1,5 +1,11 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## 2.53.1 (2026-10-19) · Límite del tutor IA aplicado en producción
+
+- Con el OK explícito de Renzo ("Haz la A", 11:01), Claude aplicó `20261019030000_selflearn_tutor_quota` en Supabase de **producción** (`mgncykyrhavpepfggmng`). Comprobado: tabla vacía, RLS activa, sin lectura para `anon` ni `authenticated`, la función solo la ejecuta `authenticated`.
+- La migración pasa de `supabase/pending/` a `supabase/migrations/` (aplicada en los dos entornos) y su rollback a `supabase/rollbacks/`.
+- `tests/backup.test.mjs`: `selflearn_tutor_quota` queda fuera de la copia de forma explícita como tabla técnica (contador sin datos personales y no legible desde la app).
+
 ## 2.53.0 (2026-10-19) · Tutor IA con las variables que puso Renzo
 
 - Renzo puso en Vercel (`rise-hub`, producción): `OPENROUTER_API_KEY`, `SELFLEARN_AI_ENABLED` y `SELFLEARN_AI_LIMIT_READY`. Este último nombre es distinto del que esperaba el código (`SELFLEARN_AI_RATE_LIMIT_READY`).

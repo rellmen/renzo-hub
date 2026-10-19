@@ -1,6 +1,6 @@
 {
-  "release": "2.53.0",
-  "name": "RISE HUB · tutor IA con tus variables de Vercel",
+  "release": "2.53.1",
+  "name": "RISE HUB · límite del tutor IA activo en producción",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",
