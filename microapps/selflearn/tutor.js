@@ -15,7 +15,7 @@ export function localTutorResponse({course,mode="conversation",answer="",turn=0}
  if(!PROMPTS[course]||!["conversation","writing"].includes(mode))throw Error("Sesión no válida");
  if(!text)return {accepted:false,feedback:"Escribe una respuesta para continuar.",nextPrompt:tutorPrompt(course,mode,turn),automated:false};
  const words=text.split(/\s+/).filter(Boolean).length;
- return {accepted:true,feedback:words<5?"Intenta ampliar tu respuesta con más detalles.":"Respuesta guardada para practicar. Revísala: el modo local no verifica automáticamente gramática ni pronunciación.",nextPrompt:mode==="conversation"&&turn+1<TUTOR_LIMITS.maxTurns?tutorPrompt(course,mode,turn+1):null,automated:false,words};
+ return {accepted:true,feedback:(words<5?"Intenta ampliar tu respuesta con más detalles. ":"Respuesta guardada para practicar. ")+"Revísala: el modo local no verifica automáticamente gramática ni pronunciación.",nextPrompt:mode==="conversation"&&turn+1<TUTOR_LIMITS.maxTurns?tutorPrompt(course,mode,turn+1):null,automated:false,words};
 }
 export function tutorPrivacyNotice(){
  return "Modo local: no se envía texto a una API de IA. El texto se guarda en tu historial de aprendizaje al pulsar Guardar. Evita introducir nombres reales, datos de clientes o información confidencial.";
