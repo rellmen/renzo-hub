@@ -1,5 +1,26 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## 2.53.0 (2026-10-19) · Tutor IA con las variables que puso Renzo
+
+- Renzo puso en Vercel (`rise-hub`, producción): `OPENROUTER_API_KEY`, `SELFLEARN_AI_ENABLED` y `SELFLEARN_AI_LIMIT_READY`. Este último nombre es distinto del que esperaba el código (`SELFLEARN_AI_RATE_LIMIT_READY`).
+- `api/selflearn-tutor.js` acepta los dos nombres y valores `true`/`1`/`sí`. Se quita el interruptor extra `SELFLEARN_AI_ALLOW_PRODUCTION`: las variables de Renzo ya son el encendido explícito. Solo funciona en preview y producción.
+- **La tabla de cuota NO está en producción**: el sistema bloqueó a Claude al aplicarla. Hasta que Renzo la aplique, cada consulta falla cerrada (503, "Límite de uso no configurado… Tutor local disponible"). No se llama a OpenRouter sin cuota.
+- SQL a ejecutar: `supabase/pending/20261019030000_selflearn_tutor_quota.sql`. Ya aplicada en staging.
+- Integra también la 2.52.0 de otra sesión de Claude (Gym: programa Recomp 12 semanas y Finalizar arreglado, PR #104), validada aquí: 370/370 tests y E2E en verde.
+
+## 2.52.0 (2026-10-19) · Gym · Programa Recomp 12 semanas y Finalizar arreglado · PR hacia staging
+
+- **Programa nuevo** (`recomp_rise_hub.csv` de Renzo, copia en `tests/fixtures/`): `microapps/gym/recomp-plan.js` es el plan por defecto (Lunes Push, Martes Pull, Miércoles Legs + Core, Viernes Upper, Sábado Arms + Lower). Cada ejercicio lleva su descanso, RIR, nota y superserie del CSV; "8-12 por pierna/lado" se muestra con la unidad. Mismo formato de plan de siempre (`validateGymPlan`), con un 8.º campo de opciones.
+  - Quien ya tiene una rutina guardada en `gym_plans` ve un aviso **"Usar este programa"** (confirmación). La rutina anterior queda como copia en el dispositivo y hay un botón **"Volver a mi rutina anterior"**. Las sesiones pasadas no cambian.
+  - Los nombres en castellano apuntan a la ficha de la biblioteca (`canonicalExercise`): técnica, alternativas y rangos siguen funcionando.
+  - Descanso y progresión usan el valor del programa (`restSeconds`, `targetRir`); sin programa, lo de antes.
+- **Reloj de 288 h:** era una sesión empezada hace días y nunca cerrada. Si lleva más de 12 h abierta, la barra dice "Abierta desde 7 oct" y aparece un aviso con **Finalizar con lo hecho** o **Descartar sesión**.
+- **Finalizar no finalizaba**, por tres causas:
+  1. La duración se calculaba desde el inicio (17.280 min en una sesión olvidada) y Supabase la rechaza (máx. 600). Ahora, si pasa de 300 min, se guarda vacía en vez de inventarla.
+  2. Con "un ejercicio a la vez", un campo no válido de otro ejercicio (oculto) bloqueaba el envío sin enseñar nada. Ahora los campos de series sin marcar no bloquean, y si algo bloquea se muestra ese ejercicio con un aviso.
+  3. Sin ninguna serie hecha no había salida. Nuevo botón **Descartar sesión** (borra solo ese borrador sin terminar, con confirmación).
+- El temporizador de descanso no recupera restos de más de 15 min.
+- Tests: `tests/gym-recomp.test.mjs` (CSV completo frente al plan, descanso, RIR, superseries, rangos, reloj). E2E `tests/e2e/gym-recomp-finish.mjs` (Chromium y WebKit a 375 px). Caché `renzo-hub-cloud-v55-gym-recomp`.
 ## 2.51.0 (2026-10-19) · Tutor IA de SelfLearn listo para OpenRouter gratis (opción A de Renzo)
 
 - `api/selflearn-tutor.js`:

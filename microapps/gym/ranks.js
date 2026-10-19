@@ -2,6 +2,7 @@
 // Se basan en la fuerza estimada (e1RM) relativa al peso corporal frente a estándares ORIENTATIVOS por patrón de movimiento.
 // Las máquinas y poleas varían mucho entre gimnasios: el rango sirve para seguir tu progreso, no para compararte con nadie.
 import { e1rm } from "./progression.js";
+import { canonicalExercise } from "./exercise-info.js";
 
 export const TIERS = [
   { id: "hierro", name: "Hierro", color: "#8f8a83" },
@@ -56,7 +57,9 @@ const MUSCLE_MAP = { Piernas: "Cuádriceps", Glúteos: "Glúteos", Pecho: "Pecho
 
 export function standardFor(name) {
   if (BODYWEIGHT.test(String(name || ""))) return null;
-  const hit = STANDARDS.find(([re]) => re.test(String(name || "")));
+  const key = canonicalExercise(name);
+  if (BODYWEIGHT.test(String(key || ""))) return null;
+  const hit = STANDARDS.find(([re]) => re.test(String(key || "")));
   return hit ? { pattern: hit[1], thresholds: hit[2], muscle: hit[3] } : null;
 }
 

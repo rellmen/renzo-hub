@@ -16,7 +16,7 @@ test("non-POST methods are rejected",async()=>{
 });
 
 // 2.51.0 · interruptores de entorno y modelo configurable
-const ENV=["VERCEL_ENV","SELFLEARN_AI_ENABLED","SELFLEARN_AI_RATE_LIMIT_READY","OPENROUTER_API_KEY","SELFLEARN_AI_ALLOW_PRODUCTION","SELFLEARN_AI_MODEL"];
+const ENV=["VERCEL_ENV","SELFLEARN_AI_ENABLED","SELFLEARN_AI_RATE_LIMIT_READY","SELFLEARN_AI_LIMIT_READY","OPENROUTER_API_KEY","SELFLEARN_AI_ALLOW_PRODUCTION","SELFLEARN_AI_MODEL"];
 async function info(env){
  const old=Object.fromEntries(ENV.map(k=>[k,process.env[k]]));
  for(const k of ENV)delete process.env[k];Object.assign(process.env,env);
@@ -26,11 +26,14 @@ async function info(env){
  return out;
 }
 const ON={SELFLEARN_AI_ENABLED:"true",SELFLEARN_AI_RATE_LIMIT_READY:"true",OPENROUTER_API_KEY:"sk-test"};
-test("producción sigue apagada sin SELFLEARN_AI_ALLOW_PRODUCTION",async()=>{
- assert.equal((await info({VERCEL_ENV:"production",...ON})).enabled,false);
- assert.equal((await info({VERCEL_ENV:"production",...ON,SELFLEARN_AI_ALLOW_PRODUCTION:"true"})).enabled,true);
- assert.equal((await info({VERCEL_ENV:"preview",...ON})).enabled,true);
- assert.equal((await info({VERCEL_ENV:"preview",SELFLEARN_AI_ENABLED:"true",OPENROUTER_API_KEY:"sk-test"})).enabled,false,"sin cuota no se enciende");
+test("se enciende solo con las variables de Renzo, también con el nombre SELFLEARN_AI_LIMIT_READY",async()=>{
+ assert.equal((await info({VERCEL_ENV:"production",...ON})).enabled,true);
+ assert.equal((await info({VERCEL_ENV:"production",SELFLEARN_AI_ENABLED:"true",SELFLEARN_AI_LIMIT_READY:"true",OPENROUTER_API_KEY:"sk-test"})).enabled,true);
+ assert.equal((await info({VERCEL_ENV:"production",SELFLEARN_AI_ENABLED:"TRUE ",SELFLEARN_AI_LIMIT_READY:"1",OPENROUTER_API_KEY:"sk-test"})).enabled,true);
+ assert.equal((await info({VERCEL_ENV:"production",SELFLEARN_AI_ENABLED:"true",OPENROUTER_API_KEY:"sk-test"})).enabled,false,"sin cuota no se enciende");
+ assert.equal((await info({VERCEL_ENV:"production",SELFLEARN_AI_ENABLED:"false",SELFLEARN_AI_LIMIT_READY:"true",OPENROUTER_API_KEY:"sk-test"})).enabled,false);
+ assert.equal((await info({VERCEL_ENV:"development",...ON})).enabled,false);
+ assert.equal((await info({VERCEL_ENV:"production",...ON,OPENROUTER_API_KEY:"  "})).enabled,false,"clave vacía");
 });
 test("modelo: openrouter/free por defecto y configurable solo con un id válido",async()=>{
  assert.equal((await info({VERCEL_ENV:"preview",...ON})).model,"openrouter/free");

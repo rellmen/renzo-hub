@@ -149,6 +149,12 @@ html body #gym .gp-iconbtn { display: grid; place-items: center; width: 44px; he
 html body #gym .gp-iconbtn[aria-expanded="true"], html body #gym .gp-iconbtn:active { background: var(--card2); }
 html body #gym .gp-time { flex: 1; min-width: 0; }
 html body #gym .gp-time b { font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: .01em; }
+/* 2.49.0 · sesión olvidada: texto en vez de un reloj de cientos de horas */
+html body #gym .gp-time b { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+html body #gym .gp-time b.gp-time-stale { font-size: 14px; font-weight: 600; color: var(--muted, inherit); }
+html body #gym .gp-stale { margin: 0 0 12px; box-shadow: inset 3px 0 #d7be89; }
+html body #gym .gp-stale .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+html body #gym .gym-plan-switch .actions { display: flex; flex-wrap: wrap; gap: 8px; }
 html body #gym .gp-finish { min-height: 44px; padding: 0 18px; border-radius: 12px; border: 1px solid var(--line); background: var(--card); color: var(--text); font-size: 16px; font-weight: 700; }
 
 /* Datos de la sesión (peso, cardio, notas): ocultos hasta pulsar ⚙ */

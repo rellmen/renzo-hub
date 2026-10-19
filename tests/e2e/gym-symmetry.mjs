@@ -21,7 +21,7 @@ try{
    {name:"Lat Pulldown",min:6,max:10,muscle:"Espalda",compound:true,sets:[1,2,3,4].map(()=>({weight:w,reps:10,rir:2,completed:true}))},
    {name:"EZ Bar Curl",min:6,max:10,muscle:"Bíceps",compound:false,sets:[1,2,3].map(()=>({weight:25,reps:8,rir:1,completed:true}))}]});
   const store={sessions:[day("2026-10-08",57.5),day("2026-10-13",60)],plans:null,upserts:0,planUpserts:0,files:new Map()};window.__store=store;
-  const {DEFAULT_PLAN}=await import("/gym.js");const plan=structuredClone(DEFAULT_PLAN);plan[0][2][4][5]=0;plan[0][2][4][6]=1;store.plans=plan;
+  const {LEGACY_PLAN}=await import("/gym.js");const plan=structuredClone(LEGACY_PLAN);plan[0][2][4][5]=0;plan[0][2][4][6]=1;store.plans=plan;
   const q=table=>{const api={select(){return api},eq(){return api},order(){return Promise.resolve({data:table==="gym_sessions"?structuredClone(store.sessions):[],error:null})},maybeSingle(){return Promise.resolve({data:table==="gym_plans"?{plan:structuredClone(store.plans)}:null,error:null})},
    upsert(rec){store.upserts++;if(table==="gym_plans")store.planUpserts++;if(table==="gym_sessions"){store.sessions=[structuredClone(rec),...store.sessions.filter(r=>r.id!==rec.id)];}return Promise.resolve({error:null});}};return api;};
   // Storage privado simulado: guarda los archivos en memoria y devuelve URLs blob: (las permite la CSP).

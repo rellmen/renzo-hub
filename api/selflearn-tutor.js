@@ -1,11 +1,14 @@
 // SelfLearn AI tutor: server-side only, disabled by default.
 // Requires verified Supabase session, a daily quota in Postgres and explicit consent per request.
-// Production stays off unless SELFLEARN_AI_ALLOW_PRODUCTION==="true" (needs the quota migration applied there).
 // OpenRouter "openrouter/free" routes to an available free model; SELFLEARN_AI_MODEL can pin another ":free" model.
 const MODEL=/^[a-z0-9._-]+\/[a-z0-9._:-]+$/i.test(process.env.SELFLEARN_AI_MODEL||"")?process.env.SELFLEARN_AI_MODEL:"openrouter/free";
 const send=(res,status,body)=>{res.setHeader("Cache-Control","no-store");return res.status(status).json(body);};
-const envAllowed=()=>process.env.VERCEL_ENV==="preview"||(process.env.VERCEL_ENV==="production"&&process.env.SELFLEARN_AI_ALLOW_PRODUCTION==="true");
-const enabled=()=>envAllowed()&&process.env.SELFLEARN_AI_ENABLED==="true"&&process.env.SELFLEARN_AI_RATE_LIMIT_READY==="true"&&Boolean(process.env.OPENROUTER_API_KEY);
+// Renzo enciende el tutor en producción poniendo él mismo las variables (19 oct 2026). Si falta la tabla de cuota,
+// la consulta falla cerrada (503) y la app sigue con el tutor local.
+const on=v=>/^(true|1|yes|si|sí)$/i.test(String(v||"").trim());
+const envAllowed=()=>["preview","production"].includes(process.env.VERCEL_ENV);
+const limitReady=()=>on(process.env.SELFLEARN_AI_RATE_LIMIT_READY)||on(process.env.SELFLEARN_AI_LIMIT_READY);
+const enabled=()=>envAllowed()&&on(process.env.SELFLEARN_AI_ENABLED)&&limitReady()&&Boolean(String(process.env.OPENROUTER_API_KEY||"").trim());
 export default async function handler(req,res){
  if(req.method==="GET")return send(res,200,{enabled:enabled(),model:enabled()?MODEL:null,requiresConsent:true,maxChars:1200});
  if(req.method!=="POST"){res.setHeader("Allow","GET, POST");return send(res,405,{error:"Method not allowed"});}
