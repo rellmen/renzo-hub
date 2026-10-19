@@ -59,6 +59,7 @@ export function mountSelfLearn({ root, getData, persist, today, xpView, currentM
     if (summary) root.innerHTML = summaryView();
     else if (run && ui.playing) root.innerHTML = playerView(run);
     else root.innerHTML = homeView();
+    root.querySelectorAll(".sl-bar[role=progressbar]").forEach(el=>{ const fill=el.querySelector("span"); if(fill)el.setAttribute("aria-valuenow",String(Math.max(0,Math.min(100,parseInt(fill.style.width,10)||0)))); });
     afterRender();
   }
   function afterRender() { const input = root.querySelector("[data-sl-type]"); if (input && !ui.feedback) input.focus({ preventScroll: true }); onChange?.(); }
@@ -82,6 +83,7 @@ export function mountSelfLearn({ root, getData, persist, today, xpView, currentM
 <div class="sl-stats"><div><strong>${st}</strong><small>días de racha</small></div><div><strong>${done.size}/${units.length}</strong><small>lecciones</small></div><div><strong>${known}</strong><small>palabras fijadas</small></div><div><strong>NV <b data-rise-level>${esc(xv.level)}</b></strong><small><b data-rise-xp>${esc(xv.xp)}</b> XP</small></div></div></div>
 ${resume}
 <div class="sl-next"><div class="ey">TU SIGUIENTE LECCIÓN · ${esc(next.level)} · ${esc(next.topic)}</div><h2>${esc(next.title)}</h2><p>${esc(next.goal)}</p><div class="sl-row"><button class="sl-primary" data-sl="start" data-unit="${esc(next.id)}">${run?.mode === "lesson" && run.unitId === next.id ? "Continuar lección" : "Empezar lección"} · ${cfg.sessionMinutes} min</button><button class="sl-secondary" data-sl="review" ${due ? "" : "disabled"}>🧠 Repaso · ${due} ${due === 1 ? "palabra" : "palabras"}</button></div>${currentMode() ? `<p class="sl-note">Hoy tienes turno configurado: un repaso corto también cuenta para la racha.</p>` : ""}</div>
+<div class="sl-card sl-quick"><h2>Sesión rápida · 5 minutos</h2><p class="sl-note">Una lección breve o un repaso pendiente. La duración real depende de tu ritmo.</p><div class="sl-row"><button class="sl-primary" type="button" data-sl="quick-start">Practicar ahora</button><button class="sl-secondary" type="button" data-sl="quick-review" ${due?"":"disabled"}>Repasar tarjetas (${due})</button></div></div>
 <div class="sl-section"><h2>Ruta del curso</h2><span>${done.size} de ${units.length} completadas</span></div>
 ${levelHtml}
 <details class="sl-panel" open><summary>⚙️ Mi ruta personalizada · gramática y pronunciación</summary>${settingsForm(c, cfg)}</details>
@@ -308,6 +310,8 @@ ${levelHtml}
     if (act === "speak") { speak(btn.dataset.text, lang()); return; }
     if (act === "grammar-reset") { grammarFeedback = {}; render(); return; }
     if (act === "grammar-answer") { const drill = grammarDrills(activeCourse()).find(d=>d.id===btn.dataset.id); if(!drill || grammarFeedback[drill.id])return; const choice=drill.options[Number(btn.dataset.i)]; const ok=checkGrammar(drill,choice);grammarFeedback[drill.id]=grammarAnswerFeedback(drill,choice);data().entries.push({id:crypto.randomUUID(),kind:"learning_assessment",area:E.areaFor(activeCourse()),course:activeCourse(),skill:"grammar",rule:drill.id,title:drill.rule,correct:ok?1:0,totalQuestions:1,date:today()});save(true);render();return; }
+    if (act === "quick-start") { startLesson(E.nextUnit(activeCourse(),data().entries,settings()).id); return; }
+    if (act === "quick-review") { if(dueCards(activeCourse()).length)startReview();return; }
     if (act === "course") { settings().activeCourse = btn.dataset.course; ui = fresh(); save(true); render(); return; }
     if (act === "start") { startLesson(btn.dataset.unit); return; }
     if (act === "resume") { ui = { ...fresh(), playing: true }; render(); if (run) speakIfIntro(run); return; }
@@ -378,5 +382,5 @@ ${levelHtml}
     save(true); render();
   });
 
-  return { render, reset() { ui = fresh(); summary = null; root.innerHTML = ""; } };
+  return { render, reset() { speechSession?.cancel();speechSession=null;ui = fresh(); summary = null; root.innerHTML = ""; } };
 }
