@@ -7,6 +7,31 @@ import { EN_COURSE } from "./courses/en.js";
 export const COURSES = { nl: NL_COURSE, en: EN_COURSE };
 export const COURSE_IDS = Object.keys(COURSES);
 export const RUN_VERSION = 2;
+// Configuración por curso sin migraciones: conserva las preferencias legadas.
+export const LANGUAGE_GOALS = Object.freeze({nl:"B2",en:"C1"});
+export const LEARNING_PRIORITIES = Object.freeze(["grammar","pronunciation","context","review"]);
+export function personalization(settings = {}, courseId = "nl") {
+  const stored = settings.courses?.[courseId]?.personalization || {};
+  const raw = stored.priorities || {};
+  const priorities = Object.fromEntries(LEARNING_PRIORITIES.map(k => [k, Math.max(0, Math.min(100, raw[k] !== undefined && raw[k] !== null && raw[k] !== "" && Number.isFinite(Number(raw[k])) ? Number(raw[k]) : ({grammar:40,pronunciation:30,context:20,review:10}[k])))]));
+  const total = Object.values(priorities).reduce((a,b)=>a+b,0);
+  const normalized = total ? Object.fromEntries(Object.entries(priorities).map(([k,v])=>[k,Math.floor(v*100/total)])) : {grammar:40,pronunciation:30,context:20,review:10};
+  if(total){const remainder=100-Object.values(normalized).reduce((a,b)=>a+b,0);normalized.grammar+=remainder;}
+  return {goalLevel:LANGUAGE_GOALS[courseId] || "B2",explanationLanguage:"es",...stored,priorities:normalized};
+}
+export function savePersonalization(settings, courseId, patch = {}) {
+  if (!COURSES[courseId]) throw Error("Curso no válido");
+  const previous = personalization(settings,courseId);
+  const allowed = Object.fromEntries(Object.entries(patch).filter(([key])=>["priorities","explanationLanguage"].includes(key)));
+  const next = personalization({courses:{[courseId]:{personalization:{...previous,...allowed}}}},courseId);
+  settings.courses = {...(settings.courses || {}),[courseId]:{...(settings.courses?.[courseId] || {}),personalization:next}};
+  return next;
+}
+export function grammarAccuracy(entries = [], courseId) {
+  const rows = entries.filter(x=>x?.kind==="learning_assessment" && x.course===courseId && x.skill==="grammar" && Number.isFinite(x.correct) && Number.isFinite(x.totalQuestions) && x.totalQuestions>0);
+  const correct=rows.reduce((n,x)=>n+x.correct,0), total=rows.reduce((n,x)=>n+x.totalQuestions,0);
+  return {correct,total,pct:total?Math.round(correct/total*100):null};
+}
 export const FOCUS = {
   nl: ["Mixto", "Vida diaria", "Logística", "Analítica"],
   en: ["Mixto", "Trabajo", "Datos", "Vida diaria", "Finanzas"]
