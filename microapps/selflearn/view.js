@@ -9,6 +9,7 @@ import { adaptiveGrammarDrills,nextGrammarFocus } from "./adaptive.js";
 import { dueGrammarReviews,grammarReviewSchedule } from "./grammar-review.js";
 import { grammarFeedbackReport,grammarAnswerFeedback } from "./grammar-feedback.js";
 import { tutorPrompt,localTutorResponse,tutorPrivacyNotice,TUTOR_LIMITS } from "./tutor.js";
+import { speechRecognitionSupport,startSpeechPractice,speechPracticeNotice } from "./speech-practice.js";
 import { fsrs, createEmptyCard, Rating } from "./fsrs-bundle.js";
 
 const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -22,7 +23,7 @@ const PRACTICE_PROMPTS = {
 };
 
 export function mountSelfLearn({ root, getData, persist, today, xpView, currentMode, onChange }) {
-  let ui = fresh(), summary = null, voices = [], grammarFeedback = {}, tutorSessions = {nl:{conversation:0,writing:0},en:{conversation:0,writing:0}}, tutorStatus = "";
+  let ui = fresh(), summary = null, voices = [], grammarFeedback = {}, tutorSessions = {nl:{conversation:0,writing:0},en:{conversation:0,writing:0}}, tutorStatus = "", speechSession = null, speechTranscript = "", speechStatus = "";
   function fresh() { return { selected: null, feedback: null, built: [], matchLeft: null, matchDone: [], matchErrors: 0, typed: "", speech: "" }; }
   if (typeof window !== "undefined" && "speechSynthesis" in window) { const load = () => { voices = window.speechSynthesis.getVoices() || []; }; load(); window.speechSynthesis.onvoiceschanged = load; }
 
@@ -129,7 +130,7 @@ ${levelHtml}
   }
 
   function pronunciationView(c) {
-    return `<div class="sl-lab"><p class="sl-note">Escucha y repite cada contraste. No se graba audio ni se asigna una nota automática. La voz depende de tu dispositivo.</p>${pronunciationDrills(c).map(d=>`<div class="sl-card"><div class="ey">${esc(d.level)} · PRONUNCIACIÓN</div><h3>${esc(d.title)}</h3><p>${esc(d.tip)}</p><p><b>${esc(d.contrast)}</b> ${audioBtn(d.contrast,"🔊 Escuchar contraste")}</p><p>${esc(d.example)} ${audioBtn(d.example,"🔊 Escuchar ejemplo")}</p></div>`).join("")}</div>`;
+    return `<div class="sl-lab"><p class="sl-note">Escucha y repite cada contraste. No se graba audio ni se asigna una nota automática. La voz depende de tu dispositivo.</p><div class="sl-card"><h3>Práctica oral opcional</h3><p class="sl-note">${esc(speechPracticeNotice())}</p><button type="button" class="sl-secondary" data-sl="speech-start" ${speechRecognitionSupport()?"":"disabled"}>Iniciar dictado</button> <button type="button" class="sl-ghost" data-sl="speech-stop">Detener micrófono</button><label>Transcripción editable<textarea id="slSpeechTranscript" rows="2" maxlength="1200" placeholder="Corrige aquí las palabras reconocidas">${esc(speechTranscript)}</textarea></label><p class="sl-note" role="status">${esc(speechStatus||(!speechRecognitionSupport()?"Reconocimiento no disponible en este navegador. Puedes practicar repitiendo el audio.":"El reconocimiento no evalúa pronunciación."))}</p></div>${pronunciationDrills(c).map(d=>`<div class="sl-card"><div class="ey">${esc(d.level)} · PRONUNCIACIÓN</div><h3>${esc(d.title)}</h3><p>${esc(d.tip)}</p><p><b>${esc(d.contrast)}</b> ${audioBtn(d.contrast,"🔊 Escuchar contraste")}</p><p>${esc(d.example)} ${audioBtn(d.example,"🔊 Escuchar ejemplo")}</p></div>`).join("")}</div>`;
   }
 
   function labView(c, cfg) {
@@ -272,6 +273,18 @@ ${levelHtml}
   root.addEventListener("click", event => {
     const btn = event.target.closest("[data-sl]"); if (!btn || !root.contains(btn) || btn.disabled) return;
     const act = btn.dataset.sl, run = activeRun(), step = E.currentStep(run);
+    if (act === "speech-start") {
+      speechSession?.cancel();
+      speechStatus="Solicitando permiso para el micrófono…";
+      speechSession=startSpeechPractice({course:activeCourse(),onResult:result=>{
+        speechTranscript=result.transcript;speechStatus=result.message;
+        const field=root.querySelector("#slSpeechTranscript");if(field)field.value=speechTranscript;
+        const status=field?.closest(".sl-card")?.querySelector('[role="status"]');if(status)status.textContent=speechStatus;
+      },onStatus:message=>{speechStatus=message;const el=root.querySelector("#slSpeechTranscript")?.closest(".sl-card")?.querySelector('[role="status"]');if(el)el.textContent=message;}});
+      if(!speechSession.supported)speechStatus="Reconocimiento no disponible en este navegador.";
+      render();return;
+    }
+    if (act === "speech-stop") { speechSession?.cancel();speechSession=null;speechTranscript=root.querySelector("#slSpeechTranscript")?.value||speechTranscript;speechStatus="Micrófono detenido. Revisa la transcripción.";render();return; }
     if (act === "speak") { speak(btn.dataset.text, lang()); return; }
     if (act === "grammar-reset") { grammarFeedback = {}; render(); return; }
     if (act === "grammar-answer") { const drill = grammarDrills(activeCourse()).find(d=>d.id===btn.dataset.id); if(!drill || grammarFeedback[drill.id])return; const choice=drill.options[Number(btn.dataset.i)]; const ok=checkGrammar(drill,choice);grammarFeedback[drill.id]=grammarAnswerFeedback(drill,choice);data().entries.push({id:crypto.randomUUID(),kind:"learning_assessment",area:E.areaFor(activeCourse()),course:activeCourse(),skill:"grammar",rule:drill.id,title:drill.rule,correct:ok?1:0,totalQuestions:1,date:today()});save(true);render();return; }
