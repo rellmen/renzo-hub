@@ -1,5 +1,46 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## 2.47.0 (2026-10-19) · Food y Skin con el diseño de Lovable · PR hacia staging
+
+- Mismo lenguaje visual que Body y Gym. Solo datos guardados. Con permiso de Renzo para tocar zonas de ChatGPT, con constancia en `docs/COLABORACION-IA.md`.
+- **Food**
+  - Nuevo **Hoy** arriba (`microapps/food/today.js`): kcal y proteína de hoy frente a los rangos de tu perfil corporal (barra con marca del mínimo, "Faltan X para el mínimo", "Dentro del objetivo" o "Por encima"). Sin perfil, lo dice.
+  - Registrar comida: la comida se elige con **chips grandes** (preseleccionada según la hora). Las comidas de hoy salen **agrupadas** por Desayuno, Comida, Snack y Cena, con borrar de 44 px.
+  - **Compra mensual** con casillas de "comprado" (se guardan en este dispositivo y se reinician cada mes). Fases y plan diario con nueva presentación.
+  - Se corrige un caso: un perfil con mínimo y sin máximo ya no pierde el objetivo.
+- **Skin**
+  - Interruptor **Mañana/Noche segmentado** de 48 px (el botón antiguo sigue en el DOM, oculto, para compatibilidad).
+  - Pasos grandes con casilla de 48 px. Los hechos quedan en gris, sin tachar. Aviso de **rutina terminada** al completar todos.
+  - Navegación de día, rutina suave y plan con zonas táctiles de 44 px.
+- Tests: `tests/food-today.test.mjs` y E2E `tests/e2e/food-skin.mjs` (Chromium y WebKit a 375 y 430 px). `authenticated.mjs` usa el interruptor nuevo. Caché `renzo-hub-cloud-v50-food-skin`.
+
+## 2.46.0 (2026-10-19) · Gym: pantallas del diseño de Lovable · PR hacia staging
+
+- Renzo autorizó a Claude a cambiar `gym.js` sin esperar a ChatGPT, dejando constancia (ver `docs/COLABORACION-IA.md`).
+- **Más**: el desplegable se sustituye por un botón que abre una **hoja inferior** con las 9 secciones (icono, título y detalle, filas de 64 px). Se cierra con ✕, tocando fuera o con Escape, y devuelve el foco al botón. El botón muestra la sección activa.
+- **Fuerza**: la gráfica de barras pasa a **línea de 1RM estimado** con rejilla, escala real, área y el último punto destacado, más la cifra grande del último valor. **Mejores marcas** pasa aquí como tarjetas.
+- **Progreso**: "Progresión semanal" muestra esta semana (sesiones frente al objetivo y volumen) y **barras de las últimas 8 semanas** (incluidas las vacías) de sesiones y de volumen. El detalle por semana sigue en un desplegable.
+- Nuevo `microapps/gym/visuals.js` (funciones puras, con `tests/gym-visuals.test.mjs`). Se añade a la caché sin conexión. Caché `renzo-hub-cloud-v49-gym-screens`.
+- `tests/e2e/gym-symmetry.mjs` usa la hoja para abrir Fotos; `tests/e2e/gym-lovable.mjs` comprueba hoja, línea, récords y 8 semanas con sesiones simuladas.
+
+## 2.45.0 (2026-10-19) · Gym · Ascend con el diseño de Lovable · PR hacia staging
+
+- Diseño hecho en el prototipo de Lovable (19 oct) y llevado a la app real como **capa de estilos** (`assets/gym-lovable.css`, se carga la última). **No cambia `gym.js`**: sesiones, progresión automática, guardado, fotos, rutinas y datos siguen exactamente igual.
+- Pestañas en chips de 44 px que se deslizan en su fila (la activa en iris), "Más…" con el mismo estilo; nivel con cifras grandes; tarjetas de ejercicio con 16–18 px de padding; sugerencia de progresión destacada.
+- **Series**: filas de 64 px, campos de kg/reps/RIR de 48 px con letra de 16 px (sin zoom en el iPhone) y sin flechas, casilla "Hecha" grande, "Repetir valores" y "Guardar serie" de 44 px a media anchura. "Finalizar sesión" a ancho completo de 56 px.
+- **Descanso**: cuenta atrás de 32 px y botones de 48 px, por encima de la barra inferior; mientras está visible, la página deja hueco para que nunca tape el último botón.
+- E2E nuevo `tests/e2e/gym-lovable.mjs` (Chromium y WebKit a 375 y 430 px: pestañas, 5 vistas, sesión iniciada, botones de 44 px, campos de 48 px y 16 px, sin scroll horizontal). `gym-symmetry.mjs` sigue pasando. Caché `renzo-hub-cloud-v48-gym-lovable`.
+- Gym es zona de ChatGPT: avisado en `docs/COLABORACION-IA.md`.
+
+## 2.44.0 (2026-10-19) · Body rediseñado con el diseño de Lovable · PR hacia staging
+
+- Diseño hecho en el prototipo de Lovable (19 oct) y reimplementado en la app real con **solo datos guardados**: nada de cifras de ejemplo.
+- **Tu cuerpo, hoy** (`microapps/body/overview.js`): peso actual y fecha, cambio en 30 días con gráfica, meta de peso de Gym (`user_metadata.gym_goals.targetWeight`) con barra de progreso, sesiones Gym de esta semana (lunes a domingo) frente a tu objetivo semanal, proteína y kcal de hoy (`food_log`) y Skin AM/PM de hoy. Sin dato, lo dice ("Sin meta de peso", "Sin comidas registradas hoy").
+- Accesos a **Gym · Ascend, Food y Skin Routine** como tarjetas con icono y dato vivo (último entreno, proteína, AM/PM).
+- **Peso** (phase1) y **Registro corporal** (world.js) con el mismo guardado de siempre y nueva presentación: campos de 48 px y letra de 16 px, peso en grande, diario como línea de tiempo y áreas en español. Se añaden las áreas Sueño, Energía y Molestia; los valores guardados antes no cambian.
+- Se carga al iniciar sesión y cada vez que abres Body. Sin migraciones ni tablas nuevas.
+- E2E nuevo `tests/e2e/body-overview.mjs` (Chromium y WebKit a 375 y 430 px: datos, meta, semana, comida, skin, accesos, zonas táctiles de 44 px, campos de 16 px, sin scroll horizontal) y tests unitarios `tests/body-overview.test.mjs`. Caché `renzo-hub-cloud-v47-body-lovable`.
+
 ## 2.43.0 (2026-10-19) · Nodalys CRM en la Home en lugar de Car · Jarvis · PR hacia staging
 
 - Home: la tarjeta **Car · Jarvis** se sustituye por **Nodalys CRM**, que abre el CRM en claude.ai en una pestaña nueva. Decisión de Renzo (19 oct). Sigue siendo solo un enlace: sin código, datos, credenciales ni agentes de Nodalys en RISE HUB.

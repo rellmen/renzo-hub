@@ -46,6 +46,9 @@ jobs:
           node tests/e2e/selflearn.mjs
           BASE_URL=http://localhost:4173 node tests/e2e/confirmed-context.mjs
           node tests/e2e/gym-symmetry.mjs
+          node tests/e2e/body-overview.mjs
+          node tests/e2e/gym-lovable.mjs
+          node tests/e2e/food-skin.mjs
           BROWSER=webkit node tests/e2e/gym-symmetry.mjs
 
   db-migrations:
