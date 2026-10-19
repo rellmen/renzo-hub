@@ -1,5 +1,11 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## 2026-10-19 · Nombre real del proyecto de producción en Vercel (solo documentación)
+
+- El proyecto de Vercel de producción se llama **`rise-hub`** (id `prj_G7Rzu7cpQuKo3wnByqNVgQ6gpjDd`): es el antiguo `renzo-hub` renombrado. El dominio `renzo-hub.vercel.app`, la rama de producción (`main`) y Supabase no cambian. Ya no existe ningún proyecto llamado `renzo-hub`.
+- Comprobado el 19 oct: el despliegue de `main` (2.47.0, commit `0bf56bd`) lo hizo `rise-hub` y está `READY`; `./scripts/renzo-hub verify prod 2.47.0 --smoke` sin fallos.
+- Corregidos `AGENTS.md` y `docs/RELEASE-CHECKLIST.md`. `scripts/renzo-hub` no usa el nombre del proyecto (solo la URL), así que no cambia. Las entradas históricas de este archivo se dejan como estaban.
+
 ## 2.47.0 (2026-10-19) · Food y Skin con el diseño de Lovable · PR hacia staging
 
 - Mismo lenguaje visual que Body y Gym. Solo datos guardados. Con permiso de Renzo para tocar zonas de ChatGPT, con constancia en `docs/COLABORACION-IA.md`.

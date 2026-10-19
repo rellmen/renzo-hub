@@ -29,7 +29,7 @@ Nada se publica por CLI. Renzo fusiona los PR; Claude prepara y verifica.
 ## 3. Producción (solo con OK explícito de Renzo)
 - [ ] PR `staging` → `main` con resumen de la validación.
 - [ ] Renzo fusiona. **No borrar la rama `staging`.**
-- [ ] Deployment de `renzo-hub` en verde; `/release.json` = versión nueva; `/api/deployment-info` = production / main.
+- [ ] Deployment del proyecto Vercel `rise-hub` (antes `renzo-hub`) en verde; `/release.json` = versión nueva; `/api/deployment-info` = production / main.
 - [ ] Smoke 15/15 contra `https://renzo-hub.vercel.app` (el E2E con sesión no se ejecuta en producción).
 - [ ] Migración de producción: Renzo la pega en el SQL Editor del proyecto de producción; verificación con la consulta de comprobación del archivo.
 - [ ] Mover la migración de `supabase/pending/` a `supabase/migrations/` (rollback a `supabase/rollbacks/`) y actualizar `docs/SUPABASE-SCHEMA.md`.
