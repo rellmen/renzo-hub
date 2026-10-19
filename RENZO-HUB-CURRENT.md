@@ -1,5 +1,13 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## 2.53.0 (2026-10-19) · Tutor IA con las variables que puso Renzo
+
+- Renzo puso en Vercel (`rise-hub`, producción): `OPENROUTER_API_KEY`, `SELFLEARN_AI_ENABLED` y `SELFLEARN_AI_LIMIT_READY`. Este último nombre es distinto del que esperaba el código (`SELFLEARN_AI_RATE_LIMIT_READY`).
+- `api/selflearn-tutor.js` acepta los dos nombres y valores `true`/`1`/`sí`. Se quita el interruptor extra `SELFLEARN_AI_ALLOW_PRODUCTION`: las variables de Renzo ya son el encendido explícito. Solo funciona en preview y producción.
+- **La tabla de cuota NO está en producción**: el sistema bloqueó a Claude al aplicarla. Hasta que Renzo la aplique, cada consulta falla cerrada (503, "Límite de uso no configurado… Tutor local disponible"). No se llama a OpenRouter sin cuota.
+- SQL a ejecutar: `supabase/pending/20261019030000_selflearn_tutor_quota.sql`. Ya aplicada en staging.
+- Integra también la 2.52.0 de otra sesión de Claude (Gym: programa Recomp 12 semanas y Finalizar arreglado, PR #104), validada aquí: 370/370 tests y E2E en verde.
+
 ## 2.52.0 (2026-10-19) · Gym · Programa Recomp 12 semanas y Finalizar arreglado · PR hacia staging
 
 - **Programa nuevo** (`recomp_rise_hub.csv` de Renzo, copia en `tests/fixtures/`): `microapps/gym/recomp-plan.js` es el plan por defecto (Lunes Push, Martes Pull, Miércoles Legs + Core, Viernes Upper, Sábado Arms + Lower). Cada ejercicio lleva su descanso, RIR, nota y superserie del CSV; "8-12 por pierna/lado" se muestra con la unidad. Mismo formato de plan de siempre (`validateGymPlan`), con un 8.º campo de opciones.

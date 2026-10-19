@@ -1,6 +1,6 @@
 {
-  "release": "2.52.0",
-  "name": "RISE HUB · Gym: programa Recomp 12 semanas y Finalizar arreglado",
+  "release": "2.53.0",
+  "name": "RISE HUB · tutor IA con tus variables de Vercel",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",
