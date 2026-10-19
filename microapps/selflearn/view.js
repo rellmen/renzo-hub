@@ -142,7 +142,7 @@ ${levelHtml}
   function tutorView(c) {
     const turns=tutorSessions[c]?.conversation||0;
     return `<div class="sl-lab"><p class="sl-note">${esc(tutorPrivacyNotice())}</p>
-    <p class="sl-note">IA remota desactivada · límite ${TUTOR_LIMITS.maxRemoteRequests} peticiones externas · ${TUTOR_LIMITS.maxChars} caracteres por respuesta. Este modo no corrige automáticamente errores.</p>
+    <p class="sl-note">Modo local sin peticiones externas · máximo ${TUTOR_LIMITS.maxChars} caracteres por respuesta. La orientación local no corrige automáticamente errores.</p>
     <form class="sl-form" data-sl-form="tutor"><label>Actividad<select name="tutorMode"><option value="conversation">Conversación guiada</option><option value="writing">Escritura</option></select></label>
     <p><b>Conversación:</b> ${esc(tutorPrompt(c,"conversation",turns))}</p><p><b>Escritura:</b> ${esc(tutorPrompt(c,"writing"))}</p>
     <textarea name="tutorAnswer" rows="4" maxlength="${TUTOR_LIMITS.maxChars}" required placeholder="Escribe tu respuesta en el idioma que practicas"></textarea>
