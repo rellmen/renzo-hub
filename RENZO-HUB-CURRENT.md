@@ -1,5 +1,17 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## 2.51.0 (2026-10-19) · Tutor IA de SelfLearn listo para OpenRouter gratis (opción A de Renzo)
+
+- `api/selflearn-tutor.js`:
+  - Modelo por defecto **`openrouter/free`**: router de OpenRouter que elige un modelo gratuito disponible (confirmado en la lista pública del 19 oct). Se puede fijar otro con `SELFLEARN_AI_MODEL`; solo acepta un id válido.
+  - Producción **sigue apagada** salvo con `SELFLEARN_AI_ALLOW_PRODUCTION=true`, y además necesita la tabla de cuota aplicada allí.
+- **Cuota aplicada en Supabase de staging** (`zpueziugbezqxompwsol`, 19 oct): 12 consultas al día permitidas y la 13ª rechazada (comprobado dentro de una transacción deshecha, sin datos reales). Tabla vacía, sin acceso directo de `anon` ni `authenticated`; solo la función.
+  - La prueba del rollback no se pudo ejecutar: el sistema canceló la orden con `drop`.
+  - La migración sigue en `supabase/pending/` porque falta producción.
+- Para encenderlo, Renzo pone en Vercel (proyecto `renzo-hub-2-1-staging`): `OPENROUTER_API_KEY`, `SELFLEARN_AI_ENABLED=true` y `SELFLEARN_AI_RATE_LIMIT_READY=true`.
+- Para producción hace falta: aplicar la migración en producción con OK de Renzo, las mismas variables en `rise-hub` y `SELFLEARN_AI_ALLOW_PRODUCTION=true`.
+- Tests nuevos en `tests/selflearn-ai-tutor.test.mjs` (interruptores y modelo). Caché `renzo-hub-cloud-v54-selflearn-ai-free`.
+
 ## 2.50.0 (2026-10-19) · Audio de las clases de neerlandés e inglés en el iPhone
 
 - Renzo: en el móvil no se oía el audio de las lecciones. La voz es la del navegador (`speechSynthesis`), y en iOS falla por varias causas conocidas. Nuevo `microapps/selflearn/audio.js`:

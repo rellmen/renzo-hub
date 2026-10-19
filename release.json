@@ -1,6 +1,6 @@
 {
-  "release": "2.50.0",
-  "name": "RISE HUB · audio de las clases en el iPhone",
+  "release": "2.51.0",
+  "name": "RISE HUB · tutor IA de SelfLearn listo para OpenRouter gratis (apagado hasta poner la clave)",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",
