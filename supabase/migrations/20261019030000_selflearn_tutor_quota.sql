@@ -1,4 +1,4 @@
--- APLICADA EN STAGING el 19 oct 2026 (12 permitidas, 13ª rechazada; sin acceso directo de anon ni authenticated). PENDIENTE en producción: solo con OK de Renzo. Rollback en el .rollback.sql junto a este.
+-- APLICADA en staging y en producción el 19 oct 2026 (producción con OK de Renzo). Rollback en supabase/rollbacks/
 -- Atomic quota, one authenticated user per row, 12 AI requests/day UTC.
 create table if not exists public.selflearn_tutor_quota (
   owner_id uuid not null references auth.users(id) on delete cascade,

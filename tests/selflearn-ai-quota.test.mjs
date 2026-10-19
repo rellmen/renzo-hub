@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
 const api=readFileSync(new URL("../api/selflearn-tutor.js",import.meta.url),"utf8");
-const sql=readFileSync(new URL("../supabase/pending/20261019030000_selflearn_tutor_quota.sql",import.meta.url),"utf8");
+const sql=readFileSync(new URL("../supabase/migrations/20261019030000_selflearn_tutor_quota.sql",import.meta.url),"utf8");
 test("external AI requests need explicit variables (enabled, limit ready, key) in preview or production",()=>{
  assert.match(api,/\["preview","production"\]\.includes\(process\.env\.VERCEL_ENV\)/);
  assert.match(api,/SELFLEARN_AI_RATE_LIMIT_READY/);
