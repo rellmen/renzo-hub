@@ -59,7 +59,10 @@ test("la copia se restaura con snapshot_to_sql.py y extract_files.py (sin borrar
 test("todas las tablas con datos del usuario que crean las migraciones están en la copia", () => {
   const sql = readdirSync("supabase/migrations").map(f => readFileSync(join("supabase/migrations", f), "utf8")).join("\n");
   const created = [...sql.matchAll(/create table (?:if not exists )?public\.([a-z_]+)/gi)].map(m => m[1].toLowerCase());
-  const missing = [...new Set(created)].filter(t => !(t in EXPORT_TABLES));
+  // Tablas técnicas sin datos personales y sin lectura desde la app (RLS sin políticas, revoke a authenticated):
+  // exportarlas haría fallar la copia. Añadir aquí solo con esa justificación.
+  const TECHNICAL = new Set(["selflearn_tutor_quota"]); // contador de consultas de IA del día (2.53.1)
+  const missing = [...new Set(created)].filter(t => !(t in EXPORT_TABLES) && !TECHNICAL.has(t));
   assert.deepEqual(missing, [], `añade a EXPORT_TABLES: ${missing.join(", ")}`);
 });
 
