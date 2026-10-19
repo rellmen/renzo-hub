@@ -1,7 +1,18 @@
 // SelfLearn · interfaz tipo Babbel (cursos, lección guiada, repaso, ajustes y laboratorio).
 // El progreso se guarda tras CADA respuesta: run activo en hub_user_state.state.learningRuns,
 // unidades completadas en hub_records (renzo_event "Study path") y tarjetas FSRS en renzo_vocabulary.
+import { initAudio, speakText } from "./audio.js";
 import * as E from "./engine.js";
+import { pronunciationDrills } from "./pronunciation.js";
+import { grammarDrills,checkGrammar } from "./grammar.js";
+import { diagnosticQuestions,evaluateDiagnostic } from "./diagnostic.js";
+import { adaptiveGrammarDrills,nextGrammarFocus } from "./adaptive.js";
+import { dueGrammarReviews,grammarReviewSchedule } from "./grammar-review.js";
+import { grammarFeedbackReport,grammarAnswerFeedback } from "./grammar-feedback.js";
+import { tutorPrompt,localTutorResponse,tutorPrivacyNotice,TUTOR_LIMITS } from "./tutor.js";
+import { speechRecognitionSupport,startSpeechPractice,speechPracticeNotice } from "./speech-practice.js";
+import { weeklySkillProgress,skillProgressNotice } from "./skill-progress.js";
+import { learningNeeds } from "./learning-needs.js";
 import { fsrs, createEmptyCard, Rating } from "./fsrs-bundle.js";
 
 const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -14,10 +25,19 @@ const PRACTICE_PROMPTS = {
   en: { "Mixto": "Write two sentences about your day at work.", "Trabajo": "Write a short update for your manager about a stock discrepancy.", "Datos": "Describe a trend in one of your dashboards.", "Vida diaria": "Write a message inviting a friend for coffee.", "Finanzas": "Explain how you track your monthly budget." }
 };
 
-export function mountSelfLearn({ root, getData, persist, today, xpView, currentMode, onChange }) {
-  let ui = fresh(), summary = null, voices = [];
+export function mountSelfLearn({ root, getData, persist, today, xpView, currentMode, onChange, getAuthToken }) {
+  let ui = fresh(), summary = null, voices = [], grammarFeedback = {}, tutorSessions = {nl:{conversation:0,writing:0},en:{conversation:0,writing:0}}, tutorStatus = "", tutorBusy = false, aiAvailable = false, speechSession = null, speechTranscript = "", speechStatus = "";
+  // Discover preview capability without sending user text or authentication.
+  if(typeof fetch==="function"){
+    fetch("/api/selflearn-tutor",{method:"GET",cache:"no-store"})
+      .then(r=>r.ok?r.json():null)
+      .then(info=>{aiAvailable=info?.enabled===true;if(root.isConnected)render();})
+      .catch(()=>{aiAvailable=false;});
+  }
   function fresh() { return { selected: null, feedback: null, built: [], matchLeft: null, matchDone: [], matchErrors: 0, typed: "", speech: "" }; }
-  if (typeof window !== "undefined" && "speechSynthesis" in window) { const load = () => { voices = window.speechSynthesis.getVoices() || []; }; load(); window.speechSynthesis.onvoiceschanged = load; }
+  // Audio: arreglos para iPhone en microapps/selflearn/audio.js. Si no suena, se avisa encima de la lección.
+  const showAudioIssue = msg => { if (!root.isConnected) return; let n = root.querySelector(".sl-audio-issue"); if (!n) { n = document.createElement("p"); n.className = "sl-audio-issue"; n.setAttribute("role", "status"); root.prepend(n); } n.textContent = msg; clearTimeout(showAudioIssue.t); showAudioIssue.t = setTimeout(() => n.remove(), 12000); };
+  if (typeof window !== "undefined") initAudio(window, { issue: showAudioIssue });
 
   // ── datos ──
   const data = () => getData();
@@ -30,12 +50,7 @@ export function mountSelfLearn({ root, getData, persist, today, xpView, currentM
   const dueCards = c => data().vocabulary.filter(v => cardCourse(v) === c && isDue(v)).sort((a, b) => (Date.parse(a.fsrsCard?.due || 0) || 0) - (Date.parse(b.fsrsCard?.due || 0) || 0));
 
   // ── audio ──
-  function speak(text, lang) {
-    if (!text || typeof window === "undefined" || !("speechSynthesis" in window)) return;
-    const u = new SpeechSynthesisUtterance(text); u.lang = lang; u.rate = .86;
-    const v = voices.find(x => x.lang === lang) || voices.find(x => x.lang?.startsWith(lang.slice(0, 2))); if (v) u.voice = v;
-    window.speechSynthesis.cancel(); window.speechSynthesis.speak(u);
-  }
+  function speak(text, lang) { if (typeof window !== "undefined") speakText(text, lang, window); }
   const lang = () => E.COURSES[activeCourse()].speech;
   const audioBtn = (text, label = "🔊") => `<button type="button" class="sl-audio" data-sl="speak" data-text="${esc(text)}" aria-label="Escuchar">${label}</button>`;
 
@@ -49,6 +64,7 @@ export function mountSelfLearn({ root, getData, persist, today, xpView, currentM
     if (summary) root.innerHTML = summaryView();
     else if (run && ui.playing) root.innerHTML = playerView(run);
     else root.innerHTML = homeView();
+    root.querySelectorAll(".sl-bar[role=progressbar]").forEach(el=>{ const fill=el.querySelector("span"); if(fill)el.setAttribute("aria-valuenow",String(Math.max(0,Math.min(100,parseInt(fill.style.width,10)||0)))); });
     afterRender();
   }
   function afterRender() { const input = root.querySelector("[data-sl-type]"); if (input && !ui.feedback) input.focus({ preventScroll: true }); onChange?.(); }
@@ -72,18 +88,79 @@ export function mountSelfLearn({ root, getData, persist, today, xpView, currentM
 <div class="sl-stats"><div><strong>${st}</strong><small>días de racha</small></div><div><strong>${done.size}/${units.length}</strong><small>lecciones</small></div><div><strong>${known}</strong><small>palabras fijadas</small></div><div><strong>NV <b data-rise-level>${esc(xv.level)}</b></strong><small><b data-rise-xp>${esc(xv.xp)}</b> XP</small></div></div></div>
 ${resume}
 <div class="sl-next"><div class="ey">TU SIGUIENTE LECCIÓN · ${esc(next.level)} · ${esc(next.topic)}</div><h2>${esc(next.title)}</h2><p>${esc(next.goal)}</p><div class="sl-row"><button class="sl-primary" data-sl="start" data-unit="${esc(next.id)}">${run?.mode === "lesson" && run.unitId === next.id ? "Continuar lección" : "Empezar lección"} · ${cfg.sessionMinutes} min</button><button class="sl-secondary" data-sl="review" ${due ? "" : "disabled"}>🧠 Repaso · ${due} ${due === 1 ? "palabra" : "palabras"}</button></div>${currentMode() ? `<p class="sl-note">Hoy tienes turno configurado: un repaso corto también cuenta para la racha.</p>` : ""}</div>
+<div class="sl-card sl-quick"><h2>Sesión rápida · 5 minutos</h2><p class="sl-note">Una lección breve o un repaso pendiente. La duración real depende de tu ritmo.</p><div class="sl-row"><button class="sl-primary" type="button" data-sl="quick-start">Practicar ahora</button><button class="sl-secondary" type="button" data-sl="quick-review" ${due?"":"disabled"}>Repasar tarjetas (${due})</button></div></div>
 <div class="sl-section"><h2>Ruta del curso</h2><span>${done.size} de ${units.length} completadas</span></div>
 ${levelHtml}
-<details class="sl-panel"><summary>⚙️ Mi ruta personalizada</summary>${settingsForm(c, cfg)}</details>
+<details class="sl-panel" open><summary>⚙️ Mi ruta personalizada · gramática y pronunciación</summary>${settingsForm(c, cfg)}</details>
+<details class="sl-panel"><summary>🎯 Recomendaciones según errores y práctica registrada</summary>${learningNeedsView(c)}</details>
+<details class="sl-panel"><summary>📊 Evolución semanal por destrezas · últimas 6 semanas</summary>${skillProgressView(c)}</details>
+<details class="sl-panel"><summary>🧭 Diagnóstico inicial por destreza</summary>${diagnosticView(c)}</details>
+<details class="sl-panel"><summary>📖 Entrenador de gramática · ${grammarDrills(c).length} ejercicios</summary>${grammarView(c)}</details>
+<details class="sl-panel"><summary>💬 Tutor de conversación y escritura · modo local</summary>${tutorView(c)}</details>
+<details class="sl-panel"><summary>🗣️ Entrenador de pronunciación · ${pronunciationDrills(c).length} ejercicios</summary>${pronunciationView(c)}</details>
 <details class="sl-panel"><summary>✍️ Práctica libre, mis tarjetas e historial</summary>${labView(c, cfg)}</details>
 <p class="sl-note">${esc(course.examNote)} Los niveles orientan la ruta; no certifican tu nivel.</p>
 </div>`;
   }
 
+  function learningNeedsView(c) {
+    const report=learningNeeds(data().entries,c);
+    return `<div class="sl-lab"><p class="sl-note">${esc(report.notice)}</p>
+    ${report.priorities.length?report.priorities.map(item=>`<div class="sl-card"><b>${esc(item.skill)}</b><p>${esc(item.reason)}</p><p><strong>Próximo paso:</strong> ${esc(item.action)}</p></div>`).join(""):"<p>No se han identificado prioridades con los registros disponibles.</p>"}
+    </div>`;
+  }
+
+  function skillProgressView(c) {
+    const weeks=weeklySkillProgress(data().entries,c,today());
+    const fmt=(metric)=>metric.total?`${metric.correct}/${metric.total} · ${metric.pct}%`:"Sin evaluación";
+    return `<div class="sl-lab"><p class="sl-note">${esc(skillProgressNotice(c))}</p>
+    <div class="sl-skills"><span><b>Semana</b></span><span><b>Gramática</b></span><span><b>Lectura</b></span><span><b>Escritura</b></span><span><b>Conversación</b></span></div>
+    ${weeks.map(w=>`<div class="sl-card"><b>Desde ${esc(w.week)}</b><div class="sl-skills"><span>Gramática: ${esc(fmt(w.grammar))}</span><span>Lectura: ${esc(fmt(w.reading))}</span><span>Escritura: ${w.writing.submissions} práctica(s), sin nota</span><span>Conversación: ${w.conversation.submissions} práctica(s), sin nota</span><span>Pronunciación: sin evaluación automática</span></div></div>`).join("")}
+    </div>`;
+  }
+
   function settingsForm(c, cfg) {
-    const course = E.COURSES[c], placement = cfg.placement;
-    return `<form class="sl-form" data-sl-form="settings"><label>Empezar desde<select name="startingLevel">${course.levels.map(l => `<option value="${l.id}" ${cfg.startingLevel === l.id ? "selected" : ""}>${l.id} · ${esc(l.name)}</option>`).join("")}</select></label><label>Duración de cada lección<select name="sessionMinutes">${[[5, "Corta · 5 min"], [10, "Normal · 10 min"], [20, "Extendida · 20 min (con dictado)"]].map(([m, t]) => `<option value="${m}" ${cfg.sessionMinutes === m ? "selected" : ""}>${t}</option>`).join("")}</select></label><label>Priorizar temas<select name="focus">${E.FOCUS[c].map(f => `<option ${cfg.focus === f ? "selected" : ""}>${f}</option>`).join("")}</select></label><button class="sl-secondary" type="submit">Guardar preferencias</button></form>
+    const course = E.COURSES[c], placement = cfg.placement, p = E.personalization(settings(),c);
+    return `<form class="sl-form" data-sl-form="settings"><label>Empezar desde<select name="startingLevel">${course.levels.map(l => `<option value="${l.id}" ${cfg.startingLevel === l.id ? "selected" : ""}>${l.id} · ${esc(l.name)}</option>`).join("")}</select></label><label>Duración de cada lección<select name="sessionMinutes">${[[5, "Corta · 5 min"], [10, "Normal · 10 min"], [20, "Extendida · 20 min (con dictado)"]].map(([m, t]) => `<option value="${m}" ${cfg.sessionMinutes === m ? "selected" : ""}>${t}</option>`).join("")}</select></label><label>Priorizar temas<select name="focus">${E.FOCUS[c].map(f => `<option ${cfg.focus === f ? "selected" : ""}>${f}</option>`).join("")}</select></label><fieldset><legend>Prioridades de aprendizaje · ${esc(p.goalLevel)} como objetivo</legend><p class="sl-note">Distribución de tiempo orientativa. Se normaliza automáticamente; no cambia tus lecciones completadas.</p>${[["grammar","Gramática"],["pronunciation","Pronunciación y escucha"],["context","Conversación y situaciones reales"],["review","Repaso"]].map(([k,label])=>`<label>${label}<input name="priority_${k}" type="number" min="0" max="100" step="5" value="${p.priorities[k]}"></label>`).join("")}</fieldset><button class="sl-secondary" type="submit">Guardar preferencias</button></form>
 <div class="sl-diag"><b>¿Desde qué nivel empezar?</b><p>Prueba orientativa: 3 palabras por nivel. Ajusta tu punto de partida; no mide las cuatro destrezas.</p><button class="sl-secondary" data-sl="diagnostic">Hacer diagnóstico</button>${placement ? `<p class="sl-note">Última recomendación: <b>${esc(placement.recommended)}</b> · ${esc(placement.date)} · ${Number(placement.correct) || 0}/${Number(placement.total) || 0} aciertos.</p>` : ""}</div>`;
+  }
+
+  function diagnosticView(c) {
+    const q=diagnosticQuestions(c);
+    const latest=data().entries.filter(x=>x.kind==="learning_assessment"&&x.course===c&&x.skill==="diagnostic").at(-1);
+    return `<div class="sl-lab"><p class="sl-note">Evaluación orientativa de gramática, comprensión lectora y producción escrita. La escritura se guarda para revisión, no se califica automáticamente.</p>
+    ${latest?`<p class="sl-note">Último diagnóstico: ${esc(latest.date)} · gramática ${latest.grammarCorrect}/${latest.grammarTotal} · lectura ${latest.readingCorrect}/1 · escritura pendiente de revisión.</p>`:""}
+    <form class="sl-form" data-sl-form="skill-diagnostic">
+    <h3>Gramática</h3>${q.grammar.map((d,i)=>`<fieldset><legend>${esc(d.prompt)}</legend>${d.options.map(option=>`<label><input type="radio" name="grammar_${i}" value="${esc(option)}" required> ${esc(option)}</label>`).join("")}</fieldset>`).join("")}
+    <h3>Comprensión lectora</h3><p>${esc(q.reading.text)}</p><fieldset><legend>${esc(q.reading.question)}</legend>${q.reading.options.map((option,i)=>`<label><input type="radio" name="reading" value="${i}" required> ${esc(option)}</label>`).join("")}</fieldset>
+    <h3>Producción escrita</h3><p>${esc(q.writing)}</p><textarea name="writing" rows="3" maxlength="1200" required></textarea>
+    <button class="sl-primary" type="submit">Guardar diagnóstico por destreza</button></form></div>`;
+  }
+
+  function tutorView(c) {
+    const turns=tutorSessions[c]?.conversation||0;
+    return `<div class="sl-lab"><p class="sl-note">${esc(tutorPrivacyNotice())}</p>
+    <p class="sl-note">Modo local sin peticiones externas · máximo ${TUTOR_LIMITS.maxChars} caracteres por respuesta. La orientación local no corrige automáticamente errores.</p>
+    <form class="sl-form" data-sl-form="tutor"><label>Actividad<select name="tutorMode"><option value="conversation">Conversación guiada</option><option value="writing">Escritura</option></select></label>
+    <p><b>Conversación:</b> ${esc(tutorPrompt(c,"conversation",turns))}</p><p><b>Escritura:</b> ${esc(tutorPrompt(c,"writing"))}</p>
+    <textarea name="tutorAnswer" rows="4" maxlength="${TUTOR_LIMITS.maxChars}" required placeholder="Escribe tu respuesta en el idioma que practicas"></textarea>
+    <button class="sl-secondary" type="submit" ${tutorBusy?"disabled":""}>Guardar práctica y recibir orientación local</button>
+    ${aiAvailable?`<label class="sl-note"><input type="checkbox" name="aiConsent" value="yes"> Autorizo enviar únicamente esta respuesta al proveedor externo OpenRouter para obtener comentarios de IA. No incluyas datos personales o de trabajo confidenciales.</label>
+    <button class="sl-secondary" type="submit" name="tutorAction" value="ai" ${tutorBusy?"disabled":""}>Solicitar comentarios de IA (solo preview, si está habilitado)</button>
+    <p class="sl-note">La IA puede equivocarse. No evalúa pronunciación ni certifica niveles.</p>`:`<p class="sl-note">Tutor IA externo desactivado en este entorno. El tutor local sigue disponible.</p>`}
+    ${tutorStatus?`<p class="sl-note" role="status">${esc(tutorStatus)}</p>`:""}</form></div>`;
+  }
+
+  function grammarView(c) {
+    const score = E.grammarAccuracy(data().entries,c);
+    const focus=nextGrammarFocus(data().entries,c);
+    const scheduled=grammarReviewSchedule(data().entries,c,today()),due=scheduled.filter(r=>r.due);
+    const recurrent=grammarFeedbackReport(data().entries,c,today()).filter(r=>r.recurrent);
+    return `<div class="sl-lab">${recurrent.length?`<section class="sl-card" aria-label="Errores recurrentes"><h3>Reglas que conviene reforzar</h3>${recurrent.map(r=>`<div><b>${esc(r.rule)}</b> · ${r.errors} errores de ${r.attempts} intentos<p>${esc(r.explanation)}</p><p>${esc(r.recommendation)}</p></div>`).join("")}</section>`:""}<p class="sl-note">Repaso espaciado: ${due.length} regla(s) pendientes · ${scheduled.length-due.length} programadas para más adelante. Intervalos de 1, 3, 7, 14 y 30 días según aciertos consecutivos.</p>${due.length?`<div class="sl-card"><h3>Repasar hoy</h3>${due.map(r=>`<p>${esc(r.drill.rule)} · pendiente desde ${esc(r.dueDate)}</p>`).join("")}</div>`:""}<p class="sl-note">Prioridad sugerida: ${focus?esc(focus.rule)+" · "+esc(focus.reason):"sin ejercicios disponibles"}. Las reglas con errores se muestran primero.</p><p class="sl-note">Práctica específica de tus puntos débiles · ${score.total ? `${score.pct}% de aciertos (${score.total} intentos)` : "sin intentos todavía"}. Cada respuesta se guarda para seguir tu evolución.</p>${[...due.map(r=>r.drill),...adaptiveGrammarDrills(data().entries,c).filter(d=>!due.some(r=>r.id===d.id))].map(d=>{const fb=grammarFeedback[d.id];return `<div class="sl-card"><div class="ey">${esc(d.level)} · ${esc(d.rule)}</div><h3>${esc(d.prompt)}</h3><div class="sl-options">${d.options.map((option,i)=>`<button class="sl-option" type="button" data-sl="grammar-answer" data-id="${esc(d.id)}" data-i="${i}" ${fb?"disabled":""}>${esc(option)}</button>`).join("")}</div>${fb?`<p class="sl-note" role="status"><b>${fb.correct?"Correcto":"Respuesta correcta: "+esc(d.answer)}</b> · ${esc(fb.explanation)} · ${esc(fb.suggestion)}</p>`:""}</div>`;}).join("")}<button type="button" class="sl-secondary" data-sl="grammar-reset">Repetir ejercicios</button></div>`;
+  }
+
+  function pronunciationView(c) {
+    return `<div class="sl-lab"><p class="sl-note">Escucha y repite cada contraste. No se graba audio ni se asigna una nota automática. La voz depende de tu dispositivo.</p><div class="sl-card"><h3>Práctica oral opcional</h3><p class="sl-note">${esc(speechPracticeNotice())}</p><button type="button" class="sl-secondary" data-sl="speech-start" ${speechRecognitionSupport()?"":"disabled"}>Iniciar dictado</button> <button type="button" class="sl-ghost" data-sl="speech-stop">Detener micrófono</button><label>Transcripción editable<textarea id="slSpeechTranscript" rows="2" maxlength="1200" placeholder="Corrige aquí las palabras reconocidas">${esc(speechTranscript)}</textarea></label><p class="sl-note" role="status">${esc(speechStatus||(!speechRecognitionSupport()?"Reconocimiento no disponible en este navegador. Puedes practicar repitiendo el audio.":"El reconocimiento no evalúa pronunciación."))}</p></div>${pronunciationDrills(c).map(d=>`<div class="sl-card"><div class="ey">${esc(d.level)} · PRONUNCIACIÓN</div><h3>${esc(d.title)}</h3><p>${esc(d.tip)}</p><p><b>${esc(d.contrast)}</b> ${audioBtn(d.contrast,"🔊 Escuchar contraste")}</p><p>${esc(d.example)} ${audioBtn(d.example,"🔊 Escuchar ejemplo")}</p></div>`).join("")}</div>`;
   }
 
   function labView(c, cfg) {
@@ -226,7 +303,23 @@ ${levelHtml}
   root.addEventListener("click", event => {
     const btn = event.target.closest("[data-sl]"); if (!btn || !root.contains(btn) || btn.disabled) return;
     const act = btn.dataset.sl, run = activeRun(), step = E.currentStep(run);
+    if (act === "speech-start") {
+      speechSession?.cancel();
+      speechStatus="Solicitando permiso para el micrófono…";
+      speechSession=startSpeechPractice({course:activeCourse(),onResult:result=>{
+        speechTranscript=result.transcript;speechStatus=result.message;
+        const field=root.querySelector("#slSpeechTranscript");if(field)field.value=speechTranscript;
+        const status=field?.closest(".sl-card")?.querySelector('[role="status"]');if(status)status.textContent=speechStatus;
+      },onStatus:message=>{speechStatus=message;const el=root.querySelector("#slSpeechTranscript")?.closest(".sl-card")?.querySelector('[role="status"]');if(el)el.textContent=message;}});
+      if(!speechSession.supported)speechStatus="Reconocimiento no disponible en este navegador.";
+      render();return;
+    }
+    if (act === "speech-stop") { speechSession?.cancel();speechSession=null;speechTranscript=root.querySelector("#slSpeechTranscript")?.value||speechTranscript;speechStatus="Micrófono detenido. Revisa la transcripción.";render();return; }
     if (act === "speak") { speak(btn.dataset.text, lang()); return; }
+    if (act === "grammar-reset") { grammarFeedback = {}; render(); return; }
+    if (act === "grammar-answer") { const drill = grammarDrills(activeCourse()).find(d=>d.id===btn.dataset.id); if(!drill || grammarFeedback[drill.id])return; const choice=drill.options[Number(btn.dataset.i)]; const ok=checkGrammar(drill,choice);grammarFeedback[drill.id]=grammarAnswerFeedback(drill,choice);data().entries.push({id:crypto.randomUUID(),kind:"learning_assessment",area:E.areaFor(activeCourse()),course:activeCourse(),skill:"grammar",rule:drill.id,title:drill.rule,correct:ok?1:0,totalQuestions:1,date:today()});save(true);render();return; }
+    if (act === "quick-start") { const current=activeRun();if(current){ui={...fresh(),playing:true};render();return;}const next=E.nextUnit(activeCourse(),data().entries,settings());if(next?.id)startLesson(next.id);else if(dueCards(activeCourse()).length)startReview();else{tutorStatus="No hay una lección nueva disponible.";render();}return; }
+    if (act === "quick-review") { if(dueCards(activeCourse()).length)startReview();return; }
     if (act === "course") { settings().activeCourse = btn.dataset.course; ui = fresh(); save(true); render(); return; }
     if (act === "start") { startLesson(btn.dataset.unit); return; }
     if (act === "resume") { ui = { ...fresh(), playing: true }; render(); if (run) speakIfIntro(run); return; }
@@ -253,15 +346,52 @@ ${levelHtml}
     if (act === "speak-try") { dictate("#slSpeakStatus", text => { const pct = Math.round(E.similarity(text, step.t) * 100); ui.speech = `Hemos oído: «${text}» · parecido ${pct}%${pct >= 75 ? " · ¡bien!" : " · vuelve a escuchar y repite"}`; render(); }); return; }
   });
 
-  root.addEventListener("submit", event => {
+  root.addEventListener("submit", async event => {
     const form = event.target.closest("form[data-sl-form]"); if (!form) return;
     event.preventDefault();
     const kind = form.dataset.slForm, v = Object.fromEntries(new FormData(form)), c = activeCourse(), d = data(), s = settings();
+    if (kind === "tutor") {
+      const mode=v.tutorMode==="writing"?"writing":"conversation";
+      const answer=String(v.tutorAnswer||"").trim().slice(0,TUTOR_LIMITS.maxChars);
+      if(!answer)return;
+      if(event.submitter?.value==="ai"){
+        if(tutorBusy)return;
+        if(v.aiConsent!=="yes"){tutorStatus="Debes marcar el consentimiento antes de solicitar IA.";render();return;}
+        if(typeof getAuthToken!=="function"){tutorStatus="La sesión de IA no está configurada.";render();return;}
+        tutorBusy=true;tutorStatus="Consultando el tutor IA…";render();
+        try{
+          const token=await getAuthToken();
+          if(!token)throw Error("Inicia sesión para utilizar el tutor IA.");
+          const response=await fetch("/api/selflearn-tutor",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+token},body:JSON.stringify({course:c,mode,answer,consent:true}),signal:AbortSignal.timeout(20000)});
+          const result=await response.json();
+          if(!response.ok)throw Error(result.error||"No se pudo consultar el tutor.");
+          tutorStatus="Comentarios de IA (orientativos): "+String(result.feedback||"").slice(0,2500);
+        }catch(error){tutorStatus="Tutor IA no disponible: "+(error?.message||"Error de conexión")+". Puedes utilizar el tutor local.";}
+        finally{tutorBusy=false;render();}
+        return;
+      }
+      const turn=tutorSessions[c]?.[mode]||0;
+      const feedback=localTutorResponse({course:c,mode,answer,turn});
+      if(!feedback.accepted)return;
+      d.entries.push({id:crypto.randomUUID(),kind:"learning",area:E.areaFor(c),course:c,skill:mode,title:mode==="writing"?"Tutor local · escritura":"Tutor local · conversación",stage:"Application",practice:"Offline tutor",note:answer,date:today(),minutes:1});
+      if(mode==="conversation")tutorSessions[c].conversation=Math.min(turn+1,TUTOR_LIMITS.maxTurns-1);
+      tutorStatus=feedback.feedback;
+      save(true);render();return;
+    }
+    if (kind === "skill-diagnostic") {
+      const q=diagnosticQuestions(c);
+      const answers={grammar:q.grammar.map((_,i)=>v[`grammar_${i}`]),reading:v.reading===""?null:Number(v.reading),writing:v.writing};
+      if(answers.grammar.some(x=>x===undefined)||!Number.isInteger(answers.reading)||!String(answers.writing||"").trim())return;
+      const result=evaluateDiagnostic(c,answers);
+      d.entries.push({id:crypto.randomUUID(),kind:"learning_assessment",area:E.areaFor(c),course:c,skill:"diagnostic",title:"Diagnóstico por destreza",date:today(),grammarCorrect:result.grammar.correct,grammarTotal:result.grammar.total,readingCorrect:result.reading.correct,writing:result.writing.text,writingAssessed:false,grammarDetails:result.grammar.details});
+      save(true);render();return;
+    }
     if (kind === "type") { const run = activeRun(), step = E.currentStep(run); if (!run || !step || ui.feedback) return; ui.typed = String(v.typed || ""); const r = E.checkTyped(ui.typed, step.answer, run.course); grade(run, r.ok, step.answer, r.typo); speak(step.answer, lang()); return; }
     if (kind === "settings") {
       const course = E.COURSES[c], level = course.levels.some(l => l.id === v.startingLevel) ? v.startingLevel : course.levels[0].id, focus = E.FOCUS[c].includes(v.focus) ? v.focus : "Mixto";
       s.sessionMinutes = [5, 10, 20].includes(Number(v.sessionMinutes)) ? Number(v.sessionMinutes) : 10;
       if (c === "nl") { s.startingLevel = level; s.focus = focus; } else s.courses = { ...(s.courses || {}), [c]: { ...(s.courses?.[c] || {}), startingLevel: level, focus } };
+      E.savePersonalization(s,c,{priorities:Object.fromEntries(E.LEARNING_PRIORITIES.map(k=>[k,Number(v[`priority_${k}`])]))});
     } else if (kind === "practice") {
       const note = String(v.answer || "").trim(); if (!note) return;
       d.entries.push({ id: crypto.randomUUID(), kind: "learning", area: E.areaFor(c), course: c, title: `Práctica libre · ${E.COURSES[c].name}`, stage: "Application", practice: "Free practice", minutes: Math.max(1, Number(v.minutes) || 10), note, date: today() });
@@ -276,5 +406,5 @@ ${levelHtml}
     save(true); render();
   });
 
-  return { render, reset() { ui = fresh(); summary = null; root.innerHTML = ""; } };
+  return { render, reset() { speechSession?.cancel();speechSession=null;ui = fresh(); summary = null; root.innerHTML = ""; } };
 }

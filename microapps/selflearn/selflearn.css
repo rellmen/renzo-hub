@@ -97,3 +97,27 @@
 @media(min-width:760px){#study .sl-units{grid-template-columns:1fr 1fr}#study .sl-feedback{left:50%;transform:translateX(-50%);max-width:640px;border-radius:20px 20px 0 0}#study .sl-lab{display:grid;grid-template-columns:1fr 1fr;gap:10px}#study .sl-lab .sl-history{grid-column:1/-1}}
 @media(max-width:420px){#study .sl-stats{grid-template-columns:repeat(2,minmax(0,1fr))}#study .sl-summary .sl-stats{grid-template-columns:repeat(3,minmax(0,1fr))}#study .sl-feedback{flex-direction:column;align-items:stretch}#study .sl-feedback .sl-primary{width:100%}}
 @media(prefers-reduced-motion:reduce){#study .sl-bar span{transition:none}}
+
+/* SelfLearn: accesibilidad táctil, teclado y lectura en pantallas estrechas. */
+#study .sl-quick{margin-block:16px}
+#study .sl-quick .sl-row{display:flex;flex-wrap:wrap;gap:10px}
+#study .sl-quick button{min-height:48px;flex:1 1 160px}
+#study :is(button,input,select,textarea,summary):focus-visible{outline:3px solid var(--sl-accent,#ff8a3d);outline-offset:3px}
+#study :is(.sl-option,.sl-tile,.sl-unit,.sl-tab,.sl-primary,.sl-secondary,.sl-ghost){min-height:44px}
+#study .sl-panel summary{cursor:pointer;min-height:44px;display:flex;align-items:center}
+#study textarea,#study input,#study select{max-width:100%;box-sizing:border-box}
+#study .sl-lab>*{min-width:0}
+#study .sl-skills{overflow-wrap:anywhere}
+@media(max-width:520px){
+ #study .sl-quick .sl-row{flex-direction:column}
+ #study .sl-quick button{width:100%;flex-basis:auto}
+ #study .sl-panel{max-width:100%;overflow-wrap:anywhere}
+ #study .sl-lab{display:block}
+ #study .sl-feedback{padding-bottom:calc(16px + env(safe-area-inset-bottom))}
+}
+@media(prefers-reduced-motion:reduce){
+ #study *,#study *::before,#study *::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
+/* 2.50.0 · aviso cuando el audio no suena y botón de audio de 44 px */
+#study .sl-audio-issue{margin:0 0 12px;padding:12px 14px;border-radius:12px;background:color-mix(in srgb,var(--warn,#d7be89) 18%,var(--card));color:var(--text);font-size:14px;line-height:1.5}
+#study .sl-audio{min-height:44px;min-width:44px}
