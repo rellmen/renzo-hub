@@ -25,7 +25,14 @@ const PRACTICE_PROMPTS = {
 };
 
 export function mountSelfLearn({ root, getData, persist, today, xpView, currentMode, onChange, getAuthToken }) {
-  let ui = fresh(), summary = null, voices = [], grammarFeedback = {}, tutorSessions = {nl:{conversation:0,writing:0},en:{conversation:0,writing:0}}, tutorStatus = "", tutorBusy = false, speechSession = null, speechTranscript = "", speechStatus = "";
+  let ui = fresh(), summary = null, voices = [], grammarFeedback = {}, tutorSessions = {nl:{conversation:0,writing:0},en:{conversation:0,writing:0}}, tutorStatus = "", tutorBusy = false, aiAvailable = false, speechSession = null, speechTranscript = "", speechStatus = "";
+  // Discover preview capability without sending user text or authentication.
+  if(typeof fetch==="function"){
+    fetch("/api/selflearn-tutor",{method:"GET",cache:"no-store"})
+      .then(r=>r.ok?r.json():null)
+      .then(info=>{aiAvailable=info?.enabled===true;if(root.isConnected)render();})
+      .catch(()=>{aiAvailable=false;});
+  }
   function fresh() { return { selected: null, feedback: null, built: [], matchLeft: null, matchDone: [], matchErrors: 0, typed: "", speech: "" }; }
   if (typeof window !== "undefined" && "speechSynthesis" in window) { const load = () => { voices = window.speechSynthesis.getVoices() || []; }; load(); window.speechSynthesis.onvoiceschanged = load; }
 
@@ -140,9 +147,9 @@ ${levelHtml}
     <p><b>Conversación:</b> ${esc(tutorPrompt(c,"conversation",turns))}</p><p><b>Escritura:</b> ${esc(tutorPrompt(c,"writing"))}</p>
     <textarea name="tutorAnswer" rows="4" maxlength="${TUTOR_LIMITS.maxChars}" required placeholder="Escribe tu respuesta en el idioma que practicas"></textarea>
     <button class="sl-secondary" type="submit" ${tutorBusy?"disabled":""}>Guardar práctica y recibir orientación local</button>
-    <label class="sl-note"><input type="checkbox" name="aiConsent" value="yes"> Autorizo enviar únicamente esta respuesta al proveedor externo OpenRouter para obtener comentarios de IA. No incluyas datos personales o de trabajo confidenciales.</label>
+    ${aiAvailable?`<label class="sl-note"><input type="checkbox" name="aiConsent" value="yes"> Autorizo enviar únicamente esta respuesta al proveedor externo OpenRouter para obtener comentarios de IA. No incluyas datos personales o de trabajo confidenciales.</label>
     <button class="sl-secondary" type="submit" name="tutorAction" value="ai" ${tutorBusy?"disabled":""}>Solicitar comentarios de IA (solo preview, si está habilitado)</button>
-    <p class="sl-note">La IA puede equivocarse. No evalúa pronunciación ni certifica niveles. Si no está disponible, continúa con el tutor local.</p>
+    <p class="sl-note">La IA puede equivocarse. No evalúa pronunciación ni certifica niveles.</p>`:`<p class="sl-note">Tutor IA externo desactivado en este entorno. El tutor local sigue disponible.</p>`}
     ${tutorStatus?`<p class="sl-note" role="status">${esc(tutorStatus)}</p>`:""}</form></div>`;
   }
 
