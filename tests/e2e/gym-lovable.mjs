@@ -18,7 +18,8 @@ const FIX={
  gym_sessions:[{workout_date:today,title:'Push A',completed_at:today+'T18:00:00Z'}],
  skin_routine_logs:[{session:'am',completed_steps:[0,1,2]}],
 };
-FIX.gym_sessions=[]; // gym.js necesita sesiones completas; aquí se prueba la presentación con un plan nuevo
+// Sesiones simuladas con ejercicios completos: dan datos a Fuerza y Progreso
+FIX.gym_sessions=[21,14,9,7,2].map((d,i)=>({id:'s'+i,user_id:'x',workout_date:ago(d),title:'Push A',completed_at:ago(d)+'T19:00:00Z',cardio_minutes:20,exercises:[{name:'Press banca',muscle:'Pecho',sets:[{weight:60+i*2.5,reps:8,completed:true},{weight:60+i*2.5,reps:7,completed:true}]},{name:'Remo con barra',muscle:'Espalda',sets:[{weight:50+i*2,reps:10,completed:true}]}]}));
 const mock=`const FIX=${JSON.stringify(FIX)};export function createClient(){
  let user=null,authCb;
  const db={from(table){let single=false,type=null;const q=new Proxy({}, {get(_,key){if(key==='then'){const rows=table==='hub_records'?(FIX[type]||[]):(FIX[table]||[]);return (ok,bad)=>Promise.resolve({data:single?null:rows,error:null,count:rows.length}).then(ok,bad);}return (...a)=>{if(key==='maybeSingle'||key==='single')single=true;if(key==='eq'&&a[0]==='record_type')type=a[1];return q;};}});return q;},
@@ -73,9 +74,26 @@ for(const engine of [chromium,webkit]){
    }
    if(shots&&engine===webkit){await page.setViewportSize({width,height:2400});await page.waitForTimeout(250);await page.screenshot({path:`${shots}/gym-${v}-${width}.png`});await page.setViewportSize({width,height:900});}
   }
+  // Hoja "Más": 9 secciones de 64 px, se abre y lleva a la sección
+  await page.locator('#gym [data-more-open]').click();
+  const items=await page.$$eval('.gym-sheet [data-more-go]',els=>els.map(e=>Math.round(e.getBoundingClientRect().height)));
+  assert.ok(items.length===9&&items.every(h=>h>=56),`hoja Más: ${items}`);
+  if(shots&&engine===webkit)await page.screenshot({path:`${shots}/gym-more-${width}.png`});
+  await page.locator('.gym-sheet [data-more-go="recovery"]').click();
+  await page.waitForFunction(()=>!document.querySelector('.gym-sheet')&&document.querySelector('#gym [data-more-open]')?.textContent.includes('Recuperación'));
+  // Fuerza: línea con el último punto; Progreso: 8 semanas
+  await page.locator('#gym .gymtabs [data-view="trends"]').click();
+  await page.locator('#gym .gym-line').waitFor();
+  assert.equal(await page.locator('#gym .gym-line-last').count(),1);
+  assert.ok(await page.locator('#gym .gym-record').count()>=2,'récords en Fuerza');
+  await page.locator('#gym .gymtabs [data-view="progress"]').click();
+  assert.equal(await page.locator('#gym .gym-bars').first().locator('.gym-bar-col').count(),8);
+  const ov3=await page.evaluate(()=>document.documentElement.scrollWidth-innerWidth);
+  assert.ok(ov3<=0,`Progreso: scroll horizontal de ${ov3}px`);
+  if(shots&&engine===webkit){for(const v of ['trends','progress']){await page.locator(`#gym .gymtabs [data-view="${v}"]`).click();await page.setViewportSize({width,height:2400});await page.waitForTimeout(250);await page.screenshot({path:`${shots}/gym2-${v}-${width}.png`});await page.setViewportSize({width,height:900});}}
   assert.deepEqual(errors,[],`${engine.name()} ${width}px: errores JS`);
   await context.close();
  }
  await browser.close();
- console.log(`Gym OK · ${engine.name()} a 375 y 430 px: pestañas de 44 px, 5 vistas sin scroll horizontal, campos de 16 px`);
+ console.log(`Gym OK · ${engine.name()} a 375 y 430 px: pestañas de 44 px, 5 vistas sin scroll horizontal, campos de 16 px, hoja Más, línea de fuerza y 8 semanas`);
 }

@@ -1,5 +1,14 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## 2.46.0 (2026-10-19) · Gym: pantallas del diseño de Lovable · PR hacia staging
+
+- Renzo autorizó a Claude a cambiar `gym.js` sin esperar a ChatGPT, dejando constancia (ver `docs/COLABORACION-IA.md`).
+- **Más**: el desplegable se sustituye por un botón que abre una **hoja inferior** con las 9 secciones (icono, título y detalle, filas de 64 px). Se cierra con ✕, tocando fuera o con Escape, y devuelve el foco al botón. El botón muestra la sección activa.
+- **Fuerza**: la gráfica de barras pasa a **línea de 1RM estimado** con rejilla, escala real, área y el último punto destacado, más la cifra grande del último valor. **Mejores marcas** pasa aquí como tarjetas.
+- **Progreso**: "Progresión semanal" muestra esta semana (sesiones frente al objetivo y volumen) y **barras de las últimas 8 semanas** (incluidas las vacías) de sesiones y de volumen. El detalle por semana sigue en un desplegable.
+- Nuevo `microapps/gym/visuals.js` (funciones puras, con `tests/gym-visuals.test.mjs`). Se añade a la caché sin conexión. Caché `renzo-hub-cloud-v49-gym-screens`.
+- `tests/e2e/gym-symmetry.mjs` usa la hoja para abrir Fotos; `tests/e2e/gym-lovable.mjs` comprueba hoja, línea, récords y 8 semanas con sesiones simuladas.
+
 ## 2.45.0 (2026-10-19) · Gym · Ascend con el diseño de Lovable · PR hacia staging
 
 - Diseño hecho en el prototipo de Lovable (19 oct) y llevado a la app real como **capa de estilos** (`assets/gym-lovable.css`, se carga la última). **No cambia `gym.js`**: sesiones, progresión automática, guardado, fotos, rutinas y datos siguen exactamente igual.

@@ -83,3 +83,58 @@ html body #gym .gym-summary b { font-size: 28px; font-variant-numeric: tabular-n
 html body #gym input[type=number] { -moz-appearance: textfield; appearance: textfield; }
 html body #gym input[type=number]::-webkit-inner-spin-button, html body #gym input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
 html body #gym .setrow.sethead > span:first-child { font-size: 14px; font-weight: 600; }
+
+/* ===== 2.46.0 · Pantallas de Gym del diseño de Lovable (microapps/gym/visuals.js) ===== */
+html body #gym .gym-ic, .gym-sheet .gym-ic { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+html body #gym .gym-empty { padding: 8px 0; }
+
+/* Hoja inferior "Más" */
+.gym-sheet-scrim { position: fixed; inset: 0; z-index: 120; background: rgba(8, 8, 10, .78); }
+.gym-sheet { position: fixed; z-index: 121; left: 0; right: 0; bottom: 0; max-height: 86dvh; overflow-y: auto; padding: 10px max(18px, env(safe-area-inset-left)) calc(20px + env(safe-area-inset-bottom)) max(18px, env(safe-area-inset-right)); background: var(--card); border: 1px solid var(--line); border-bottom: 0; border-radius: 18px 18px 0 0; color: var(--text); font-size: 16px; }
+.gym-sheet-grip { width: 40px; height: 5px; margin: 0 auto 12px; border-radius: 99px; background: var(--line); }
+.gym-sheet-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 6px; }
+.gym-sheet-head h2 { margin: 0; font-size: 22px; }
+.gym-sheet-head button { min-width: 44px; min-height: 44px; border-radius: 10px; }
+.gym-more-list { display: flex; flex-direction: column; }
+.gym-more-list button { display: grid; grid-template-columns: 24px minmax(0, 1fr) 16px; align-items: center; gap: 14px; width: 100%; min-height: 64px; padding: 10px 4px; border: 0; border-bottom: 1px solid var(--line); background: transparent; color: var(--text); text-align: left; font: inherit; cursor: pointer; }
+.gym-more-list button:last-child { border-bottom: 0; }
+.gym-more-list button > .gym-ic { color: var(--accent); }
+.gym-more-list button b { display: block; font-size: 16px; font-weight: 650; }
+.gym-more-list button .small { display: block; font-size: 14px; color: var(--muted); }
+.gym-more-list button[aria-current="page"] b { color: var(--accent2); }
+.gym-more-list button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; border-radius: 10px; }
+@media (min-width: 768px) { .gym-sheet { left: 50%; right: auto; width: min(560px, 100vw); transform: translateX(-50%); } }
+@media (prefers-reduced-motion: no-preference) { .gym-sheet { animation: gymSheetUp .2s ease-out; } @keyframes gymSheetUp { from { transform: translateY(24px); opacity: .6; } } }
+@media (prefers-reduced-motion: no-preference) and (min-width: 768px) { @keyframes gymSheetUp { from { transform: translate(-50%, 24px); opacity: .6; } } }
+
+/* Fuerza: línea de 1RM estimado */
+html body #gym .gym-line { display: block; width: 100%; height: auto; margin: 12px 0 4px; overflow: visible; }
+html body #gym .gym-line-grid { stroke: var(--line); stroke-dasharray: 3 5; }
+html body #gym .gym-line-tick { fill: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+html body #gym .gym-line-area { fill: var(--accent); opacity: .12; }
+html body #gym .gym-line-path { fill: none; stroke: var(--accent); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+html body #gym .gym-line-dot { fill: var(--accent); opacity: .7; }
+html body #gym .gym-line-last { fill: var(--accent); stroke: var(--card); stroke-width: 3; }
+html body #gym .gym-line-now { margin: 6px 0 10px; }
+html body #gym .gym-line-now b { font-size: 28px; font-variant-numeric: tabular-nums; }
+
+/* Récords */
+html body #gym .gym-records { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-bottom: 8px; }
+html body #gym .gym-record { display: flex; flex-direction: column; gap: 2px; min-width: 0; padding: 14px; border-radius: 12px; background: var(--card); border: 1px solid var(--line); }
+html body #gym .gym-record > .small:first-child { overflow-wrap: anywhere; color: var(--text); font-weight: 600; }
+html body #gym .gym-record b { font-size: 26px; line-height: 1.2; font-variant-numeric: tabular-nums; }
+
+/* Progreso: semanas */
+html body #gym .gym-weeks-head { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 8px; }
+html body #gym .gym-weeks-head > div { display: flex; flex-direction: column; padding: 12px; border-radius: 10px; background: var(--card2); }
+html body #gym .gym-weeks-head b { font-size: 28px; line-height: 1.2; font-variant-numeric: tabular-nums; }
+html body #gym .gym-weeks h4 { margin: 18px 0 8px; font-size: 15px; color: var(--muted); font-weight: 600; }
+html body #gym .gym-bars { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 6px; align-items: end; }
+html body #gym .gym-bar-col { display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 0; }
+html body #gym .gym-bar { position: relative; width: 100%; max-width: 30px; height: 92px; border-radius: 6px; background: var(--card2); overflow: hidden; }
+html body #gym .gym-bar i { position: absolute; left: 0; right: 0; bottom: 0; border-radius: 6px; background: var(--accent); opacity: .55; }
+html body #gym .gym-bar-col.now .gym-bar i { opacity: 1; }
+html body #gym .gym-bar-val { min-height: 16px; font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; }
+html body #gym .gym-bar-lab { font-size: 11px; color: var(--muted); white-space: nowrap; }
+html body #gym .gym-week-detail { margin: 12px 0; }
+html body #gym .gym-week-detail summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; color: var(--accent2); font-weight: 600; }

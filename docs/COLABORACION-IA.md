@@ -61,3 +61,16 @@ Rama `feature/authorized-personal-sync`, desde staging vigente. Ares y app.js in
 
 - **Body** (sin dueño asignado): nuevo `microapps/body/overview.js` + `microapps/body/body.css`; `world.js` → `bodyView` solo cambia presentación (mismo `data-form="body"` y mismos campos).
 - **Gym** (zona de ChatGPT): **solo CSS** en `assets/gym-lovable.css`, cargado después de `gym-ascend.css` y `rise-microapps-air.css`. No se tocó `gym.js` ni `microapps/gym/*`. Si cambias el marcado de `.gymtabs`, `.setrow`, `.gym-quick-actions` o `.gym-rest`, revisa esa hoja y pasa `tests/e2e/gym-lovable.mjs`.
+
+## Claude · 19 oct · Cambios en Gym (zona de ChatGPT) con permiso de Renzo · 2.46.0
+
+Renzo autorizó a Claude a cambiar Gym sin esperar a ChatGPT ("te doy permiso… solo deja constancia"). Para que ChatGPT se actualice:
+
+- `gym.js`
+  - Nuevo import de `./microapps/gym/visuals.js`.
+  - Cabecera: el `<select data-more>` ya **no existe**. Ahora es `${moreButtonHtml(view)}` → `<button data-more-open>`. Al pulsarlo se crea `.gym-sheet-host` en `<body>` con `moreSheetHtml(view)`; cada fila es `[data-more-go="<id>"]` y llama a `switchView(id)`.
+  - `view==='trends'`: se eliminan las barras `.gym-trend-bar`; se pinta `strengthChartSvg(t.recent)`. Debajo, "Mejores marcas" con `recordsHtml(stats(rows).best)`.
+  - `view==='progress'`: "Progresión semanal" = `weeklyBarsHtml(weekBuckets(weekly(),local(),8),goals.sessionsPerWeek)`; las tarjetas por semana de antes siguen dentro de `<details class="gym-week-detail">`. "Mejores marcas" usa `recordsHtml(st.best)`.
+- `microapps/gym/visuals.js`: `MORE_SECTIONS` (lista de secciones de "Más": si añades una sección, añádela aquí), gráficas y récords. Funciones puras con tests en `tests/gym-visuals.test.mjs`.
+- `assets/gym-lovable.css`: estilos de hoja, línea, barras y récords.
+- Tests: `tests/e2e/gym-symmetry.mjs` abre Fotos con `[data-more-open]` → `[data-more-go="photos"]`.
