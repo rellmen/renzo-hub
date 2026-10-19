@@ -118,3 +118,6 @@
 @media(prefers-reduced-motion:reduce){
  #study *,#study *::before,#study *::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
 }
+/* 2.50.0 · aviso cuando el audio no suena y botón de audio de 44 px */
+#study .sl-audio-issue{margin:0 0 12px;padding:12px 14px;border-radius:12px;background:color-mix(in srgb,var(--warn,#d7be89) 18%,var(--card));color:var(--text);font-size:14px;line-height:1.5}
+#study .sl-audio{min-height:44px;min-width:44px}
