@@ -1,5 +1,16 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## 2.50.0 (2026-10-19) · Audio de las clases de neerlandés e inglés en el iPhone
+
+- Renzo: en el móvil no se oía el audio de las lecciones. La voz es la del navegador (`speechSynthesis`), y en iOS falla por varias causas conocidas. Nuevo `microapps/selflearn/audio.js`:
+  - **Desbloqueo en el primer toque** (iOS exige que la primera voz nazca de un gesto).
+  - **Sesión de audio `playback`** (Safari 17+) y 0,1 s de silencio por `<audio>` para intentar que suene con el interruptor de silencio activado.
+  - Ya **no hace `cancel()` + `speak()` seguidos** cuando no suena nada (WebKit descartaba la frase). Si algo suena, cancela y habla a los 60 ms.
+  - Guarda la frase en curso y reanuda si el motor se queda en pausa. Prefiere voces locales y "mejoradas" del idioma.
+  - Si en 1,5 s no empieza a sonar, **avisa con pasos concretos**: quitar silencio, subir volumen y descargar la voz en Ajustes → Accesibilidad → Contenido leído → Voces.
+- Botón de audio a 44 px. Tests en `tests/selflearn-audio.test.mjs`. Caché `renzo-hub-cloud-v53-selflearn-audio`.
+- No verificado en un iPhone real desde aquí: Playwright/WebKit no trae voces. Hay que probarlo en el móvil.
+
 ## 2.49.0 (2026-10-19) · SelfLearn Language Academy (PR #94 de ChatGPT, validado y arreglado por Claude)
 
 - Renzo pidió validar, arreglar y publicar el #94. Contenido de ChatGPT: prioridades por idioma (gramática, pronunciación, contexto, repaso), ejercicios de gramática y pronunciación con explicaciones en español, diagnóstico, repaso de errores gramaticales, progreso por destreza, sincronización de historial sin duplicados (`sync.js`) y tutor local. Solo neerlandés e inglés.

@@ -1,6 +1,7 @@
 // SelfLearn · interfaz tipo Babbel (cursos, lección guiada, repaso, ajustes y laboratorio).
 // El progreso se guarda tras CADA respuesta: run activo en hub_user_state.state.learningRuns,
 // unidades completadas en hub_records (renzo_event "Study path") y tarjetas FSRS en renzo_vocabulary.
+import { initAudio, speakText } from "./audio.js";
 import * as E from "./engine.js";
 import { pronunciationDrills } from "./pronunciation.js";
 import { grammarDrills,checkGrammar } from "./grammar.js";
@@ -34,7 +35,9 @@ export function mountSelfLearn({ root, getData, persist, today, xpView, currentM
       .catch(()=>{aiAvailable=false;});
   }
   function fresh() { return { selected: null, feedback: null, built: [], matchLeft: null, matchDone: [], matchErrors: 0, typed: "", speech: "" }; }
-  if (typeof window !== "undefined" && "speechSynthesis" in window) { const load = () => { voices = window.speechSynthesis.getVoices() || []; }; load(); window.speechSynthesis.onvoiceschanged = load; }
+  // Audio: arreglos para iPhone en microapps/selflearn/audio.js. Si no suena, se avisa encima de la lección.
+  const showAudioIssue = msg => { if (!root.isConnected) return; let n = root.querySelector(".sl-audio-issue"); if (!n) { n = document.createElement("p"); n.className = "sl-audio-issue"; n.setAttribute("role", "status"); root.prepend(n); } n.textContent = msg; clearTimeout(showAudioIssue.t); showAudioIssue.t = setTimeout(() => n.remove(), 12000); };
+  if (typeof window !== "undefined") initAudio(window, { issue: showAudioIssue });
 
   // ── datos ──
   const data = () => getData();
@@ -47,12 +50,7 @@ export function mountSelfLearn({ root, getData, persist, today, xpView, currentM
   const dueCards = c => data().vocabulary.filter(v => cardCourse(v) === c && isDue(v)).sort((a, b) => (Date.parse(a.fsrsCard?.due || 0) || 0) - (Date.parse(b.fsrsCard?.due || 0) || 0));
 
   // ── audio ──
-  function speak(text, lang) {
-    if (!text || typeof window === "undefined" || !("speechSynthesis" in window)) return;
-    const u = new SpeechSynthesisUtterance(text); u.lang = lang; u.rate = .86;
-    const v = voices.find(x => x.lang === lang) || voices.find(x => x.lang?.startsWith(lang.slice(0, 2))); if (v) u.voice = v;
-    window.speechSynthesis.cancel(); window.speechSynthesis.speak(u);
-  }
+  function speak(text, lang) { if (typeof window !== "undefined") speakText(text, lang, window); }
   const lang = () => E.COURSES[activeCourse()].speech;
   const audioBtn = (text, label = "🔊") => `<button type="button" class="sl-audio" data-sl="speak" data-text="${esc(text)}" aria-label="Escuchar">${label}</button>`;
 
