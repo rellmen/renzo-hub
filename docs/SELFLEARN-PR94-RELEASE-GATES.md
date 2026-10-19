@@ -5,7 +5,7 @@
 ## Implemented on feature branch
 - NL A1–B2 and EN B1–C1 study paths; diagnostic and grammar drills; spaced repetition.
 - Local tutor, opt-in speech transcription and preview-only AI tutor.
-- AI tutor sends only the explicitly submitted answer after checkbox consent and Supabase session verification.
+- AI tutor sends only the explicitly submitted answer after checkbox consent and Supabase session verification. The remote controls are hidden unless the preview capability endpoint confirms availability.
 - Preview-only AI endpoint is disabled unless `SELFLEARN_AI_ENABLED=true`, `SELFLEARN_AI_RATE_LIMIT_READY=true` and a provider key exist.
 - Atomic 12 requests/user/UTC day quota SQL supplied but **not applied**. The endpoint fails closed when quota RPC is absent.
 - Authenticated cloud reconciliation and local save; repeat legacy merges deduplicated; PWA cache v56.
