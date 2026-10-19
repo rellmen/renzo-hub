@@ -313,7 +313,7 @@ ${levelHtml}
     if (act === "speak") { speak(btn.dataset.text, lang()); return; }
     if (act === "grammar-reset") { grammarFeedback = {}; render(); return; }
     if (act === "grammar-answer") { const drill = grammarDrills(activeCourse()).find(d=>d.id===btn.dataset.id); if(!drill || grammarFeedback[drill.id])return; const choice=drill.options[Number(btn.dataset.i)]; const ok=checkGrammar(drill,choice);grammarFeedback[drill.id]=grammarAnswerFeedback(drill,choice);data().entries.push({id:crypto.randomUUID(),kind:"learning_assessment",area:E.areaFor(activeCourse()),course:activeCourse(),skill:"grammar",rule:drill.id,title:drill.rule,correct:ok?1:0,totalQuestions:1,date:today()});save(true);render();return; }
-    if (act === "quick-start") { startLesson(E.nextUnit(activeCourse(),data().entries,settings()).id); return; }
+    if (act === "quick-start") { const current=activeRun();if(current){ui={...fresh(),playing:true};render();return;}const next=E.nextUnit(activeCourse(),data().entries,settings());if(next?.id)startLesson(next.id);else if(dueCards(activeCourse()).length)startReview();else{tutorStatus="No hay una lección nueva disponible.";render();}return; }
     if (act === "quick-review") { if(dueCards(activeCourse()).length)startReview();return; }
     if (act === "course") { settings().activeCourse = btn.dataset.course; ui = fresh(); save(true); render(); return; }
     if (act === "start") { startLesson(btn.dataset.unit); return; }
