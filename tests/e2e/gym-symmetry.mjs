@@ -52,6 +52,8 @@ try{
  console.log("OK: recordatorio de foto de progreso y aplazar 7 días");
  await page.click('[data-start="0"]');
  await page.waitForSelector("#workoutForm");
+ // Desde 2.48.0 Entrenar muestra un ejercicio a la vez; esta prueba recorre todos, así que usa la vista completa
+ await page.click("[data-gp-list]");
  const pre=await page.evaluate(()=>({w:document.querySelector('[name="w-0-0"]').value,r:document.querySelector('[name="r-0-0"]').value,target:document.querySelector(".gym-target")?.textContent||"",tech:!!document.querySelector(".gym-tech"),plates:document.querySelector('[data-plates]')?.dataset.plates}));
  assert.equal(pre.w,"62.5");assert.equal(pre.r,"6");assert.match(pre.target,/Sube carga/);assert.ok(pre.tech);assert.equal(pre.plates,"4");
  console.log("OK: progresión automática precargada (60 kg × 10 ×4 → 62,5 kg × 6) + técnica + discos");
@@ -136,7 +138,9 @@ try{
  if(shots)await page.screenshot({path:shots+"/gym-onboarding.png",fullPage:true});
 
  // Fotos privadas: subir dos (con fecha), comparar con deslizador, borrar.
- await page.selectOption("[data-more]","photos");
+ // "Más" es una hoja inferior desde 2.46.0 (diseño de Lovable): botón → sección
+ await page.click("[data-more-open]");
+ await page.click('[data-more-go="photos"]');
  await page.waitForFunction(()=>/Aún no hay fotos/.test(document.querySelector("#gymContent")?.textContent||""));
  const addPhoto=async(date,hue)=>{
   await page.evaluate(async hue=>{const c=document.createElement("canvas");c.width=1200;c.height=1600;const x=c.getContext("2d");x.fillStyle=`hsl(${hue},40%,40%)`;x.fillRect(0,0,1200,1600);const blob=await new Promise(r=>c.toBlob(r,"image/png"));const dt=new DataTransfer();dt.items.add(new File([blob],"foto.png",{type:"image/png"}));const input=document.querySelector('[data-photo-form] [name="file"]');input.files=dt.files;},hue);

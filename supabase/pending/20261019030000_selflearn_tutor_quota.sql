@@ -1,4 +1,4 @@
--- Apply to preview Supabase only after review. Not executed by this PR.
+-- PENDIENTE (19 oct 2026): no aplicada en staging ni en producción. Necesaria solo si se activa el tutor IA remoto (SELFLEARN_AI_ENABLED, solo preview). Rollback en el archivo .rollback.sql junto a este.
 -- Atomic quota, one authenticated user per row, 12 AI requests/day UTC.
 create table if not exists public.selflearn_tutor_quota (
   owner_id uuid not null references auth.users(id) on delete cascade,

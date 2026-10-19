@@ -165,6 +165,7 @@ export function mountSkin(root, db, getUser) {
     const arr=history?Array.from({length:Math.max(0,...(cloudState[mode]||[]).filter(n=>Number.isInteger(n)&&n>=0&&n<20).map(n=>n+1))},(_,i)=>["Paso "+(i+1)+" del registro histórico","Nombre del producto no disponible para esta versión de rutina"]):current(), done=new Set(cloudState[mode]||[]);
     $("pill").textContent=mode==="am"?"MAÑANA":"NOCHE";
     $("switchBtn").textContent=mode==="am"?"Cambiar a noche":"Cambiar a mañana";
+    document.querySelectorAll("[data-skin-mode]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.skinMode===mode)));
     $("routineTitle").textContent=mode==="am"?"Rutina de "+DAYS[now.getDay()]+" por la mañana":"Rutina de "+DAYS[now.getDay()]+" por la noche";
     $("steps").innerHTML="";
     arr.forEach((x,i)=>{
@@ -191,6 +192,7 @@ export function mountSkin(root, db, getUser) {
     const pct=arr.length?Math.round(done.size/arr.length*100):0;
     $("bar").style.width=pct+"%";
     $("prog").textContent=done.size+" de "+arr.length+" pasos · "+pct+"%";
+    if(arr.length&&done.size>=arr.length&&!history){const fin=document.createElement("p");fin.className="skin-finished";fin.setAttribute("role","status");fin.textContent=mode==="am"?"Rutina de mañana terminada. Recuerda reaplicar el SPF si pasas tiempo fuera.":"Rutina de noche terminada.";$("steps").appendChild(fin);}
   }
 
   async function chooseDay(offset){
@@ -215,6 +217,7 @@ export function mountSkin(root, db, getUser) {
     }catch(err){gentle=previous;render();setSync("No se pudo cambiar la fase: "+err.message,"err");}
   });
   $("switchBtn").addEventListener("click",()=>{mode=mode==="am"?"pm":"am";render()});
+  document.querySelectorAll("[data-skin-mode]").forEach(b=>b.addEventListener("click",()=>{if(b.dataset.skinMode!==mode){mode=b.dataset.skinMode;render();}}));
   $("clearBtn").addEventListener("click",async()=>{
     const session=mode,previous=[...(cloudState[session]||[])];cloudState[session]=[];render();homeStats();
     if(!await saveSession(session,[],true)){cloudState[session]=previous;render();homeStats();setSync("No se pudo guardar; se restauró el registro anterior","err");}

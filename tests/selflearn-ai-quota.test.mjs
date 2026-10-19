@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
 const api=readFileSync(new URL("../api/selflearn-tutor.js",import.meta.url),"utf8");
-const sql=readFileSync(new URL("../supabase/migrations/20261019030000_selflearn_tutor_quota.sql",import.meta.url),"utf8");
+const sql=readFileSync(new URL("../supabase/pending/20261019030000_selflearn_tutor_quota.sql",import.meta.url),"utf8");
 test("external AI requests are preview-only and disabled without quota rollout",()=>{
  assert.match(api,/VERCEL_ENV==="preview"/);
  assert.match(api,/SELFLEARN_AI_RATE_LIMIT_READY==="true"/);

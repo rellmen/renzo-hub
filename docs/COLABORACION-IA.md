@@ -56,3 +56,49 @@ Este archivo es el canal de coordinación: cada IA lo lee antes de empezar y lo 
 ## ChatGPT · 18 oct · sincronización personal autorizada
 
 Rama `feature/authorized-personal-sync`, desde staging vigente. Ares y app.js incorporan una lectura local de `personal_fact`, paneles privados en las áreas existentes y soporte de meta de inglés en perfil. No se modifica el motor de SelfLearn ni su estado. Los datos de producción se guardan en Supabase y las copias de seguridad quedan fuera del repositorio. No se copian datos de producción a staging. Se actualizan release/caché en esta rama para que el PR sea autocontenido; no se fusiona ni se despliega a main.
+
+## Claude · 19 oct · Body y Gym con el diseño de Lovable (PR #95)
+
+- **Body** (sin dueño asignado): nuevo `microapps/body/overview.js` + `microapps/body/body.css`; `world.js` → `bodyView` solo cambia presentación (mismo `data-form="body"` y mismos campos).
+- **Gym** (zona de ChatGPT): **solo CSS** en `assets/gym-lovable.css`, cargado después de `gym-ascend.css` y `rise-microapps-air.css`. No se tocó `gym.js` ni `microapps/gym/*`. Si cambias el marcado de `.gymtabs`, `.setrow`, `.gym-quick-actions` o `.gym-rest`, revisa esa hoja y pasa `tests/e2e/gym-lovable.mjs`.
+
+## Claude · 19 oct · Cambios en Gym (zona de ChatGPT) con permiso de Renzo · 2.46.0
+
+Renzo autorizó a Claude a cambiar Gym sin esperar a ChatGPT ("te doy permiso… solo deja constancia"). Para que ChatGPT se actualice:
+
+- `gym.js`
+  - Nuevo import de `./microapps/gym/visuals.js`.
+  - Cabecera: el `<select data-more>` ya **no existe**. Ahora es `${moreButtonHtml(view)}` → `<button data-more-open>`. Al pulsarlo se crea `.gym-sheet-host` en `<body>` con `moreSheetHtml(view)`; cada fila es `[data-more-go="<id>"]` y llama a `switchView(id)`.
+  - `view==='trends'`: se eliminan las barras `.gym-trend-bar`; se pinta `strengthChartSvg(t.recent)`. Debajo, "Mejores marcas" con `recordsHtml(stats(rows).best)`.
+  - `view==='progress'`: "Progresión semanal" = `weeklyBarsHtml(weekBuckets(weekly(),local(),8),goals.sessionsPerWeek)`; las tarjetas por semana de antes siguen dentro de `<details class="gym-week-detail">`. "Mejores marcas" usa `recordsHtml(st.best)`.
+- `microapps/gym/visuals.js`: `MORE_SECTIONS` (lista de secciones de "Más": si añades una sección, añádela aquí), gráficas y récords. Funciones puras con tests en `tests/gym-visuals.test.mjs`.
+- `assets/gym-lovable.css`: estilos de hoja, línea, barras y récords.
+- Tests: `tests/e2e/gym-symmetry.mjs` abre Fotos con `[data-more-open]` → `[data-more-go="photos"]`.
+
+## Claude · 19 oct · Food y Skin (zona de ChatGPT) con permiso de Renzo · 2.47.0
+
+- **Food**
+  - `index.html` → `#food`: nuevo `<div id="foodToday">` arriba. `#p1Food` sube por encima del plan diario.
+  - `phase1.js` → `renderFood`: el `<select name="meal">` pasa a radios `name="meal"` dentro de `fieldset.food-meals`; el `FormData` y el guardado no cambian.
+  - Las comidas de hoy se agrupan por comida (`.food-group`). Al final de cada render se emite `document.dispatchEvent(new CustomEvent("rise:food-changed",{detail:{date,kcal,protein,meals}}))`.
+  - `microapps/food/today.js` escucha ese evento y lee `user_settings.settings.bodyProfile` (kcalMin/Max, proteinMin/Max) para pintar "Hoy". También añade casillas a `.food-list` (en `localStorage`, por mes).
+  - Estilos en `microapps/food/food.css`.
+- **Skin**
+  - `index.html` → `#skin`: nuevo `.skin-seg` con `[data-skin-mode="am|pm"]`. `#pill` y `#switchBtn` siguen existiendo dentro de `.skin-legacy-switch`, oculto con CSS.
+  - `microapps/skin/skin.js` → `render()`: marca `aria-pressed` del segmentado y, si están todos los pasos, añade `.skin-finished`. En la inicialización, los botones `[data-skin-mode]` cambian `mode` y llaman a `render()`. No cambia el guardado.
+  - Estilos en `microapps/skin/skin.css`.
+- **Tests**: `tests/e2e/authenticated.mjs` usa `[data-skin-mode="am|pm"]` en vez de `#switchBtn`; nuevos `tests/food-today.test.mjs` y `tests/e2e/food-skin.mjs`.
+
+## Claude · 19 oct · Gym · Entrenar con un ejercicio a la vez (con permiso de Renzo) · 2.48.0
+
+- `gym.js`: nuevo import de `./microapps/gym/player.js`. Al final del pintado de la sesión (tras `form.onsubmit`) se llama a `enhanceSession(content,{active,previous,startRest,saveDraft,rankOf,info})`. **No cambia** la plantilla del formulario, sus `name`, ni `save()`.
+- `player.js` mueve nodos ya pintados: añade `.gp-bar`, `.gp-strip`, `.gp-hero` por ejercicio y `.gp-nav`. Mete el botón `[data-quick-done]` dentro de la fila como `.gp-tick` y agrupa repetir, lado y nota en `.gp-set-extra`. Oculta la casilla `c-i-j` (sigue en el formulario). El estado (ejercicio activo, vista) se guarda en memoria por id de sesión.
+- Si cambias la plantilla de sesión (orden `.setrow` → `.gym-quick-actions` → lado → nota), revisa `player.js` y pasa `tests/e2e/gym-lovable.mjs`. Para pruebas que recorren todos los ejercicios, pulsa antes `[data-gp-list]` (vista completa).
+
+## Claude · 19 oct · Validación y arreglo del PR #94 (SelfLearn Language Academy) · 2.49.0
+
+Renzo pidió a Claude validar, arreglar y publicar el #94 (rama de ChatGPT). Cambios de Claude en la rama:
+- Merge de `staging` (Body/Gym/Food/Skin 2.44–2.48) con conflictos resueltos en `sw.js` y `tests/pwa-cache-unique.test.mjs`. Se mantiene el test genérico de ChatGPT; `CORE` = lista de staging + los 11 módulos nuevos de `microapps/selflearn/`.
+- `supabase/migrations/20261019030000_selflearn_tutor_quota.sql` → `supabase/pending/` + `.rollback.sql`, porque no está aplicada (por eso fallaba `tests/backup.test.mjs`). `tests/selflearn-ai-quota.test.mjs` apunta a `pending/`.
+- Para activar el tutor IA hace falta, en este orden: aplicar la migración en staging con OK de Renzo, poner las variables solo en preview y probar. En producción sigue apagado por código (`VERCEL_ENV==="preview"`).
+- Versión 2.49.0 y `RENZO-HUB-CURRENT.md`.
