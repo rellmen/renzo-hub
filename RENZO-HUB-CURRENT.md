@@ -1,6 +1,6 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
-## 2.50.0 (2026-10-19) · Gym · Programa Recomp 12 semanas y Finalizar arreglado · PR hacia staging
+## 2.52.0 (2026-10-19) · Gym · Programa Recomp 12 semanas y Finalizar arreglado · PR hacia staging
 
 - **Programa nuevo** (`recomp_rise_hub.csv` de Renzo, copia en `tests/fixtures/`): `microapps/gym/recomp-plan.js` es el plan por defecto (Lunes Push, Martes Pull, Miércoles Legs + Core, Viernes Upper, Sábado Arms + Lower). Cada ejercicio lleva su descanso, RIR, nota y superserie del CSV; "8-12 por pierna/lado" se muestra con la unidad. Mismo formato de plan de siempre (`validateGymPlan`), con un 8.º campo de opciones.
   - Quien ya tiene una rutina guardada en `gym_plans` ve un aviso **"Usar este programa"** (confirmación). La rutina anterior queda como copia en el dispositivo y hay un botón **"Volver a mi rutina anterior"**. Las sesiones pasadas no cambian.
@@ -12,7 +12,30 @@
   2. Con "un ejercicio a la vez", un campo no válido de otro ejercicio (oculto) bloqueaba el envío sin enseñar nada. Ahora los campos de series sin marcar no bloquean, y si algo bloquea se muestra ese ejercicio con un aviso.
   3. Sin ninguna serie hecha no había salida. Nuevo botón **Descartar sesión** (borra solo ese borrador sin terminar, con confirmación).
 - El temporizador de descanso no recupera restos de más de 15 min.
-- Tests: `tests/gym-recomp.test.mjs` (CSV completo frente al plan, descanso, RIR, superseries, rangos, reloj). E2E `tests/e2e/gym-recomp-finish.mjs` (Chromium y WebKit a 375 px). Caché `renzo-hub-cloud-v53-gym-recomp`.
+- Tests: `tests/gym-recomp.test.mjs` (CSV completo frente al plan, descanso, RIR, superseries, rangos, reloj). E2E `tests/e2e/gym-recomp-finish.mjs` (Chromium y WebKit a 375 px). Caché `renzo-hub-cloud-v55-gym-recomp`.
+## 2.51.0 (2026-10-19) · Tutor IA de SelfLearn listo para OpenRouter gratis (opción A de Renzo)
+
+- `api/selflearn-tutor.js`:
+  - Modelo por defecto **`openrouter/free`**: router de OpenRouter que elige un modelo gratuito disponible (confirmado en la lista pública del 19 oct). Se puede fijar otro con `SELFLEARN_AI_MODEL`; solo acepta un id válido.
+  - Producción **sigue apagada** salvo con `SELFLEARN_AI_ALLOW_PRODUCTION=true`, y además necesita la tabla de cuota aplicada allí.
+- **Cuota aplicada en Supabase de staging** (`zpueziugbezqxompwsol`, 19 oct): 12 consultas al día permitidas y la 13ª rechazada (comprobado dentro de una transacción deshecha, sin datos reales). Tabla vacía, sin acceso directo de `anon` ni `authenticated`; solo la función.
+  - La prueba del rollback no se pudo ejecutar: el sistema canceló la orden con `drop`.
+  - La migración sigue en `supabase/pending/` porque falta producción.
+- Para encenderlo, Renzo pone en Vercel (proyecto `renzo-hub-2-1-staging`): `OPENROUTER_API_KEY`, `SELFLEARN_AI_ENABLED=true` y `SELFLEARN_AI_RATE_LIMIT_READY=true`.
+- Para producción hace falta: aplicar la migración en producción con OK de Renzo, las mismas variables en `rise-hub` y `SELFLEARN_AI_ALLOW_PRODUCTION=true`.
+- Tests nuevos en `tests/selflearn-ai-tutor.test.mjs` (interruptores y modelo). Caché `renzo-hub-cloud-v54-selflearn-ai-free`.
+
+## 2.50.0 (2026-10-19) · Audio de las clases de neerlandés e inglés en el iPhone
+
+- Renzo: en el móvil no se oía el audio de las lecciones. La voz es la del navegador (`speechSynthesis`), y en iOS falla por varias causas conocidas. Nuevo `microapps/selflearn/audio.js`:
+  - **Desbloqueo en el primer toque** (iOS exige que la primera voz nazca de un gesto).
+  - **Sesión de audio `playback`** (Safari 17+) y 0,1 s de silencio por `<audio>` para intentar que suene con el interruptor de silencio activado.
+  - Ya **no hace `cancel()` + `speak()` seguidos** cuando no suena nada (WebKit descartaba la frase). Si algo suena, cancela y habla a los 60 ms.
+  - Guarda la frase en curso y reanuda si el motor se queda en pausa. Prefiere voces locales y "mejoradas" del idioma.
+  - Si en 1,5 s no empieza a sonar, **avisa con pasos concretos**: quitar silencio, subir volumen y descargar la voz en Ajustes → Accesibilidad → Contenido leído → Voces.
+- Botón de audio a 44 px. Tests en `tests/selflearn-audio.test.mjs`. Caché `renzo-hub-cloud-v53-selflearn-audio`.
+- No verificado en un iPhone real desde aquí: Playwright/WebKit no trae voces. Hay que probarlo en el móvil.
+
 ## 2.49.0 (2026-10-19) · SelfLearn Language Academy (PR #94 de ChatGPT, validado y arreglado por Claude)
 
 - Renzo pidió validar, arreglar y publicar el #94. Contenido de ChatGPT: prioridades por idioma (gramática, pronunciación, contexto, repaso), ejercicios de gramática y pronunciación con explicaciones en español, diagnóstico, repaso de errores gramaticales, progreso por destreza, sincronización de historial sin duplicados (`sync.js`) y tutor local. Solo neerlandés e inglés.

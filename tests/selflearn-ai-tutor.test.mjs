@@ -14,3 +14,26 @@ test("non-POST methods are rejected",async()=>{
  const res=response();await handler({method:"DELETE",headers:{}},res);
  assert.equal(res.code,405);
 });
+
+// 2.51.0 · interruptores de entorno y modelo configurable
+const ENV=["VERCEL_ENV","SELFLEARN_AI_ENABLED","SELFLEARN_AI_RATE_LIMIT_READY","OPENROUTER_API_KEY","SELFLEARN_AI_ALLOW_PRODUCTION","SELFLEARN_AI_MODEL"];
+async function info(env){
+ const old=Object.fromEntries(ENV.map(k=>[k,process.env[k]]));
+ for(const k of ENV)delete process.env[k];Object.assign(process.env,env);
+ const mod=await import(`../api/selflearn-tutor.js?t=${Math.random()}`);let out;
+ await mod.default({method:"GET",headers:{}},{setHeader(){},status(){return this;},json(b){out=b;return this;}});
+ for(const k of ENV){if(old[k]===undefined)delete process.env[k];else process.env[k]=old[k];}
+ return out;
+}
+const ON={SELFLEARN_AI_ENABLED:"true",SELFLEARN_AI_RATE_LIMIT_READY:"true",OPENROUTER_API_KEY:"sk-test"};
+test("producción sigue apagada sin SELFLEARN_AI_ALLOW_PRODUCTION",async()=>{
+ assert.equal((await info({VERCEL_ENV:"production",...ON})).enabled,false);
+ assert.equal((await info({VERCEL_ENV:"production",...ON,SELFLEARN_AI_ALLOW_PRODUCTION:"true"})).enabled,true);
+ assert.equal((await info({VERCEL_ENV:"preview",...ON})).enabled,true);
+ assert.equal((await info({VERCEL_ENV:"preview",SELFLEARN_AI_ENABLED:"true",OPENROUTER_API_KEY:"sk-test"})).enabled,false,"sin cuota no se enciende");
+});
+test("modelo: openrouter/free por defecto y configurable solo con un id válido",async()=>{
+ assert.equal((await info({VERCEL_ENV:"preview",...ON})).model,"openrouter/free");
+ assert.equal((await info({VERCEL_ENV:"preview",...ON,SELFLEARN_AI_MODEL:"google/gemma-4-31b-it:free"})).model,"google/gemma-4-31b-it:free");
+ assert.equal((await info({VERCEL_ENV:"preview",...ON,SELFLEARN_AI_MODEL:"x; rm -rf"})).model,"openrouter/free");
+});
