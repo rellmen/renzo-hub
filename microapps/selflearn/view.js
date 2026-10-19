@@ -77,7 +77,9 @@ ${resume}
 <div class="sl-section"><h2>Ruta del curso</h2><span>${done.size} de ${units.length} completadas</span></div>
 ${levelHtml}
 <details class="sl-panel" open><summary>⚙️ Mi ruta personalizada · gramática y pronunciación</summary>${settingsForm(c, cfg)}</details>
-<details class="sl-panel"><summary>📖 Entrenador de gramática · ${grammarDrills(c).length} ejercicios</summary>${grammarView(c)}</details>\n<details class="sl-panel"><summary>🗣️ Entrenador de pronunciación · ${pronunciationDrills(c).length} ejercicios</summary>${pronunciationView(c)}</details>\n<details class="sl-panel"><summary>✍️ Práctica libre, mis tarjetas e historial</summary>${labView(c, cfg)}</details>
+<details class="sl-panel"><summary>📖 Entrenador de gramática · ${grammarDrills(c).length} ejercicios</summary>${grammarView(c)}</details>
+<details class="sl-panel"><summary>🗣️ Entrenador de pronunciación · ${pronunciationDrills(c).length} ejercicios</summary>${pronunciationView(c)}</details>
+<details class="sl-panel"><summary>✍️ Práctica libre, mis tarjetas e historial</summary>${labView(c, cfg)}</details>
 <p class="sl-note">${esc(course.examNote)} Los niveles orientan la ruta; no certifican tu nivel.</p>
 </div>`;
   }
