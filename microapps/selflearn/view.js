@@ -11,6 +11,7 @@ import { grammarFeedbackReport,grammarAnswerFeedback } from "./grammar-feedback.
 import { tutorPrompt,localTutorResponse,tutorPrivacyNotice,TUTOR_LIMITS } from "./tutor.js";
 import { speechRecognitionSupport,startSpeechPractice,speechPracticeNotice } from "./speech-practice.js";
 import { weeklySkillProgress,skillProgressNotice } from "./skill-progress.js";
+import { learningNeeds } from "./learning-needs.js";
 import { fsrs, createEmptyCard, Rating } from "./fsrs-bundle.js";
 
 const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -84,6 +85,7 @@ ${resume}
 <div class="sl-section"><h2>Ruta del curso</h2><span>${done.size} de ${units.length} completadas</span></div>
 ${levelHtml}
 <details class="sl-panel" open><summary>⚙️ Mi ruta personalizada · gramática y pronunciación</summary>${settingsForm(c, cfg)}</details>
+<details class="sl-panel"><summary>🎯 Recomendaciones según errores y práctica registrada</summary>${learningNeedsView(c)}</details>
 <details class="sl-panel"><summary>📊 Evolución semanal por destrezas · últimas 6 semanas</summary>${skillProgressView(c)}</details>
 <details class="sl-panel"><summary>🧭 Diagnóstico inicial por destreza</summary>${diagnosticView(c)}</details>
 <details class="sl-panel"><summary>📖 Entrenador de gramática · ${grammarDrills(c).length} ejercicios</summary>${grammarView(c)}</details>
@@ -92,6 +94,13 @@ ${levelHtml}
 <details class="sl-panel"><summary>✍️ Práctica libre, mis tarjetas e historial</summary>${labView(c, cfg)}</details>
 <p class="sl-note">${esc(course.examNote)} Los niveles orientan la ruta; no certifican tu nivel.</p>
 </div>`;
+  }
+
+  function learningNeedsView(c) {
+    const report=learningNeeds(data().entries,c);
+    return `<div class="sl-lab"><p class="sl-note">${esc(report.notice)}</p>
+    ${report.priorities.length?report.priorities.map(item=>`<div class="sl-card"><b>${esc(item.skill)}</b><p>${esc(item.reason)}</p><p><strong>Próximo paso:</strong> ${esc(item.action)}</p></div>`).join(""):"<p>No se han identificado prioridades con los registros disponibles.</p>"}
+    </div>`;
   }
 
   function skillProgressView(c) {
