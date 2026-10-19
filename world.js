@@ -2,6 +2,7 @@ import { xpView } from "./microapps/xp-store.js";
 import { riseRoadmapHTML } from "./microapps/work/roadmap.js";
 import { mountSelfLearn } from "./microapps/selflearn/view.js";
 import { newerRun, COURSE_IDS } from "./microapps/selflearn/engine.js";
+import { mergeLearningEntries } from "./microapps/selflearn/sync.js";
 import { fsrs, createEmptyCard, Rating } from "./microapps/selflearn/fsrs-bundle.js";
 const esc = value => String(value ?? "").replace(/[&<>\"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 // hub_records.source solo admite estos valores (CHECK en Supabase). El origen real se conserva en payload.source.
@@ -62,7 +63,15 @@ export function mountWorld(roots,getUser,supabase){
   for(const row of rows||[]){const name=Object.keys(COLLECTIONS).find(k=>COLLECTIONS[k]===row.record_type);if(name)cloud[name].push({...row.payload,id:row.id,updatedAt:row.updated_at,recordStatus:row.status});}
   let hasLocalOnlyRows=false;
   synced.clear();
-  for(const k of Object.keys(COLLECTIONS)){const remote=new Map(cloud[k].map(x=>[x.id,x]));data[k]=mergeRows(data[k],cloud[k]);for(const x of data[k]){if(remote.get(x.id)===x)synced.set(x.id,JSON.stringify(x));else hasLocalOnlyRows=true;}}
+  for(const k of Object.keys(COLLECTIONS)){
+   const remote=new Map(cloud[k].map(x=>[x.id,x]));
+   // Learning history is append-only by ID. Other collections retain their existing merge policy.
+   data[k]=k==="entries"?mergeLearningEntries(data[k],cloud[k]):mergeRows(data[k],cloud[k]);
+   for(const x of data[k]){
+    if(x.id&&remote.get(x.id)===x)synced.set(x.id,JSON.stringify(x));
+    else hasLocalOnlyRows=true;
+   }
+  }
   arrays();localWrite();renderAll();
   if((!stateRow&&local)||hasLocalOnlyRows||stateNeedsSync){await sync();}
   else setCloudStatus("Sincronizado con Supabase");
