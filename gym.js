@@ -24,6 +24,14 @@ import {keepAwake} from "./microapps/gym/wake-lock.js";
 import {listProgressPhotos} from "./microapps/gym/progress-photos.js";
 // 2.49.0: el plan por defecto es el programa Recomp 12 semanas (CSV de Renzo, 19 oct 2026).
 export const DEFAULT_PLAN=RECOMP_PLAN;
+// Rutina de 5 días anterior (hasta 2.48.0): se conserva para pruebas y como referencia.
+export const LEGACY_PLAN=[
+['Espalda + Bíceps','25-35',[['Lat Pulldown',4,6,10,'Espalda',1],['Chest Supported Row',4,8,12,'Espalda',1],['Seated Cable Row',3,10,12,'Espalda',1],['Straight Arm Pulldown',3,12,15,'Espalda'],['EZ Bar Curl',3,6,10,'Bíceps'],['Incline Dumbbell Curl',3,8,12,'Bíceps'],['Hammer Curl',3,10,15,'Bíceps']]],
+['Pecho + Hombros + Tríceps','25-35',[['Incline Machine/Smith Press',4,6,10,'Pecho',1],['Chest Press',3,8,12,'Pecho',1],['Cable Fly/Pec Deck',3,12,15,'Pecho'],['Lateral Raise',4,12,20,'Hombros'],['Cable Lateral Raise',3,12,20,'Hombros'],['Triceps Pushdown',3,8,12,'Tríceps'],['Overhead Cable Extension',3,10,15,'Tríceps']]],
+['Piernas + Core','20-30',[['Leg Press',4,8,12,'Piernas',1],['Romanian Deadlift',3,8,12,'Piernas',1],['Leg Curl',3,10,15,'Piernas'],['Leg Extension',3,10,15,'Piernas'],['Calf Raise',4,10,15,'Piernas'],['Cable Crunch',3,10,15,'Core'],['Hanging Knee Raise',3,8,15,'Core']]],
+['Espalda + Hombros + Bíceps','30-40',[['Neutral-Grip Lat Pulldown',3,8,12,'Espalda',1],['Single Arm Lat Pulldown',3,10,15,'Espalda',1],['Chest Supported Row',3,8,12,'Espalda',1],['Reverse Pec Deck',3,12,20,'Hombros'],['Machine/Cable Lateral Raise',4,12,20,'Hombros'],['Preacher Curl',3,8,12,'Bíceps'],['Bayesian Cable Curl',3,10,15,'Bíceps'],['Hammer Curl',2,10,15,'Bíceps']]],
+['Brazos + Pecho','35-45',[['EZ Bar Curl',3,6,10,'Bíceps'],['Preacher Curl',3,8,12,'Bíceps'],['Cable Curl',2,12,15,'Bíceps'],['Triceps Pushdown',3,8,12,'Tríceps'],['Overhead Cable Extension',3,10,15,'Tríceps'],['Dip Machine',3,8,12,'Tríceps',1],['Lateral Raise',4,15,20,'Hombros'],['Incline Chest Press',3,8,12,'Pecho',1]]]
+];
 const fmtRest=s=>s%60?(s>=60?`${Math.floor(s/60)} min ${s%60} s`:`${s} s`):`${s/60} min`;
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export function stats(rows){
