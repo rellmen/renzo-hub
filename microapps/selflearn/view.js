@@ -6,6 +6,7 @@ import { pronunciationDrills } from "./pronunciation.js";
 import { grammarDrills,checkGrammar } from "./grammar.js";
 import { diagnosticQuestions,evaluateDiagnostic } from "./diagnostic.js";
 import { adaptiveGrammarDrills,nextGrammarFocus } from "./adaptive.js";
+import { dueGrammarReviews,grammarReviewSchedule } from "./grammar-review.js";
 import { fsrs, createEmptyCard, Rating } from "./fsrs-bundle.js";
 
 const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -108,7 +109,8 @@ ${levelHtml}
   function grammarView(c) {
     const score = E.grammarAccuracy(data().entries,c);
     const focus=nextGrammarFocus(data().entries,c);
-    return `<div class="sl-lab"><p class="sl-note">Prioridad sugerida: ${focus?esc(focus.rule)+" · "+esc(focus.reason):"sin ejercicios disponibles"}. Las reglas con errores se muestran primero.</p><p class="sl-note">Práctica específica de tus puntos débiles · ${score.total ? `${score.pct}% de aciertos (${score.total} intentos)` : "sin intentos todavía"}. Cada respuesta se guarda para seguir tu evolución.</p>${adaptiveGrammarDrills(data().entries,c).map(d=>{const fb=grammarFeedback[d.id];return `<div class="sl-card"><div class="ey">${esc(d.level)} · ${esc(d.rule)}</div><h3>${esc(d.prompt)}</h3><div class="sl-options">${d.options.map((option,i)=>`<button class="sl-option" type="button" data-sl="grammar-answer" data-id="${esc(d.id)}" data-i="${i}" ${fb?"disabled":""}>${esc(option)}</button>`).join("")}</div>${fb?`<p class="sl-note" role="status"><b>${fb.ok?"Correcto":"Respuesta correcta: "+esc(d.answer)}</b> · ${esc(d.explanation)}</p>`:""}</div>`;}).join("")}<button type="button" class="sl-secondary" data-sl="grammar-reset">Repetir ejercicios</button></div>`;
+    const scheduled=grammarReviewSchedule(data().entries,c,today()),due=scheduled.filter(r=>r.due);
+    return `<div class="sl-lab"><p class="sl-note">Repaso espaciado: ${due.length} regla(s) pendientes · ${scheduled.length-due.length} programadas para más adelante. Intervalos de 1, 3, 7, 14 y 30 días según aciertos consecutivos.</p>${due.length?`<div class="sl-card"><h3>Repasar hoy</h3>${due.map(r=>`<p>${esc(r.drill.rule)} · pendiente desde ${esc(r.dueDate)}</p>`).join("")}</div>`:""}<p class="sl-note">Prioridad sugerida: ${focus?esc(focus.rule)+" · "+esc(focus.reason):"sin ejercicios disponibles"}. Las reglas con errores se muestran primero.</p><p class="sl-note">Práctica específica de tus puntos débiles · ${score.total ? `${score.pct}% de aciertos (${score.total} intentos)` : "sin intentos todavía"}. Cada respuesta se guarda para seguir tu evolución.</p>${[...due.map(r=>r.drill),...adaptiveGrammarDrills(data().entries,c).filter(d=>!due.some(r=>r.id===d.id))].map(d=>{const fb=grammarFeedback[d.id];return `<div class="sl-card"><div class="ey">${esc(d.level)} · ${esc(d.rule)}</div><h3>${esc(d.prompt)}</h3><div class="sl-options">${d.options.map((option,i)=>`<button class="sl-option" type="button" data-sl="grammar-answer" data-id="${esc(d.id)}" data-i="${i}" ${fb?"disabled":""}>${esc(option)}</button>`).join("")}</div>${fb?`<p class="sl-note" role="status"><b>${fb.ok?"Correcto":"Respuesta correcta: "+esc(d.answer)}</b> · ${esc(d.explanation)}</p>`:""}</div>`;}).join("")}<button type="button" class="sl-secondary" data-sl="grammar-reset">Repetir ejercicios</button></div>`;
   }
 
   function pronunciationView(c) {
