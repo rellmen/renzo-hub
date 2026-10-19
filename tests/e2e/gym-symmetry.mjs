@@ -52,6 +52,8 @@ try{
  console.log("OK: recordatorio de foto de progreso y aplazar 7 días");
  await page.click('[data-start="0"]');
  await page.waitForSelector("#workoutForm");
+ // Desde 2.48.0 Entrenar muestra un ejercicio a la vez; esta prueba recorre todos, así que usa la vista completa
+ await page.click("[data-gp-list]");
  const pre=await page.evaluate(()=>({w:document.querySelector('[name="w-0-0"]').value,r:document.querySelector('[name="r-0-0"]').value,target:document.querySelector(".gym-target")?.textContent||"",tech:!!document.querySelector(".gym-tech"),plates:document.querySelector('[data-plates]')?.dataset.plates}));
  assert.equal(pre.w,"62.5");assert.equal(pre.r,"6");assert.match(pre.target,/Sube carga/);assert.ok(pre.tech);assert.equal(pre.plates,"4");
  console.log("OK: progresión automática precargada (60 kg × 10 ×4 → 62,5 kg × 6) + técnica + discos");

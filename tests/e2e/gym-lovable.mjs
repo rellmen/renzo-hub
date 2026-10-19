@@ -71,6 +71,27 @@ for(const engine of [chromium,webkit]){
     const rows=await page.$$eval('#gym .setrow:not(.sethead) input:not([type=checkbox])',els=>els.filter(e=>e.offsetParent).map(e=>Math.round(e.getBoundingClientRect().height)));
     if(rows.length)assert.ok(rows.every(h=>h>=48),`campos de serie de 48 px: ${rows.slice(0,6)}`);
     console.log(`  ${engine.name()} ${width}px · Entrenar: ${rows.length} campos de serie`);
+    // 2.48.0 · un ejercicio a la vez: tira, barra superior, ✓ por serie y paso automático al siguiente
+    assert.equal(await page.locator('#gym details.gp-ex:visible').count(),1,'un solo ejercicio visible');
+    assert.ok(await page.locator('#gym .gp-strip [data-gp-go]').count()>=5,'tira de ejercicios');
+    assert.equal(await page.locator('#gym .gp-bar [data-gp-finish]').count(),1);
+    const cur=Number(await page.locator('#gym details.gp-current').getAttribute('data-gp-ex'));
+    const nSets=await page.locator(`#gym details[data-gp-ex="${cur}"] .gp-row`).count();
+    assert.ok(nSets>=2,'series del ejercicio actual');
+    for(let j=0;j<nSets;j++){
+     await page.evaluate(([i,j])=>{const f=document.getElementById('workoutForm');f.elements[`w-${i}-${j}`].value='20';f.elements[`r-${i}-${j}`].value='10';f.elements[`i-${i}-${j}`].value='2';},[cur,j]);
+     await page.evaluate(([i,j])=>document.querySelectorAll(`#gym details[data-gp-ex="${i}"] .gp-row`)[j].querySelector('.gp-tick').click(),[cur,j]);
+     await page.waitForFunction(([i,j])=>document.querySelectorAll(`#gym details[data-gp-ex="${i}"] .gp-row`)[j]?.classList.contains('gp-done'),[cur,j]);
+    }
+    await page.waitForFunction(i=>Number(document.querySelector('#gym details.gp-current')?.dataset.gpEx)!==i,cur);
+    assert.ok(await page.locator(`#gym .gp-strip [data-gp-go="${cur}"].gp-ok`).count()===1,'ejercicio terminado marcado en la tira');
+    const ov4=await page.evaluate(()=>document.documentElement.scrollWidth-innerWidth);
+    assert.ok(ov4<=0,`sesión (un ejercicio): scroll horizontal de ${ov4}px`);
+    if(shots&&engine===webkit){await page.evaluate(()=>window.scrollTo(0,0));await page.setViewportSize({width,height:1300});await page.waitForTimeout(300);await page.screenshot({path:`${shots}/gym-player-${width}.png`});await page.setViewportSize({width,height:900});}
+    // "Ver todos" vuelve a la vista completa
+    await page.locator('#gym [data-gp-list]').click();
+    assert.ok(await page.locator('#gym details.gp-ex:visible').count()>=5,'vista completa');
+    await page.locator('#gym [data-gp-list]').click();
    }
    if(shots&&engine===webkit){await page.setViewportSize({width,height:2400});await page.waitForTimeout(250);await page.screenshot({path:`${shots}/gym-${v}-${width}.png`});await page.setViewportSize({width,height:900});}
   }

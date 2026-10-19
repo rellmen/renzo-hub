@@ -1,4 +1,5 @@
 // Nivel y rango: los del nivel único de RISE HUB (xp-store); stats() sigue dando sesiones, racha y récords.
+import {enhanceSession} from "./microapps/gym/player.js";
 import {moreButtonHtml,moreSheetHtml,MORE_IDS,strengthChartSvg,weekBuckets,weeklyBarsHtml,recordsHtml} from "./microapps/gym/visuals.js";
 import { xpView } from "./microapps/xp-store.js";
 import { XP_RULES } from "./phase1.js";
@@ -115,7 +116,9 @@ export function mountGym(root,db,getUser){
   panel.innerHTML=`<label>Máquina ocupada o molestia: cámbialo solo hoy<select data-swap-to="${i}">${alts.map(a=>`<option value="${esc(a.name)}">${esc(a.name)} · ${esc(a.equipment)}</option>`).join('')}</select></label><button type="button" class="primary" data-swap-do="${i}">Usar este ejercicio</button>`;
   panel.querySelector('[data-swap-do]').onclick=async()=>{const to=panel.querySelector('select').value;await save(false);if(root.querySelector('#gymStatus')?.textContent!=='Borrador guardado'||!active)return;const cur=active.exercises[i];if(cur.sets.some(x=>x.completed)){status('Ya hay series hechas en este ejercicio; no se puede cambiar.');return;}const from=cur.name;cur.swappedFrom??=from;cur.name=to;const sug=suggestSets(cur,lastSets(rows,to));cur.sets.forEach((x,j)=>{x.weight=sug?.sets[j]?.weight??null;x.reps=sug?.sets[j]?.reps??null;x.rir=sug?.sets[j]?.rir??null;});cur.target=sug?{mode:sug.mode,reason:sug.reason}:null;if(active.deload&&sug){const d=applyDeload(cur);cur.sets=d.sets;}if(await persist(active)){render();status(`Cambiado ${from} por ${to} solo en esta sesión. Tu rutina no cambia.`);}};});
  keepAwake(true).then(on=>{const n=root.querySelector('[data-awake]');if(n)n.hidden=!on;});
- form.onsubmit=e=>{e.preventDefault();save(true);};}
+ form.onsubmit=e=>{e.preventDefault();save(true);};
+ // Entrenar · un ejercicio a la vez (2.48.0): solo reorganiza la pantalla; los campos y save() no cambian.
+ const rankMap=new Map(exerciseRanks(rows,bodyWeight()?.kg).filter(x=>x.rank).map(x=>[x.name,{label:x.rank.label,color:x.rank.tier.color}]));enhanceSession(content,{active,previous,startRest:i=>{const ex=active?.exercises[i];if(ex)timer().start(restSeconds(ex),ex.name);},saveDraft:()=>save(false),rankOf:name=>rankMap.get(name)||null,info:exerciseInfo});}
  }else if(view==='ranks'){content.innerHTML=ranksHtml();
   }else if(view==='photos'){content.innerHTML='<p class="small">Cargando fotos de progreso…</p>';import('./microapps/gym/photos-view.js').then(m=>m.render(content,{db,getUser,owner,status,esc})).catch(()=>{content.innerHTML='<div class="card"><h3>Fotos de progreso</h3><p class="small">En preparación: fotos privadas y comparador antes/después (issue #79).</p></div>';});
   }else if(view==='goals'){
