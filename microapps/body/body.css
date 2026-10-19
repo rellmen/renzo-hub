@@ -1,0 +1,83 @@
+/* Body 2.44.0 · diseño del prototipo de Lovable (19 oct 2026) llevado a la app real.
+   Mobile first: márgenes de 16–20 px, texto mínimo 14 px, cifras clave de 28–36 px, zonas táctiles de 44 px
+   y campos de 48 px con letra de 16 px (el iPhone no hace zoom). Solo afecta a la sección #body. */
+
+html body #body { --body-pad: 18px; }
+html body #body .small { font-size: 14px; color: var(--muted); }
+html body #body svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+
+/* Tu cuerpo, hoy */
+html body #body .body-today { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: var(--body-pad); margin-bottom: 20px; }
+html body #body .body-sec-title { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+html body #body .body-sec-title > svg { color: var(--accent); }
+html body #body .body-sec-title h2, html body #body .body-sec-title h3 { font-size: 20px; line-height: 1.3; margin: 0; }
+html body #body .body-sec-title > .small { margin-left: auto; }
+html body #body .body-w-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; align-items: center; }
+html body #body .body-w p { margin: 0; }
+html body #body .body-w-value { font-size: 36px; font-weight: 700; line-height: 1.15; font-variant-numeric: tabular-nums; white-space: nowrap; }
+html body #body .body-w-value span { font-size: 18px; font-weight: 500; color: var(--muted); }
+html body #body .body-w-empty { font-size: 22px; font-weight: 600; }
+html body #body .body-w-change { margin-top: 8px !important; font-size: 15px; font-weight: 600; color: var(--accent2); font-variant-numeric: tabular-nums; }
+html body #body .body-w-change span { font-weight: 400; color: var(--muted); }
+html body #body .body-w-chart { min-width: 0; }
+html body #body .body-spark { display: block; width: 100%; height: 72px; overflow: visible; }
+html body #body .body-spark-base { fill: none; stroke: var(--line); stroke-width: 1; }
+html body #body .body-spark-line { fill: none; stroke: var(--accent); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+html body #body .body-spark-dot { fill: var(--accent); stroke: none; }
+html body #body .body-spark-dates { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); margin-top: 4px; }
+html body #body .body-goal { margin-top: 18px; }
+html body #body .body-goal > div:first-child { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px; font-size: 15px; margin-bottom: 10px; }
+html body #body .body-bar { height: 8px; border-radius: 99px; background: var(--card2); overflow: hidden; }
+html body #body .body-bar i { display: block; height: 100%; border-radius: inherit; background: var(--accent); }
+html body #body .body-goal-none { margin: 16px 0 0; }
+html body #body .body-chips { display: flex; flex-wrap: wrap; gap: 8px; border-top: 1px solid var(--line); padding-top: 16px; margin-top: 18px; }
+html body #body .body-chips > span { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 8px 12px; border-radius: 10px; background: var(--card2); font-size: 14px; }
+html body #body .body-chips svg { width: 18px; height: 18px; color: var(--accent); }
+html body #body .body-warn { color: var(--warn); margin-top: 10px; }
+
+/* Accesos a Gym, Food y Skin con dato vivo */
+html body #body .body-mods { display: grid; gap: 12px; margin: 0 0 28px; }
+html body #body .body-mod { display: grid; grid-template-columns: 52px minmax(0, 1fr) 24px; align-items: center; gap: 14px; width: 100%; min-height: 88px; padding: 16px var(--body-pad); text-align: left; color: var(--text); background: var(--card); border: 1px solid var(--line); border-radius: 12px; cursor: pointer; font: inherit; }
+html body #body .body-mod:hover, html body #body .body-mod:focus-visible { border-color: var(--accent); }
+html body #body .body-mod:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+html body #body .body-mod-ic { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 12px; background: var(--card2); color: var(--accent); }
+html body #body .body-mod-ic svg { width: 26px; height: 26px; }
+html body #body .body-mod-tx { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+html body #body .body-mod-tx b { font-size: 15px; font-weight: 600; color: var(--muted); }
+html body #body .body-mod-tx strong { font-size: 19px; line-height: 1.3; font-weight: 700; overflow-wrap: anywhere; }
+html body #body .body-mod-go { color: var(--muted); font-size: 18px; text-align: right; }
+
+/* Peso (phase1.js) y Registro corporal (world.js): mismo marcado, nueva presentación */
+html body #body #p1Weight > .section, html body #body #worldBody .body-sec { border-top: 1px solid var(--line); padding-top: 22px; margin-top: 8px; }
+html body #body #p1Weight .section h3, html body #body #worldBody .body-sec h3 { font-size: 20px; }
+html body #body #p1Weight .card { padding: var(--body-pad); border-radius: 12px; }
+html body #body :where(#p1Weight, #worldBody) :where(input, select, textarea) { font-size: 16px; min-height: 48px; border-radius: 10px; }
+html body #body #p1Weight input[name="value"] { font-size: 28px; font-weight: 700; min-height: 56px; font-variant-numeric: tabular-nums; }
+html body #body :where(#p1Weight, #worldBody) button { min-height: 48px; font-size: 16px; }
+html body #body #worldBody textarea { min-height: 96px; }
+html body #body #worldBody .worldform { margin-top: 16px; }
+
+/* La gráfica de peso ya está arriba (Tu cuerpo, hoy): en Body se deja solo el formulario */
+html body #body #p1Weight .card > svg, html body #body #p1Weight .card > svg + p.small { display: none; }
+html body #body #worldBody .body-sec { flex-wrap: wrap; row-gap: 4px; }
+
+/* Diario corporal como línea de tiempo */
+html body #body #worldBody .body-tl { list-style: none; margin: 4px 0 0; padding: 0; }
+html body #body #worldBody .body-tl li { position: relative; display: grid; grid-template-columns: 14px minmax(0, 1fr); gap: 12px; padding-bottom: 22px; }
+html body #body #worldBody .body-tl li:not(:last-child)::after { content: ""; position: absolute; top: 18px; left: 5px; bottom: 2px; width: 1px; background: var(--line); }
+html body #body #worldBody .body-tl-dot { width: 11px; height: 11px; margin-top: 6px; border: 2px solid var(--accent); border-radius: 50%; }
+html body #body #worldBody .body-tl-meta { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; color: var(--muted); }
+html body #body #worldBody .body-tl-meta b { color: var(--accent2); font-weight: 600; }
+html body #body #worldBody .body-tl p { margin: 4px 0 0; font-size: 16px; overflow-wrap: anywhere; }
+html body #body #worldBody .body-tl-val { display: inline-block; margin-top: 8px; padding: 4px 10px; border-radius: 6px; background: var(--card2); font-size: 14px; font-variant-numeric: tabular-nums; }
+
+@media (max-width: 380px) {
+  html body #body { --body-pad: 16px; }
+  html body #body .body-w-row { grid-template-columns: minmax(0, 1fr); }
+  html body #body .body-w-value { font-size: 32px; }
+}
+@media (min-width: 900px) {
+  html body #body .body-mods { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  html body #body .body-w-row { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); }
+  html body #body .body-spark { height: 96px; }
+}

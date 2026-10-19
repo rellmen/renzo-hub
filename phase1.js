@@ -150,17 +150,20 @@ export function mountPhase1(supabase, getUser) {
     const xp = totalXp(); publishXp({ xp, ...levelFor(xp) }); // Gym, Study y Home leen el mismo nivel
   }
 
+  // Comida sugerida según la hora (solo preselecciona; se puede cambiar).
+  const mealGuess = () => { const h = new Date().getHours(); return h < 11 ? 0 : h < 16 ? 1 : h < 19 ? 2 : 3; };
   function renderFood() {
     const box = $("p1Food"); if (!box) return;
     const t = today(), rows = (data.food || []).filter(r => r.payload?.date === t);
     const kcal = rows.reduce((s, r) => s + (num(r.payload.kcal) || 0), 0), protein = rows.reduce((s, r) => s + (num(r.payload.protein) || 0), 0);
     box.innerHTML = `<div class="section"><h3>Registro de hoy</h3><span class="small">${rows.length ? `${fmt(kcal)} kcal · ${fmt(protein)} g proteína` : "sin registros"}</span></div>
-      <form class="card worldform" data-food-form><label>Comida<select name="meal"><option>Desayuno</option><option>Comida</option><option>Snack</option><option>Cena</option></select></label>
+      <form class="card worldform food-form" data-food-form><fieldset class="food-meals"><legend>Comida</legend>${["Desayuno", "Comida", "Snack", "Cena"].map((m, i) => `<label class="food-meal"><input type="radio" name="meal" value="${m}" ${i === mealGuess() ? "checked" : ""}><span>${m}</span></label>`).join("")}</fieldset>
       <label>Qué has comido<input name="description" required maxlength="160"></label>
       <label>kcal<input name="kcal" type="number" min="0" max="5000" inputmode="numeric"></label>
       <label>Proteína (g)<input name="protein" type="number" min="0" max="400" step="0.1" inputmode="decimal"></label>
       <button type="submit">Añadir</button><span class="small" role="status"></span></form>
-      ${rows.map(r => `<div class="card row" style="margin-top:8px"><div><b>${esc(r.payload.meal)}</b><div class="small">${esc(r.payload.description)}</div></div><div class="small">${r.payload.kcal ?? "–"} kcal · ${r.payload.protein ?? "–"} g <button class="switch" data-del-food="${esc(r.id)}" aria-label="Borrar registro">✕</button></div></div>`).join("")}`;
+      ${["Desayuno", "Comida", "Snack", "Cena"].map(m => [m, rows.filter(r => r.payload.meal === m)]).concat([["Otras", rows.filter(r => !["Desayuno", "Comida", "Snack", "Cena"].includes(r.payload.meal))]]).filter(([, list]) => list.length).map(([m, list]) => `<div class="food-group"><h4>${esc(m)}</h4>${list.map(r => `<div class="card row food-item"><div><div class="food-desc">${esc(r.payload.description)}</div><div class="small">${r.payload.kcal ?? "–"} kcal · ${r.payload.protein ?? "–"} g proteína</div></div><button class="switch" data-del-food="${esc(r.id)}" aria-label="Borrar ${esc(r.payload.description)}">✕</button></div>`).join("")}</div>`).join("")}`;
+    document.dispatchEvent(new CustomEvent("rise:food-changed", { detail: { date: t, kcal, protein, meals: rows.length } }));
     box.querySelector("[data-food-form]").onsubmit = async e => {
       e.preventDefault(); const f = e.currentTarget, v = Object.fromEntries(new FormData(f)), st = f.querySelector("[role=status]");
       const user = getUser(); if (!user) return;
