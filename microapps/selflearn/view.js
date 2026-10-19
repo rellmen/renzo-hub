@@ -24,8 +24,8 @@ const PRACTICE_PROMPTS = {
   en: { "Mixto": "Write two sentences about your day at work.", "Trabajo": "Write a short update for your manager about a stock discrepancy.", "Datos": "Describe a trend in one of your dashboards.", "Vida diaria": "Write a message inviting a friend for coffee.", "Finanzas": "Explain how you track your monthly budget." }
 };
 
-export function mountSelfLearn({ root, getData, persist, today, xpView, currentMode, onChange }) {
-  let ui = fresh(), summary = null, voices = [], grammarFeedback = {}, tutorSessions = {nl:{conversation:0,writing:0},en:{conversation:0,writing:0}}, tutorStatus = "", speechSession = null, speechTranscript = "", speechStatus = "";
+export function mountSelfLearn({ root, getData, persist, today, xpView, currentMode, onChange, getAuthToken }) {
+  let ui = fresh(), summary = null, voices = [], grammarFeedback = {}, tutorSessions = {nl:{conversation:0,writing:0},en:{conversation:0,writing:0}}, tutorStatus = "", tutorBusy = false, speechSession = null, speechTranscript = "", speechStatus = "";
   function fresh() { return { selected: null, feedback: null, built: [], matchLeft: null, matchDone: [], matchErrors: 0, typed: "", speech: "" }; }
   if (typeof window !== "undefined" && "speechSynthesis" in window) { const load = () => { voices = window.speechSynthesis.getVoices() || []; }; load(); window.speechSynthesis.onvoiceschanged = load; }
 
@@ -139,7 +139,10 @@ ${levelHtml}
     <form class="sl-form" data-sl-form="tutor"><label>Actividad<select name="tutorMode"><option value="conversation">Conversación guiada</option><option value="writing">Escritura</option></select></label>
     <p><b>Conversación:</b> ${esc(tutorPrompt(c,"conversation",turns))}</p><p><b>Escritura:</b> ${esc(tutorPrompt(c,"writing"))}</p>
     <textarea name="tutorAnswer" rows="4" maxlength="${TUTOR_LIMITS.maxChars}" required placeholder="Escribe tu respuesta en el idioma que practicas"></textarea>
-    <button class="sl-secondary" type="submit">Guardar práctica y recibir orientación local</button>
+    <button class="sl-secondary" type="submit" ${tutorBusy?"disabled":""}>Guardar práctica y recibir orientación local</button>
+    <label class="sl-note"><input type="checkbox" name="aiConsent" value="yes"> Autorizo enviar únicamente esta respuesta al proveedor externo OpenRouter para obtener comentarios de IA. No incluyas datos personales o de trabajo confidenciales.</label>
+    <button class="sl-secondary" type="submit" name="tutorAction" value="ai" ${tutorBusy?"disabled":""}>Solicitar comentarios de IA (solo preview, si está habilitado)</button>
+    <p class="sl-note">La IA puede equivocarse. No evalúa pronunciación ni certifica niveles. Si no está disponible, continúa con el tutor local.</p>
     ${tutorStatus?`<p class="sl-note" role="status">${esc(tutorStatus)}</p>`:""}</form></div>`;
   }
 
@@ -338,7 +341,7 @@ ${levelHtml}
     if (act === "speak-try") { dictate("#slSpeakStatus", text => { const pct = Math.round(E.similarity(text, step.t) * 100); ui.speech = `Hemos oído: «${text}» · parecido ${pct}%${pct >= 75 ? " · ¡bien!" : " · vuelve a escuchar y repite"}`; render(); }); return; }
   });
 
-  root.addEventListener("submit", event => {
+  root.addEventListener("submit", async event => {
     const form = event.target.closest("form[data-sl-form]"); if (!form) return;
     event.preventDefault();
     const kind = form.dataset.slForm, v = Object.fromEntries(new FormData(form)), c = activeCourse(), d = data(), s = settings();
@@ -346,6 +349,22 @@ ${levelHtml}
       const mode=v.tutorMode==="writing"?"writing":"conversation";
       const answer=String(v.tutorAnswer||"").trim().slice(0,TUTOR_LIMITS.maxChars);
       if(!answer)return;
+      if(event.submitter?.value==="ai"){
+        if(tutorBusy)return;
+        if(v.aiConsent!=="yes"){tutorStatus="Debes marcar el consentimiento antes de solicitar IA.";render();return;}
+        if(typeof getAuthToken!=="function"){tutorStatus="La sesión de IA no está configurada.";render();return;}
+        tutorBusy=true;tutorStatus="Consultando el tutor IA…";render();
+        try{
+          const token=await getAuthToken();
+          if(!token)throw Error("Inicia sesión para utilizar el tutor IA.");
+          const response=await fetch("/api/selflearn-tutor",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+token},body:JSON.stringify({course:c,mode,answer,consent:true}),signal:AbortSignal.timeout(20000)});
+          const result=await response.json();
+          if(!response.ok)throw Error(result.error||"No se pudo consultar el tutor.");
+          tutorStatus="Comentarios de IA (orientativos): "+String(result.feedback||"").slice(0,2500);
+        }catch(error){tutorStatus="Tutor IA no disponible: "+(error?.message||"Error de conexión")+". Puedes utilizar el tutor local.";}
+        finally{tutorBusy=false;render();}
+        return;
+      }
       const turn=tutorSessions[c]?.[mode]||0;
       const feedback=localTutorResponse({course:c,mode,answer,turn});
       if(!feedback.accepted)return;
