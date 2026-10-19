@@ -1,6 +1,8 @@
 // Temporizador de descanso entre series (como en las apps de registro tipo Symmetry).
 // Vive fuera del contenido de Gym para sobrevivir a los re-renderizados; guarda la hora de fin en sessionStorage.
-export const restSeconds = exercise => (exercise?.compound ? 150 : 90);
+// Descanso del programa para ese ejercicio (Recomp: rest_seconds del CSV) o, si no hay, 150 s compuestos / 90 s aislamiento.
+export const restSeconds = exercise => { const r = Number(exercise?.rest); return r >= 5 && r <= 900 ? r : exercise?.compound ? 150 : 90; };
+const MAX_REST = 15 * 60; // un descanso guardado más largo que esto es un resto de otra sesión: se descarta
 export const fmtClock = s => { const v = Math.max(0, Math.round(s)); return `${Math.floor(v / 60)}:${String(v % 60).padStart(2, "0")}`; };
 const KEY = "rise-gym-rest-v1";
 
@@ -39,7 +41,7 @@ export function mountRestTimer(doc = typeof document !== "undefined" ? document 
   }
   function run() { bar.hidden = false; bar.classList.remove("done"); bar.setAttribute("aria-live", "off"); clearInterval(tick); tick = setInterval(paint, 250); paint(); }
   function start(seconds, name = "") {
-    total = Math.max(5, Number(seconds) || 90); endAt = Date.now() + total * 1000; label = name ? `Descanso · ${name}` : "Descanso"; save();
+    total = Math.min(MAX_REST, Math.max(5, Number(seconds) || 90)); endAt = Date.now() + total * 1000; label = name ? `Descanso · ${name}` : "Descanso"; save();
     try { audio ??= new (window.AudioContext || window.webkitAudioContext)(); audio.resume?.(); } catch {}
     run();
   }
@@ -47,9 +49,9 @@ export function mountRestTimer(doc = typeof document !== "undefined" ? document 
   bar.onclick = e => {
     const b = e.target.closest("[data-rest]"); if (!b) return;
     if (b.dataset.rest === "skip") { stop(); return; }
-    const d = Number(b.dataset.rest); endAt = Math.max(Date.now() + 1000, endAt + d * 1000); total = Math.max(total + d, 5); save(); paint();
+    const d = Number(b.dataset.rest); endAt = Math.min(Date.now() + MAX_REST * 1000, Math.max(Date.now() + 1000, endAt + d * 1000)); total = Math.min(MAX_REST, Math.max(total + d, 5)); save(); paint();
   };
   // Si el usuario recargó o cambió de pestaña con un descanso en marcha, se recupera.
-  try { const s = JSON.parse(sessionStorage.getItem(KEY) || "null"); if (s && s.endAt > Date.now()) { endAt = s.endAt; total = s.total; label = s.label; run(); } } catch {}
+  try { const s = JSON.parse(sessionStorage.getItem(KEY) || "null"); if (s && s.endAt > Date.now() && s.endAt - Date.now() <= MAX_REST * 1000) { endAt = s.endAt; total = s.total; label = s.label; run(); } } catch {}
   return { start, stop, remaining: () => Math.max(0, (endAt - Date.now()) / 1000) };
 }

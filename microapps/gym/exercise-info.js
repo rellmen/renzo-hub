@@ -1,5 +1,6 @@
 // Técnica por ejercicio (claves de ejecución y error típico). Orientativo; ante dolor, para y consulta a un profesional.
 // Biblioteca de 100+ ejercicios (2.37.0). Contrato: exerciseInfo(name) → ficha o null; exerciseLibrary() → [{name,muscle,pattern,equipment}].
+import { RECOMP_PLAN } from "./recomp-plan.js";
 const I = (pattern, equipment, cues, mistake, barbell = null) => ({ pattern, equipment, cues, mistake, barbell });
 const INFO = {
   "Lat Pulldown": I("Tracción vertical", "Polea", ["Agarre algo más ancho que los hombros, pecho alto", "Lleva la barra a la parte alta del pecho tirando con los codos hacia abajo", "Sube controlando hasta estirar la espalda"], "Balancear el torso hacia atrás para mover más peso"),
@@ -140,5 +141,8 @@ export function exerciseLibrary() {
     .sort((a, b) => MUSCLE_ORDER.indexOf(a.muscle) - MUSCLE_ORDER.indexOf(b.muscle) || a.name.localeCompare(b.name));
 }
 export const LIBRARY_MUSCLES = MUSCLE_ORDER;
-export function exerciseInfo(name) { return INFO[name] || null; }
+// Nombres en castellano del programa Recomp → su ficha de la biblioteca (técnica, alternativas y rangos).
+const ALIAS = Object.fromEntries(RECOMP_PLAN.flatMap(d => d[2].map(e => [e[0], e[7]?.ref])).filter(([, ref]) => ref));
+export const canonicalExercise = name => (INFO[name] ? name : ALIAS[name] || name);
+export function exerciseInfo(name) { return INFO[name] || INFO[ALIAS[name]] || null; }
 export const exerciseInfoNames = () => Object.keys(INFO);

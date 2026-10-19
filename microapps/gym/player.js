@@ -26,6 +26,13 @@ export const elapsed = (start, now = Date.now()) => {
   const s = Math.max(0, Math.floor((now - new Date(start).getTime()) / 1000)), h = Math.floor(s / 3600), m = Math.floor(s / 60) % 60, x = s % 60;
   return h ? `${h}:${String(m).padStart(2, "0")}:${String(x).padStart(2, "0")}` : `${m}:${String(x).padStart(2, "0")}`;
 };
+// Una sesión abierta hace más de 12 h no es "tiempo de sesión": es una sesión que se quedó sin cerrar.
+export const STALE_HOURS = 12;
+export const isStale = (start, now = Date.now()) => now - new Date(start).getTime() > STALE_HOURS * 3600000;
+export function sessionClock(start, now = Date.now()) {
+  if (!isStale(start, now)) return elapsed(start, now);
+  return `Abierta desde ${new Date(start).toLocaleDateString("es-ES", { day: "numeric", month: "short" })}`;
+}
 // Siguiente ejercicio con series pendientes (o el mismo si es el último pendiente).
 export function nextPending(exercises, from) {
   for (let k = 1; k <= exercises.length; k++) { const i = (from + k) % exercises.length; if (exercises[i].sets.some(s => !s.completed)) return i; }
@@ -53,10 +60,10 @@ export function enhanceSession(content, ctx) {
   // Barra superior: modo, tiempo, descanso, ajustes de sesión y finalizar
   const bar = document.createElement("div");
   bar.className = "gp-bar";
-  bar.innerHTML = `<button type="button" class="gp-iconbtn" data-gp-list aria-pressed="${st.list}" aria-label="${st.list ? "Ver un ejercicio a la vez" : "Ver todos los ejercicios"}">${icon(st.list ? IC.down : IC.list)}</button><span class="gp-time" aria-label="Tiempo de sesión"><b data-gp-clock>${elapsed(active.started_at)}</b></span><button type="button" class="gp-iconbtn" data-gp-rest aria-label="Empezar descanso">${icon(IC.timer)}</button><button type="button" class="gp-iconbtn" data-gp-meta aria-expanded="false" aria-label="Datos de la sesión">${icon(IC.gear)}</button><button type="button" class="gp-finish" data-gp-finish>Finalizar</button>`;
+  bar.innerHTML = `<button type="button" class="gp-iconbtn" data-gp-list aria-pressed="${st.list}" aria-label="${st.list ? "Ver un ejercicio a la vez" : "Ver todos los ejercicios"}">${icon(st.list ? IC.down : IC.list)}</button><span class="gp-time" aria-label="Tiempo de sesión"><b data-gp-clock class="${isStale(active.started_at) ? "gp-time-stale" : ""}">${sessionClock(active.started_at)}</b></span><button type="button" class="gp-iconbtn" data-gp-rest aria-label="Empezar descanso">${icon(IC.timer)}</button><button type="button" class="gp-iconbtn" data-gp-meta aria-expanded="false" aria-label="Datos de la sesión">${icon(IC.gear)}</button><button type="button" class="gp-finish" data-gp-finish>Finalizar</button>`;
   content.prepend(bar);
   const clock = bar.querySelector("[data-gp-clock]");
-  const tick = setInterval(() => { if (!clock.isConnected) { clearInterval(tick); return; } clock.textContent = elapsed(active.started_at); }, 1000);
+  const tick = setInterval(() => { if (!clock.isConnected) { clearInterval(tick); return; } clock.textContent = sessionClock(active.started_at); }, 1000);
 
   const meta = form.querySelector(".card.meta");
   if (meta) meta.classList.add("gp-meta");
@@ -64,6 +71,17 @@ export function enhanceSession(content, ctx) {
   bar.querySelector("[data-gp-rest]").onclick = () => ctx.startRest(st.focus);
   bar.querySelector("[data-gp-finish]").onclick = () => form.requestSubmit();
   bar.querySelector("[data-gp-list]").onclick = () => { st.list = !st.list; apply(); };
+
+  // Sesión olvidada (p. ej. empezada hace días): se avisa y se ofrece cerrarla o descartarla.
+  if (isStale(active.started_at)) {
+    const done = active.exercises.some(e => e.sets.some(x => x.completed));
+    const warn = document.createElement("div");
+    warn.className = "card gym-remind gp-stale"; warn.setAttribute("role", "status");
+    warn.innerHTML = `<b>Esta sesión se quedó abierta desde el ${esc(new Date(active.started_at).toLocaleDateString("es-ES", { day: "numeric", month: "long" }))}</b><p class="small">${done ? "Tiene series guardadas. Finalízala para guardarlas (la duración quedará vacía, no se inventa) o descártala si no vale." : "No tiene ninguna serie hecha. Descártala para empezar el entrenamiento de hoy."}</p><div class="actions">${done ? '<button type="button" class="primary" data-gp-finish-stale>Finalizar con lo hecho</button>' : ""}<button type="button" class="${done ? "secondary" : "primary"}" data-gp-discard>Descartar sesión</button></div>`;
+    bar.after(warn);
+    warn.querySelector("[data-gp-finish-stale]")?.addEventListener("click", () => form.requestSubmit());
+    warn.querySelector("[data-gp-discard]").onclick = () => ctx.discard?.();
+  }
 
   // Tira de ejercicios
   const strip = document.createElement("nav");
@@ -121,6 +139,15 @@ ${info ? `<div class="gp-tech" hidden><b>${esc(info.pattern)} · ${esc(info.equi
     nav.innerHTML = `<button type="button" class="secondary" data-gp-step="-1" ${i === 0 ? "disabled" : ""}>← Anterior</button><button type="button" class="primary" data-gp-step="1" ${i === total - 1 ? "disabled" : ""}>Siguiente →</button>`;
     d.append(nav);
     nav.querySelectorAll("[data-gp-step]").forEach(b => b.onclick = () => { st.focus = Math.max(0, Math.min(total - 1, i + Number(b.dataset.gpStep))); apply(); content.scrollIntoView?.({ block: "start" }); });
+  });
+
+  // Si al guardar hay un campo no válido en un ejercicio oculto o en los datos de sesión, se muestra para poder corregirlo.
+  form.addEventListener("gym:reveal", e => {
+    const el = e.detail; if (!el) return;
+    const d = el.closest("details.gp-ex");
+    if (d) { st.focus = Number(d.dataset.gpEx); st.list = false; if (!el.closest(".gp-setrow, .gp-row")) d.classList.add("gp-notes-open"); }
+    if (el.closest(".card.meta")) { meta?.classList.add("gp-meta-open"); bar.querySelector("[data-gp-meta]")?.setAttribute("aria-expanded", "true"); }
+    apply();
   });
 
   function apply() {
