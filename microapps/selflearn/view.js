@@ -8,6 +8,7 @@ import { diagnosticQuestions,evaluateDiagnostic } from "./diagnostic.js";
 import { adaptiveGrammarDrills,nextGrammarFocus } from "./adaptive.js";
 import { dueGrammarReviews,grammarReviewSchedule } from "./grammar-review.js";
 import { grammarFeedbackReport,grammarAnswerFeedback } from "./grammar-feedback.js";
+import { tutorPrompt,localTutorResponse,tutorPrivacyNotice,TUTOR_LIMITS } from "./tutor.js";
 import { fsrs, createEmptyCard, Rating } from "./fsrs-bundle.js";
 
 const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -21,7 +22,7 @@ const PRACTICE_PROMPTS = {
 };
 
 export function mountSelfLearn({ root, getData, persist, today, xpView, currentMode, onChange }) {
-  let ui = fresh(), summary = null, voices = [], grammarFeedback = {};
+  let ui = fresh(), summary = null, voices = [], grammarFeedback = {}, tutorSessions = {nl:{conversation:0,writing:0},en:{conversation:0,writing:0}}, tutorStatus = "";
   function fresh() { return { selected: null, feedback: null, built: [], matchLeft: null, matchDone: [], matchErrors: 0, typed: "", speech: "" }; }
   if (typeof window !== "undefined" && "speechSynthesis" in window) { const load = () => { voices = window.speechSynthesis.getVoices() || []; }; load(); window.speechSynthesis.onvoiceschanged = load; }
 
@@ -83,6 +84,7 @@ ${levelHtml}
 <details class="sl-panel" open><summary>⚙️ Mi ruta personalizada · gramática y pronunciación</summary>${settingsForm(c, cfg)}</details>
 <details class="sl-panel"><summary>🧭 Diagnóstico inicial por destreza</summary>${diagnosticView(c)}</details>
 <details class="sl-panel"><summary>📖 Entrenador de gramática · ${grammarDrills(c).length} ejercicios</summary>${grammarView(c)}</details>
+<details class="sl-panel"><summary>💬 Tutor de conversación y escritura · modo local</summary>${tutorView(c)}</details>
 <details class="sl-panel"><summary>🗣️ Entrenador de pronunciación · ${pronunciationDrills(c).length} ejercicios</summary>${pronunciationView(c)}</details>
 <details class="sl-panel"><summary>✍️ Práctica libre, mis tarjetas e historial</summary>${labView(c, cfg)}</details>
 <p class="sl-note">${esc(course.examNote)} Los niveles orientan la ruta; no certifican tu nivel.</p>
@@ -105,6 +107,17 @@ ${levelHtml}
     <h3>Comprensión lectora</h3><p>${esc(q.reading.text)}</p><fieldset><legend>${esc(q.reading.question)}</legend>${q.reading.options.map((option,i)=>`<label><input type="radio" name="reading" value="${i}" required> ${esc(option)}</label>`).join("")}</fieldset>
     <h3>Producción escrita</h3><p>${esc(q.writing)}</p><textarea name="writing" rows="3" maxlength="1200" required></textarea>
     <button class="sl-primary" type="submit">Guardar diagnóstico por destreza</button></form></div>`;
+  }
+
+  function tutorView(c) {
+    const turns=tutorSessions[c]?.conversation||0;
+    return `<div class="sl-lab"><p class="sl-note">${esc(tutorPrivacyNotice())}</p>
+    <p class="sl-note">IA remota desactivada · límite ${TUTOR_LIMITS.maxRemoteRequests} peticiones externas · ${TUTOR_LIMITS.maxChars} caracteres por respuesta. Este modo no corrige automáticamente errores.</p>
+    <form class="sl-form" data-sl-form="tutor"><label>Actividad<select name="tutorMode"><option value="conversation">Conversación guiada</option><option value="writing">Escritura</option></select></label>
+    <p><b>Conversación:</b> ${esc(tutorPrompt(c,"conversation",turns))}</p><p><b>Escritura:</b> ${esc(tutorPrompt(c,"writing"))}</p>
+    <textarea name="tutorAnswer" rows="4" maxlength="${TUTOR_LIMITS.maxChars}" required placeholder="Escribe tu respuesta en el idioma que practicas"></textarea>
+    <button class="sl-secondary" type="submit">Guardar práctica y recibir orientación local</button>
+    ${tutorStatus?`<p class="sl-note" role="status">${esc(tutorStatus)}</p>`:""}</form></div>`;
   }
 
   function grammarView(c) {
@@ -292,6 +305,18 @@ ${levelHtml}
     const form = event.target.closest("form[data-sl-form]"); if (!form) return;
     event.preventDefault();
     const kind = form.dataset.slForm, v = Object.fromEntries(new FormData(form)), c = activeCourse(), d = data(), s = settings();
+    if (kind === "tutor") {
+      const mode=v.tutorMode==="writing"?"writing":"conversation";
+      const answer=String(v.tutorAnswer||"").trim().slice(0,TUTOR_LIMITS.maxChars);
+      if(!answer)return;
+      const turn=tutorSessions[c]?.[mode]||0;
+      const feedback=localTutorResponse({course:c,mode,answer,turn});
+      if(!feedback.accepted)return;
+      d.entries.push({id:crypto.randomUUID(),kind:"learning",area:E.areaFor(c),course:c,skill:mode,title:mode==="writing"?"Tutor local · escritura":"Tutor local · conversación",stage:"Application",practice:"Offline tutor",note:answer,date:today(),minutes:1});
+      if(mode==="conversation")tutorSessions[c].conversation=Math.min(turn+1,TUTOR_LIMITS.maxTurns-1);
+      tutorStatus=feedback.feedback;
+      save(true);render();return;
+    }
     if (kind === "skill-diagnostic") {
       const q=diagnosticQuestions(c);
       const answers={grammar:q.grammar.map((_,i)=>v[`grammar_${i}`]),reading:v.reading===""?null:Number(v.reading),writing:v.writing};
