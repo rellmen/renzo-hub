@@ -10,6 +10,7 @@ import { dueGrammarReviews,grammarReviewSchedule } from "./grammar-review.js";
 import { grammarFeedbackReport,grammarAnswerFeedback } from "./grammar-feedback.js";
 import { tutorPrompt,localTutorResponse,tutorPrivacyNotice,TUTOR_LIMITS } from "./tutor.js";
 import { speechRecognitionSupport,startSpeechPractice,speechPracticeNotice } from "./speech-practice.js";
+import { weeklySkillProgress,skillProgressNotice } from "./skill-progress.js";
 import { fsrs, createEmptyCard, Rating } from "./fsrs-bundle.js";
 
 const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -83,6 +84,7 @@ ${resume}
 <div class="sl-section"><h2>Ruta del curso</h2><span>${done.size} de ${units.length} completadas</span></div>
 ${levelHtml}
 <details class="sl-panel" open><summary>⚙️ Mi ruta personalizada · gramática y pronunciación</summary>${settingsForm(c, cfg)}</details>
+<details class="sl-panel"><summary>📊 Evolución semanal por destrezas · últimas 6 semanas</summary>${skillProgressView(c)}</details>
 <details class="sl-panel"><summary>🧭 Diagnóstico inicial por destreza</summary>${diagnosticView(c)}</details>
 <details class="sl-panel"><summary>📖 Entrenador de gramática · ${grammarDrills(c).length} ejercicios</summary>${grammarView(c)}</details>
 <details class="sl-panel"><summary>💬 Tutor de conversación y escritura · modo local</summary>${tutorView(c)}</details>
@@ -90,6 +92,15 @@ ${levelHtml}
 <details class="sl-panel"><summary>✍️ Práctica libre, mis tarjetas e historial</summary>${labView(c, cfg)}</details>
 <p class="sl-note">${esc(course.examNote)} Los niveles orientan la ruta; no certifican tu nivel.</p>
 </div>`;
+  }
+
+  function skillProgressView(c) {
+    const weeks=weeklySkillProgress(data().entries,c,today());
+    const fmt=(metric)=>metric.total?`${metric.correct}/${metric.total} · ${metric.pct}%`:"Sin evaluación";
+    return `<div class="sl-lab"><p class="sl-note">${esc(skillProgressNotice(c))}</p>
+    <div class="sl-skills"><span><b>Semana</b></span><span><b>Gramática</b></span><span><b>Lectura</b></span><span><b>Escritura</b></span><span><b>Conversación</b></span></div>
+    ${weeks.map(w=>`<div class="sl-card"><b>Desde ${esc(w.week)}</b><div class="sl-skills"><span>Gramática: ${esc(fmt(w.grammar))}</span><span>Lectura: ${esc(fmt(w.reading))}</span><span>Escritura: ${w.writing.submissions} práctica(s), sin nota</span><span>Conversación: ${w.conversation.submissions} práctica(s), sin nota</span><span>Pronunciación: sin evaluación automática</span></div></div>`).join("")}
+    </div>`;
   }
 
   function settingsForm(c, cfg) {
