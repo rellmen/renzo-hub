@@ -1,5 +1,14 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## 2.44.0 (2026-10-19) · Body rediseñado con el diseño de Lovable · PR hacia staging
+
+- Diseño hecho en el prototipo de Lovable (19 oct) y reimplementado en la app real con **solo datos guardados**: nada de cifras de ejemplo.
+- **Tu cuerpo, hoy** (`microapps/body/overview.js`): peso actual y fecha, cambio en 30 días con gráfica, meta de peso de Gym (`user_metadata.gym_goals.targetWeight`) con barra de progreso, sesiones Gym de esta semana (lunes a domingo) frente a tu objetivo semanal, proteína y kcal de hoy (`food_log`) y Skin AM/PM de hoy. Sin dato, lo dice ("Sin meta de peso", "Sin comidas registradas hoy").
+- Accesos a **Gym · Ascend, Food y Skin Routine** como tarjetas con icono y dato vivo (último entreno, proteína, AM/PM).
+- **Peso** (phase1) y **Registro corporal** (world.js) con el mismo guardado de siempre y nueva presentación: campos de 48 px y letra de 16 px, peso en grande, diario como línea de tiempo y áreas en español. Se añaden las áreas Sueño, Energía y Molestia; los valores guardados antes no cambian.
+- Se carga al iniciar sesión y cada vez que abres Body. Sin migraciones ni tablas nuevas.
+- E2E nuevo `tests/e2e/body-overview.mjs` (Chromium y WebKit a 375 y 430 px: datos, meta, semana, comida, skin, accesos, zonas táctiles de 44 px, campos de 16 px, sin scroll horizontal) y tests unitarios `tests/body-overview.test.mjs`. Caché `renzo-hub-cloud-v47-body-lovable`.
+
 ## 2.43.0 (2026-10-19) · Nodalys CRM en la Home en lugar de Car · Jarvis · PR hacia staging
 
 - Home: la tarjeta **Car · Jarvis** se sustituye por **Nodalys CRM**, que abre el CRM en claude.ai en una pestaña nueva. Decisión de Renzo (19 oct). Sigue siendo solo un enlace: sin código, datos, credenciales ni agentes de Nodalys en RISE HUB.

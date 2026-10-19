@@ -9,6 +9,7 @@ import {mountJarvis} from "./jarvis-ui.js";
 import {mountWorldExtensions} from "./world-extensions.js";
 import {mountProfile} from "./profile.js";
 import {mountHomeBodySummary} from "./microapps/home/body-summary.js";
+import {mountBodyOverview} from "./microapps/body/overview.js";
 import {mountPhase1} from "./phase1.js";
 import {mountFinanceSummary} from "./microapps/finance/summary.js";
 import {createFixedPanel} from "./microapps/finance/fixed.js";
@@ -89,6 +90,7 @@ mountWorldExtensions(supabase,()=>user);
 try{apps.money=mountFinanceSummary(document.getElementById("finSummary"),supabase,()=>user,go,{extras:[createIncomePanel({db:supabase,getUser:()=>user}),createBudgetPanel({db:supabase,getUser:()=>user}),createFixedPanel({db:supabase,getUser:()=>user}),createNetWorthPanel({db:supabase,getUser:()=>user}),createGoalsPanel({db:supabase,getUser:()=>user})]});}catch(error){console.error(error);errorLog.report(error,{kind:"microapp",source:"/microapps/finance/summary.js"});}
 const profile=mountProfile(supabase,()=>user);
 const homeBody=mountHomeBodySummary(document.getElementById("bodyHomeSummary"),supabase,()=>user);
+const bodyOverview=mountBodyOverview(document.getElementById("bodyOverview"),supabase,()=>user);
 const phase1=mountPhase1(supabase,()=>user);
 // Ares comparte proyectos y tareas con Work; refrescar la vista tras escribir en Ares.
 document.addEventListener("ares:records-changed",()=>{if(user)void world.load().catch(error=>console.warn("Work refresh unavailable",error));});
@@ -138,6 +140,7 @@ function go(id,restore=false){
   if(!document.getElementById(id))id="home";
   for(const [appId,api] of Object.entries(apps)){try{if(appId===id)api.open?.();else api.close?.();}catch(error){console.error(error);}}
   if(AREAS[id])world.render(id);
+  if(id==="body"&&user)bodyOverview.load();
   if(id==="system"){dataExport.renderPanel($("appBackup"));errorLog.renderPanel($("appErrors"));}
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   $(id).classList.add("active");
@@ -172,8 +175,8 @@ $("logoutBtn").addEventListener("click",async()=>{
 supabase.auth.onAuthStateChange((event,session)=>{
   if(user?.id!==session?.user?.id){confirmedContext.reset();eachApp(api=>api.reset?.());}
   user=session?.user||null;
-  if(user){showApp();errorLog.flush();setTimeout(()=>{Promise.allSettled([...signInLoads(),world.load(),profile.load(),phase1.load(),homeBody.load(),confirmedContext.load()]).then(results=>{if(results.some(result=>result.status==="rejected"))setSync("Conectado · algunos datos no se pudieron cargar","err");});},0);}
-  else{aresAI.reset();confirmedContext.reset();eachApp(api=>api.reset?.());world.reset();profile.reset();phase1.reset();homeBody.reset();showAuth();}
+  if(user){showApp();errorLog.flush();setTimeout(()=>{Promise.allSettled([...signInLoads(),world.load(),profile.load(),phase1.load(),homeBody.load(),bodyOverview.load(),confirmedContext.load()]).then(results=>{if(results.some(result=>result.status==="rejected"))setSync("Conectado · algunos datos no se pudieron cargar","err");});},0);}
+  else{aresAI.reset();confirmedContext.reset();eachApp(api=>api.reset?.());world.reset();profile.reset();phase1.reset();homeBody.reset();bodyOverview.reset();showAuth();}
 });
 
 let session=null;
