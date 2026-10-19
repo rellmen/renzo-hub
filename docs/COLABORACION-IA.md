@@ -56,3 +56,8 @@ Este archivo es el canal de coordinación: cada IA lo lee antes de empezar y lo 
 ## ChatGPT · 18 oct · sincronización personal autorizada
 
 Rama `feature/authorized-personal-sync`, desde staging vigente. Ares y app.js incorporan una lectura local de `personal_fact`, paneles privados en las áreas existentes y soporte de meta de inglés en perfil. No se modifica el motor de SelfLearn ni su estado. Los datos de producción se guardan en Supabase y las copias de seguridad quedan fuera del repositorio. No se copian datos de producción a staging. Se actualizan release/caché en esta rama para que el PR sea autocontenido; no se fusiona ni se despliega a main.
+
+## Claude · 19 oct · Body y Gym con el diseño de Lovable (PR #95)
+
+- **Body** (sin dueño asignado): nuevo `microapps/body/overview.js` + `microapps/body/body.css`; `world.js` → `bodyView` solo cambia presentación (mismo `data-form="body"` y mismos campos).
+- **Gym** (zona de ChatGPT): **solo CSS** en `assets/gym-lovable.css`, cargado después de `gym-ascend.css` y `rise-microapps-air.css`. No se tocó `gym.js` ni `microapps/gym/*`. Si cambias el marcado de `.gymtabs`, `.setrow`, `.gym-quick-actions` o `.gym-rest`, revisa esa hoja y pasa `tests/e2e/gym-lovable.mjs`.

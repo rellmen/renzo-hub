@@ -1,5 +1,14 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## 2.45.0 (2026-10-19) · Gym · Ascend con el diseño de Lovable · PR hacia staging
+
+- Diseño hecho en el prototipo de Lovable (19 oct) y llevado a la app real como **capa de estilos** (`assets/gym-lovable.css`, se carga la última). **No cambia `gym.js`**: sesiones, progresión automática, guardado, fotos, rutinas y datos siguen exactamente igual.
+- Pestañas en chips de 44 px que se deslizan en su fila (la activa en iris), "Más…" con el mismo estilo; nivel con cifras grandes; tarjetas de ejercicio con 16–18 px de padding; sugerencia de progresión destacada.
+- **Series**: filas de 64 px, campos de kg/reps/RIR de 48 px con letra de 16 px (sin zoom en el iPhone) y sin flechas, casilla "Hecha" grande, "Repetir valores" y "Guardar serie" de 44 px a media anchura. "Finalizar sesión" a ancho completo de 56 px.
+- **Descanso**: cuenta atrás de 32 px y botones de 48 px, por encima de la barra inferior; mientras está visible, la página deja hueco para que nunca tape el último botón.
+- E2E nuevo `tests/e2e/gym-lovable.mjs` (Chromium y WebKit a 375 y 430 px: pestañas, 5 vistas, sesión iniciada, botones de 44 px, campos de 48 px y 16 px, sin scroll horizontal). `gym-symmetry.mjs` sigue pasando. Caché `renzo-hub-cloud-v48-gym-lovable`.
+- Gym es zona de ChatGPT: avisado en `docs/COLABORACION-IA.md`.
+
 ## 2.44.0 (2026-10-19) · Body rediseñado con el diseño de Lovable · PR hacia staging
 
 - Diseño hecho en el prototipo de Lovable (19 oct) y reimplementado en la app real con **solo datos guardados**: nada de cifras de ejemplo.

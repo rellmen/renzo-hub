@@ -1,6 +1,6 @@
 {
-  "release": "2.44.0",
-  "name": "RISE HUB · Body rediseñado (Lovable) con datos reales",
+  "release": "2.45.0",
+  "name": "RISE HUB · Body y Gym rediseñados (Lovable) para el móvil",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",
