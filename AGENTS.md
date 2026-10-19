@@ -17,7 +17,7 @@ RISE HUB (antes Renzo HUB) es la plataforma personal y privada de Renzo. El camb
 - Nunca reescribir historia publicada (sin `push --force`, sin `rebase` de ramas compartidas).
 
 ## Entornos: no confundir
-- **Producción:** https://renzo-hub.vercel.app · Vercel `renzo-hub` · Supabase `mgncykyrhavpepfggmng`.
+- **Producción:** https://renzo-hub.vercel.app · Vercel `rise-hub` (antes `renzo-hub`, mismo proyecto renombrado; el dominio no cambia) · Supabase `mgncykyrhavpepfggmng`.
 - **Staging:** https://renzo-hub-2-1-staging.vercel.app · Vercel `renzo-hub-2-1-staging` · Supabase `zpueziugbezqxompwsol`.
 - Los datos y la configuración de un entorno no se copian al otro.
 
