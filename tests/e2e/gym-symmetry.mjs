@@ -107,7 +107,8 @@ try{
  assert.ok(bal.length>=6);assert.ok(Number(bal.find(([m])=>m==="Espalda")?.[1])>0);
  console.log("OK: balance semanal de series por músculo");
  if(shots){await page.$eval(".gym-balance",e=>e.scrollIntoView());await page.screenshot({path:shots+"/gym-balance.png"});}
- await page.click('[data-view="ranks"]');
+ await page.click('[data-more-open]');
+ await page.click('[data-more-go="ranks"]');
  await page.waitForSelector(".gym-rank-hero");
  const ranks=await page.evaluate(()=>({global:document.querySelector(".gym-rank-hero h2").textContent,filled:document.querySelectorAll(".gym-body-rank[style]").length,rows:document.querySelectorAll(".gym-rank-ex").length}));
  assert.ok(ranks.global.length>3);assert.ok(ranks.filled>=2);assert.equal(ranks.rows,2);
