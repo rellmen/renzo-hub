@@ -220,6 +220,38 @@ body.microapp-open #appShell.shell{padding-bottom:calc(34px + env(safe-area-inse
 #gym #workoutForm .exercise .setrow input[type=checkbox]:focus-visible{outline:2px solid #c1e8bf;outline-offset:3px}
 #gym #workoutForm .exercise .setrow input[type=number]::-webkit-inner-spin-button{opacity:.55}
 #gym #workoutForm .exercise .setrow input[type=checkbox]{min-width:34px;min-height:34px}
+
+/* Phase 4: Food & Skin editorial surfaces preserving the live forms and IDs */
+#food .care-eyebrow,#skin .care-eyebrow{display:flex;align-items:center;gap:9px;margin:23px 0 9px;color:#b3d7b6;font-size:10px;font-weight:800;letter-spacing:.15em}
+#food .care-eyebrow-dot,#skin .care-eyebrow-dot{width:7px;height:7px;border-radius:50%;background:#b8dcb5}
+#food .care-intro,#skin .care-intro{margin-bottom:18px}
+#food .care-intro h2,#skin .care-intro h2{font-size:clamp(22px,6vw,29px);line-height:1.15;letter-spacing:-.04em;margin:0 0 8px}
+#food .care-intro p,#skin .care-intro p{line-height:1.5;margin:0;color:#b0c3b2}
+#food #foodToday,#food #p1Food{min-width:0;overflow-wrap:anywhere}
+#food #foodToday .card,#food #p1Food .card{border-radius:20px;border-color:#39513f}
+#food .hero{margin-top:18px;padding:20px;border-radius:22px}
+#food .hero h2{font-size:21px;letter-spacing:-.03em}
+#food .hero .quick{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+#food .hero .quick>div{min-width:0;padding:10px 6px;border:1px solid #3c5040;border-radius:13px;overflow-wrap:anywhere}
+#food .hero .quick b{font-size:clamp(13px,3.7vw,17px)}
+#food .hero .quick .small{font-size:10px;line-height:1.35}
+#food details.card,#skin details.card{margin-top:12px}
+#food details.card>summary,#skin details.card>summary{min-height:44px;align-content:center;font-weight:750}
+#food .food-list>div{display:flex;justify-content:space-between;align-items:start;gap:12px;padding:10px 0;border-bottom:1px solid #344439}
+#food .food-list dt,#food .food-list dd{margin:0;min-width:0;overflow-wrap:anywhere}
+#food .food-list dd{text-align:right;color:#c6d9c7}
+#skin .skin-daily-panel{background:linear-gradient(135deg,#25382b,#1a2820);border:1px solid #49614d;border-radius:23px;padding:17px}
+#skin .skin-seg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#skin .skin-seg-btn{min-height:48px;border-radius:13px;font-weight:750}
+#skin .skin-daily-panel .row{flex-wrap:wrap;gap:9px}
+#skin .skin-daily-panel #historyLabel{flex:1 1 120px;overflow-wrap:anywhere}
+#skin #routineTitle{font-size:20px;line-height:1.25;letter-spacing:-.02em;margin:15px 0}
+#skin #steps{min-width:0}
+#skin #steps .card{margin-bottom:11px;border-radius:19px;border-color:#3a5040}
+#skin #gentleBtn{min-height:48px;border-radius:14px}
+#skin #prog,#skin #syncState{font-size:12px}
+#skin #note{width:100%;min-height:100px}
+@media(max-width:350px){#food .hero .quick{gap:5px}#food .hero .quick>div{padding:8px 4px}#food .hero .quick b{font-size:12px}#skin .skin-daily-panel{padding:12px}}
 </style>
 <link rel="stylesheet" href="/assets/rise-theme.css">
 <link rel="stylesheet" href="/assets/rise-home.css">
@@ -290,7 +322,7 @@ body.microapp-open #appShell.shell{padding-bottom:calc(34px + env(safe-area-inse
 <section id="news" class="page"></section>
 <section id="skin" class="page"><button class="microapp-back" data-open="body">← Body</button>
 <div class="top"><div><div class="ey">Manchas · puntos negros · barrera</div><h1>Skin Routine</h1><div id="skinDate" class="small" style="margin-top:8px"></div></div><div class="avatar">S</div></div>
-<div class="card" style="margin-top:16px">
+<div class="care-eyebrow"><span class="care-eyebrow-dot"></span> CUIDADO PERSONAL · HOY</div><div class="care-intro"><h2>Tu piel, paso a paso</h2><p class="small">Rutina diaria y seguimiento sin añadir productos innecesarios.</p></div><div class="card skin-daily-panel" style="margin-top:16px">
 <div class="skin-seg" role="group" aria-label="Rutina de mañana o de noche"><button type="button" class="skin-seg-btn" data-skin-mode="am" aria-pressed="true">Mañana</button><button type="button" class="skin-seg-btn" data-skin-mode="pm" aria-pressed="false">Noche</button></div><div class="row skin-legacy-switch"><span id="pill" class="pill">MAÑANA</span><button id="switchBtn" class="switch">Cambiar a noche</button></div>
 <div class="row" style="margin-top:12px;gap:8px"><button id="prevDay" class="switch" aria-label="Ver el día anterior">←</button><button id="todayBtn" class="switch">Hoy</button><button id="nextDay" class="switch" aria-label="Ver el día siguiente">→</button><span id="historyLabel" class="small"></span></div>
 <div id="routineTitle" class="title"></div><div class="progress"><div id="bar" class="bar"></div></div>
@@ -309,7 +341,7 @@ body.microapp-open #appShell.shell{padding-bottom:calc(34px + env(safe-area-inse
 
 <section id="food" class="page"><button class="microapp-back" data-open="body">← Body</button>
 <div class="top"><div><div class="ey">Comer bien · trabajar · estudiar</div><h1>Food</h1></div><div class="avatar">F</div></div>
-<div id="foodToday" aria-live="polite"></div><div id="p1Food"></div><div class="hero"><h2>Tu plan diario</h2><p>Una estructura sencilla y repetible. <span id="bpStart">Configura tu perfil corporal en Ajustes.</span></p><div class="quick"><div><b id="bpKcal">sin datos</b><span class="small">kcal / día</span></div><div><b id="bpProtein">sin datos</b><span class="small">Proteína / día</span></div><div><b id="bpBudget">sin datos</b><span class="small">Objetivo / mes</span></div></div></div>
+<div class="care-eyebrow"><span class="care-eyebrow-dot"></span> NUTRICIÓN · HOY</div><div class="care-intro"><h2>Tu alimentación, en equilibrio</h2><p class="small">Registra tus comidas y sigue tus objetivos con tus datos reales.</p></div><div id="foodToday" aria-live="polite"></div><div id="p1Food"></div><div class="hero"><h2>Tu plan diario</h2><p>Una estructura sencilla y repetible. <span id="bpStart">Configura tu perfil corporal en Ajustes.</span></p><div class="quick"><div><b id="bpKcal">sin datos</b><span class="small">kcal / día</span></div><div><b id="bpProtein">sin datos</b><span class="small">Proteína / día</span></div><div><b id="bpBudget">sin datos</b><span class="small">Objetivo / mes</span></div></div></div>
 <details class="card"><summary>Objetivos y plan de alimentación</summary><div class="section"><h3>Objetivo por fases</h3></div>
 <div class="card"><div class="row" id="bpPhases"><span class="small">Sin objetivos guardados. Añádelos en Ajustes → Perfil corporal.</span></div><p class="small" id="bpPhasesNote"></p></div>
 <div class="section"><h3>Dieta que puedes repetir</h3></div>
