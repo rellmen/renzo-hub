@@ -41,7 +41,10 @@ try{
  });
  await page.waitForFunction(()=>document.querySelector("#gymStatus")?.textContent.includes("Sincronizado"));
  const tabs=await page.$$eval("#gym .gymtabs .switch",n=>n.map(x=>x.textContent.trim()));
- assert.deepEqual(tabs.slice(0,5),["Entrenar","Rangos","Fuerza","Progreso","Rutinas"]);
+ assert.deepEqual(tabs,["Entrenar","Progreso","Rutinas","Más ▾"]);
+ await page.click("[data-more-open]");
+ for(const id of ["ranks","trends"])assert.ok(await page.locator(`[data-more-go="${id}"]`).count(),`Vista avanzada ${id} accesible`);
+ await page.click(".gym-sheet-head button[data-more-close]");
  console.log("OK: pestañas simplificadas + menú Más");
 
  // Recordatorio de foto (no hay fotos todavía) y "Ahora no".
@@ -104,7 +107,8 @@ try{
  assert.ok(bal.length>=6);assert.ok(Number(bal.find(([m])=>m==="Espalda")?.[1])>0);
  console.log("OK: balance semanal de series por músculo");
  if(shots){await page.$eval(".gym-balance",e=>e.scrollIntoView());await page.screenshot({path:shots+"/gym-balance.png"});}
- await page.click('[data-view="ranks"]');
+ await page.click('[data-more-open]');
+ await page.click('[data-more-go="ranks"]');
  await page.waitForSelector(".gym-rank-hero");
  const ranks=await page.evaluate(()=>({global:document.querySelector(".gym-rank-hero h2").textContent,filled:document.querySelectorAll(".gym-body-rank[style]").length,rows:document.querySelectorAll(".gym-rank-ex").length}));
  assert.ok(ranks.global.length>3);assert.ok(ranks.filled>=2);assert.equal(ranks.rows,2);

@@ -52,8 +52,8 @@ for(const engine of [chromium,webkit]){
   await page.evaluate(()=>{const b=document.createElement('button');b.dataset.open='gym';b.hidden=true;document.body.append(b);b.click();b.remove();});
   await page.locator('#gym .gymtabs').waitFor();
   const tabs=await page.$$eval('#gym .gymtabs > *',els=>els.map(e=>Math.round(e.getBoundingClientRect().height)));
-  assert.ok(tabs.length>=6&&tabs.every(h=>h>=44),`pestañas de 44 px: ${tabs}`);
-  const views=['train','ranks','trends','progress','plan'];
+  assert.ok(tabs.length===4&&tabs.every(h=>h>=44),`pestañas de 44 px: ${tabs}`);
+  const views=['train','progress','plan'];
   for(const v of views){
    await page.locator(`#gym .gymtabs [data-view="${v}"]`).click();
    await page.waitForTimeout(250);
@@ -95,15 +95,16 @@ for(const engine of [chromium,webkit]){
    }
    if(shots&&engine===webkit){await page.setViewportSize({width,height:2400});await page.waitForTimeout(250);await page.screenshot({path:`${shots}/gym-${v}-${width}.png`});await page.setViewportSize({width,height:900});}
   }
-  // Hoja "Más": 9 secciones de 64 px, se abre y lleva a la sección
+  // Hoja "Más": 11 secciones de 64 px, se abre y lleva a la sección
   await page.locator('#gym [data-more-open]').click();
   const items=await page.$$eval('.gym-sheet [data-more-go]',els=>els.map(e=>Math.round(e.getBoundingClientRect().height)));
-  assert.ok(items.length===9&&items.every(h=>h>=56),`hoja Más: ${items}`);
+  assert.ok(items.length===11&&items.every(h=>h>=56),`hoja Más: ${items}`);
   if(shots&&engine===webkit)await page.screenshot({path:`${shots}/gym-more-${width}.png`});
   await page.locator('.gym-sheet [data-more-go="recovery"]').click();
   await page.waitForFunction(()=>!document.querySelector('.gym-sheet')&&document.querySelector('#gym [data-more-open]')?.textContent.includes('Recuperación'));
   // Fuerza: línea con el último punto; Progreso: 8 semanas
-  await page.locator('#gym .gymtabs [data-view="trends"]').click();
+  await page.locator('#gym [data-more-open]').click();
+  await page.locator('.gym-sheet [data-more-go="trends"]').click();
   await page.locator('#gym .gym-line').waitFor();
   assert.equal(await page.locator('#gym .gym-line-last').count(),1);
   assert.ok(await page.locator('#gym .gym-record').count()>=2,'récords en Fuerza');
@@ -111,7 +112,7 @@ for(const engine of [chromium,webkit]){
   assert.equal(await page.locator('#gym .gym-bars').first().locator('.gym-bar-col').count(),8);
   const ov3=await page.evaluate(()=>document.documentElement.scrollWidth-innerWidth);
   assert.ok(ov3<=0,`Progreso: scroll horizontal de ${ov3}px`);
-  if(shots&&engine===webkit){for(const v of ['trends','progress']){await page.locator(`#gym .gymtabs [data-view="${v}"]`).click();await page.setViewportSize({width,height:2400});await page.waitForTimeout(250);await page.screenshot({path:`${shots}/gym2-${v}-${width}.png`});await page.setViewportSize({width,height:900});}}
+  if(shots&&engine===webkit){for(const v of ['trends','progress']){if(v==='trends'){await page.locator('#gym [data-more-open]').click();await page.locator('.gym-sheet [data-more-go="trends"]').click();}else await page.locator(`#gym .gymtabs [data-view="${v}"]`).click();await page.setViewportSize({width,height:2400});await page.waitForTimeout(250);await page.screenshot({path:`${shots}/gym2-${v}-${width}.png`});await page.setViewportSize({width,height:900});}}
   assert.deepEqual(errors,[],`${engine.name()} ${width}px: errores JS`);
   await context.close();
  }

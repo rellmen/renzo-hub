@@ -67,6 +67,8 @@ for(const engine of [chromium,webkit]){
   assert.match(today,/1000\s*kcal/);assert.match(today,/Faltan 1200 kcal para el mínimo/);assert.match(today,/Faltan 69 g para el mínimo/);
   assert.equal(await page.locator('#p1Food .food-meal').count(),4);
   assert.equal(await page.locator('#p1Food .food-group').count(),2,'comidas agrupadas: Comida y Snack');
+  const shop=page.locator('#food details').filter({has:page.locator('.food-shop-check')});
+  await shop.evaluate(el=>{el.open=true;});
   const box=page.locator('#food .food-shop-check').first();await box.check();
   assert.ok(await page.locator('#food .food-list > div.food-bought').count()===1,'compra marcada');
   await check('Food');

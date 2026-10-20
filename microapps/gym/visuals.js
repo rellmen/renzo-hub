@@ -8,6 +8,8 @@ const shortDate = d => new Date(`${d}T12:00:00`).toLocaleDateString("es-ES", { d
 const svgIcon = d => `<svg viewBox="0 0 24 24" aria-hidden="true" class="gym-ic">${d}</svg>`;
 
 export const MORE_SECTIONS = [
+  ["ranks", "Rangos", "Nivel, XP y progresión RISE", '<path d="M12 2l3 7 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/>'],
+  ["trends", "Fuerza", "Tendencias y evolución de cargas", '<path d="M3 17l6-6 4 3 8-9M16 5h5v5"/>'],
   ["photos", "Fotos de progreso", "Antes y después con la misma luz", '<path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/>'],
   ["goals", "Objetivos", "Prioridad, sesiones y meta de peso", '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>'],
   ["measurements", "Medidas", "Peso y cintura medidos", '<path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z"/><path d="m14.5 12.5 2-2M11.5 9.5l2-2M8.5 6.5l2-2M17.5 15.5l2-2"/>'],
