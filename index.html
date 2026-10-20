@@ -176,6 +176,42 @@ body.microapp-open #appShell.shell{padding-bottom:calc(34px + env(safe-area-inse
 #body .body-checkin-head p{margin:0;color:var(--muted);line-height:1.5}
 #body #worldBody .body-history{margin-top:16px}
 #body #worldBody .body-checkin{margin-top:12px}
+
+/* Gym Ascend phase 3: responsive exercise/session interface, real existing engine */
+#gym{--gym-bg:#19251e;--gym-surface:#202e24;--gym-line:#3b5140;--gym-lime:#c6e4b8}
+#gym .top{align-items:center;gap:12px;margin:10px 0 20px}
+#gym .top>div:first-child{min-width:0}
+#gym .microapp-context{font-size:10px;letter-spacing:.17em;color:#a5bfa9;font-weight:800}
+#gym .top .ey{font-size:10px;letter-spacing:.12em;line-height:1.6;margin-top:6px}
+#gym .top h1{font-size:clamp(32px,8vw,43px);letter-spacing:-.055em;line-height:1.1}
+#gym .gym-title-accent{font-size:.44em;font-weight:600;letter-spacing:-.02em;color:#9eb7a1;vertical-align:middle}
+#gym .rank{flex-shrink:0}
+#gym .gymtabs{display:flex;gap:8px;overflow-x:auto;padding:5px 2px 13px;scroll-snap-type:x proximity}
+#gym .gymtabs button{flex:1 0 auto;min-width:76px;min-height:46px;padding:10px 12px;border-radius:13px;scroll-snap-align:start}
+#gym .gymtabs .selected{background:#b8dab5;color:#17251a;font-weight:800}
+#gym #gymContent{min-width:0}
+#gym #gymContent>.section{margin-top:12px}
+#gym #gymContent>.section h3{font-size:24px;letter-spacing:-.035em;line-height:1.2}
+#gym #gymContent .card.exercise{background:linear-gradient(150deg,#223328,#1a2720);border:1px solid var(--gym-line);border-radius:21px;padding:16px;margin:15px 0;min-width:0}
+#gym #gymContent .exercise>summary{font-size:17px;font-weight:800;line-height:1.4;letter-spacing:-.02em;overflow-wrap:anywhere;cursor:pointer}
+#gym #gymContent .exercise>p.small{line-height:1.55;color:#b6c9b7}
+#gym #gymContent .exercise .setrow{display:grid;grid-template-columns:minmax(24px,.65fr) repeat(3,minmax(0,1fr)) minmax(38px,.75fr);align-items:center;gap:5px;min-width:0;margin:7px 0}
+#gym #gymContent .exercise .setrow.sethead{font-size:11px;color:#b3c8b6;font-weight:700;letter-spacing:.02em}
+#gym #gymContent .exercise .setrow input[type=number]{width:100%;min-width:0;max-width:100%;min-height:46px;text-align:center;padding:6px 2px;border:1px solid #4c604e;border-radius:10px;background:#101a14;color:#f0f7ef;font-size:16px}
+#gym #gymContent .exercise .setrow input[type=checkbox]{justify-self:center;appearance:none;width:34px;height:34px;border-radius:11px;border:2px solid #6b886f;background:#18231b;cursor:pointer}
+#gym #gymContent .exercise .setrow input[type=checkbox]:checked{background:#a5d2a6;border-color:#a5d2a6}
+#gym #gymContent .exercise .setrow input[type=checkbox]:checked:after{content:"✓";display:grid;place-items:center;color:#142418;font-size:21px;font-weight:900}
+#gym #gymContent .gym-quick-actions{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 13px}
+#gym #gymContent .gym-quick-actions button{flex:1 1 130px;min-width:0;min-height:42px;font-size:12px;border-radius:12px}
+#gym #gymContent .exercise label.small{display:block;min-width:0;overflow-wrap:anywhere}
+#gym #gymContent .exercise select,#gym #gymContent .exercise textarea,#gym #gymContent .exercise input:not([type=checkbox]){max-width:100%}
+#gym #workoutForm>.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:24px}
+#gym #workoutForm>.actions button{min-width:0;min-height:50px;border-radius:14px}
+#gym #workoutForm>.actions button[type=submit]{grid-column:1/-1;grid-row:1;background:#b6dcb5;color:#17251b;font-weight:900}
+#gym #workoutForm>.actions #discardSession{color:#e7a9a1}
+#gym .gym-overview,#gym .gym-technical{border:1px solid #35493a;border-radius:16px;padding:12px 14px;margin-bottom:12px}
+#gym .gym-overview>summary,#gym .gym-technical>summary{font-size:13px;font-weight:700;color:#b9cfba}
+@media(max-width:360px){#gym #gymContent .card.exercise{padding:11px}#gym #gymContent .exercise .setrow{gap:3px;grid-template-columns:22px repeat(3,minmax(0,1fr)) 36px}#gym #gymContent .exercise .setrow input[type=number]{font-size:15px}#gym .gymtabs button{min-width:67px;padding:8px}}
 </style>
 <link rel="stylesheet" href="/assets/rise-theme.css">
 <link rel="stylesheet" href="/assets/rise-home.css">
