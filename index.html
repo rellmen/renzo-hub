@@ -212,6 +212,14 @@ body.microapp-open #appShell.shell{padding-bottom:calc(34px + env(safe-area-inse
 #gym .gym-overview,#gym .gym-technical{border:1px solid #35493a;border-radius:16px;padding:12px 14px;margin-bottom:12px}
 #gym .gym-overview>summary,#gym .gym-technical>summary{font-size:13px;font-weight:700;color:#b9cfba}
 @media(max-width:360px){#gym #gymContent .card.exercise{padding:11px}#gym #gymContent .exercise .setrow{gap:3px;grid-template-columns:22px repeat(3,minmax(0,1fr)) 36px}#gym #gymContent .exercise .setrow input[type=number]{font-size:15px}#gym .gymtabs button{min-width:67px;padding:8px}}
+
+/* Gym active-session polish: clear persistence hint and safe touch controls */
+#gym #workoutForm .gym-save-note{font-size:12px;line-height:1.55;text-align:center;color:#a5bca9;margin:12px 4px 22px}
+#gym #workoutForm .exercise .gym-quick-actions button:disabled{opacity:.5;cursor:not-allowed}
+#gym #workoutForm .exercise .setrow input:focus-visible{outline:2px solid #c1e8bf;outline-offset:2px}
+#gym #workoutForm .exercise .setrow input[type=checkbox]:focus-visible{outline:2px solid #c1e8bf;outline-offset:3px}
+#gym #workoutForm .exercise .setrow input[type=number]::-webkit-inner-spin-button{opacity:.55}
+#gym #workoutForm .exercise .setrow input[type=checkbox]{min-width:34px;min-height:34px}
 </style>
 <link rel="stylesheet" href="/assets/rise-theme.css">
 <link rel="stylesheet" href="/assets/rise-home.css">
