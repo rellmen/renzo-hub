@@ -115,6 +115,40 @@ body.microapp-open #appShell.shell{padding-bottom:calc(34px + env(safe-area-inse
 .world-advanced:focus-within,.body-history:focus-within,.body-checkin:focus-within,#skin details.card:focus-within,#food details.card:focus-within{outline:2px solid var(--accent2,#a58bff);outline-offset:2px}
 #skin details.card>summary,#food details.card>summary{font-size:15px}
 @media(max-width:600px){.world-advanced,.body-history,.body-checkin,#skin details.card,#food details.card{padding:12px}.world-advanced .worldgrid{grid-template-columns:1fr}}
+
+/* Body editorial port · visual-only layer, preserving real data bindings and forms */
+#body,#food,#skin,#gym{--body-ink:#eef2ee;--body-subtle:#a9b7ad;--body-panel:#1b2520;--body-edge:#33443a;--body-highlight:#b8e3bd}
+#body .top,#food .top,#skin .top{align-items:center;min-width:0;padding-block:10px 4px}
+#body .top>div:first-child,#food .top>div:first-child,#skin .top>div:first-child{min-width:0}
+#body .ey,#food .ey,#skin .ey{font-size:10px;letter-spacing:.14em;line-height:1.5}
+#body h1,#food h1,#skin h1{font-size:clamp(30px,8vw,40px);letter-spacing:-.045em;line-height:1.06}
+#body .avatar,#food .avatar,#skin .avatar{flex:0 0 44px;border-radius:16px}
+#body .body-mods{display:grid;grid-template-columns:1fr;gap:12px;margin-block:20px}
+#body .body-mod{display:grid;grid-template-columns:56px minmax(0,1fr) 24px;align-items:center;gap:14px;min-width:0;width:100%;min-height:106px;padding:17px;border:1px solid var(--body-edge);border-radius:22px;background:linear-gradient(125deg,#26362c 0%,#19251f 100%);color:var(--body-ink);text-align:left;box-shadow:0 9px 24px #0002}
+#body .body-mod:active{transform:scale(.99)}
+#body .body-mod:focus-visible,#food button:focus-visible,#skin button:focus-visible,#gym button:focus-visible{outline:2px solid var(--body-highlight);outline-offset:3px}
+#body .body-mod-ic{display:grid;place-items:center;width:56px;height:56px;border-radius:17px;background:#35483b;flex-shrink:0}
+#body .body-mod-ic svg{width:27px;height:27px;max-width:100%;stroke:#d3f2d5;fill:none;stroke-width:1.7}
+#body .body-mod-tx{display:flex;flex-direction:column;gap:5px;min-width:0;overflow-wrap:anywhere}
+#body .body-mod-tx b{font-size:18px;line-height:1.2;letter-spacing:-.025em}
+#body .body-mod-tx strong{font-size:14px;line-height:1.3;color:#c7e2cb}
+#body .body-mod-tx .small{font-size:12px;line-height:1.45;color:var(--body-subtle)}
+#body .body-mod-go{justify-self:end;align-self:center;font-size:23px;color:#d0ead2}
+#body #bodyOverview{min-width:0;overflow-wrap:anywhere}
+#body #worldBody{min-width:0}
+#body .card,#food .card,#skin .card{border-color:var(--body-edge);border-radius:20px}
+#food .hero,#skin .hero{border-color:var(--body-edge);background:linear-gradient(145deg,#23332a,#17231d)}
+#food button,#skin button,#gym button{min-height:44px}
+#food .food-shop-check,#skin input[type=checkbox]{min-width:20px;min-height:20px}
+#food details.card>summary,#skin details.card>summary{display:list-item;overflow-wrap:anywhere}
+#food .actions,#skin .actions{flex-wrap:wrap;gap:10px}
+#food .actions>* ,#skin .actions>*{min-width:0}
+#gym .gymtabs{scrollbar-width:none;overscroll-behavior-inline:contain}
+#gym .gymtabs::-webkit-scrollbar{display:none}
+#gym .gym-sheet,#gym .gym-rest-dock{padding-bottom:calc(14px + env(safe-area-inset-bottom))}
+#gym input,#food input,#skin input{max-width:100%;min-width:0}
+@media(max-width:390px){#body .body-mod{grid-template-columns:48px minmax(0,1fr) 20px;gap:11px;padding:14px}#body .body-mod-ic{width:48px;height:48px}#body .body-mod-tx b{font-size:16px}}
+
 </style>
 <link rel="stylesheet" href="/assets/rise-theme.css">
 <link rel="stylesheet" href="/assets/rise-home.css">
