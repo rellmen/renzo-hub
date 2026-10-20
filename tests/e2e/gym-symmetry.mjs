@@ -41,7 +41,10 @@ try{
  });
  await page.waitForFunction(()=>document.querySelector("#gymStatus")?.textContent.includes("Sincronizado"));
  const tabs=await page.$$eval("#gym .gymtabs .switch",n=>n.map(x=>x.textContent.trim()));
- assert.deepEqual(tabs.slice(0,5),["Entrenar","Rangos","Fuerza","Progreso","Rutinas"]);
+ assert.deepEqual(tabs,["Entrenar","Progreso","Rutinas","Más ▾"]);
+ await page.click("[data-more-open]");
+ for(const id of ["ranks","trends"])assert.ok(await page.locator(`[data-more-go="${id}"]`).count(),`Vista avanzada ${id} accesible`);
+ await page.click("[data-more-close]");
  console.log("OK: pestañas simplificadas + menú Más");
 
  // Recordatorio de foto (no hay fotos todavía) y "Ahora no".
