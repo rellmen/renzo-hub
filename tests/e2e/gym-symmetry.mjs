@@ -44,7 +44,7 @@ try{
  assert.deepEqual(tabs,["Entrenar","Progreso","Rutinas","Más ▾"]);
  await page.click("[data-more-open]");
  for(const id of ["ranks","trends"])assert.ok(await page.locator(`[data-more-go="${id}"]`).count(),`Vista avanzada ${id} accesible`);
- await page.click("[data-more-close]");
+ await page.click(".gym-sheet-head button[data-more-close]");
  console.log("OK: pestañas simplificadas + menú Más");
 
  // Recordatorio de foto (no hay fotos todavía) y "Ahora no".
