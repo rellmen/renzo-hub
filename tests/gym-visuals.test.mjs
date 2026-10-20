@@ -2,8 +2,10 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { moreButtonHtml, moreSheetHtml, MORE_IDS, strengthChartSvg, weekBuckets, weeklyBarsHtml, recordsHtml } from "../microapps/gym/visuals.js";
 
-test("la hoja Más lista las 9 secciones y marca la actual", () => {
-  assert.equal(MORE_IDS.length, 9);
+test("la hoja Más lista las 11 secciones y marca la actual", () => {
+  assert.equal(MORE_IDS.length, 11);
+  assert.ok(MORE_IDS.includes("ranks"));
+  assert.ok(MORE_IDS.includes("trends"));
   const html = moreSheetHtml("recovery");
   for (const id of MORE_IDS) assert.match(html, new RegExp(`data-more-go="${id}"`));
   assert.match(html, /data-more-go="recovery" aria-current="page"/);
