@@ -6,7 +6,7 @@ const world=readFileSync(new URL('../world.js',import.meta.url),'utf8');
 const gym=readFileSync(new URL('../gym.js',import.meta.url),'utf8');
 const section=id=>{const start=html.indexOf('<section id="'+id+'"');assert.ok(start>=0,id+' missing');return html.slice(start,html.indexOf('</section>',start));};
 test('Skin and Food disclosures remain balanced and retain interactive controls',()=>{
-  for(const id of ['skin','food']){const s=section(id);assert.equal((s.match(/<details\\b/g)||[]).length,(s.match(/<\\/details>/g)||[]).length,id);}
+  for(const id of ['skin','food']){const s=section(id);assert.equal((s.match(/<details\b/g)||[]).length,(s.match(/<\/details>/g)||[]).length,id);}
   const skin=section('skin');
   for(const id of ['steps','completeBtn','clearBtn','note','skinPhotoUpload','productList'])assert.ok(skin.includes('id="'+id+'"'),id);
   const food=section('food');for(const id of ['foodToday','p1Food','bpKcal','bpProtein','bpBudget'])assert.ok(food.includes('id="'+id+'"'),id);
