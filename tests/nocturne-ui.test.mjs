@@ -36,3 +36,14 @@ test('Home navigation preserves real handlers and contains the media', () => {
 test('Nocturne does not introduce remote assets or external CSS imports', () => {
   assert.doesNotMatch(css, /@import\b|url\(\s*["']?https?:\/\//i);
 });
+
+test('Nocturne PWA is versioned, precached and visually consistent at launch', () => {
+  const sw = readFileSync(new URL('../sw.js', import.meta.url), 'utf8');
+  const manifest = JSON.parse(readFileSync(new URL('../manifest.webmanifest', import.meta.url), 'utf8'));
+  const release = JSON.parse(readFileSync(new URL('../release.json', import.meta.url), 'utf8'));
+  assert.match(sw, /const CACHE='renzo-hub-cloud-v58-nocturne-ascendancy'/);
+  assert.ok(sw.includes("'/assets/nocturne-ascendancy.css'"), 'CSS must be offline-available');
+  assert.equal(manifest.background_color, '#111116');
+  assert.equal(manifest.theme_color, '#111116');
+  assert.equal(release.release, '2.54.0');
+});
