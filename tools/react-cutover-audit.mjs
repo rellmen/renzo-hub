@@ -4,12 +4,20 @@
 import {existsSync,readFileSync} from 'node:fs';
 import {fileURLToPath} from 'node:url';
 import {dirname,resolve} from 'node:path';
+import {createHash} from 'node:crypto';
 
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const file=p=>resolve(root,p);
 const read=p=>existsSync(file(p))?readFileSync(file(p),'utf8'):'';
 const images=['ares','gym','hero-eclipse','learn','money','projects','skin'].map(n=>'apps/rise-react/src/assets/'+n+'.jpg');
 const missingAssets=images.filter(p=>!existsSync(file(p)));
+const expectedAssets=JSON.parse(read('apps/rise-react/lovable-asset-expected.json')||'{"files":[]}').files;
+const mismatchedAssets=expectedAssets.filter(x=>{
+ const p='apps/rise-react/src/assets/'+x.name;
+ if(!existsSync(file(p)))return false;
+ const b=readFileSync(file(p));
+ return b.length!==x.bytes||createHash('sha256').update(b).digest('hex')!==x.sha256;
+}).map(x=>x.name);
 const pages=['index','ares','aprender','gym','dinero','piel','proyectos','ajustes'];
 const demoRoutes=pages.filter(p=>{
   const s=read('apps/rise-react/src/routes/'+p+'.tsx');
@@ -24,7 +32,7 @@ const report={
   privateAuthGuard:read('apps/rise-react/src/routes/__root.tsx').includes('<AuthGate>'),
   sameOriginSupabase:read('apps/rise-react/src/lib/supabase-adapter.mjs').includes('/api/supabase-config'),
   originalAssetCount:images.length-missingAssets.length,
-  missingAssets,unmigratedDemoRoutes:demoRoutes,
+  missingAssets,mismatchedAssets,unmigratedDemoRoutes:demoRoutes,
   rootFrontendStillLegacy:!rootPackage.scripts?.build&&vercel.buildCommand===null&&vercel.outputDirectory==='.',
   reactExcludedFromDeploy:read('.vercelignore').split('\n').some(s=>s.trim()==='apps/'),
   reactBuildCommand:reactPackage.scripts?.build||null,
@@ -34,6 +42,7 @@ const report={
 };
 const blockers=[];
 if(missingAssets.length)blockers.push('Missing original Lovable images');
+if(mismatchedAssets.length)blockers.push('Original Lovable image hashes do not match uploaded ZIP');
 if(demoRoutes.length)blockers.push('Routes with demo-only state');
 if(report.rootFrontendStillLegacy||report.reactExcludedFromDeploy)blockers.push('React not yet wired to a protected staging build');
 if(!report.privateAuthGuard||!report.sameOriginSupabase)blockers.push('Authentication/configuration contract incomplete');
