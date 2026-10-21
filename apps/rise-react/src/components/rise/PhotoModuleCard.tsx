@@ -5,7 +5,7 @@ import type { NavTo } from "@/lib/nav";
 export function PhotoModuleCard({
   to, image, eyebrow, title, meta, color, progress,
 }: {
-  to: NavTo; image: string; eyebrow: string; title: string; meta: string; color: string; progress: number;
+  to: NavTo; image: string; eyebrow: string; title: string; meta: string; color: string; progress?: number;
 }) {
   return (
     <Link
@@ -26,9 +26,11 @@ export function PhotoModuleCard({
         <div className="text-[0.62rem] font-bold tracking-[0.22em]" style={{ color }}>{eyebrow}</div>
         <div className="mt-1 font-display text-2xl leading-tight text-foreground">{title}</div>
         <div className="mt-1 text-xs text-muted-foreground">{meta}</div>
-        <div className="mt-3 h-1 overflow-hidden rounded-full bg-foreground/10">
-          <div className="h-full rounded-full" style={{ width: `${progress}%`, background: color, boxShadow: `0 0 10px ${color}` }} />
-        </div>
+        {typeof progress === "number" && Number.isFinite(progress) ? (
+          <div className="mt-3 h-1 overflow-hidden rounded-full bg-foreground/10" aria-label={"Progreso confirmado: " + progress + "%"}>
+            <div className="h-full rounded-full" style={{ width: Math.max(0,Math.min(100,progress)) + "%", background: color }} />
+          </div>
+        ) : <div className="mt-3 text-[0.65rem] text-platinum/70">Actividad disponible al conectar el módulo</div>}
       </div>
     </Link>
   );
