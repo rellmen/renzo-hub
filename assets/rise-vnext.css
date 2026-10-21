@@ -159,7 +159,7 @@ html body #appShell #study .sl-tab.on{background:#2c2538;border-color:#8b70bd;bo
 html body #appShell #study .sl-tab b{font-size:15px;font-weight:700}
 html body #appShell #study .sl-tab small{font-size:12px;opacity:.78}
 html body #appShell #study .sl-hero{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:14px}
-html body #appShell #study .sl-hero h1{font-size:clamp(22px,5vw,28px);line-height:1.22;letter-spacing:-.02em;margin:6px 0 8px}
+html body #appShell #study .sl-hero h2{font-size:clamp(22px,5vw,28px);line-height:1.22;letter-spacing:-.02em;margin:6px 0 8px}
 html body #appShell #study .sl-hero p{font-size:15px;line-height:1.5;margin:0 0 18px}
 html body #appShell #study .sl-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 html body #appShell #study .sl-stats>div{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:14px;min-width:0}
