@@ -41,3 +41,10 @@ html body #skin :where(input:not([type=checkbox]):not([type=radio]):not([type=fi
 html body #skin :where(button.switch, button.secondary, button.primary) { min-height: 44px; }
 
 @media (max-width: 380px) { html body #skin { --skin-pad: 16px; } }
+
+/* UX consolidation · visually accessible daily routine interactions */
+html body #skin :is(button,a,input,select,textarea,summary):focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+html body #skin :is(button,summary,[role="button"]){touch-action:manipulation}
+html body #skin :is(.step,.care-intro,.card){max-width:100%;min-width:0}
+html body #skin .step .txt{min-width:0;overflow-wrap:anywhere}
+@media(prefers-reduced-motion:reduce){html body #skin *,html body #skin *::before,html body #skin *::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}

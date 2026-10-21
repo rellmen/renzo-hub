@@ -67,3 +67,10 @@ html body #food .food-list > div:not(:has(.food-shop-hit)) { grid-template-colum
   html body #food .food-today { grid-template-columns: auto 1fr 1fr; align-items: start; column-gap: 28px; }
   html body #food .food-meal { flex: 1 1 0; }
 }
+
+/* UX consolidation · clear focus and controls for meal and shopping actions */
+html body #food :is(button,a,input,select,textarea,summary):focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+html body #food :is(button,summary,[role="button"]){touch-action:manipulation}
+html body #food :is(.food-today,.food-list,.food-meal){min-width:0;max-width:100%}
+html body #food :is(input,select,textarea){max-width:100%;font-size:16px}
+@media(prefers-reduced-motion:reduce){html body #food *,html body #food *::before,html body #food *::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}

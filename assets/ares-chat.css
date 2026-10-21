@@ -40,3 +40,10 @@
  body.ares-kb #bottomNav.nav{visibility:hidden}
 }
 @media(prefers-reduced-motion:reduce){.ares-fab{transition:none!important}.ares-fab:hover{transform:none}}
+
+/* UX consolidation · Ares is an overlay, never obscures an open mobile keyboard */
+.ares-chat :is(button,input,textarea):focus-visible{outline:3px solid #cdbfff;outline-offset:2px}
+.ares-chat :is(button,[role="button"]){touch-action:manipulation}
+.ares-chat :is(input,textarea){font-size:16px;min-width:0}
+.ares-chat [aria-busy="true"]{cursor:progress}
+@media(max-width:650px){.ares-chat-form{max-width:100%;min-width:0}.ares-chat-suggestions{max-width:100%;overflow-x:auto}}
