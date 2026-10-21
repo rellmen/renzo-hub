@@ -134,7 +134,7 @@ function Skin(){
               <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{precaution}</p>
             </article>;
           })}
-        </div>:<EmptyState title="Sin productos" text="Todavía no hay productos catalogados."/>}
+        </div>:<EmptyState icon={<ShieldCheck className="h-5 w-5"/>} title="Sin productos" text="Todavía no hay productos catalogados."/>}
         {PRODUCTS.length>6&&<button type="button" className="btn-ghost mt-5" onClick={()=>setShowAll(x=>!x)}>{showAll?"Mostrar menos":"Ver todos los productos"} ({PRODUCTS.length})</button>}
         <p className="mt-3 text-xs text-muted-foreground">El inventario se muestra en modo consulta. Se conservarán los estados registrados antes de habilitar su edición en React.</p>
       </SectionCard>
