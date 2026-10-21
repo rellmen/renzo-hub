@@ -28,7 +28,7 @@ try{
    const {mountWorld}=await import("/world.js");
    const root=document.createElement("div");root.id="study";document.body.append(root);
    const app=mountWorld({study:root},()=>({id:USER}),window.__fakeSupabase);
-   await app.load();window.__selflearn={app,root};return root.querySelector("h1")?.textContent;
+   await app.load();window.__selflearn={app,root};return root.querySelector(".sl-hero h2")?.textContent;
   };
   // Responde correctamente al paso actual leyendo la lección guardada (la misma que ve el usuario).
   window.__answer=async(course="nl",wrong=false)=>{
