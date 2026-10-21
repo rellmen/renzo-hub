@@ -27,11 +27,11 @@ test('Original 19 skincare products and numbered AM/PM steps retain historical o
  assert.match(PRODUCTS[10][0],/Heliocare/);
  assert.match(PRODUCTS[12][0],/celimax/);
  assert.equal(AM.length,5);
- const saturday=new Date(2026,9,24,12);
- assert.equal(saturday.getDay(),6);
- assert.match(stepsFor(saturday,"pm",false)[1][0],/Retinal/);
- assert.match(stepsFor(saturday,"pm",true)[1][0],/Pausar/);
- assert.equal(dateKeyLocal(saturday),"2026-10-24");
+ const friday=new Date(2026,9,23,12);
+ assert.equal(friday.getDay(),5);
+ assert.match(stepsFor(friday,"pm",false)[1][0],/Retinal/);
+ assert.match(stepsFor(friday,"pm",true)[1][0],/Pausar/);
+ assert.equal(dateKeyLocal(friday),"2026-10-23");
 });
 test('Reads actual user-scoped Skin steps, notes, settings and inventory without mock seed',async()=>{
  const day=new Date(2026,9,22,12);
