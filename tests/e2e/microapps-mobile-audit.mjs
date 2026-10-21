@@ -41,6 +41,7 @@ for(const engine of [chromium,webkit]){
  await page.locator('#email').fill('demo@example.test');await page.locator('#password').fill('fake-test-password');
  await page.locator('#loginForm button[type=submit]').click();
  await page.locator('#authScreen').waitFor({state:'hidden'});
+ assert.equal(await page.locator('link[href="/assets/rise-covers.css"]').count(),0,'vNext no debe cargar portadas cinematográficas antiguas');
  // vNext regression: Home uses compact, contained, single-column mobile rows.
  // No cover images, overlays, or elements outside the viewport.
  current='home-vnext-390';
