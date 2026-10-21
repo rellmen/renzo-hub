@@ -27,3 +27,25 @@ Esta carpeta contiene **código fuente real, no una recreación CSS**, de la ver
 - Fuente de verdad del plan completo: `docs/REACT-MIGRATION-LOVABLE.md`.
 
 **Estado verificable de este directorio:** código TSX/UI copiado, AuthProvider y adapter añadidos; **no build React verificado, no conectividad autenticada de microapps, no producción**.
+
+
+## Importación exacta de las siete imágenes de Lovable
+
+Lovable mantiene los JPG originales dentro del proyecto aprobado `ca43e152-f7c7-4c8e-b925-01476b9053da`. Su conector de lectura **no garantiza exportación binaria**; no guardar como JPG una respuesta de texto del conector. El agente Lovable también está bloqueado por créditos agotados.
+
+Para obtenerlos sin gastar créditos de IA, el propietario puede abrir [el proyecto Lovable](https://lovable.dev/projects/ca43e152-f7c7-4c8e-b925-01476b9053da) y entrar en **Project settings → Git → Download codebase** (o Code editor → Download codebase, en planes elegibles). Documentación oficial: https://docs.lovable.dev/integrations/github
+
+Descomprimir el ZIP en un directorio seguro y ejecutar localmente en este repositorio:
+
+```bash
+node tools/import-lovable-assets.mjs /ruta/al/proyecto-lovable --dry-run
+node tools/import-lovable-assets.mjs /ruta/al/proyecto-lovable
+node --test tests/react-import-lovable-assets.test.mjs
+node tools/react-cutover-audit.mjs
+```
+
+El script busca `src/assets/`, valida **exactamente** los siete nombres (`ares.jpg`, `gym.jpg`, `hero-eclipse.jpg`, `learn.jpg`, `money.jpg`, `projects.jpg`, `skin.jpg`), rechaza imágenes ausentes o de formato incompatible y genera `lovable-originals.manifest.json` con tamaños y SHA-256. No recomprime, no convierte y no reemplaza una imagen distinta silenciosamente.
+
+**Alternativa:** conectar el proyecto Lovable a un **repositorio nuevo y separado** mediante Project settings → Git → GitHub. Lovable creará su repositorio propio con las imágenes binarias, desde el que se podrán copiar esos siete archivos. **Jamás conectar Lovable directamente a `rellmen/renzo-hub`**: son bases arquitectónicas distintas y la sincronización bidireccional podría sobrescribir código de producción.
+
+Los archivos nuevos solo se revisarán y confirmarán en rama de desarrollo; la ausencia de imágenes o de validación funcional seguirá bloqueando la publicación.
