@@ -90,7 +90,7 @@ for(const engine of [chromium,webkit]){
   if(process.env.EDITORIAL_DESKTOP)assert(await page.locator('#bottomNav [data-open="ares-center"]').evaluate(el=>document.activeElement===el),'Cerrar Ares devuelve el foco a su botón visible');
   const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-innerWidth);
   if(overflow>1)problems.push(`${engine.name()} · ${current}: desborde ${overflow}px`);
-  if(process.env.EDITORIAL_SCREENSHOTS&&engine===chromium&&(width===390||width===1440))await page.screenshot({path:resolve(process.env.EDITORIAL_SCREENSHOTS,`rise-editorial-${width}.png`),fullPage:true,animations:'disabled'});
+  if(process.env.EDITORIAL_SCREENSHOTS&&engine===chromium&&[320,390,768,1440].includes(width))await page.screenshot({path:resolve(process.env.EDITORIAL_SCREENSHOTS,`rise-editorial-${width}.png`),fullPage:true,animations:'disabled'});
  }
  await page.setViewportSize({width:390,height:844});
  for(const id of SECTION_IDS){
