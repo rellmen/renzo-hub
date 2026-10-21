@@ -100,6 +100,8 @@ for(const engine of [chromium,webkit]){
    await page.waitForTimeout(500);
    const open=await page.evaluate(()=>[...document.querySelectorAll('[role=dialog],.ares-chat,#aresChat')].some(el=>el.getBoundingClientRect().height>0&&getComputedStyle(el).display!=='none'));
    if(!open)problems.push(`${engine.name()} · ares-center: el chat no se abre`);
+   if(process.env.EDITORIAL_SCREENSHOTS && engine===chromium)
+     await page.screenshot({path:resolve(process.env.EDITORIAL_SCREENSHOTS,'rise-module-ares-chat-390.png'),fullPage:false,animations:'disabled'});
    await page.keyboard.press('Escape');await page.waitForTimeout(300);
    continue;
   }
@@ -120,6 +122,13 @@ for(const engine of [chromium,webkit]){
   if(r.overflow>1)problems.push(`${engine.name()} · ${id}: scroll horizontal de ${r.overflow}px`);
   if(r.wide.length)problems.push(`${engine.name()} · ${id}: elementos fuera de pantalla ${r.wide.join(', ')}`);
   if(r.small.length)problems.push(`${engine.name()} · ${id}: botones táctiles <32px ${r.small.map(s=>JSON.stringify(s)).join(', ')}`);
+  if(process.env.EDITORIAL_SCREENSHOTS && engine===chromium && r.shown && !r.failed){
+    await page.screenshot({
+      path:resolve(process.env.EDITORIAL_SCREENSHOTS,`rise-module-${id}-390.png`),
+      fullPage:true,
+      animations:'disabled'
+    });
+  }
  }
  await browser.close();
 }
