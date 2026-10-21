@@ -556,3 +556,130 @@ html #appShell :where(button[aria-pressed="true"],button[aria-current="page"]) {
   html body #study :where(.sl-hero,.sl-next,.sl-unit) { min-width: 0; }
   html body #money :where(.fx-hero,.fx-row) { min-width: 0; }
 }
+
+
+/* Nocturne secondary interiors: accessible Ares chat, Notes, News, and More.
+ * These selectors match the current real rendered markup, not a prototype. */
+
+/* Ares chat is mounted outside #ares-center; style its actual dialog. */
+html body .ares-fab {
+  border: 1px solid rgba(190,167,239,.48);
+  background: linear-gradient(130deg,#30203d,#1b1924);
+  color: #f4ecfa;
+  box-shadow: 0 12px 35px rgba(7,4,13,.42);
+  font-weight: 750;
+}
+html body .ares-fab:hover {
+  border-color: #d0b8f9;
+  box-shadow: 0 14px 35px rgba(72,29,53,.30);
+}
+html body .ares-chat {
+  border: 1px solid rgba(188,162,228,.44);
+  background: linear-gradient(155deg,#241b2b,#17131e 86%);
+  color: #f5edf7;
+  box-shadow: 0 20px 74px rgba(4,3,9,.76);
+}
+html body .ares-chat-head {
+  background: radial-gradient(ellipse at 92% 0%,rgba(106,73,165,.25),transparent 63%),
+    linear-gradient(115deg,#3d2439,#241b2f);
+  border-bottom: 1px solid rgba(198,161,108,.22);
+}
+html body .ares-avatar {
+  background: #342341;
+  border-color: rgba(188,162,228,.42);
+  color: #ddc7ff;
+  box-shadow: none;
+}
+html body .ares-close, html body .ares-back {
+  background: rgba(24,18,30,.78);
+  border-color: rgba(209,190,225,.26);
+  color: #f2e7f7;
+}
+html body .ares-msg-bot .ares-msg-body {
+  background: #2b2330;
+  border-color: rgba(222,207,238,.14);
+  color: #f5edf7;
+}
+html body .ares-msg-user .ares-msg-body {
+  background: linear-gradient(135deg,#604583,#422d62);
+  border-color: rgba(207,179,248,.42);
+  color: #fbf3ff;
+}
+html body .ares-msg-actions button, html body .ares-chat-suggestions button {
+  border-color: rgba(185,161,217,.30);
+  background: rgba(97,73,166,.18);
+  color: #eadcf8;
+}
+html body .ares-chat-form {
+  border-color: rgba(190,167,239,.40);
+  background: #211b27;
+}
+html body .ares-chat-form textarea { color: #f7eff9; }
+html body .ares-chat-form textarea::placeholder { color: #b5a7be; }
+html body .ares-chat-form button { background: #c6b3ef; color: #24172e; }
+html body .ares-chat-foot { color: #bcb0c4; }
+html body .ares-chat :is(button,input,textarea):focus-visible,
+html body .ares-fab:focus-visible { outline: 3px solid #e8d7ff; outline-offset: 2px; }
+
+/* Notes: writing feels like a private, high-end notebook. */
+html body #notes .mx-stack { max-width: 100%; min-width: 0; }
+html body #notes .mx-stack > form.card {
+  border-top: 2px solid #886c9b;
+  background: linear-gradient(135deg,#29202e,#1b1920);
+}
+html body #notes .mx-list { padding: 0; list-style: none; display: grid; gap: 13px; }
+html body #notes .mx-item {
+  background: #211c27;
+  border-color: rgba(197,201,212,.15);
+  border-radius: 15px;
+}
+html body #notes .mx-item h3 { font-family: Georgia,"Times New Roman",serif; font-weight: 500; color: #f4e7f6; }
+html body #notes .mx-item p { white-space: pre-wrap; overflow-wrap: anywhere; }
+html body #notes .mx-actions .secondary { border: 1px solid rgba(224,142,156,.25); }
+
+/* News: source filters and saved summaries, without pretending data exists. */
+html body #news > .section h2 { font-family: Georgia,"Times New Roman",serif; font-weight: 500; color: #f2eaf4; }
+html body #news .row { flex-wrap: wrap; justify-content: flex-start; gap: 8px; }
+html body #news [data-source] {
+  min-height: 44px;
+  border: 1px solid rgba(197,201,212,.17);
+  background: #29212c;
+}
+html body #news #newsItems > .card {
+  border-color: rgba(198,161,108,.18);
+  background: #211c24;
+}
+html body #news #newsItems summary h3 { color: #e8d8ed; font-weight: 700; }
+html body #news #newsForm .card { background: #27202a; }
+
+/* More and system utilities: consistent editorial index hierarchy. */
+html body #more .rise-more-header, html body #system > .top, html body #settings > .top {
+  background: linear-gradient(135deg,rgba(72,29,53,.32),#1b1920 65%);
+  border-color: rgba(198,161,108,.18);
+}
+html body #more .rise-more-group {
+  background: #1e1a23;
+  border: 1px solid rgba(197,201,212,.12);
+  border-radius: 17px;
+}
+html body #more .rise-more-group h2 { color: #e9d8e9; letter-spacing: -.02em; }
+html body #more .rise-more-link {
+  border-color: rgba(197,201,212,.12);
+  color: #f1eaf3;
+}
+html body #more .rise-more-link:hover { background: rgba(97,73,166,.12); }
+html body :is(#system,#settings,#work) :where(.card,.worlditem) {
+  border-color: rgba(197,201,212,.16);
+}
+html body :is(#system,#settings,#work) :where(.worldline,.section) { border-color: rgba(197,201,212,.13); }
+
+@media(max-width:650px) {
+  /* Preserve Ares keyboard/safe-area lifecycle from ares-chat.css. */
+  html body .ares-chat { inset: 0; width: 100vw; height: 100dvh; border: 0; border-radius: 0; }
+  html body .ares-chat-head { padding-top: calc(10px + env(safe-area-inset-top)); }
+  html body #more .rise-more-group { min-width: 0; }
+}
+@media(prefers-reduced-motion:reduce) {
+  html body .ares-fab { transition: none; }
+  html body .ares-fab:hover { transform: none; }
+}
