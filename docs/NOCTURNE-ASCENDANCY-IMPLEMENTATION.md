@@ -82,3 +82,15 @@ Estas comprobaciones **no se han realizado en este entorno**, por lo que el PR p
 ## Nota para colaboración
 
 Esta implementación es **solo UI**. No se tocan \`sw.js\`, \`release.json\`, datos ni migraciones para evitar solapamiento con Claude; Work o el integrador debe cerrar estos puntos antes de aceptar el PR. No reutilizar el React de Lovable como sustitución de la app JS real.
+
+
+## Adenda de integración del 21 de octubre — prevalece sobre el checklist anterior
+
+La integración de PWA y release **sí se completó en esta rama después de redactar la versión inicial de este documento**. Por tanto quedan resueltos, a nivel de archivos GitHub, los puntos previos que decían «añadir CSS a `sw.js`», «avanzar versión» y «actualizar `RENZO-HUB-CURRENT.md`»:
+
+- `sw.js`: precaché incluye `/assets/nocturne-ascendancy.css` y usa `renzo-hub-cloud-v58-nocturne-ascendancy`.
+- `release.json`: 2.54.0 **propuesta**; `RENZO-HUB-CURRENT.md` actualizado; `manifest.webmanifest` e `index.html` tienen `#111116`.
+- `tests/e2e/microapps-mobile-audit.mjs`: verifica geometría y clipping Nocturne en 320/390/768/1440 px (Chromium y WebKit); el test queda **pendiente de ejecución y resultado CI**.
+- Fuente de verdad de checklist y traspaso QA: `docs/NOCTURNE-ASCENDANCY.md`.
+
+Nada de lo anterior demuestra que staging, producción o la PWA instalada estén actualizados. **Mantener PR en draft** hasta pruebas reales y aprobación visual.
