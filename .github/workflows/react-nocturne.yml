@@ -1,0 +1,53 @@
+name: React Nocturne — Typecheck (no release)
+
+on:
+  pull_request:
+    branches: [staging]
+    paths:
+      - "apps/rise-react/**"
+      - "tools/react-cutover-audit.mjs"
+      - ".github/workflows/react-nocturne.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  typecheck:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Node 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Install React source dependencies
+        working-directory: apps/rise-react
+        run: npm install --no-audit --no-fund --no-package-lock
+      - name: TypeScript check (includes migrated Ares, Projects and Home)
+        working-directory: apps/rise-react
+        run: ./node_modules/.bin/tsc --noEmit
+      - name: Verify React bundle with ephemeral image fixtures (NOT production assets)
+        working-directory: apps/rise-react
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          mkdir -p src/assets
+          for name in ares gym hero-eclipse learn money projects skin; do
+            # Four-byte test fixture allows Vite import resolution only. NEVER ship as a photo.
+            printf '\\377\\330\\377\\331' > "src/assets/${name}.jpg"
+          done
+          npm run build
+          rm -f src/assets/{ares,gym,hero-eclipse,learn,money,projects,skin}.jpg
+          test -z "$(git status --porcelain -- src/assets/)"
+      - name: React release blocker report (informational)
+        run: node tools/react-cutover-audit.mjs
+
+# No production deployment is triggered by this workflow; bundle output is test-only.
+# Test build uses short-lived fake assets and is NEVER used as a release artifact.
+# Release build remains blocked until ORIGINAL SHA-matched images, all real data
+# services and authenticated staging/iPhone QA have been verified.

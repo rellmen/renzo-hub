@@ -1,152 +1,185 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useState, type DragEvent } from "react";
-import { GripVertical, Plus, Trash2 } from "lucide-react";
+import {createFileRoute} from "@tanstack/react-router";
+import {useMutation,useQuery,useQueryClient} from "@tanstack/react-query";
+import {useState,type DragEvent,type FormEvent} from "react";
+import {GripVertical,Plus,RefreshCw} from "lucide-react";
 import img from "@/assets/projects.jpg";
-import { pageHead } from "@/lib/seo";
-import { useLocalStorage } from "@/lib/storage";
-import { PageHero } from "@/components/rise/PageHero";
-import { DemoDataBadge, SectionCard } from "@/components/rise/primitives";
-import { ProgressRing } from "@/components/rise/ProgressRing";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {pageHead} from "@/lib/seo";
+import {PageHero} from "@/components/rise/PageHero";
+import {SectionCard} from "@/components/rise/primitives";
+import {ProgressRing} from "@/components/rise/ProgressRing";
+import {Dialog,DialogContent,DialogDescription,DialogHeader,DialogTitle} from "@/components/ui/dialog";
+import {useAuth} from "@/lib/auth/AuthProvider";
+import {
+  WORK_STATUSES,WORK_PRIORITIES,loadWorkRecords,createWorkTask,
+  updateWorkTaskStatus,statusColumn,columnTargetStatus,
+  type WorkTask,type WorkStatus,type WorkPriority,type WorkColumn
+} from "@/lib/work-records.mjs";
 
-export const Route = createFileRoute("/proyectos")({
-  head: () => pageHead("Proyectos", "Trabajo profundo: tablero Kanban de ejemplo con creación de tareas y resumen de progreso."),
-  component: Projects,
+export const Route=createFileRoute("/proyectos")({
+  head:()=>pageHead("Proyectos","Tus proyectos y tareas reales, sincronizados con tu espacio privado de RISE HUB."),
+  component:Projects
 });
 
-type Status = "todo" | "doing" | "done";
-type Prio = "Alta" | "Media" | "Baja";
-type Task = { id: string; title: string; status: Status; prio: Prio; project: string };
-const COLS: { id: Status; label: string }[] = [{ id: "todo", label: "Por hacer" }, { id: "doing", label: "En curso" }, { id: "done", label: "Hecho" }];
-const PRIO_COLOR: Record<Prio, string> = { Alta: "var(--gym)", Media: "var(--gold)", Baja: "var(--projects)" };
-const SEED: Task[] = [
-  { id: "p1", title: "Definir tokens de diseño Nocturne", status: "done", prio: "Alta", project: "RISE HUB" },
-  { id: "p2", title: "Prototipo del panel Ares", status: "doing", prio: "Alta", project: "RISE HUB" },
-  { id: "p3", title: "Guion de vídeo de presentación", status: "todo", prio: "Media", project: "Contenido" },
-  { id: "p4", title: "Revisar métricas trimestrales", status: "todo", prio: "Baja", project: "Personal" },
-  { id: "p5", title: "Migrar componentes a vanilla JS", status: "todo", prio: "Media", project: "RISE HUB" },
-  { id: "p6", title: "Sesión de fotos para módulos", status: "doing", prio: "Media", project: "Contenido" },
-  { id: "p7", title: "Auditoría de accesibilidad", status: "done", prio: "Alta", project: "RISE HUB" },
+const COLUMNS:{id:WorkColumn;label:string;help:string}[]=[
+  {id:"todo",label:"Por planificar",help:"Backlog, esta semana y en espera"},
+  {id:"doing",label:"En curso",help:"Hoy y tareas bloqueadas"},
+  {id:"done",label:"Completado",help:"Tareas terminadas"}
 ];
+function humanError(error:unknown){return error instanceof Error?error.message:"La operación no se pudo completar."; }
 
-function Projects() {
-  const [tasks, setTasks] = useLocalStorage<Task[]>("kanban", SEED);
-  const [open, setOpen] = useState(false);
-  const [over, setOver] = useState<Status | null>(null);
-  const move = (id: string, status: Status) => setTasks((ts) => ts.map((t) => (t.id === id ? { ...t, status } : t)));
-  const pct = tasks.length ? Math.round((tasks.filter((t) => t.status === "done").length / tasks.length) * 100) : 0;
+function Projects(){
+  const {user,client}=useAuth();
+  const uid=user?.id||"";
+  const qc=useQueryClient();
+  const [createOpen,setCreateOpen]=useState(false);
+  const [over,setOver]=useState<WorkColumn|null>(null);
+  const [form,setForm]=useState<{title:string;status:WorkStatus;priority:WorkPriority;project:string}>({
+    title:"",status:"Backlog",priority:"Normal",project:""
+  });
+  const key=["work-records",uid];
+  const records=useQuery({
+    queryKey:key,enabled:!!client&&!!uid,
+    queryFn:()=>loadWorkRecords(client!,uid),
+    staleTime:20_000,refetchOnWindowFocus:true
+  });
+  const saveStatus=useMutation({
+    mutationFn:({task,status}:{task:WorkTask;status:WorkStatus})=>updateWorkTaskStatus(client!,uid,task,status),
+    onSuccess:()=>qc.invalidateQueries({queryKey:key})
+  });
+  const add=useMutation({
+    mutationFn:()=>createWorkTask(client!,uid,form),
+    onSuccess:async()=>{
+      await qc.invalidateQueries({queryKey:key});
+      setForm({title:"",status:"Backlog",priority:"Normal",project:""});
+      setCreateOpen(false);
+    }
+  });
+  const tasks=records.data?.tasks||[];
+  const projects=records.data?.projects||[];
+  const done=tasks.filter(t=>t.status==="Completed").length;
+  const percent=tasks.length?Math.round(done/tasks.length*100):0;
+  const onDrop=(e:DragEvent<HTMLElement>,column:WorkColumn)=>{
+    e.preventDefault();
+    setOver(null);
+    const id=e.dataTransfer.getData("text/plain");
+    const task=tasks.find(t=>t.id===id);
+    if(task)saveStatus.mutate({task,status:columnTargetStatus(column)});
+  };
+  const submit=(e:FormEvent<HTMLFormElement>)=>{
+    e.preventDefault();
+    if(!form.title.trim()||add.isPending)return;
+    add.mutate();
+  };
+  return <div className="space-y-6">
+    <PageHero image={img} eyebrow="PROYECTOS / ESPACIO PRIVADO"
+      title="Trabajo profundo." subtitle="Tus compromisos reales, sin cifras inventadas."
+      color="var(--projects)" priority>
+      <button type="button" className="btn-gold" disabled={add.isPending} onClick={()=>setCreateOpen(true)}>
+        <Plus className="h-4 w-4"/> Nueva tarea
+      </button>
+    </PageHero>
 
-  const onDrop = (e: DragEvent, s: Status) => { e.preventDefault(); const id = e.dataTransfer.getData("text/plain"); if (id) move(id, s); setOver(null); };
+    <div className="flex flex-wrap items-center justify-between gap-3">
+      <p className="text-xs text-platinum/75">Conectado a los registros de tu cuenta. Los cambios se guardan en Supabase.</p>
+      <button type="button" className="btn-ghost" onClick={()=>void records.refetch()} disabled={records.isFetching}>
+        <RefreshCw className={"h-4 w-4 "+(records.isFetching?"animate-spin":"")}/>
+        Actualizar
+      </button>
+    </div>
+    {records.isLoading&&<p role="status" className="surface p-6">Cargando tus tareas y proyectos…</p>}
+    {records.error&&<p role="alert" className="surface border border-gym/40 p-5 text-sm text-gym">No se pudieron cargar tus tareas: {humanError(records.error)}. No se mostrará información de ejemplo.</p>}
+    {saveStatus.error&&<p role="alert" className="surface border border-gym/40 p-4 text-gym">{humanError(saveStatus.error)}. Recarga antes de volver a intentarlo.</p>}
 
-  return (
-    <div className="space-y-6">
-      <PageHero image={img} eyebrow="Proyectos" title="Trabajo profundo." subtitle="Arrastra tareas entre columnas o cambia su estado." color="var(--projects)" priority>
-        <div><button type="button" className="btn-gold" onClick={() => setOpen(true)}><Plus className="h-4 w-4" />Nueva tarea</button></div>
-      </PageHero>
-
-      <section className="grid gap-4 sm:grid-cols-[auto_1fr_1fr_1fr]">
+    {!records.isLoading&&!records.error&&<>
+      <section aria-label="Resumen de tareas" className="grid gap-3 sm:grid-cols-[auto_repeat(3,minmax(0,1fr))]">
         <div className="surface rim flex items-center gap-4 p-5">
-          <ProgressRing value={pct} size={72} stroke={5} color="var(--projects)" />
-          <div><div className="text-sm">Progreso global</div><DemoDataBadge className="mt-1" /></div>
+          <ProgressRing value={percent} size={65} stroke={5} color="var(--projects)"/>
+          <div><p className="text-sm font-semibold">Progreso</p><p className="text-xs text-muted-foreground">{done} de {tasks.length}</p></div>
         </div>
-        {COLS.map((c) => (
-          <div key={c.id} className="surface rim flex items-center justify-between p-5">
-            <span className="text-sm text-muted-foreground">{c.label}</span>
-            <span className="font-display text-4xl">{tasks.filter((t) => t.status === c.id).length}</span>
-          </div>
-        ))}
+        {COLUMNS.map(c=><div key={c.id} className="surface rim flex items-center justify-between gap-4 p-5">
+          <span className="text-xs text-muted-foreground">{c.label}</span>
+          <span className="font-display text-4xl">{tasks.filter(t=>statusColumn(t.status)===c.id).length}</span>
+        </div>)}
       </section>
 
       <div className="grid gap-4 md:grid-cols-3">
-        {COLS.map((c) => {
-          const list = tasks.filter((t) => t.status === c.id);
-          return (
-            <section key={c.id} aria-label={c.label}
-              onDragOver={(e) => { e.preventDefault(); setOver(c.id); }} onDragLeave={() => setOver(null)} onDrop={(e) => onDrop(e, c.id)}
-              className={`surface min-h-64 p-4 transition ${over === c.id ? "ring-1 ring-projects/60" : ""}`}>
-              <header className="mb-3 flex items-center justify-between px-1">
-                <h2 className="eyebrow text-projects">{c.label}</h2><span className="text-xs text-muted-foreground">{list.length}</span>
-              </header>
-              <ul className="space-y-2">
-                {list.map((t) => (
-                  <li key={t.id} draggable onDragStart={(e) => e.dataTransfer.setData("text/plain", t.id)}
-                    className="group cursor-grab rounded-2xl border border-hairline bg-raised p-3.5 transition hover:border-projects/40 active:cursor-grabbing">
-                    <div className="flex items-start gap-2">
-                      <GripVertical className="mt-0.5 hidden h-4 w-4 shrink-0 text-muted-foreground md:block" />
-                      <div className="min-w-0 flex-1">
-                        <div className={`text-sm ${t.status === "done" ? "text-muted-foreground line-through" : ""}`}>{t.title}</div>
-                        <div className="mt-2 flex items-center gap-2 text-[0.68rem]">
-                          <span className="rounded-full px-2 py-0.5" style={{ color: PRIO_COLOR[t.prio], background: `color-mix(in oklab, ${PRIO_COLOR[t.prio]} 14%, transparent)` }}>{t.prio}</span>
-                          <span className="text-muted-foreground">{t.project}</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="mt-3 flex items-center gap-2">
-                      <label className="sr-only" htmlFor={`st-${t.id}`}>Estado</label>
-                      <select id={`st-${t.id}`} value={t.status} onChange={(e) => move(t.id, e.target.value as Status)} className="h-10 flex-1 rounded-full border border-input bg-ink px-3 text-xs">
-                        {COLS.map((o) => <option key={o.id} value={o.id}>{o.label}</option>)}
-                      </select>
-                      <button type="button" aria-label={`Eliminar ${t.title}`} onClick={() => setTasks((ts) => ts.filter((x) => x.id !== t.id))} className="grid h-10 w-10 place-items-center rounded-full text-muted-foreground hover:text-destructive"><Trash2 className="h-4 w-4" /></button>
-                    </div>
-                  </li>
-                ))}
-                {list.length === 0 && <li className="rounded-2xl border border-dashed border-input p-6 text-center text-xs text-muted-foreground">Suelta aquí una tarea</li>}
-              </ul>
-            </section>
-          );
-        })}
+        {COLUMNS.map(c=><section key={c.id} aria-label={c.label}
+          onDragOver={e=>{e.preventDefault();setOver(c.id);}}
+          onDragLeave={()=>setOver(null)}
+          onDrop={e=>onDrop(e,c.id)}
+          className={"surface min-h-64 p-4 transition "+(over===c.id?"ring-1 ring-projects/60":"")}>
+          <header className="mb-4 space-y-1 px-1">
+            <div className="flex items-center justify-between"><h2 className="eyebrow text-projects">{c.label}</h2>
+              <span className="text-sm">{tasks.filter(t=>statusColumn(t.status)===c.id).length}</span></div>
+            <p className="text-xs text-muted-foreground">{c.help}</p>
+          </header>
+          <ul className="space-y-3">
+            {tasks.filter(t=>statusColumn(t.status)===c.id).map(t=><li key={t.id} draggable
+              onDragStart={e=>e.dataTransfer.setData("text/plain",t.id)}
+              className="rounded-2xl border border-hairline bg-raised p-4">
+              <div className="flex gap-2"><GripVertical aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground"/>
+                <div className="min-w-0 flex-1">
+                  <h3 className="break-words text-sm font-semibold">{t.title}</h3>
+                  <p className="mt-2 truncate text-xs text-muted-foreground">{t.project||"Sin proyecto"} · {t.priority}</p>
+                  {t.blocker&&<p className="mt-2 text-xs text-gym">Bloqueo: {String(t.blocker)}</p>}
+                  <label className="mt-3 block space-y-1 text-xs text-muted-foreground">Estado
+                    <select aria-label={"Estado de "+t.title} className="h-11 w-full rounded-xl border border-hairline bg-obsidian px-3 text-sm text-foreground"
+                      disabled={saveStatus.isPending}
+                      value={t.status}
+                      onChange={e=>saveStatus.mutate({task:t,status:e.target.value as WorkStatus})}>
+                      {WORK_STATUSES.map(status=><option key={status} value={status}>{status}</option>)}
+                    </select>
+                  </label>
+                </div>
+              </div>
+            </li>)}
+          </ul>
+          {!tasks.some(t=>statusColumn(t.status)===c.id)&&<p className="rounded-xl border border-dashed border-hairline p-5 text-center text-sm text-muted-foreground">Sin tareas registradas</p>}
+        </section>)}
       </div>
+      <SectionCard eyebrow="Proyectos reales" title="Tus iniciativas">
+        {projects.length?<ul className="grid gap-3 md:grid-cols-2">
+          {projects.map(p=><li key={p.id} className="rounded-xl border border-hairline bg-raised p-4">
+            <h3 className="font-medium">{p.title}</h3>
+            <p className="mt-1 text-xs text-muted-foreground">Estado: {String(p.status||"Sin indicar")} · {String(p.slot||"Sin slot")}</p>
+          </li>)}
+        </ul>:<p className="text-sm text-muted-foreground">Todavía no hay proyectos registrados en tu cuenta.</p>}
+      </SectionCard>
+    </>}
 
-      <TaskDialog open={open} onOpenChange={setOpen} onCreate={(t) => setTasks((ts) => [{ ...t, id: crypto.randomUUID() }, ...ts])} />
-    </div>
-  );
-}
-
-function TaskDialog({ open, onOpenChange, onCreate }: { open: boolean; onOpenChange: (o: boolean) => void; onCreate: (t: Omit<Task, "id">) => void }) {
-  const [title, setTitle] = useState("");
-  const [prio, setPrio] = useState<Prio>("Media");
-  const [project, setProject] = useState("RISE HUB");
-  const [error, setError] = useState("");
-  const submit = () => {
-    const v = title.trim();
-    if (v.length < 3) { setError("El título necesita al menos 3 caracteres."); return; }
-    onCreate({ title: v.slice(0, 90), prio, project, status: "todo" });
-    setTitle(""); setError(""); onOpenChange(false);
-  };
-  return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={createOpen} onOpenChange={setCreateOpen}>
       <DialogContent className="border-hairline bg-raised">
-        <DialogHeader>
-          <DialogTitle className="font-display text-3xl">Nueva tarea</DialogTitle>
-          <DialogDescription>Se guarda solo en este navegador.</DialogDescription>
-        </DialogHeader>
-        <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); submit(); }} noValidate>
-          <div>
-            <label htmlFor="nt-title" className="mb-1.5 block text-xs text-muted-foreground">Título</label>
-            <input id="nt-title" autoFocus value={title} maxLength={90} onChange={(e) => { setTitle(e.target.value); setError(""); }} aria-invalid={!!error} aria-describedby="nt-err"
-              className="h-12 w-full rounded-xl border border-input bg-ink px-4 text-sm aria-[invalid=true]:border-destructive" placeholder="p. ej. Preparar demo del módulo Money" />
-            {error && <p id="nt-err" className="mt-1.5 text-xs text-destructive">{error}</p>}
-          </div>
+        <DialogHeader><DialogTitle className="font-display text-3xl">Nueva tarea</DialogTitle>
+          <DialogDescription>Se guardará en tus tareas reales de RISE HUB.</DialogDescription></DialogHeader>
+        <form onSubmit={submit} className="space-y-4">
+          <label className="block space-y-2 text-sm">Título
+            <input required maxLength={180} autoFocus value={form.title}
+              onChange={e=>setForm(f=>({...f,title:e.target.value}))}
+              className="h-12 w-full rounded-xl border border-input bg-obsidian px-3"/>
+          </label>
+          <label className="block space-y-2 text-sm">Proyecto o relación
+            <input maxLength={120} value={form.project}
+              onChange={e=>setForm(f=>({...f,project:e.target.value}))}
+              className="h-12 w-full rounded-xl border border-input bg-obsidian px-3"/>
+          </label>
           <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label htmlFor="nt-prio" className="mb-1.5 block text-xs text-muted-foreground">Prioridad</label>
-              <select id="nt-prio" value={prio} onChange={(e) => setPrio(e.target.value as Prio)} className="h-12 w-full rounded-xl border border-input bg-ink px-3 text-sm">
-                <option>Alta</option><option>Media</option><option>Baja</option>
+            <label className="block space-y-2 text-sm">Prioridad
+              <select className="h-12 w-full rounded-xl border border-input bg-obsidian px-3"
+                value={form.priority} onChange={e=>setForm(f=>({...f,priority:e.target.value as WorkPriority}))}>
+                {WORK_PRIORITIES.map(p=><option key={p}>{p}</option>)}
               </select>
-            </div>
-            <div>
-              <label htmlFor="nt-proj" className="mb-1.5 block text-xs text-muted-foreground">Proyecto</label>
-              <select id="nt-proj" value={project} onChange={(e) => setProject(e.target.value)} className="h-12 w-full rounded-xl border border-input bg-ink px-3 text-sm">
-                <option>RISE HUB</option><option>Contenido</option><option>Personal</option>
+            </label>
+            <label className="block space-y-2 text-sm">Estado
+              <select className="h-12 w-full rounded-xl border border-input bg-obsidian px-3"
+                value={form.status} onChange={e=>setForm(f=>({...f,status:e.target.value as WorkStatus}))}>
+                {WORK_STATUSES.map(s=><option key={s}>{s}</option>)}
               </select>
-            </div>
+            </label>
           </div>
-          <div className="flex justify-end gap-2 pt-2">
-            <button type="button" className="btn-ghost" onClick={() => onOpenChange(false)}>Cancelar</button>
-            <button type="submit" className="btn-gold">Crear tarea</button>
-          </div>
+          {add.error&&<p role="alert" className="text-sm text-gym">{humanError(add.error)}</p>}
+          <button type="submit" disabled={add.isPending} className="btn-gold w-full">{add.isPending?"Guardando…":"Guardar tarea"}</button>
         </form>
       </DialogContent>
     </Dialog>
-  );
+  </div>;
 }
