@@ -1,169 +1,137 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-import { ArrowLeft, Check, Headphones, Lock, PenLine, Play, X } from "lucide-react";
+import {createFileRoute} from "@tanstack/react-router";
+import {useQuery} from "@tanstack/react-query";
+import {useState} from "react";
+import {BookOpen,Check,Clock3,GraduationCap,LockKeyhole,RefreshCw,ShieldCheck} from "lucide-react";
 import img from "@/assets/learn.jpg";
-import { pageHead } from "@/lib/seo";
-import { useLocalStorage } from "@/lib/storage";
-import { PageHero } from "@/components/rise/PageHero";
-import { Bar, DemoDataBadge, SectionCard } from "@/components/rise/primitives";
-import { ProgressRing } from "@/components/rise/ProgressRing";
-import { WeeklyBars } from "@/components/rise/charts";
+import {pageHead} from "@/lib/seo";
+import {useAuth} from "@/lib/auth/AuthProvider";
+import {PageHero} from "@/components/rise/PageHero";
+import {SectionCard,EmptyState,Bar} from "@/components/rise/primitives";
+import {ProgressRing} from "@/components/rise/ProgressRing";
+import {loadLearningSnapshot} from "@/lib/selflearn-snapshot.mjs";
+import {COURSES,completedUnitIds,levelProgress,nextUnit} from "@/lib/legacy-selflearn/engine.js";
 
-export const Route = createFileRoute("/aprender")({
-  head: () => pageHead("SelfLearn", "Aprende sin límites: cursos de neerlandés B2 e inglés C1 con lección interactiva de ejemplo."),
-  component: Learn,
+export const Route=createFileRoute("/aprender")({
+  head:()=>pageHead("SelfLearn","Catálogo real de neerlandés e inglés con progreso privado sincronizado."),
+  component:SelfLearn,
 });
-
-type CourseId = "nl" | "en";
-const COURSES: Record<CourseId, { name: string; target: string; lessons: { id: string; title: string; kind: string; min: number }[]; q: { prompt: string; sentence: string; options: string[]; answer: number; tip: string } }> = {
-  nl: {
-    name: "Neerlandés", target: "B2",
-    lessons: [
-      { id: "nl1", title: "Lección 1 · Conectores formales", kind: "Gramática", min: 12 },
-      { id: "nl2", title: "Lección 2 · Escucha: noticias", kind: "Escucha", min: 15 },
-      { id: "nl3", title: "Lección 3 · Debate y opinión", kind: "Expresión", min: 18 },
-      { id: "nl4", title: "Lección 4 · Correo profesional", kind: "Escritura", min: 20 },
-    ],
-    q: { prompt: "Elige el conector correcto", sentence: "Ik blijf thuis, ___ het regent.", options: ["omdat", "maar", "dus", "toch"], answer: 0, tip: "«omdat» introduce una causa y envía el verbo al final." },
-  },
-  en: {
-    name: "Inglés", target: "C1",
-    lessons: [
-      { id: "en1", title: "Lesson 1 · Inversion for emphasis", kind: "Grammar", min: 10 },
-      { id: "en2", title: "Lesson 2 · Academic listening", kind: "Listening", min: 16 },
-      { id: "en3", title: "Lesson 3 · Nuanced vocabulary", kind: "Vocabulary", min: 14 },
-      { id: "en4", title: "Lesson 4 · Persuasive essay", kind: "Writing", min: 22 },
-    ],
-    q: { prompt: "Choose the correct form", sentence: "Never ___ such a remarkable view.", options: ["I have seen", "have I seen", "I saw", "did I saw"], answer: 1, tip: "Tras «Never» al inicio, se invierte sujeto y auxiliar." },
-  },
-};
-
-function Learn() {
-  const [course, setCourse] = useState<CourseId>("nl");
-  const [done, setDone] = useLocalStorage<string[]>("lessons", []);
-  const [open, setOpen] = useState<string | null>(null);
-  const c = COURSES[course];
-  const pct = (id: CourseId) => Math.round((COURSES[id].lessons.filter((l) => done.includes(l.id)).length / COURSES[id].lessons.length) * 100);
-
-  if (open) return <Lesson course={course} lessonId={open} onBack={() => setOpen(null)} onDone={() => { setDone((d) => (d.includes(open) ? d : [...d, open])); }} completed={done.includes(open)} />;
-
-  return (
-    <div className="space-y-6">
-      <PageHero image={img} eyebrow="SelfLearn" title="Aprende sin límites." subtitle="Idiomas con método: sesiones cortas, constancia larga." color="var(--learn)" priority>
-        <div className="flex flex-wrap gap-3">
-          <button type="button" className="btn-gold" onClick={() => setOpen(c.lessons[0]!.id)}><Play className="h-4 w-4" />Continuar lección 1</button>
-        </div>
-      </PageHero>
-
-      <div role="tablist" aria-label="Cursos" className="inline-flex rounded-full border border-hairline bg-obsidian p-1">
-        {(Object.keys(COURSES) as CourseId[]).map((id) => (
-          <button key={id} role="tab" aria-selected={course === id} type="button" onClick={() => setCourse(id)}
-            className={`min-h-11 rounded-full px-5 text-sm font-semibold transition ${course === id ? "bg-learn/20 text-foreground ring-1 ring-learn/50" : "text-muted-foreground hover:text-foreground"}`}>
-            {COURSES[id].name} · <span className="text-learn">{COURSES[id].target}</span>
-          </button>
-        ))}
+type CourseId="nl"|"en";
+const COURSES_ID:CourseId[]=["nl","en"];
+const err=(e:unknown)=>e instanceof Error?e.message:"No se pudo recuperar tu progreso.";
+function SelfLearn(){
+  const {client,user}=useAuth();
+  const [course,setCourse]=useState<CourseId>("nl");
+  const [showAll,setShowAll]=useState(false);
+  const uid=user?.id||"";
+  const key=["selflearn-snapshot",uid];
+  const snapshot=useQuery({queryKey:key,enabled:!!client&&!!uid,
+    queryFn:()=>loadLearningSnapshot(client!,uid),staleTime:20000,refetchOnWindowFocus:true});
+  const data=snapshot.data;
+  const selected=COURSES[course];
+  const lessons=selected.units;
+  const done=data?completedUnitIds(data.entries,course):new Set<string>();
+  const pct=data&&lessons.length?Math.round(done.size/lessons.length*100):null;
+  const levels=data?levelProgress(course,data.entries):[];
+  const due=data?.reviewDue[course];
+  const next=data?nextUnit(course,data.entries,data.learningSettings):null;
+  return <div className="space-y-6">
+    <PageHero image={img} eyebrow="SELFLEARN · IDIOMAS"
+      title="Aprende sin límites."
+      subtitle="Neerlandés B2 e inglés C1: conserva tus lecciones, vocabulario y progreso de RISE HUB. Sin ejercicios inventados."
+      color="var(--learn)" priority>
+      <div className="flex flex-wrap gap-2">
+        <span className="inline-flex items-center gap-2 rounded-full border border-learn/35 bg-ink/70 px-4 py-2 text-xs text-platinum/90">
+          <ShieldCheck className="h-4 w-4 text-learn"/> Progreso privado
+        </span>
+        <span className="rounded-full border border-hairline bg-ink/60 px-4 py-2 text-xs text-platinum/75">
+          El reproductor de lecciones sigue en migración
+        </span>
       </div>
-
-      <div className="grid gap-6 lg:grid-cols-[1.6fr_1fr]">
-        <SectionCard eyebrow={`${c.name} · objetivo ${c.target}`} title="Lecciones" accent="var(--learn)" action={<DemoDataBadge />}>
+    </PageHero>
+    {snapshot.error&&<p role="alert" className="surface border border-gym/40 p-4 text-sm text-gym">
+      {err(snapshot.error)}. No mostraré progreso ficticio.
+    </p>}
+    {snapshot.isLoading&&<p role="status" className="surface p-5">Cargando tu historial de idiomas…</p>}
+    <div className="flex flex-wrap items-center justify-between gap-3">
+      <div role="tablist" aria-label="Idioma" className="inline-flex rounded-full border border-hairline bg-obsidian p-1">
+        {COURSES_ID.map(id=><button key={id} type="button" role="tab" aria-selected={course===id}
+          className={"min-h-11 rounded-full px-4 text-sm font-semibold "+(course===id?"bg-learn/20 text-foreground ring-1 ring-learn/50":"text-muted-foreground")}
+          onClick={()=>{setCourse(id);setShowAll(false);}}>
+          {COURSES[id].label} · {id==="nl"?"B2":"C1"}
+        </button>)}
+      </div>
+      <button type="button" className="btn-ghost" onClick={()=>void snapshot.refetch()} disabled={snapshot.isFetching}>
+        <RefreshCw className={"h-4 w-4 "+(snapshot.isFetching?"animate-spin":"")}/> Actualizar
+      </button>
+    </div>
+    {data&&<>
+      <div className="grid gap-6 lg:grid-cols-[1.65fr_1fr]">
+        <SectionCard eyebrow={selected.name+" · nivel objetivo "+data.goals[course]}
+          title="Ruta de aprendizaje" accent="var(--learn)">
+          <p className="mb-5 text-sm text-muted-foreground">{selected.tagline}</p>
+          {next&&<div className="mb-5 flex items-start gap-4 rounded-2xl border border-learn/40 bg-learn/[0.08] p-4">
+            <div className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-learn/20 text-learn"><BookOpen className="h-5 w-5"/></div>
+            <div className="min-w-0 flex-1">
+              <p className="eyebrow text-learn">Siguiente unidad del curso real</p>
+              <p className="mt-1 font-display text-xl">{next.title}</p>
+              <p className="mt-1 text-xs text-muted-foreground">{next.level} · {next.topic}</p>
+              <p className="mt-2 text-xs text-muted-foreground">La reanudación interactiva se habilitará al verificar el guardado de cada respuesta y la sincronización FSRS.</p>
+            </div>
+          </div>}
           <ul className="grid gap-3 sm:grid-cols-2">
-            {c.lessons.map((l, i) => {
-              const isDone = done.includes(l.id);
-              const locked = i > 1 && !done.includes(c.lessons[i - 1]!.id);
-              return (
-                <li key={l.id}>
-                  <button type="button" disabled={locked} onClick={() => setOpen(l.id)}
-                    className="group flex h-full w-full flex-col rounded-2xl border border-hairline bg-foreground/[0.02] p-4 text-left transition hover:-translate-y-0.5 hover:border-learn/50 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0">
-                    <div className="flex items-center justify-between">
-                      <span className="text-[0.65rem] font-bold tracking-[0.18em] text-learn">{l.kind.toUpperCase()}</span>
-                      {isDone ? <span className="grid h-6 w-6 place-items-center rounded-full bg-learn text-ink"><Check className="h-3.5 w-3.5" strokeWidth={3} /></span> : locked ? <Lock className="h-4 w-4 text-muted-foreground" /> : <Play className="h-4 w-4 text-muted-foreground group-hover:text-learn" />}
-                    </div>
-                    <div className="mt-3 font-display text-xl leading-tight">{l.title}</div>
-                    <div className="mt-auto pt-3 text-xs text-muted-foreground">{l.min} min</div>
-                  </button>
-                </li>
-              );
+            {lessons.slice(0,showAll?lessons.length:12).map(unit=>{
+              const completed=done.has(unit.id);
+              return <li key={unit.id} className="rounded-2xl border border-hairline bg-foreground/[0.025] p-4">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-[10px] font-bold uppercase tracking-[.12em] text-learn">{unit.level} · {unit.topic}</span>
+                  {completed?<span className="grid h-7 w-7 place-items-center rounded-full bg-learn text-ink"><Check className="h-4 w-4"/></span>
+                    :<LockKeyhole className="h-4 w-4 text-muted-foreground" aria-label="Lectura sin edición"/>}
+                </div>
+                <h3 className="mt-3 font-display text-lg leading-tight">{unit.title}</h3>
+                <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{unit.goal}</p>
+                <p className="mt-3 text-[11px] text-platinum/70">{completed?"Completada en tu historial":"Pendiente de completar"}</p>
+              </li>;
             })}
           </ul>
+          {lessons.length>12&&<button type="button" className="btn-ghost mt-5" onClick={()=>setShowAll(x=>!x)}>
+            {showAll?"Mostrar menos":"Ver todas las unidades"} ({lessons.length})
+          </button>}
         </SectionCard>
-
         <div className="space-y-6">
-          <SectionCard eyebrow="Progreso" title="Visión general" accent="var(--learn)">
-            <div className="flex items-center gap-5">
-              <ProgressRing value={pct(course)} size={104} stroke={6} color="var(--learn)">
-                <div><div className="font-display text-3xl">{pct(course)}%</div><div className="text-[0.6rem] tracking-widest text-muted-foreground">{c.target}</div></div>
+          <SectionCard eyebrow="Progreso registrado" title="Visión general" accent="var(--learn)">
+            <div className="flex flex-wrap items-center gap-5">
+              <ProgressRing value={pct??0} size={100} stroke={6} color="var(--learn)">
+                <div><div className="font-display text-3xl">{pct===null?"—":pct+"%"}</div><p className="text-[11px] text-muted-foreground">{course.toUpperCase()}</p></div>
               </ProgressRing>
-              <div className="flex-1 space-y-4">
-                {(Object.keys(COURSES) as CourseId[]).map((id) => (
-                  <div key={id}>
-                    <div className="mb-1.5 flex justify-between text-xs"><span>{COURSES[id].name} {COURSES[id].target}</span><span className="text-muted-foreground">{pct(id)}%</span></div>
-                    <Bar value={pct(id)} color={id === "nl" ? "var(--learn)" : "var(--ares)"} />
-                  </div>
-                ))}
+              <div className="flex-1 space-y-2">
+                <p className="text-sm">{done.size} de {lessons.length} unidades completadas</p>
+                <p className="text-xs text-muted-foreground">El porcentaje representa unidades registradas, no certifica un nivel MCER.</p>
+                <p className="text-xs text-platinum/80">{due===undefined?"—":due} tarjetas de vocabulario con repaso pendiente</p>
               </div>
             </div>
-            <p className="mt-4 text-xs text-muted-foreground">Progreso guardado solo en este navegador.</p>
-          </SectionCard>
-          <SectionCard eyebrow="Esta semana" title="Minutos de estudio" action={<DemoDataBadge />}>
-            <WeeklyBars data={[{ d: "L", v: 25 }, { d: "M", v: 40 }, { d: "X", v: 15 }, { d: "J", v: 35 }, { d: "V", v: 50 }, { d: "S", v: 20 }, { d: "D", v: 30 }]} color="var(--learn)" height={150} unit=" min" />
-          </SectionCard>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Lesson({ course, lessonId, onBack, onDone, completed }: { course: CourseId; lessonId: string; onBack: () => void; onDone: () => void; completed: boolean }) {
-  const c = COURSES[course];
-  const lesson = c.lessons.find((l) => l.id === lessonId)!;
-  const [pick, setPick] = useState<number | null>(null);
-  const [checked, setChecked] = useState(false);
-  const correct = pick === c.q.answer;
-
-  return (
-    <div className="mx-auto max-w-2xl space-y-6 animate-rise">
-      <button type="button" onClick={onBack} className="btn-ghost"><ArrowLeft className="h-4 w-4" />Volver a lecciones</button>
-      <div className="surface rim overflow-hidden p-0">
-        <div className="relative h-36 sm:h-44">
-          <img src={img} alt="" className="absolute inset-0 h-full w-full object-cover" width={1600} height={912} />
-          <div className="absolute inset-0 bg-photo-fade" />
-          <div className="absolute bottom-4 left-6">
-            <div className="eyebrow text-learn">{c.name} {c.target} · {lesson.kind}</div>
-            <h1 className="font-display text-3xl sm:text-4xl">{lesson.title}</h1>
-          </div>
-        </div>
-        <div className="space-y-6 p-6 sm:p-8">
-          <div className="flex items-center gap-3 text-xs text-muted-foreground"><PenLine className="h-4 w-4 text-learn" />Ejercicio 1 de 1 · {c.q.prompt}<Headphones className="ml-auto h-4 w-4" /></div>
-          <p className="font-display text-3xl leading-snug sm:text-4xl">{c.q.sentence}</p>
-          <div className="grid gap-3 sm:grid-cols-2" role="radiogroup" aria-label="Opciones">
-            {c.q.options.map((o, i) => {
-              const state = checked ? (i === c.q.answer ? "ok" : i === pick ? "bad" : "") : pick === i ? "sel" : "";
-              return (
-                <button key={o} type="button" role="radio" aria-checked={pick === i} disabled={checked && correct}
-                  onClick={() => { setPick(i); setChecked(false); }}
-                  className={`flex min-h-14 items-center justify-between rounded-2xl border px-5 text-left text-base transition ${state === "ok" ? "border-learn bg-learn/15" : state === "bad" ? "border-destructive bg-destructive/10" : state === "sel" ? "border-gold bg-gold/10" : "border-hairline hover:border-learn/50"}`}>
-                  {o}
-                  {state === "ok" && <Check className="h-4 w-4 text-learn" />}
-                  {state === "bad" && <X className="h-4 w-4 text-destructive" />}
-                </button>
-              );
-            })}
-          </div>
-          {checked && (
-            <div className={`rounded-2xl border p-4 text-sm ${correct ? "border-learn/40 bg-learn/10" : "border-destructive/40 bg-destructive/10"}`} role="status">
-              {correct ? "¡Correcto! " : "Casi. Inténtalo de nuevo. "}<span className="text-muted-foreground">{c.q.tip}</span>
+            <div className="mt-6 space-y-4">
+              {levels.map(level=><div key={level.id}>
+                <div className="mb-1.5 flex items-center justify-between text-xs">
+                  <span>{level.label||level.name||level.id}</span>
+                  <span className="text-muted-foreground">{level.done}/{level.total}</span>
+                </div>
+                <Bar value={level.total?Math.round(level.done/level.total*100):0} color="var(--learn)"/>
+              </div>)}
             </div>
-          )}
-          <div className="flex flex-wrap gap-3">
-            {!(checked && correct) ? (
-              <button type="button" className="btn-gold" disabled={pick === null} onClick={() => { setChecked(true); if (pick === c.q.answer) onDone(); }}>Comprobar</button>
-            ) : (
-              <button type="button" className="btn-gold" onClick={onBack}><Check className="h-4 w-4" />Lección completada · volver</button>
-            )}
-            {completed && !checked && <span className="self-center text-xs text-learn">Ya completaste esta lección</span>}
-          </div>
+          </SectionCard>
+          <SectionCard eyebrow="Sincronización" title="Últimos registros" accent="var(--learn)">
+            <dl className="space-y-4">
+              <div className="flex justify-between gap-2"><dt className="text-xs text-muted-foreground">Eventos registrados</dt><dd className="text-sm font-semibold">{data.entries.length}</dd></div>
+              <div className="flex justify-between gap-2"><dt className="text-xs text-muted-foreground">Fichas de vocabulario</dt><dd className="text-sm font-semibold">{data.vocabulary.length}</dd></div>
+              <div className="flex justify-between gap-2"><dt className="text-xs text-muted-foreground">Sesión guardada</dt><dd className="text-sm font-semibold">{data.learningRuns[course]?"Sí":"No"}</dd></div>
+            </dl>
+            {data.learningRuns[course]&&<p className="mt-3 rounded-xl border border-learn/30 bg-learn/[0.06] p-3 text-xs text-platinum/80">
+              Existe una sesión interrumpida guardada en la nube. Su reanudación permanecerá en el reproductor original hasta portar las reglas de fusión.
+            </p>}
+            <p className="mt-3 text-xs text-muted-foreground">{data.note}</p>
+          </SectionCard>
         </div>
       </div>
-    </div>
-  );
+    </>}
+  </div>;
 }
