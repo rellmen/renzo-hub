@@ -92,6 +92,15 @@ for(const engine of [chromium,webkit]){
   await search.press('Enter');
   await page.locator('#gym.page.active').waitFor();
   assert(await page.locator('.ares-fab').isVisible(),'Ares permanece disponible en Gym');
+  if(width<=650){
+   const fab=await page.locator('.ares-fab').evaluate(el=>{
+    const b=el.getBoundingClientRect();
+    return {w:b.width,h:b.height,right:b.right,bottom:b.bottom,viewportW:innerWidth,viewportH:innerHeight};
+   });
+   assert(fab.w<=58&&fab.h<=58,'ARES móvil debe ser compacto y no tapar formularios');
+   assert(fab.right<=fab.viewportW-4&&fab.bottom<=fab.viewportH-4,'ARES debe quedar dentro del viewport');
+   assert(fab.bottom>fab.viewportH-90,'ARES compacto debe quedar junto al borde inferior');
+  }
   await page.locator('#bottomNav [data-open="home"]').evaluate(el=>el.click());
   await page.locator('#bottomNav [data-open="ares-center"]').click();
   await page.getByRole('dialog',{name:'Ares AI',exact:true}).waitFor();
