@@ -1,6 +1,9 @@
 import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState, type ReactNode } from "react";
-import { Bell, Command, Search } from "lucide-react";
+import { Bell, Command, Search, LogOut, UserRound } from "lucide-react";
+import { toast } from "sonner";
+import { useAuth } from "@/lib/auth/AuthProvider";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { NAV } from "@/lib/nav";
 import { Brand, BrandMark } from "./Brand";
 import { useLocalStorage } from "@/lib/storage";
@@ -35,8 +38,8 @@ export function DesktopSidebar() {
         })}
       </nav>
       <div className="m-4 rounded-2xl border border-gold/20 bg-wine-gradient p-4">
-        <div className="eyebrow mb-1">Prototipo</div>
-        <p className="text-xs leading-relaxed text-platinum/80">Concepto visual con datos de ejemplo. Sin cuentas ni conexiones reales.</p>
+        <div className="eyebrow mb-1">Acceso privado · React</div>
+        <p className="text-xs leading-relaxed text-platinum/80">Proyectos ya utiliza tus registros reales. Los demás módulos siguen en migración y pueden mostrar datos de demostración.</p>
       </div>
     </aside>
   );
@@ -72,6 +75,11 @@ export function MobileDock() {
 
 export function TopBar() {
   const [open, setOpen] = useState(false);
+  const auth = useAuth();
+  const exit = async () => {
+    try { await auth.signOut(); }
+    catch (err) { toast.error(err instanceof Error ? err.message : "No se pudo cerrar sesión."); }
+  };
   const navigate = useNavigate();
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -93,15 +101,31 @@ export function TopBar() {
           <kbd className="ml-auto hidden items-center gap-1 rounded-md border border-input px-1.5 py-0.5 text-[0.65rem] sm:inline-flex"><Command className="h-3 w-3" />K</kbd>
         </button>
         <div role="status" className="hidden items-center gap-2 rounded-full border border-gold/20 px-3 py-1.5 text-[0.7rem] text-gold md:flex">
-          <span className="h-1.5 w-1.5 rounded-full bg-gold" />Concepto visual · datos de ejemplo
+          <span className="h-1.5 w-1.5 rounded-full bg-gold" />Migración React · entorno de pruebas
         </div>
-        <button type="button" className="icon-btn relative" aria-label="Notificaciones (demo)">
-          <Bell className="h-4 w-4" /><span className="absolute right-3 top-3 h-1.5 w-1.5 rounded-full bg-gym" />
+        <button type="button" className="icon-btn relative opacity-60" aria-label="Notificaciones no disponibles en esta versión" disabled>
+          <Bell className="h-4 w-4" />
         </button>
-        <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-wine-gradient font-display text-base text-gold ring-1 ring-gold/30" aria-label="Perfil de ejemplo">R</div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button type="button" aria-label="Cuenta y cerrar sesión" className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-wine-gradient font-display text-base text-gold ring-1 ring-gold/30 transition hover:ring-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold">
+              {(auth.user?.email||"R").slice(0,1).toUpperCase()}
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-60 border-hairline bg-raised text-foreground">
+            <DropdownMenuLabel className="min-w-0">
+              <span className="mb-1 flex items-center gap-2 text-sm"><UserRound className="h-4 w-4"/> Cuenta privada</span>
+              <span className="block truncate text-xs font-normal text-muted-foreground">{auth.user?.email||"Sesión iniciada"}</span>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="flex cursor-pointer items-center gap-2 text-sm" onSelect={() => void exit()}>
+              <LogOut className="h-4 w-4"/> Cerrar sesión
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
       <div role="status" className="border-t border-hairline px-4 py-1 text-center text-[0.62rem] tracking-wide text-gold/80 md:hidden">
-        Concepto visual · datos de ejemplo
+        Migración React · varios módulos en revisión
       </div>
       <CommandDialog open={open} onOpenChange={setOpen}>
         <CommandInput placeholder="Ir a…" />
