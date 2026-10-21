@@ -15,6 +15,7 @@ import {ProgressRing} from "@/components/rise/ProgressRing";
 import {useAuth} from "@/lib/auth/AuthProvider";
 import {loadAresRecords} from "@/lib/ares-records.mjs";
 import {loadWorkRecords,WORK_STATUSES} from "@/lib/work-records.mjs";
+import {loadLearningSnapshot} from "@/lib/selflearn-snapshot.mjs";
 
 export const Route=createFileRoute("/")({
   head:()=>pageHead("Centro de mando","Tu próxima evolución: tus datos reales y las disciplinas de RISE HUB."),
@@ -37,6 +38,8 @@ function Home(){
     queryFn:()=>loadAresRecords(client!,uid),staleTime:20_000});
   const work=useQuery({queryKey:["work-records",uid],enabled:!!client&&!!uid,
     queryFn:()=>loadWorkRecords(client!,uid),staleTime:20_000});
+  const learn=useQuery({queryKey:["selflearn-snapshot",uid],enabled:!!client&&!!uid,
+    queryFn:()=>loadLearningSnapshot(client!,uid),staleTime:60_000});
   const tasks=work.data?.tasks||[];
   const done=tasks.filter(x=>x.status==="Completed").length;
   const total=tasks.length;
@@ -46,7 +49,7 @@ function Home(){
     {label:"Tareas abiertas",value:ares.data?String(ares.data.tasks.length):"—",caption:"En RISE HUB",icon:ClipboardList,color:"var(--learn)"},
     {label:"Tareas completadas",value:work.data?String(done):"—",caption:work.data?done+" de "+total:"Sin consultar",icon:CheckCircle2,color:"var(--gym)"},
     {label:"Revisiones",value:ares.data?String(ares.data.approvals.length):"—",caption:"Pendientes de aprobación",icon:ShieldCheck,color:"var(--gold)"},
-    {label:"Eventos de agentes",value:ares.data?String(ares.data.agents.length):"—",caption:"Históricos, no en directo",icon:Activity,color:"var(--ares)"}
+    {label:"SelfLearn",value:learn.data?String(learn.data.completed.nl.length+learn.data.completed.en.length):"—",caption:learn.data?"NL "+learn.data.completed.nl.length+" · EN "+learn.data.completed.en.length:"Unidades verificadas",icon:Activity,color:"var(--learn)"}
   ];
   return <div className="space-y-6 lg:space-y-8">
     <section className="surface rim relative min-h-[460px] overflow-hidden lg:min-h-[420px]" style={{background:"var(--gradient-wine)"}}>
@@ -69,7 +72,7 @@ function Home(){
       </div>
     </section>
 
-    {(ares.error||work.error)&&<p role="alert" className="surface border border-gym/40 p-4 text-sm text-gym">
+    {(ares.error||work.error||learn.error)&&<p role="alert" className="surface border border-gym/40 p-4 text-sm text-gym">
       No se pudieron cargar todos los datos reales. Las estadísticas sin verificar se muestran como «—», nunca con cifras de ejemplo.
     </p>}
     <section aria-label="Indicadores de tus registros reales" className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 xl:grid-cols-5">
