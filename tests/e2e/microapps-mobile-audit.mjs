@@ -128,6 +128,9 @@ for(const engine of [chromium,webkit]){
   if(r.overflow>1)problems.push(`${engine.name()} · ${id}: scroll horizontal de ${r.overflow}px`);
   if(r.wide.length)problems.push(`${engine.name()} · ${id}: elementos fuera de pantalla ${r.wide.join(', ')}`);
   if(r.small.length)problems.push(`${engine.name()} · ${id}: botones táctiles <32px ${r.small.map(s=>JSON.stringify(s)).join(', ')}`);
+  if(process.env.EDITORIAL_SCREENSHOTS && engine===chromium && ['home','body','gym','food','skin','study','money','more','work','system','notes','gastos'].includes(id)){
+   await page.screenshot({path:resolve(process.env.EDITORIAL_SCREENSHOTS,`vnext-${id}-390.png`),fullPage:true,animations:'disabled'});
+  }
  }
  await browser.close();
 }
