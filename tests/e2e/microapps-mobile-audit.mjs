@@ -46,6 +46,23 @@ for(const engine of [chromium,webkit]){
   current=`editorial-${width}`;
   await page.setViewportSize({width,height:900});
   await page.locator('#bottomNav [data-open="home"]').click();
+  // Nocturne visual regression: background, clipping, and contained artwork at every viewport.
+  const visual=await page.evaluate(()=>{
+    const cards=[...document.querySelectorAll('#home .rise-home-shortcuts .rise-area')];
+    const aligned=cards.every(card=>{
+      const box=card.getBoundingClientRect();
+      if(box.width<1||box.left < -1 || box.right>innerWidth+1)return false;
+      return [...card.querySelectorAll('.rise-area-cover')].every(img=>{
+        const ib=img.getBoundingClientRect();
+        return ib.left>=box.left-2&&ib.right<=box.right+2&&ib.top>=box.top-2&&ib.bottom<=box.bottom+2;
+      });
+    });
+    return {theme:getComputedStyle(document.documentElement).getPropertyValue('--no-obsidian').trim(),
+      clipped:cards.length>=5&&cards.every(c=>getComputedStyle(c).overflow==='hidden'&&getComputedStyle(c).position==='relative'),
+      aligned,heroClipped:getComputedStyle(document.querySelector('#home .rise-hero')).overflow==='hidden'};
+  });
+  if(visual.theme!=='#111116'||!visual.clipped||!visual.aligned||!visual.heroClipped)
+    problems.push(`${engine.name()} · Nocturne ${width}px: contención o tokens incorrectos ${JSON.stringify(visual)}`);
   await page.locator('[data-rise-search]').click();
   const search=page.locator('#risePalette input');
   assert.equal(await search.getAttribute('role'),'combobox','La búsqueda debe anunciar su selección');
