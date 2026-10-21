@@ -121,3 +121,11 @@
 /* 2.50.0 · aviso cuando el audio no suena y botón de audio de 44 px */
 #study .sl-audio-issue{margin:0 0 12px;padding:12px 14px;border-radius:12px;background:color-mix(in srgb,var(--warn,#d7be89) 18%,var(--card));color:var(--text);font-size:14px;line-height:1.5}
 #study .sl-audio{min-height:44px;min-width:44px}
+
+/* UX consolidation · stable progress feedback and mobile reading rhythm */
+#study .sl{scroll-margin-top:16px;overflow-wrap:break-word}
+#study :is(.sl-feedback,.sl-panel,.sl-card){max-width:100%}
+#study :is(button,[role="button"],a):focus-visible{outline:3px solid var(--sl-accent,#ff8a3d);outline-offset:3px}
+#study :is(button,[role="button"])[disabled]{cursor:not-allowed;opacity:.55}
+#study :is(.sl-option,.sl-tile,.sl-unit){touch-action:manipulation}
+@media(max-width:420px){#study .sl{min-width:0}#study :is(.sl-panel,.sl-feedback){overflow-wrap:anywhere}}

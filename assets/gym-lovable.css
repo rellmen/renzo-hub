@@ -241,3 +241,10 @@ html body:has(#gymRestTimer:not([hidden])) .ares-fab { display: none; }
 }
 /* La técnica ya está en el chip "Técnica" del ejercicio */
 html body #gym .gp-player .gp-ex .gym-tech { display: none; }
+
+/* UX consolidation · accessible set tracking and timer controls */
+html body #gym :is(button,a,input,select,textarea,summary):focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+html body #gym :is(button,summary,[role="button"]){touch-action:manipulation}
+html body #gym :is(.gp-ex,.gp-player,.gp-row,.gym-rest){max-width:100%;min-width:0}
+html body #gym :is(input,select,textarea){font-size:16px}
+@media(prefers-reduced-motion:reduce){html body #gym *,html body #gym *::before,html body #gym *::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}

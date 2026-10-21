@@ -37,3 +37,12 @@ html body #appShell .page.active:not(#home) label > :where(input, select, textar
   html body #appShell .page.active:not(#home) :where(.worldgrid, .mx-stack, .reportgrid, .products, .apps, .pay-grid) { gap: 24px; }
   html body #appShell .page.active:not(#home) :where(input:not([type="checkbox"], [type="radio"], [type="range"], [type="file"], [type="color"]), select, textarea) { font-size: 15px; }
 }
+
+/* UI delivery · coherent navigation, focus and empty states across secondary screens */
+html body #appShell :is(#work,#money,#system,#more,#body,#settings) :is(button,a,input,select,textarea,summary):focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+html body #appShell :is(#work,#money,#system,#more,#body,#settings) :is(.card,.app,.top,.section){min-width:0;max-width:100%}
+html body #appShell :is(#work,#money,#system,#more,#body,#settings) :is(.small,.ey,p){overflow-wrap:anywhere}
+html body #appShell .page.active :is(button,[role="button"])[disabled]{cursor:not-allowed;opacity:.6}
+html body #appShell .page.active :is(button,[role="button"],a){touch-action:manipulation}
+@media(max-width:420px){html body #appShell :is(#work,#money,#system,#more,#body,#settings) .top{gap:10px}html body #appShell :is(#work,#money,#system,#more,#body,#settings) .top h1{font-size:clamp(23px,7vw,30px)}}
+@media(prefers-reduced-motion:reduce){html body #appShell .page.active *,html body #appShell .page.active *::before,html body #appShell .page.active *::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
