@@ -1,0 +1,685 @@
+/* RISE HUB · NOCTURNE ASCENDANCY
+ * Phase 1: visual foundation on top of the existing vanilla-JS app.
+ * Deliberately presentation-only. No auth/data/navigation/state modifications.
+ * Palette: obsidian, oxblood, imperial violet, platinum, antique gold.
+ * Do not remove the current component CSS until each microapp has visual QA.
+ */
+:root {
+  color-scheme: dark;
+  --bg: #111116;
+  --card: #1b1920;
+  --card2: #26212b;
+  --text: #f2edf5;
+  --muted: #b5aebe;
+  --accent: #bba6ef; /* lighter interactive violet, accessible on obsidian */
+  --accent2: #dbcaef;
+  --line: #403541;
+  --rx-ink: #111116;
+  --rx-sidebar: #121017;
+  --rx-strong: #302632;
+  --rx-border: #554656;
+  --rise-panel: #1b1920;
+  --rise-panel-strong: #26212b;
+  --rise-shadow: 0 16px 36px rgba(2, 2, 8, .22);
+  --no-obsidian: #111116;
+  --no-oxblood: #481d35;
+  --no-violet: #6149a6;
+  --no-platinum: #c5c9d4;
+  --no-gold: #c6a16c;
+  --no-hairline: rgba(224, 207, 231, .14);
+  --no-panel: #1b1920;
+  --no-elevated: #27222e;
+  --no-focus: #e8d7ff;
+  --no-motion-fast: 160ms;
+  --no-motion: 240ms;
+}
+html body {
+  background:
+    radial-gradient(ellipse 52rem 30rem at 83% -16%, rgba(97, 73, 166, .13), transparent 67%),
+    radial-gradient(ellipse 44rem 31rem at -12% 22%, rgba(72, 29, 53, .13), transparent 70%),
+    var(--no-obsidian);
+  color: var(--text);
+}
+html body, html button, html input, html textarea, html select { font-family: "Manrope", system-ui, sans-serif; }
+html :where(button, [role="button"], a, input, select, textarea, summary):focus-visible {
+  outline: 3px solid var(--no-focus);
+  outline-offset: 3px;
+}
+html :where(.card, .hero, .app, .worlditem, .authcard, .product, .worldhero) {
+  border-color: var(--no-hairline);
+}
+html :where(.card, .hero, .app, .worlditem, .authcard, .product) {
+  background-color: var(--no-panel);
+}
+html .ey { letter-spacing: .15em; font-weight: 750; }
+html .small, html small { color: var(--muted); }
+html :where(input, textarea, select) {
+  color: var(--text);
+  background-color: #1b1820;
+  border-color: #554656;
+}
+html :where(input, textarea, select):focus-visible { border-color: var(--accent); }
+html :where(.primary, .home-cta):not(:disabled) { background: #c6b3ef; color: #1b1124; }
+html .secondary, html .switch { background: var(--no-elevated); color: var(--text); }
+html :where(.card, .hero, .authcard) { border-radius: 18px; }
+html :where(.pill, .worldbadge) { border-color: rgba(198,161,108,.24); }
+html .progress { background: #3a303d; }
+html .bar { background: linear-gradient(90deg, #7352b4, #c3acec); }
+html .update-banner { border-color: #bba6ef; background: #292233; }
+
+/* Shell stays responsive; no absolute-positioned images outside clipping panels. */
+html body #appShell.shell { min-width: 0; }
+html #appShell .page { min-width: 0; }
+html #appShell .page.active > :where(.top, .card, .hero, .section, .rise-hero) { max-width: 100%; }
+html body #appShell .page.active :where(.card, .app, .worlditem, .hero) { overflow-wrap: anywhere; }
+html body #appShell .page.active :where(button, a, summary) { touch-action: manipulation; }
+html body #appShell .page.active :where(input:not([type="checkbox"],[type="radio"]), textarea, select) { font-size: max(16px, 1rem); }
+
+/* Navigation: the Ares action is the ceremonial centerpiece, not a neon orb. */
+html #bottomNav.nav {
+  background: rgba(17, 15, 23, .96);
+  border-color: rgba(198,161,108,.16);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, .35);
+}
+html #bottomNav .nav-brand-name {
+  font-weight: 800;
+  letter-spacing: .10em !important;
+  color: #f5eef5;
+}
+html #bottomNav .nav-brand-sub { color: #bcaabf; letter-spacing: .14em; }
+html #bottomNav .nav-brand-mark { box-shadow: 0 0 0 1px rgba(198,161,108,.3); }
+html #bottomNav button.active { color: #f8edf8; }
+html #bottomNav button.active .nav-chip {
+  background: rgba(97,73,166,.25);
+  border: 1px solid rgba(188,167,232,.24);
+}
+html #bottomNav button.active .nav-icon { color: #d7c6f7; }
+html #bottomNav .nav-orb {
+  background: linear-gradient(135deg, #d0baf8, #7754a9 90%);
+  color: #19111f;
+  border: 1px solid rgba(250,225,255,.24);
+  box-shadow: 0 0 0 4px var(--no-obsidian), 0 13px 28px rgba(72,29,53,.32);
+}
+html #bottomNav .nav-orb .nav-icon { color: #160f1b; }
+@media (min-width: 1024px) {
+  html #bottomNav.nav {
+    background: linear-gradient(180deg,#17121d 0%,#110f17 68%);
+    border-right-color: rgba(198,161,108,.15);
+    box-shadow: inset -1px 0 rgba(255,255,255,.02);
+  }
+  html #bottomNav .navin button { border: 1px solid transparent; border-radius: 12px; }
+  html #bottomNav .navin button:hover:not(.active) { background: #251d2b; color: #f3e7f8; }
+  html #bottomNav .navin button.active {
+    background: linear-gradient(95deg,rgba(72,29,53,.88),rgba(97,73,166,.24));
+    border-color: rgba(198,161,108,.22);
+    box-shadow: inset 3px 0 var(--no-gold);
+  }
+  html #bottomNav .nav-ares { border-color: rgba(165,134,218,.32); }
+  html #bottomNav .nav-ares .nav-orb { box-shadow: none; }
+}
+
+/* Home: editorial headline + restrained command-center framing. */
+html #home .rise-home-head { gap: 16px; padding-block: 3px 12px; }
+html #home .rise-home-head h2 {
+  color: var(--no-platinum);
+  font-weight: 650;
+  letter-spacing: .025em !important;
+}
+html #home .rise-search { border: 1px solid var(--no-hairline); border-radius: 12px; background: #241e2a; }
+html #home .rise-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid rgba(198,161,108,.32);
+  border-radius: 24px;
+  background: linear-gradient(125deg, #271923 0%, #181520 58%, #14121b 100%);
+  box-shadow: 0 24px 58px rgba(1, 1, 8, .26), inset 0 1px rgba(255,255,255,.05);
+}
+html #home .rise-hero-img {
+  filter: saturate(.47) brightness(.60) sepia(.08);
+  object-fit: cover;
+  max-width: 100%;
+}
+html #home .rise-hero::before {
+  background:
+    linear-gradient(90deg, rgba(19, 13, 22, .98) 0%, rgba(38,20,33,.93) 36%, rgba(28,18,30,.58) 65%, rgba(17,15,23,.15) 100%),
+    linear-gradient(0deg, rgba(17,15,23,.75), transparent 58%);
+}
+html #home .rise-hero .ey { color: #d6b990; letter-spacing: .18em; font-size: 11px; }
+html #home .rise-hero h1 {
+  font-family: Georgia, "Times New Roman", serif;
+  color: #f9f0f8;
+  font-weight: 500;
+  font-size: clamp(34px, 4.2vw, 58px);
+  letter-spacing: -.035em;
+  line-height: 1.05;
+  max-width: 610px;
+  text-wrap: balance;
+}
+html #home .rise-hero .rise-hero-greet { color: #ebd3e4; }
+html #home .rise-hero p { color: #d5cbd8; font-size: 14px; }
+html #home .rise-hero .home-cta {
+  background: linear-gradient(105deg,#d7c09a 0%,#c6a16c 100%);
+  border: 1px solid rgba(252,231,187,.35);
+  border-radius: 12px;
+  color: #21131d;
+  min-height: 48px;
+  box-shadow: 0 8px 22px rgba(0,0,0,.19);
+  transition: filter var(--no-motion-fast), transform var(--no-motion-fast);
+}
+html #home .rise-hero .home-cta:hover { filter: brightness(1.07); transform: translateY(-1px); }
+html #home .rise-section h3 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 500;
+  font-size: clamp(21px,2.2vw,27px);
+  letter-spacing: -.018em;
+}
+html #home .rise-section .small { color: #aca3b4; }
+
+/* Home shortcut cards: clip imagery inside independent cards (prevents prior overflow regression). */
+html #home .rise-home-shortcuts {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 12px;
+}
+html #home .rise-home-shortcuts .rise-area {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  min-width: 0;
+  min-height: 180px;
+  padding: 18px;
+  border: 1px solid rgba(214,192,213,.2);
+  border-radius: 18px;
+  background: linear-gradient(145deg,#32202f,#17141e);
+  box-shadow: inset 0 1px rgba(255,255,255,.05);
+  transition: border-color var(--no-motion), transform var(--no-motion);
+}
+html #home .rise-home-shortcuts .rise-area .rise-area-cover {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  border-radius: 0;
+  z-index: 0;
+  filter: saturate(.64) brightness(.42);
+  transition: filter var(--no-motion), transform var(--no-motion);
+}
+html #home .rise-home-shortcuts .rise-area::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background: linear-gradient(0deg,rgba(9,8,15,.96),rgba(20,11,23,.40) 67%,rgba(22,17,25,.14));
+}
+html #home .rise-home-shortcuts .rise-area .rise-area-copy {
+  position: relative;
+  z-index: 2;
+  display: block;
+  padding: 0;
+  min-width: 0;
+  margin-right: 10px;
+}
+html #home .rise-home-shortcuts .rise-area .rise-area-copy b {
+  color: #fbf2f6;
+  font-size: clamp(14px,1.4vw,17px);
+  font-weight: 750;
+  letter-spacing: -.025em;
+}
+html #home .rise-home-shortcuts .rise-area .rise-area-copy span {
+  color: #ddd2dc;
+  font-size: 12px;
+  line-height: 1.45;
+  -webkit-line-clamp: 2;
+}
+html #home .rise-home-shortcuts .rise-area .rise-area-go {
+  position: absolute;
+  z-index: 3;
+  top: 13px;
+  right: 13px;
+  border: 1px solid rgba(251,235,251,.18);
+  color: #e5c69a;
+  background: rgba(10,8,14,.4);
+  border-radius: 50%;
+  width: 29px;
+  height: 29px;
+  display: grid;
+  place-items: center;
+}
+html #home .rise-home-shortcuts .rise-area:hover {
+  transform: translateY(-2px);
+  border-color: rgba(216,188,146,.62);
+}
+html #home .rise-home-shortcuts .rise-area:hover .rise-area-cover {
+  filter: saturate(.75) brightness(.50);
+  transform: scale(1.03);
+}
+html #home .rise-home-shortcuts .rise-area:focus-visible { outline: 3px solid var(--no-focus); outline-offset: 3px; }
+html #home .rise-home-shortcuts .rise-area[data-open="gym"] { border-color: rgba(184,90,108,.27); }
+html #home .rise-home-shortcuts .rise-area[data-open="money"] { border-color: rgba(198,161,108,.34); }
+html #home .rise-home-shortcuts .rise-area[data-open="study"] { border-color: rgba(113,174,143,.27); }
+html #home .rise-home-shortcuts .rise-area[data-open="work"] { border-color: rgba(176,168,203,.30); }
+html #home .rise-home-shortcuts .rise-area--more {
+  background: linear-gradient(145deg,#33202c,#19141e);
+  border-style: solid;
+}
+html #home .rise-home-shortcuts .rise-area--more .rise-area-copy { z-index: 2; }
+@media (min-width: 800px) { html #home .rise-home-shortcuts { grid-template-columns: repeat(3,minmax(0,1fr)); } }
+@media (min-width: 1180px) { html #home .rise-home-shortcuts { grid-template-columns: repeat(4,minmax(0,1fr)); } }
+
+/* Secondary sections share a language but not the same emotional temperature. */
+html #appShell .page:not(#home) > .top {
+  padding: 18px 20px;
+  border: 1px solid var(--no-hairline);
+  border-radius: 18px;
+  background: radial-gradient(circle at 95% -15%,rgba(97,73,166,.12),transparent 55%),#1b1920;
+  box-shadow: inset 0 1px rgba(255,255,255,.025);
+}
+html #appShell .page:not(#home) > .top h1 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 500;
+  font-size: clamp(28px,3.1vw,38px);
+  letter-spacing: -.03em;
+}
+html #appShell .page:not(#home) > .top .avatar {
+  background: #302332;
+  border: 1px solid rgba(198,161,108,.3);
+  color: #e9d5af;
+}
+html #appShell .page:not(#home) > .top .ey { color: #c6b2cc; }
+html #appShell .page:not(#home) > .section h3 { font-weight: 750; letter-spacing: -.025em; }
+html #appShell .page:not(#home) :where(.card,.worlditem,.hero,.product) {
+  border-color: var(--no-hairline);
+  box-shadow: inset 0 1px rgba(255,255,255,.025);
+}
+html #appShell .page:not(#home) :where(.back,.microapp-back) {
+  border-radius: 12px;
+  color: #dfcdeb;
+}
+html #appShell .page:not(#home) :where(.switch,.secondary) {
+  border: 1px solid rgba(209,191,219,.15);
+}
+
+/* Each microapp's accent changes only its inherited design variables.
+ * Semantic error/success colors are deliberately NOT repurposed. */
+html #gym { --accent: #df939e; --accent2: #f4bac3; --no-module: #ad5264; }
+html #money, html #payroll, html #gastos { --accent: #e1c18b; --accent2: #f0d8b0; --no-module: #c6a16c; }
+html #study { --accent: #94ccb2; --accent2: #bce6d1; --no-module: #487e69; }
+html #skin { --accent: #d9b2d0; --accent2: #efd7e9; --no-module: #ad739d; }
+html #food { --accent: #e1be94; --accent2: #f3d9ba; --no-module: #b48b6a; }
+html #work { --accent: #c5c9d4; --accent2: #e3e5eb; --no-module: #929bb1; }
+html #ares-center { --accent: #bea7ef; --accent2: #e1d4fa; --no-module: #7356b6; }
+html #system, html #settings { --accent: #bac0d1; --accent2: #e3e5ed; --no-module: #929bb1; }
+html #appShell :is(#gym,#money,#study,#skin,#food,#work,#ares-center,#system,#settings,#payroll,#gastos) > .top {
+  border-top: 2px solid var(--no-module, #7356b6);
+  background:
+    radial-gradient(ellipse 45% 100% at 94% 0%, color-mix(in srgb, var(--no-module, #7356b6) 16%, transparent), transparent),
+    #1b1920;
+}
+html #appShell :is(#money,#payroll,#gastos) :where(.progress,.fin-tabs) { border-color: rgba(198,161,108,.3); }
+html #appShell #study :where(.study-next,.study-unit,.sl-unit) { border-color: rgba(148,204,178,.22); }
+html #appShell #skin .skin-daily-panel { border-color: rgba(217,178,208,.28); }
+html #appShell #gym :where(.gymhero,.gym-progress,.gym-card) { border-color: rgba(223,147,158,.22); }
+html #appShell #ares-center :where(.card,.hero) { border-color: rgba(190,167,239,.23); }
+
+/* Accessibility, small screens, iOS PWA and reduced-motion */
+@media (max-width: 520px) {
+  html body #appShell.shell { padding-inline: max(14px, env(safe-area-inset-left)); }
+  html #home .rise-hero { border-radius: 19px; }
+  html #home .rise-hero .rise-hero-copy { padding: 22px 19px; }
+  html #home .rise-hero h1 { font-size: clamp(31px, 8.1vw, 41px); }
+  html #home .rise-home-shortcuts { gap: 10px; }
+  html #home .rise-home-shortcuts .rise-area { min-height: 172px; padding: 14px; }
+  html #home .rise-home-shortcuts .rise-area .rise-area-copy span { font-size: 12px; }
+  html #appShell .page:not(#home) > .top { padding: 16px; }
+}
+@media (max-width: 360px) {
+  html #home .rise-home-shortcuts { grid-template-columns: 1fr 1fr; gap: 8px; }
+  html #home .rise-home-shortcuts .rise-area { min-height: 156px; padding: 12px; }
+  html #home .rise-home-shortcuts .rise-area .rise-area-go { width: 26px; height: 26px; top: 10px; right: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html #home .rise-home-shortcuts .rise-area,
+  html #home .rise-home-shortcuts .rise-area .rise-area-cover,
+  html #home .rise-hero .home-cta { transition: none; transform: none; }
+}
+
+
+/* ── V1 module interiors: reuse the real markup, controls and state. ── */
+
+/* Imperial Intelligence: Ares Center */
+html body #ares-center .cc-header {
+  background: linear-gradient(115deg, #2c1c36 0%, #1a1829 74%);
+  border: 1px solid rgba(190,167,239,.35);
+  border-radius: 20px;
+  box-shadow: inset 0 1px rgba(255,255,255,.05);
+}
+html body #ares-center .cc-header::after { opacity: .28; }
+html body #ares-center .cc-overline { color: #d3b8f4; letter-spacing: .16em; }
+html body #ares-center .cc-header h1 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 500;
+  letter-spacing: -.025em;
+  color: #f5eaff;
+}
+html body #ares-center .cc-metric {
+  background: linear-gradient(155deg,#292033,#201c2c);
+  border: 1px solid rgba(183,154,236,.23);
+  border-radius: 16px;
+}
+html body #ares-center .cc-metric strong { color: #eee1ff; }
+html body #ares-center .cc-panel { background: #1c1926; border: 1px solid rgba(195,168,234,.2); border-radius: 18px; }
+html body #ares-center .cc-panel-head h2 { font-weight: 750; letter-spacing: -.02em; }
+html body #ares-center .cc-feed li { border-bottom-color: rgba(220,207,244,.10); }
+html body #ares-center .cc-launch { border: 1px solid rgba(185,150,238,.30); border-radius: 15px; }
+
+/* Obsidian Wealth: avoid changing monetary semantics and calculations. */
+html body #money .fx-hero {
+  background: radial-gradient(ellipse at 92% -10%,rgba(198,161,108,.21),transparent 52%),
+    linear-gradient(145deg,#2b221e,#19191f 72%);
+  border: 1px solid rgba(198,161,108,.33);
+  border-radius: 20px;
+}
+html body #money .fx-big {
+  color: #f5e6cd;
+  letter-spacing: -.04em;
+  font-variant-numeric: tabular-nums;
+}
+html body #money .fx-meter { background: #393129; border-radius: 999px; }
+html body #money .fx-meter i { background: linear-gradient(90deg,#987341,#dfc18d); }
+html body #money :where(.fx-row,.fx-alert,.fx-fixed-row) {
+  border-color: rgba(198,161,108,.14);
+}
+html body #money .fx-row-icon { background: #3a2a26; color: #edd4a9; }
+html body :is(#money,#payroll,#gastos) .fin-tabs {
+  background: #262029;
+  border: 1px solid rgba(198,161,108,.22);
+  border-radius: 13px;
+}
+html body :is(#money,#payroll,#gastos) .fin-tabs button[aria-current="page"] {
+  background: rgba(198,161,108,.15);
+  color: #f5dcaf;
+  box-shadow: inset 0 -2px #c6a16c;
+}
+html body #money :where(.fx-split dd,.fx-row-total) { font-variant-numeric: tabular-nums; }
+html body #money .fx-hero--neg .fx-meter i { background: var(--danger); }
+
+/* Crimson Protocol: muscular progression without arcade UI. */
+html body #gym .gymhero {
+  background: radial-gradient(ellipse at 90% 0%,rgba(155,65,91,.27),transparent 61%),
+    linear-gradient(135deg,#291d28,#18171e);
+  border: 1px solid rgba(223,147,158,.32);
+  border-radius: 20px;
+}
+html body #gym .gymhero h2 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(24px,3vw,34px);
+  font-weight: 500;
+  color: #f6e3eb;
+}
+html body #gym .gymhero .quick > div {
+  background: rgba(115,48,65,.19);
+  border: 1px solid rgba(217,127,147,.2);
+  border-radius: 13px;
+}
+html body #gym .gymtabs .switch.selected,
+html body #gym .gymtabs .switch[aria-current="page"] {
+  background: #58313f;
+  border-color: #ca8196;
+  color: #ffe1e8;
+}
+html body #gym .gym-target {
+  border-color: rgba(223,147,158,.3);
+  background: rgba(110,52,69,.15);
+}
+html body #gym .setrow:has(input[type=checkbox]:checked) {
+  border-color: rgba(223,147,158,.22);
+}
+html body #gym :where(.gym-rest,.gym-sheet) {
+  background: #231c27;
+  border-color: rgba(223,147,158,.27);
+}
+html body #gym .gym-rest-time { color: #f4c1ce; }
+
+/* Emerald Academy: calm concentration for Dutch and English only. */
+html body #study .sl-hero {
+  background: radial-gradient(ellipse at 89% 5%,rgba(100,176,140,.18),transparent 62%),
+    linear-gradient(135deg,#1c302c,#182021);
+  border: 1px solid rgba(148,204,178,.35);
+  border-radius: 20px;
+}
+html body #study .sl h1 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 500;
+  color: #eaf5ef;
+  letter-spacing: -.03em;
+}
+html body #study .sl-stats > div {
+  background: #202e2a;
+  border: 1px solid rgba(148,204,178,.22);
+  border-radius: 15px;
+}
+html body #study .sl-stats strong { color: #d5f2e1; }
+html body #study .sl-tab.on {
+  background: #29473c;
+  border-color: rgba(148,204,178,.48);
+  color: #e6fff0;
+}
+html body #study .sl-unit.next {
+  background: #25382f;
+  border-color: rgba(148,204,178,.49);
+  box-shadow: inset 3px 0 #94ccb2;
+}
+html body #study .sl-unit.done { opacity: .82; }
+html body #study .sl-bar { background: #304139; }
+html body #study .sl-bar span { background: linear-gradient(90deg,#658f7a,#9ed9ba); }
+
+/* Rose Quartz Atelier: softly differentiated steps and true completion states. */
+html body #skin .care-intro {
+  background: linear-gradient(140deg,#372536,#211d28);
+  border: 1px solid rgba(217,178,208,.24);
+  border-radius: 17px;
+}
+html body #skin .skin-daily-panel {
+  background: radial-gradient(ellipse at 94% 0%,rgba(190,113,166,.13),transparent 65%),#211b26;
+}
+html body #skin .skin-seg {
+  background: #2c2230;
+  border: 1px solid rgba(217,178,208,.18);
+}
+html body #skin .skin-seg-btn[aria-pressed="true"] {
+  background: #5a3954;
+  border-color: rgba(244,211,234,.38);
+  color: #f9e9f6;
+}
+html body #skin #steps .step {
+  background: #211b26;
+  border-color: rgba(217,178,208,.17);
+}
+html body #skin #steps .step.done {
+  border-color: rgba(217,178,208,.28);
+  background: #2c2330;
+}
+html body #skin #steps .step .check.done {
+  background: #d9b2d0;
+  color: #241526;
+  border-color: #d9b2d0;
+}
+html body #skin .skin-finished { border-color: rgba(217,178,208,.4); }
+
+/* Sandstone Balance: warmth without confusing intake values. */
+html body #food .food-today {
+  background: radial-gradient(circle at 90% 0%,rgba(225,190,148,.14),transparent 60%),#272021;
+  border: 1px solid rgba(225,190,148,.27);
+  border-radius: 18px;
+}
+html body #food .food-today-head h2 { font-family: Georgia,"Times New Roman",serif; font-weight: 500; }
+html body #food .food-bar { background: #44352f; border-radius: 999px; }
+html body #food .food-bar i { background: linear-gradient(90deg,#b4855b,#e1be94); }
+html body #food .food-meal input:checked + span {
+  background: #604935;
+  border-color: #e1be94;
+  color: #fff1df;
+}
+html body #food .food-group { border-color: rgba(225,190,148,.16); }
+
+/* Platinum Command: clear, precise section cards for projects & Body. */
+html body #body .body-today {
+  background: linear-gradient(145deg,#222128,#1b1b24);
+  border: 1px solid rgba(197,201,212,.19);
+  border-radius: 18px;
+}
+html body #body .body-mod {
+  background: linear-gradient(140deg,#26212c,#1b1920);
+  border: 1px solid rgba(197,201,212,.17);
+  border-radius: 16px;
+}
+html body #body .body-mod:hover { border-color: rgba(198,161,108,.48); }
+html body #body .body-mod-ic {
+  background: rgba(97,73,166,.21);
+  border: 1px solid rgba(197,201,212,.14);
+}
+html body #body .body-w-value, html body #body .body-mod-tx strong { font-variant-numeric: tabular-nums; }
+
+/* Universal accessibility: selected state remains visible without color alone. */
+html #appShell :where(button[aria-pressed="true"],button[aria-current="page"]) {
+  text-decoration-thickness: 2px;
+}
+@media (max-width: 390px) {
+  html body #ares-center :where(.cc-grid,.cc-columns) { min-width: 0; }
+  html body #study :where(.sl-hero,.sl-next,.sl-unit) { min-width: 0; }
+  html body #money :where(.fx-hero,.fx-row) { min-width: 0; }
+}
+
+
+/* Nocturne secondary interiors: accessible Ares chat, Notes, News, and More.
+ * These selectors match the current real rendered markup, not a prototype. */
+
+/* Ares chat is mounted outside #ares-center; style its actual dialog. */
+html body .ares-fab {
+  border: 1px solid rgba(190,167,239,.48);
+  background: linear-gradient(130deg,#30203d,#1b1924);
+  color: #f4ecfa;
+  box-shadow: 0 12px 35px rgba(7,4,13,.42);
+  font-weight: 750;
+}
+html body .ares-fab:hover {
+  border-color: #d0b8f9;
+  box-shadow: 0 14px 35px rgba(72,29,53,.30);
+}
+html body .ares-chat {
+  border: 1px solid rgba(188,162,228,.44);
+  background: linear-gradient(155deg,#241b2b,#17131e 86%);
+  color: #f5edf7;
+  box-shadow: 0 20px 74px rgba(4,3,9,.76);
+}
+html body .ares-chat-head {
+  background: radial-gradient(ellipse at 92% 0%,rgba(106,73,165,.25),transparent 63%),
+    linear-gradient(115deg,#3d2439,#241b2f);
+  border-bottom: 1px solid rgba(198,161,108,.22);
+}
+html body .ares-avatar {
+  background: #342341;
+  border-color: rgba(188,162,228,.42);
+  color: #ddc7ff;
+  box-shadow: none;
+}
+html body .ares-close, html body .ares-back {
+  background: rgba(24,18,30,.78);
+  border-color: rgba(209,190,225,.26);
+  color: #f2e7f7;
+}
+html body .ares-msg-bot .ares-msg-body {
+  background: #2b2330;
+  border-color: rgba(222,207,238,.14);
+  color: #f5edf7;
+}
+html body .ares-msg-user .ares-msg-body {
+  background: linear-gradient(135deg,#604583,#422d62);
+  border-color: rgba(207,179,248,.42);
+  color: #fbf3ff;
+}
+html body .ares-msg-actions button, html body .ares-chat-suggestions button {
+  border-color: rgba(185,161,217,.30);
+  background: rgba(97,73,166,.18);
+  color: #eadcf8;
+}
+html body .ares-chat-form {
+  border-color: rgba(190,167,239,.40);
+  background: #211b27;
+}
+html body .ares-chat-form textarea { color: #f7eff9; }
+html body .ares-chat-form textarea::placeholder { color: #b5a7be; }
+html body .ares-chat-form button { background: #c6b3ef; color: #24172e; }
+html body .ares-chat-foot { color: #bcb0c4; }
+html body .ares-chat :is(button,input,textarea):focus-visible,
+html body .ares-fab:focus-visible { outline: 3px solid #e8d7ff; outline-offset: 2px; }
+
+/* Notes: writing feels like a private, high-end notebook. */
+html body #notes .mx-stack { max-width: 100%; min-width: 0; }
+html body #notes .mx-stack > form.card {
+  border-top: 2px solid #886c9b;
+  background: linear-gradient(135deg,#29202e,#1b1920);
+}
+html body #notes .mx-list { padding: 0; list-style: none; display: grid; gap: 13px; }
+html body #notes .mx-item {
+  background: #211c27;
+  border-color: rgba(197,201,212,.15);
+  border-radius: 15px;
+}
+html body #notes .mx-item h3 { font-family: Georgia,"Times New Roman",serif; font-weight: 500; color: #f4e7f6; }
+html body #notes .mx-item p { white-space: pre-wrap; overflow-wrap: anywhere; }
+html body #notes .mx-actions .secondary { border: 1px solid rgba(224,142,156,.25); }
+
+/* News: source filters and saved summaries, without pretending data exists. */
+html body #news > .section h2 { font-family: Georgia,"Times New Roman",serif; font-weight: 500; color: #f2eaf4; }
+html body #news .row { flex-wrap: wrap; justify-content: flex-start; gap: 8px; }
+html body #news [data-source] {
+  min-height: 44px;
+  border: 1px solid rgba(197,201,212,.17);
+  background: #29212c;
+}
+html body #news #newsItems > .card {
+  border-color: rgba(198,161,108,.18);
+  background: #211c24;
+}
+html body #news #newsItems summary h3 { color: #e8d8ed; font-weight: 700; }
+html body #news #newsForm .card { background: #27202a; }
+
+/* More and system utilities: consistent editorial index hierarchy. */
+html body #more .rise-more-header, html body #system > .top, html body #settings > .top {
+  background: linear-gradient(135deg,rgba(72,29,53,.32),#1b1920 65%);
+  border-color: rgba(198,161,108,.18);
+}
+html body #more .rise-more-group {
+  background: #1e1a23;
+  border: 1px solid rgba(197,201,212,.12);
+  border-radius: 17px;
+}
+html body #more .rise-more-group h2 { color: #e9d8e9; letter-spacing: -.02em; }
+html body #more .rise-more-link {
+  border-color: rgba(197,201,212,.12);
+  color: #f1eaf3;
+}
+html body #more .rise-more-link:hover { background: rgba(97,73,166,.12); }
+html body :is(#system,#settings,#work) :where(.card,.worlditem) {
+  border-color: rgba(197,201,212,.16);
+}
+html body :is(#system,#settings,#work) :where(.worldline,.section) { border-color: rgba(197,201,212,.13); }
+
+@media(max-width:650px) {
+  /* Preserve Ares keyboard/safe-area lifecycle from ares-chat.css. */
+  html body .ares-chat { inset: 0; width: 100vw; height: 100dvh; border: 0; border-radius: 0; }
+  html body .ares-chat-head { padding-top: calc(10px + env(safe-area-inset-top)); }
+  html body #more .rise-more-group { min-width: 0; }
+}
+@media(prefers-reduced-motion:reduce) {
+  html body .ares-fab { transition: none; }
+  html body .ares-fab:hover { transform: none; }
+}

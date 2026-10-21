@@ -41,7 +41,8 @@ jobs:
           node tests/e2e/payroll.mjs
           node tests/e2e/finance-income.mjs
           node tests/e2e/finance-complete.mjs
-          node tests/e2e/microapps-mobile-audit.mjs
+          mkdir -p /tmp/nocturne-ui-screenshots
+          EDITORIAL_SCREENSHOTS=/tmp/nocturne-ui-screenshots node tests/e2e/microapps-mobile-audit.mjs
           node tests/e2e/ares-mobile-exit.mjs
           node tests/e2e/selflearn.mjs
           BASE_URL=http://localhost:4173 node tests/e2e/confirmed-context.mjs
@@ -50,6 +51,15 @@ jobs:
           node tests/e2e/gym-lovable.mjs
           node tests/e2e/food-skin.mjs
           BROWSER=webkit node tests/e2e/gym-symmetry.mjs
+
+      - name: Guardar capturas de Nocturne (datos ficticios, sin cuenta real)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nocturne-ui-visuals
+          path: /tmp/nocturne-ui-screenshots/*.png
+          if-no-files-found: ignore
+          retention-days: 7
 
   db-migrations:
     # Réplica local PostgreSQL 17 con los privilegios reales de producción (sin conectar a Supabase).

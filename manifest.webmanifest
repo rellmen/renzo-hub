@@ -5,8 +5,8 @@
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#151516",
-  "theme_color": "#151516",
+  "background_color": "#111116",
+  "theme_color": "#111116",
   "description": "Tu centro de mando personal: progreso, bienestar, aprendizaje y finanzas, sincronizado con tus datos privados.",
   "icons": [
     {
