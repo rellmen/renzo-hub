@@ -5,7 +5,7 @@ import type { NavTo } from "@/lib/nav";
 export function PhotoModuleCard({
   to, image, eyebrow, title, meta, color, progress,
 }: {
-  to: NavTo; image: string; eyebrow: string; title: string; meta: string; color: string; progress?: number;
+  to: NavTo; image: string; eyebrow: string; title: string; meta: string; color: string; progress?: number | undefined;
 }) {
   return (
     <Link
