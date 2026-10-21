@@ -46,3 +46,13 @@ La UI React aprobada **permanece**: fotos y sistema visual Cormorant/Manrope, sh
 - Herramienta **`tools/import-lovable-assets.mjs`** lista para importar los siete JPG byte a byte desde un ZIP/exportación del proyecto Lovable. Se verifican archivos y hashes SHA-256, y la importación se detiene sin escribir si falta cualquiera. Las imágenes originales aún **NO** han sido entregadas a este repositorio: el conector Lovable retorna los archivos binarios como texto potencialmente corrupto, su agente carece de créditos y el ordenador autorizado aparece desconectado.
 - Guía oficial para descargar el original: https://docs.lovable.dev/integrations/github (Project settings → Git → Download codebase; o Code editor → Download codebase en planes elegibles).
 - El documento `apps/rise-react/README.md` contiene instrucciones exactas para ejecutar el importador tras obtener el ZIP. **No publicar React mientras falten assets y QA autenticado.**
+
+
+## ZIP de Lovable verificado y avances de Gym (22 octubre)
+
+- El usuario aportó el ZIP original `ca43e152-f7c7-4c8e-b925-01476b9053da.zip` con los siete JPG. Se verificó la integridad del archivo y de las siete imágenes y se registraron SHA-256/tamaño en `apps/rise-react/lovable-asset-expected.json`. **Los bytes no están aún en GitHub** porque el conector GitHub no acepta rutas de archivos de Python y el preview privado de Lovable devuelve 401. Se eliminó el workflow de importación remota fallido.
+- Se generó y verificó un parche Git binario que, aplicado en una rama local, reconstruyó los siete JPEG con todos los SHA-256 correctos. El parche queda disponible como archivo del chat para la fase de importación con estación Git autorizada. El importador `tools/import-lovable-assets.mjs` también está preparado.
+- `tools/react-cutover-audit.mjs` verifica ahora no solo presencia sino **huellas criptográficas**, y bloquea un release con imágenes sustituidas.
+- CI independiente ya completó TypeScript y la **compilación técnica React** del SHA `741e1b98fcd6`, utilizando fotografías efímeras solo de CI que se eliminan. **No se ha creado un artefacto desplegable con originales**.
+- **Gym React (lectura real):** `apps/rise-react/src/lib/gym-records.mjs`, tipos y `src/routes/gym.tsx` consumen `gym_sessions` y `gym_plans` con filtro por `user_id` y RLS. Historial, plan, series completadas, volumen real y temporizador, sin ninguna carga inventada. Contrato de pruebas en `tests/react-gym-real.test.mjs`. Siguen pendientes grabación y edición de sesiones, fotos privadas, ejercicios y progreso avanzado.
+- **Publicación prohibida:** aun faltan imágenes en la rama, más módulos por integrar, cuenta de QA staging, pruebas PWA móvil y reconciliación de ramas.
