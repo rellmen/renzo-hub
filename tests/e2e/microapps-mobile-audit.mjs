@@ -124,6 +124,14 @@ for(const engine of [chromium,webkit]){
    return {shown:!!sec&&visible(sec),overflow,wide,small,failed:/No se pudo cargar/.test(sec?.textContent||'')};
   },id);
   if(!r.shown)problems.push(`${engine.name()} · ${id}: la sección no se muestra`);
+  if(['body','work','money','system','food','skin','car'].includes(id)){
+   const header=await page.locator(`#${id} .rx-real-screen-head`).count();
+   if(header!==1)problems.push(`${engine.name()} · ${id}: falta cabecera vNext real`);
+  }
+  if(id==='study' && await page.locator('#study .rx-learn-header').count()!==1){
+   problems.push(`${engine.name()} · SelfLearn: falta estructura vNext`);
+  }
+
   if(r.failed)problems.push(`${engine.name()} · ${id}: "No se pudo cargar"`);
   if(r.overflow>1)problems.push(`${engine.name()} · ${id}: scroll horizontal de ${r.overflow}px`);
   if(r.wide.length)problems.push(`${engine.name()} · ${id}: elementos fuera de pantalla ${r.wide.join(', ')}`);
