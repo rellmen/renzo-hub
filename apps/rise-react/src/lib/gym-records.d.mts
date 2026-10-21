@@ -1,0 +1,11 @@
+export type GymSet={weight:number|null;reps:number|null;rir?:number|null;completed:boolean};
+export type GymExercise={name:string;muscle?:string;sets:GymSet[];min?:number;max?:number};
+export type GymSession={id:string;user_id:string;workout_date:string;day:number;title:string;started_at:string|null;completed_at:string|null;duration_minutes:number|null;cardio_minutes:number;body_weight:number|null;notes?:string;exercises:GymExercise[]};
+export type GymPlanExercise=[name:string,count:number,min:number,max:number,muscle:string,...extra:unknown[]];
+export type GymPlanDay=[title:string,cardioTarget:string,exercises:GymPlanExercise[]];
+export type GymStats={sessions:GymSession[];completed:GymSession[];current:GymSession|null;plan:GymPlanDay[];completedCount:number;weekCount:number;totalVolume:number;lastCompleted:GymSession|null};
+export declare function completedWorkout(row:GymSession):boolean;
+export declare function workoutVolume(row:GymSession):number;
+export declare function workoutSetCount(row:GymSession):number;
+export declare function summariseGymRecords(sessions:GymSession[],plan:GymPlanDay[]|null,now?:Date):GymStats;
+export declare function loadGymRecords(client:import('@supabase/supabase-js').SupabaseClient,uid:string,options?:{limit?:number}):Promise<GymStats>;
