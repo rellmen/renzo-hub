@@ -148,3 +148,80 @@ html body #appShell #home img{max-width:100%;object-fit:contain}
   transition-duration:.01ms!important;animation-duration:.01ms!important;scroll-behavior:auto!important;
  }
 }
+
+/* SelfLearn: intentional course -> next lesson -> learning path hierarchy */
+html body #appShell #study .rx-learn-header{margin:2px 0 20px;padding:0}
+html body #appShell #study .rx-learn-header h1{font-size:clamp(28px,6vw,34px);letter-spacing:-.035em;font-weight:750;line-height:1.2;margin:6px 0}
+html body #appShell #study .rx-learn-header p{font-size:15px;line-height:1.5;color:var(--muted);margin:6px 0 0}
+html body #appShell #study .sl-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0 0 16px}
+html body #appShell #study .sl-tab{min-width:0;min-height:68px;padding:13px 10px;background:var(--card);border:1px solid var(--line);border-radius:14px;color:var(--text);display:flex;justify-content:center;align-items:center;gap:7px;flex-wrap:wrap}
+html body #appShell #study .sl-tab.on{background:#2c2538;border-color:#8b70bd;box-shadow:inset 0 0 0 1px #5b4b72}
+html body #appShell #study .sl-tab b{font-size:15px;font-weight:700}
+html body #appShell #study .sl-tab small{font-size:12px;opacity:.78}
+html body #appShell #study .sl-hero{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:14px}
+html body #appShell #study .sl-hero h1{font-size:clamp(22px,5vw,28px);line-height:1.22;letter-spacing:-.02em;margin:6px 0 8px}
+html body #appShell #study .sl-hero p{font-size:15px;line-height:1.5;margin:0 0 18px}
+html body #appShell #study .sl-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+html body #appShell #study .sl-stats>div{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:14px;min-width:0}
+html body #appShell #study .sl-stats strong{font-size:23px;line-height:1.1;font-weight:750;white-space:normal;overflow-wrap:anywhere}
+html body #appShell #study .sl-stats small{font-size:12px;margin-top:5px;line-height:1.4}
+html body #appShell #study .sl-next{border:1px solid #6f5b90;background:linear-gradient(145deg,#282334,var(--card) 70%);border-radius:16px;padding:22px;margin-bottom:14px}
+html body #appShell #study .sl-next h2{font-size:22px;line-height:1.3;margin:6px 0;font-weight:750}
+html body #appShell #study .sl-next p{font-size:14px;line-height:1.6}
+html body #appShell #study .sl-primary{background:var(--accent);color:var(--rx-ink);border-radius:11px;font-weight:750}
+html body #appShell #study .sl-secondary{border-color:var(--line);background:var(--card2);color:var(--text);border-radius:11px}
+html body #appShell #study .sl-card{background:var(--card);border:1px solid var(--line);border-radius:16px}
+html body #appShell #study .sl-section{margin-top:28px;margin-bottom:14px}
+html body #appShell #study .sl-section h2{font-size:21px;font-weight:750;letter-spacing:-.02em}
+html body #appShell #study .sl-level{border-radius:14px;background:var(--card);border:1px solid var(--line)}
+html body #appShell #study .sl-level summary{min-height:76px;padding:16px;cursor:pointer}
+html body #appShell #study .sl-unit{background:var(--card2);border:1px solid transparent;border-radius:12px;min-height:66px;padding:12px}
+html body #appShell #study .sl-unit.next{border-color:var(--accent)}
+html body #appShell #study .sl-unit.next .sl-unit-icon{background:var(--accent);color:var(--rx-ink)}
+html body #appShell #study .sl-unit-copy b{font-size:14px;font-weight:750}
+html body #appShell #study .sl-unit-copy small{font-size:12px}
+html body #appShell #study .rx-learn-extras{margin:32px 0 14px}
+html body #appShell #study .rx-learn-extras h2{font-size:21px;margin:5px 0;font-weight:750}
+html body #appShell #study .rx-learn-extras p{font-size:14px;color:var(--muted);margin:0}
+html body #appShell #study .sl-panel{margin-top:10px;border-radius:14px;padding:14px 16px;background:var(--card)}
+html body #appShell #study .sl-panel>summary{font-size:14px;font-weight:650;line-height:1.45;min-height:46px}
+html body #appShell #study .sl-player .sl-option{font-size:16px;border-radius:12px;min-height:56px;background:var(--card2)}
+html body #appShell #study .sl-player .sl-option:focus-visible{outline:3px solid var(--accent2)}
+@media(min-width:780px){
+ html body #appShell #study .sl-stats{grid-template-columns:repeat(4,minmax(0,1fr))}
+ html body #appShell #study .sl{max-width:1000px;margin-inline:auto}
+}
+/* Gym: preserve workout engine, express its screens as a consistent tool */
+html body #appShell #gym :is(.gp-player,.gp-ex,.gp-more,.gym-progress,.gym-ranks,.gym-card){box-shadow:none}
+html body #appShell #gym :is(.gp-player,.gp-ex,.gym-rest,.gym-symmetry){color:var(--text)}
+html body #appShell #gym :is(.gp-tabs,.gp-more-tabs){gap:7px}
+html body #appShell #gym :is(.gp-tab,.gp-more-tab){min-height:44px;line-height:1.35}
+html body #appShell #gym :is(.gp-tick,.gym-tech-toggle,.gym-rest-actions button){min-width:44px;min-height:44px}
+html body #appShell #gym :is(.gym-strength-chart,.gym-balance-track){max-width:100%;min-width:0}
+/* Food & Skin: identical sectional rhythm, different subject-specific flows */
+html body #appShell #food :is(.care-intro,.food-heading){margin-bottom:18px}
+html body #appShell #skin :is(.care-intro,.skin-heading){margin-bottom:18px}
+html body #appShell :is(#food,#skin) .care-intro h2{font-size:22px;font-weight:750;line-height:1.28}
+html body #appShell :is(#food,#skin) .care-intro p{font-size:14px;color:var(--muted);line-height:1.6}
+html body #appShell :is(#food,#skin) :is(.care-segmented,.skin-seg){border-radius:12px;background:var(--card2);border-color:var(--line)}
+html body #appShell :is(#food,#skin) :is(button,select,input,textarea){min-height:44px}
+/* Finance: dashboard and month navigation; do not fabricate metrics */
+html body #appShell #money .fin-tabs{display:flex;flex-wrap:wrap;gap:7px;margin:6px 0 20px;border-bottom:1px solid var(--line);padding-bottom:12px}
+html body #appShell #money .fin-tabs button{min-height:44px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--text);padding:10px 14px;font-size:14px;font-weight:650}
+html body #appShell #money .fin-tabs button[aria-current="page"]{background:#30293d;border-color:var(--accent);color:var(--accent2)}
+html body #appShell #money .fx .card{padding:20px}
+html body #appShell #money .fx-monthnav button{border-radius:12px;background:var(--card2)}
+html body #appShell #money :is(.fx-balance,.fx-amount,.fx-big-number){font-variant-numeric:tabular-nums}
+/* Ares Center: professional tool panels and clear permissions */
+html body #appShell #ares-center .cc-header{margin-bottom:20px}
+html body #appShell #ares-center .cc-panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px}
+html body #appShell #ares-center .cc-grid{gap:14px}
+html body #appShell #ares-center .ares-tabs{gap:8px}
+html body #appShell #ares-center .ares-tabs button{min-height:44px;border-radius:12px}
+html body #appShell #ares-center :is(.cc-metric,.cc-service,.cc-banner){background:var(--card2);border-color:var(--line);border-radius:12px}
+html body #appShell #ares-center .cc-overline{letter-spacing:.11em;color:var(--muted)}
+/* Notes, Expenses, Payroll: stable editable layouts */
+html body #appShell :is(#notes,#gastos,#payroll) :is(.worldform,.mx-stack,.mx-list,.gx-groups){max-width:100%;min-width:0}
+html body #appShell :is(#notes,#gastos,#payroll) :is(.mx-item,.gx-item,.card){border:1px solid var(--line);border-radius:16px;background:var(--card)}
+html body #appShell :is(#notes,#gastos,#payroll) :is(.mx-actions,.actions){gap:10px;flex-wrap:wrap}
+html body #appShell :is(#notes,#gastos,#payroll) :is(button,input,textarea,select){font-size:16px}
