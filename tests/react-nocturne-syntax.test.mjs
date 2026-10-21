@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {transformSync} from 'esbuild';
 const base=new URL('../apps/rise-react/src/',import.meta.url);
-const files=['routes/index.tsx','routes/piel.tsx','routes/proyectos.tsx','routes/ares.tsx','components/rise/AppShell.tsx','lib/auth/AuthProvider.tsx','routes/__root.tsx'];
+const files=['routes/index.tsx','routes/gym.tsx','routes/piel.tsx','routes/proyectos.tsx','routes/ares.tsx','components/rise/AppShell.tsx','lib/auth/AuthProvider.tsx','routes/__root.tsx'];
 test('React Nocturne: new authenticated screens and shell parse as TSX',()=>{
  for(const path of files){
    const source=readFileSync(new URL(path,base),'utf8');
@@ -14,7 +14,7 @@ test('React Nocturne: new authenticated screens and shell parse as TSX',()=>{
 });
 test('Real Ares and Projects cannot display Lovable demo responses or seed tasks',()=>{
  const read=path=>readFileSync(new URL(path,base),'utf8');
- const p=read('routes/proyectos.tsx'),a=read('routes/ares.tsx'),home=read('routes/index.tsx'),skin=read('routes/piel.tsx');
+ const p=read('routes/proyectos.tsx'),a=read('routes/ares.tsx'),home=read('routes/index.tsx'),skin=read('routes/piel.tsx'),gym=read('routes/gym.tsx');
  assert.match(p,/loadWorkRecords/);
  assert.match(p,/createWorkTask/);
  assert.match(p,/updateWorkTaskStatus/);
@@ -24,6 +24,8 @@ test('Real Ares and Projects cannot display Lovable demo responses or seed tasks
  assert.doesNotMatch(a,/useAresChat|ARES_SUGGESTIONS|RESPUESTA SIMULADA|setProps/);
  assert.match(home,/loadAresRecords/);
  assert.match(home,/loadWorkRecords/);
+ assert.match(gym,/loadGymRecords/);
+ assert.doesNotMatch(gym,/DemoDataBadge|\bEXERCISES\s*=|\bPROGRAM\s*=/);
  assert.match(skin,/loadSkinState/);
  assert.match(skin,/setSkinSteps/);
  assert.match(skin,/setSkinNote/);
