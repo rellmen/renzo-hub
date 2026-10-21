@@ -1,0 +1,43 @@
+{
+  "source": "User-provided Lovable codebase ZIP: ca43e152-f7c7-4c8e-b925-01476b9053da.zip",
+  "lovable_project_id": "ca43e152-f7c7-4c8e-b925-01476b9053da",
+  "source_sha": "c68f0b618b59c16930bf1f6ad0e1b44e0bf81deb",
+  "status": "original-jpg-verified-in-upload-not-yet-copied-to-github",
+  "files": [
+    {
+      "name": "ares.jpg",
+      "bytes": 70296,
+      "sha256": "64966f0a2c006b41b108d931cb94e112e78ac612498fc46fdcfc1b6b5da22b6c"
+    },
+    {
+      "name": "gym.jpg",
+      "bytes": 99339,
+      "sha256": "3e40a74c352e2e27034019b9f49aa48143d93f8d004c7da94ebf4d61e5843a7f"
+    },
+    {
+      "name": "hero-eclipse.jpg",
+      "bytes": 114988,
+      "sha256": "0a30afaadc541981bd629723c5218c851b4f46c535f38f6ffb2c9ae7eee9b01f"
+    },
+    {
+      "name": "learn.jpg",
+      "bytes": 130770,
+      "sha256": "82f35b9c7a262b5aa74b56805c6daa1b97ab05220bc3509aa55552a7cab18110"
+    },
+    {
+      "name": "money.jpg",
+      "bytes": 168962,
+      "sha256": "b93aa8e4b802e6a69d0c64b8711f2d2da6ddd698163bd6e5320498a4189b773a"
+    },
+    {
+      "name": "projects.jpg",
+      "bytes": 92056,
+      "sha256": "5b252f641b7fd10c0fc3da6c1804bb4b6afed2fbfac716289a6bf2b534d803d1"
+    },
+    {
+      "name": "skin.jpg",
+      "bytes": 167309,
+      "sha256": "fde9d6d7235e5c9e15a2b82281611f93cf7406f52c9141c3d1944c2b0b830e55"
+    }
+  ]
+}
