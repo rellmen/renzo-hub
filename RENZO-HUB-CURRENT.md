@@ -1,5 +1,15 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+
+## 2.54.0 (2026-10-21) · NOCTURNE ASCENDANCY · propuesta de UI para staging (SIN publicar)
+
+- Rama `feature/nocturne-ascendancy-ui` desde `staging`; identidad visual premium personalizada con obsidiana, borgoña, violeta imperial, platino y oro antiguo.
+- Nueva `assets/nocturne-ascendancy.css` como última capa para Home, navegación y microapps existentes. Cada área conserva sus datos, handlers, guardado, seguridad y navegación.
+- `index.html`, `manifest.webmanifest`: copy de Home y color PWA `#111116`; `sw.js`: precaché y versión `v58-nocturne-ascendancy`.
+- Tests `tests/nocturne-ui.test.mjs` y comprobaciones de contención geométrica en `tests/e2e/microapps-mobile-audit.mjs`. Contrato, lista de aceptación y traspaso a Work en `docs/NOCTURNE-ASCENDANCY.md`.
+- **Sin merge a staging/main ni despliegue a producción.** PENDIENTE: CI, capturas visuales Chromium/WebKit, autenticación y guardados reales en staging, PWA iPhone, aprobación de Renzo.
+
+
 ## 2.53.1 (2026-10-19) · Límite del tutor IA aplicado en producción
 
 - Con el OK explícito de Renzo ("Haz la A", 11:01), Claude aplicó `20261019030000_selflearn_tutor_quota` en Supabase de **producción** (`mgncykyrhavpepfggmng`). Comprobado: tabla vacía, RLS activa, sin lectura para `anon` ni `authenticated`, la función solo la ejecuta `authenticated`.
