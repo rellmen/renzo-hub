@@ -67,7 +67,9 @@ for(const engine of [chromium,webkit]){
  await openFromNav();await navAres.click();await isClosed('botón central');
  check((await navAres.getAttribute('aria-expanded'))==='false',`${tag}: aria-expanded no vuelve a false`);
  // Ir a otra sección desde la barra cierra Ares y abre la sección.
- await openFromNav();await page.locator('#bottomNav [data-open="work"]').click();await isClosed('barra → Work');
+ await openFromNav();await page.locator('#bottomNav [data-open="more"]').click();await isClosed('barra → Más');
+ await page.locator('#more.page.active').waitFor();
+ await page.locator('#more .rise-more-link[data-open="work"]').click();
  await page.locator('#work.page.active').waitFor();
  // ✕, Escape y atrás del navegador siguen funcionando.
  await openFromNav();await page.getByRole('button',{name:'Cerrar Ares AI',exact:true}).click();await isClosed('✕');
