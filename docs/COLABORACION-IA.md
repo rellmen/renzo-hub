@@ -106,3 +106,10 @@ Renzo pidió a Claude validar, arreglar y publicar el #94 (rama de ChatGPT). Cam
 ## ChatGPT · 21 oct · Nocturne Ascendancy (desarrollo aislado UI)
 
 Rama `feature/nocturne-ascendancy-ui` desde `staging`. ChatGPT creó `assets/nocturne-ascendancy.css` (paleta obsidiana/borgoña/violeta/platino/oro, shell, navegación, portada, tarjetas y estilos internos de Ares/Finance/Gym/SelfLearn/Skin/Food/Body), conectó la hoja en `index.html` y preparó tests + contrato visual. **Solo presentación, sin tocar lógica o Supabase.** Para no pisar al dueño de integración, no cambió `sw.js`, `release.json`, ni `RENZO-HUB-CURRENT.md`; antes de merge deben añadirse el nuevo CSS a la caché offline, renovarse la versión y pasar QA visual 320–1440 px y en iPhone. PR draft hacia `staging`; no despliegue a producción. Ver `docs/NOCTURNE-ASCENDANCY-IMPLEMENTATION.md`.
+
+
+### Actualización de la misma rama — cierre técnico de integración (21 oct)
+
+Por petición expresa de Renzo de continuar directamente sin Work, ChatGPT completó **en la misma rama Nocturne** los pasos que figuraban pendientes en el párrafo anterior: `sw.js` incluye el CSS nuevo y la caché v58, `release.json` y `RENZO-HUB-CURRENT.md` reflejan 2.54.0 (solo propuesta), `manifest.webmanifest` utiliza obsidiana y se añadió auditoría de clipping en Chromium/WebKit. También se extendió el estilo al **chat modal** de Ares, Notas, Noticias y Más. Se respetó que la rama es independiente, no se fusionó con otros trabajos ni se tocó Supabase.
+
+**Pendientes reales:** resultado CI del SHA más reciente, QA visual con capturas, verificación de la PWA instalada en iPhone, pruebas de persistencia autenticada en staging y autorización de Renzo. PR #125 queda en borrador, con destino `staging`; no publicar en `main`. El checklist actualizado es `docs/NOCTURNE-ASCENDANCY.md`.
