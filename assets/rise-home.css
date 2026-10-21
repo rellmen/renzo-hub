@@ -99,3 +99,109 @@ html .rise-stat b { font-size: 22px; letter-spacing: -.01em; }
 #home .rise-home-shortcuts .rise-area:focus-visible{outline:2px solid var(--accent,#8de6bd);outline-offset:3px}
 @media(min-width:800px){#home .rise-home-shortcuts{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:360px){#home .rise-home-shortcuts{gap:9px}#home .rise-home-shortcuts .rise-area{min-height:132px}}
+
+/* Hotfix: Home shortcuts require their own positioning context. Without it,
+   .rise-area-cover escapes its card and paints over the entire Home on iOS. */
+html body #appShell #home .rise-home-shortcuts {
+ display:grid;
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:12px;
+ margin:12px 0 24px;
+ width:100%;
+ min-width:0;
+ position:relative;
+ isolation:isolate;
+ background:none;
+}
+html body #appShell #home .rise-home-shortcuts > .rise-area {
+ position:relative;
+ isolation:isolate;
+ display:flex;
+ flex-direction:column;
+ justify-content:flex-end;
+ align-items:stretch;
+ min-width:0;
+ min-height:188px;
+ height:auto;
+ overflow:hidden;
+ margin:0;
+ padding:0;
+ border:1px solid rgba(255,255,255,.13);
+ border-radius:18px;
+ background:#1e1e21;
+ text-align:left;
+ box-shadow:none;
+}
+html body #appShell #home .rise-home-shortcuts > .rise-area .rise-area-cover {
+ position:absolute;
+ inset:0;
+ width:100%;
+ height:100%;
+ object-fit:cover;
+ z-index:-2;
+ border-radius:0;
+ filter:saturate(.72) brightness(.68);
+ pointer-events:none;
+}
+html body #appShell #home .rise-home-shortcuts > .rise-area::after {
+ content:"";
+ position:absolute;
+ inset:0;
+ z-index:-1;
+ background:linear-gradient(0deg,rgba(16,16,20,.98) 0%,rgba(16,16,20,.72) 48%,rgba(16,16,20,.16) 100%);
+ pointer-events:none;
+}
+html body #appShell #home .rise-home-shortcuts > .rise-area .rise-area-copy {
+ display:block;
+ position:relative;
+ z-index:1;
+ padding:14px;
+ flex:initial;
+ min-width:0;
+}
+html body #appShell #home .rise-home-shortcuts > .rise-area .rise-area-copy b {
+ display:block;
+ margin:0;
+ color:#f2f0ed;
+ font-size:15px;
+ line-height:1.3;
+ font-weight:750;
+ overflow-wrap:anywhere;
+}
+html body #appShell #home .rise-home-shortcuts > .rise-area .rise-area-copy span {
+ display:block;
+ margin:6px 0 0;
+ color:#cbc9c7;
+ font-size:12px;
+ line-height:1.45;
+ overflow-wrap:anywhere;
+}
+html body #appShell #home .rise-home-shortcuts > .rise-area .rise-area-go {
+ position:absolute;
+ top:12px;
+ right:12px;
+ display:grid;
+ place-items:center;
+ width:30px;
+ height:30px;
+ border-radius:10px;
+ background:rgba(20,20,24,.75);
+ border:1px solid rgba(255,255,255,.19);
+ color:#f2f0ed;
+ z-index:2;
+ margin:0;
+}
+html body #appShell #home .rise-home-shortcuts > .rise-area--more {
+ background:#252429;
+ border:1px dashed rgba(205,191,255,.35);
+}
+html body #appShell #home .rise-home-shortcuts > .rise-area--more::after { display:none; }
+html body #appShell #home .rise-home-shortcuts > .rise-area:focus-visible { outline:3px solid var(--accent,#bca7fc);outline-offset:3px; }
+@media(min-width:800px){
+ html body #appShell #home .rise-home-shortcuts {grid-template-columns:repeat(3,minmax(0,1fr));}
+}
+@media(max-width:360px){
+ html body #appShell #home .rise-home-shortcuts {gap:9px;}
+ html body #appShell #home .rise-home-shortcuts > .rise-area {min-height:170px;}
+ html body #appShell #home .rise-home-shortcuts > .rise-area .rise-area-copy {padding:12px;}
+}

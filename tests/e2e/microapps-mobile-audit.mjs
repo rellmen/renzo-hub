@@ -41,6 +41,26 @@ for(const engine of [chromium,webkit]){
  await page.locator('#email').fill('demo@example.test');await page.locator('#password').fill('fake-test-password');
  await page.locator('#loginForm button[type=submit]').click();
  await page.locator('#authScreen').waitFor({state:'hidden'});
+ // Regresión: las portadas de accesos rápidos deben permanecer dentro de tarjetas,
+ // y la Home móvil debe tener una cuadrícula real (no imágenes sueltas gigantes).
+ current='home-shortcuts-390';
+ await page.setViewportSize({width:390,height:844});
+ await page.locator('#bottomNav [data-open="home"]').click();
+ const homeCards=await page.locator('#home .rise-home-shortcuts').evaluate(grid=>{
+  const cards=[...grid.querySelectorAll(':scope > .rise-area')];
+  const bounds=cards.map(el=>el.getBoundingClientRect());
+  const images=cards.filter(el=>el.querySelector('.rise-area-cover')).map(el=>({card:el.getBoundingClientRect(),image:el.querySelector('.rise-area-cover').getBoundingClientRect()}));
+  return {count:cards.length,columns:getComputedStyle(grid).gridTemplateColumns.split(' ').length,grid:grid.getBoundingClientRect(),bounds,images};
+ });
+ assert(homeCards.count>=4,'Home necesita al menos cuatro accesos');
+ assert.equal(homeCards.columns,2,'Home móvil debe disponer de dos columnas');
+ for(const rect of homeCards.bounds){
+  assert(rect.left>=homeCards.grid.left-2&&rect.right<=homeCards.grid.right+2,'Acceso fuera de cuadrícula');
+  assert(rect.width<=homeCards.grid.width/2+2,'Acceso ocupa más de una columna móvil');
+ }
+ for(const {card,image} of homeCards.images){
+  assert(image.left>=card.left-2&&image.top>=card.top-2&&image.right<=card.right+2&&image.bottom<=card.bottom+2,'Portada escapa fuera de su tarjeta');
+ }
  // La presentación y la búsqueda deben usar la navegación real en cualquier tamaño.
  for(const width of [320,390,768,1440]){
   current=`editorial-${width}`;
