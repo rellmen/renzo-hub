@@ -1,0 +1,39 @@
+name: React Nocturne — Typecheck (no release)
+
+on:
+  pull_request:
+    branches: [staging]
+    paths:
+      - "apps/rise-react/**"
+      - "tools/react-cutover-audit.mjs"
+      - ".github/workflows/react-nocturne.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  typecheck:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Node 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Install React source dependencies
+        working-directory: apps/rise-react
+        run: npm install --no-audit --no-fund --no-package-lock
+      - name: TypeScript check (includes migrated Ares, Projects and Home)
+        working-directory: apps/rise-react
+        run: ./node_modules/.bin/tsc --noEmit
+      - name: React release blocker report (informational)
+        run: node tools/react-cutover-audit.mjs
+
+# No production deployment or React build is triggered by this workflow.
+# Vite build remains intentionally gated on the seven original binary JPEG assets,
+# production data-service migrations, authenticated staging QA, and iPhone PWA QA.
