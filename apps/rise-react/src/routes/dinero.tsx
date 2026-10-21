@@ -1,102 +1,141 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-import { Info, Landmark, PiggyBank, ShoppingBag, TrendingUp } from "lucide-react";
+import {createFileRoute} from "@tanstack/react-router";
+import {useQuery} from "@tanstack/react-query";
+import {useEffect,useState} from "react";
+import {ArrowDownLeft,ArrowUpRight,Landmark,PiggyBank,RefreshCw,ShieldCheck,Wallet} from "lucide-react";
 import img from "@/assets/money.jpg";
-import { pageHead } from "@/lib/seo";
-import { PageHero } from "@/components/rise/PageHero";
-import { Bar, DemoDataBadge, SectionCard } from "@/components/rise/primitives";
-import { DuoArea } from "@/components/rise/charts";
+import {pageHead} from "@/lib/seo";
+import {PageHero} from "@/components/rise/PageHero";
+import {SectionCard,EmptyState,Bar} from "@/components/rise/primitives";
+import {useAuth} from "@/lib/auth/AuthProvider";
+import {loadRealMoney,moneyMonthView,type MoneySummary} from "@/lib/money-records.mjs";
 
-export const Route = createFileRoute("/dinero")({
-  head: () => pageHead("Money", "Capital con intención: balance de ejemplo, ingresos y gastos, categorías y metas de ahorro."),
-  component: Money,
+export const Route=createFileRoute("/dinero")({
+  head:()=>pageHead("Money","Ingresos, gastos y patrimonio conocidos a partir de tus registros financieros privados."),
+  component:Money,
 });
+const eur=new Intl.NumberFormat("es-ES",{style:"currency",currency:"EUR"});
+const euro=(v:number|null|undefined)=>v==null?"Sin datos":eur.format(v);
+function displayMonth(month:string){
+  const [y,m]=month.split("-").map(Number);
+  return new Intl.DateTimeFormat("es-ES",{month:"long",year:"numeric",timeZone:"UTC"}).format(new Date(Date.UTC(y!,m!-1,15)));
+}
+function BankSummary({data}:{data:MoneySummary}){
+  if(data.worth.total===null)return <div className="space-y-2">
+    <p className="font-display text-4xl text-gold-gradient">Sin saldo confirmado</p>
+    <p className="text-sm text-platinum/80">Importa un extracto que incluya saldo de cierre o registra tus valoraciones para ver patrimonio conocido.</p>
+  </div>;
+  return <div className="space-y-2">
+    <p className="text-xs text-platinum/75">Patrimonio conocido · no equivale al saldo disponible</p>
+    <p className="font-display text-5xl text-gold-gradient">{euro(data.worth.total)}</p>
+    <p className="text-xs text-platinum/75">Valor registrado de cuentas e inversiones menos deudas declaradas; puede estar incompleto.</p>
+  </div>;
+}
+function Money(){
+  const {client,user}=useAuth();
+  const uid=user?.id||"";
+  const [month,setMonth]=useState("");
+  const key=["money-real",uid];
+  const state=useQuery({queryKey:key,enabled:!!client&&!!uid,
+    queryFn:()=>loadRealMoney(client!,uid),staleTime:60_000,refetchOnWindowFocus:true});
+  useEffect(()=>{if(state.data&&!state.data.months.includes(month))setMonth(state.data.month||"");},[state.data,month]);
+  const data=state.data;
+  const view=data&&month?moneyMonthView(data,month):data?.monthSummary;
+  const categories=(view?.categories||[]).slice(0,6);
+  const largest=Math.max(1,...categories.map(c=>c.total));
+  return <div className="space-y-6">
+    <PageHero image={img} eyebrow="MY FINANCE · PRIVADO"
+      title="Capital con intención."
+      subtitle="Solo movimientos bancarios importados y valoraciones que has registrado. Sin cifras de demostración."
+      color="var(--money)" priority>
+      {data?<BankSummary data={data}/>:<p className="text-sm text-platinum/75">Consultando datos privados…</p>}
+    </PageHero>
 
-const PERIODS = {
-  "1S": { label: "1S", data: [["L", 120, 80], ["M", 0, 64], ["X", 340, 110], ["J", 0, 45], ["V", 90, 150], ["S", 0, 120], ["D", 0, 38]] },
-  "1M": { label: "1M", data: [["S1", 1150, 820], ["S2", 680, 910], ["S3", 1240, 760], ["S4", 720, 690]] },
-  "3M": { label: "3M", data: [["Ago", 3600, 2950], ["Sep", 3800, 3120], ["Oct", 3790, 3180]] },
-} as const;
-type P = keyof typeof PERIODS;
+    {state.error&&<p role="alert" className="surface border border-gym/40 p-4 text-sm text-gym">
+      No se pudieron cargar los movimientos bancarios: {state.error instanceof Error?state.error.message:"Error desconocido"}. No mostraremos balances ficticios.
+    </p>}
+    {state.isLoading&&<p role="status" className="surface p-5">Cargando información financiera privada…</p>}
 
-const CATS = [
-  { name: "Inversión", amount: 640, pct: 22, icon: TrendingUp, color: "var(--money)" },
-  { name: "Vivienda", amount: 1100, pct: 38, icon: Landmark, color: "var(--gold)" },
-  { name: "Estilo de vida", amount: 520, pct: 18, icon: ShoppingBag, color: "var(--gym)" },
-  { name: "Ahorro", amount: 380, pct: 13, icon: PiggyBank, color: "var(--ares)" },
-];
-const GOALS = [
-  { name: "Fondo de emergencia", cur: 4200, goal: 6000 },
-  { name: "Viaje formativo", cur: 900, goal: 2500 },
-  { name: "Equipo de trabajo", cur: 1350, goal: 1800 },
-];
-const eur = (n: number) => `€${n.toLocaleString("es-ES")}`;
-
-function Money() {
-  const [p, setP] = useState<P>("1M");
-  const data = PERIODS[p].data.map(([l, i, o]) => ({ l, in: i, out: o }));
-  const tin = data.reduce((a, d) => a + d.in, 0);
-  const tout = data.reduce((a, d) => a + d.out, 0);
-
-  return (
-    <div className="space-y-6">
-      <PageHero image={img} eyebrow="Money" title="Capital con intención." subtitle="Datos de muestra para explorar el diseño. Sin conexión bancaria." color="var(--money)" priority>
-        <div className="flex flex-wrap items-end gap-6">
-          <div>
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">Balance de ejemplo <DemoDataBadge /></div>
-            <div className="font-display text-5xl text-gold-gradient sm:text-6xl">€24.580</div>
-          </div>
+    {data&&<>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <p className="flex items-center gap-2 text-xs text-muted-foreground">
+          <ShieldCheck className="h-4 w-4 text-money"/> Origen: extractos y registros privados de RISE HUB
+        </p>
+        <button type="button" className="btn-ghost" disabled={state.isFetching}
+          onClick={()=>void state.refetch()}><RefreshCw className={"h-4 w-4 "+(state.isFetching?"animate-spin":"")}/> Actualizar datos</button>
+      </div>
+      {data.noRevolutStatement&&<p className="rounded-2xl border border-money/30 bg-money/[0.08] p-4 text-sm text-platinum/85">
+        No consta un extracto Revolut en estos registros. Si has operado con esa cuenta, los gastos y balances podrían estar incompletos.
+      </p>}
+      {data.worth.stale>0&&<p className="rounded-2xl border border-money/25 p-4 text-sm text-platinum/75">
+        Hay {data.worth.stale} saldo(s) o valoración(es) con más de 45 días de antigüedad. Verifica antes de tomar decisiones financieras.
+      </p>}
+      {!data.txCount&&<SectionCard eyebrow="Sin movimientos importados" title="Tu dinero, sin estimaciones">
+        <EmptyState icon={<Wallet className="h-5 w-5"/>} title="No hay movimientos bancarios"
+          text="Cuando importes movimientos desde las herramientas de RISE HUB, aquí aparecerá tu historial real. No se crearán transacciones de ejemplo."/>
+      </SectionCard>}
+      {data.txCount>0&&<>
+        <div className="grid gap-6 lg:grid-cols-[1.7fr_1fr]">
+          <SectionCard eyebrow={<span className="text-money">Flujo real</span>}
+            title="Ingresos y gastos" accent="var(--money)"
+            action={data.months.length>0?<label className="text-xs text-muted-foreground">
+              <span className="sr-only">Mes</span>
+              <select className="min-h-11 rounded-xl border border-hairline bg-obsidian px-3 text-sm text-foreground"
+                value={month||data.months[0]} onChange={e=>setMonth(e.target.value)}>
+                {data.months.map(m=><option key={m} value={m}>{displayMonth(m)}</option>)}
+              </select>
+            </label>:null}>
+            {view?<div className="space-y-5">
+              <dl className="grid grid-cols-3 gap-2">
+                <div className="rounded-xl border border-hairline p-3"><dt className="text-xs text-muted-foreground">Ingresos</dt><dd className="mt-2 break-words text-lg font-semibold text-money">{euro(view.earned)}</dd></div>
+                <div className="rounded-xl border border-hairline p-3"><dt className="text-xs text-muted-foreground">Gastos</dt><dd className="mt-2 break-words text-lg font-semibold text-gym">{euro(view.spent)}</dd></div>
+                <div className="rounded-xl border border-hairline p-3"><dt className="text-xs text-muted-foreground">Neto</dt><dd className="mt-2 break-words text-lg font-semibold">{euro(view.savings)}</dd></div>
+              </dl>
+              <p className="text-xs text-muted-foreground">{view.count} movimientos registrados · traspasos internos excluidos del flujo. {view.uncategorized?view.uncategorized+" sin categoría.":""}</p>
+              {categories.length>0&&<ul className="space-y-4">{categories.map(c=>
+                <li key={c.id} className="space-y-2">
+                  <div className="flex items-baseline justify-between gap-2 text-sm"><span>{c.name}</span><span className="tabular-nums">{euro(c.total)}</span></div>
+                  <Bar value={Math.max(0,Math.min(100,c.total/largest*100))} color="var(--money)"/>
+                </li>)}</ul>}
+              {!categories.length&&<p className="text-sm text-muted-foreground">No hay gastos categorizados para este mes.</p>}
+            </div>:<p className="text-sm text-muted-foreground">Sin movimientos para el periodo seleccionado.</p>}
+          </SectionCard>
+          <SectionCard eyebrow="Cuentas" title="Saldos importados" accent="var(--gold)">
+            {data.worth.accounts.length?<ul className="divide-y divide-hairline">
+              {data.worth.accounts.map(a=><li key={a.key} className="flex items-center justify-between gap-3 py-3">
+                <span className="flex min-w-0 items-center gap-2"><Landmark className="h-4 w-4 shrink-0 text-money"/><span className="truncate text-sm">{a.bank}</span></span>
+                <span className="text-right"><span className="block text-sm font-semibold tabular-nums">{euro(a.balance)}</span><span className="text-[10px] text-muted-foreground">{a.date}{a.stale?" · Antiguo":""}</span></span>
+              </li>)}
+            </ul>:<EmptyState icon={<Landmark className="h-5 w-5"/>} title="Sin saldo bancario"
+              text="Los movimientos sin saldo de cierre no permiten calcular un balance."/>}
+            {Object.entries(data.bankUpdatedThrough).length>0&&<p className="mt-4 text-xs text-muted-foreground">Último movimiento por banco: {Object.entries(data.bankUpdatedThrough).map(([bank,date])=>bank+" "+date).join(" · ")}</p>}
+          </SectionCard>
         </div>
-      </PageHero>
-
-      <div className="grid gap-6 lg:grid-cols-[1.7fr_1fr]">
-        <SectionCard eyebrow={<span className="text-money">Flujo</span>} title="Ingresos vs. gastos" accent="var(--money)"
-          action={
-            <div role="tablist" aria-label="Periodo" className="inline-flex rounded-full border border-hairline p-1">
-              {(Object.keys(PERIODS) as P[]).map((k) => (
-                <button key={k} role="tab" aria-selected={p === k} type="button" onClick={() => setP(k)} className={`h-9 min-w-11 rounded-full px-3 text-xs font-bold transition ${p === k ? "bg-gold-gradient text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}>{k}</button>
-              ))}
-            </div>
-          }>
-          <div className="mb-4 grid grid-cols-3 gap-3">
-            <div><div className="text-xs text-muted-foreground">Ingresos</div><div className="text-xl font-semibold text-money">{eur(tin)}</div></div>
-            <div><div className="text-xs text-muted-foreground">Gastos</div><div className="text-xl font-semibold text-gym">{eur(tout)}</div></div>
-            <div><div className="text-xs text-muted-foreground">Neto</div><div className="text-xl font-semibold">{eur(tin - tout)}</div></div>
-          </div>
-          <DuoArea key={p} data={data} height={240} />
+      </>}
+      <div className="grid gap-6 lg:grid-cols-2">
+        <SectionCard eyebrow="Patrimonio" title="Activos y deudas conocidos" accent="var(--money)">
+          <dl className="space-y-4">
+            {([
+              ["Efectivo bancario conocido",data.worth.accounts.length?euro(data.worth.cash):"Sin saldo"],
+              ["Inversiones declaradas",data.worth.investments.length?euro(data.worth.invested):"Sin valoraciones"],
+              ["Deudas declaradas",data.worth.debts.length?euro(data.worth.owed):"Sin valoraciones"]
+            ] as const).map(([name,value])=><div key={name} className="flex flex-wrap justify-between gap-3 border-b border-hairline pb-3">
+              <dt className="text-sm text-muted-foreground">{name}</dt><dd className="text-sm font-semibold">{value}</dd>
+            </div>)}
+          </dl>
+          <p className="mt-3 text-xs text-muted-foreground">No incluye automáticamente deuda, patrimonio ni cuentas que no hayas registrado.</p>
         </SectionCard>
-
-        <SectionCard eyebrow="Metas" title="Objetivos de ahorro" action={<DemoDataBadge />}>
-          <ul className="space-y-5">
-            {GOALS.map((g) => {
-              const pct = Math.round((g.cur / g.goal) * 100);
-              return (
-                <li key={g.name}>
-                  <div className="mb-2 flex items-baseline justify-between gap-2"><span className="text-sm">{g.name}</span><span className="text-xs text-muted-foreground">{eur(g.cur)} / {eur(g.goal)}</span></div>
-                  <Bar value={pct} color="var(--money)" />
-                  <div className="mt-1 text-right text-[0.68rem] text-money">{pct}%</div>
-                </li>
-              );
-            })}
-          </ul>
+        <SectionCard eyebrow="Objetivos registrados" title="Metas financieras" accent="var(--gold)">
+          {data.goals.length?<ul className="space-y-3">
+            {data.goals.map(goal=><li key={goal.id} className="rounded-xl border border-hairline bg-raised p-4">
+              <p className="font-medium">{goal.title}</p><p className="mt-1 text-xs text-muted-foreground">Tipo: {goal.type||"No identificado"} · Progreso pendiente de cálculo verificado</p>
+            </li>)}
+          </ul>:<EmptyState icon={<PiggyBank className="h-5 w-5"/>} title="Sin objetivos financieros registrados"
+              text="Los objetivos aparecerán cuando los guardes en RISE HUB."/>}
         </SectionCard>
       </div>
-
-      <section className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        {CATS.map((c) => (
-          <div key={c.name} className="surface rim p-5">
-            <div className="flex items-center justify-between">
-              <span className="grid h-10 w-10 place-items-center rounded-full" style={{ background: `color-mix(in oklab, ${c.color} 15%, transparent)`, color: c.color }}><c.icon className="h-4 w-4" /></span>
-              <span className="text-xs text-muted-foreground">{c.pct}%</span>
-            </div>
-            <div className="mt-4 text-sm text-muted-foreground">{c.name}</div>
-            <div className="font-display text-3xl">{eur(c.amount)}</div>
-            <div className="mt-3"><Bar value={c.pct * 2.5} color={c.color} /></div>
-          </div>
-        ))}
-      </section>
-
-      <p className="flex items-center gap-2 text-xs text-muted-foreground"><Info className="h-3.5 w-3.5" />Cifras ficticias. Este prototipo no se conecta a bancos ni muestra datos reales.</p>
-    </div>
-  );
+      <p className="flex items-start gap-2 text-xs text-muted-foreground">
+        <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0"/> Vista de consulta. Las importaciones, categorizaciones y ediciones financieras permanecen en la aplicación anterior hasta portar sus verificaciones y reglas de revisión.
+      </p>
+    </>}
+  </div>;
 }
