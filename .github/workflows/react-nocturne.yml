@@ -47,7 +47,7 @@ jobs:
       - name: React release blocker report (informational)
         run: node tools/react-cutover-audit.mjs
 
-# No production deployment or React build is triggered by this workflow.
+# No production deployment is triggered by this workflow; bundle output is test-only.
 # Test build uses short-lived fake assets and is NEVER used as a release artifact.
 # Release build remains blocked until ORIGINAL SHA-matched images, all real data
 # services and authenticated staging/iPhone QA have been verified.
