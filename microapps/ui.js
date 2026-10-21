@@ -12,8 +12,8 @@ export function headerHTML(appId, { eyebrow = "", actions = "" } = {}) {
   const m = findMicroapp(appId);
   if (!m) throw new Error(`Microapp no registrada: ${appId}`);
   const area = AREAS[m.area];
-  return `<button class="microapp-back" data-open="${esc(m.area)}">← ${esc(area.name)}</button>`
-    + `<div class="top"><div><div class="ey">${esc(eyebrow || area.name)}</div><h1>${esc(m.name)}</h1></div>${actions}</div>`
+  return `<button class="microapp-back rx-back" data-open="${esc(m.area)}">← ${esc(area.name)}</button>`
+    + `<header class="rx-module-header rx-real-module-header"><div class="rx-module-meta"><span class="rx-eyebrow">${esc(eyebrow || area.name)}</span><span class="rx-data-note">Datos de tu cuenta</span></div><div class="rx-module-title"><h1>${esc(m.name)}</h1>${actions}</div></header>`
     + areaTabsHTML(m.area, m.id);
 }
 

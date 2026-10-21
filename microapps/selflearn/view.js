@@ -82,16 +82,18 @@ export function mountSelfLearn({ root, getData, persist, today, xpView, currentM
       const openLevel = list.some(u => u.id === next.id);
       return `<details class="sl-level" ${openLevel ? "open" : ""}><summary><div><b>${esc(level.id)} · ${esc(level.name)}</b><small>${esc(level.goal)}</small></div><span class="sl-count">${level.done}/${level.total}</span><div class="sl-bar sl-bar-thin"><span style="width:${pct}%"></span></div></summary><div class="sl-units">${list.map((u, i) => { const isDone = done.has(u.id), isNext = u.id === next.id; return `<button class="sl-unit ${isDone ? "done" : ""} ${isNext ? "next" : ""}" data-sl="start" data-unit="${esc(u.id)}"><span class="sl-unit-icon" aria-hidden="true">${isDone ? "✓" : isNext ? "▶" : i + 1}</span><span class="sl-unit-copy"><b>${esc(u.title)}</b><small>${esc(u.topic)} · ${esc(u.goal)}</small></span><span class="sl-unit-go">${isDone ? "Repasar" : isNext ? "Siguiente" : "Abrir"}</span></button>`; }).join("")}</div><p class="sl-exam">${esc(level.exam)}</p></details>`;
     }).join("");
-    return `<div class="sl">
+    return `<div class="sl rx-learn">
+<header class="rx-learn-header"><span class="rx-eyebrow">APRENDIZAJE · IDIOMAS</span><h1>SelfLearn</h1><p>Tu ruta de neerlandés e inglés, con progreso guardado en tu cuenta.</p></header>
 <div class="sl-tabs" role="tablist" aria-label="Cursos">${tabs}</div>
-<div class="sl-hero"><div class="ey">SELFLEARN · ${esc(course.label.toUpperCase())}</div><h1>${course.flag} ${esc(course.name)} ${esc(course.levels[0].id)} → ${esc(course.levels[course.levels.length - 1].id)}</h1><p>${esc(course.tagline)}</p>
+<div class="sl-hero"><div class="ey">SELFLEARN · ${esc(course.label.toUpperCase())}</div><h2>${course.flag} ${esc(course.name)} ${esc(course.levels[0].id)} → ${esc(course.levels[course.levels.length - 1].id)}</h2><p>${esc(course.tagline)}</p>
 <div class="sl-stats"><div><strong>${st}</strong><small>días de racha</small></div><div><strong>${done.size}/${units.length}</strong><small>lecciones</small></div><div><strong>${known}</strong><small>palabras fijadas</small></div><div><strong>NV <b data-rise-level>${esc(xv.level)}</b></strong><small><b data-rise-xp>${esc(xv.xp)}</b> XP</small></div></div></div>
 ${resume}
 <div class="sl-next"><div class="ey">TU SIGUIENTE LECCIÓN · ${esc(next.level)} · ${esc(next.topic)}</div><h2>${esc(next.title)}</h2><p>${esc(next.goal)}</p><div class="sl-row"><button class="sl-primary" data-sl="start" data-unit="${esc(next.id)}">${run?.mode === "lesson" && run.unitId === next.id ? "Continuar lección" : "Empezar lección"} · ${cfg.sessionMinutes} min</button><button class="sl-secondary" data-sl="review" ${due ? "" : "disabled"}>🧠 Repaso · ${due} ${due === 1 ? "palabra" : "palabras"}</button></div>${currentMode() ? `<p class="sl-note">Hoy tienes turno configurado: un repaso corto también cuenta para la racha.</p>` : ""}</div>
 <div class="sl-card sl-quick"><h2>Sesión rápida · 5 minutos</h2><p class="sl-note">Una lección breve o un repaso pendiente. La duración real depende de tu ritmo.</p><div class="sl-row"><button class="sl-primary" type="button" data-sl="quick-start">Practicar ahora</button><button class="sl-secondary" type="button" data-sl="quick-review" ${due?"":"disabled"}>Repasar tarjetas (${due})</button></div></div>
 <div class="sl-section"><h2>Ruta del curso</h2><span>${done.size} de ${units.length} completadas</span></div>
 ${levelHtml}
-<details class="sl-panel" open><summary>⚙️ Mi ruta personalizada · gramática y pronunciación</summary>${settingsForm(c, cfg)}</details>
+<div class="rx-learn-extras"><span class="rx-eyebrow">TU APRENDIZAJE</span><h2>Herramientas y seguimiento</h2><p>Personaliza tu práctica o consulta el progreso por destrezas.</p></div>
+<details class="sl-panel"><summary>Mi ruta personalizada · gramática y pronunciación</summary>${settingsForm(c, cfg)}</details>
 <details class="sl-panel"><summary>🎯 Recomendaciones según errores y práctica registrada</summary>${learningNeedsView(c)}</details>
 <details class="sl-panel"><summary>📊 Evolución semanal por destrezas · últimas 6 semanas</summary>${skillProgressView(c)}</details>
 <details class="sl-panel"><summary>🧭 Diagnóstico inicial por destreza</summary>${diagnosticView(c)}</details>

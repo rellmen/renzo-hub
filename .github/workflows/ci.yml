@@ -37,7 +37,10 @@ jobs:
           node tests/e2e/smoke.mjs
           node tests/e2e/pwa-cache-install.mjs
       - name: E2E de Nóminas (datos ficticios, Chromium y WebKit)
+        env:
+          EDITORIAL_SCREENSHOTS: artifacts/ui-vnext
         run: |
+          mkdir -p artifacts/ui-vnext
           node tests/e2e/payroll.mjs
           node tests/e2e/finance-income.mjs
           node tests/e2e/finance-complete.mjs
@@ -50,6 +53,14 @@ jobs:
           node tests/e2e/gym-lovable.mjs
           node tests/e2e/food-skin.mjs
           BROWSER=webkit node tests/e2e/gym-symmetry.mjs
+      - name: Capturas UI vNext (datos simulados, para revisión)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui-vnext-screenshots
+          path: artifacts/ui-vnext/
+          retention-days: 7
+          if-no-files-found: ignore
 
   db-migrations:
     # Réplica local PostgreSQL 17 con los privilegios reales de producción (sin conectar a Supabase).

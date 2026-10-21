@@ -28,7 +28,7 @@ try{
    const {mountWorld}=await import("/world.js");
    const root=document.createElement("div");root.id="study";document.body.append(root);
    const app=mountWorld({study:root},()=>({id:USER}),window.__fakeSupabase);
-   await app.load();window.__selflearn={app,root};return root.querySelector("h1")?.textContent;
+   await app.load();window.__selflearn={app,root};return root.querySelector(".sl-hero h2")?.textContent;
   };
   // Responde correctamente al paso actual leyendo la lección guardada (la misma que ve el usuario).
   window.__answer=async(course="nl",wrong=false)=>{
@@ -101,7 +101,7 @@ try{
  console.log("OK: cambiar de curso no reenvía registros sin cambios");
 
  // Curso de inglés: preferencias propias y sesión guardada por separado.
- const en=await page.evaluate(()=>document.querySelector("#study h1").textContent);
+ const en=await page.evaluate(()=>document.querySelector("#study .sl-hero h2").textContent);
  assert.match(en,/English B1 → C2/);
  await page.evaluate(()=>{const f=document.querySelector('form[data-sl-form="settings"]');f.startingLevel.value="B2";f.sessionMinutes.value="5";f.requestSubmit();});
  await page.waitForFunction(()=>document.querySelector(".sl-next .ey")?.textContent.includes("B2"));

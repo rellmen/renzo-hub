@@ -40,7 +40,7 @@ export const MICROAPPS = Object.freeze([
   { id: "food", name: "Food", area: "body", fullscreen: true },
   { id: "settings", name: "Cuenta y sincronización", area: "system", fullscreen: true },
   { id: "ares-center", name: "Ares AI", area: "home", module: "/microapps/ares-center/ares.js", mount: "mountAresCenter", css: "/microapps/ares-center/ares.css", fullscreen: true, icon: "◈" },
-  { id: "notes", name: "Notas", area: "home", module: "/microapps/notes/notes.js", mount: "mountNotes", icon: "✎", cover: "/assets/rise/area-productivity-v1.webp", home: "Apuntes rápidos, guardados en privado." },
+  { id: "notes", name: "Notas", area: "more", module: "/microapps/notes/notes.js", mount: "mountNotes", icon: "✎", cover: "/assets/rise/area-productivity-v1.webp", home: "Apuntes rápidos, guardados en privado." },
   { id: "gastos", name: "Gastos", area: "money", module: "/microapps/gastos/gastos.js", mount: "mountGastos", css: "/microapps/gastos/gastos.css", tab: "Gastos" }
 ].map(Object.freeze));
 

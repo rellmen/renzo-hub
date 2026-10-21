@@ -69,7 +69,7 @@ for(const engine of [chromium,webkit]){
  // Ir a otra sección desde la barra cierra Ares y abre la sección.
  await openFromNav();await page.locator('#bottomNav [data-open="more"]').click();await isClosed('barra → Más');
  await page.locator('#more.page.active').waitFor();
- await page.getByRole('button', { name: /Work Operaciones y productividad/ }).click();
+ await page.locator('#more .rx-area-link[data-open="work"]').click();
  await page.locator('#work.page.active').waitFor();
  // ✕, Escape y atrás del navegador siguen funcionando.
  await openFromNav();await page.getByRole('button',{name:'Cerrar Ares AI',exact:true}).click();await isClosed('✕');

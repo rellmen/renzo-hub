@@ -1,0 +1,172 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "name": "RISE HUB vNext — dark editorial",
+  "meta": {
+    "status": "design-proposal-only",
+    "target": "Lovable prototype and future vanilla JS components",
+    "releaseGate": "Visual approval and real-data regression tests required"
+  },
+  "color": {
+    "background": {
+      "value": "#101014",
+      "type": "color"
+    },
+    "surface": {
+      "value": "#1A1A21",
+      "type": "color"
+    },
+    "elevated": {
+      "value": "#25252D",
+      "type": "color"
+    },
+    "border": {
+      "value": "#34343D",
+      "type": "color"
+    },
+    "text": {
+      "value": "#F5F3F1",
+      "type": "color"
+    },
+    "textMuted": {
+      "value": "#AFACB5",
+      "type": "color"
+    },
+    "accent": {
+      "value": "#B49AF5",
+      "type": "color"
+    },
+    "accentText": {
+      "value": "#19131F",
+      "type": "color"
+    },
+    "focus": {
+      "value": "#D4C4FF",
+      "type": "color"
+    },
+    "success": {
+      "value": "#7EC5A3",
+      "type": "color"
+    },
+    "warning": {
+      "value": "#E6C180",
+      "type": "color"
+    },
+    "danger": {
+      "value": "#E08E97",
+      "type": "color"
+    }
+  },
+  "font": {
+    "family": {
+      "value": "Manrope, system-ui, sans-serif",
+      "type": "fontFamily"
+    },
+    "body": {
+      "value": "16px",
+      "type": "dimension"
+    },
+    "small": {
+      "value": "14px",
+      "type": "dimension"
+    },
+    "micro": {
+      "value": "12px",
+      "type": "dimension"
+    },
+    "title": {
+      "value": "28px",
+      "type": "dimension"
+    },
+    "heading": {
+      "value": "22px",
+      "type": "dimension"
+    },
+    "lineHeight": {
+      "value": 1.5,
+      "type": "number"
+    }
+  },
+  "space": {
+    "1": {
+      "value": "4px",
+      "type": "dimension"
+    },
+    "2": {
+      "value": "8px",
+      "type": "dimension"
+    },
+    "3": {
+      "value": "12px",
+      "type": "dimension"
+    },
+    "4": {
+      "value": "16px",
+      "type": "dimension"
+    },
+    "5": {
+      "value": "20px",
+      "type": "dimension"
+    },
+    "6": {
+      "value": "24px",
+      "type": "dimension"
+    },
+    "8": {
+      "value": "32px",
+      "type": "dimension"
+    },
+    "10": {
+      "value": "40px",
+      "type": "dimension"
+    }
+  },
+  "radius": {
+    "sm": {
+      "value": "12px",
+      "type": "dimension"
+    },
+    "md": {
+      "value": "16px",
+      "type": "dimension"
+    },
+    "lg": {
+      "value": "20px",
+      "type": "dimension"
+    }
+  },
+  "touch": {
+    "minimum": {
+      "value": "44px",
+      "type": "dimension"
+    },
+    "primary": {
+      "value": "48px",
+      "type": "dimension"
+    }
+  },
+  "layout": {
+    "mobileGutter": {
+      "value": "16px",
+      "type": "dimension"
+    },
+    "desktopMax": {
+      "value": "1120px",
+      "type": "dimension"
+    },
+    "bottomSafeArea": {
+      "value": "env(safe-area-inset-bottom)",
+      "type": "string"
+    }
+  },
+  "motion": {
+    "durationFast": {
+      "value": "150ms",
+      "type": "duration"
+    },
+    "durationNormal": {
+      "value": "200ms",
+      "type": "duration"
+    },
+    "reducedMotion": "none"
+  }
+}
