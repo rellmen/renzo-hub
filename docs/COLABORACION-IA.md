@@ -102,3 +102,7 @@ Renzo pidió a Claude validar, arreglar y publicar el #94 (rama de ChatGPT). Cam
 - `supabase/migrations/20261019030000_selflearn_tutor_quota.sql` → `supabase/pending/` + `.rollback.sql`, porque no está aplicada (por eso fallaba `tests/backup.test.mjs`). `tests/selflearn-ai-quota.test.mjs` apunta a `pending/`.
 - Para activar el tutor IA hace falta, en este orden: aplicar la migración en staging con OK de Renzo, poner las variables solo en preview y probar. En producción sigue apagado por código (`VERCEL_ENV==="preview"`).
 - Versión 2.49.0 y `RENZO-HUB-CURRENT.md`.
+
+## ChatGPT · 21 oct · Nocturne Ascendancy (desarrollo aislado UI)
+
+Rama `feature/nocturne-ascendancy-ui` desde `staging`. ChatGPT creó `assets/nocturne-ascendancy.css` (paleta obsidiana/borgoña/violeta/platino/oro, shell, navegación, portada, tarjetas y estilos internos de Ares/Finance/Gym/SelfLearn/Skin/Food/Body), conectó la hoja en `index.html` y preparó tests + contrato visual. **Solo presentación, sin tocar lógica o Supabase.** Para no pisar al dueño de integración, no cambió `sw.js`, `release.json`, ni `RENZO-HUB-CURRENT.md`; antes de merge deben añadirse el nuevo CSS a la caché offline, renovarse la versión y pasar QA visual 320–1440 px y en iPhone. PR draft hacia `staging`; no despliegue a producción. Ver `docs/NOCTURNE-ASCENDANCY-IMPLEMENTATION.md`.
