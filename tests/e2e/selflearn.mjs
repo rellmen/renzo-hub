@@ -101,7 +101,7 @@ try{
  console.log("OK: cambiar de curso no reenvía registros sin cambios");
 
  // Curso de inglés: preferencias propias y sesión guardada por separado.
- const en=await page.evaluate(()=>document.querySelector("#study h1").textContent);
+ const en=await page.evaluate(()=>document.querySelector("#study .sl-hero h2").textContent);
  assert.match(en,/English B1 → C2/);
  await page.evaluate(()=>{const f=document.querySelector('form[data-sl-form="settings"]');f.startingLevel.value="B2";f.sessionMinutes.value="5";f.requestSubmit();});
  await page.waitForFunction(()=>document.querySelector(".sl-next .ey")?.textContent.includes("B2"));
