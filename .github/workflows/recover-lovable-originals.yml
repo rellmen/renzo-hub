@@ -1,0 +1,65 @@
+name: Recover verified Lovable original images (single run)
+
+on:
+  push:
+    branches: ["feature/react-nocturne-real-projects"]
+    paths: [".github/workflows/recover-lovable-originals.yml"]
+
+permissions:
+  contents: write
+
+jobs:
+  recover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Fetch exact Lovable original images (fail closed if preview isn't public)
+        shell: bash
+        env:
+          LOVABLE_PREVIEW: https://id-preview--ca43e152-f7c7-4c8e-b925-01476b9053da.lovable.app
+        run: |
+          set -Eeuo pipefail
+          mkdir -p apps/rise-react/src/assets
+          for name in ares gym hero-eclipse learn money projects skin; do
+            target="apps/rise-react/src/assets/${name}.jpg"
+            if [ -f "$target" ]; then
+              echo "Present: $target"
+              continue
+            fi
+            ok=0
+            for candidate in "/src/assets/${name}.jpg" "/assets/${name}.jpg"; do
+              if curl --fail --location --silent --show-error --max-time 20 \
+                --output "$target" "${LOVABLE_PREVIEW}${candidate}"; then
+                ok=1
+                break
+              fi
+            done
+            if [ "$ok" -ne 1 ]; then
+              echo "::error::Lovable preview doesn't expose ${name}.jpg; no import will be committed."
+              exit 1
+            fi
+          done
+          cat > /tmp/lovable-user-zip.sha256 <<'END_HASHES'
+64966f0a2c006b41b108d931cb94e112e78ac612498fc46fdcfc1b6b5da22b6c  apps/rise-react/src/assets/ares.jpg
+3e40a74c352e2e27034019b9f49aa48143d93f8d004c7da94ebf4d61e5843a7f  apps/rise-react/src/assets/gym.jpg
+0a30afaadc541981bd629723c5218c851b4f46c535f38f6ffb2c9ae7eee9b01f  apps/rise-react/src/assets/hero-eclipse.jpg
+82f35b9c7a262b5aa74b56805c6daa1b97ab05220bc3509aa55552a7cab18110  apps/rise-react/src/assets/learn.jpg
+b93aa8e4b802e6a69d0c64b8711f2d2da6ddd698163bd6e5320498a4189b773a  apps/rise-react/src/assets/money.jpg
+5b252f641b7fd10c0fc3da6c1804bb4b6afed2fbfac716289a6bf2b534d803d1  apps/rise-react/src/assets/projects.jpg
+fde9d6d7235e5c9e15a2b82281611f93cf7406f52c9141c3d1944c2b0b830e55  apps/rise-react/src/assets/skin.jpg
+END_HASHES
+          # User-provided ZIP SHA-256 digests. Refuse any mismatched, substituted or transformed image.
+          sha256sum --check /tmp/lovable-user-zip.sha256
+      - name: Commit ONLY verified exact original JPEG files to feature branch
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- apps/rise-react/src/assets/ares.jpg apps/rise-react/src/assets/gym.jpg apps/rise-react/src/assets/hero-eclipse.jpg apps/rise-react/src/assets/learn.jpg apps/rise-react/src/assets/money.jpg apps/rise-react/src/assets/projects.jpg apps/rise-react/src/assets/skin.jpg
+          git diff --cached --quiet && exit 0
+          git commit -m "[chatgpt] assets: import all seven byte-identical original Lovable photos"
+          git push origin "HEAD:refs/heads/feature/react-nocturne-real-projects"
