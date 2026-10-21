@@ -41,26 +41,31 @@ for(const engine of [chromium,webkit]){
  await page.locator('#email').fill('demo@example.test');await page.locator('#password').fill('fake-test-password');
  await page.locator('#loginForm button[type=submit]').click();
  await page.locator('#authScreen').waitFor({state:'hidden'});
- // Regresión: las portadas de accesos rápidos deben permanecer dentro de tarjetas,
- // y la Home móvil debe tener una cuadrícula real (no imágenes sueltas gigantes).
- current='home-shortcuts-390';
+ // vNext regression: Home uses compact, contained, single-column mobile rows.
+ // No cover images, overlays, or elements outside the viewport.
+ current='home-vnext-390';
  await page.setViewportSize({width:390,height:844});
  await page.locator('#bottomNav [data-open="home"]').click();
- const homeCards=await page.locator('#home .rise-home-shortcuts').evaluate(grid=>{
-  const cards=[...grid.querySelectorAll(':scope > .rise-area')];
+ const homeCards=await page.locator('#home .rx-area-grid').evaluate(grid=>{
+  const cards=[...grid.querySelectorAll(':scope > .rx-area-link')];
   const bounds=cards.map(el=>el.getBoundingClientRect());
-  const images=cards.filter(el=>el.querySelector('.rise-area-cover')).map(el=>({card:el.getBoundingClientRect(),image:el.querySelector('.rise-area-cover').getBoundingClientRect()}));
-  return {count:cards.length,columns:getComputedStyle(grid).gridTemplateColumns.split(' ').length,grid:grid.getBoundingClientRect(),bounds,images};
+  const styles=cards.map(el=>getComputedStyle(el));
+  const box=grid.getBoundingClientRect();
+  const nav=document.getElementById('bottomNav').getBoundingClientRect();
+  return {count:cards.length,columns:getComputedStyle(grid).gridTemplateColumns.split(' ').length,box,bounds,
+   backgrounds:styles.map(x=>x.backgroundImage),positions:styles.map(x=>x.position),nav,scrollWidth:document.documentElement.scrollWidth};
  });
- assert(homeCards.count>=4,'Home necesita al menos cuatro accesos');
- assert.equal(homeCards.columns,2,'Home móvil debe disponer de dos columnas');
- for(const rect of homeCards.bounds){
-  assert(rect.left>=homeCards.grid.left-2&&rect.right<=homeCards.grid.right+2,'Acceso fuera de cuadrícula');
-  assert(rect.width<=homeCards.grid.width/2+2,'Acceso ocupa más de una columna móvil');
+ assert.equal(homeCards.count,6,'Home vNext: deben existir las seis áreas principales');
+ assert.equal(homeCards.columns,1,'Home móvil vNext debe ser una lista legible de una columna');
+ assert(homeCards.scrollWidth<=390,'Home tiene scroll horizontal');
+ for(let i=0;i<homeCards.bounds.length;i++){
+  const rect=homeCards.bounds[i];
+  assert(rect.left>=homeCards.box.left-2 && rect.right<=homeCards.box.right+2,'Tarjeta de Home fuera de cuadrícula');
+  assert(rect.height>=70,'Tarjeta de Home demasiado pequeña');
+  assert(homeCards.backgrounds[i]==='none','No usar portadas de fondo invasivas en Home');
+  assert(rect.width>300,'La tarjeta no aprovecha el ancho móvil');
  }
- for(const {card,image} of homeCards.images){
-  assert(image.left>=card.left-2&&image.top>=card.top-2&&image.right<=card.right+2&&image.bottom<=card.bottom+2,'Portada escapa fuera de su tarjeta');
- }
+ assert(homeCards.nav.height<98,'La navegación móvil tapa demasiado contenido');
  // La presentación y la búsqueda deben usar la navegación real en cualquier tamaño.
  for(const width of [320,390,768,1440]){
   current=`editorial-${width}`;
