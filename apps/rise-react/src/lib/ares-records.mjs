@@ -35,7 +35,7 @@ export function answerAresFromRecords(question,summary){
       summary.projects.length?"\n"+summary.projects.slice(0,8).map((x,i)=>String(i+1)+". "+short(x.title)+" — "+short(x.status,36)).join("\n"):
       "\nNo hay proyectos abiertos en los registros consultados."
     )+extra;
-  if(/tarea|pendiente|trabajo|planific|semana|agenda/.test(q))
+  if(/tarea|trabajo|planific|semana|agenda/.test(q))
     return "Tareas abiertas registradas: "+summary.tasks.length+"."+(
       summary.tasks.length?"\n"+summary.tasks.slice(0,8).map((x,i)=>String(i+1)+". "+short(x.title)+" — "+short(x.payload?.status||x.status,36)).join("\n"):
       "\nNo hay tareas abiertas en los registros consultados."
