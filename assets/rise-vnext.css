@@ -258,3 +258,60 @@ html body #appShell .rx-real-screen-head .rx-subtle-date{margin:8px 0 0;font-siz
 html body #appShell #body .body-editorial-kicker{margin:20px 0 12px}
 html body #appShell #body .body-editorial-label{margin:26px 0 14px}
 html body #appShell #skin .care-eyebrow,html body #appShell #food .care-eyebrow{font-size:11px;color:var(--muted)}
+
+
+/* vNext mobile polish: ARES remains reachable inside fullscreen microapps,
+   but no longer covers form fields as a wide floating pill. */
+@media(max-width:650px){
+ html body.microapp-open .ares-fab:not([hidden]){
+  position:fixed;
+  right:12px;
+  bottom:calc(12px + env(safe-area-inset-bottom));
+  width:52px;
+  min-width:52px;
+  max-width:52px;
+  height:52px;
+  min-height:52px;
+  padding:0;
+  overflow:hidden;
+  white-space:nowrap;
+  text-indent:-9999px;
+  border-radius:16px;
+  border:1px solid rgba(180,154,245,.45);
+  background:#282331;
+  box-shadow:0 8px 24px rgba(0,0,0,.27);
+  color:var(--accent);
+ }
+ html body.microapp-open .ares-fab:not([hidden])::before{
+  content:"✦";
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  font-size:25px;
+  font-weight:600;
+  text-indent:0;
+  line-height:1;
+ }
+ html body.microapp-open #appShell.shell{
+  padding-bottom:calc(88px + env(safe-area-inset-bottom));
+ }
+}
+html body #appShell #gym .rank[data-rise-rank]{
+ min-width:56px;
+ max-width:76px;
+ width:auto;
+ height:44px;
+ padding:4px 11px;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ border:1px solid var(--line);
+ border-radius:12px;
+ color:var(--accent);
+ background:var(--card2);
+ font-size:17px;
+ font-weight:750;
+ box-shadow:none;
+ flex-shrink:0;
+}
