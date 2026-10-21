@@ -46,7 +46,7 @@ Lovable tiene pantallas con estado efímero y métricas de demo. No tiene permis
 7. **Porting controlado**: subcomponentes reales; pruebas de regresión de persistencia/auth/RLS/finanzas; preview en Vercel, aprobación visual, solo entonces publicar.
 
 ### Gate de publicación
-Bloquear release si falta evidencia visual a 390 px iPhone, si un elemento invade otro, hay scroll lateral, la barra tapa controles, una microapp queda como placeholder, se rompe guardar/cargar, se presenta mock como dato real o CI está rojo. Toda entrega debe registrar cambios, fotos de antes/después y SHA de posible rollback.
+Bloquear release si falta evidencia visual a 390 px iPhone, si un elemento invade otro, hay scroll lateral, la barra tapa controles, una microapp queda como placeholder, se rompe guardar/cargar, se presenta mock como dato real o CI está rojo. **Verificar PWA instalada en iPhone**: versión de `sw.js`, actualización del cache offline, recarga fría y cambio de versión tras nuevo despliegue. El hecho de que Vercel marque `READY` no prueba que la PWA sirva los archivos CSS/JS nuevos. Toda entrega debe registrar cambios, fotos de antes/después y SHA de posible rollback.
 
 ## Referencias de trabajo
 - Lovable: proyecto `8698f153-f1ae-4d00-92fd-7ed2eb6718f2` (Renzo Sandbox), solo prototipo.
