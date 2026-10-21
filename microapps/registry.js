@@ -22,7 +22,8 @@
 //   home        texto de su tarjeta en Home (Áreas); icon = carácter de la tarjeta; cover = portada opcional (/assets/…)
 
 export const AREAS = Object.freeze({
-  home:   { name: "Home" },
+  home:   { name: "Hoy" },
+  more:   { name: "Más" },
   body:   { name: "Body" },
   study:  { name: "SelfLearn" },
   work:   { name: "Work" },
