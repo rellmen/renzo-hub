@@ -349,3 +349,210 @@ html #appShell #ares-center :where(.card,.hero) { border-color: rgba(190,167,239
   html #home .rise-home-shortcuts .rise-area .rise-area-cover,
   html #home .rise-hero .home-cta { transition: none; transform: none; }
 }
+
+
+/* ── V1 module interiors: reuse the real markup, controls and state. ── */
+
+/* Imperial Intelligence: Ares Center */
+html body #ares-center .cc-header {
+  background: linear-gradient(115deg, #2c1c36 0%, #1a1829 74%);
+  border: 1px solid rgba(190,167,239,.35);
+  border-radius: 20px;
+  box-shadow: inset 0 1px rgba(255,255,255,.05);
+}
+html body #ares-center .cc-header::after { opacity: .28; }
+html body #ares-center .cc-overline { color: #d3b8f4; letter-spacing: .16em; }
+html body #ares-center .cc-header h1 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 500;
+  letter-spacing: -.025em;
+  color: #f5eaff;
+}
+html body #ares-center .cc-metric {
+  background: linear-gradient(155deg,#292033,#201c2c);
+  border: 1px solid rgba(183,154,236,.23);
+  border-radius: 16px;
+}
+html body #ares-center .cc-metric strong { color: #eee1ff; }
+html body #ares-center .cc-panel { background: #1c1926; border: 1px solid rgba(195,168,234,.2); border-radius: 18px; }
+html body #ares-center .cc-panel-head h2 { font-weight: 750; letter-spacing: -.02em; }
+html body #ares-center .cc-feed li { border-bottom-color: rgba(220,207,244,.10); }
+html body #ares-center .cc-launch { border: 1px solid rgba(185,150,238,.30); border-radius: 15px; }
+
+/* Obsidian Wealth: avoid changing monetary semantics and calculations. */
+html body #money .fx-hero {
+  background: radial-gradient(ellipse at 92% -10%,rgba(198,161,108,.21),transparent 52%),
+    linear-gradient(145deg,#2b221e,#19191f 72%);
+  border: 1px solid rgba(198,161,108,.33);
+  border-radius: 20px;
+}
+html body #money .fx-big {
+  color: #f5e6cd;
+  letter-spacing: -.04em;
+  font-variant-numeric: tabular-nums;
+}
+html body #money .fx-meter { background: #393129; border-radius: 999px; }
+html body #money .fx-meter i { background: linear-gradient(90deg,#987341,#dfc18d); }
+html body #money :where(.fx-row,.fx-alert,.fx-fixed-row) {
+  border-color: rgba(198,161,108,.14);
+}
+html body #money .fx-row-icon { background: #3a2a26; color: #edd4a9; }
+html body :is(#money,#payroll,#gastos) .fin-tabs {
+  background: #262029;
+  border: 1px solid rgba(198,161,108,.22);
+  border-radius: 13px;
+}
+html body :is(#money,#payroll,#gastos) .fin-tabs button[aria-current="page"] {
+  background: rgba(198,161,108,.15);
+  color: #f5dcaf;
+  box-shadow: inset 0 -2px #c6a16c;
+}
+html body #money :where(.fx-split dd,.fx-row-total) { font-variant-numeric: tabular-nums; }
+html body #money .fx-hero--neg .fx-meter i { background: var(--danger); }
+
+/* Crimson Protocol: muscular progression without arcade UI. */
+html body #gym .gymhero {
+  background: radial-gradient(ellipse at 90% 0%,rgba(155,65,91,.27),transparent 61%),
+    linear-gradient(135deg,#291d28,#18171e);
+  border: 1px solid rgba(223,147,158,.32);
+  border-radius: 20px;
+}
+html body #gym .gymhero h2 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(24px,3vw,34px);
+  font-weight: 500;
+  color: #f6e3eb;
+}
+html body #gym .gymhero .quick > div {
+  background: rgba(115,48,65,.19);
+  border: 1px solid rgba(217,127,147,.2);
+  border-radius: 13px;
+}
+html body #gym .gymtabs .switch.selected,
+html body #gym .gymtabs .switch[aria-current="page"] {
+  background: #58313f;
+  border-color: #ca8196;
+  color: #ffe1e8;
+}
+html body #gym .gym-target {
+  border-color: rgba(223,147,158,.3);
+  background: rgba(110,52,69,.15);
+}
+html body #gym .setrow:has(input[type=checkbox]:checked) {
+  border-color: rgba(223,147,158,.22);
+}
+html body #gym :where(.gym-rest,.gym-sheet) {
+  background: #231c27;
+  border-color: rgba(223,147,158,.27);
+}
+html body #gym .gym-rest-time { color: #f4c1ce; }
+
+/* Emerald Academy: calm concentration for Dutch and English only. */
+html body #study .sl-hero {
+  background: radial-gradient(ellipse at 89% 5%,rgba(100,176,140,.18),transparent 62%),
+    linear-gradient(135deg,#1c302c,#182021);
+  border: 1px solid rgba(148,204,178,.35);
+  border-radius: 20px;
+}
+html body #study .sl h1 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 500;
+  color: #eaf5ef;
+  letter-spacing: -.03em;
+}
+html body #study .sl-stats > div {
+  background: #202e2a;
+  border: 1px solid rgba(148,204,178,.22);
+  border-radius: 15px;
+}
+html body #study .sl-stats strong { color: #d5f2e1; }
+html body #study .sl-tab.on {
+  background: #29473c;
+  border-color: rgba(148,204,178,.48);
+  color: #e6fff0;
+}
+html body #study .sl-unit.next {
+  background: #25382f;
+  border-color: rgba(148,204,178,.49);
+  box-shadow: inset 3px 0 #94ccb2;
+}
+html body #study .sl-unit.done { opacity: .82; }
+html body #study .sl-bar { background: #304139; }
+html body #study .sl-bar span { background: linear-gradient(90deg,#658f7a,#9ed9ba); }
+
+/* Rose Quartz Atelier: softly differentiated steps and true completion states. */
+html body #skin .care-intro {
+  background: linear-gradient(140deg,#372536,#211d28);
+  border: 1px solid rgba(217,178,208,.24);
+  border-radius: 17px;
+}
+html body #skin .skin-daily-panel {
+  background: radial-gradient(ellipse at 94% 0%,rgba(190,113,166,.13),transparent 65%),#211b26;
+}
+html body #skin .skin-seg {
+  background: #2c2230;
+  border: 1px solid rgba(217,178,208,.18);
+}
+html body #skin .skin-seg-btn[aria-pressed="true"] {
+  background: #5a3954;
+  border-color: rgba(244,211,234,.38);
+  color: #f9e9f6;
+}
+html body #skin #steps .step {
+  background: #211b26;
+  border-color: rgba(217,178,208,.17);
+}
+html body #skin #steps .step.done {
+  border-color: rgba(217,178,208,.28);
+  background: #2c2330;
+}
+html body #skin #steps .step .check.done {
+  background: #d9b2d0;
+  color: #241526;
+  border-color: #d9b2d0;
+}
+html body #skin .skin-finished { border-color: rgba(217,178,208,.4); }
+
+/* Sandstone Balance: warmth without confusing intake values. */
+html body #food .food-today {
+  background: radial-gradient(circle at 90% 0%,rgba(225,190,148,.14),transparent 60%),#272021;
+  border: 1px solid rgba(225,190,148,.27);
+  border-radius: 18px;
+}
+html body #food .food-today-head h2 { font-family: Georgia,"Times New Roman",serif; font-weight: 500; }
+html body #food .food-bar { background: #44352f; border-radius: 999px; }
+html body #food .food-bar i { background: linear-gradient(90deg,#b4855b,#e1be94); }
+html body #food .food-meal input:checked + span {
+  background: #604935;
+  border-color: #e1be94;
+  color: #fff1df;
+}
+html body #food .food-group { border-color: rgba(225,190,148,.16); }
+
+/* Platinum Command: clear, precise section cards for projects & Body. */
+html body #body .body-today {
+  background: linear-gradient(145deg,#222128,#1b1b24);
+  border: 1px solid rgba(197,201,212,.19);
+  border-radius: 18px;
+}
+html body #body .body-mod {
+  background: linear-gradient(140deg,#26212c,#1b1920);
+  border: 1px solid rgba(197,201,212,.17);
+  border-radius: 16px;
+}
+html body #body .body-mod:hover { border-color: rgba(198,161,108,.48); }
+html body #body .body-mod-ic {
+  background: rgba(97,73,166,.21);
+  border: 1px solid rgba(197,201,212,.14);
+}
+html body #body .body-w-value, html body #body .body-mod-tx strong { font-variant-numeric: tabular-nums; }
+
+/* Universal accessibility: selected state remains visible without color alone. */
+html #appShell :where(button[aria-pressed="true"],button[aria-current="page"]) {
+  text-decoration-thickness: 2px;
+}
+@media (max-width: 390px) {
+  html body #ares-center :where(.cc-grid,.cc-columns) { min-width: 0; }
+  html body #study :where(.sl-hero,.sl-next,.sl-unit) { min-width: 0; }
+  html body #money :where(.fx-hero,.fx-row) { min-width: 0; }
+}
