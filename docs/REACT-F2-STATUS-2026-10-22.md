@@ -37,3 +37,12 @@ La UI React aprobada **permanece**: fotos y sistema visual Cormorant/Manrope, sh
 - [ ] Una vez todo verificado, aprobar y fusionar por el flujo `feature → staging → main` con rollback listo.
 
 **Estado real:** implementación React parcial, no publicada. Está prohibido cortar a producción antes de resolver los gates. El prototipo Lovable no es una fuente de datos del usuario.
+
+
+## Actualización de integración Skin e imágenes originales
+
+- **Skin React** ahora lee la rutina **original** (19 productos de `microapps/skin/skin.js`), conservando los índices de cada sesión AM/PM, incluyendo la noche de retinal programada originalmente el **viernes** y la fase de reparación de barrera. El componente permite marcar pasos, guardar observaciones personales y consultar el progreso real de siete días usando `skin_routine_logs`, `skin_notes` y `user_settings`, con RLS. El inventario se presenta en **solo lectura** para evitar conflictos con ajustes compartidos; las fotografías privadas siguen pendientes.
+- Contratos `apps/rise-react/src/lib/skin-catalog.mjs`, `skin-records.mjs`, `.d.mts` y pruebas `tests/react-skin-real.test.mjs`; la compilación de tipos React incluye `piel.tsx`.
+- Herramienta **`tools/import-lovable-assets.mjs`** lista para importar los siete JPG byte a byte desde un ZIP/exportación del proyecto Lovable. Se verifican archivos y hashes SHA-256, y la importación se detiene sin escribir si falta cualquiera. Las imágenes originales aún **NO** han sido entregadas a este repositorio: el conector Lovable retorna los archivos binarios como texto potencialmente corrupto, su agente carece de créditos y el ordenador autorizado aparece desconectado.
+- Guía oficial para descargar el original: https://docs.lovable.dev/integrations/github (Project settings → Git → Download codebase; o Code editor → Download codebase en planes elegibles).
+- El documento `apps/rise-react/README.md` contiene instrucciones exactas para ejecutar el importador tras obtener el ZIP. **No publicar React mientras falten assets y QA autenticado.**
