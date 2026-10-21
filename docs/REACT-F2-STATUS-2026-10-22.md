@@ -15,12 +15,13 @@ La UI React aprobada **permanece**: fotos y sistema visual Cormorant/Manrope, sh
 1. **Proyectos**: `work-records.mjs` + `src/routes/proyectos.tsx`. Proyectos y tareas de `hub_records` del usuario mediante RLS. Alta y cambio de estado conservando semántica `Today, This Week, Blocked, Waiting, Backlog, Completed`; optimistic concurrency por `updated_at`; no pérdida intencionada de campos adicionales del payload.
 2. **Ares**: `ares-records.mjs` + `src/routes/ares.tsx`. Consultas determinísticas privadas sobre proyectos, tareas, revisiones y eventos. Sin respuestas guionizadas, aprobaciones falsas, ejecución de agentes o modelo externo. Las aprobaciones quedan en **solo lectura** hasta integrar los contratos originales de seguridad.
 3. **Home**: `src/routes/index.tsx` reemplaza los KPI inventados, XP de demo, gráficos y timeline ficticios por contadores reales de Ares/Work y estados vacíos, conservando el héroe eclipse, módulos premium y temporizador.
-4. **Cuenta**: `AppShell.tsx` muestra usuario real, menú de cuenta y cierre de sesión; notificaciones desactivadas hasta que haya servicio.
-5. **Tarjetas**: `PhotoModuleCard.tsx` ya no presenta porcentajes inventados; la barra solo se muestra cuando existe progreso verificado.
+4. **SelfLearn (solo lectura inicial)**: `selflearn-snapshot.mjs` consulta `hub_user_state` y `hub_records` con filtro de propietario y paginación, conserva los IDs de unidades completadas, runs activos y vencimientos FSRS. Home muestra unidades NL/EN confirmadas. **No reemplaza aún al motor de lecciones ni a sus escrituras.** Tests `react-selflearn-snapshot.test.mjs`.
+5. **Cuenta**: `AppShell.tsx` muestra usuario real, menú de cuenta y cierre de sesión; notificaciones desactivadas hasta que haya servicio.
+6. **Tarjetas**: `PhotoModuleCard.tsx` ya no presenta porcentajes inventados; la barra solo se muestra cuando existe progreso verificado.
 
 ## Protecciones, pruebas y release
 
-- Tests de contratos reales: `tests/react-work-records.test.mjs`, `tests/react-ares-records.test.mjs`, `tests/react-nocturne-syntax.test.mjs`.
+- Tests de contratos reales: `tests/react-work-records.test.mjs`, `tests/react-ares-records.test.mjs`, `tests/react-selflearn-snapshot.test.mjs`, `tests/react-nocturne-syntax.test.mjs`.
 - Informador de bloqueo: `node tools/react-cutover-audit.mjs`; `--strict` falla si faltan condiciones.
 - Workflow independiente `.github/workflows/react-nocturne.yml`: instalación de dependencias y `tsc --noEmit` sobre React, SIN desplegar ni servir datos privados.
 - Auditoría E2E clásica en CI no prueba aún persistencia de React. Las pruebas de dominios en Node usan clientes simulados; no equivalen a datos reales autenticados de Supabase.
