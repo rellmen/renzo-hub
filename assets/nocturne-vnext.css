@@ -1,0 +1,138 @@
+/* RISE HUB · NOCTURNE ASCENDANCY / vNext compatibility bridge.
+ * Based on the CURRENT production rx-* component architecture (not staging's older rise-* layout).
+ * Presentational only: no markup replacement, auth/data modifications or copy of Lovable React.
+ * This file remains on a feature branch until main/staging history is reconciled and QA passes.
+ */
+:root {
+  --bg:#111116; --card:#1c1921; --card2:#29222e; --text:#f2edf5;
+  --muted:#b8aebe; --accent:#c8b3f0; --accent2:#e2d2f7; --line:#443a4a;
+  --rx-ink:#1a1122; --rx-sidebar:#151019; --rx-strong:#33293c;
+  --rx-panel:#1c1921; --rx-panel-strong:#29222e; --rx-vnext-focus:#e8d7ff;
+  --no-obsidian:#111116; --no-burgundy:#481d35; --no-violet:#6149a6;
+  --no-platinum:#c5c9d4; --no-gold:#c6a16c;
+  color-scheme: dark;
+}
+html body { color:var(--text); background:
+  radial-gradient(ellipse 58rem 31rem at 84% -17%,rgba(97,73,166,.11),transparent 70%),
+  radial-gradient(ellipse 38rem 29rem at -15% 35%,rgba(72,29,53,.10),transparent 70%),
+  var(--bg); }
+html body :where(button,input,textarea,select) { font-family:"Manrope",system-ui,sans-serif; }
+html body #appShell :where(button,a,input,textarea,select,summary,[role="button"]):focus-visible {
+  outline:3px solid var(--rx-vnext-focus);outline-offset:3px; }
+html body #appShell :where(input,select,textarea) { background:#1e1a25;border-color:#554657;color:var(--text); }
+html body #appShell .page :where(.card,.hero,.app) { background:var(--card);border-color:rgba(224,207,231,.14); }
+html body #appShell .page :where(.small,small) { color:var(--muted); }
+html body #appShell .page .rx-eyebrow { color:#cdb9d1;letter-spacing:.16em;font-size:11px; }
+html body #appShell .page .rx-real-screen-head h1 {
+  font-family:Georgia,"Times New Roman",serif;font-weight:500;letter-spacing:-.032em;
+  font-size:clamp(29px,4.1vw,41px);color:#f9eff8; }
+html body #appShell .page button.primary { background:#c8b3f0;color:#1e1326; }
+html body #appShell .page .secondary:not(input) { background:#302735;color:#f3eaf3; }
+html body #appShell .page :where(.rx-real-screen-head,.rx-module-header) { border-color:rgba(198,161,108,.18); }
+
+/* The vNext HOME deliberately uses accessible rows, NOT full-bleed/positioned cover art.
+   Preserve the geometric fix and make the command center feel editorial. */
+html body #appShell #home.rx-home .rx-home-top {
+  position:relative;overflow:hidden;isolation:isolate;
+  padding:clamp(24px,4.2vw,46px);border:1px solid rgba(198,161,108,.32);
+  border-radius:24px;background:
+  radial-gradient(ellipse at 95% 6%,rgba(97,73,166,.25),transparent 53%),
+  radial-gradient(ellipse at 0% 110%,rgba(92,37,68,.35),transparent 58%),
+  linear-gradient(135deg,#2d1b2b,#17151f 72%);
+  box-shadow:inset 0 1px rgba(255,255,255,.035),0 18px 55px rgba(0,0,0,.20);
+}
+html body #appShell #home.rx-home .rx-home-top:before {
+  content:"";position:absolute;inset:0 0 auto 0;height:2px;
+  background:linear-gradient(90deg,transparent,#c6a16c 18%,#78518f 74%,transparent);
+  pointer-events:none;z-index:0;
+}
+html body #appShell #home .rx-home-title { position:relative;z-index:1; }
+html body #appShell #home .rx-home-top .rx-eyebrow { color:#e2c69c; }
+html body #appShell #home .rx-home-top h1 {
+  font-family:Georgia,"Times New Roman",serif;font-weight:500;
+  font-size:clamp(36px,5.1vw,65px);line-height:1.08;letter-spacing:-.035em;
+  color:#f9eef7;max-width:650px;text-wrap:balance;
+}
+html body #appShell #home .rx-home-date { color:#d5c3d7; }
+html body #appShell #home .rx-lede { color:#ddcddd;font-size:15px; }
+html body #appShell #home .rx-search {
+  position:relative;z-index:1;min-width:46px;min-height:46px;
+  border:1px solid rgba(206,179,220,.3);background:rgba(32,25,40,.84);color:#e8dbec;
+  border-radius:13px;
+}
+html body #appShell #home :where(.rx-home-priority,.rx-home-areas,.rx-home-overview) .rx-section-heading h2 {
+  font-family:Georgia,"Times New Roman",serif;font-size:clamp(23px,2.2vw,30px);
+  font-weight:500;letter-spacing:-.02em;color:#f3e7f4;
+}
+html body #appShell #home .rx-section-subtitle { color:#bcb2c3; }
+html body #appShell #home .rx-area-grid { gap:12px; }
+html body #appShell #home .rx-area-link {
+  border:1px solid rgba(205,179,217,.20);border-radius:17px;
+  background:linear-gradient(145deg,#27202c,#1b1922 83%);
+  min-width:0;overflow:hidden;isolation:isolate;box-shadow:inset 0 1px rgba(255,255,255,.03);
+  transition:border-color .16s,background .16s,transform .16s;
+}
+html body #appShell #home .rx-area-link:hover,
+html body #appShell #home .rx-area-link:focus-visible {
+  border-color:rgba(198,161,108,.65);background:#302434;transform:translateY(-1px);
+}
+html body #appShell #home .rx-area-link .rx-area-icon {
+  border:1px solid rgba(204,175,225,.22);background:#362540;color:#dbc4fa;
+}
+html body #appShell #home .rx-area-link .rx-area-text strong { color:#f8edf8; }
+html body #appShell #home .rx-area-link .rx-area-chevron { color:#c6a16c; }
+html body #appShell #home .rx-area-link[data-open="money"] { border-color:rgba(198,161,108,.38); }
+html body #appShell #home .rx-area-link[data-open="money"] .rx-area-icon { color:#e8c993;background:#33291f; }
+html body #appShell #home .rx-area-link[data-open="study"] { border-color:rgba(148,204,178,.27); }
+html body #appShell #home .rx-area-link[data-open="study"] .rx-area-icon { color:#a8dfc3;background:#20392d; }
+html body #appShell #home .rx-area-link[data-open="body"] { border-color:rgba(223,147,158,.25); }
+html body #appShell #home .rx-area-link[data-open="body"] .rx-area-icon { color:#f1b2c0;background:#3b2632; }
+html body #appShell #home .rx-area-link[data-open="ares-center"] { border-color:rgba(188,162,228,.38); }
+html body #appShell #home :where(.rx-today-grid,#p1Overview,#personalHomeSummary,#bodyHomeSummary) :where(.card,.hero) {
+  background:#1e1923;border-color:rgba(198,161,108,.16);box-shadow:inset 0 1px rgba(255,255,255,.025);
+}
+
+/* Navigation lives INSIDE the existing vNext 5-way dock. Never float Ares above form fields. */
+html body #bottomNav.nav {
+  border-color:rgba(198,161,108,.18);
+  background:linear-gradient(160deg,rgba(29,22,35,.97),rgba(17,15,23,.98));
+}
+html body #bottomNav .nav-brand-name { color:#f6eef5;letter-spacing:.08em !important; }
+html body #bottomNav .nav-brand-sub { color:#b5aabd; }
+html body #bottomNav .navin>button.active { background:rgba(97,73,166,.24);color:#f2e8f7; }
+html body #bottomNav .navin>button.active .nav-chip { background:rgba(97,73,166,.16); }
+html body #bottomNav .nav-orb { background:linear-gradient(140deg,#d3bffa,#9a79cb);color:#1b1222; }
+html body #bottomNav .nav-orb .nav-icon { color:#1b1222; }
+@media(min-width:1024px) {
+  html body #bottomNav.nav { background:#17111c; }
+  html body #bottomNav .navin>button.active {box-shadow:inset 3px 0 #c6a16c;background:#291c31;}
+}
+/* Module accents: variables only; RLS, progress, amounts and storage are never touched. */
+html body #appShell #gym { --accent:#df939e; --accent2:#f4bac3; }
+html body #appShell :is(#money,#payroll,#gastos) { --accent:#e1c18b; --accent2:#f0d8b0; }
+html body #appShell #study { --accent:#94ccb2; --accent2:#bce6d1; }
+html body #appShell #skin { --accent:#d9b2d0; --accent2:#efd7e9; }
+html body #appShell #food { --accent:#e1be94; --accent2:#f3d9ba; }
+html body #appShell #ares-center { --accent:#bea7ef; --accent2:#e1d4fa; }
+html body #appShell :is(#work,#body,#system,#settings,#notes,#news) { --accent:#c5c9d4; --accent2:#e3e5eb; }
+html body #appShell #gym :where(.gymhero,.gp-panel,.gp-player) {border-color:rgba(223,147,158,.29);}
+html body #appShell #study :where(.sl-hero,.sl-panel,.sl-unit) {border-color:rgba(148,204,178,.24);}
+html body #appShell #skin :where(.skin-daily-panel,.care-intro) {border-color:rgba(217,178,208,.25);}
+html body #appShell #money :where(.fx-hero,.fx-row) {border-color:rgba(198,161,108,.31);}
+html body #appShell #ares-center :where(.cc-header,.cc-panel) {border-color:rgba(190,167,239,.25);}
+html body #appShell .ares-fab {background:#2e2139;color:#eee0f5;border-color:rgba(188,162,228,.45);}
+html body .ares-chat {background:#19141f;color:#f5edf7;border-color:rgba(188,162,228,.40);}
+html body .ares-chat-head {background:linear-gradient(120deg,#39243b,#221a2f);border-bottom-color:rgba(198,161,108,.24);}
+html body .ares-msg-user .ares-msg-body {background:#573e78;color:#fff5ff;border-color:#9272b6;}
+html body .ares-msg-bot .ares-msg-body {background:#29222f;border-color:#514056;}
+html body .ares-chat-form button {background:#c8b3f0;color:#1c1423;}
+@media(max-width:520px) {
+ html body #appShell #home.rx-home .rx-home-top {padding:21px 17px;border-radius:18px;gap:11px;}
+ html body #appShell #home .rx-home-top h1 {font-size:clamp(31px,8.5vw,43px);}
+ html body #appShell #home .rx-search {padding:9px;min-width:46px;}
+ html body #appShell #home .rx-area-link {min-height:75px;padding:13px;}
+}
+@media(prefers-reduced-motion:reduce) {
+ html body #appShell #home .rx-area-link {transition:none;}
+ html body #appShell #home .rx-area-link:hover {transform:none;}
+}
