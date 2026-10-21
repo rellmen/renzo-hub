@@ -1,5 +1,12 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## 2.55.0 (2026-10-21) · NOCTURNE ASCENDANCY sobre UI vNext — candidato, NO publicado
+
+- Se detectó divergencia entre `staging` (Nocturne 2.54.0) y `main` (nuevo layout `rx-*`): la versión de staging no es apta para integración directa en producción.
+- La rama `feature/nocturne-vnext-compatible` nace de `main` y conserva el DOM vNext. Añade `assets/nocturne-vnext.css`, precaché v59 y tokens obsidiana/borgoña/violeta/platino/oro, sin tocar datos.
+- `docs/NOCTURNE-VNEXT-RECONCILIATION.md` contiene la estrategia de integración, seguridad, pruebas y liberación. `tests/nocturne-vnext.test.mjs` valida que el CSS se aplica al DOM correcto.
+- **Estado: PREPARADO SIN APLICAR A PRODUCCIÓN.** Pendiente reconciliar ramas, CI, QA autenticado de staging y PWA real en iPhone; producción no ha recibido este cambio.
+
 ## 2.53.1 (2026-10-19) · Límite del tutor IA aplicado en producción
 
 - Con el OK explícito de Renzo ("Haz la A", 11:01), Claude aplicó `20261019030000_selflearn_tutor_quota` en Supabase de **producción** (`mgncykyrhavpepfggmng`). Comprobado: tabla vacía, RLS activa, sin lectura para `anon` ni `authenticated`, la función solo la ejecuta `authenticated`.
