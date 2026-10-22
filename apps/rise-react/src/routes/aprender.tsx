@@ -68,9 +68,9 @@ function SelfLearn(){
     {data&&<>
       <SelfLearnCheckpointPractice key={course} client={client} uid={uid} course={course}
         nextUnitId={next?.id||null}
-        legacyActive={!!(data.learningRuns[course]&&Array.isArray(data.learningRuns[course]?.queue)
-          &&typeof data.learningRuns[course]?.index==="number"
-          &&(data.learningRuns[course]?.index as number)<(data.learningRuns[course]?.queue as unknown[]).length)}/>
+        legacyActive={!!(data.learningRuns[course]&&Array.isArray(data.learningRuns[course]?.['queue'])
+          &&typeof data.learningRuns[course]?.['index']==="number"
+          &&(data.learningRuns[course]?.['index'] as number)<(data.learningRuns[course]?.['queue'] as unknown[]).length)}/>
       <div className="grid gap-6 lg:grid-cols-[1.65fr_1fr]">
         <SectionCard eyebrow={selected.name+" · nivel objetivo "+data.goals[course]}
           title="Ruta de aprendizaje" accent="var(--learn)">
