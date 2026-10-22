@@ -13,6 +13,7 @@
 | Alias público a proteger | `https://renzo-hub.vercel.app/` |
 | Alias clásico alternativo **ya asignado**, GET / y /api/supabase-config = 200 | `https://rise-hub-classic-renzojesus99-1996.vercel.app/` |
 | Proyecto Vercel React staging | `renzo-hub-2-1-staging` / `prj_kt9EGP7NvU1SghR5wJrbXMptDJMl` |
+| Proyecto Vercel candidato Green ya existente | `rise-hub-nocturne-qa` / `prj_32rPUdYicngL3YfAPKPWecBGXsNw` (NO es `rise-hub` público) |
 | Supabase producción | `mgncykyrhavpepfggmng` |
 | Supabase staging (NO usar en público) | `zpueziugbezqxompwsol` |
 | Rama de integración Nocturne | `staging`; **no** mezclar indiscriminadamente todo `staging` en `main` |
@@ -22,7 +23,7 @@ El alias de rescate **no** significa que un rollback de escrituras en BD esté g
 ## Arquitectura de compatibilidad: blue/green
 
 - **Blue (clásico):** dejar el proyecto y su configuración de raíz (`framework:null`, raíz repo, `vercel.json` con output `.`) intactos. Es el origen de verdad hasta completar paridad.
-- **Green (React):** compilar `apps/rise-react` bajo TanStack Start en un **candidato aislado** y con un URL único, idealmente un proyecto/entorno Vercel de preproducción configurado específicamente para el backend de producción. No reutilizar por accidente la configuración `VITE_` del proyecto staging. No cambiar el proyecto Vercel clásico para construir Green.
+- **Green (React):** utilizar el proyecto existente **`rise-hub-nocturne-qa`** (no crear uno nuevo), que compila TanStack Start desde `apps/rise-react`. Se corrigió **solo su entorno Vercel `production`**: URL + clave publicable VITE y servidor hacia Supabase producción, `VITE_NOCTURNE_RELEASE_TARGET=production`, `VITE_ENABLE_SELFLEARN_AWARDS=false`; comprobados con la API de Vercel, sin mostrar claves. Sus variables `preview` con rama `staging` permanecen separadas. El nombre `production` aquí es el target **del proyecto QA aislado**, NO el dominio principal de RISE HUB. Antes de presentar Green como candidato listo, generar un despliegue nuevo y validarlo en su URL. No cambiar el proyecto Vercel clásico para construir Green.
 - **Puente:** la pantalla Ajustes de Green ofrece un enlace permanente a Blue mediante el alias de rescate. Permite usar funciones clásicas no migradas. Los datos de ambas vistas solo pueden converger si apuntan al **mismo** Supabase producción y a esquemas compatibles.
 - **Cortafuegos:** `nocturne-environment.mjs` rechaza el backend staging en los dominios de producción y el backend producción en el dominio staging. Un candidato Green con URL única debe compilar además con `VITE_NOCTURNE_RELEASE_TARGET=production` y verificarlo por inspección del despliegue antes de mover un alias.
 - **SelfLearn:** XP y FSRS experimentales quedan desactivados fuera de los hosts de staging reconocidos, aunque `VITE_ENABLE_SELFLEARN_AWARDS=true` se haya heredado por error. En producción el usuario seguirá usando la versión clásica para acreditación hasta que estén instaladas y ensayadas las transacciones nuevas.
