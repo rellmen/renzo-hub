@@ -58,17 +58,18 @@ jobs:
         run: |
           npm ci --ignore-scripts
           npx playwright install --with-deps chromium webkit
-      - name: React SSR, hydration, login screen and PWA smoke (no real accounts)
+      - name: React hydration, login screen and PWA smoke via Vite dev (no real accounts)
         working-directory: apps/rise-react
         run: |
-          npm run preview -- --host 127.0.0.1 --port 4174 >/tmp/rise-react-preview.log 2>&1 &
+          npm run dev -- --host 127.0.0.1 --port 4174 >/tmp/rise-react-preview.log 2>&1 &
           app_pid=$!
           trap 'kill "$app_pid" 2>/dev/null || true' EXIT
           for n in $(seq 1 30); do
             curl -fsS http://127.0.0.1:4174/ >/dev/null && break
             sleep 1
           done
-          REACT_QA_BASE_URL=http://127.0.0.1:4174 node ../../tests/e2e/react-auth-smoke.mjs
+          if ! curl -fsS http://127.0.0.1:4174/ >/dev/null; then cat /tmp/rise-react-preview.log; exit 1; fi
+          REACT_QA_BASE_URL=http://127.0.0.1:4174 node ../../tests/e2e/react-auth-smoke.mjs || { cat /tmp/rise-react-preview.log; exit 1; }
       - name: React release blocker report (informational)
         run: node tools/react-cutover-audit.mjs
 
