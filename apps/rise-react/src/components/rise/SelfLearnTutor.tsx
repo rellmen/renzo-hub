@@ -35,7 +35,7 @@ export function SelfLearnTutor({course}:{course:Course}){
     body:JSON.stringify({course,mode,answer:answer.trim(),consent:true})});
    const data=await response.json();
    if(!response.ok)throw Error(typeof data?.error==="string"?data.error:"El tutor no está disponible.");
-   const text=String(data?.text||"").slice(0,3500);
+   const text=String(data?.text??data?.feedback??"").slice(0,3500);
    if(!text.trim())throw Error("El tutor no ha generado ninguna corrección.");
    setResult(text);setConsent(false);
   }catch(ex){setError(ex instanceof Error?ex.message:"No se pudo consultar el tutor.");}
