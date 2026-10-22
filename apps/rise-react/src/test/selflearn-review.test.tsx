@@ -2,6 +2,11 @@ import {afterEach,describe,it,expect,vi} from 'vitest';
 import {render,screen,fireEvent,waitFor,cleanup} from '@testing-library/react';
 import {QueryClient,QueryClientProvider} from '@tanstack/react-query';
 import type {SupabaseClient} from '@supabase/supabase-js';
+// Component interaction tests exercise retry semantics; the production/staging
+// hostname gate is separately validated in tests/nocturne-release-isolation.test.mjs.
+vi.mock('../lib/nocturne-environment.mjs',()=>({
+ officialSelfLearnAwardsEnabled:(enabled:boolean)=>enabled
+}));
 import {SelfLearnVocabularyReview} from '../components/rise/SelfLearnVocabularyReview';
 const uid='22222222-2222-4222-8222-222222222222';
 const card={id:'33333333-3333-4333-8333-333333333333',course:'nl',front:'de winkel',back:'la tienda',area:'Dutch',updatedAt:'2026-10-22T00:00:00Z',nextReview:'2020-01-01',repetitions:0};
