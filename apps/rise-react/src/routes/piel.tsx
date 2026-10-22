@@ -9,7 +9,7 @@ import {SectionCard,EmptyState} from "@/components/rise/primitives";
 import {ProgressRing} from "@/components/rise/ProgressRing";
 import {useAuth} from "@/lib/auth/AuthProvider";
 import {PRODUCTS,stepsFor,dateKeyLocal} from "@/lib/skin-catalog.mjs";
-import {loadSkinState,setSkinSteps,setSkinNote,weekSkinProgress,type SkinSession} from "@/lib/skin-records.mjs";
+import {loadSkinState,setSkinSteps,setSkinNote,setSkinInventoryStatus,weekSkinProgress,type SkinSession} from "@/lib/skin-records.mjs";
 
 export const Route=createFileRoute("/piel")({
   head:()=>pageHead("Skin Routine","Tu cuidado real: productos, rutina e historial privado sincronizado."),
@@ -43,6 +43,10 @@ function Skin(){
       return setSkinSteps(client!,uid,today,session,next,steps.length);
     },
     onSuccess:()=>qc.invalidateQueries({queryKey:key}),
+  });
+  const inventoryEdit=useMutation({
+    mutationFn:({id,status}:{id:string;status:"unknown"|"available"|"paused"|"finished"})=>setSkinInventoryStatus(client!,uid,id,status),
+    onSuccess:()=>qc.invalidateQueries({queryKey:["skin-real",uid]}),
   });
   const saveNote=useMutation({
     mutationFn:()=>setSkinNote(client!,uid,today,note),
@@ -131,12 +135,21 @@ function Skin(){
             return <article key={name} className="rounded-2xl border border-hairline bg-raised p-4">
               <h3 className="break-words text-sm font-medium">{name}</h3>
               <p className="mt-2 text-xs text-skin">{kind} · {STATUS[status]||"Sin confirmar"}</p>
+              <label className="mt-3 block text-xs text-muted-foreground">Estado de este producto
+                <select aria-label={"Estado de "+name} value={status} disabled={inventoryEdit.isPending}
+                  onChange={e=>inventoryEdit.mutate({id:"p"+i,status:e.target.value as "unknown"|"available"|"paused"|"finished"})}
+                  className="mt-1 min-h-11 w-full rounded-xl border border-hairline bg-obsidian px-3 text-sm text-foreground">
+                  {Object.entries(STATUS).map(([value,label])=><option key={value} value={value}>{label}</option>)}
+                </select>
+              </label>
               <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{precaution}</p>
             </article>;
           })}
         </div>:<EmptyState icon={<ShieldCheck className="h-5 w-5"/>} title="Sin productos" text="Todavía no hay productos catalogados."/>}
         {PRODUCTS.length>6&&<button type="button" className="btn-ghost mt-5" onClick={()=>setShowAll(x=>!x)}>{showAll?"Mostrar menos":"Ver todos los productos"} ({PRODUCTS.length})</button>}
-        <p className="mt-3 text-xs text-muted-foreground">El inventario se muestra en modo consulta. Se conservarán los estados registrados antes de habilitar su edición en React.</p>
+        {inventoryEdit.error&&<p role="alert" className="mt-3 text-sm text-gym">{errText(inventoryEdit.error)}</p>}
+        {inventoryEdit.isPending&&<p role="status" className="mt-3 text-sm text-muted-foreground">Guardando inventario en Supabase…</p>}
+        <p className="mt-3 text-xs text-muted-foreground">Cambios privados guardados en los ajustes originales de RISE HUB. Si otro dispositivo editó el inventario, actualiza antes de reintentar.</p>
       </SectionCard>
     </>}
   </div>;
