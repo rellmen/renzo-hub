@@ -1,5 +1,17 @@
 # Reparación Ares AI y SelfLearn · 22 octubre 2026
 
+## Estado vigente: publicado y Ares habilitado
+
+El usuario añadió OPENROUTER_API_KEY directamente en Vercel Production. Publicado commit `b456c5eb9ba9d9129c69e48c9f333dd707866a96`, deployment `dpl_J2eYcpZGUjaawQfwpYhA637QXKwm` (READY). Alias público renzo-hub.vercel.app verificado en ese deployment. GET público `/api/ares-ai`: 200, enabled=true, OpenRouter/openrouter/free, Cache-Control no-store. Config pública apunta a Supabase producción. `/aprender` 200 y título SelfLearn; rutas principales del candidato 200. POST público sin JWT: 401 JSON Sesión necesaria (rechazo de aplicación, no Vercel SSO). La clave no se leyó ni se imprimió.
+
+CI general del commit: run 39797028685 success. React del commit 2300238: run 39795059023 success con Chromium/WebKit; todo apps/rise-react tiene idéntico tree SHA `b08ccd905b322b1cecaaa9e1eb4766539bcc0bee` en 2300238 y b456c5e. La repetición React run 39797028937 todavía in_progress al publicar (descargando navegadores); no se declara aprobada esa repetición. El código React publicado sí coincide exactamente con el ya validado.
+
+Rollback inmediato Nocturne: asignar renzo-hub.vercel.app de nuevo a `dpl_8dMPmCEgLpE3ZceG3dpJ9PqAxft1`. Rescate clásico disponible y READY: `dpl_5Rh9Ram6QBVr8LFVXDx6eyXEueLr`, alias rise-hub-classic-renzojesus99-1996.vercel.app. Rollback de frontend no deshace migraciones ni XP/FSRS confirmados.
+
+Pendiente funcional explícito: no se ha hecho consulta OpenRouter con una sesión real ni completado lección/repaso en cuenta personal. enabled=true confirma configuración cargada, no valida la clave con el proveedor ni garantiza una respuesta del modelo. Prueba real requiere que Renzo abra Ares con su sesión. XP/FSRS tienen RPC y flag production habilitados y probe compatible; no afirmar que una lección personal fue acreditada.
+
+Este bloque prevalece sobre los estados históricos que siguen.
+
 ## Actualización autorizada: producción migrada
 
 Renzo autoriza explícitamente las migraciones y la activación de Ares. Aplicadas en producción vía MCP: selflearn_transactions 20261022143223 y selflearn_capabilities_contract 20261022143229. Archivos trasladados a migrations/ y rollbacks/; no reaplicar. Readiness producción 7/7 true. RPC invoker, sin EXECUTE anon; authenticated permitido. Probe sintético de metadatos version=1/ready=true. Los 171 hub_records y el único hub_user_state conservan exactamente sus huellas antes/después: no se modificó contenido. Sin nueva advertencia de advisors.
