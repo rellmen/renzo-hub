@@ -8,6 +8,7 @@ import {useAuth} from "@/lib/auth/AuthProvider";
 import {PageHero} from "@/components/rise/PageHero";
 import {SectionCard,EmptyState,Bar} from "@/components/rise/primitives";
 import {ProgressRing} from "@/components/rise/ProgressRing";
+import {SelfLearnVocabularyReview} from "@/components/rise/SelfLearnVocabularyReview";
 import {SelfLearnCheckpointPractice} from "@/components/rise/SelfLearnCheckpointPractice";
 import {loadLearningSnapshot} from "@/lib/selflearn-snapshot.mjs";
 import {COURSES,completedUnitIds,levelProgress,nextUnit} from "@/lib/legacy-selflearn/engine.js";
@@ -66,7 +67,9 @@ function SelfLearn(){
       </button>
     </div>
     {data&&<>
-      <SelfLearnCheckpointPractice key={course} client={client} uid={uid} course={course}
+      {data&&<SelfLearnVocabularyReview key={uid+course} client={client} uid={uid} course={course}
+        cards={data.vocabulary} legacyActive={!!data.learningRuns[course]}/>}
+      <SelfLearnCheckpointPractice key={uid+course} client={client} uid={uid} course={course}
         nextUnitId={next?.id||null}
         legacyActive={!!(data.learningRuns[course]&&Array.isArray(data.learningRuns[course]?.['queue'])
           &&typeof data.learningRuns[course]?.['index']==="number"

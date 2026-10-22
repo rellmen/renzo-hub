@@ -4,6 +4,7 @@ import {BookOpen,Check,Headphones,RotateCcw,ShieldCheck,Volume2} from "lucide-re
 import type {SupabaseClient} from "@supabase/supabase-js";
 import {appendStudyCheckpoint,recentLearningCheckpoints,newestStudyRun,type LearningRun} from "@/lib/selflearn-checkpoints.mjs";
 import {makePractice,practicePrompt,gradePractice,type PracticeStep} from "@/lib/selflearn-practice.mjs";
+import {finalizeOfficialLesson} from "@/lib/selflearn-finalization.mjs";
 
 type Course="nl"|"en";
 type Active={id:string;sessionId:string;run:LearningRun};
@@ -84,6 +85,10 @@ export function SelfLearnCheckpointPractice({client,uid,course,legacyActive,next
  const [matching,setMatching]=useState<string[]>([]);
  const [feedback,setFeedback]=useState("");
  const [minutes,setMinutes]=useState<5|10|20>(5);
+ // Disabled by default: enable only for a controlled authenticated staging QA.
+ // Never enable the switch in a public production bundle without server-side
+ // cross-client idempotency/RLS verification of all awards.
+ const allowOfficialAward=import.meta.env["VITE_ENABLE_SELFLEARN_AWARDS"]==="true";
  const key=["selflearn-checkpoints",uid];
  const query=useQuery({queryKey:key,enabled:!!client&&!!uid,
   queryFn:()=>recentLearningCheckpoints(client!,uid),staleTime:5000,refetchOnWindowFocus:true});
@@ -117,6 +122,21 @@ export function SelfLearnCheckpointPractice({client,uid,course,legacyActive,next
      await qc.invalidateQueries({queryKey:key});
    }
  });
+ const award=useMutation({
+   mutationFn:async()=>{
+     if(!allowOfficialAward||!client||!active)throw Error("La acreditación oficial está desactivada.");
+     return finalizeOfficialLesson(client,uid,active,{legacyActive});
+   },
+   onSuccess:async result=>{
+     setFeedback(result.already?"La unidad ya estaba acreditada: no se duplicó el XP.":
+       "Lección oficial guardada: "+result.xp+" XP y "+result.addedCards+" tarjetas nuevas.");
+     await Promise.all([
+       qc.invalidateQueries({queryKey:key}),
+       qc.invalidateQueries({queryKey:["selflearn-snapshot",uid]})
+     ]);
+   }
+ });
+ useEffect(()=>{award.reset();},[active?.sessionId]);
  const run=active?.run;
  const view=run?practicePrompt(run):null;
  const step=view?.step;
@@ -130,9 +150,9 @@ export function SelfLearnCheckpointPractice({client,uid,course,legacyActive,next
     {latest&&<div className="rounded-xl border border-learn/30 bg-learn/[0.06] p-4">
       <p className="text-sm">Última práctica de {course.toUpperCase()}: {Math.round(practicePrompt(latest.run).progress)}% guardado</p>
       <p className="mt-2 text-xs text-muted-foreground">El progreso se guarda como checkpoints privados; la acreditación de lecciones continúa en SelfLearn clásico.</p>
-      {!practicePrompt(latest.run).complete&&<button type="button" className="btn-gold mt-3"
+      {(!practicePrompt(latest.run).complete||allowOfficialAward)&&<button type="button" className="btn-gold mt-3"
         onClick={()=>{setActive({id:latest.id,sessionId:latest.sessionId,run:latest.run});setFeedback("");}}>
-        <RotateCcw className="h-4 w-4"/> Reanudar práctica guardada
+        <RotateCcw className="h-4 w-4"/> {practicePrompt(latest.run).complete?"Recuperar práctica terminada":"Reanudar práctica guardada"}
       </button>}
     </div>}
     {legacyActive&&<p className="rounded-xl border border-gold/30 bg-gold/[0.06] p-4 text-sm">
@@ -162,7 +182,16 @@ export function SelfLearnCheckpointPractice({client,uid,course,legacyActive,next
       <Check className="mb-3 h-7 w-7 text-learn"/>
       <h3 className="font-display text-2xl">Práctica terminada y guardada</h3>
       <p className="mt-2 text-sm">Resultado de práctica: {view.score?.correct}/{view.score?.total} respuestas correctas a la primera.</p>
-      <p className="mt-3 text-xs text-muted-foreground">Aún no es una lección acreditada: XP, nuevas tarjetas y calendario FSRS permanecen en SelfLearn clásico.</p>
+      {allowOfficialAward?<div className="mt-4 space-y-2">
+        <button type="button" className="btn-gold"
+          disabled={award.isPending||award.isSuccess||legacyActive||query.isFetching}
+          onClick={()=>award.mutate()}>
+          {award.isPending?"Comprobando y guardando…":award.isSuccess?"Lección acreditada":"Acreditar lección y XP"}
+        </button>
+        <p className="text-xs text-muted-foreground">Función experimental de QA. La lección se acredita únicamente tras confirmar los registros de Supabase.</p>
+      </div>:<p className="mt-3 text-xs text-muted-foreground">
+        Aún no es una lección acreditada: XP y tarjetas oficiales permanecen en SelfLearn clásico hasta verificar el cierre con dos dispositivos.
+      </p>}
       <button type="button" className="btn-ghost mt-4" onClick={()=>{setActive(null);setFeedback("");}}>Volver al catálogo</button>
     </div>:step&&<form onSubmit={submit} className="space-y-4">
       <div className="rounded-xl border border-hairline bg-raised p-4">
@@ -177,8 +206,8 @@ export function SelfLearnCheckpointPractice({client,uid,course,legacyActive,next
     </form>}
   </div>}
   {feedback&&<p role="status" className="rounded-xl border border-learn/25 p-3 text-sm text-platinum/85">{feedback}</p>}
-  {(start.error||save.error)&&<p role="alert" className="rounded-xl border border-gym/40 p-4 text-sm text-gym">
-    {errorMessage(start.error||save.error)}. No se ha avanzado sin confirmación; puedes volver a intentarlo.
+  {(start.error||save.error||award.error)&&<p role="alert" className="rounded-xl border border-gym/40 p-4 text-sm text-gym">
+    {errorMessage(start.error||save.error||award.error)}. No se ha avanzado sin confirmación; puedes volver a intentarlo.
   </p>}
  </SectionWrapper>;
 }

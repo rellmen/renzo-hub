@@ -1,6 +1,17 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
 
+## 2.54.1 (2026-10-22) · SelfLearn: transacciones y FSRS preparados, sin aplicar
+
+| Bloque | Estado y evidencia |
+| --- | --- |
+| Acreditación React | RPC transaccional obligatorio; sin fallback a escrituras directas. Motor y cola originales validados; reconoce Daily lesson/lessonDay. |
+| Compatibilidad | Checkpoint terminado recuperable. IDs/estado FSRS/historial existentes preservados; reintentos devuelven XP cero. |
+| Repasos | Mismo bundle FSRS legacy, tarjeta y evento atómicos, control de versión y ID de reintento. Los eventos de auditoría por tarjeta no generan XP extra en phase1. Vista React bajo flag desactivado. |
+| Base de datos | `supabase/pending/20261022090000_selflearn_transactions.sql` y rollback preparados. NO aplicados a staging ni producción. |
+| Pruebas | Tests unitarios y PGlite: aislamiento por propietario, rollback atómico, reintentos, clientes clásicos y versiones obsoletas. CI añade dos conexiones PostgreSQL 17. Ver hash/CI final en PR #141. |
+| Pendiente de seguridad | Revisión de autorización y prueba autenticada staging con dos dispositivos; los checkpoints siguen siendo datos editables del usuario, sin certificación inviolable. No encender `VITE_ENABLE_SELFLEARN_AWARDS`. |
+
 ## 2.54.0 (2026-10-21) · NOCTURNE ASCENDANCY · propuesta de UI para staging (SIN publicar)
 
 - Rama `feature/nocturne-ascendancy-ui` desde `staging`; identidad visual premium personalizada con obsidiana, borgoña, violeta imperial, platino y oro antiguo.

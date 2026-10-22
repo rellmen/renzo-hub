@@ -50,6 +50,7 @@ export function xpEvents(d) {
     if (p.kind === "body") ev.push({ kind: "checkin", sourceId: r.id, date });
     else if (p.kind === "learning" && ["Application", "Review"].includes(p.stage)) {
       // Lección de la ruta de Study: los puntos que promete (aciertos × 10; repetir una lección ya hecha = 0).
+      if (p.practice === "Vocabulary FSRS") continue; // per-card review audit, never an XP award
       const pts = p.practice === "Study path" && Number.isFinite(Number(p.xp)) ? Number(p.xp) : XP_RULES.dutch_practice;
       if (pts > 0) ev.push({ kind: "dutch_practice", sourceId: r.id, date, points: pts });
     }
