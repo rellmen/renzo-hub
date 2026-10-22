@@ -50,7 +50,7 @@ export function MobileDock() {
   const items = NAV.filter((n) => ["/", "/aprender", "/gym", "/ares", "/ajustes"].includes(n.to));
   const order = ["/", "/aprender", "/gym", "/ares", "/ajustes"];
   items.sort((a, b) => order.indexOf(a.to) - order.indexOf(b.to));
-  const moreActive = ["/apps", "/quest", "/news", "/agentes", "/dinero", "/piel", "/proyectos", "/nominas", "/turnos", "/migracion", "/ajustes"].some((p) => isActive(p));
+  const moreActive = ["/apps", "/career", "/quest", "/news", "/agentes", "/dinero", "/piel", "/proyectos", "/nominas", "/turnos", "/migracion", "/ajustes"].some((p) => isActive(p));
   return (
     <nav aria-label="Navegación inferior" className="fixed inset-x-0 bottom-0 z-40 border-t border-hairline bg-sidebar/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl lg:hidden">
       <ul className="mx-auto grid max-w-lg grid-cols-5">
