@@ -17,6 +17,8 @@ import { Route as DineroRouteImport } from './routes/dinero'
 import { Route as GymRouteImport } from './routes/gym'
 import { Route as PielRouteImport } from './routes/piel'
 import { Route as NotasRouteImport } from './routes/notas'
+import { Route as BodyRouteImport } from './routes/body'
+import { Route as FoodRouteImport } from './routes/food'
 import { Route as ProyectosRouteImport } from './routes/proyectos'
 
 const IndexRoute = IndexRouteImport.update({
@@ -49,6 +51,16 @@ const GymRoute = GymRouteImport.update({
   path: '/gym',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BodyRoute = BodyRouteImport.update({
+  id: '/body',
+  path: '/body',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FoodRoute = FoodRouteImport.update({
+  id: '/food',
+  path: '/food',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const NotasRoute = NotasRouteImport.update({
   id: '/notas',
   path: '/notas',
@@ -66,6 +78,8 @@ const ProyectosRoute = ProyectosRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/body': typeof BodyRoute
+  '/food': typeof FoodRoute
   '/notas': typeof NotasRoute
   '/': typeof IndexRoute
   '/ajustes': typeof AjustesRoute
@@ -77,6 +91,8 @@ export interface FileRoutesByFullPath {
   '/proyectos': typeof ProyectosRoute
 }
 export interface FileRoutesByTo {
+  '/body': typeof BodyRoute
+  '/food': typeof FoodRoute
   '/notas': typeof NotasRoute
   '/': typeof IndexRoute
   '/ajustes': typeof AjustesRoute
@@ -88,6 +104,8 @@ export interface FileRoutesByTo {
   '/proyectos': typeof ProyectosRoute
 }
 export interface FileRoutesById {
+  '/body': typeof BodyRoute
+  '/food': typeof FoodRoute
   '/notas': typeof NotasRoute
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
@@ -102,6 +120,8 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/body'
+    | '/food'
     | '/notas'
     | '/'
     | '/ajustes'
@@ -113,6 +133,8 @@ export interface FileRouteTypes {
     | '/proyectos'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/body'
+    | '/food'
     | '/notas'
     | '/'
     | '/ajustes'
@@ -123,6 +145,8 @@ export interface FileRouteTypes {
     | '/piel'
     | '/proyectos'
   id:
+    | '/body'
+    | '/food'
     | '/notas'
     | '__root__'
     | '/'
@@ -136,6 +160,8 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  BodyRoute: typeof BodyRoute
+  FoodRoute: typeof FoodRoute
   NotasRoute: typeof NotasRoute
   IndexRoute: typeof IndexRoute
   AjustesRoute: typeof AjustesRoute
@@ -149,6 +175,8 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/body': { id: '/body'; path: '/body'; fullPath: '/body'; preLoaderRoute: typeof BodyRouteImport; parentRoute: typeof rootRouteImport }
+    '/food': { id: '/food'; path: '/food'; fullPath: '/food'; preLoaderRoute: typeof FoodRouteImport; parentRoute: typeof rootRouteImport }
     '/notas': {
       id: '/notas'
       path: '/notas'
@@ -216,6 +244,8 @@ declare module '@tanstack/react-router' {
 }
 
 const rootRouteChildren: RootRouteChildren = {
+  BodyRoute: BodyRoute,
+  FoodRoute: FoodRoute,
   NotasRoute: NotasRoute,
   IndexRoute: IndexRoute,
   AjustesRoute: AjustesRoute,
