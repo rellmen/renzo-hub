@@ -15,7 +15,7 @@ function fake({user=uid,rows={},unavailable=new Set(),objects={},listError=false
        calls.push({table,fields,uid:wanted,column});
        if(wanted!==uid)return Promise.reject(Error('wrong owner'));
        if(opts?.head){return Promise.resolve(unavailable.has(table)?{count:null,error:{message:'rls'}}:{count:(rows[table]||[]).length,error:null});}
-       return{range(from,to){return Promise.resolve(unavailable.has(table)?{data:null,error:{message:'unavailable'}}:{data:(rows[table]||[]).slice(from,to+1),error:null});}};
+       return{order:()=>({range(from,to){return Promise.resolve(unavailable.has(table)?{data:null,error:{message:'unavailable'}}:{data:(rows[table]||[]).slice(from,to+1),error:null});}})};
       }
     };}
   };},
