@@ -7,6 +7,7 @@ import {PageHeader,SectionCard} from "@/components/rise/primitives";
 import {pageHead} from "@/lib/seo";
 import {SHIFT_MODES,loadShiftState,saveShiftState,nextShiftState,nextTemplateState,shiftPreview} from "@/lib/shift-state.mjs";
 import {LEGACY_FALLBACK_URL} from "@/lib/nocturne-environment.mjs";
+import {ShiftPayrollReport} from "@/components/rise/ShiftPayrollReport";
 
 export const Route=createFileRoute("/turnos")({
  head:()=>pageHead("Turnos","Calendario laboral con el mismo estado que la aplicación clásica."),
@@ -107,5 +108,6 @@ function Shifts(){
     <a className="btn-ghost inline-flex min-h-11 items-center" target="_blank" rel="noopener noreferrer" href={LEGACY_FALLBACK_URL+"/?app=payroll"}><Clock3 className="h-4 w-4"/> Shift Tracker clásico</a>
    </div>
   </SectionCard>
+  <ShiftPayrollReport/>
  </div>;
 }
