@@ -1,5 +1,5 @@
-// @ts-expect-error Classic server handler is plain JavaScript, bundled server-side only.
-import aresHandler from "../../../api/ares-ai.js";
+// @ts-expect-error Shared server handler is plain JavaScript, bundled server-side only.
+import aresHandler from "../server/ares-ai.mjs";
 import {serveNodeHandler} from "./lib/server/node-handler.mjs";
 import "./lib/error-capture";
 

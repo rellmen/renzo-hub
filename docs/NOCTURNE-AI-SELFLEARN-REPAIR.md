@@ -4,14 +4,14 @@
 
 Base de trabajo: staging `7b8f9cb67b3e0b4fddd78bcb2c18f9ad3dc7bd5a`, PR #147 fusionada. Main conserva `ebd0173`. El proyecto `rise-hub-nocturne-qa` es sensible: no modificar su dominio público ni configuración de producción. Último preview observado `dpl_5t1NkXSZSHedn57bCJFjfDLQssHu`; último deployment target production `dpl_8dMPmCEgLpE3ZceG3dpJ9PqAxft1`.
 
-Ares: `api/ares-ai.js` vive fuera de la raíz React y no estaba montado en la entrada TanStack. Además, su política anterior rechazaba production incondicionalmente. Un cambio de ruta por sí solo no enciende el modelo. La primera prueba remota del candidato 532c759 aún devolvió 404: Vercel necesita una función explícita relativa a la raíz React para este endpoint. Se añade `apps/rise-react/api/ares-ai.js` que reexporta el handler clásico; la entrada server de TanStack atiende `/api/ares-ai` con el mismo handler, sin proxy ni duplicación de autenticación.
+Ares: `api/ares-ai.js` vive fuera de la raíz React y no estaba montado en la entrada TanStack. Además, su política anterior rechazaba production incondicionalmente. Un cambio de ruta por sí solo no enciende el modelo. La primera prueba remota del candidato 532c759 aún devolvió 404: Vercel necesita una función explícita relativa a la raíz React para este endpoint. Se añade `apps/rise-react/api/ares-ai.js` que reexporta el handler compartido. El siguiente candidato reveló un error ESM en Node 24 al importar `.js` fuera del package raíz: la implementación se mueve a `apps/rise-react/server/ares-ai.mjs`, reutilizada también por el clásico; la entrada server de TanStack atiende `/api/ares-ai` con el mismo handler, sin proxy ni duplicación de autenticación.
 
 SelfLearn: inspección SQL de catálogos confirma finalize/review/guard en staging y ausencia en producción. Ambas tablas producción tienen RLS y cuatro políticas owner para cada operación; UPDATE tiene USING y WITH CHECK. El frontend anterior bloqueaba production incluso con el flag activo.
 
 ## Implementación
 
 - `src/server.ts` + `src/lib/server/node-handler.mjs`: adaptador Fetch/Node, GET/POST y 405 para otros métodos; JSON limitado a 16 KiB, 400/413/415, errores genéricos y no-store. No imprime tokens o cuerpos.
-- `api/ares-ai.js`: mantiene token Supabase, owner/RLS, allowlist de registros, prohibición de consultas sensibles, modelo gratuito fijado y timeouts. Production requiere además `ARES_AI_ALLOW_PRODUCTION=true`. Consume el RPC existente `selflearn_tutor_take_quota`: presupuesto **compartido** con tutor de idiomas, 12 consultas/día, falla cerrado si no está disponible. No es una cuota independiente de Ares. Secretos solo servidor.
+- `api/ares-ai.js` y `apps/rise-react/api/ares-ai.js` reexportan `apps/rise-react/server/ares-ai.mjs`: mantiene token Supabase, owner/RLS, allowlist de registros, prohibición de consultas sensibles, modelo gratuito fijado y timeouts. Production requiere además `ARES_AI_ALLOW_PRODUCTION=true`. Consume el RPC existente `selflearn_tutor_take_quota`: presupuesto **compartido** con tutor de idiomas, 12 consultas/día, falla cerrado si no está disponible. No es una cuota independiente de Ares. Secretos solo servidor.
 - `use-selflearn-capabilities.ts`: consulta autenticada `selflearn_capabilities`, version 1 + ready true; fail closed ante errores. React requiere este probe y flag antes de habilitar XP/FSRS production. No añade materias: NL/EN exclusivamente.
 - SQL pendiente añade probe invoker sin filas personales, ejecutable solo authenticated; comprueba presencia de RPC, trigger y RLS. Se conservan transacciones, advisory locks, IDs idempotentes, CAS y FSRS existentes. Esto no convierte checkpoints editables en acreditación antifraude.
 
@@ -46,3 +46,5 @@ Apagar awards y Ares antes de retirar backend. SQL rollback elimina trigger/RPC/
 ## Pendiente de Renzo / autorización
 
 Aprobar PR hacia staging; sesión QA separada si se desean cerrar pruebas autenticadas reales. Producción: autorización específica para migración SQL, configuración/activación Ares y promoción final. Hasta entonces, reparación preparada y probada localmente; no declarar restauración en producción.
+
+Preview aislado: variables publicables Supabase staging configuradas SOLO para rama `feature/nocturne-ares-selflearn-repair`, target preview. Awards false; sin claves proveedor ni modificación de variables producción.

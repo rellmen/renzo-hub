@@ -16,7 +16,7 @@ export function isPrivateAresPrompt(value){
   const q=textOf(value,500).toLowerCase();
   return /(?:n[oó]minas?|salario|iban|cuenta bancaria|contraseñ|password|token|clave secreta|\b\d{8,}[a-z]\b|\b[\w.+-]+@[\w.-]+\.[a-z]{2,}\b|€|\$\s*\d)/i.test(q);
 }
-export async function askAresPreview(question,accessToken,{fetcher=globalThis.fetch,timeoutMs=26000}={}){
+export async function askAresPreview(question,accessToken,{fetcher=globalThis.fetch,timeoutMs=48000}={}){
   const q=textOf(question,350);
   if(q.length<2)throw new Error("La pregunta debe contener al menos dos caracteres.");
   if(isPrivateAresPrompt(q))throw new Error("Esta consulta parece sensible: utiliza el modo privado local de Ares.");

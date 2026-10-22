@@ -2,6 +2,11 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {serveNodeHandler} from '../apps/rise-react/src/lib/server/node-handler.mjs';
 import handler from '../api/ares-ai.js';
+import reactHandler from '../apps/rise-react/api/ares-ai.js';
+import sharedHandler from '../apps/rise-react/server/ares-ai.mjs';
+test('Classic and React Vercel entries reuse the same ESM server handler',()=>{
+ assert.equal(handler,sharedHandler);assert.equal(reactHandler,sharedHandler);
+});
 test('Same-origin Fetch transport exposes classic GET status and safe POST errors',async()=>{
  const get=await serveNodeHandler(new Request('https://example.test/api/ares-ai'),handler);
  assert.equal(get.status,200);assert.match(get.headers.get('cache-control'),/no-store/);
