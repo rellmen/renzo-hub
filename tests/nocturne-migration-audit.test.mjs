@@ -5,9 +5,9 @@ import {MIGRATION_TABLES,MIGRATION_BUCKETS,verifyMigrationOwner,auditPrivateTabl
 const uid='11111111-1111-4111-8111-111111111111';
 const other='22222222-2222-4222-8222-222222222222';
 function fake({user=uid,rows={},unavailable=new Set(),objects={},listError=false}={}){
- const calls=[];
+ const calls=[],orders=[];
  return{
-  calls,
+  calls,orders,
   auth:{getUser:async()=>({data:{user:{id:user}},error:null})},
   from(table){return{
     select(fields,opts){return{
@@ -15,7 +15,7 @@ function fake({user=uid,rows={},unavailable=new Set(),objects={},listError=false
        calls.push({table,fields,uid:wanted,column});
        if(wanted!==uid)return Promise.reject(Error('wrong owner'));
        if(opts?.head){return Promise.resolve(unavailable.has(table)?{count:null,error:{message:'rls'}}:{count:(rows[table]||[]).length,error:null});}
-       return{order:()=>({range(from,to){return Promise.resolve(unavailable.has(table)?{data:null,error:{message:'unavailable'}}:{data:(rows[table]||[]).slice(from,to+1),error:null});}})};
+       return{order(column){orders.push({table,column});return{range(from,to){return Promise.resolve(unavailable.has(table)?{data:null,error:{message:'unavailable'}}:{data:(rows[table]||[]).slice(from,to+1),error:null});}}};
       }
     };}
   };},
@@ -27,7 +27,7 @@ function fake({user=uid,rows={},unavailable=new Set(),objects={},listError=false
 }
 test('complete inventory covers all legacy export tables and payroll balance imports',()=>{
  assert.equal(Object.keys(MIGRATION_TABLES).length>=21,true);
- assert.equal(MIGRATION_TABLES.payroll_balance_imports,'user_id');
+ assert.equal(MIGRATION_TABLES.payroll_balance_imports,'owner_id');
  assert.deepEqual(MIGRATION_BUCKETS,['payroll','hub-private','portfolio-files','progress-photos']);
 });
 test('wrong user cannot even start a migration inventory or backup',async()=>{
@@ -57,6 +57,8 @@ test('backup is owner-scoped, includes all tables and storage with legacy snapsh
  assert.equal(doc.files[0].path,uid+'/café.pdf');
  assert.equal(doc.files[0].base64,'c2VjcmV0LXRlc3QtZGF0YQ==');
  assert.equal(Object.keys(doc.tables).length,Object.keys(MIGRATION_TABLES).length);
+ assert.equal(db.calls.find(c=>c.table==='payroll_balance_imports')?.column,'owner_id');
+ assert.equal(db.orders.find(o=>o.table==='gym_plans')?.column,'user_id');
  assert.equal(doc.errors.length,0);
 });
 test('storage errors abort the entire export instead of silently omitting files',async()=>{
@@ -79,4 +81,5 @@ test('comparison fails closed on wrong owner and incomplete inventories',()=>{
  assert.equal(comparisonAgainstExport(backup,audit,uid).equal,true);
  assert.throws(()=>comparisonAgainstExport({...backup,user_id:other},audit,uid),/no corresponde/);
  assert.equal(comparisonAgainstExport(backup,{...audit,counts:{}},uid).equal,false);
+ assert.equal(comparisonAgainstExport(backup,{...audit,complete:false},uid).equal,false);
 });
