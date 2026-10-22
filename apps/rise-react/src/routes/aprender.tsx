@@ -19,6 +19,7 @@ export const Route=createFileRoute("/aprender")({
 });
 type CourseId="nl"|"en";
 const COURSES_ID:CourseId[]=["nl","en"];
+const awardsInStaging=import.meta.env["VITE_ENABLE_SELFLEARN_AWARDS"]==="true";
 const err=(e:unknown)=>e instanceof Error?e.message:"No se pudo recuperar tu progreso.";
 function SelfLearn(){
   const {client,user}=useAuth();
@@ -46,7 +47,7 @@ function SelfLearn(){
           <ShieldCheck className="h-4 w-4 text-learn"/> Progreso privado
         </span>
         <span className="rounded-full border border-hairline bg-ink/60 px-4 py-2 text-xs text-platinum/75">
-          Prácticas guardables disponibles; XP y FSRS aún en versión clásica
+          {awardsInStaging?"XP y FSRS en pruebas en staging; validación multidispositivo pendiente":"Prácticas guardables disponibles; XP y FSRS continúan en versión clásica"}
         </span>
       </div>
     </PageHero>
@@ -84,7 +85,7 @@ function SelfLearn(){
               <p className="eyebrow text-learn">Siguiente unidad del curso real</p>
               <p className="mt-1 font-display text-xl">{next.title}</p>
               <p className="mt-1 text-xs text-muted-foreground">{next.level} · {next.topic}</p>
-              <p className="mt-2 text-xs text-muted-foreground">Ahora puedes practicar ejercicios reales y guardar checkpoints; el progreso oficial continúa en el reproductor clásico.</p>
+              <p className="mt-2 text-xs text-muted-foreground">{awardsInStaging?"Puedes guardar checkpoints y solicitar la acreditación tras completar una lección. Función de pruebas: se confirmará únicamente con Supabase.":"Ahora puedes practicar ejercicios reales y guardar checkpoints; el progreso oficial continúa en el reproductor clásico."}</p>
             </div>
           </div>}
           <ul className="grid gap-3 sm:grid-cols-2">
