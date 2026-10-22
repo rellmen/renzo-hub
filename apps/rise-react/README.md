@@ -11,7 +11,7 @@ Esta carpeta contiene **código fuente real, no una recreación CSS**, de la ver
 
 ## Pendientes obligatorios
 
-1. **Siete imágenes originales binarias** de `src/assets/`: `ares.jpg`, `gym.jpg`, `hero-eclipse.jpg`, `learn.jpg`, `money.jpg`, `projects.jpg`, `skin.jpg`. Se conservan en el proyecto Lovable original. La API `read_file` devuelve datos JPEG decodificados incorrectamente a texto UTF-8 (caracteres de reemplazo), por lo que no es seguro copiarlos por ese canal. **No sustituir por imágenes inventadas**; importar originales byte a byte mediante GitHub Sync, exportación de proyecto o medio binario verificado.
+1. **Imágenes originales — COMPLETADO en rama de desarrollo.** Los siete JPG del ZIP Lovable están en `src/assets/`, importados con un parche Git binario y verificados individualmente por SHA-256 en GitHub Actions (run `39701160183`). La compilación React todavía no equivale a QA autenticada ni a una publicación.
 2. Importar icono/favicons y lockfile originales; ejecutar build React en un runner limpio (solo después de completar imágenes y dependencias).
 3. **Eliminar todos los datos simulados** y reescribir las pantallas para consumir las fuentes reales con RLS. El Login y la configuración Supabase son una primera base, pero los módulos aún no tienen la lógica real.
 4. Las migraciones de Gym/SelfLearn/Money/Skin/Ares/Work/Nóminas y demás dominios deben preservar CRUD, timestamps, fotos privadas, revisión financiera, reglas de permiso, offline, sincronización y exportaciones.
@@ -26,7 +26,7 @@ Esta carpeta contiene **código fuente real, no una recreación CSS**, de la ver
 - El punto de entrada de staging para probar React debe ser **independiente**, con su propia build, SW y URL hasta finalizar la migración.
 - Fuente de verdad del plan completo: `docs/REACT-MIGRATION-LOVABLE.md`.
 
-**Estado verificable de este directorio:** código TSX/UI copiado, AuthProvider y adapter añadidos; **no build React verificado, no conectividad autenticada de microapps, no producción**.
+**Estado verificable actualizado:** fuentes TSX originales y siete fotografías auténticas importadas; conexiones de lectura/escritura parciales. TypeScript verde; compilación con JPG auténticos en CI aún debe comprobarse. **Sin QA autenticada integral y sin producción React.**
 
 
 ## Importación exacta de las siete imágenes de Lovable
@@ -48,4 +48,4 @@ El script busca `src/assets/`, valida **exactamente** los siete nombres (`ares.j
 
 **Alternativa:** conectar el proyecto Lovable a un **repositorio nuevo y separado** mediante Project settings → Git → GitHub. Lovable creará su repositorio propio con las imágenes binarias, desde el que se podrán copiar esos siete archivos. **Jamás conectar Lovable directamente a `rellmen/renzo-hub`**: son bases arquitectónicas distintas y la sincronización bidireccional podría sobrescribir código de producción.
 
-Los archivos nuevos solo se revisarán y confirmarán en rama de desarrollo; la ausencia de imágenes o de validación funcional seguirá bloqueando la publicación.
+La importación se completó en la rama `feature/react-nocturne-body-food` el 22-10-2026. La tarea GitHub eliminó el parche de transferencia tras comprobar los siete hashes. Los controles de publicación pendientes son **servicios de datos, autenticación QA, PWA iPhone, ramas y rollback**, no la recuperación de imágenes.
