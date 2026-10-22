@@ -22,7 +22,7 @@ type CourseId="nl"|"en";
 const COURSES_ID:CourseId[]=["nl","en"];
 const awardsInStaging=()=>officialSelfLearnAwardsEnabled(import.meta.env["VITE_ENABLE_SELFLEARN_AWARDS"]==="true",{
   hostname:typeof window==="undefined"?"":window.location.hostname,
-  releaseTarget:import.meta.env.VITE_NOCTURNE_RELEASE_TARGET||""
+  releaseTarget:import.meta.env['VITE_NOCTURNE_RELEASE_TARGET']||""
 });
 const err=(e:unknown)=>e instanceof Error?e.message:"No se pudo recuperar tu progreso.";
 function SelfLearn(){
