@@ -16,9 +16,14 @@ Llevar todas las capacidades clásicas a React/TanStack Start conservando **Supa
 - [x] Detector del estado local clásico `renzo-world-v2:<uid>` y `renzo-world-preview-v1:<uid>` en el mismo origen, que no imprime contenidos privados.
 - [x] Comparador local de una copia histórica por usuario y recuentos; advierte de que la igualdad de recuentos **no** certifica identidad de filas.
 - [x] Paginación con orden estable en lecturas de nóminas y backup.
+- [x] Reparado el inventario/exportación con columnas contrastadas contra el esquema **actual** de Supabase producción: `payroll_balance_imports.owner_id` (no `user_id`) y ordenación por `gym_plans.user_id` (la tabla no tiene `id`). Pruebas de regresión específicas.
+- [x] Comparación opcional de contenido por fila en el mismo navegador: identidad de propietario comprobada, clave estable por tabla, serialización JSON canónica y huellas SHA-256 para contar identificadores faltantes, nuevos o modificados. No imprime datos sensibles ni los envía a servicios externos. La comparación antigua por recuentos ahora falla cerrada si el inventario es incompleto.
+- [x] Service Worker React limitado a `/assets/` con tipos admitidos y limpieza de cachés clásicas al activar; sin borrar `localStorage` o IndexedDB.
 - [ ] Test **real autenticado**, descarga e inspección offline de una copia completa; restauración ensayada sin sobrescribir producción.
 - [ ] Migración consentida de cambios locales de origen antiguo: `localStorage` es aislado por **dominio**; `rise-hub-classic-…` no puede leer el anterior `renzo-hub.vercel.app` automáticamente. Recuperación mediante backup antiguo o procedimiento de navegador verificado, sin copiar sesiones o tokens.
-- [ ] Comparar IDs/hashes por tabla, documentos/storage y filas antes/después; resolver conflictos con CAS, auditoría y aprobación, nunca importación ciega.
+- [ ] Verificar con una **sesión real autorizada** los hashes de filas antes/después; confirmar que la comparación de contenido coincide con la copia histórica y que no hay filas ajenas. El código está implementado, **no** la validación real.
+- [ ] Comparar también hash y ruta de cada archivo privado de Storage antes/después; la comparación SHA-256 actual cubre solo las 21 tablas, no los archivos.
+- [ ] Resolver conflictos con CAS, auditoría y aprobación explícita, nunca importación ciega.
 
 ## Fase 2 — Paridad funcional de módulos clásicos (implementado parcialmente)
 
