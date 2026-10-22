@@ -11,6 +11,7 @@ export const MIGRATION_TABLES=Object.freeze({
 });
 export const MIGRATION_BUCKETS=Object.freeze(["payroll","hub-private","portfolio-files","progress-photos"]);
 const BATCH=500,MAX_BYTES=60*1024*1024;
+const SINGLETON_TABLES=new Set(["profiles","user_settings","system_preferences","hub_user_state"]);
 function uidCheck(uid){
  if(typeof uid!=="string"||!/^[0-9a-f-]{36}$/i.test(uid))throw Error("Identidad no válida");
  return uid;
@@ -35,7 +36,8 @@ export async function auditPrivateTables(client,uid,{verifyOwner=verifyMigration
 async function allRows(client,table,column,uid){
  const records=[];
  for(let start=0;start<1000000;start+=BATCH){
-  const {data,error}=await client.from(table).select("*").eq(column,uid).range(start,start+BATCH-1);
+  const {data,error}=await client.from(table).select("*").eq(column,uid)
+   .order(SINGLETON_TABLES.has(table)?column:"id",{ascending:true}).range(start,start+BATCH-1);
   if(error)throw Error("No se pudieron exportar todos los registros de "+table);
   const next=data||[];
   records.push(...next);
