@@ -63,3 +63,19 @@ El propietario respondió **«No lo sé; comprobarlo antes del corte»** sobre d
 No se han ejecutado migraciones de esquema ni importado filas de usuario. Los cambios del PR se revierten con Git antes de publicar. No reasignar el dominio hasta verificar todos los gates; conservar los despliegues de rescate documentados en `NOCTURNE-AI-SELFLEARN-REPAIR.md` y comprobar nuevamente su estado antes de usarlos. Un rollback de frontend no revierte escrituras válidas de Supabase.
 
 Los advisors mantienen dos advertencias heredadas: RPC de cuota `SECURITY DEFINER` invocable por authenticated (necesario revisar su intención antes de cambiarlo) y protección de contraseñas filtradas desactivada. RLS sin políticas de la tabla técnica de cuota restringe su lectura deliberadamente. No se modificaron permisos ni Auth.
+
+
+## Consolidación de ramas y avances adicionales — 22-10-2026
+
+- [x] `feature/nocturne-integral-migration` reconciliada con el merge `#149` integrado en `staging`, conservando el router React, las 18 rutas anteriores y el Service Worker Nocturne. La PR #150 ahora es fusionable y sigue **draft**. Se usó un commit de reconciliación con dos padres para no perder historial.
+- [x] Integradas las funciones nuevas de la segunda línea: exportador mejorado para 21 tablas/cuatro buckets, controles de restauración, revisión Ares sin ejecución, metadatos del despliegue, documentación y pruebas. El código no se ha desplegado en el dominio público.
+- [x] Corregida la caché de la aplicación clásica para incluir el módulo del exportador y alineados los manifiestos de versión React/clásico; los tests de CI deben confirmarlo.
+- [x] Payroll React conserva el historial original y descarga de PDF de la PR #149 y ahora también muestra los contratos y turnos originales de la PR #150 (sin inventar importes).
+- [x] Nueva ruta React `/gastos`, accesible desde Money y el catálogo. Reutiliza las reglas de clasificación del sistema clásico; permite asignar una categoría a un movimiento bancario existente con `owner_id`, `domain`, `record_type` y versión CAS `updated_at`, conservando el resto del payload. Pruebas unitarias incluidas. No importa bancos, no ejecuta automatizaciones y no reescribe importes.
+- [ ] Validar el CI general, TypeScript, build y navegador sobre **el último commit** (no sobre versiones previas).
+- [ ] Conciliar backups completos con archivos Storage, Auth y datos sólo locales. Las instantáneas descritas por Work no son un sustituto de una restauración privada comprobada desde esta sesión.
+- [ ] Paridad real de Payroll/Shift Tracker, importadores, presupuesto y reglas por comercio, SelfLearn, Gym, Skin, Career, Quest, agente y funciones clásicas restantes. Una ruta accesible no equivale a paridad.
+- [ ] Validación real en escritorio y teléfono, incluidas escrituras, sesión autenticada, PWA y conflictos entre dispositivos.
+- [ ] Sólo después de cerrar estos gates podrá evaluarse retirar el proyecto Vercel `rise-hub`; el rollback clásico sigue siendo necesario mientras tanto. **No borrar el clásico antes de recuperar el almacenamiento local y tener una copia privada restaurable.**
+
+El Desktop Commander del propietario figuraba **sin conexión** durante esta revisión. No se ha leído ni alterado su dispositivo, ni se le deben pedir contraseñas o tokens en chat.
