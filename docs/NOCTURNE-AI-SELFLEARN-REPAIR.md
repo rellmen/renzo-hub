@@ -4,7 +4,7 @@
 
 Base de trabajo: staging `7b8f9cb67b3e0b4fddd78bcb2c18f9ad3dc7bd5a`, PR #147 fusionada. Main conserva `ebd0173`. El proyecto `rise-hub-nocturne-qa` es sensible: no modificar su dominio público ni configuración de producción. Último preview observado `dpl_5t1NkXSZSHedn57bCJFjfDLQssHu`; último deployment target production `dpl_8dMPmCEgLpE3ZceG3dpJ9PqAxft1`.
 
-Ares: `api/ares-ai.js` vive fuera de la raíz React y no estaba montado en la entrada TanStack. Además, su política anterior rechazaba production incondicionalmente. Un cambio de ruta por sí solo no enciende el modelo. La entrada server de TanStack ahora atiende `/api/ares-ai` con el mismo handler, sin proxy ni duplicación de autenticación.
+Ares: `api/ares-ai.js` vive fuera de la raíz React y no estaba montado en la entrada TanStack. Además, su política anterior rechazaba production incondicionalmente. Un cambio de ruta por sí solo no enciende el modelo. La primera prueba remota del candidato 532c759 aún devolvió 404: Vercel necesita una función explícita relativa a la raíz React para este endpoint. Se añade `apps/rise-react/api/ares-ai.js` que reexporta el handler clásico; la entrada server de TanStack atiende `/api/ares-ai` con el mismo handler, sin proxy ni duplicación de autenticación.
 
 SelfLearn: inspección SQL de catálogos confirma finalize/review/guard en staging y ausencia en producción. Ambas tablas producción tienen RLS y cuatro políticas owner para cada operación; UPDATE tiene USING y WITH CHECK. El frontend anterior bloqueaba production incluso con el flag activo.
 
@@ -18,7 +18,7 @@ SelfLearn: inspección SQL de catálogos confirma finalize/review/guard en stagi
 ## Pruebas y límites
 
 - Suite Node: 485/485 pasando, incluyendo DB PGlite con datos sintéticos: rollback atómico, XP único, vocabulario histórico, propietario distinto, rol anon, CAS y reintentos FSRS. La prueba de capacidades se incluye en el escenario SQL.
-- React inicial: 11/11; ampliación de cuatro casos de capabilities ejecutada antes del commit.
+- React: 15/15, incluidos cuatro casos de capabilities.
 - TypeScript y build Nitro preset Vercel completados. Handler presente en bundle servidor y ausente de static cliente (búsqueda de nombres de secretos/flags de Ares).
 - GET local servido por TanStack: HTTP 200 JSON enabled=false, no 404. Disabled es el estado correcto sin configuración/secretos.
 - E2E local Chromium/WebKit intentado: descarga de navegadores bloqueada, ejecutables ausentes. No aprobado localmente; CI existente ejecuta ambos motores.
