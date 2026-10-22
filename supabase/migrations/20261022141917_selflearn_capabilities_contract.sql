@@ -1,4 +1,4 @@
--- Staging applied via MCP version 20261022141917; production PENDING explicit approval.
+-- Applied staging MCP 20261022141917 and production MCP 20261022143229; authorized 22 Oct 2026.
 begin;
 -- Read-only contract probe. No user records or identifiers leave this function.
 create function public.selflearn_capabilities() returns jsonb language sql stable security invoker set search_path='' as $$

@@ -1,5 +1,14 @@
 # Reparación Ares AI y SelfLearn · 22 octubre 2026
 
+## Actualización autorizada: producción migrada
+
+Renzo autoriza explícitamente las migraciones y la activación de Ares. Aplicadas en producción vía MCP: selflearn_transactions 20261022143223 y selflearn_capabilities_contract 20261022143229. Archivos trasladados a migrations/ y rollbacks/; no reaplicar. Readiness producción 7/7 true. RPC invoker, sin EXECUTE anon; authenticated permitido. Probe sintético de metadatos version=1/ready=true. Los 171 hub_records y el único hub_user_state conservan exactamente sus huellas antes/después: no se modificó contenido. Sin nueva advertencia de advisors.
+
+Flags ARES_AI_ENABLED, ARES_AI_SHARE_PROJECT_DATA y ARES_AI_ALLOW_PRODUCTION preparados en producción Nocturne; VITE_ENABLE_SELFLEARN_AWARDS=true tras verificar backend. No se ha publicado otro frontend: los cambios de variables se aplican al siguiente build. La clave OPENROUTER_API_KEY existe como sensitive en rise-hub clásico pero Vercel no devuelve su valor; no hay mecanismo de transferencia en herramientas disponibles. No se cambia su tipo ni se intenta extraerla de funciones. El usuario debe añadir su clave directamente como secreto de Production en rise-hub-nocturne-qa. Nunca pegarla en chat. Hasta añadirla y desplegar/verificar, Ares NO está activo.
+
+CI React: todos los pasos del job, incluidos Chromium/WebKit smoke y UI con mocks, constan success (job 119880193910); el contenedor del run aún informa in_progress. CI db-migrations job 119880193080 success; job test de CI sigue queued. No se declara CI global aprobado. El resto de este informe conserva la evidencia histórica previa a esta autorización; este bloque prevalece para el estado vigente.
+
+
 ## Estado y causas verificadas
 
 Base de trabajo: staging `7b8f9cb67b3e0b4fddd78bcb2c18f9ad3dc7bd5a`, PR #147 fusionada. Main conserva `ebd0173`. El proyecto `rise-hub-nocturne-qa` es sensible: no modificar su dominio público ni configuración de producción. Último preview observado `dpl_5t1NkXSZSHedn57bCJFjfDLQssHu`; último deployment target production `dpl_8dMPmCEgLpE3ZceG3dpJ9PqAxft1`.

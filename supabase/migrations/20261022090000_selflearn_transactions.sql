@@ -1,4 +1,4 @@
--- PENDING: approval + authenticated staging QA required. Never apply to production.
+-- Applied in staging and production; explicit user authorization 22 Oct 2026.
 -- Invoker functions retain existing owner RLS. No history rewrite or new tables.
 begin;
 create function public.selflearn_course(p jsonb) returns text language sql immutable set search_path='' as $$
