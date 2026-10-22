@@ -29,11 +29,17 @@ export async function loadBodyFoodSnapshot(client,user,{at=new Date()}={}){
     food=good(f,"comidas")||[],skin=good(s,"rutinas")||[];
   const cfg=good(settings,"perfil corporal")?.settings||{};
   const goals=user.user_metadata?.gym_goals||null;
-  const body=summarizeBody({weights,sessions,food,skin,goals,today});
+  // The legacy summarizer interprets Number(null) as 0. Exclude incomplete
+  // weight entries so a missing measurement never appears as "0 kg".
+  const validWeights=weights.filter(r=>{
+    const v=r?.payload?.value;
+    return v!==null&&v!==undefined&&v!==""&&Number.isFinite(Number(v))&&Number(v)>0;
+  });
+  const body=summarizeBody({weights:validWeights,sessions,food,skin,goals,today});
   const meals=food.filter(r=>r?.payload?.date===today).map(r=>({
     id:String(r.id||""),title:String(r.payload?.meal||r.payload?.name||r.payload?.description||"Comida registrada"),
-    kcal:Number.isFinite(Number(r.payload?.kcal))?Number(r.payload.kcal):null,
-    protein:Number.isFinite(Number(r.payload?.protein))?Number(r.payload.protein):null
+    kcal:r.payload?.kcal!=null&&r.payload.kcal!==""&&Number.isFinite(Number(r.payload.kcal))?Number(r.payload.kcal):null,
+    protein:r.payload?.protein!=null&&r.payload.protein!==""&&Number.isFinite(Number(r.payload.protein))?Number(r.payload.protein):null
   }));
   const profile=cfg.bodyProfile&&typeof cfg.bodyProfile==="object"?cfg.bodyProfile:{};
   return {
