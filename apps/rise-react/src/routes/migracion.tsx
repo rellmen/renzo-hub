@@ -4,13 +4,14 @@ import {Archive,AlertTriangle,CheckCircle2,Download,RefreshCw,Search,ShieldCheck
 import {useAuth} from "@/lib/auth/AuthProvider";
 import {PageHeader,SectionCard} from "@/components/rise/primitives";
 import {pageHead} from "@/lib/seo";
-import {MIGRATION_TABLES,MIGRATION_BUCKETS,auditPrivateTables,buildMigrationBackup,legacyLocalKeys,comparisonAgainstExport,type MigrationAudit} from "@/lib/migration-audit.mjs";
+import {MIGRATION_TABLES,MIGRATION_BUCKETS,auditPrivateTables,buildMigrationBackup,legacyLocalKeys,comparisonAgainstExport,compareMigrationRows,type MigrationAudit} from "@/lib/migration-audit.mjs";
 
 export const Route=createFileRoute("/migracion")({
  head:()=>pageHead("Migración y copias","Auditoría privada de datos, copia de seguridad y comparación segura entre versiones."),
  component:MigrationCenter
 });
 type Compared={table:string;backupCount:number|null;currentCount:number|null;match:boolean};
+type RowCompared={table:string;backupCount:number|null;currentCount:number|null;missing:number;added:number;changed:number;match:boolean};
 function downloadBackup(data:unknown){
  const blob=new Blob([JSON.stringify(data)],{type:"application/json"});
  const url=URL.createObjectURL(blob);
@@ -26,6 +27,7 @@ function MigrationCenter(){
  const [audit,setAudit]=useState<MigrationAudit|null>(null);
  const [snapshot,setSnapshot]=useState<{key:string;present:boolean;valid?:boolean;modifiedAt?:string|null;counts?:Record<string,number>}[]|null>(null);
  const [compared,setCompared]=useState<Compared[]|null>(null);
+ const [rowCompared,setRowCompared]=useState<RowCompared[]|null>(null);
  const [equal,setEqual]=useState<boolean|null>(null);
  const [exported,setExported]=useState("");
  async function runAudit(){
@@ -54,15 +56,17 @@ function MigrationCenter(){
  }
  async function compare(file:File|undefined){
   if(!file||!uid)return;
-  setBusy("compare");setError("");setCompared(null);
+  setBusy("compare");setError("");setCompared(null);setRowCompared(null);setProgress("");
   try{
    if(file.size>65*1024*1024)throw Error("La copia supera 65 MB; no se cargará en memoria.");
    if(!audit?.complete)throw Error("Verifica primero todos los datos de Supabase.");
+   if(!client)throw Error("Sesión de Supabase no disponible.");
    const raw=JSON.parse(await file.text()) as unknown;
    const result=comparisonAgainstExport(raw,audit,uid);
-   setCompared(result.comparisons);setEqual(result.equal);
+   const rows=await compareMigrationRows(client,uid,raw,{onProgress:setProgress});
+   setCompared(result.comparisons);setRowCompared(rows.comparisons);setEqual(result.equal&&rows.equal);
   }catch(e){setError(e instanceof Error?e.message:"No se pudo comparar esta copia.");}
-  finally{setBusy(null);}
+  finally{setBusy(null);setProgress("");}
  }
  const total=audit?Object.values(audit.counts).reduce((n,v)=>n+v,0):null;
  return <div className="space-y-6">
@@ -105,15 +109,16 @@ function MigrationCenter(){
     <p className="mt-3 text-xs text-muted-foreground">Si utilizaste otro dominio antes, su localStorage no se puede leer desde aquí. Importa una copia descargada de esa versión para comparar.</p>
    </SectionCard>
    <SectionCard eyebrow="Fase 1 · Conciliación" title="Comparar una copia" accent="var(--skin)">
-    <p className="text-sm text-platinum/80">Selecciona un JSON exportado desde la aplicación clásica. Se analiza en este navegador, no se sube a ningún servidor ni se restaura automáticamente.</p>
+    <p className="text-sm text-platinum/80">Selecciona un JSON exportado desde la aplicación clásica. Verificamos identificadores y contenido SHA-256 de las filas contra Supabase en este navegador, sin subir el archivo ni restaurar datos.</p>
     <label className="btn-ghost mt-4 flex min-h-11 w-fit cursor-pointer items-center gap-2">
      <UploadCloud className="h-4 w-4"/> {busy==="compare"?"Comparando…":"Seleccionar archivo JSON"}
      <input type="file" accept=".json,application/json" className="sr-only" disabled={!!busy} onChange={e=>{const f=e.currentTarget.files?.[0];void compare(f);e.currentTarget.value="";}}/>
     </label>
     {compared&&<div className="mt-3 space-y-2">
-      <p className="text-sm">{equal?"Los recuentos coinciden.":"Hay diferencias o tablas sin comparar."}</p>
+      <p className="text-sm">{equal?"Coinciden identificadores y contenido de las tablas verificadas.":"Se han detectado diferencias o tablas sin verificar."}</p>
       <ul className="space-y-1 text-xs">{compared.filter(x=>!x.match).map(x=><li key={x.table}>{x.table}: copia {x.backupCount??"?"}, nube {x.currentCount??"?"}</li>)}</ul>
-      <p className="text-xs text-muted-foreground">Un recuento igual no prueba igualdad de contenido ni ausencia de conflictos.</p>
+      {rowCompared?.filter(x=>!x.match).map(x=><p key={x.table} className="text-xs text-gym">{x.table}: faltan {x.missing}, nuevos {x.added}, modificados {x.changed}{x.backupCount===null?" · tabla ausente en la copia": ""}</p>)}
+      <p className="text-xs text-muted-foreground">La comparación SHA-256 de filas no cubre archivos de Storage, cambios locales pendientes ni escrituras posteriores a esta comprobación.</p>
     </div>}
    </SectionCard>
   </div>
