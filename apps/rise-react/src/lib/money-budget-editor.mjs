@@ -26,7 +26,7 @@ export function cleanWeeklyLimits(values,previous={}){
   if(!allowed.has(key))throw Error("Categoría de presupuesto desconocida.");
   if(value===""||value===null||value===undefined){delete result[key];continue;}
   const number=Number(value);
-  if(!Number.isFinite(number)||number<0||number>50000||Math.round(number*100)!==number*100)
+  if(!Number.isFinite(number)||number<0||number>50000||Math.abs(Math.round(number*100)-number*100)>0.000001)
    throw Error("Importe semanal inválido: usa euros no negativos con dos decimales como máximo.");
   result[key]=number;
  }
