@@ -23,7 +23,7 @@ const CATALOG=[
  {name:"Notas",group:"Trabajo",path:"/notas",status:"React · notas"},
  {name:"Migración y copias",group:"Sistema",path:"/migracion",status:"React · auditoría"},
  {name:"News",group:"Sistema",path:"/news",status:"React · historial",classic:"news"},
- {name:"Gastos avanzados",group:"Finanzas",classic:"gastos",status:"Clásico · pendiente de React"},
+ {name:"Gastos",group:"Finanzas",path:"/gastos",classic:"gastos",status:"React · categorías editables; importación clásica"},
  {name:"Car",group:"Sistema",classic:"car",status:"Clásico · pendiente de React"},
  {name:"Career / Data Lab",group:"Trabajo",path:"/career",classic:"work",status:"React · perfil; cursos y portafolio pendientes"},
  {name:"Quest / RPG",group:"Aprendizaje",path:"/quest",classic:"study",status:"React · XP histórico; misiones pendientes"},
