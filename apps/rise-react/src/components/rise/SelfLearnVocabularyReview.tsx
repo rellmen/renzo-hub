@@ -3,6 +3,7 @@ import {useMutation,useQueryClient} from '@tanstack/react-query';
 import type {SupabaseClient} from '@supabase/supabase-js';
 import type {LearningRecord} from '@/lib/selflearn-snapshot.mjs';
 import {saveVocabularyReview,type ReviewGrade} from '@/lib/selflearn-review.mjs';
+import {officialSelfLearnAwardsEnabled} from '@/lib/nocturne-environment.mjs';
 
 export function SelfLearnVocabularyReview({client,uid,course,cards,legacyActive}:{
  client:SupabaseClient|null;uid:string;course:'nl'|'en';cards:LearningRecord[];legacyActive:boolean
@@ -28,7 +29,10 @@ export function SelfLearnVocabularyReview({client,uid,course,cards,legacyActive}
    setMessage('Repaso confirmado y próxima fecha guardada.');setRevealed(null);
    await qc.invalidateQueries({queryKey:['selflearn-snapshot',uid]});
   }});
- if(import.meta.env['VITE_ENABLE_SELFLEARN_AWARDS']!=='true')return null;
+ if(!officialSelfLearnAwardsEnabled(import.meta.env['VITE_ENABLE_SELFLEARN_AWARDS']==='true',{
+   hostname:typeof window==='undefined'?'':window.location.hostname,
+   releaseTarget:import.meta.env.VITE_NOCTURNE_RELEASE_TARGET||''
+ }))return null;
  return <section className="surface rim space-y-4 p-5 sm:p-6" aria-label="Repaso de vocabulario">
   <h2 className="font-display text-2xl">Vocabulario para repasar</h2>
   <p className="text-sm text-muted-foreground">{due.length} tarjetas pendientes. Valora cuánto has recordado después de ver la respuesta.</p>
