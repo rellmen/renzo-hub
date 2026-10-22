@@ -15,7 +15,7 @@ function fakeDb({ failTable = null } = {}) {
   return {
     calls,
     from(table) {
-      const q = { filters: [], select() { return q; }, eq(k, v) { q.filters.push([k, v]); return q; },
+      const q = { filters: [], select() { return q; }, order() { return q; }, eq(k, v) { q.filters.push([k, v]); return q; },
         range(a, b) { calls.push({ table, filters: q.filters, a, b }); return Promise.resolve(table === failTable ? { data: null, error: { message: "fallo simulado" } } : { data: (rows[table] || []).slice(a, b + 1), error: null }); } };
       return q;
     },

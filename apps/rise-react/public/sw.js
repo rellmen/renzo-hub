@@ -1,5 +1,5 @@
 /* RISE HUB Nocturne — safe PWA cache. Never cache private documents or APIs. */
-const NAME = "rise-nocturne-static-v1";
+const NAME = "rise-nocturne-static-v2";
 self.addEventListener("install", () => { self.skipWaiting(); });
 self.addEventListener("activate", (event) => {
   event.waitUntil((async () => {

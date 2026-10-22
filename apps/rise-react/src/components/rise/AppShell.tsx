@@ -21,7 +21,7 @@ export function DesktopSidebar() {
   return (
     <aside className="fixed inset-y-0 left-0 z-30 hidden w-[248px] flex-col border-r border-sidebar-border bg-sidebar lg:flex">
       <div className="px-6 pb-8 pt-7"><Brand /></div>
-      <nav aria-label="Principal" className="flex-1 space-y-1 px-3">
+      <nav aria-label="Principal" className="min-h-0 flex-1 space-y-1 overflow-y-auto px-3">
         <div className="eyebrow px-3 pb-2 text-muted-foreground/70">Módulos</div>
         {NAV.map((n) => {
           const active = isActive(n.to);
@@ -39,7 +39,7 @@ export function DesktopSidebar() {
       </nav>
       <div className="m-4 rounded-2xl border border-gold/20 bg-wine-gradient p-4">
         <div className="eyebrow mb-1">Acceso privado · React</div>
-        <p className="text-xs leading-relaxed text-platinum/80">Proyectos ya utiliza tus registros reales. Los demás módulos siguen en migración y pueden mostrar datos de demostración.</p>
+        <p className="text-xs leading-relaxed text-platinum/80">Tus módulos consultan registros de tu cuenta. Las funciones que siguen en migración están indicadas en Ajustes.</p>
       </div>
     </aside>
   );

@@ -9,6 +9,7 @@ import {PageHeader,SectionCard} from "@/components/rise/primitives";
 import {useAuth} from "@/lib/auth/AuthProvider";
 import {LEGACY_FALLBACK_URL} from "@/lib/nocturne-environment.mjs";
 import {refreshVisiblePrivateData} from "@/lib/private-data-refresh";
+import {DataBackupPanel} from "@/components/rise/DataBackupPanel";
 
 export const Route=createFileRoute("/ajustes")({
   head:()=>pageHead("Ajustes y privacidad","Tu sesión, privacidad y estado de la migración RISE HUB React."),
@@ -17,12 +18,14 @@ export const Route=createFileRoute("/ajustes")({
 const MODULES:{name:string;status:string;details:string}[]=[
   {name:"Inicio",status:"lectura",details:"Proyectos y actividad verificados"},
   {name:"Proyectos",status:"operativo parcial",details:"Tareas reales y edición limitada"},
-  {name:"Ares Center",status:"lectura",details:"Consultas de registros, sin ejecución de agentes"},
-  {name:"SelfLearn",status:"lectura",details:"Progreso guardado; reproductor aún en migración"},
-  {name:"Gym",status:"lectura",details:"Sesiones y plan existentes"},
+  {name:"Ares Center",status:"operativo parcial",details:"Consultas, decisiones y monitor histórico; sin ejecución de agentes"},
+  {name:"SelfLearn",status:"operativo parcial",details:"Práctica y progreso; acreditación según contrato del entorno"},
+  {name:"Gym",status:"operativo parcial",details:"Sesiones, plan y borrador; funciones avanzadas en migración"},
+  {name:"Payroll y turnos",status:"lectura",details:"Historial original; importar y editar en la versión clásica"},
   {name:"Money",status:"lectura",details:"Bancos y patrimonio registrados; sin operaciones"},
   {name:"Skin Routine",status:"operativo parcial",details:"Rutinas y notas, inventario sin editar"},
-  {name:"Sistema completo",status:"pendiente",details:"Módulos administrativos y PWA aún por integrar"}
+  {name:"Copia de datos",status:"preparado",details:"Exportación privada; validación autenticada pendiente"},
+  {name:"Sistema completo",status:"pendiente",details:"Paridad de módulos y pruebas PWA aún por completar"}
 ];
 
 function Settings(){
@@ -54,6 +57,7 @@ function Settings(){
     <PageHeader eyebrow="SISTEMA · ACCESO PRIVADO" title="Ajustes y privacidad"
       subtitle="Tu cuenta real de RISE HUB y el estado verificable de la transición a React."/>
     <div className="grid gap-6 lg:grid-cols-2">
+      <DataBackupPanel/>
       <SectionCard eyebrow="Identidad" title="Cuenta conectada" accent="var(--gold)">
         <div className="flex items-center gap-4 rounded-2xl border border-hairline bg-raised p-4">
           <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-wine-gradient text-gold"><UserRound className="h-5 w-5"/></span>

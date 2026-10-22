@@ -8,6 +8,7 @@ import {SectionCard,EmptyState} from "@/components/rise/primitives";
 import {useAuth} from "@/lib/auth/AuthProvider";
 import {loadAresRecords,answerAresFromRecords} from "@/lib/ares-records.mjs";
 import {aresPreviewStatus,askAresPreview} from "@/lib/ares-preview-client.mjs";
+import {AresOperations} from '@/components/rise/AresOperations';
 
 export const Route=createFileRoute("/ares")({
   head:()=>pageHead("Ares Center","Consulta privada de actividad y tareas registradas en RISE HUB."),
@@ -129,20 +130,6 @@ function AresPage(){
       </SectionCard>
 
       <div className="space-y-6">
-        <SectionCard eyebrow="Aprobaciones" title="Pendientes de revisión" accent="var(--gold)">
-          {!data&&!error&&<p role="status">Cargando…</p>}
-          {data&&data.approvals.length===0&&<EmptyState icon={<Inbox className="h-5 w-5"/>}
-            title="Sin revisiones pendientes" text="No hay aprobaciones pendientes entre los registros consultados."/>}
-          {data&&data.approvals.length>0&&<ul className="space-y-3">
-            {data.approvals.slice(0,12).map(row=><li key={row.id}
-              className="rounded-xl border border-hairline bg-raised p-4">
-              <p className="break-words text-sm font-medium">{row.title||"Sin título"}</p>
-              <p className="mt-1 text-xs text-muted-foreground">Estado: {row.status||"Sin indicar"}</p>
-              <span className="mt-2 inline-block rounded-full border border-gold/30 px-3 py-1 text-xs text-gold">Revisión manual · sin ejecutar</span>
-            </li>)}
-          </ul>}
-          <p className="mt-3 text-xs text-muted-foreground">Las aprobaciones y operaciones sensibles se realizarán únicamente después de portar su flujo de autorización.</p>
-        </SectionCard>
         <SectionCard eyebrow="Actividad" title="Datos disponibles" accent="var(--ares)">
           {data?<dl className="grid grid-cols-2 gap-3">
             {[["Proyectos",data.projects.length],["Tareas abiertas",data.tasks.length],["Revisiones",data.approvals.length],["Eventos",data.agents.length]].map(([label,value])=>
@@ -154,5 +141,6 @@ function AresPage(){
         </SectionCard>
       </div>
     </div>
+    {data&&<AresOperations approvals={data.approvals} agents={data.agents}/>}
   </div>;
 }

@@ -1,0 +1,8 @@
+{
+  "release": "2.55.0",
+  "name": "RISE HUB · Nocturne: respaldo verificable y consulta Payroll (migración parcial)",
+  "production": "https://renzo-hub.vercel.app",
+  "preview": "https://renzo-hub-2-1-staging.vercel.app",
+  "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",
+  "updated": "2026-10-22"
+}
