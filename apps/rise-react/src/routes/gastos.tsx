@@ -6,6 +6,7 @@ import {pageHead} from "@/lib/seo";
 import {useAuth} from "@/lib/auth/AuthProvider";
 import {PageHeader,SectionCard} from "@/components/rise/primitives";
 import {loadGastos,saveGastosCategory,GASTOS_CATEGORIES} from "@/lib/gastos-editor.mjs";
+import {FinanceSections} from "@/components/rise/FinanceSections";
 
 export const Route=createFileRoute("/gastos")({
  head:()=>pageHead("Gastos","Categorías reales de los movimientos bancarios guardados."),
@@ -35,6 +36,7 @@ function Expenses(){
  const summary=query.data&&month?query.data.summary(month):null;
  const items=(query.data?.items||[]).filter(i=>i.date?.startsWith(month)).slice(0,200);
  return <div className="space-y-6">
+  <FinanceSections/>
   <PageHeader eyebrow="MY FINANCE · GASTOS" title="Categoriza tus movimientos"
    subtitle="Utiliza los movimientos originales de ING y Revolut. Puedes corregir una categoría sin alterar fecha, importe o procedencia bancaria."/>
   <div className="flex flex-wrap items-center justify-between gap-3">
