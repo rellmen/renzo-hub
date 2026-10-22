@@ -19,6 +19,14 @@ function Quest(){
    subtitle="Tu progreso se fundamenta en eventos guardados, sin misiones completadas de demostración."/>
   <SectionCard eyebrow="XP histórico confirmado" title={q.data?String(q.data.points)+" XP":"Calculando…"} accent="var(--gold)">
    <p className="text-sm text-platinum/75">Suma de eventos de XP únicos del sistema clásico. No incluye lecciones contabilizadas de otro modo hasta verificar que no haya duplicidad.</p>
+   {q.data&&<div className="mt-4 space-y-2 rounded-xl border border-hairline p-4">
+    <div className="flex flex-wrap items-baseline justify-between gap-3 text-sm"><strong>Nivel {q.data.progress.level} · Rango {q.data.progress.rank}</strong>
+     <span className="text-muted-foreground">{q.data.progress.toNext} XP para el nivel {q.data.progress.level+1}</span></div>
+    <div className="h-2 overflow-hidden rounded-full bg-foreground/10" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={q.data.progress.percent} aria-label="Progreso hacia el siguiente nivel">
+     <div className="h-full rounded-full bg-gold" style={{width:q.data.progress.percent+"%"}}/>
+    </div>
+    <p className="text-xs text-muted-foreground">Misma fórmula de nivel y rangos de la aplicación clásica, calculada únicamente a partir de eventos existentes.</p>
+   </div>}
    <button type="button" className="btn-ghost mt-3 min-h-11" disabled={q.isFetching} onClick={()=>void q.refetch()}>
     <RefreshCw className={"h-4 w-4 "+(q.isFetching?"animate-spin":"")}/> Actualizar</button>
   </SectionCard>
