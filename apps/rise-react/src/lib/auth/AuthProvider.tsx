@@ -10,6 +10,23 @@ type AuthContextValue=AuthState&{
   retry:()=>void;
 };
 const INITIAL:AuthState={status:'loading',client:null,session:null,user:null,error:null};
+
+// Keep backend details out of the UI and distinguish user errors from staging outages.
+// Authentication and user identities are isolated from the production environment.
+export function loginErrorMessage(error:unknown):string{
+  const detail=(error&&typeof error==='object')?error as {code?:unknown;message?:unknown;status?:unknown}:{};
+  const code=typeof detail.code==='string'?detail.code.toLowerCase():'';
+  const message=typeof detail.message==='string'?detail.message.toLowerCase():'';
+  if(code==='invalid_credentials'||message.includes('invalid login credentials'))
+    return 'Correo o contraseña no válidos para este entorno de pruebas. Comprueba tus credenciales de staging.';
+  if(code==='email_not_confirmed'||message.includes('email not confirmed'))
+    return 'Confirma el correo de esta cuenta de pruebas antes de entrar.';
+  if(detail.status===429||code.includes('rate_limit')||message.includes('rate limit'))
+    return 'Demasiados intentos. Espera un momento antes de volver a entrar.';
+  if(message.includes('failed to fetch')||message.includes('network')||message.includes('timeout')||message.includes('fetch failed'))
+    return 'No se pudo contactar con el servicio de acceso. Comprueba la conexión e inténtalo de nuevo.';
+  return 'No se pudo iniciar sesión en staging. Inténtalo de nuevo o comunica el error al equipo.';
+}
 const AuthContext=createContext<AuthContextValue|null>(null);
 
 export function AuthProvider({children,onAccountChange}:{children:ReactNode;onAccountChange?:(userId:string|null)=>void}){
@@ -19,6 +36,7 @@ export function AuthProvider({children,onAccountChange}:{children:ReactNode;onAc
     let mounted=true;
     let unsubscribe:undefined|(()=>void);
     let previousUserId:string|null=null;
+    let authEventReceived=false;
     const receive=(client:SupabaseClient,session:Session|null)=>{
       if(!mounted)return;
       const id=session?.user?.id??null;
@@ -32,14 +50,20 @@ export function AuthProvider({children,onAccountChange}:{children:ReactNode;onAc
       try{
         const client=await getReactSupabaseClient();
         if(!mounted)return;
-        const {data:{subscription}}=client.auth.onAuthStateChange((_event,session)=>receive(client,session));
+        const {data:{subscription}}=client.auth.onAuthStateChange((_event,session)=>{
+          authEventReceived=true;
+          receive(client,session);
+        });
         unsubscribe=()=>subscription.unsubscribe();
         const {data,error}=await client.auth.getSession();
         if(error)throw error;
-        receive(client,data.session);
+        // INITIAL_SESSION/SIGNED_IN may arrive while getSession is pending. The
+        // event is newer than this snapshot and must not be overwritten.
+        if(!authEventReceived)receive(client,data.session);
       }catch(error){
         if(!mounted)return;
-        setState({status:'error',client:null,session:null,user:null,error:error instanceof Error?error.message:'No se pudo iniciar sesión'});
+        setState({status:'error',client:null,session:null,user:null,
+          error:'No se pudo preparar el acceso privado de staging. Comprueba la conexión y reintenta.'});
       }
     })();
     return ()=>{mounted=false;unsubscribe?.();};
@@ -74,11 +98,11 @@ export function AuthGate({children}:{children:ReactNode}){
   const [formError,setFormError]=useState('');
   const submit=async(e:FormEvent<HTMLFormElement>)=>{
     e.preventDefault();setBusy(true);setFormError('');
-    try{await auth.signIn(email,password);}catch(err){setFormError(err instanceof Error?err.message:'No se pudo iniciar sesión');}
+    try{await auth.signIn(email,password);}catch(err){setFormError(loginErrorMessage(err));}
     finally{setBusy(false);setPassword('');}
   };
   if(auth.status==='loading')return <div role="status" className="grid min-h-screen place-items-center bg-background text-platinum">Preparando acceso seguro…</div>;
   if(auth.status==='error')return <main className="grid min-h-screen place-items-center bg-background p-6"><div className="surface max-w-md space-y-4 p-8"><h1 className="font-display text-3xl">No se pudo preparar el acceso</h1><p role="alert">{auth.error}</p><button className="btn-gold" onClick={auth.retry}>Reintentar</button></div></main>;
   if(auth.status==='signed-in')return <>{children}</>;
-  return <main className="grid min-h-screen place-items-center bg-background p-6"><form onSubmit={submit} className="surface w-full max-w-md space-y-5 p-8"><p className="eyebrow">RISE HUB · NOCTURNE</p><h1 className="font-display text-4xl">Tu espacio privado.</h1><p className="text-sm text-muted-foreground">Accede con tu cuenta actual de RISE HUB.</p><label className="block space-y-2 text-sm">Correo electrónico<input type="email" autoComplete="username" required value={email} onChange={e=>setEmail(e.target.value)} className="h-12 w-full rounded-xl border border-input bg-raised px-4 text-foreground"/></label><label className="block space-y-2 text-sm">Contraseña<input type="password" autoComplete="current-password" required value={password} onChange={e=>setPassword(e.target.value)} className="h-12 w-full rounded-xl border border-input bg-raised px-4 text-foreground"/></label>{formError&&<p role="alert" className="text-sm text-destructive">{formError}</p>}<button disabled={busy} type="submit" className="btn-gold w-full">{busy?'Comprobando…':'Entrar'}</button></form></main>;
+  return <main className="grid min-h-screen place-items-center bg-background p-6"><form onSubmit={submit} className="surface w-full max-w-md space-y-5 p-8"><p className="eyebrow">RISE HUB · NOCTURNE</p><h1 className="font-display text-4xl">Tu espacio privado.</h1><p className="text-sm text-muted-foreground">Accede con una cuenta habilitada en staging. Este entorno no utiliza la base de datos de producción.</p><label className="block space-y-2 text-sm">Correo electrónico<input type="email" autoComplete="username" required value={email} onChange={e=>setEmail(e.target.value)} className="h-12 w-full rounded-xl border border-input bg-raised px-4 text-foreground"/></label><label className="block space-y-2 text-sm">Contraseña<input type="password" autoComplete="current-password" required value={password} onChange={e=>setPassword(e.target.value)} className="h-12 w-full rounded-xl border border-input bg-raised px-4 text-foreground"/></label>{formError&&<p role="alert" className="text-sm text-destructive">{formError}</p>}<button disabled={busy} type="submit" className="btn-gold w-full">{busy?'Comprobando…':'Entrar'}</button></form></main>;
 }
