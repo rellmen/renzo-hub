@@ -91,7 +91,7 @@ export function SelfLearnCheckpointPractice({client,uid,course,legacyActive,next
  // cross-client idempotency/RLS verification of all awards.
  const allowOfficialAward=officialSelfLearnAwardsEnabled(import.meta.env["VITE_ENABLE_SELFLEARN_AWARDS"]==="true",{
    hostname:typeof window==="undefined"?"":window.location.hostname,
-   releaseTarget:import.meta.env.VITE_NOCTURNE_RELEASE_TARGET||""
+   releaseTarget:import.meta.env['VITE_NOCTURNE_RELEASE_TARGET']||""
  });
  const key=["selflearn-checkpoints",uid];
  const query=useQuery({queryKey:key,enabled:!!client&&!!uid,
