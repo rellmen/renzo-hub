@@ -64,3 +64,17 @@ test('Unauthenticated requests and blocked RLS fail closed',async()=>{
  await assert.rejects(loadBodyFoodSnapshot(mock().client,null),/Inicia sesión/);
  await assert.rejects(loadBodyFoodSnapshot(mock({failure:'RLS denied'}).client,user),/RLS denied/);
 });
+
+test('Incomplete measurements never masquerade as zero weight or zero nutrition',async()=>{
+ const weights=[
+   {payload:{date:'2026-10-20',value:null},occurred_at:'2026-10-20T12:00:00Z'},
+   {payload:{date:'2026-10-21',value:''},occurred_at:'2026-10-21T12:00:00Z'},
+   {payload:{date:'2026-10-22',value:82.5},occurred_at:'2026-10-22T12:00:00Z'}
+ ];
+ const food=[{id:'m1',payload:{date:'2026-10-22',meal:'Meal',kcal:null,protein:''},occurred_at:'2026-10-22T10:00:00Z'}];
+ const s=await loadBodyFoodSnapshot(mock({weights,food}).client,user,{at:new Date(2026,9,22,12)});
+ assert.equal(s.body.weight.current.value,82.5);
+ assert.equal(s.body.weight.count,1);
+ assert.equal(s.meals[0].kcal,null);
+ assert.equal(s.meals[0].protein,null);
+});
