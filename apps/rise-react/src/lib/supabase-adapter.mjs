@@ -4,6 +4,14 @@
 let clientPromise=null;
 
 export async function fetchSupabaseConfig({fetcher=globalThis.fetch,timeoutMs=10000}={}){
+  // Vite embeds only VITE_-prefixed values. These MUST be Supabase publishable
+  // credentials (never service_role or sb_secret_), subject to the same validation
+  // as the legacy same-origin bootstrap. Nitro/TanStack deployments may not expose
+  // Vercel /api files as standalone functions, so use a verified public config first.
+  const envUrl=import.meta.env?.VITE_SUPABASE_URL;
+  const envKey=import.meta.env?.VITE_SUPABASE_PUBLISHABLE_KEY;
+  if(typeof envUrl==='string'&&typeof envKey==='string'&&envUrl&&envKey)
+    return validateSupabaseConfig({supabaseUrl:envUrl,publishableKey:envKey});
   if(typeof fetcher!=='function')throw new Error('Servicio de red no disponible');
   const controller=new AbortController();
   const timer=setTimeout(()=>controller.abort(),timeoutMs);
@@ -13,6 +21,11 @@ export async function fetchSupabaseConfig({fetcher=globalThis.fetch,timeoutMs=10
     });
     if(!response||!response.ok)throw new Error('No se pudo obtener la configuración de acceso de este entorno');
     const data=await response.json();
+    return validateSupabaseConfig(data);
+  }finally{clearTimeout(timer);}
+}
+
+export function validateSupabaseConfig(data){
     if(!data||typeof data.supabaseUrl!=='string'||typeof data.publishableKey!=='string')
       throw new Error('Configuración de acceso incompleta');
     let url;
@@ -23,7 +36,6 @@ export async function fetchSupabaseConfig({fetcher=globalThis.fetch,timeoutMs=10
     if(!key||key.length<20||/sb_secret_|service_role/i.test(key))
       throw new Error('Clave publicable inválida');
     return Object.freeze({supabaseUrl:url.toString().replace(/\/$/,''),publishableKey:key});
-  }finally{clearTimeout(timer);}
 }
 
 // Inject `createClient` in tests; lazy import in the React frontend.
