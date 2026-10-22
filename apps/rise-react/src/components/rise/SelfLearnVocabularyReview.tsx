@@ -1,3 +1,4 @@
+import {useSelfLearnCapabilities} from '@/lib/use-selflearn-capabilities';
 import {useRef,useState} from 'react';
 import {useMutation,useQueryClient} from '@tanstack/react-query';
 import type {SupabaseClient} from '@supabase/supabase-js';
@@ -29,9 +30,10 @@ export function SelfLearnVocabularyReview({client,uid,course,cards,legacyActive}
    setMessage('Repaso confirmado y próxima fecha guardada.');setRevealed(null);
    await qc.invalidateQueries({queryKey:['selflearn-snapshot',uid]});
   }});
+ const backendReady=useSelfLearnCapabilities(client,uid);
  if(!officialSelfLearnAwardsEnabled(import.meta.env['VITE_ENABLE_SELFLEARN_AWARDS']==='true',{
    hostname:typeof window==='undefined'?'':window.location.hostname,
-   releaseTarget:import.meta.env['VITE_NOCTURNE_RELEASE_TARGET']||''
+   backendReady,releaseTarget:import.meta.env['VITE_NOCTURNE_RELEASE_TARGET']||''
  }))return null;
  return <section className="surface rim space-y-4 p-5 sm:p-6" aria-label="Repaso de vocabulario">
   <h2 className="font-display text-2xl">Vocabulario para repasar</h2>

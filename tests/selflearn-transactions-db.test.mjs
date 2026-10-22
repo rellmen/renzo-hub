@@ -21,6 +21,7 @@ test('Postgres SelfLearn transactions: owner isolation, retry, stale review, leg
   await db.exec('alter default privileges revoke execute on functions from public');
   await db.exec(await readFile(pending,'utf8'));
   await db.exec(`set role authenticated;set request.jwt.claim.sub='${uid}'`);
+  assert.deepEqual((await db.query('select selflearn_capabilities() result')).rows[0].result,{version:1,ready:true});
   const run={version:2,mode:'lesson',course:'nl',unitId:'a1-legacy-1',index:1,queue:['s1'],steps:[{id:'s1',type:'choice'}],attempts:{s1:1},firstTry:{s1:true}};
   await db.query(`insert into hub_records(id,owner_id,domain,record_type,payload) values($1,$2,'learning','learning_run',$3)`,[cp,uid,{sessionId:cp,course:'nl',run}]);
   const event={id:eventId,owner_id:uid,payload:{id:eventId,kind:'learning',course:'nl',practice:'Study path',courseLessonId:run.unitId,passed:true,score:1,totalQuestions:1,xp:10,date:'2026-10-22'}};

@@ -4,7 +4,9 @@
 const MODEL = "openrouter/free";
 const allowed = ["renzo_project", "renzo_task", "ares_operation"];
 const send = (res,code,body) => {res.setHeader("Cache-Control","no-store, max-age=0");return res.status(code).json(body);};
-const ready = () => process.env.VERCEL_ENV==="preview" &&
+const environmentAllowed = () => process.env.VERCEL_ENV==="preview" ||
+  (process.env.VERCEL_ENV==="production" && process.env.ARES_AI_ALLOW_PRODUCTION==="true");
+const ready = () => environmentAllowed() &&
   process.env.ARES_AI_ENABLED==="true" && process.env.ARES_AI_SHARE_PROJECT_DATA==="true" &&
   Boolean(process.env.OPENROUTER_API_KEY);
 const clean = (value,max=100) => String(value??"").slice(0,max);
@@ -21,14 +23,15 @@ const context = r => ({
 export default async function handler(req,res){
   if(req.method==="GET")return send(res,200,{enabled:ready(),provider:"OpenRouter",model:MODEL,sharing:"Project and task names/statuses only"});
   if(req.method!=="POST"){res.setHeader("Allow","GET, POST");return send(res,405,{error:"Method not allowed"});}
-  if(process.env.VERCEL_ENV!=="preview")return send(res,403,{error:"Solo habilitable en preview"});
+  if(!environmentAllowed())return send(res,403,{error:"Solo habilitable en preview"});
   if(!ready())return send(res,503,{error:"OpenRouter no autorizado o no configurado."});
   const origin=req.headers?.origin;
   if(origin){try{if(new URL(origin).host!==req.headers.host)return send(res,403,{error:"Origin not allowed"});}catch{return send(res,403,{error:"Origin not allowed"});}}
   const bearer=req.headers?.authorization?.match(/^Bearer\s+(.+)$/i)?.[1];
   const question=clean(req.body?.question,500).trim();
-  if(!bearer||question.length<2)return send(res,400,{error:"Sesión o pregunta no válida."});
-  if(/n[oó]minas?|salario|payslip|iban|gastos?|contraseñ|password|token|clave secreta|\d{8,}[a-z]{1,}|€|\$\d/.test(question.toLowerCase()))
+  if(!bearer)return send(res,401,{error:"Sesión necesaria."});
+  if(question.length<2)return send(res,400,{error:"Sesión o pregunta no válida."});
+  if(/n[oó]minas?|salario|payslip|iban|[\w.+-]+@[\w.-]+\.[a-z]{2,}|gastos?|contraseñ|password|token|clave secreta|\d{8,}[a-z]{1,}|€|\$\d/.test(question.toLowerCase()))
     return send(res,422,{error:"Esta consulta sensible no se envía a proveedores gratuitos. Usa el modo privado de Ares."});
   const base=String(process.env.SUPABASE_URL||"").replace(/\/$/,"");
   const key=process.env.SUPABASE_PUBLISHABLE_KEY;
@@ -41,6 +44,16 @@ export default async function handler(req,res){
     owner=(await auth.json()).id;
     if(!/^[0-9a-f-]{36}$/i.test(owner||""))return send(res,401,{error:"Sesión no autorizada."});
   }catch{return send(res,502,{error:"No se pudo verificar la sesión"});}
+  // Share the existing atomic 12/day external-AI budget with the language tutor.
+  // Missing quota infrastructure fails closed; no unbounded provider requests.
+  try {
+    const quota=await fetch(base+"/rest/v1/rpc/selflearn_tutor_take_quota",{
+      method:"POST",headers:{...headers,"content-type":"application/json"},body:"{}",
+      signal:AbortSignal.timeout(7000),redirect:"error"
+    });
+    if(!quota.ok)return send(res,503,{error:"Límite de IA no disponible."});
+    if(await quota.json()!==true)return send(res,429,{error:"Límite diario de IA alcanzado."});
+  }catch{return send(res,503,{error:"No se pudo verificar el límite de IA."});}
   const filters=new URLSearchParams({
     owner_id:"eq."+owner,record_type:"in.("+allowed.join(",")+")",
     select:"record_type,title,status,occurred_at,payload",order:"occurred_at.desc",limit:"40"

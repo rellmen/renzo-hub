@@ -1,5 +1,13 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## Reparación Nocturne Ares/SelfLearn · 22 octubre 2026 · candidata sin publicar
+
+| Bloque | Estado |
+| --- | --- |
+| Ares | Handler clásico reutilizado en entrada TanStack, opt-in producción y cuota compartida de 12 consultas/día con tutor. Validado localmente; activación real pendiente. |
+| SelfLearn | Probe autenticado de contrato v1 antes de permitir XP/FSRS producción. SQL pendiente ampliado; probado en PGlite con rollback, sin DDL en producción. |
+| Evidencia | `docs/NOCTURNE-AI-SELFLEARN-REPAIR.md`. No se cambia release ni caché clásica: sin publicación. |
+
 
 ## 2.54.1 (2026-10-22) · SelfLearn: transacciones y FSRS preparados, sin aplicar
 

@@ -113,3 +113,7 @@ Rama `feature/nocturne-ascendancy-ui` desde `staging`. ChatGPT creó `assets/noc
 Por petición expresa de Renzo de continuar directamente sin Work, ChatGPT completó **en la misma rama Nocturne** los pasos que figuraban pendientes en el párrafo anterior: `sw.js` incluye el CSS nuevo y la caché v58, `release.json` y `RENZO-HUB-CURRENT.md` reflejan 2.54.0 (solo propuesta), `manifest.webmanifest` utiliza obsidiana y se añadió auditoría de clipping en Chromium/WebKit. También se extendió el estilo al **chat modal** de Ares, Notas, Noticias y Más. Se respetó que la rama es independiente, no se fusionó con otros trabajos ni se tocó Supabase.
 
 **Pendientes reales:** resultado CI del SHA más reciente, QA visual con capturas, verificación de la PWA instalada en iPhone, pruebas de persistencia autenticada en staging y autorización de Renzo. PR #125 queda en borrador, con destino `staging`; no publicar en `main`. El checklist actualizado es `docs/NOCTURNE-ASCENDANCY.md`.
+
+## ChatGPT · 22 oct · reparación Nocturne Ares/SelfLearn
+
+Encargo explícito de Renzo: rama `feature/nocturne-ares-selflearn-repair`, PR hacia staging. Se editan Ares (dueño anterior Claude) y UI React SelfLearn para resolver los dos bloqueos; no se modifican registros personales ni producción. Adaptador server-only reutiliza `api/ares-ai.js`; cuota diaria compartida con tutor, fail closed. Se amplía SQL pendiente con probe read-only, sin reaplicarlo sobre staging ya instalada. Informe y secuencia en `docs/NOCTURNE-AI-SELFLEARN-REPAIR.md`. Release/caché clásica no cambian porque no se publica.

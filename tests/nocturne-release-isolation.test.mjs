@@ -56,3 +56,10 @@ test('XP/FSRS flag accidentally inherited by production never enables awards',()
  assert.equal(officialSelfLearnAwardsEnabled(false,{
    hostname:'renzo-hub-2-1-staging.vercel.app',releaseTarget:'staging'}),false);
 });
+
+test('Production awards require both opt-in and compatible backend contract',()=>{
+ const opts={hostname:'renzo-hub.vercel.app',releaseTarget:'production'};
+ assert.equal(officialSelfLearnAwardsEnabled(true,opts),false);
+ assert.equal(officialSelfLearnAwardsEnabled(false,{...opts,backendReady:true}),false);
+ assert.equal(officialSelfLearnAwardsEnabled(true,{...opts,backendReady:true}),true);
+});

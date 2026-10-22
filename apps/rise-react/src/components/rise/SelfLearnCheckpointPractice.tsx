@@ -1,3 +1,4 @@
+import {useSelfLearnCapabilities} from '@/lib/use-selflearn-capabilities';
 import {useEffect,useState,type FormEvent} from "react";
 import {useMutation,useQuery,useQueryClient} from "@tanstack/react-query";
 import {BookOpen,Check,Headphones,RotateCcw,ShieldCheck,Volume2} from "lucide-react";
@@ -89,9 +90,10 @@ export function SelfLearnCheckpointPractice({client,uid,course,legacyActive,next
  // Disabled by default: enable only for a controlled authenticated staging QA.
  // Never enable the switch in a public production bundle without server-side
  // cross-client idempotency/RLS verification of all awards.
+ const backendReady=useSelfLearnCapabilities(client,uid);
  const allowOfficialAward=officialSelfLearnAwardsEnabled(import.meta.env["VITE_ENABLE_SELFLEARN_AWARDS"]==="true",{
    hostname:typeof window==="undefined"?"":window.location.hostname,
-   releaseTarget:import.meta.env['VITE_NOCTURNE_RELEASE_TARGET']||""
+   backendReady,releaseTarget:import.meta.env['VITE_NOCTURNE_RELEASE_TARGET']||""
  });
  const key=["selflearn-checkpoints",uid];
  const query=useQuery({queryKey:key,enabled:!!client&&!!uid,
