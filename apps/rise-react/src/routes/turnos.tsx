@@ -8,6 +8,7 @@ import {pageHead} from "@/lib/seo";
 import {SHIFT_MODES,loadShiftState,saveShiftState,nextShiftState,nextTemplateState,shiftPreview} from "@/lib/shift-state.mjs";
 import {LEGACY_FALLBACK_URL} from "@/lib/nocturne-environment.mjs";
 import {ShiftPayrollReport} from "@/components/rise/ShiftPayrollReport";
+import {FinanceSections} from "@/components/rise/FinanceSections";
 
 export const Route=createFileRoute("/turnos")({
  head:()=>pageHead("Turnos","Calendario laboral con el mismo estado que la aplicación clásica."),
@@ -54,6 +55,7 @@ function Shifts(){
  const saveTemplate=()=>{setStatus("");save.mutate({kind:"template",day,mode:templateMode});};
  const calendar=nextDays(),data=query.data;
  return <div className="space-y-6">
+  <FinanceSections/>
   <PageHeader eyebrow="TRABAJO · CALENDARIO" title="Mis turnos"
    subtitle="Los turnos y excepciones se guardan en el estado original de RISE HUB. No se inventan horas trabajadas ni suplementos de salario."/>
   <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-platinum/75">
