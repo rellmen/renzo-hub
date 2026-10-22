@@ -14,7 +14,7 @@ function mockAuthClient(options?:{getSession?:()=>Promise<unknown>}){
      return {data:{subscription:{unsubscribe:vi.fn()}}};
    }),
    getSession:vi.fn(options?.getSession??(async()=>({data:{session:null},error:null}))),
-   signInWithPassword:vi.fn(async()=>({data:{session:null,user:null},error:null})),
+   signInWithPassword:vi.fn(async()=>({data:{session:null,user:null},error:null as null|{code:string;message:string}})),
    signOut:vi.fn(async()=>({error:null})),
  };
  return {client:{auth} as unknown as SupabaseClient,auth,emit:(event:string,session:Session|null)=>listener?.(event,session)};
@@ -57,7 +57,7 @@ describe('React Nocturne staging authentication',()=>{
    getClient.mockResolvedValue(client);
    mount();
    await waitFor(()=>expect(auth.getSession).toHaveBeenCalledTimes(1));
-   const session={user:{id:'22222222-2222-4222-8222-222222222222'}} as Session;
+   const session={user:{id:'22222222-2222-4222-8222-222222222222'}} as unknown as Session;
    await act(async()=>{emit('SIGNED_IN',session);});
    expect(screen.getByRole('heading',{name:'Zona privada de pruebas'})).toBeTruthy();
    await act(async()=>{resolveSession({data:{session:null},error:null});await pending;});
