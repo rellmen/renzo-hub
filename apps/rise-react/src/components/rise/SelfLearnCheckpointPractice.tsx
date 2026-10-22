@@ -116,7 +116,7 @@ export function SelfLearnCheckpointPractice({client,uid,course,legacyActive,next
    onSuccess:async({session,evaluation})=>{
      setActive(session);setSelection("");setMatching([]);
      setFeedback(evaluation.complete
-       ?allowOfficialAward?"Práctica guardada. Puedes solicitar la acreditación de XP en pruebas; el servidor debe confirmarla.":"Práctica guardada. La acreditación de la lección, XP y FSRS siguen en el reproductor clásico."
+       ?(allowOfficialAward?"Práctica guardada. Puedes solicitar la acreditación de XP en pruebas; el servidor debe confirmarla.":"Práctica guardada. La acreditación de la lección, XP y FSRS siguen en el reproductor clásico.")
        :evaluation.correct?"Respuesta registrada y guardada correctamente."
          :"Respuesta guardada. Se repetirá cuando corresponda. Corrección: "+String(evaluation.expected||""));
      await qc.invalidateQueries({queryKey:key});
@@ -149,7 +149,7 @@ export function SelfLearnCheckpointPractice({client,uid,course,legacyActive,next
   {!run&&query.data&&<div className="space-y-4">
     {latest&&<div className="rounded-xl border border-learn/30 bg-learn/[0.06] p-4">
       <p className="text-sm">Última práctica de {course.toUpperCase()}: {Math.round(practicePrompt(latest.run).progress)}% guardado</p>
-      <p className="mt-2 text-xs text-muted-foreground">El progreso se guarda como checkpoints privados; la acreditación de lecciones continúa en SelfLearn clásico.</p>
+      <p className="mt-2 text-xs text-muted-foreground">{allowOfficialAward?"El progreso se guarda como checkpoints privados. En staging, la acreditación experimental requiere una confirmación posterior de Supabase.":"El progreso se guarda como checkpoints privados; la acreditación de lecciones continúa en SelfLearn clásico."}</p>
       {(!practicePrompt(latest.run).complete||allowOfficialAward)&&<button type="button" className="btn-gold mt-3"
         onClick={()=>{setActive({id:latest.id,sessionId:latest.sessionId,run:latest.run});setFeedback("");}}>
         <RotateCcw className="h-4 w-4"/> {practicePrompt(latest.run).complete?"Recuperar práctica terminada":"Reanudar práctica guardada"}
