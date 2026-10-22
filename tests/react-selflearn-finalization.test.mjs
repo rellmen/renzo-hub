@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import {readFileSync} from "node:fs";
 import {COURSES,currentStep} from "../apps/rise-react/src/lib/legacy-selflearn/engine.js";
 import {makePractice,gradePractice,practicePrompt} from "../apps/rise-react/src/lib/selflearn-practice.mjs";
 import {lessonAward,stableRecordId,finalizeOfficialLesson}
@@ -106,4 +107,32 @@ test("A single atomic batch creates the lesson event and only missing new vocabu
  assert(inserted.every(r=>r.owner_id===uid&&r.source==="manual"));
  assert.equal(selected[0].onConflict,"id");
  assert.equal(selected[0].ignoreDuplicates,true);
+});
+
+test("Previously accredited legacy unit is never paid again and no FSRS cards are rewritten",async()=>{
+ const run=finished("nl"),checkpoint={id:"verified",sessionId:session,run},at=new Date(2026,9,22,12);
+ let writes=0;
+ const db={from(table){
+   const filters=[];
+   const q={select(){return q},
+     eq(k,v){filters.push([k,v]);return q},
+     in(){return q},order(){return q},
+     limit(){return Promise.resolve({data:[{id:"verified",payload:{course:"nl",sessionId:session,run}}],error:null})},
+     range(){return Promise.resolve({data:[{id:"old-done",record_type:"renzo_event",
+       payload:{kind:"learning",practice:"Study path",passed:true,course:"nl",courseLessonId:run.unitId,xp:90}}],error:null})},
+     maybeSingle(){return Promise.resolve({data:table==="hub_user_state"?{state:{}}:null,error:null})},
+     upsert(){writes++;throw Error("An existing lesson must never be rewritten");}
+   };return q;
+ }};
+ const result=await finalizeOfficialLesson(db,uid,checkpoint,{at});
+ assert.equal(result.already,true);
+ assert.equal(result.xp,0);
+ assert.equal(result.addedCards,0);
+ assert.equal(writes,0);
+});
+test("Staging official-award control is always disabled in default builds",()=>{
+ const src=readFileSync(new URL("../apps/rise-react/src/components/rise/SelfLearnCheckpointPractice.tsx",import.meta.url),"utf8");
+ assert.match(src,/VITE_ENABLE_SELFLEARN_AWARDS===\s*["']true["']/);
+ assert.match(src,/finalizeOfficialLesson\(/);
+ assert.match(src,/legacyActive/);
 });
