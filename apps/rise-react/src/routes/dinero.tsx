@@ -9,6 +9,7 @@ import {SectionCard,EmptyState,Bar} from "@/components/rise/primitives";
 import {useAuth} from "@/lib/auth/AuthProvider";
 import {loadRealMoney,moneyMonthView,type MoneySummary} from "@/lib/money-records.mjs";
 import {WeeklyBudgetEditor} from "@/components/rise/WeeklyBudgetEditor";
+import {FinanceSections} from "@/components/rise/FinanceSections";
 
 export const Route=createFileRoute("/dinero")({
   head:()=>pageHead("Money","Ingresos, gastos y patrimonio conocidos a partir de tus registros financieros privados."),
@@ -44,6 +45,7 @@ function Money(){
   const categories=(view?.categories||[]).slice(0,6);
   const largest=Math.max(1,...categories.map(c=>c.total));
   return <div className="space-y-6">
+    <FinanceSections/>
     <PageHero image={img} eyebrow="MY FINANCE · PRIVADO"
       title="Capital con intención."
       subtitle="Solo movimientos bancarios importados y valoraciones que has registrado. Sin cifras de demostración."
