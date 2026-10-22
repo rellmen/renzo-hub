@@ -15,3 +15,8 @@ export declare function legacyLocalKeys(uid:string,storage:{getItem:(key:string)
 export declare function comparisonAgainstExport(backup:unknown,audit:MigrationAudit,uid:string):{
  comparisons:Array<{table:string;backupCount:number|null;currentCount:number|null;match:boolean}>;equal:boolean;warning:string
 };
+
+export declare function compareMigrationRows(client:SupabaseClient,uid:string,backup:unknown,options?:{verifyOwner?:(client:SupabaseClient,uid:string)=>Promise<unknown>;onProgress?:(message:string)=>void}):Promise<{
+ comparisons:Array<{table:string;backupCount:number|null;currentCount:number|null;missing:number;added:number;changed:number;match:boolean}>;
+ equal:boolean;warning:string
+}>;
