@@ -5,6 +5,7 @@ import {BookOpen,Check,LockKeyhole,RefreshCw,ShieldCheck} from "lucide-react";
 import img from "@/assets/learn.jpg";
 import {pageHead} from "@/lib/seo";
 import {useAuth} from "@/lib/auth/AuthProvider";
+import {useSelfLearnCapabilities} from "@/lib/use-selflearn-capabilities";
 import {officialSelfLearnAwardsEnabled} from "@/lib/nocturne-environment.mjs";
 import {PageHero} from "@/components/rise/PageHero";
 import {SectionCard,EmptyState,Bar} from "@/components/rise/primitives";
@@ -21,16 +22,17 @@ export const Route=createFileRoute("/aprender")({
 });
 type CourseId="nl"|"en";
 const COURSES_ID:CourseId[]=["nl","en"];
-const awardsInStaging=()=>officialSelfLearnAwardsEnabled(import.meta.env["VITE_ENABLE_SELFLEARN_AWARDS"]==="true",{
-  hostname:typeof window==="undefined"?"":window.location.hostname,
-  releaseTarget:import.meta.env['VITE_NOCTURNE_RELEASE_TARGET']||""
-});
 const err=(e:unknown)=>e instanceof Error?e.message:"No se pudo recuperar tu progreso.";
 function SelfLearn(){
   const {client,user}=useAuth();
   const [course,setCourse]=useState<CourseId>("nl");
   const [showAll,setShowAll]=useState(false);
   const uid=user?.id||"";
+  const backendReady=useSelfLearnCapabilities(client,uid);
+  const awardsAvailable=officialSelfLearnAwardsEnabled(import.meta.env["VITE_ENABLE_SELFLEARN_AWARDS"]==="true",{
+    hostname:typeof window==="undefined"?"":window.location.hostname,
+    releaseTarget:import.meta.env['VITE_NOCTURNE_RELEASE_TARGET']||"",backendReady
+  });
   const key=["selflearn-snapshot",uid];
   const snapshot=useQuery({queryKey:key,enabled:!!client&&!!uid,
     queryFn:()=>loadLearningSnapshot(client!,uid),staleTime:20000,refetchOnWindowFocus:true});
@@ -52,7 +54,7 @@ function SelfLearn(){
           <ShieldCheck className="h-4 w-4 text-learn"/> Progreso privado
         </span>
         <span className="rounded-full border border-hairline bg-ink/60 px-4 py-2 text-xs text-platinum/75">
-          {awardsInStaging()?"XP y FSRS en pruebas en staging; validación multidispositivo pendiente":"Prácticas guardables disponibles; XP y FSRS continúan en versión clásica"}
+          {awardsAvailable?"XP y FSRS en pruebas en staging; validación multidispositivo pendiente":"Prácticas guardables disponibles; XP y FSRS continúan en versión clásica"}
         </span>
       </div>
     </PageHero>
@@ -91,7 +93,7 @@ function SelfLearn(){
               <p className="eyebrow text-learn">Siguiente unidad del curso real</p>
               <p className="mt-1 font-display text-xl">{next.title}</p>
               <p className="mt-1 text-xs text-muted-foreground">{next.level} · {next.topic}</p>
-              <p className="mt-2 text-xs text-muted-foreground">{awardsInStaging()?"Puedes guardar checkpoints y solicitar la acreditación tras completar una lección. Función de pruebas: se confirmará únicamente con Supabase.":"Ahora puedes practicar ejercicios reales y guardar checkpoints; el progreso oficial continúa en el reproductor clásico."}</p>
+              <p className="mt-2 text-xs text-muted-foreground">{awardsAvailable?"Puedes guardar checkpoints y solicitar la acreditación tras completar una lección. Función de pruebas: se confirmará únicamente con Supabase.":"Ahora puedes practicar ejercicios reales y guardar checkpoints; el progreso oficial continúa en el reproductor clásico."}</p>
             </div>
           </div>}
           <ul className="grid gap-3 sm:grid-cols-2">
