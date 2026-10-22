@@ -85,3 +85,13 @@ Los advisors mantienen dos advertencias heredadas: RPC de cuota `SECURITY DEFINE
 - [ ] Sólo después de cerrar estos gates podrá evaluarse retirar el proyecto Vercel `rise-hub`; el rollback clásico sigue siendo necesario mientras tanto. **No borrar el clásico antes de recuperar el almacenamiento local y tener una copia privada restaurable.**
 
 El Desktop Commander del propietario figuraba **sin conexión** durante esta revisión. No se ha leído ni alterado su dispositivo, ni se le deben pedir contraseñas o tokens en chat.
+
+
+## Verificación con Mac reconectado · 22 de octubre de 2026
+
+- Desktop Commander: equipo Mac **online** y accesible mediante sesión autorizada. Checkout temporal independiente de la rama `feature/nocturne-integral-migration` para no modificar directorios originales del usuario.
+- `npm test` después de instalar dependencias: **538/538 pruebas Node correctas** para el commit que añade `/api/ares-sources`. `npm test` en React: **15/15 pruebas Vitest correctas**. `npm run build` y `npx tsc --noEmit`: **correctos** para la rama con Ares Sources y su tarjeta React.
+- Rutas adicionales: `/api/ares-sources` reutiliza el controlador público de desarrollo del clásico; sesión Supabase obligatoria, sin escritura, filtrado de títulos sensibles. Ares Center puede mostrar commits y metadatos de despliegue verificados, sin confundirlos con paridad funcional.
+- Búsqueda limitada por nombre y metadatos de exportaciones en rutas de usuario y perfiles convencionales de Chrome/Safari: **no apareció un JSON de exportación de RISE HUB ni un perfil de Chrome con almacenamiento identificable**. Esto **no prueba** ausencia de datos en Safari, PWA o navegador integrado; no se leyeron tokens ni registros personales. La recogida desde el origen clásico sigue requiriendo exportación autenticada en el propio navegador.
+- La nueva vista previa Vercel `dpl_Fx5VLsbUUvFKP8iNQZwUnbVzvDkV` se compiló y responde a las rutas, conectada a Supabase **staging**, pero contiene el commit anterior `670f61d`; no contiene las rutas de servidor añadidas después. Una solicitud de nuevo despliegue para el último SHA devolvió **HTTP 402** por el límite de 100 despliegues gratuitos por día. La máquina Mac no tiene CLI Vercel instalado ni un proyecto Vercel local enlazado; por ello no existe un despliegue del último SHA verificado por HTTP.
+- **Bloqueadores para retirar el clásico:** exportación/local-only real, reconciliación Storage + Auth, flujo auténtico QA entre dispositivos e iPhone, paridad de importaciones, nóminas y módulos avanzados; cuota de despliegues y cierre seguro de la PR. No se reasignó ningún alias ni se borró el proyecto clásico.
