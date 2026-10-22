@@ -6,6 +6,7 @@ import {useAuth} from "@/lib/auth/AuthProvider";
 import {PageHeader,SectionCard} from "@/components/rise/primitives";
 import {pageHead} from "@/lib/seo";
 import {loadPayrollOverview,downloadPayrollDocument,type PayrollDocument} from "@/lib/payroll-overview.mjs";
+import {loadPayrollRecords} from "@/lib/payroll-records.mjs";
 import {LEGACY_FALLBACK_URL} from "@/lib/nocturne-environment.mjs";
 
 export const Route=createFileRoute("/nominas")({
@@ -21,6 +22,8 @@ function Payroll(){
  const query=useQuery({queryKey:["payroll-overview",uid],enabled:!!client&&!!uid,
   queryFn:()=>loadPayrollOverview(client!,uid),staleTime:30000,refetchOnWindowFocus:true});
  const data=query.data;
+ const historical=useQuery({queryKey:["payroll-contracts-shifts",uid],enabled:!!client&&!!uid,
+  queryFn:()=>loadPayrollRecords(client!,uid),staleTime:30000,refetchOnWindowFocus:true});
  async function download(doc:PayrollDocument){
   if(!client)return;
   setDownloading(doc.id);setFileError("");
@@ -73,6 +76,23 @@ function Payroll(){
      </li>)}</ul>}
    </SectionCard>
   </>}
+  <SectionCard eyebrow="SHIFT TRACKER · DATOS REALES" title="Contratos y turnos importados" accent="var(--projects)">
+   {historical.isLoading&&<p role="status" className="text-sm">Consultando contratos y turnos…</p>}
+   {historical.error&&<p role="alert" className="text-sm text-gym">No se pudo recuperar la información contractual completa.</p>}
+   {historical.data&&<div className="space-y-4">
+     <p className="text-sm text-platinum/80">{historical.data.contracts.length} contratos · {historical.data.shifts.length} turnos guardados. No se calculan complementos sin reglas contractuales verificadas.</p>
+     <details><summary className="cursor-pointer text-sm font-medium">Ver contratos registrados</summary>
+       <ul className="mt-3 space-y-2">{historical.data.contracts.map(c=><li key={c.id} className="rounded-xl border border-hairline p-3 text-sm">
+         <strong>{c.title||"Contrato sin título"}</strong><p className="mt-1 text-xs text-muted-foreground">Tarifa base registrada: {typeof c.payload?.hourlyRate==="number"?money(c.payload.hourlyRate)+"/h":"No verificada"}</p>
+       </li>)}</ul>
+     </details>
+     <details><summary className="cursor-pointer text-sm font-medium">Ver historial de turnos</summary>
+       <ul className="mt-3 space-y-2">{historical.data.shifts.slice(0,100).map(t=><li key={t.id} className="rounded-xl border border-hairline p-3 text-sm">
+         <strong>{t.title||String(t.payload?.date||"Fecha pendiente")}</strong><p className="mt-1 text-xs text-muted-foreground">{String(t.payload?.start||"—")}–{String(t.payload?.end||"—")}</p>
+       </li>)}</ul>
+     </details>
+   </div>}
+  </SectionCard>
   {fileError&&<p role="alert" className="rounded-xl border border-gym/40 p-4 text-sm text-gym">{fileError}</p>}
   <SectionCard eyebrow="Compatibilidad" title="Herramientas laborales avanzadas" accent="var(--projects)">
    <p className="text-sm text-platinum/75">Las correcciones, reextracción documental y comparación salarial avanzada siguen en el módulo clásico hasta superar la paridad de escrituras en React.</p>
