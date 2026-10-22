@@ -15,6 +15,7 @@ export const NAV = [
   { to: "/news", label: "News", short: "News", icon: Newspaper, accent: "var(--projects)" },
   { to: "/agentes", label: "Agent Monitor", short: "Agentes", icon: Bot, accent: "var(--ares)" },
   { to: "/apps", label: "Todas las microapps", short: "Apps", icon: LayoutGrid, accent: "var(--gold)" },
+  { to: "/career", label: "Career / Data Lab", short: "Career", icon: Briefcase, accent: "var(--projects)" },
   { to: "/nominas", label: "Nóminas", short: "Nóminas", icon: FileSpreadsheet, accent: "var(--money)" },
   { to: "/turnos", label: "Shift Tracker", short: "Turnos", icon: CalendarClock, accent: "var(--projects)" },
   { to: "/migracion", label: "Migración y copias", short: "Datos", icon: DatabaseBackup, accent: "var(--gold)" },
