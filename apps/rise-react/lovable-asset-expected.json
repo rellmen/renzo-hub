@@ -2,7 +2,7 @@
   "source": "User-provided Lovable codebase ZIP: ca43e152-f7c7-4c8e-b925-01476b9053da.zip",
   "lovable_project_id": "ca43e152-f7c7-4c8e-b925-01476b9053da",
   "source_sha": "c68f0b618b59c16930bf1f6ad0e1b44e0bf81deb",
-  "status": "original-jpg-verified-in-upload-not-yet-copied-to-github",
+  "status": "seven-original-jpg-sha256-verified-in-staging",
   "files": [
     {
       "name": "ares.jpg",
@@ -39,5 +39,10 @@
       "bytes": 167309,
       "sha256": "fde9d6d7235e5c9e15a2b82281611f93cf7406f52c9141c3d1944c2b0b830e55"
     }
-  ]
+  ],
+  "verification": {
+    "workflow_run": "https://github.com/rellmen/renzo-hub/actions/runs/39701160183",
+    "true_asset_build_run": "https://github.com/rellmen/renzo-hub/actions/runs/39701428656",
+    "checked_on": "2026-10-22"
+  }
 }
