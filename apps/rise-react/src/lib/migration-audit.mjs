@@ -114,3 +114,59 @@ export function comparisonAgainstExport(backup,audit,uid){
  });
  return{comparisons,equal:audit?.complete===true&&comparisons.every(r=>r.match),warning:"La igualdad de recuentos no garantiza igualdad de contenido ni ausencia de conflictos."};
 }
+
+/**
+ * Owner-scoped comparison of actual rows, not just table counts.
+ * Private data stays in the authenticated browser: only per-table totals leave this function.
+ * Does not migrate, upload, mutate, print, or silently resolve conflicts.
+ */
+function canonicalRow(value){
+ if(Array.isArray(value))return "["+value.map(canonicalRow).join(",")+"]";
+ if(value!==null&&typeof value==="object")return "{"+Object.keys(value).sort()
+  .filter(k=>value[k]!==undefined).map(k=>JSON.stringify(k)+":"+canonicalRow(value[k])).join(",")+"}";
+ return JSON.stringify(value);
+}
+async function rowFingerprint(row){
+ if(!globalThis.crypto?.subtle)throw Error("Se necesita un navegador seguro para comprobar huellas SHA-256.");
+ const digest=await globalThis.crypto.subtle.digest("SHA-256",new TextEncoder().encode(canonicalRow(row)));
+ return Array.from(new Uint8Array(digest),b=>b.toString(16).padStart(2,"0")).join("");
+}
+async function fingerprintRows(rows,column,uid,source){
+ const index=new Map();
+ for(const row of rows){
+  if(!row||typeof row!=="object"||Array.isArray(row)||row[column]!==uid)
+   throw Error("Los registros de "+source+" no corresponden al usuario autorizado.");
+  const key=String(row.id??row[column]??"");
+  if(!key||index.has(key))throw Error("Identificador vacío o duplicado en "+source+".");
+  index.set(key,await rowFingerprint(row));
+ }
+ return index;
+}
+export async function compareMigrationRows(client,uid,backup,{verifyOwner=verifyMigrationOwner,onProgress=()=>{}}={}){
+ await verifyOwner(client,uid);
+ if(!backup||backup.format!=="renzo-hub-export"||backup.version!==1||
+    backup.user_id!==uid||!backup.tables||typeof backup.tables!=="object"||
+    Array.isArray(backup.tables))throw Error("La copia no corresponde a esta cuenta o formato.");
+ const comparisons=[];
+ for(const [table,column] of Object.entries(MIGRATION_TABLES)){
+  onProgress("Comparando contenido de "+table);
+  const historic=backup.tables[table];
+  if(!Array.isArray(historic)){
+   comparisons.push({table,backupCount:null,currentCount:null,missing:0,added:0,changed:0,match:false});
+   continue;
+  }
+  const current=await allRows(client,table,column,uid);
+  const before=await fingerprintRows(historic,column,uid,"la copia de "+table);
+  const after=await fingerprintRows(current,column,uid,"Supabase "+table);
+  let missing=0,added=0,changed=0;
+  for(const [key,hash]of before){
+   if(!after.has(key))missing++;
+   else if(hash!==after.get(key))changed++;
+  }
+  for(const key of after.keys())if(!before.has(key))added++;
+  comparisons.push({table,backupCount:historic.length,currentCount:current.length,
+   missing,added,changed,match:missing===0&&added===0&&changed===0});
+ }
+ return{comparisons,equal:comparisons.every(x=>x.match),
+  warning:"Compara filas e identificadores SHA-256 en este navegador. No compara archivos Storage ni cambios locales no exportados."};
+}
