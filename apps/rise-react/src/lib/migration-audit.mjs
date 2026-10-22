@@ -7,11 +7,11 @@ export const MIGRATION_TABLES=Object.freeze({
  news_briefs:"user_id",payroll_employers:"user_id",payroll_documents:"user_id",
  payroll_payslips:"user_id",payroll_payslip_versions:"user_id",payroll_line_items:"user_id",
  payroll_validations:"user_id",payroll_anomalies:"user_id",payroll_corrections:"user_id",
- payroll_events:"user_id",payroll_balance_imports:"user_id"
+ payroll_events:"user_id",payroll_balance_imports:"owner_id"
 });
 export const MIGRATION_BUCKETS=Object.freeze(["payroll","hub-private","portfolio-files","progress-photos"]);
 const BATCH=500,MAX_BYTES=60*1024*1024;
-const SINGLETON_TABLES=new Set(["profiles","user_settings","system_preferences","hub_user_state"]);
+const SINGLETON_TABLES=new Set(["profiles","user_settings","system_preferences","hub_user_state","gym_plans"]);
 function uidCheck(uid){
  if(typeof uid!=="string"||!/^[0-9a-f-]{36}$/i.test(uid))throw Error("Identidad no válida");
  return uid;
@@ -112,5 +112,5 @@ export function comparisonAgainstExport(backup,audit,uid){
   return{table,backupCount:oldCount,currentCount:typeof currentCount==="number"?currentCount:null,
    match:oldCount!==null&&oldCount===currentCount};
  });
- return{comparisons,equal:comparisons.every(r=>r.match),warning:"La igualdad de recuentos no garantiza igualdad de contenido ni ausencia de conflictos."};
+ return{comparisons,equal:audit?.complete===true&&comparisons.every(r=>r.match),warning:"La igualdad de recuentos no garantiza igualdad de contenido ni ausencia de conflictos."};
 }
