@@ -22,7 +22,8 @@ Llevar todas las capacidades clásicas a React/TanStack Start conservando **Supa
 - [ ] Test **real autenticado**, descarga e inspección offline de una copia completa; restauración ensayada sin sobrescribir producción.
 - [ ] Migración consentida de cambios locales de origen antiguo: `localStorage` es aislado por **dominio**; `rise-hub-classic-…` no puede leer el anterior `renzo-hub.vercel.app` automáticamente. Recuperación mediante backup antiguo o procedimiento de navegador verificado, sin copiar sesiones o tokens.
 - [ ] Verificar con una **sesión real autorizada** los hashes de filas antes/después; confirmar que la comparación de contenido coincide con la copia histórica y que no hay filas ajenas. El código está implementado, **no** la validación real.
-- [ ] Comparar también hash y ruta de cada archivo privado de Storage antes/después; la comparación SHA-256 actual cubre solo las 21 tablas, no los archivos.
+- [x] Comparación opcional de rutas, tamaños y SHA-256 de archivos de los cuatro buckets privados, descargados bajo sesión autorizada y calculados en el navegador. Bloquea copias parciales o con errores y revela solo recuentos de archivos ausentes, nuevos o cambiados.
+- [ ] Ejecutar la comparación de archivos privados con sesión real, comprobar la lista de PDF de nómina y los demás Storage de esa cuenta y la restauración en entorno aislado. Una función implementada no sustituye la verificación contra datos reales.
 - [ ] Resolver conflictos con CAS, auditoría y aprobación explícita, nunca importación ciega.
 
 ## Fase 2 — Paridad funcional de módulos clásicos (implementado parcialmente)
