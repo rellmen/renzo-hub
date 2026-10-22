@@ -24,6 +24,7 @@ begin
    raise exception 'La acreditación existente es inmutable';end if;
  end if;
  if new.record_type not in ('learning_run','renzo_event','renzo_vocabulary') then return new; end if;
+ if new.record_type='renzo_event' and new.payload->>'kind' is distinct from 'learning' then return new;end if;
  if current_setting('transaction_isolation')<>'read committed' then raise exception 'SelfLearn requiere READ COMMITTED';end if;
  if new.owner_id is distinct from auth.uid() then raise exception 'Propietario inválido'; end if;
  perform pg_advisory_xact_lock(hashtextextended('selflearn:'||new.owner_id::text,0));
@@ -151,6 +152,8 @@ begin
  return jsonb_build_object('id',p_card,'reviewId',p_review,'repetitions',(p_payload->>'repetitions')::int);
 end;
 $$;
+revoke all on function public.selflearn_course(jsonb),public.selflearn_unit(jsonb),public.selflearn_word(text) from public,anon;
+grant execute on function public.selflearn_course(jsonb),public.selflearn_unit(jsonb),public.selflearn_word(text) to authenticated;
 revoke all on function public.selflearn_guard_records() from public,anon,authenticated;
 revoke all on function public.selflearn_finalize_lesson(uuid,jsonb,jsonb) from public,anon;
 revoke all on function public.selflearn_review_vocabulary(uuid,timestamptz,uuid,jsonb,text) from public,anon;

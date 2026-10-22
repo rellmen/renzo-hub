@@ -13,8 +13,13 @@ test('Postgres SelfLearn transactions: owner isolation, retry, stale review, leg
   grant usage on schema auth to authenticated;grant execute on function auth.uid() to authenticated;`);
   await db.exec(await readFile(new URL('../supabase/migrations/20261007000206_add_shared_hub_records.sql',import.meta.url),'utf8'));
   await db.exec(`create table public.hub_user_state(owner_id uuid primary key references auth.users(id),state jsonb default '{}');alter table public.hub_user_state enable row level security;grant select,insert,update on public.hub_user_state to authenticated;create policy own on public.hub_user_state to authenticated using(owner_id=auth.uid()) with check(owner_id=auth.uid());`);
-  await db.exec(await readFile(pending,'utf8'));
   await db.query('insert into auth.users values($1),($2)',[uid,other]);
+  // Pre-existing duplicate historical cards must both remain editable by ID.
+  await db.query(`insert into hub_records(id,owner_id,domain,record_type,payload) values
+   ('99999999-9999-4999-8999-999999999999',$1,'learning','renzo_vocabulary','{"id":"99999999-9999-4999-8999-999999999999","front":"historic","back":"histórico","course":"nl","repetitions":0}'),
+   ('aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',$1,'learning','renzo_vocabulary','{"id":"aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa","front":"historic","back":"histórico","course":"nl","repetitions":0}')`,[uid]);
+  await db.exec('alter default privileges revoke execute on functions from public');
+  await db.exec(await readFile(pending,'utf8'));
   await db.exec(`set role authenticated;set request.jwt.claim.sub='${uid}'`);
   const run={version:2,mode:'lesson',course:'nl',unitId:'a1-legacy-1',index:1,queue:['s1'],steps:[{id:'s1',type:'choice'}],attempts:{s1:1},firstTry:{s1:true}};
   await db.query(`insert into hub_records(id,owner_id,domain,record_type,payload) values($1,$2,'learning','learning_run',$3)`,[cp,uid,{sessionId:cp,course:'nl',run}]);
@@ -32,10 +37,13 @@ test('Postgres SelfLearn transactions: owner isolation, retry, stale review, leg
   await db.query(`insert into hub_records(owner_id,domain,record_type,payload) values($1,'system','renzo_event',$2)`,[uid,legacy]);
   assert.equal((await db.query(`select sum((payload->>'xp')::int)::int n from hub_records where record_type='renzo_event'`)).rows[0].n,10);
   await db.query(`insert into hub_records(owner_id,domain,record_type,payload) values($1,'learning','renzo_vocabulary',$2)`,[uid,{...card.payload,front:'DE WINKEL'}]);
-  assert.equal((await db.query(`select count(*)::int n from hub_records where record_type='renzo_vocabulary'`)).rows[0].n,1);
+  assert.equal((await db.query(`select count(*)::int n from hub_records where record_type='renzo_vocabulary'`)).rows[0].n,3);
   // Classic periodically upserts unchanged winners even after a repeat was saved.
   await db.query(`insert into hub_records(id,owner_id,domain,record_type,payload) values($1,$2,'system','renzo_event',$3) on conflict(id) do update set payload=excluded.payload`,[eventId,uid,event.payload]);
   assert.equal((await db.query("select payload->>'xp' xp from hub_records where id=$1",[eventId])).rows[0].xp,'10');
+  const historical={id:'99999999-9999-4999-8999-999999999999',front:'historic',back:'histórico',course:'nl',repetitions:1,fsrsCard:{due:'2027-01-01T00:00:00Z'}};
+  await db.query(`insert into hub_records(id,owner_id,domain,record_type,payload) values($1,$2,'learning','renzo_vocabulary',$3) on conflict(id) do update set payload=excluded.payload`,[historical.id,uid,historical]);
+  assert.equal((await db.query("select payload->>'repetitions' n from hub_records where id=$1",[historical.id])).rows[0].n,'1');
   // Old Study path records without courseLessonId also use lessonDay.
   assert.equal((await db.query("select selflearn_unit($1) as unit",[{kind:'learning',practice:'Study path',lessonDay:2}])).rows[0].unit,'a1-legacy-2');
   await assert.rejects(db.query("update hub_records set record_type='renzo_note' where id=$1",[eventId]),/inmutable/);
@@ -48,6 +56,10 @@ test('Postgres SelfLearn transactions: owner isolation, retry, stale review, leg
   await assert.rejects(review('88888888-8888-4888-8888-888888888888'),/cambiado|versión/i);
   await assert.rejects(db.query('update hub_records set payload=$1 where id=$2',[
     {...payload,updatedAt:'2099-01-01T00:00:00Z',fsrsCard:{due:'2099-01-01T00:00:00Z'}},cardId]),/cambiado|cambió/);
+  // Legacy lesson errors only tighten due; they must not replace the FSRS state.
+  await db.query('update hub_records set payload=$1 where id=$2',[
+    {...payload,updatedAt:'2026-10-22T12:00:00Z',fsrsCard:{due:'2026-10-22T12:00:00Z'}},cardId]);
+  assert.equal((await db.query("select payload->'fsrsCard'->>'due' due from hub_records where id=$1",[cardId])).rows[0].due,'2026-10-22T12:00:00Z');
   await db.exec(`set request.jwt.claim.sub='${other}'`);
   await assert.rejects(finish(),/checkpoint|propietario/);
   await assert.rejects(review(),/tarjeta|propietario/);
