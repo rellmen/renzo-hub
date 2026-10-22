@@ -32,6 +32,12 @@ for(const [label,engine,opts] of [
   page.on('pageerror',e=>errors.push(e.message));
   await page.route('https://ci-placeholder.supabase.co/**',async route=>{
     const url=new URL(route.request().url());
+    if(route.request().method()==='OPTIONS'){
+      await route.fulfill({status:204,headers:{'access-control-allow-origin':'*',
+        'access-control-allow-methods':'GET,POST,PATCH,DELETE,OPTIONS',
+        'access-control-allow-headers':'apikey,authorization,x-client-info,content-type,prefer',
+        'access-control-max-age':'0'}});return;
+    }
     if(url.pathname.startsWith('/auth/v1/token')){
       await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(session),
         headers:{'access-control-allow-origin':'*'}});return;
