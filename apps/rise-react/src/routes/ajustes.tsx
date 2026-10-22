@@ -1,12 +1,13 @@
 import {createFileRoute,Link} from "@tanstack/react-router";
 import {useQueryClient} from "@tanstack/react-query";
 import {useState} from "react";
-import {ChevronRight,Database,ExternalLink,KeyRound,LogOut,ShieldCheck,Smartphone,UserRound} from "lucide-react";
+import {ChevronRight,Database,ExternalLink,KeyRound,LogOut,RefreshCw,ShieldCheck,Smartphone,UserRound} from "lucide-react";
 import {toast} from "sonner";
 import {pageHead} from "@/lib/seo";
 import {NAV} from "@/lib/nav";
 import {PageHeader,SectionCard} from "@/components/rise/primitives";
 import {useAuth} from "@/lib/auth/AuthProvider";
+import {refreshVisiblePrivateData} from "@/lib/private-data-refresh";
 
 export const Route=createFileRoute("/ajustes")({
   head:()=>pageHead("Ajustes y privacidad","Tu sesión, privacidad y estado de la migración RISE HUB React."),
@@ -27,6 +28,21 @@ function Settings(){
   const {user,signOut}=useAuth();
   const qc=useQueryClient();
   const [busy,setBusy]=useState(false);
+  const [syncBusy,setSyncBusy]=useState(false);
+  const [syncMessage,setSyncMessage]=useState("");
+  const [syncError,setSyncError]=useState(false);
+  async function refreshDevice(){
+    setSyncBusy(true);setSyncError(false);setSyncMessage("");
+    try{
+      const active=await refreshVisiblePrivateData(qc,user?.id);
+      setSyncMessage(active
+        ?"Datos visibles recuperados de Supabase. Los demás módulos se actualizarán al abrirlos."
+        :"Datos en caché marcados para actualizarse cuando abras cada módulo.");
+    }catch{
+      setSyncError(true);
+      setSyncMessage("No se pudieron actualizar todos los datos. Revisa la conexión y vuelve a intentarlo.");
+    }finally{setSyncBusy(false);}
+  }
   async function logout(){
     setBusy(true);
     try{await signOut();qc.clear();}
@@ -61,6 +77,19 @@ function Settings(){
           <KeyRound className="mt-0.5 h-4 w-4 shrink-0"/> Nunca compartas contraseñas o claves de servicio dentro de las notas de la aplicación.
         </p>
       </SectionCard>
+      <SectionCard eyebrow="Actualización entre dispositivos" title="Tus datos más recientes" accent="var(--learn)">
+        <p className="text-sm leading-relaxed text-muted-foreground">
+          Los registros confirmados se guardan en Supabase para tu cuenta. Al volver a Nocturne,
+          las vistas consultan los cambios; también puedes solicitar una actualización en este dispositivo.
+          El contenido no guardado y los cambios simultáneos de todos los módulos no se fusionan automáticamente.
+        </p>
+        <button type="button" className="btn-ghost mt-4 flex min-h-11 items-center"
+          disabled={syncBusy} onClick={()=>void refreshDevice()}>
+          <RefreshCw className={"h-4 w-4 "+(syncBusy?"animate-spin":"")}/>
+          {syncBusy?"Actualizando datos…":"Actualizar datos de este dispositivo"}
+        </button>
+        {syncMessage&&<p role={syncError?"alert":"status"} className="mt-3 text-xs text-muted-foreground">{syncMessage}</p>}
+      </SectionCard>
       <SectionCard eyebrow="Navegación" title="Microapps disponibles" accent="var(--ares)">
         <ul className="divide-y divide-hairline">
           {NAV.filter(n=>n.to!=="/ajustes").map(n=><li key={n.to}>
@@ -83,7 +112,7 @@ function Settings(){
       <SectionCard eyebrow="Uso" title="Aplicación web progresiva" accent="var(--skin)" className="lg:col-span-2">
         <div className="grid gap-5 md:grid-cols-2">
           <div className="flex gap-3"><Smartphone className="h-6 w-6 shrink-0 text-skin"/>
-            <div><h3 className="text-sm font-semibold">Experiencia móvil</h3><p className="mt-2 text-sm leading-relaxed text-muted-foreground">La nueva interfaz sigue la composición de Lovable. La validación de instalación, modo offline y actualización en iPhone continúa pendiente.</p></div>
+            <div><h3 className="text-sm font-semibold">Experiencia móvil</h3><p className="mt-2 text-sm leading-relaxed text-muted-foreground">La nueva interfaz sigue la composición de Lovable. Interfaz probada por el propietario en iPhone. Instalación PWA y comportamiento offline no verificados técnicamente.</p></div>
           </div>
           <div className="flex gap-3"><Database className="h-6 w-6 shrink-0 text-skin"/>
             <div><h3 className="text-sm font-semibold">Continuidad de datos</h3><p className="mt-2 text-sm leading-relaxed text-muted-foreground">Tus registros originales permanecen en las tablas actuales. No borres datos para cambiar de diseño.</p></div>
