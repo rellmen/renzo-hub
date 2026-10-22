@@ -5,7 +5,7 @@ const DOC_COLS="id,user_id,original_file_name,status,storage_path_raw,storage_pa
 async function all(client,table,cols,uid,max=5000){
  const rows=[];
  for(let i=0;i<max;i+=400){
-  const {data,error}=await client.from(table).select(cols).eq("user_id",uid).range(i,i+399);
+  const {data,error}=await client.from(table).select(cols).eq("user_id",uid).order("id",{ascending:true}).range(i,i+399);
   if(error)throw Error("Error consultando "+table+": "+error.message);
   rows.push(...(data||[]));
   if((data||[]).length<400)return rows;
