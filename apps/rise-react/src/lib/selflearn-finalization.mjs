@@ -62,7 +62,8 @@ export function lessonAward(run,existing,{at=new Date(),uid}={}){
 export async function finalizeOfficialLesson(client,uid,checkpoint,{at=new Date(),legacyActive=false}={}){
   const user=owner(uid);
   if(legacyActive)throw Error("Termina o descarta primero tu sesión activa en SelfLearn clásico.");
-  if(!client?.from||!checkpoint?.id||!UUID.test(String(checkpoint.sessionId||"")))
+  if(!client?.from)throw Error("Supabase no está disponible.");
+  if(!checkpoint?.id||!UUID.test(String(checkpoint.sessionId||"")))
     throw Error("No hay un checkpoint verificable para esta unidad.");
   const {run}=checkpoint;
   if(!validRun(run)||!isComplete(run)||run.mode!=="lesson")
