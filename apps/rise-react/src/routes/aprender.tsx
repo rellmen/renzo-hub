@@ -11,6 +11,7 @@ import {SectionCard,EmptyState,Bar} from "@/components/rise/primitives";
 import {ProgressRing} from "@/components/rise/ProgressRing";
 import {SelfLearnVocabularyReview} from "@/components/rise/SelfLearnVocabularyReview";
 import {SelfLearnCheckpointPractice} from "@/components/rise/SelfLearnCheckpointPractice";
+import {SelfLearnTutor} from "@/components/rise/SelfLearnTutor";
 import {loadLearningSnapshot} from "@/lib/selflearn-snapshot.mjs";
 import {COURSES,completedUnitIds,levelProgress,nextUnit} from "@/lib/legacy-selflearn/engine.js";
 
@@ -79,6 +80,7 @@ function SelfLearn(){
         legacyActive={!!(data.learningRuns[course]&&Array.isArray(data.learningRuns[course]?.['queue'])
           &&typeof data.learningRuns[course]?.['index']==="number"
           &&(data.learningRuns[course]?.['index'] as number)<(data.learningRuns[course]?.['queue'] as unknown[]).length)}/>
+      <SelfLearnTutor key={uid+"-"+course} course={course}/>
       <div className="grid gap-6 lg:grid-cols-[1.65fr_1fr]">
         <SectionCard eyebrow={selected.name+" · nivel objetivo "+data.goals[course]}
           title="Ruta de aprendizaje" accent="var(--learn)">
