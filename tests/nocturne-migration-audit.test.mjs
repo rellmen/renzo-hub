@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {MIGRATION_TABLES,MIGRATION_BUCKETS,verifyMigrationOwner,auditPrivateTables,buildMigrationBackup,legacyLocalKeys,comparisonAgainstExport,compareMigrationRows} from '../apps/rise-react/src/lib/migration-audit.mjs';
+import {MIGRATION_TABLES,MIGRATION_BUCKETS,verifyMigrationOwner,auditPrivateTables,buildMigrationBackup,legacyLocalKeys,comparisonAgainstExport,compareMigrationRows,compareMigrationFiles} from '../apps/rise-react/src/lib/migration-audit.mjs';
 
 const uid='11111111-1111-4111-8111-111111111111';
 const other='22222222-2222-4222-8222-222222222222';
@@ -111,4 +111,27 @@ test('content reconciliation fails closed on missing table and foreign identity'
  tables.payroll_balance_imports=[{id:'x',owner_id:other}];
  await assert.rejects(compareMigrationRows(db,uid,copy),/no corresponden/);
  await assert.rejects(compareMigrationRows(db,other,copy),/no coincide/);
+});
+
+test('private Storage audit hashes files and detects changed bytes with unchanged file counts',async()=>{
+ const file={bucket:'portfolio-files',path:uid+'/one.pdf',size:16,content_type:'application/pdf',base64:'c2VjcmV0LXRlc3QtZGF0YQ=='};
+ const db=fake({objects:{'portfolio-files':[{id:'file1',name:'one.pdf'}]}});
+ const backup={format:'renzo-hub-export',version:1,user_id:uid,files:[file],errors:[]};
+ const same=await compareMigrationFiles(db,uid,backup);
+ assert.deepEqual({equal:same.equal,changed:same.changed,missing:same.missing,added:same.added},
+  {equal:true,changed:0,missing:0,added:0});
+ const modified={...backup,files:[{...file,base64:btoa('secret-test-date')}]};
+ const changed=await compareMigrationFiles(db,uid,modified);
+ assert.equal(changed.equal,false);
+ assert.equal(changed.changed,1);
+ assert.equal(JSON.stringify(changed).includes('one.pdf'),false);
+ const missing=await compareMigrationFiles(fake(),uid,backup);
+ assert.equal(missing.missing,1);
+});
+test('private Storage audit rejects incomplete copies and another owner',async()=>{
+ const db=fake();
+ const backup={format:'renzo-hub-export',version:1,user_id:uid,files:[],errors:[]};
+ await assert.rejects(compareMigrationFiles(db,other,backup),/no coincide/);
+ await assert.rejects(compareMigrationFiles(db,uid,{...backup,errors:['skipped']}),/no contiene/);
+ await assert.rejects(compareMigrationFiles(db,uid,{...backup,files:[{bucket:'portfolio-files',path:other+'/fake',size:1,base64:'YQ=='}]}),/no es válida/);
 });
