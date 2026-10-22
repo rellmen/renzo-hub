@@ -89,7 +89,7 @@ function SelfLearn(){
               <p className="eyebrow text-learn">Siguiente unidad del curso real</p>
               <p className="mt-1 font-display text-xl">{next.title}</p>
               <p className="mt-1 text-xs text-muted-foreground">{next.level} · {next.topic}</p>
-              <p className="mt-2 text-xs text-muted-foreground">{awardsInStaging?"Puedes guardar checkpoints y solicitar la acreditación tras completar una lección. Función de pruebas: se confirmará únicamente con Supabase.":"Ahora puedes practicar ejercicios reales y guardar checkpoints; el progreso oficial continúa en el reproductor clásico."}</p>
+              <p className="mt-2 text-xs text-muted-foreground">{awardsInStaging()?"Puedes guardar checkpoints y solicitar la acreditación tras completar una lección. Función de pruebas: se confirmará únicamente con Supabase.":"Ahora puedes practicar ejercicios reales y guardar checkpoints; el progreso oficial continúa en el reproductor clásico."}</p>
             </div>
           </div>}
           <ul className="grid gap-3 sm:grid-cols-2">
