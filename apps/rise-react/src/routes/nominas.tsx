@@ -9,6 +9,7 @@ import {loadPayrollOverview,downloadPayrollDocument,type PayrollDocument} from "
 import {loadPayrollRecords} from "@/lib/payroll-records.mjs";
 import {LEGACY_FALLBACK_URL} from "@/lib/nocturne-environment.mjs";
 import {PayrollUpload} from "@/components/rise/PayrollUpload";
+import {FinanceSections} from "@/components/rise/FinanceSections";
 
 export const Route=createFileRoute("/nominas")({
  head:()=>pageHead("Nóminas","Documentos salariales reales, validaciones y auditoría privada."),
@@ -37,6 +38,7 @@ function Payroll(){
   finally{setDownloading(null);}
  }
  return <div className="space-y-6">
+  <FinanceSections/>
   <PageHeader eyebrow="MY FINANCE · NÓMINAS" title="Tu historial salarial"
     subtitle="Datos originales de Supabase. No se alteran importes, nóminas ni documentos durante esta migración."/>
   <PayrollUpload/>
