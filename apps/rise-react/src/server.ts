@@ -1,5 +1,7 @@
 // @ts-expect-error Shared server handler is plain JavaScript, bundled server-side only.
 import aresHandler from "../server/ares-ai.mjs";
+// @ts-expect-error Server-only legacy tutor handler with its original JWT and quota checks.
+import tutorHandler from "../server/selflearn-tutor.mjs";
 // @ts-expect-error Shared metadata handler is plain JavaScript, server-side only.
 import deploymentInfoHandler from "../api/deployment-info.js";
 import {serveNodeHandler} from "./lib/server/node-handler.mjs";
@@ -53,6 +55,7 @@ export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
       if(new URL(request.url).pathname==="/api/ares-ai")return await serveNodeHandler(request,aresHandler);
+      if(new URL(request.url).pathname==="/api/selflearn-tutor")return await serveNodeHandler(request,tutorHandler);
       if(new URL(request.url).pathname==="/api/deployment-info")return await serveNodeHandler(request,deploymentInfoHandler);
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
