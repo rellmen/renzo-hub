@@ -9,6 +9,7 @@ import {SectionCard,EmptyState,Bar} from "@/components/rise/primitives";
 import {useAuth} from "@/lib/auth/AuthProvider";
 import {loadRealMoney,moneyMonthView,type MoneySummary} from "@/lib/money-records.mjs";
 import {WeeklyBudgetEditor} from "@/components/rise/WeeklyBudgetEditor";
+import {loadPayrollOverview} from "@/lib/payroll-overview.mjs";
 import {FinanceSections} from "@/components/rise/FinanceSections";
 
 export const Route=createFileRoute("/dinero")({
@@ -40,6 +41,8 @@ function Money(){
   const state=useQuery({queryKey:key,enabled:!!client&&!!uid,
     queryFn:()=>loadRealMoney(client!,uid),staleTime:60_000,refetchOnWindowFocus:true});
   useEffect(()=>{if(state.data&&!state.data.months.includes(month))setMonth(state.data.month||"");},[state.data,month]);
+  const payroll=useQuery({queryKey:["payroll-overview",uid],enabled:!!client&&!!uid,
+    queryFn:()=>loadPayrollOverview(client!,uid),staleTime:30000,refetchOnWindowFocus:true});
   const data=state.data;
   const view=data&&month?moneyMonthView(data,month):data?.monthSummary;
   const categories=(view?.categories||[]).slice(0,6);
@@ -59,6 +62,18 @@ function Money(){
     {state.isLoading&&<p role="status" className="surface p-5">Cargando información financiera privada…</p>}
 
     {data&&<>
+      <SectionCard eyebrow="MY FINANCE · INGRESOS LABORALES" title="Tus nóminas" accent="var(--gold)">
+        {payroll.isLoading&&<p role="status" className="text-sm text-muted-foreground">Consultando historial salarial…</p>}
+        {payroll.error&&<p role="alert" className="text-sm text-gym">No se pudo consultar el historial de nóminas.</p>}
+        {payroll.data&&<div className="flex flex-wrap items-center justify-between gap-4">
+          <div><strong className="text-xl">{payroll.data.rows.length} nóminas</strong>
+            <p className="mt-1 text-xs text-muted-foreground">Último neto documental: {euro(payroll.data.latestNet)}</p>
+            {payroll.data.unresolvedAnomalies>0&&<p className="mt-1 text-xs text-gym">{payroll.data.unresolvedAnomalies} anomalías por revisar</p>}
+          </div>
+          <Link to="/nominas" className="btn-ghost min-h-11">Abrir nóminas y subir PDF</Link>
+        </div>}
+        <p className="mt-3 text-xs text-muted-foreground">El salario documentado no se suma a los movimientos bancarios: evita contabilizar dos veces el mismo ingreso.</p>
+      </SectionCard>
       <div className="flex flex-wrap items-center justify-between gap-3">
         <p className="flex items-center gap-2 text-xs text-muted-foreground">
           <ShieldCheck className="h-4 w-4 text-money"/> Origen: extractos y registros privados de RISE HUB
