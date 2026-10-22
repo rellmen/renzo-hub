@@ -22,12 +22,12 @@ const CATALOG=[
  {name:"Proyectos",group:"Trabajo",path:"/proyectos",status:"React · tareas"},
  {name:"Notas",group:"Trabajo",path:"/notas",status:"React · notas"},
  {name:"Migración y copias",group:"Sistema",path:"/migracion",status:"React · auditoría"},
- {name:"News",group:"Sistema",classic:"news",status:"Clásico · pendiente de React"},
+ {name:"News",group:"Sistema",path:"/news",status:"React · historial",classic:"news"},
  {name:"Gastos avanzados",group:"Finanzas",classic:"gastos",status:"Clásico · pendiente de React"},
  {name:"Car",group:"Sistema",classic:"car",status:"Clásico · pendiente de React"},
  {name:"Career / Data Lab",group:"Trabajo",classic:"work",status:"Clásico · pendiente de React"},
- {name:"Quest / RPG",group:"Aprendizaje",classic:"study",status:"Clásico · pendiente de React"},
- {name:"Agent Monitor",group:"Inteligencia",classic:"ares-center",status:"Clásico · pendiente de React"},
+ {name:"Quest / RPG",group:"Aprendizaje",path:"/quest",classic:"study",status:"React · XP histórico; misiones pendientes"},
+ {name:"Agent Monitor",group:"Inteligencia",path:"/agentes",classic:"ares-center",status:"React · eventos reales"},
  {name:"AI Inbox",group:"Inteligencia",classic:"ares-center",status:"Clásico · pendiente de React"},
  {name:"Ajustes",group:"Sistema",path:"/ajustes",status:"React · cuenta"}
 ] as const;
