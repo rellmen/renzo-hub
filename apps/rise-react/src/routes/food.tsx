@@ -1,10 +1,12 @@
 import {createFileRoute,Link} from "@tanstack/react-router";
-import {useQuery} from "@tanstack/react-query";
+import {useMutation,useQuery,useQueryClient} from "@tanstack/react-query";
+import {useState,type FormEvent} from "react";
 import {RefreshCw,ShieldCheck,UtensilsCrossed} from "lucide-react";
 import {pageHead} from "@/lib/seo";
 import {useAuth} from "@/lib/auth/AuthProvider";
 import {PageHeader,SectionCard,EmptyState,Bar} from "@/components/rise/primitives";
 import {loadBodyFoodSnapshot,type NutritionProgress} from "@/lib/body-food-snapshot.mjs";
+import {saveFoodMeal} from "@/lib/body-food-entry.mjs";
 export const Route=createFileRoute("/food")({head:()=>pageHead("Food","Alimentación registrada sin datos ficticios."),component:Food});
 function FoodMetric({title,value,unit,progress}:{title:string;value:number;unit:string;progress:NutritionProgress}){
  return <SectionCard eyebrow="Registro de hoy" title={title} accent="var(--gold)">
@@ -14,6 +16,13 @@ function FoodMetric({title,value,unit,progress}:{title:string;value:number;unit:
 }
 function Food(){
  const {client,user}=useAuth(),uid=user?.id||"";
+ const qc=useQueryClient();
+ const [meal,setMeal]=useState("");
+ const [kcal,setKcal]=useState("");
+ const [protein,setProtein]=useState("");
+ const saving=useMutation({mutationFn:()=>saveFoodMeal(client!,uid,{meal,kcal,protein}),
+   onSuccess:async()=>{setMeal("");setKcal("");setProtein("");await qc.invalidateQueries({queryKey:["body-food",uid]});}});
+ function submit(e:FormEvent<HTMLFormElement>){e.preventDefault();saving.mutate();}
  const q=useQuery({queryKey:["body-food",uid],enabled:!!client&&!!user,queryFn:()=>loadBodyFoodSnapshot(client!,user!),staleTime:30000});
  const d=q.data;
  return <div className="space-y-6">
@@ -31,6 +40,35 @@ function Food(){
  <p className="min-w-0 break-words text-sm font-semibold">{m.title}</p>
  <p className="shrink-0 text-right text-xs text-platinum/80">{m.kcal===null?"Calorías sin dato":m.kcal+" kcal"}<span className="block mt-1">{m.protein===null?"Proteína sin dato":m.protein+" g proteína"}</span></p>
  </li>)}</ul>:<EmptyState icon={<UtensilsCrossed className="h-5 w-5"/>} title="Sin comidas registradas" text="Todavía no constan comidas para la fecha actual."/>}
+ </SectionCard>
+ <SectionCard eyebrow="Nueva entrada" title="Registrar una comida real" accent="var(--gold)">
+   <form onSubmit={submit} className="grid gap-3 sm:grid-cols-3">
+     <label className="space-y-2 text-xs text-muted-foreground sm:col-span-3">Comida o alimento
+       <input type="text" required maxLength={140} value={meal}
+         onChange={e=>setMeal(e.target.value)}
+         placeholder="Nombre real del alimento o plato"
+         className="min-h-12 w-full rounded-xl border border-input bg-obsidian px-3 text-sm text-foreground"/>
+     </label>
+     <label className="space-y-2 text-xs text-muted-foreground">Calorías registradas (opcional)
+       <input type="number" inputMode="decimal" min={0} max={15000} step="1" value={kcal}
+         onChange={e=>setKcal(e.target.value)}
+         className="min-h-12 w-full rounded-xl border border-input bg-obsidian px-3 text-sm text-foreground"/>
+     </label>
+     <label className="space-y-2 text-xs text-muted-foreground">Proteína registrada (g, opcional)
+       <input type="number" inputMode="decimal" min={0} max={1000} step="0.1" value={protein}
+         onChange={e=>setProtein(e.target.value)}
+         className="min-h-12 w-full rounded-xl border border-input bg-obsidian px-3 text-sm text-foreground"/>
+     </label>
+     <button type="submit" className="btn-gold min-h-12 self-end"
+       disabled={saving.isPending||!meal.trim()||(!kcal.trim()&&!protein.trim())}>
+       {saving.isPending?"Guardando…":"Guardar comida"}
+     </button>
+   </form>
+   {saving.error&&<p role="alert" className="mt-3 text-sm text-gym">
+     {saving.error instanceof Error?saving.error.message:"No se pudo guardar la comida."}
+   </p>}
+   {saving.isSuccess&&<p role="status" className="mt-3 text-xs text-muted-foreground">Comida guardada en Supabase.</p>}
+   <p className="mt-3 text-xs text-muted-foreground">Solo utiliza valores nutricionales que conozcas; los campos vacíos no se convierten en mediciones ficticias. No se modifican entradas anteriores.</p>
  </SectionCard>
  <p className="text-xs text-muted-foreground">La edición de comidas y las compras siguen en la aplicación anterior hasta verificar su sincronización. <Link to="/body" className="text-gold underline">Volver a Body</Link></p>
  </>}
