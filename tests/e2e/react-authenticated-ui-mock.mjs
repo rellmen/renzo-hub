@@ -5,7 +5,7 @@ import {chromium,webkit,devices} from 'playwright';
 import assert from 'node:assert/strict';
 
 const origin=process.env.REACT_QA_BASE_URL||'http://127.0.0.1:4174';
-const routes=['/','/ares','/aprender','/gym','/dinero','/piel','/proyectos','/notas','/body','/food','/ajustes'];
+const routes=['/','/ares','/aprender','/gym','/dinero','/piel','/proyectos','/notas','/body','/food','/ajustes','/nominas','/turnos','/migracion','/apps','/quest','/news','/agentes'];
 const uid='22222222-2222-4222-8222-222222222222';
 const email='qa-nocturne@example.invalid';
 const user={id:uid,aud:'authenticated',role:'authenticated',email,
@@ -75,6 +75,11 @@ for(const [label,engine,opts] of [
     assert.equal(await page.getByRole('button',{name:'Entrar'}).count(),0,label+' '+path+' dropped mock session');
     visited.push(path);
   }
+  // The route matrix no longer ends at Ajustes; the account email lives there.
+  // Visit it explicitly so this test verifies session persistence instead of
+  // accidentally depending on the order of the route array.
+  const settingsResponse=await page.goto(new URL('/ajustes',origin).href,{waitUntil:'domcontentloaded'});
+  assert.equal(settingsResponse?.status(),200);
   await page.reload({waitUntil:'domcontentloaded'});
   await page.getByText(email,{exact:true}).waitFor({timeout:20000});
   await page.getByRole('button',{name:'Cerrar sesión',exact:true}).click();

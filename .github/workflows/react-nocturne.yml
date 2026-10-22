@@ -29,12 +29,6 @@ jobs:
       - name: Install React source dependencies
         working-directory: apps/rise-react
         run: npm install --no-audit --no-fund --no-package-lock
-      - name: TypeScript check (includes migrated Ares, Projects and Home)
-        working-directory: apps/rise-react
-        run: ./node_modules/.bin/tsc --noEmit
-      - name: React component regressions (including gated FSRS retries)
-        working-directory: apps/rise-react
-        run: npm test
       - name: Verify seven original Lovable JPEGs (SHA-256 from uploaded ZIP)
         working-directory: apps/rise-react
         shell: bash
@@ -55,6 +49,12 @@ jobs:
           VITE_SUPABASE_URL: https://ci-placeholder.supabase.co
           VITE_SUPABASE_PUBLISHABLE_KEY: sb_publishable_ci_placeholder_1234567890
         run: npm run build
+      - name: TypeScript check (after TanStack route-tree generation)
+        working-directory: apps/rise-react
+        run: ./node_modules/.bin/tsc --noEmit
+      - name: React component regressions (including gated FSRS retries)
+        working-directory: apps/rise-react
+        run: npm test
       - name: Install browsers for unauthenticated React UI QA
         run: |
           npm ci --ignore-scripts
