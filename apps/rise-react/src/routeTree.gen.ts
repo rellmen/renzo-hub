@@ -16,6 +16,7 @@ import { Route as AresRouteImport } from './routes/ares'
 import { Route as DineroRouteImport } from './routes/dinero'
 import { Route as GymRouteImport } from './routes/gym'
 import { Route as PielRouteImport } from './routes/piel'
+import { Route as NotasRouteImport } from './routes/notas'
 import { Route as ProyectosRouteImport } from './routes/proyectos'
 
 const IndexRoute = IndexRouteImport.update({
@@ -48,6 +49,11 @@ const GymRoute = GymRouteImport.update({
   path: '/gym',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NotasRoute = NotasRouteImport.update({
+  id: '/notas',
+  path: '/notas',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PielRoute = PielRouteImport.update({
   id: '/piel',
   path: '/piel',
@@ -60,6 +66,7 @@ const ProyectosRoute = ProyectosRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/notas': typeof NotasRoute
   '/': typeof IndexRoute
   '/ajustes': typeof AjustesRoute
   '/aprender': typeof AprenderRoute
@@ -70,6 +77,7 @@ export interface FileRoutesByFullPath {
   '/proyectos': typeof ProyectosRoute
 }
 export interface FileRoutesByTo {
+  '/notas': typeof NotasRoute
   '/': typeof IndexRoute
   '/ajustes': typeof AjustesRoute
   '/aprender': typeof AprenderRoute
@@ -80,6 +88,7 @@ export interface FileRoutesByTo {
   '/proyectos': typeof ProyectosRoute
 }
 export interface FileRoutesById {
+  '/notas': typeof NotasRoute
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/ajustes': typeof AjustesRoute
@@ -93,6 +102,7 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/notas'
     | '/'
     | '/ajustes'
     | '/aprender'
@@ -103,6 +113,7 @@ export interface FileRouteTypes {
     | '/proyectos'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/notas'
     | '/'
     | '/ajustes'
     | '/aprender'
@@ -112,6 +123,7 @@ export interface FileRouteTypes {
     | '/piel'
     | '/proyectos'
   id:
+    | '/notas'
     | '__root__'
     | '/'
     | '/ajustes'
@@ -124,6 +136,7 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  NotasRoute: typeof NotasRoute
   IndexRoute: typeof IndexRoute
   AjustesRoute: typeof AjustesRoute
   AprenderRoute: typeof AprenderRoute
@@ -136,6 +149,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/notas': {
+      id: '/notas'
+      path: '/notas'
+      fullPath: '/notas'
+      preLoaderRoute: typeof NotasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -196,6 +216,7 @@ declare module '@tanstack/react-router' {
 }
 
 const rootRouteChildren: RootRouteChildren = {
+  NotasRoute: NotasRoute,
   IndexRoute: IndexRoute,
   AjustesRoute: AjustesRoute,
   AprenderRoute: AprenderRoute,

@@ -1,4 +1,4 @@
-import { BookOpen, Briefcase, Dumbbell, Home, Settings, Sparkles, Wallet, Flower2 } from "lucide-react";
+import { BookOpen, Briefcase, Dumbbell, Home, Settings, Sparkles, Wallet, Flower2, NotebookPen } from "lucide-react";
 
 export const NAV = [
   { to: "/", label: "Centro de mando", short: "Inicio", icon: Home, accent: "var(--gold)" },
@@ -8,6 +8,7 @@ export const NAV = [
   { to: "/dinero", label: "Money", short: "Money", icon: Wallet, accent: "var(--money)" },
   { to: "/piel", label: "Skin Routine", short: "Skin", icon: Flower2, accent: "var(--skin)" },
   { to: "/proyectos", label: "Proyectos", short: "Proyectos", icon: Briefcase, accent: "var(--projects)" },
+  { to: "/notas", label: "Notas", short: "Notas", icon: NotebookPen, accent: "var(--projects)" },
   { to: "/ajustes", label: "Ajustes", short: "Más", icon: Settings, accent: "var(--platinum)" },
 ] as const;
 
