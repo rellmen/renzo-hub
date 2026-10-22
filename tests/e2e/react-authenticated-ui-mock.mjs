@@ -77,7 +77,7 @@ for(const [label,engine,opts] of [
   }
   await page.reload({waitUntil:'domcontentloaded'});
   await page.getByText(email,{exact:true}).waitFor({timeout:20000});
-  await page.getByRole('button',{name:'Cerrar sesión'}).click();
+  await page.getByRole('button',{name:'Cerrar sesión',exact:true}).click();
   await page.getByRole('heading',{name:'Tu espacio privado.'}).waitFor({timeout:20000});
   await page.reload({waitUntil:'domcontentloaded'});
   await page.getByRole('heading',{name:'Tu espacio privado.'}).waitFor({timeout:20000});
