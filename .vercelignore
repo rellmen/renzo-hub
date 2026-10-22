@@ -1,4 +1,5 @@
-# Solo se publica la app. Documentación interna, SQL, scripts e integraciones no se suben a Vercel.
+# Isolated Nocturne QA branch ONLY. Preserve React package.json and TypeScript files.
+# Never merge this root-level ignore change into legacy staging/main.
 *.md
 docs/
 supabase/
@@ -7,12 +8,7 @@ integrations/
 os-core/
 tests/
 tools/
-# React source stays private until a separately built, audited release is ready
-apps/
 .github/
-package.json
-package-lock.json
-tsconfig.json
 node_modules/
 .env*
 .gitignore

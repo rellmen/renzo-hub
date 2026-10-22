@@ -50,7 +50,29 @@ jobs:
           sha256sum --check /tmp/nocturne-originals.sha256
       - name: Build React with verified ORIGINAL assets (never demo placeholders)
         working-directory: apps/rise-react
+        env:
+          VITE_SUPABASE_URL: https://ci-placeholder.supabase.co
+          VITE_SUPABASE_PUBLISHABLE_KEY: sb_publishable_ci_placeholder_1234567890
         run: npm run build
+      - name: Install browsers for unauthenticated React UI QA
+        run: |
+          npm ci --ignore-scripts
+          npx playwright install --with-deps chromium webkit
+      - name: React hydration, login screen and PWA smoke via Vite dev (no real accounts)
+        working-directory: apps/rise-react
+        env:
+          VITE_SUPABASE_URL: https://ci-placeholder.supabase.co
+          VITE_SUPABASE_PUBLISHABLE_KEY: sb_publishable_ci_placeholder_1234567890
+        run: |
+          npm run dev -- --host 127.0.0.1 --port 4174 >/tmp/rise-react-preview.log 2>&1 &
+          app_pid=$!
+          trap 'kill "$app_pid" 2>/dev/null || true' EXIT
+          for n in $(seq 1 30); do
+            curl -fsS http://127.0.0.1:4174/ >/dev/null && break
+            sleep 1
+          done
+          if ! curl -fsS http://127.0.0.1:4174/ >/dev/null; then cat /tmp/rise-react-preview.log; exit 1; fi
+          REACT_QA_BASE_URL=http://127.0.0.1:4174 node ../../tests/e2e/react-auth-smoke.mjs || { cat /tmp/rise-react-preview.log; exit 1; }
       - name: React release blocker report (informational)
         run: node tools/react-cutover-audit.mjs
 

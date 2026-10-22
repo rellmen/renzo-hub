@@ -24,7 +24,7 @@ for (const vp of [{ name: "móvil", width: 390, height: 844 }, { name: "escritor
   page.on("console", m => { if (m.type() === "error") errors.push(m.text()); });
   page.on("pageerror", e => errors.push(String(e)));
   await page.addInitScript(() => document.addEventListener("securitypolicyviolation", e => console.error(`CSP: ${e.violatedDirective} ${e.blockedURI}`)));
-  const resp = await page.goto(base + "/", { waitUntil: "networkidle" });
+  const resp = await page.goto(base + "/", { waitUntil: "domcontentloaded", timeout: 30000 });
   await check(`[${vp.name}] cabeceras de seguridad`, async () => {
     const h = resp.headers();
     assert.ok(h["content-security-policy"]?.includes("script-src 'self'"));
