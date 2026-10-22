@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
  SUPABASE_STAGING_URL,SUPABASE_PRODUCTION_URL,LEGACY_FALLBACK_URL,
- backendEnvironmentForHost,verifyNocturneBackendIsolation
+ backendEnvironmentForHost,verifyNocturneBackendIsolation,officialSelfLearnAwardsEnabled
 } from '../apps/rise-react/src/lib/nocturne-environment.mjs';
 
 const stage={supabaseUrl:SUPABASE_STAGING_URL,publishableKey:'sb_publishable_fake_test_value_only'};
@@ -42,4 +42,17 @@ test('Legacy fallback is immutable independent URL, not the primary production a
  assert.equal(backup.protocol,'https:');
  assert.equal(backup.hostname,'rise-hub-classic-renzojesus99-1996.vercel.app');
  assert.notEqual(backup.hostname,'renzo-hub.vercel.app');
+});
+
+test('XP/FSRS flag accidentally inherited by production never enables awards',()=>{
+ for(const host of ['renzo-hub.vercel.app','rise-hub-renzojesus99-1996.vercel.app',
+  'rise-hub-nocturne-candidate.vercel.app']){
+   assert.equal(officialSelfLearnAwardsEnabled(true,{hostname:host,releaseTarget:'production'}),false);
+ }
+ assert.equal(officialSelfLearnAwardsEnabled(true,{
+   hostname:'renzo-hub-2-1-staging.vercel.app',releaseTarget:'production'}),false);
+ assert.equal(officialSelfLearnAwardsEnabled(true,{
+   hostname:'renzo-hub-2-1-staging.vercel.app',releaseTarget:'staging'}),true);
+ assert.equal(officialSelfLearnAwardsEnabled(false,{
+   hostname:'renzo-hub-2-1-staging.vercel.app',releaseTarget:'staging'}),false);
 });
