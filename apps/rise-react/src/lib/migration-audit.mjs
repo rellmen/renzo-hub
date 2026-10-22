@@ -170,3 +170,50 @@ export async function compareMigrationRows(client,uid,backup,{verifyOwner=verify
  return{comparisons,equal:comparisons.every(x=>x.match),
   warning:"Compara filas e identificadores SHA-256 en este navegador. No compara archivos Storage ni cambios locales no exportados."};
 }
+
+/**
+ * Verify actual private Storage file bytes against a local legacy backup.
+ * Downloads are authenticated by Supabase Storage policies; no external upload
+ * or metadata leak. Abort (rather than announce equality) on partial backups.
+ */
+async function fingerprintFileBase64(encoded){
+ if(typeof encoded!=="string"||!globalThis.crypto?.subtle)throw Error("No se puede verificar la huella de un archivo privado.");
+ const binary=atob(encoded),buffer=new Uint8Array(binary.length);
+ for(let i=0;i<binary.length;i++)buffer[i]=binary.charCodeAt(i);
+ const hash=await globalThis.crypto.subtle.digest("SHA-256",buffer);
+ return Array.from(new Uint8Array(hash),b=>b.toString(16).padStart(2,"0")).join("");
+}
+async function indexPrivateFiles(files,uid,source){
+ const index=new Map();
+ for(const file of files){
+  if(!file||typeof file!=="object"||!MIGRATION_BUCKETS.includes(file.bucket)||
+     typeof file.path!=="string"||!file.path.startsWith(uid+"/")||
+     typeof file.size!=="number"||!Number.isSafeInteger(file.size)||file.size<0)
+   throw Error("La lista privada de archivos de "+source+" no es válida para esta cuenta.");
+  const key=file.bucket+"/"+file.path;
+  if(index.has(key))throw Error("Hay una ruta duplicada en "+source+".");
+  const checksum=await fingerprintFileBase64(file.base64);
+  index.set(key,{checksum,size:file.size});
+ }
+ return index;
+}
+export async function compareMigrationFiles(client,uid,backup,{verifyOwner=verifyMigrationOwner,onProgress=()=>{}}={}){
+ await verifyOwner(client,uid);
+ if(!backup||backup.format!=="renzo-hub-export"||backup.version!==1||
+    backup.user_id!==uid||!Array.isArray(backup.files)||!Array.isArray(backup.errors)||
+    backup.errors.length>0)
+  throw Error("La copia no contiene un inventario completo y verificable de archivos privados.");
+ onProgress("Comprobando documentos y fotografías privados");
+ const cloudFiles=await allPrivateFiles(client,uid,onProgress);
+ const old=await indexPrivateFiles(backup.files,uid,"la copia");
+ const cloud=await indexPrivateFiles(cloudFiles,uid,"Supabase Storage");
+ let missing=0,added=0,changed=0;
+ for(const [path,data]of old){
+  const newer=cloud.get(path);
+  if(!newer)missing++;
+  else if(newer.size!==data.size||newer.checksum!==data.checksum)changed++;
+ }
+ for(const path of cloud.keys())if(!old.has(path))added++;
+ return{backupCount:old.size,currentCount:cloud.size,missing,added,changed,
+  equal:missing===0&&added===0&&changed===0};
+}
