@@ -1,78 +1,96 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { ChevronRight, RotateCcw, ShieldCheck } from "lucide-react";
-import { toast } from "sonner";
-import { pageHead } from "@/lib/seo";
-import { NAV } from "@/lib/nav";
-import { clearDemoStorage, useLocalStorage } from "@/lib/storage";
-import { PageHeader, SectionCard } from "@/components/rise/primitives";
-import { Switch } from "@/components/ui/switch";
+import {createFileRoute,Link} from "@tanstack/react-router";
+import {useQueryClient} from "@tanstack/react-query";
+import {useState} from "react";
+import {ChevronRight,Database,ExternalLink,KeyRound,LogOut,ShieldCheck,Smartphone,UserRound} from "lucide-react";
+import {toast} from "sonner";
+import {pageHead} from "@/lib/seo";
+import {NAV} from "@/lib/nav";
+import {PageHeader,SectionCard} from "@/components/rise/primitives";
+import {useAuth} from "@/lib/auth/AuthProvider";
 
-export const Route = createFileRoute("/ajustes")({
-  head: () => pageHead("Ajustes", "Estado del prototipo, privacidad y paleta de tokens del concepto RISE HUB Nocturne."),
-  component: Settings,
+export const Route=createFileRoute("/ajustes")({
+  head:()=>pageHead("Ajustes y privacidad","Tu sesión, privacidad y estado de la migración RISE HUB React."),
+  component:Settings
 });
-
-const TOKENS = [
-  ["Ink", "var(--ink)", "#0C0A10"], ["Obsidian", "var(--obsidian)", "#111016"], ["Raised", "var(--raised)", "#1A1520"],
-  ["Burgundy", "var(--burgundy)", "#512037"], ["Wine", "var(--wine)", "#722440"], ["Violet", "var(--violet)", "#8B5AC6"],
-  ["Gold", "var(--gold)", "#C5A072"], ["Platinum", "var(--platinum)", "#D8D2DB"],
-  ["Gym", "var(--gym)", "#D95C75"], ["Learn", "var(--learn)", "#AC78DE"], ["Money", "var(--money)", "#DFAD69"],
-  ["Skin", "var(--skin)", "#CFA9B3"], ["Projects", "var(--projects)", "#8D81E2"], ["Ares", "var(--ares)", "#CC76A5"],
+const MODULES:{name:string;status:string;details:string}[]=[
+  {name:"Inicio",status:"lectura",details:"Proyectos y actividad verificados"},
+  {name:"Proyectos",status:"operativo parcial",details:"Tareas reales y edición limitada"},
+  {name:"Ares Center",status:"lectura",details:"Consultas de registros, sin ejecución de agentes"},
+  {name:"SelfLearn",status:"lectura",details:"Progreso guardado; reproductor aún en migración"},
+  {name:"Gym",status:"lectura",details:"Sesiones y plan existentes"},
+  {name:"Money",status:"lectura",details:"Bancos y patrimonio registrados; sin operaciones"},
+  {name:"Skin Routine",status:"operativo parcial",details:"Rutinas y notas, inventario sin editar"},
+  {name:"Sistema completo",status:"pendiente",details:"Módulos administrativos y PWA aún por integrar"}
 ];
 
-function Settings() {
-  const [s, setS] = useLocalStorage("settings", { reduceMotion: false });
-  return (
-    <div className="space-y-6">
-      <PageHeader eyebrow="Más" title="Ajustes y módulos" subtitle="Todo lo que necesitas para revisar este concepto." />
-
-      <div className="grid gap-6 lg:grid-cols-2">
-        <SectionCard eyebrow="Módulos" title="Navegar" className="lg:hidden">
-          <ul className="divide-y divide-hairline">
-            {NAV.filter((n) => n.to !== "/ajustes").map((n) => (
-              <li key={n.to}><Link to={n.to} className="flex min-h-14 items-center gap-3 text-sm"><n.icon className="h-4 w-4" style={{ color: n.accent }} /><span className="flex-1">{n.label}</span><ChevronRight className="h-4 w-4 text-muted-foreground" /></Link></li>
-            ))}
-          </ul>
-        </SectionCard>
-
-        <SectionCard eyebrow="Estado" title="Prototipo de diseño" accent="var(--gold)">
-          <div className="flex gap-4 rounded-2xl border border-gold/20 bg-wine-gradient p-5">
-            <ShieldCheck className="h-6 w-6 shrink-0 text-gold" />
-            <div className="space-y-2 text-sm leading-relaxed text-platinum/85">
-              <p><strong className="text-foreground">Concepto visual · datos de ejemplo.</strong> RISE HUB Nocturne es una propuesta de diseño para aprobación, no la aplicación real.</p>
-              <p>No hay cuentas, servidores, IA conectada ni enlaces bancarios. Las respuestas de Ares son guiones locales y todas las cifras son ficticias.</p>
-              <p>Tus tareas, lecciones y rutinas de prueba se guardan solo en el almacenamiento local de este navegador.</p>
-            </div>
+function Settings(){
+  const {user,signOut}=useAuth();
+  const qc=useQueryClient();
+  const [busy,setBusy]=useState(false);
+  async function logout(){
+    setBusy(true);
+    try{await signOut();qc.clear();}
+    catch(e){toast.error(e instanceof Error?e.message:"No se pudo cerrar la sesión.");}
+    finally{setBusy(false);}
+  }
+  return <div className="space-y-6">
+    <PageHeader eyebrow="SISTEMA · ACCESO PRIVADO" title="Ajustes y privacidad"
+      subtitle="Tu cuenta real de RISE HUB y el estado verificable de la transición a React."/>
+    <div className="grid gap-6 lg:grid-cols-2">
+      <SectionCard eyebrow="Identidad" title="Cuenta conectada" accent="var(--gold)">
+        <div className="flex items-center gap-4 rounded-2xl border border-hairline bg-raised p-4">
+          <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-wine-gradient text-gold"><UserRound className="h-5 w-5"/></span>
+          <div className="min-w-0"><p className="text-xs text-muted-foreground">Correo de sesión</p>
+            <p className="break-all text-sm font-medium">{user?.email||"Sin correo verificado"}</p>
+            <p className="mt-1 text-xs text-muted-foreground">Autenticación gestionada por Supabase.</p>
           </div>
-        </SectionCard>
-
-        <SectionCard eyebrow="Preferencias" title="Experiencia">
-          <div className="flex min-h-14 items-center justify-between gap-4">
-            <label htmlFor="rm" className="text-sm">Reducir animaciones<span className="block text-xs text-muted-foreground">Además respeta la preferencia del sistema.</span></label>
-            <Switch id="rm" checked={s.reduceMotion} onCheckedChange={(v) => setS({ ...s, reduceMotion: v })} />
+        </div>
+        <button type="button" className="btn-ghost mt-4 flex min-h-11 items-center" disabled={busy} onClick={()=>void logout()}>
+          <LogOut className="h-4 w-4"/> {busy?"Cerrando sesión…":"Cerrar sesión"}
+        </button>
+      </SectionCard>
+      <SectionCard eyebrow="Protección" title="Privacidad y datos" accent="var(--gold)">
+        <div className="flex items-start gap-3 rounded-2xl border border-gold/25 bg-gold/[0.06] p-4">
+          <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-gold"/>
+          <div className="space-y-2 text-sm text-platinum/80">
+            <p><strong className="text-foreground">Datos vinculados a tu cuenta.</strong> La interfaz React consulta el Supabase de este mismo entorno, protegido mediante las reglas de acceso existentes.</p>
+            <p>El frontend React todavía no sustituye a toda la aplicación anterior. Las funciones no migradas siguen allí; no se ha hecho ninguna migración destructiva de la base de datos.</p>
           </div>
-          <div className="mt-4 border-t border-hairline pt-4">
-            <button type="button" className="btn-ghost" onClick={() => { clearDemoStorage(); toast("Datos de ejemplo restablecidos"); window.setTimeout(() => window.location.reload(), 500); }}>
-              <RotateCcw className="h-4 w-4" />Restablecer datos de ejemplo
-            </button>
+        </div>
+        <p className="mt-4 flex gap-2 text-xs text-muted-foreground">
+          <KeyRound className="mt-0.5 h-4 w-4 shrink-0"/> Nunca compartas contraseñas o claves de servicio dentro de las notas de la aplicación.
+        </p>
+      </SectionCard>
+      <SectionCard eyebrow="Navegación" title="Microapps disponibles" accent="var(--ares)">
+        <ul className="divide-y divide-hairline">
+          {NAV.filter(n=>n.to!=="/ajustes").map(n=><li key={n.to}>
+            <Link to={n.to} className="flex min-h-12 items-center gap-3 text-sm transition hover:text-gold">
+              <n.icon className="h-4 w-4 shrink-0" style={{color:n.accent}}/>
+              <span className="flex-1">{n.label}</span>
+              <ChevronRight className="h-4 w-4 text-muted-foreground"/>
+            </Link>
+          </li>)}
+        </ul>
+      </SectionCard>
+      <SectionCard eyebrow="Estado real" title="Migración Nocturne" accent="var(--projects)">
+        <p className="mb-4 text-sm text-muted-foreground">Estas etiquetas describen lo que se está migrando. No significan que todo funcione ya en producción.</p>
+        <ul className="space-y-3">{MODULES.map(m=><li key={m.name}
+          className="flex flex-col gap-1 rounded-xl border border-hairline bg-raised p-3 sm:flex-row sm:items-start sm:justify-between sm:gap-3">
+          <div><p className="text-sm font-medium">{m.name}</p><p className="mt-1 text-xs text-muted-foreground">{m.details}</p></div>
+          <span className="shrink-0 self-start rounded-full border border-hairline px-2.5 py-1 text-[11px] text-platinum/75">{m.status}</span>
+        </li>)}</ul>
+      </SectionCard>
+      <SectionCard eyebrow="Uso" title="Aplicación web progresiva" accent="var(--skin)" className="lg:col-span-2">
+        <div className="grid gap-5 md:grid-cols-2">
+          <div className="flex gap-3"><Smartphone className="h-6 w-6 shrink-0 text-skin"/>
+            <div><h3 className="text-sm font-semibold">Experiencia móvil</h3><p className="mt-2 text-sm leading-relaxed text-muted-foreground">La nueva interfaz sigue la composición de Lovable. La validación de instalación, modo offline y actualización en iPhone continúa pendiente.</p></div>
           </div>
-        </SectionCard>
-
-        <SectionCard eyebrow="Tokens" title="Paleta Nocturne" className="lg:col-span-2">
-          <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-7">
-            {TOKENS.map(([name, v, hex]) => (
-              <li key={name} className="overflow-hidden rounded-2xl border border-hairline">
-                <div className="h-16" style={{ background: v }} />
-                <div className="p-3"><div className="text-xs font-semibold">{name}</div><div className="font-mono text-[0.68rem] text-muted-foreground">{hex}</div></div>
-              </li>
-            ))}
-          </ul>
-          <div className="mt-5 grid gap-4 sm:grid-cols-2">
-            <div className="rounded-2xl border border-hairline p-4"><div className="eyebrow mb-1">Display</div><div className="font-display text-4xl">Cormorant Garamond</div></div>
-            <div className="rounded-2xl border border-hairline p-4"><div className="eyebrow mb-1">Texto</div><div className="text-2xl font-semibold">Manrope</div></div>
+          <div className="flex gap-3"><Database className="h-6 w-6 shrink-0 text-skin"/>
+            <div><h3 className="text-sm font-semibold">Continuidad de datos</h3><p className="mt-2 text-sm leading-relaxed text-muted-foreground">Tus registros originales permanecen en las tablas actuales. No borres datos para cambiar de diseño.</p></div>
           </div>
-        </SectionCard>
-      </div>
+        </div>
+        <p className="mt-5 text-xs text-muted-foreground">Referencia de diseño: <a className="inline-flex items-center gap-1 text-gold underline" href="https://lovable.dev/projects/ca43e152-f7c7-4c8e-b925-01476b9053da" target="_blank" rel="noopener noreferrer">Lovable Nocturne <ExternalLink className="h-3 w-3"/></a></p>
+      </SectionCard>
     </div>
-  );
+  </div>;
 }
