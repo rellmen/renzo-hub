@@ -1,6 +1,7 @@
 import {createContext,useCallback,useContext,useEffect,useMemo,useState,type FormEvent,type ReactNode} from 'react';
 import type {Session,SupabaseClient,User} from '@supabase/supabase-js';
 import {getReactSupabaseClient} from '../supabase-adapter.mjs';
+import {backendEnvironmentForHost} from '../nocturne-environment.mjs';
 
 type AuthStatus='loading'|'signed-in'|'signed-out'|'error';
 type AuthState={status:AuthStatus;client:SupabaseClient|null;session:Session|null;user:User|null;error:string|null};
@@ -13,19 +14,29 @@ const INITIAL:AuthState={status:'loading',client:null,session:null,user:null,err
 
 // Keep backend details out of the UI and distinguish user errors from staging outages.
 // Authentication and user identities are isolated from the production environment.
-export function loginErrorMessage(error:unknown):string{
+function currentEnvironment(): 'production'|'staging'{
+  const target=import.meta.env?.VITE_NOCTURNE_RELEASE_TARGET;
+  if(target==='production')return 'production';
+  if(typeof window!=='undefined'&&backendEnvironmentForHost(window.location.hostname)==='production')return 'production';
+  return 'staging';
+}
+export function loginErrorMessage(error:unknown,env:'production'|'staging'='staging'):string{
   const detail=(error&&typeof error==='object')?error as {code?:unknown;message?:unknown;status?:unknown}:{};
   const code=typeof detail.code==='string'?detail.code.toLowerCase():'';
   const message=typeof detail.message==='string'?detail.message.toLowerCase():'';
   if(code==='invalid_credentials'||message.includes('invalid login credentials'))
-    return 'Correo o contraseña no válidos para este entorno de pruebas. Comprueba tus credenciales de staging.';
+    return env==='production'
+      ? 'Correo o contraseña no válidos para tu cuenta de RISE HUB.'
+      : 'Correo o contraseña no válidos para este entorno de pruebas. Comprueba tus credenciales de staging.';
   if(code==='email_not_confirmed'||message.includes('email not confirmed'))
     return 'Confirma el correo de esta cuenta de pruebas antes de entrar.';
   if(detail.status===429||code.includes('rate_limit')||message.includes('rate limit'))
     return 'Demasiados intentos. Espera un momento antes de volver a entrar.';
   if(message.includes('failed to fetch')||message.includes('network')||message.includes('timeout')||message.includes('fetch failed'))
     return 'No se pudo contactar con el servicio de acceso. Comprueba la conexión e inténtalo de nuevo.';
-  return 'No se pudo iniciar sesión en staging. Inténtalo de nuevo o comunica el error al equipo.';
+  return env==='production'
+    ? 'No se pudo iniciar sesión en RISE HUB. Inténtalo de nuevo.'
+    : 'No se pudo iniciar sesión en staging. Inténtalo de nuevo o comunica el error al equipo.';
 }
 const AuthContext=createContext<AuthContextValue|null>(null);
 
@@ -63,7 +74,7 @@ export function AuthProvider({children,onAccountChange}:{children:ReactNode;onAc
       }catch(error){
         if(!mounted)return;
         setState({status:'error',client:null,session:null,user:null,
-          error:'No se pudo preparar el acceso privado de staging. Comprueba la conexión y reintenta.'});
+          error:'No se pudo preparar el acceso privado. Comprueba la conexión y reintenta.'});
       }
     })();
     return ()=>{mounted=false;unsubscribe?.();};
@@ -98,11 +109,14 @@ export function AuthGate({children}:{children:ReactNode}){
   const [formError,setFormError]=useState('');
   const submit=async(e:FormEvent<HTMLFormElement>)=>{
     e.preventDefault();setBusy(true);setFormError('');
-    try{await auth.signIn(email,password);}catch(err){setFormError(loginErrorMessage(err));}
+    try{await auth.signIn(email,password);}catch(err){setFormError(loginErrorMessage(err,currentEnvironment()));}
     finally{setBusy(false);setPassword('');}
   };
+  const isProduction=currentEnvironment()==='production';
   if(auth.status==='loading')return <div role="status" className="grid min-h-screen place-items-center bg-background text-platinum">Preparando acceso seguro…</div>;
   if(auth.status==='error')return <main className="grid min-h-screen place-items-center bg-background p-6"><div className="surface max-w-md space-y-4 p-8"><h1 className="font-display text-3xl">No se pudo preparar el acceso</h1><p role="alert">{auth.error}</p><button className="btn-gold" onClick={auth.retry}>Reintentar</button></div></main>;
   if(auth.status==='signed-in')return <>{children}</>;
-  return <main className="grid min-h-screen place-items-center bg-background p-6"><form onSubmit={submit} className="surface w-full max-w-md space-y-5 p-8"><p className="eyebrow">RISE HUB · NOCTURNE</p><h1 className="font-display text-4xl">Tu espacio privado.</h1><p className="text-sm text-muted-foreground">Accede con una cuenta habilitada en staging. Este entorno no utiliza la base de datos de producción.</p><label className="block space-y-2 text-sm">Correo electrónico<input type="email" autoComplete="username" required value={email} onChange={e=>setEmail(e.target.value)} className="h-12 w-full rounded-xl border border-input bg-raised px-4 text-foreground"/></label><label className="block space-y-2 text-sm">Contraseña<input type="password" autoComplete="current-password" required value={password} onChange={e=>setPassword(e.target.value)} className="h-12 w-full rounded-xl border border-input bg-raised px-4 text-foreground"/></label>{formError&&<p role="alert" className="text-sm text-destructive">{formError}</p>}<button disabled={busy} type="submit" className="btn-gold w-full">{busy?'Comprobando…':'Entrar'}</button></form></main>;
+  return <main className="grid min-h-screen place-items-center bg-background p-6"><form onSubmit={submit} className="surface w-full max-w-md space-y-5 p-8"><p className="eyebrow">RISE HUB · NOCTURNE</p><h1 className="font-display text-4xl">Tu espacio privado.</h1><p className="text-sm text-muted-foreground">{isProduction
+     ? 'Accede con tu cuenta de RISE HUB. El entorno de producción utiliza sus propios datos privados.'
+     : 'Accede con una cuenta habilitada en staging. Este entorno no utiliza la base de datos de producción.'}</p><label className="block space-y-2 text-sm">Correo electrónico<input type="email" autoComplete="username" required value={email} onChange={e=>setEmail(e.target.value)} className="h-12 w-full rounded-xl border border-input bg-raised px-4 text-foreground"/></label><label className="block space-y-2 text-sm">Contraseña<input type="password" autoComplete="current-password" required value={password} onChange={e=>setPassword(e.target.value)} className="h-12 w-full rounded-xl border border-input bg-raised px-4 text-foreground"/></label>{formError&&<p role="alert" className="text-sm text-destructive">{formError}</p>}<button disabled={busy} type="submit" className="btn-gold w-full">{busy?'Comprobando…':'Entrar'}</button></form></main>;
 }
