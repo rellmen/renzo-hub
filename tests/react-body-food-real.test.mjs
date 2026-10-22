@@ -18,7 +18,8 @@ function mock({weights=[],sessions=[],food=[],skin=[],settings={},failure=null}=
       calls.push({table,type,filters});
       return Promise.resolve({data:table==='hub_records'?(lists.hub_records[type]||[]):lists[table]||[],error:failure?{message:failure}:null});
     },
-    maybeSingle(){calls.push({table,type,filters});return Promise.resolve({data:{settings},error:failure?{message:failure}:null});}
+    maybeSingle(){calls.push({table,type,filters});return Promise.resolve({data:{settings},error:failure?{message:failure}:null});},
+    then(onFulfilled,onRejected){calls.push({table,type,filters});return Promise.resolve({data:table==='hub_records'?(lists.hub_records[type]||[]):lists[table]||[],error:failure?{message:failure}:null}).then(onFulfilled,onRejected);}
   };return q;
  }};
  return {client,calls};
@@ -56,7 +57,7 @@ test('Read-only nutritional metrics use only stored meals and user-defined goals
  assert.equal(v.nutrition.kcal,450);
  assert.equal(v.nutrition.protein,36);
  assert.equal(v.meals[0].title,'Lunch');
- assert.equal(v.kcalProgress.target,'1.800–2.200');
+ assert.equal(v.kcalProgress.target,'1800–2200');
  assert.equal(v.proteinProgress.target,'110–140');
 });
 test('Unauthenticated requests and blocked RLS fail closed',async()=>{
