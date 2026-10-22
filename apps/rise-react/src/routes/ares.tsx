@@ -9,6 +9,7 @@ import {useAuth} from "@/lib/auth/AuthProvider";
 import {loadAresRecords,answerAresFromRecords} from "@/lib/ares-records.mjs";
 import {aresPreviewStatus,askAresPreview} from "@/lib/ares-preview-client.mjs";
 import {AresOperations} from '@/components/rise/AresOperations';
+import {AresDevelopmentSources} from "@/components/rise/AresDevelopmentSources";
 
 export const Route=createFileRoute("/ares")({
   head:()=>pageHead("Ares Center","Consulta privada de actividad y tareas registradas en RISE HUB."),
@@ -139,6 +140,7 @@ function AresPage(){
           {data?.partial&&<p className="mt-3 text-xs text-gold">Se muestran hasta 300 registros recientes; el total puede ser mayor.</p>}
           <Link to="/proyectos" className="btn-ghost mt-4 inline-flex">Abrir proyectos <Sparkles className="h-4 w-4"/></Link>
         </SectionCard>
+        <AresDevelopmentSources/>
       </div>
     </div>
     {data&&<AresOperations approvals={data.approvals} agents={data.agents}/>}
