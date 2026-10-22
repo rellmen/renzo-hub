@@ -7,6 +7,7 @@ import {pageHead} from "@/lib/seo";
 import {NAV} from "@/lib/nav";
 import {PageHeader,SectionCard} from "@/components/rise/primitives";
 import {useAuth} from "@/lib/auth/AuthProvider";
+import {LEGACY_FALLBACK_URL} from "@/lib/nocturne-environment.mjs";
 import {refreshVisiblePrivateData} from "@/lib/private-data-refresh";
 
 export const Route=createFileRoute("/ajustes")({
@@ -89,6 +90,17 @@ function Settings(){
           {syncBusy?"Actualizando datos…":"Actualizar datos de este dispositivo"}
         </button>
         {syncMessage&&<p role={syncError?"alert":"status"} className="mt-3 text-xs text-muted-foreground">{syncMessage}</p>}
+      </SectionCard>
+      <SectionCard eyebrow="Compatibilidad" title="Acceso a la versión clásica" accent="var(--ares)">
+        <p className="text-sm leading-relaxed text-muted-foreground">
+          Algunas funciones todavía no están disponibles en Nocturne. La aplicación clásica
+          continúa accesible mediante un despliegue independiente de respaldo. No transfieras
+          contraseñas entre entornos: cada aplicación comprobará tu sesión en Supabase.
+        </p>
+        <a href={LEGACY_FALLBACK_URL} target="_blank" rel="noopener noreferrer"
+          className="btn-ghost mt-4 inline-flex min-h-11 items-center">
+          Abrir RISE HUB clásico <ExternalLink className="h-4 w-4"/>
+        </a>
       </SectionCard>
       <SectionCard eyebrow="Navegación" title="Microapps disponibles" accent="var(--ares)">
         <ul className="divide-y divide-hairline">

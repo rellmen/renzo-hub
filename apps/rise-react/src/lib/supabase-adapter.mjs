@@ -1,3 +1,4 @@
+import {verifyNocturneBackendIsolation} from './nocturne-environment.mjs';
 // RISE HUB · React migration: same-origin Supabase bootstrap.
 // All data must remain in the existing environment under existing RLS policies.
 // No client/keys are ever copied from Lovable or hardcoded into this bundle.
@@ -46,7 +47,10 @@ export async function getReactSupabaseClient({createClient}={}){
     clientPromise=(async()=>{
       const factory=createClient??(await import('@supabase/supabase-js')).createClient;
       if(typeof factory!=='function')throw new Error('Proveedor de acceso no disponible');
-      const cfg=await fetchSupabaseConfig();
+      const cfg=verifyNocturneBackendIsolation(await fetchSupabaseConfig(),{
+        hostname:window.location.hostname,
+        releaseTarget:import.meta.env?.VITE_NOCTURNE_RELEASE_TARGET||''
+      });
       return factory(cfg.supabaseUrl,cfg.publishableKey,{auth:{autoRefreshToken:true,persistSession:true,detectSessionInUrl:true}});
     })().catch(err=>{clientPromise=null;throw err;});
   }
