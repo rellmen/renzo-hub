@@ -136,6 +136,7 @@ export function SelfLearnCheckpointPractice({client,uid,course,legacyActive,next
      ]);
    }
  });
+ useEffect(()=>{award.reset();},[active?.sessionId]);
  const run=active?.run;
  const view=run?practicePrompt(run):null;
  const step=view?.step;
