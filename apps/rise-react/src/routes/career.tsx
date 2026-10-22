@@ -9,7 +9,7 @@ export const Route=createFileRoute("/career")({
  head:()=>pageHead("Career y Data Lab","Trayectoria, habilidades y objetivos profesionales confirmados."),
  component:Career
 });
-type ConfirmedFact={label:string;value:string;asOf?:string;provenance?:string};
+type ConfirmedFact={label:string;value:string;asOf?:string|undefined;provenance?:string|undefined};
 type SettingFact={value:string;confirmed?:boolean;confirmedAt?:string;source?:string};
 const KEY_LABELS:Record<string,string>={career:"Dirección profesional",dutchGoal:"Objetivo neerlandés",englishGoal:"Objetivo inglés",workShifts:"Turnos confirmados",nativeLanguages:"Idiomas nativos"};
 function Career(){
