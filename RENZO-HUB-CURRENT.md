@@ -5,7 +5,7 @@
 | Bloque | Estado |
 | --- | --- |
 | Ares | Handler clásico reutilizado en entrada TanStack, opt-in producción y cuota compartida de 12 consultas/día con tutor. Validado localmente; activación real pendiente. |
-| SelfLearn | Probe autenticado de contrato v1 antes de permitir XP/FSRS producción. SQL pendiente ampliado; probado en PGlite con rollback, sin DDL en producción. |
+| SelfLearn | Probe autenticado de contrato v1 antes de permitir XP/FSRS producción. Probe incremental instalado y verificado en staging (20261022141917); transacciones + rollback PGlite pasan, sin DDL en producción. |
 | Evidencia | `docs/NOCTURNE-AI-SELFLEARN-REPAIR.md`. No se cambia release ni caché clásica: sin publicación. |
 
 

@@ -17,7 +17,7 @@ SelfLearn: inspección SQL de catálogos confirma finalize/review/guard en stagi
 
 ## Pruebas y límites
 
-- Suite Node: 485/485 pasando, incluyendo DB PGlite con datos sintéticos: rollback atómico, XP único, vocabulario histórico, propietario distinto, rol anon, CAS y reintentos FSRS. La prueba de capacidades se incluye en el escenario SQL.
+- Suite Node: 486/486 pasando, incluyendo DB PGlite con datos sintéticos: rollback atómico, XP único, vocabulario histórico, propietario distinto, rol anon, CAS y reintentos FSRS. La prueba de capacidades se incluye en el escenario SQL.
 - React: 15/15, incluidos cuatro casos de capabilities.
 - TypeScript y build Nitro preset Vercel completados. Handler presente en bundle servidor y ausente de static cliente (búsqueda de nombres de secretos/flags de Ares).
 - GET local servido por TanStack: HTTP 200 JSON enabled=false, no 404. Disabled es el estado correcto sin configuración/secretos.
@@ -27,10 +27,12 @@ SelfLearn: inspección SQL de catálogos confirma finalize/review/guard en stagi
 
 ## SQL pendiente y secuencia segura
 
-No se ha aplicado DDL remoto. La migración pending `20261022090000_selflearn_transactions.sql` está ahora ampliada con `selflearn_capabilities`. **No ejecutar todo el archivo en staging existente**: ya contiene las funciones originales. Para staging, revisar y ejecutar solo bloque nuevo desde `create function public.selflearn_capabilities` hasta sus GRANT, dentro de una transacción, o generar migración incremental con CLI. Para producción sin funciones, usar el archivo completo tras autorización explícita y validación de candidato/impacto. No marcar la migración aplicada en ambos entornos hasta reconciliar historia.
+Producción: no DDL ni escrituras. Staging: se aplicó únicamente el probe incremental `20261022141917_selflearn_capabilities_contract` mediante MCP, sin tocar funciones originales ni filas. Reflejado en archivo pending con la versión exacta del historial remoto. Probe bajo rol authenticated con identidad sintética y transacción rollback: `{version:1,ready:true}`; invoker, anon EXECUTE=false, authenticated EXECUTE=true. Esto comprueba metadatos, NO una sesión JWT real.
+
+Producción requiere, tras autorización, aplicar en orden `20261022090000_selflearn_transactions.sql` y `20261022141917_selflearn_capabilities_contract.sql`. Staging ya tiene ambos componentes: NO reaplicar. Cada uno dispone de rollback independiente. La ampliación se separa del archivo original para no reescribir una migración ya aplicada en staging.
 
 1. Revisar PR y CI; candidato Preview por integración Git, sin merge a main.
-2. Instalar probe en staging según secuencia anterior; ejecutar readiness + authenticated probe y pruebas sintéticas aisladas. No usar filas personales.
+2. Probe ya instalado en staging; ejecutar readiness + prueba JWT real y pruebas sintéticas aisladas. No usar filas personales.
 3. Validar candidato con Supabase del entorno correcto y sesión QA autorizada. Antes del release production, generar candidato aislado ligado a producción, con awards apagados.
 4. Obtener autorización explícita para SQL producción y configuración servidor Ares. Aplicar SQL aditivo, ejecutar readiness y verificar permisos/invoker.
 5. Ares servidor: SUPABASE_URL/KEY publicable del mismo entorno, OPENROUTER_API_KEY secreta, ARES_AI_ENABLED=true, ARES_AI_SHARE_PROJECT_DATA=true; solo producción añade ARES_AI_ALLOW_PRODUCTION=true. No copiar secretos entre proyectos. Si no hay autorización de compartir títulos/estados, dejar apagado.
@@ -48,3 +50,9 @@ Apagar awards y Ares antes de retirar backend. SQL rollback elimina trigger/RPC/
 Aprobar PR hacia staging; sesión QA separada si se desean cerrar pruebas autenticadas reales. Producción: autorización específica para migración SQL, configuración/activación Ares y promoción final. Hasta entonces, reparación preparada y probada localmente; no declarar restauración en producción.
 
 Preview aislado: variables publicables Supabase staging configuradas SOLO para rama `feature/nocturne-ares-selflearn-repair`, target preview. Awards false; sin claves proveedor ni modificación de variables producción.
+
+## Evidencia remota del candidato
+
+Commit funcional `b5a40a07a99b0fc2aadd675903aa4bd4b4dc980b`, preview `dpl_3Rb5LLGf2EB1uBf5WYSG32zUBgeF` / `https://rise-hub-nocturne-ltk56ewlr-renzojesus99-1996.vercel.app/`: GET `/api/ares-ai` 200 JSON enabled=false y no-store; `/api/supabase-config` 200, Supabase staging correcto. Proyecto Nocturne no contiene variables OpenRouter/Ares: activación real pendiente, no se han copiado secretos. Respaldo clásico GET Ares 200 también enabled=false. Dominio público continúa en `dpl_8dMPmCEgLpE3ZceG3dpJ9PqAxft1`, sin cambios.
+
+CI de GitHub del commit funcional sigue queued: runs `39794584449` (React) y `39794584490` (CI). No declararlos aprobados. `./scripts/renzo-hub preflight 148` no pudo ejecutarse: `spawnSync gh ENOENT`; `gh` no está instalado/autenticado en este entorno. Se usa conector para comprobar base staging, rama, commit, deployment y estado de CI, sin equivaler a preflight completo.

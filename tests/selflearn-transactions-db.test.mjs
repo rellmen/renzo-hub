@@ -20,6 +20,7 @@ test('Postgres SelfLearn transactions: owner isolation, retry, stale review, leg
    ('aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',$1,'learning','renzo_vocabulary','{"id":"aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa","front":"historic","back":"histórico","course":"nl","repetitions":0}')`,[uid]);
   await db.exec('alter default privileges revoke execute on functions from public');
   await db.exec(await readFile(pending,'utf8'));
+  await db.exec(await readFile(new URL('../supabase/pending/20261022141917_selflearn_capabilities_contract.sql',import.meta.url),'utf8'));
   await db.exec(`set role authenticated;set request.jwt.claim.sub='${uid}'`);
   assert.deepEqual((await db.query('select selflearn_capabilities() result')).rows[0].result,{version:1,ready:true});
   const run={version:2,mode:'lesson',course:'nl',unitId:'a1-legacy-1',index:1,queue:['s1'],steps:[{id:'s1',type:'choice'}],attempts:{s1:1},firstTry:{s1:true}};
@@ -68,6 +69,7 @@ test('Postgres SelfLearn transactions: owner isolation, retry, stale review, leg
   await assert.rejects(finish(),/permission/);
   await db.exec('reset role');
   const before=(await db.query('select count(*)::int n from hub_records')).rows[0].n;
+  await db.exec(await readFile(new URL('../supabase/pending/20261022141917_selflearn_capabilities_contract.rollback.sql',import.meta.url),'utf8'));
   await db.exec(await readFile(new URL('../supabase/pending/20261022090000_selflearn_transactions.rollback.sql',import.meta.url),'utf8'));
   assert.equal((await db.query('select count(*)::int n from hub_records')).rows[0].n,before);
   await assert.rejects(finish(),/does not exist/);
