@@ -76,3 +76,13 @@ test("nivel único: récords de Gym (+25), semana de 5 días (+150) y puntos de 
   const study = xpEvents({ events: [path(40, "s1"), path(0, "s2"), { id: "s3", payload: { kind: "learning", stage: "Application", practice: "Daily lesson" } }] });
   assert.deepEqual(study.map(e => [e.sourceId, e.points]), [["s1", 40], ["s3", XP_RULES.dutch_practice]], "lección repetida (0 XP) no suma");
 });
+
+test('Per-card FSRS audit events do not create dutch_practice XP',()=>{
+ const rows=['again','good','easy'].map((grade,i)=>({id:'review-'+i,payload:{
+  kind:'learning',stage:'Review',practice:'Vocabulary FSRS',cardId:'card-'+i,
+  grade,xp:0,repetitions:1,date:'2026-10-22'
+ }}));
+ assert.deepEqual(xpEvents({events:rows}),[]);
+ const legacy={id:'classic',payload:{kind:'learning',stage:'Review',practice:'Review session',date:'2026-10-22'}};
+ assert.equal(xpEvents({events:[legacy,...rows]}).reduce((n,e)=>n+e.points,0),XP_RULES.dutch_practice);
+});
