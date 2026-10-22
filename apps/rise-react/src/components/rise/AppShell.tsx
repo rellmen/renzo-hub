@@ -23,7 +23,7 @@ export function DesktopSidebar() {
       <div className="px-6 pb-8 pt-7"><Brand /></div>
       <nav aria-label="Principal" className="min-h-0 flex-1 space-y-1 overflow-y-auto px-3">
         <div className="eyebrow px-3 pb-2 text-muted-foreground/70">Módulos</div>
-        {NAV.map((n) => {
+        {NAV.filter((n) => !["/gastos", "/nominas", "/turnos"].includes(n.to)).map((n) => {
           const active = isActive(n.to);
           return (
             <Link
