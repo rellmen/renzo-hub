@@ -1,4 +1,4 @@
-import { BookOpen, Briefcase, Dumbbell, Home, Settings, Sparkles, Wallet, Flower2, NotebookPen, HeartPulse, UtensilsCrossed, CalendarClock, FileSpreadsheet, DatabaseBackup } from "lucide-react";
+import { BookOpen, Briefcase, Dumbbell, Home, Settings, Sparkles, Wallet, Flower2, NotebookPen, HeartPulse, UtensilsCrossed, CalendarClock, FileSpreadsheet, DatabaseBackup, LayoutGrid } from "lucide-react";
 
 export const NAV = [
   { to: "/", label: "Centro de mando", short: "Inicio", icon: Home, accent: "var(--gold)" },
@@ -11,6 +11,7 @@ export const NAV = [
   { to: "/piel", label: "Skin Routine", short: "Skin", icon: Flower2, accent: "var(--skin)" },
   { to: "/proyectos", label: "Proyectos", short: "Proyectos", icon: Briefcase, accent: "var(--projects)" },
   { to: "/notas", label: "Notas", short: "Notas", icon: NotebookPen, accent: "var(--projects)" },
+  { to: "/apps", label: "Todas las microapps", short: "Apps", icon: LayoutGrid, accent: "var(--gold)" },
   { to: "/nominas", label: "Nóminas", short: "Nóminas", icon: FileSpreadsheet, accent: "var(--money)" },
   { to: "/turnos", label: "Shift Tracker", short: "Turnos", icon: CalendarClock, accent: "var(--projects)" },
   { to: "/migracion", label: "Migración y copias", short: "Datos", icon: DatabaseBackup, accent: "var(--gold)" },
