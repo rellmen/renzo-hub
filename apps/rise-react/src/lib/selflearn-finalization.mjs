@@ -1,14 +1,18 @@
 // SelfLearn: idempotent React-to-legacy graduation using the existing RLS data model.
-// One atomic Supabase hub_records upsert writes the lesson event and NEW vocabulary.
+// An authenticated RPC transaction writes the event and NEW vocabulary.
 // Existing FSRS cards are NEVER overwritten by an incomplete/stale client.
-// The legacy frontend uses random IDs; concurrent graduation across both clients
-// remains a release gate until an authenticated cross-client test is complete.
-import {validRun,isComplete,findUnit,areaFor,score,mistakeWords,normalize}
+// Requires the pending database guard and authenticated security QA before enabling.
+import {validRun,isComplete,findUnit,areaFor,score,mistakeWords,normalize,buildLesson,completedUnitIds}
   from "./legacy-selflearn/engine.js";
 import {loadLearningSnapshot} from "./selflearn-snapshot.mjs";
 import {recentLearningCheckpoints} from "./selflearn-checkpoints.mjs";
 
 const UUID=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+function packed(value){
+  if(Array.isArray(value))return '['+value.map(packed).join(',')+']';
+  if(value&&typeof value==='object')return '{'+Object.keys(value).sort().map(k=>JSON.stringify(k)+':'+packed(value[k])).join(',')+'}';
+  return JSON.stringify(value);
+}
 function owner(uid){if(!UUID.test(String(uid||"")))throw Error("Inicia sesión para acreditar la unidad.");return uid;}
 function dateKey(d){return [d.getFullYear(),String(d.getMonth()+1).padStart(2,"0"),String(d.getDate()).padStart(2,"0")].join("-");}
 function check(r){if(!r||r.error)throw Error(r?.error?.message||"Supabase no confirmó la finalización.");return r.data;}
@@ -25,6 +29,12 @@ export function lessonAward(run,existing,{at=new Date(),uid}={}){
   owner(uid);
   if(!validRun(run)||run.mode!=="lesson"||!isComplete(run))
     throw Error("Solo se acreditan lecciones válidas y terminadas.");
+  const canonical=buildLesson(run.course,run.unitId,{minutes:run.minutes,seed:run.seed});
+  if(!canonical||packed(run.steps)!==packed(canonical.steps))
+    throw Error("La lección no corresponde al motor original.");
+  if(run.index!==run.queue.length||run.queue.length>250||
+     JSON.stringify(run.queue.slice(0,run.steps.length))!==JSON.stringify(canonical.queue))
+    throw Error("La cola de respuestas no corresponde al motor original.");
   const unit=findUnit(run.course,run.unitId);
   if(!unit)throw Error("La unidad ya no existe.");
   if(!(at instanceof Date)||!Number.isFinite(at.valueOf()))throw Error("Fecha de lección inválida.");
@@ -32,12 +42,13 @@ export function lessonAward(run,existing,{at=new Date(),uid}={}){
   if(graded.length===0||graded.some(s=>!Number.isInteger(run.attempts?.[s.id])
      ||run.attempts[s.id]<1||typeof run.firstTry?.[s.id]!=="boolean"))
     throw Error("Falta confirmar una o más respuestas de la lección.");
+  if(graded.some(s=>run.queue.filter(id=>id===s.id).length!==run.attempts[s.id]))
+    throw Error("La cola de respuestas no corresponde al motor original.");
   const d=dateKey(at),tomorrow=dateKey(new Date(at.getFullYear(),at.getMonth(),at.getDate()+1));
   const sc=score(run);
   if(sc.total!==graded.length)throw Error("Puntuación incoherente con el motor original.");
-  const already=(existing?.completed?.[run.course]||[]).includes(run.unitId)||
-    (existing?.entries||[]).some(e=>e.course===run.course&&e.courseLessonId===run.unitId
-      &&e.practice==="Study path"&&e.passed!==false);
+  const already=completedUnitIds(existing?.entries||[],run.course).has(run.unitId)||
+    (existing?.completed?.[run.course]||[]).includes(run.unitId);
   const area=areaFor(run.course);
   const wrong=new Set(mistakeWords(run).map(w=>normalize(w[0])));
   const vocab=existing?.vocabulary||[];
@@ -79,10 +90,12 @@ export async function finalizeOfficialLesson(client,uid,checkpoint,{at=new Date(
   // Verify the last confirmed checkpoint, not merely the client-side state.
   const checkpoints=await recentLearningCheckpoints(client,user,{limit:200});
   const newest=checkpoints.find(x=>x.payload.course===run.course&&x.payload.sessionId===checkpoint.sessionId);
-  if(!newest||newest.id!==checkpoint.id||JSON.stringify(newest.payload.run)!==JSON.stringify(run))
+  if(!newest||newest.id!==checkpoint.id||packed(newest.payload.run)!==packed(run))
     throw Error("El progreso ha cambiado en otro dispositivo. Recarga antes de acreditar.");
   const existing=await loadLearningSnapshot(client,user);
   const reward=lessonAward(run,existing,{at,uid:user});
+  if(existing.learningRuns?.[run.course])
+    throw Error("Termina o descarta primero tu sesión activa en SelfLearn clásico.");
   if(reward.already)return {already:true,xp:0,addedCards:0,unitId:run.unitId};
   const eventId=await stableRecordId(user+"/lesson/"+run.course+"/"+run.unitId);
   const day=dateKey(at),occurred_at=day+"T12:00:00.000Z";
@@ -99,14 +112,13 @@ export async function finalizeOfficialLesson(client,uid,checkpoint,{at=new Date(
       payload:{...card,id},source:"manual",requires_review:false
     });
   }
-  // Single PostgREST UPSERT statement = transactional for this batch.
-  // ignoreDuplicates protects deterministic IDs against retries in this React path.
-  check(await client.from("hub_records").upsert(records,{onConflict:"id",ignoreDuplicates:true}));
-  const confirmed=check(await client.from("hub_records").select("id,payload")
-    .eq("id",eventId).eq("owner_id",user).maybeSingle());
-  if(!confirmed||confirmed.payload?.courseLessonId!==run.unitId
-    ||confirmed.payload?.practice!=="Study path")
+  // A missing/unapproved RPC fails closed. Never fall back to direct inserts.
+  if(!client.rpc)throw Error("La acreditación atómica aún no está disponible.");
+  const result=check(await client.rpc("selflearn_finalize_lesson",{
+    p_checkpoint:checkpoint.id,p_event:records[0],p_cards:records.slice(1)
+  }));
+  if(!result||typeof result.already!=="boolean"||result.unitId!==run.unitId||
+     !Number.isFinite(result.xp)||!Number.isInteger(result.addedCards))
     throw Error("No se ha confirmado la acreditación en Supabase.");
-  return {already:false,xp:Number(confirmed.payload.xp)||0,addedCards:reward.newVocabulary.length,
-    unitId:run.unitId};
+  return result;
 }

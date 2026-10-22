@@ -31,6 +31,9 @@ jobs:
       - name: TypeScript check (includes migrated Ares, Projects and Home)
         working-directory: apps/rise-react
         run: ./node_modules/.bin/tsc --noEmit
+      - name: React component regressions (including gated FSRS retries)
+        working-directory: apps/rise-react
+        run: npm test
       - name: Verify seven original Lovable JPEGs (SHA-256 from uploaded ZIP)
         working-directory: apps/rise-react
         shell: bash

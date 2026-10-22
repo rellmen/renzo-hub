@@ -51,3 +51,12 @@ test('SelfLearn does not count failed exercises, free practice or invented compl
 test('SelfLearn rejects missing identity before any Supabase query',async()=>{
  await assert.rejects(loadLearningSnapshot(make([]).client,''),/Inicia sesión/);
 });
+
+test('Due counts respect FSRS time of day and legacy Daily lesson completion',()=>{
+ const future=new Date(Date.now()+60*60*1000).toISOString();
+ const result=summarizeLearningSnapshot({rows:[
+  {id:'legacy',record_type:'renzo_event',payload:{kind:'learning',practice:'Daily lesson',lessonDay:1}},
+  {id:'future',record_type:'renzo_vocabulary',payload:{course:'nl',fsrsCard:{due:future}}}
+ ]});
+ assert(result.completed.nl.includes('a1-legacy-1'));assert.equal(result.reviewDue.nl,0);
+});

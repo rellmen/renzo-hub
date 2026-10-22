@@ -150,9 +150,9 @@ export function SelfLearnCheckpointPractice({client,uid,course,legacyActive,next
     {latest&&<div className="rounded-xl border border-learn/30 bg-learn/[0.06] p-4">
       <p className="text-sm">Última práctica de {course.toUpperCase()}: {Math.round(practicePrompt(latest.run).progress)}% guardado</p>
       <p className="mt-2 text-xs text-muted-foreground">El progreso se guarda como checkpoints privados; la acreditación de lecciones continúa en SelfLearn clásico.</p>
-      {!practicePrompt(latest.run).complete&&<button type="button" className="btn-gold mt-3"
+      {(!practicePrompt(latest.run).complete||allowOfficialAward)&&<button type="button" className="btn-gold mt-3"
         onClick={()=>{setActive({id:latest.id,sessionId:latest.sessionId,run:latest.run});setFeedback("");}}>
-        <RotateCcw className="h-4 w-4"/> Reanudar práctica guardada
+        <RotateCcw className="h-4 w-4"/> {practicePrompt(latest.run).complete?"Recuperar práctica terminada":"Reanudar práctica guardada"}
       </button>}
     </div>}
     {legacyActive&&<p className="rounded-xl border border-gold/30 bg-gold/[0.06] p-4 text-sm">

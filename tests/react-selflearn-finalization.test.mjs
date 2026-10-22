@@ -99,14 +99,18 @@ test("A single atomic batch creates the lesson event and only missing new vocabu
    };
    return q;
  }};
+ db.rpc=async(name,args)=>{
+ assert.equal(name,'selflearn_finalize_lesson');assert.equal(args.p_checkpoint,'cp0');
+ inserted.push(args.p_event,...args.p_cards);
+ return {data:{already:false,xp:args.p_event.payload.xp,addedCards:args.p_cards.length,unitId:run.unitId},error:null};
+ };
  const res=await finalizeOfficialLesson(db,uid,checkpoint,{at:new Date(2026,9,22,12)});
  assert.equal(res.already,false);
  assert.equal(res.xp,res.addedCards>=0?lessonAward(run,existing(run),{uid,at:new Date(2026,9,22,12)}).event.xp:-1);
  assert.equal(inserted.filter(r=>r.record_type==="renzo_event").length,1);
  assert(inserted.some(r=>r.record_type==="renzo_vocabulary"));
  assert(inserted.every(r=>r.owner_id===uid&&r.source==="manual"));
- assert.equal(selected[0].onConflict,"id");
- assert.equal(selected[0].ignoreDuplicates,true);
+ assert.equal(selected.length,0);
 });
 
 test("Previously accredited legacy unit is never paid again and no FSRS cards are rewritten",async()=>{
@@ -135,4 +139,26 @@ test("Staging official-award control is always disabled in default builds",()=>{
  assert.match(src,/VITE_ENABLE_SELFLEARN_AWARDS"\]===\s*["\']true["\']/);
  assert.match(src,/finalizeOfficialLesson\(/);
  assert.match(src,/legacyActive/);
+});
+
+
+test("A fabricated queue or altered lesson steps cannot earn official XP",()=>{
+ const run=finished();
+ const changed=structuredClone(run);changed.steps[0].target="injected";
+ assert.throws(()=>lessonAward(changed,existing(run),{uid}),/motor original/);
+ const skipped=structuredClone(run);skipped.queue=[];skipped.index=0;
+ assert.throws(()=>lessonAward(skipped,existing(run),{uid}),/cola|motor original/);
+});
+test("Daily lesson legacyDay completion prevents paying the same historical NL unit",()=>{
+ const id=COURSES.nl.units.find(u=>u.id==="a1-legacy-1").id;
+ let run=makePractice("nl",id,{seed:2026,minutes:5});
+ while(!practicePrompt(run).complete)run=gradePractice(run,input(currentStep(run))).run;
+ const plan=lessonAward(run,existing(run,{entries:[{kind:"learning",practice:"Daily lesson",lessonDay:1}]}),{uid});
+ assert.equal(plan.already,true);assert.equal(plan.event.xp,0);
+});
+
+test("Canonical lesson comparison survives JSONB object-key ordering",()=>{
+ const run=finished();
+ const reorder=value=>Array.isArray(value)?value.map(reorder):value&&typeof value==='object'?Object.fromEntries(Object.entries(value).reverse().map(([k,v])=>[k,reorder(v)])):value;
+ assert.equal(lessonAward(reorder(run),existing(run),{uid}).event.xp,lessonAward(run,existing(run),{uid}).event.xp);
 });

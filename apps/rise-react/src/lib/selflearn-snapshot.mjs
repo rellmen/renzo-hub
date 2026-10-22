@@ -1,3 +1,4 @@
+import {completedUnitIds} from "./legacy-selflearn/engine.js";
 // RISE HUB React · SelfLearn snapshot reader.
 // Preserve the legacy state/FSRS contracts, never seed fake lessons or overwrite progress.
 // Read-only: the actual lesson player, merge and save logic must be ported before enabling editing.
@@ -20,23 +21,17 @@ export function summarizeLearningSnapshot({state={},rows=[]}={}){
     if(row.record_type==="renzo_event")events.push(record);
     else if(row.record_type==="renzo_vocabulary")vocabulary.push(record);
   }
-  const completion={nl:new Set(),en:new Set()},due={nl:0,en:0},today=new Date().toISOString().slice(0,10);
-  for(const e of events){
-    if(e.kind!=="learning"||e.practice!=="Study path"||e.passed===false)continue;
-    const course=e.course==="en"?"en":e.course==="nl"?"nl":null;
-    if(course&&typeof e.courseLessonId==="string"&&e.courseLessonId)
-      completion[course].add(e.courseLessonId);
-  }
+  const due={nl:0,en:0},now=new Date(),today=[now.getFullYear(),String(now.getMonth()+1).padStart(2,"0"),String(now.getDate()).padStart(2,"0")].join("-");
   for(const v of vocabulary){
     const c=v.course==="en"?"en":v.course==="nl"?"nl":v.area==="English"?"en":"nl";
-    const target=v.fsrsCard?.due||v.nextReview;
-    if(!target||String(target).slice(0,10)<=today)due[c]++;
+    const stamp=Date.parse(v.fsrsCard?.due||"");
+    if(Number.isFinite(stamp)?stamp<=now.getTime():!v.nextReview||v.nextReview<=today)due[c]++;
   }
   const safeState=state&&typeof state==="object"&&!Array.isArray(state)?state:{};
   const runs=safeState.learningRuns&&typeof safeState.learningRuns==="object"?safeState.learningRuns:{};
   return {
     entries:events,vocabulary,
-    completed:{nl:[...completion.nl],en:[...completion.en]},
+    completed:{nl:[...completedUnitIds(events,"nl")],en:[...completedUnitIds(events,"en")]},
     reviewDue:due,
     learningRuns:{nl:runs.nl||null,en:runs.en||null},
     learningSettings:safeState.learningSettings||{},

@@ -81,3 +81,4 @@ jobs:
           sudo -E bash tools/db-replica/payroll_schema_test.sh
           sudo -E bash tools/db-replica/payroll_upload_test.sh
           sudo -E bash tools/db-replica/buckets_test.sh
+          sudo -E bash tools/db-replica/selflearn_test.sh
