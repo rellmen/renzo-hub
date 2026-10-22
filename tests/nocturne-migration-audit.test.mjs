@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {MIGRATION_TABLES,MIGRATION_BUCKETS,verifyMigrationOwner,auditPrivateTables,buildMigrationBackup,legacyLocalKeys,comparisonAgainstExport} from '../apps/rise-react/src/lib/migration-audit.mjs';
+import {MIGRATION_TABLES,MIGRATION_BUCKETS,verifyMigrationOwner,auditPrivateTables,buildMigrationBackup,legacyLocalKeys,comparisonAgainstExport,compareMigrationRows} from '../apps/rise-react/src/lib/migration-audit.mjs';
 
 const uid='11111111-1111-4111-8111-111111111111';
 const other='22222222-2222-4222-8222-222222222222';
@@ -82,4 +82,33 @@ test('comparison fails closed on wrong owner and incomplete inventories',()=>{
  assert.throws(()=>comparisonAgainstExport({...backup,user_id:other},audit,uid),/no corresponde/);
  assert.equal(comparisonAgainstExport(backup,{...audit,counts:{}},uid).equal,false);
  assert.equal(comparisonAgainstExport(backup,{...audit,complete:false},uid).equal,false);
+});
+
+test('content reconciliation detects same-count edits without exposing private values',async()=>{
+ const original={id:'row1',owner_id:uid,title:'private',payload:{details:{first:1,second:2}}};
+ const db=fake({rows:{hub_records:[original]}});
+ const tables=Object.fromEntries(Object.keys(MIGRATION_TABLES).map(t=>[t,[]]));
+ tables.hub_records=[{payload:{details:{second:2,first:1}},title:'private',owner_id:uid,id:'row1'}];
+ const copy={format:'renzo-hub-export',version:1,user_id:uid,tables};
+ const equal=await compareMigrationRows(db,uid,copy);
+ assert.equal(equal.equal,true);
+ assert.equal(equal.comparisons.find(x=>x.table==='hub_records').changed,0);
+ tables.hub_records=[{...original,payload:{details:{first:9,second:2}}}];
+ const edited=await compareMigrationRows(db,uid,copy);
+ assert.equal(edited.equal,false);
+ assert.equal(edited.comparisons.find(x=>x.table==='hub_records').changed,1);
+ assert.equal(JSON.stringify(edited).includes('private'),false);
+ tables.hub_records=[];
+ const missing=await compareMigrationRows(db,uid,copy);
+ assert.equal(missing.comparisons.find(x=>x.table==='hub_records').added,1);
+});
+test('content reconciliation fails closed on missing table and foreign identity',async()=>{
+ const db=fake();
+ const tables=Object.fromEntries(Object.keys(MIGRATION_TABLES).map(t=>[t,[]]));
+ const copy={format:'renzo-hub-export',version:1,user_id:uid,tables};
+ delete tables.payroll_balance_imports;
+ assert.equal((await compareMigrationRows(db,uid,copy)).equal,false);
+ tables.payroll_balance_imports=[{id:'x',owner_id:other}];
+ await assert.rejects(compareMigrationRows(db,uid,copy),/no corresponden/);
+ await assert.rejects(compareMigrationRows(db,other,copy),/no coincide/);
 });
