@@ -88,7 +88,7 @@ export function SelfLearnCheckpointPractice({client,uid,course,legacyActive,next
  // Disabled by default: enable only for a controlled authenticated staging QA.
  // Never enable the switch in a public production bundle without server-side
  // cross-client idempotency/RLS verification of all awards.
- const allowOfficialAward=import.meta.env.VITE_ENABLE_SELFLEARN_AWARDS==="true";
+ const allowOfficialAward=import.meta.env["VITE_ENABLE_SELFLEARN_AWARDS"]==="true";
  const key=["selflearn-checkpoints",uid];
  const query=useQuery({queryKey:key,enabled:!!client&&!!uid,
   queryFn:()=>recentLearningCheckpoints(client!,uid),staleTime:5000,refetchOnWindowFocus:true});
