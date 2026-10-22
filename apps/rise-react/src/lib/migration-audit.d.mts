@@ -20,3 +20,7 @@ export declare function compareMigrationRows(client:SupabaseClient,uid:string,ba
  comparisons:Array<{table:string;backupCount:number|null;currentCount:number|null;missing:number;added:number;changed:number;match:boolean}>;
  equal:boolean;warning:string
 }>;
+
+export declare function compareMigrationFiles(client:SupabaseClient,uid:string,backup:unknown,options?:{verifyOwner?:(client:SupabaseClient,uid:string)=>Promise<unknown>;onProgress?:(message:string)=>void}):Promise<{
+ backupCount:number;currentCount:number;missing:number;added:number;changed:number;equal:boolean
+}>;
