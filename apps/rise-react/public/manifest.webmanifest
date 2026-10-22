@@ -1,0 +1,20 @@
+{
+  "id": "/",
+  "name": "RISE HUB Nocturne",
+  "short_name": "RISE HUB",
+  "description": "Centro personal privado · Nocturne",
+  "lang": "es",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#100e16",
+  "theme_color": "#211722",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any maskable"
+    }
+  ]
+}

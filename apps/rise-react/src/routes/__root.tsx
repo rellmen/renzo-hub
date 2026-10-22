@@ -81,8 +81,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "RISE HUB — NOCTURNE · Concept Studio" },
-      { name: "description", content: "Prototipo visual del centro de mando personal RISE HUB." },
+      { title: "RISE HUB — NOCTURNE" },
+      { name: "description", content: "Centro de mando personal privado RISE HUB Nocturne." },
       { name: "robots", content: "noindex" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -92,7 +92,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/icon.svg", type: "image/svg+xml" },
+      { rel: "manifest", href: "/manifest.webmanifest" },
+      { rel: "apple-touch-icon", href: "/icon.svg" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Manrope:wght@400;500;600;700&display=swap" },
@@ -122,6 +124,13 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   const clearUserCache = useCallback(() => queryClient.clear(), [queryClient]);
+  useEffect(() => {
+    // Cache only fingerprinted static assets. Never cache API, auth, pages or user data.
+    if (typeof navigator === "undefined" || !("serviceWorker" in navigator) || !import.meta.env.PROD) return;
+    void navigator.serviceWorker.register("/sw.js", { scope: "/" }).catch((error: unknown) => {
+      console.warn("PWA registration unavailable:", error);
+    });
+  }, []);
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider onAccountChange={clearUserCache}>
