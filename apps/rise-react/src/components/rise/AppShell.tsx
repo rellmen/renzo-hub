@@ -21,7 +21,7 @@ export function DesktopSidebar() {
   return (
     <aside className="fixed inset-y-0 left-0 z-30 hidden w-[248px] flex-col border-r border-sidebar-border bg-sidebar lg:flex">
       <div className="px-6 pb-8 pt-7"><Brand /></div>
-      <nav aria-label="Principal" className="flex-1 space-y-1 px-3">
+      <nav aria-label="Principal" className="min-h-0 flex-1 space-y-1 overflow-y-auto px-3">
         <div className="eyebrow px-3 pb-2 text-muted-foreground/70">Módulos</div>
         {NAV.map((n) => {
           const active = isActive(n.to);
@@ -50,7 +50,7 @@ export function MobileDock() {
   const items = NAV.filter((n) => ["/", "/aprender", "/gym", "/ares", "/ajustes"].includes(n.to));
   const order = ["/", "/aprender", "/gym", "/ares", "/ajustes"];
   items.sort((a, b) => order.indexOf(a.to) - order.indexOf(b.to));
-  const moreActive = ["/dinero", "/piel", "/proyectos", "/ajustes"].some((p) => isActive(p));
+  const moreActive = ["/dinero", "/piel", "/proyectos", "/nominas", "/turnos", "/migracion", "/ajustes"].some((p) => isActive(p));
   return (
     <nav aria-label="Navegación inferior" className="fixed inset-x-0 bottom-0 z-40 border-t border-hairline bg-sidebar/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl lg:hidden">
       <ul className="mx-auto grid max-w-lg grid-cols-5">
