@@ -17,7 +17,6 @@ import { Route as BodyRouteImport } from './routes/body'
 import { Route as DineroRouteImport } from './routes/dinero'
 import { Route as FoodRouteImport } from './routes/food'
 import { Route as GymRouteImport } from './routes/gym'
-import { Route as NominasRouteImport } from './routes/nominas'
 import { Route as NotasRouteImport } from './routes/notas'
 import { Route as PielRouteImport } from './routes/piel'
 import { Route as ProyectosRouteImport } from './routes/proyectos'
@@ -62,11 +61,6 @@ const GymRoute = GymRouteImport.update({
   path: '/gym',
   getParentRoute: () => rootRouteImport,
 } as any)
-const NominasRoute = NominasRouteImport.update({
-  id: '/nominas',
-  path: '/nominas',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const NotasRoute = NotasRouteImport.update({
   id: '/notas',
   path: '/notas',
@@ -92,7 +86,6 @@ export interface FileRoutesByFullPath {
   '/dinero': typeof DineroRoute
   '/food': typeof FoodRoute
   '/gym': typeof GymRoute
-  '/nominas': typeof NominasRoute
   '/notas': typeof NotasRoute
   '/piel': typeof PielRoute
   '/proyectos': typeof ProyectosRoute
@@ -106,7 +99,6 @@ export interface FileRoutesByTo {
   '/dinero': typeof DineroRoute
   '/food': typeof FoodRoute
   '/gym': typeof GymRoute
-  '/nominas': typeof NominasRoute
   '/notas': typeof NotasRoute
   '/piel': typeof PielRoute
   '/proyectos': typeof ProyectosRoute
@@ -121,7 +113,6 @@ export interface FileRoutesById {
   '/dinero': typeof DineroRoute
   '/food': typeof FoodRoute
   '/gym': typeof GymRoute
-  '/nominas': typeof NominasRoute
   '/notas': typeof NotasRoute
   '/piel': typeof PielRoute
   '/proyectos': typeof ProyectosRoute
@@ -137,7 +128,6 @@ export interface FileRouteTypes {
     | '/dinero'
     | '/food'
     | '/gym'
-    | '/nominas'
     | '/notas'
     | '/piel'
     | '/proyectos'
@@ -151,7 +141,6 @@ export interface FileRouteTypes {
     | '/dinero'
     | '/food'
     | '/gym'
-    | '/nominas'
     | '/notas'
     | '/piel'
     | '/proyectos'
@@ -165,7 +154,6 @@ export interface FileRouteTypes {
     | '/dinero'
     | '/food'
     | '/gym'
-    | '/nominas'
     | '/notas'
     | '/piel'
     | '/proyectos'
@@ -180,7 +168,6 @@ export interface RootRouteChildren {
   DineroRoute: typeof DineroRoute
   FoodRoute: typeof FoodRoute
   GymRoute: typeof GymRoute
-  NominasRoute: typeof NominasRoute
   NotasRoute: typeof NotasRoute
   PielRoute: typeof PielRoute
   ProyectosRoute: typeof ProyectosRoute
@@ -244,13 +231,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GymRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/nominas': {
-      id: '/nominas'
-      path: '/nominas'
-      fullPath: '/nominas'
-      preLoaderRoute: typeof NominasRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/notas': {
       id: '/notas'
       path: '/notas'
@@ -284,7 +264,6 @@ const rootRouteChildren: RootRouteChildren = {
   DineroRoute: DineroRoute,
   FoodRoute: FoodRoute,
   GymRoute: GymRoute,
-  NominasRoute: NominasRoute,
   NotasRoute: NotasRoute,
   PielRoute: PielRoute,
   ProyectosRoute: ProyectosRoute,

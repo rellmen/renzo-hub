@@ -1,16 +1,5 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
-## 2.55.0 · migración integral incremental · preparada, sin publicar
-
-| Bloque | Evidencia / pendiente |
-| --- | --- |
-| Respaldo | Git bundle íntegro y 21 tablas por entorno en copia privada. Ensayo aislado recupera exactamente 937 filas producción y 289 staging. Auth y binarios Storage pendientes; no es backup completo de proyecto. |
-| React | Exportación privada, Payroll/turnos de lectura, decisiones Ares con owner/CAS sin ejecución, Agent Monitor histórico, `/api/deployment-info` y release manifest. |
-| Calidad | 503 tests Node; TypeScript y 15 tests React; build original y Chromium/WebKit con mocks. Prueba RLS/CAS en staging revertida. QA de cuenta real e iPhone físico pendiente. |
-| Estado | Rama única `feature/nocturne-integral-migration`; sin migraciones DDL, importaciones ni cambios del dominio público en esta ejecución. Fases 1–5 abiertas: matriz en `docs/NOCTURNE-INTEGRAL-MIGRATION-STATUS.md`. |
-| Datos locales | Propietario no sabe si hay cambios solo en dispositivos. Corte bloqueado hasta exportar/comparar; herramienta offline de comparación sin aplicación automática. |
-
-
 ## Reparación Nocturne Ares/SelfLearn · 22 octubre 2026 · publicado en producción con Ares habilitado
 
 | Bloque | Estado |

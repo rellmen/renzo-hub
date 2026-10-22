@@ -39,7 +39,7 @@ export function DesktopSidebar() {
       </nav>
       <div className="m-4 rounded-2xl border border-gold/20 bg-wine-gradient p-4">
         <div className="eyebrow mb-1">Acceso privado · React</div>
-        <p className="text-xs leading-relaxed text-platinum/80">Tus módulos consultan registros de tu cuenta. Las funciones que siguen en migración están indicadas en Ajustes.</p>
+        <p className="text-xs leading-relaxed text-platinum/80">Proyectos ya utiliza tus registros reales. El catálogo muestra todas las microapps disponibles y los accesos a los módulos clásicos todavía pendientes.</p>
       </div>
     </aside>
   );
@@ -50,7 +50,7 @@ export function MobileDock() {
   const items = NAV.filter((n) => ["/", "/aprender", "/gym", "/ares", "/ajustes"].includes(n.to));
   const order = ["/", "/aprender", "/gym", "/ares", "/ajustes"];
   items.sort((a, b) => order.indexOf(a.to) - order.indexOf(b.to));
-  const moreActive = ["/dinero", "/piel", "/proyectos", "/ajustes"].some((p) => isActive(p));
+  const moreActive = ["/apps", "/career", "/quest", "/news", "/agentes", "/dinero", "/piel", "/proyectos", "/nominas", "/turnos", "/migracion", "/ajustes"].some((p) => isActive(p));
   return (
     <nav aria-label="Navegación inferior" className="fixed inset-x-0 bottom-0 z-40 border-t border-hairline bg-sidebar/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl lg:hidden">
       <ul className="mx-auto grid max-w-lg grid-cols-5">

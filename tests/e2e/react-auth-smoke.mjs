@@ -3,7 +3,7 @@ import { chromium, webkit, devices } from 'playwright';
 import assert from 'node:assert/strict';
 
 const origin = process.env.REACT_QA_BASE_URL || 'http://127.0.0.1:4174';
-const paths = ['/', '/ares', '/aprender', '/gym', '/dinero', '/nominas', '/piel', '/proyectos', '/notas', '/body', '/food', '/ajustes'];
+const paths = ['/', '/ares', '/aprender', '/gym', '/dinero', '/piel', '/proyectos', '/notas', '/body', '/food', '/ajustes', '/nominas', '/turnos', '/migracion', '/apps', '/quest', '/news', '/agentes'];
 for (const [name, engine, opts] of [
   ['Chromium desktop', chromium, { viewport: {width: 1440, height: 900} }],
   ['WebKit mobile emulation', webkit, {...devices['iPhone 13']}],

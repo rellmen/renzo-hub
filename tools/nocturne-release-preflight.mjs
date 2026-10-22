@@ -4,7 +4,7 @@ import {pathToFileURL} from 'node:url';
 import {LEGACY_FALLBACK_URL,SUPABASE_PRODUCTION_URL,SUPABASE_STAGING_URL}
  from '../apps/rise-react/src/lib/nocturne-environment.mjs';
 
-const ROUTES=['/','/ajustes','/aprender','/gym','/dinero','/piel','/proyectos','/notas','/body','/food'];
+const ROUTES=['/','/ajustes','/aprender','/gym','/dinero','/piel','/proyectos','/notas','/body','/food','/ares','/nominas','/turnos','/migracion','/apps','/quest','/news','/agentes'];
 const PUBLIC_HOST='renzo-hub.vercel.app';
 function validCandidate(raw){
  try{
