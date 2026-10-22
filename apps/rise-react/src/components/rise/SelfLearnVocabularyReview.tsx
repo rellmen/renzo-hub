@@ -31,7 +31,7 @@ export function SelfLearnVocabularyReview({client,uid,course,cards,legacyActive}
   }});
  if(!officialSelfLearnAwardsEnabled(import.meta.env['VITE_ENABLE_SELFLEARN_AWARDS']==='true',{
    hostname:typeof window==='undefined'?'':window.location.hostname,
-   releaseTarget:import.meta.env.VITE_NOCTURNE_RELEASE_TARGET||''
+   releaseTarget:import.meta.env['VITE_NOCTURNE_RELEASE_TARGET']||''
  }))return null;
  return <section className="surface rim space-y-4 p-5 sm:p-6" aria-label="Repaso de vocabulario">
   <h2 className="font-display text-2xl">Vocabulario para repasar</h2>
