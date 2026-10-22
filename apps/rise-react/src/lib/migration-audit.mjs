@@ -60,7 +60,7 @@ async function allPrivateFiles(client,uid,onProgress){
    if(error)throw Error("No se pudo leer el almacén privado "+bucket);
    if((data||[]).length>=1000)throw Error("Demasiados archivos en una carpeta de "+bucket+"; exportación bloqueada para evitar omisiones.");
    for(const item of data||[]){
-    if(!item?.name||!/^[-\w .()]+$/.test(item.name))throw Error("Ruta de archivo no verificada");
+    if(!item?.name||item.name==="."||item.name===".."||/[\\/\\\\\\u0000-\\u001f]/.test(item.name))throw Error("Ruta de archivo no verificada");
     const path=prefix+"/"+item.name;
     if(!item.id){if(path.split("/").length>12)throw Error("Jerarquía de carpetas demasiado profunda");paths.push(path);continue;}
     const {data:blob,error:downloadError}=await client.storage.from(bucket).download(path);
