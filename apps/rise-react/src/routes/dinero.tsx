@@ -8,6 +8,7 @@ import {PageHero} from "@/components/rise/PageHero";
 import {SectionCard,EmptyState,Bar} from "@/components/rise/primitives";
 import {useAuth} from "@/lib/auth/AuthProvider";
 import {loadRealMoney,moneyMonthView,type MoneySummary} from "@/lib/money-records.mjs";
+import {WeeklyBudgetEditor} from "@/components/rise/WeeklyBudgetEditor";
 
 export const Route=createFileRoute("/dinero")({
   head:()=>pageHead("Money","Ingresos, gastos y patrimonio conocidos a partir de tus registros financieros privados."),
@@ -137,5 +138,6 @@ function Money(){
         <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0"/> El resumen utiliza transacciones verificadas. <Link to="/gastos" className="text-gold underline">Editar categorías de gastos en React</Link>. La importación bancaria y algunas funciones avanzadas siguen pendientes.
       </p>
     </>}
+    <WeeklyBudgetEditor/>
   </div>;
 }
