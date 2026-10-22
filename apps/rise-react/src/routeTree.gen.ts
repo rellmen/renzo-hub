@@ -13,12 +13,12 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AjustesRouteImport } from './routes/ajustes'
 import { Route as AprenderRouteImport } from './routes/aprender'
 import { Route as AresRouteImport } from './routes/ares'
-import { Route as DineroRouteImport } from './routes/dinero'
-import { Route as GymRouteImport } from './routes/gym'
-import { Route as PielRouteImport } from './routes/piel'
-import { Route as NotasRouteImport } from './routes/notas'
 import { Route as BodyRouteImport } from './routes/body'
+import { Route as DineroRouteImport } from './routes/dinero'
 import { Route as FoodRouteImport } from './routes/food'
+import { Route as GymRouteImport } from './routes/gym'
+import { Route as NotasRouteImport } from './routes/notas'
+import { Route as PielRouteImport } from './routes/piel'
 import { Route as ProyectosRouteImport } from './routes/proyectos'
 
 const IndexRoute = IndexRouteImport.update({
@@ -41,24 +41,24 @@ const AresRoute = AresRouteImport.update({
   path: '/ares',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DineroRoute = DineroRouteImport.update({
-  id: '/dinero',
-  path: '/dinero',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const GymRoute = GymRouteImport.update({
-  id: '/gym',
-  path: '/gym',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const BodyRoute = BodyRouteImport.update({
   id: '/body',
   path: '/body',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DineroRoute = DineroRouteImport.update({
+  id: '/dinero',
+  path: '/dinero',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FoodRoute = FoodRouteImport.update({
   id: '/food',
   path: '/food',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GymRoute = GymRouteImport.update({
+  id: '/gym',
+  path: '/gym',
   getParentRoute: () => rootRouteImport,
 } as any)
 const NotasRoute = NotasRouteImport.update({
@@ -78,112 +78,103 @@ const ProyectosRoute = ProyectosRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/body': typeof BodyRoute
-  '/food': typeof FoodRoute
-  '/notas': typeof NotasRoute
   '/': typeof IndexRoute
   '/ajustes': typeof AjustesRoute
   '/aprender': typeof AprenderRoute
   '/ares': typeof AresRoute
+  '/body': typeof BodyRoute
   '/dinero': typeof DineroRoute
+  '/food': typeof FoodRoute
   '/gym': typeof GymRoute
+  '/notas': typeof NotasRoute
   '/piel': typeof PielRoute
   '/proyectos': typeof ProyectosRoute
 }
 export interface FileRoutesByTo {
-  '/body': typeof BodyRoute
-  '/food': typeof FoodRoute
-  '/notas': typeof NotasRoute
   '/': typeof IndexRoute
   '/ajustes': typeof AjustesRoute
   '/aprender': typeof AprenderRoute
   '/ares': typeof AresRoute
+  '/body': typeof BodyRoute
   '/dinero': typeof DineroRoute
+  '/food': typeof FoodRoute
   '/gym': typeof GymRoute
+  '/notas': typeof NotasRoute
   '/piel': typeof PielRoute
   '/proyectos': typeof ProyectosRoute
 }
 export interface FileRoutesById {
-  '/body': typeof BodyRoute
-  '/food': typeof FoodRoute
-  '/notas': typeof NotasRoute
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/ajustes': typeof AjustesRoute
   '/aprender': typeof AprenderRoute
   '/ares': typeof AresRoute
+  '/body': typeof BodyRoute
   '/dinero': typeof DineroRoute
+  '/food': typeof FoodRoute
   '/gym': typeof GymRoute
+  '/notas': typeof NotasRoute
   '/piel': typeof PielRoute
   '/proyectos': typeof ProyectosRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/body'
-    | '/food'
-    | '/notas'
     | '/'
     | '/ajustes'
     | '/aprender'
     | '/ares'
+    | '/body'
     | '/dinero'
+    | '/food'
     | '/gym'
+    | '/notas'
     | '/piel'
     | '/proyectos'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/body'
-    | '/food'
-    | '/notas'
     | '/'
     | '/ajustes'
     | '/aprender'
     | '/ares'
+    | '/body'
     | '/dinero'
+    | '/food'
     | '/gym'
+    | '/notas'
     | '/piel'
     | '/proyectos'
   id:
-    | '/body'
-    | '/food'
-    | '/notas'
     | '__root__'
     | '/'
     | '/ajustes'
     | '/aprender'
     | '/ares'
+    | '/body'
     | '/dinero'
+    | '/food'
     | '/gym'
+    | '/notas'
     | '/piel'
     | '/proyectos'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  BodyRoute: typeof BodyRoute
-  FoodRoute: typeof FoodRoute
-  NotasRoute: typeof NotasRoute
   IndexRoute: typeof IndexRoute
   AjustesRoute: typeof AjustesRoute
   AprenderRoute: typeof AprenderRoute
   AresRoute: typeof AresRoute
+  BodyRoute: typeof BodyRoute
   DineroRoute: typeof DineroRoute
+  FoodRoute: typeof FoodRoute
   GymRoute: typeof GymRoute
+  NotasRoute: typeof NotasRoute
   PielRoute: typeof PielRoute
   ProyectosRoute: typeof ProyectosRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/body': { id: '/body'; path: '/body'; fullPath: '/body'; preLoaderRoute: typeof BodyRouteImport; parentRoute: typeof rootRouteImport }
-    '/food': { id: '/food'; path: '/food'; fullPath: '/food'; preLoaderRoute: typeof FoodRouteImport; parentRoute: typeof rootRouteImport }
-    '/notas': {
-      id: '/notas'
-      path: '/notas'
-      fullPath: '/notas'
-      preLoaderRoute: typeof NotasRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -212,6 +203,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AresRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/body': {
+      id: '/body'
+      path: '/body'
+      fullPath: '/body'
+      preLoaderRoute: typeof BodyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dinero': {
       id: '/dinero'
       path: '/dinero'
@@ -219,11 +217,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DineroRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/food': {
+      id: '/food'
+      path: '/food'
+      fullPath: '/food'
+      preLoaderRoute: typeof FoodRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/gym': {
       id: '/gym'
       path: '/gym'
       fullPath: '/gym'
       preLoaderRoute: typeof GymRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/notas': {
+      id: '/notas'
+      path: '/notas'
+      fullPath: '/notas'
+      preLoaderRoute: typeof NotasRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/piel': {
@@ -244,15 +256,15 @@ declare module '@tanstack/react-router' {
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  BodyRoute: BodyRoute,
-  FoodRoute: FoodRoute,
-  NotasRoute: NotasRoute,
   IndexRoute: IndexRoute,
   AjustesRoute: AjustesRoute,
   AprenderRoute: AprenderRoute,
   AresRoute: AresRoute,
+  BodyRoute: BodyRoute,
   DineroRoute: DineroRoute,
+  FoodRoute: FoodRoute,
   GymRoute: GymRoute,
+  NotasRoute: NotasRoute,
   PielRoute: PielRoute,
   ProyectosRoute: ProyectosRoute,
 }

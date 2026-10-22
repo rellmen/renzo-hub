@@ -36,10 +36,10 @@ export function verifyNocturneBackendIsolation(config,{hostname="",releaseTarget
  return config;
 }
 
-/** Production cannot use experimental lesson awards before the server migration.
- * Only the explicitly recognised staging hostname can run that experiment.
- * This remains safe even if a production Vercel project inherits staging flags.
+/** Production requires an authenticated, versioned backend capability probe.
+ * An inherited staging flag alone never enables writes. RPCs remain authoritative.
  */
-export function officialSelfLearnAwardsEnabled(flag,{hostname="",releaseTarget=""}={}){
+export function officialSelfLearnAwardsEnabled(flag,{hostname="",releaseTarget="",backendReady=false}={}){
+ if(releaseTarget==="production"||backendEnvironmentForHost(hostname)==="production")return flag===true&&backendReady===true;
  return flag===true&&releaseTarget!=="production"&&backendEnvironmentForHost(hostname)==="staging";
 }

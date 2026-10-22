@@ -4,6 +4,7 @@ import {QueryClient,QueryClientProvider} from '@tanstack/react-query';
 import type {SupabaseClient} from '@supabase/supabase-js';
 // Component interaction tests exercise retry semantics; the production/staging
 // hostname gate is separately validated in tests/nocturne-release-isolation.test.mjs.
+vi.mock('../lib/use-selflearn-capabilities',()=>({useSelfLearnCapabilities:()=>true}));
 vi.mock('../lib/nocturne-environment.mjs',()=>({
  officialSelfLearnAwardsEnabled:(enabled:boolean)=>enabled
 }));

@@ -16,7 +16,7 @@ create function auth.uid() returns uuid language sql stable as \$\$select nullif
 grant usage on schema auth to authenticated;grant execute on function auth.uid() to authenticated;
 create table public.hub_user_state(owner_id uuid,state jsonb);grant select on hub_user_state to authenticated;"
 "${PSQL[@]}" -f "$ROOT/supabase/migrations/20261007000206_add_shared_hub_records.sql"
-"${PSQL[@]}" -f "$ROOT/supabase/pending/20261022090000_selflearn_transactions.sql"
+"${PSQL[@]}" -f "$ROOT/supabase/migrations/20261022090000_selflearn_transactions.sql"
 q "insert into auth.users values('22222222-2222-4222-8222-222222222222')"
 AUTH="set local role authenticated;set local request.jwt.claim.sub='22222222-2222-4222-8222-222222222222';"
 INSERT="insert into hub_records(owner_id,domain,record_type,payload) values(auth.uid(),'system','renzo_event','{\"kind\":\"learning\",\"course\":\"nl\",\"practice\":\"Study path\",\"courseLessonId\":\"a1-legacy-1\",\"xp\":10}') on conflict(id) do update set payload=excluded.payload;
@@ -50,6 +50,6 @@ RESULT=$(q "select count(*)||':'||sum((payload->>'xp')::int) from hub_records wh
 [ "$RESULT" = '2:10' ] || { echo "FAIL competing awards $RESULT";exit 1; }
 [ "$(q "select count(*) from hub_records where record_type='renzo_vocabulary'")" = '1' ] || { echo 'FAIL duplicate word';exit 1; }
 BEFORE=$(q 'select count(*) from hub_records')
-"${PSQL[@]}" -f "$ROOT/supabase/pending/20261022090000_selflearn_transactions.rollback.sql"
+"${PSQL[@]}" -f "$ROOT/supabase/rollbacks/20261022090000_selflearn_transactions.rollback.sql"
 [ "$(q 'select count(*) from hub_records')" = "$BEFORE" ] || { echo 'FAIL rollback lost history';exit 1; }
 echo 'TEST_OK SelfLearn: observed classic/RPC contention, one XP award, one vocabulary card, rollback preserves history'

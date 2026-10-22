@@ -1,3 +1,6 @@
+// @ts-expect-error Shared server handler is plain JavaScript, bundled server-side only.
+import aresHandler from "../server/ares-ai.mjs";
+import {serveNodeHandler} from "./lib/server/node-handler.mjs";
 import "./lib/error-capture";
 
 import { consumeLastCapturedError } from "./lib/error-capture";
@@ -47,6 +50,7 @@ function isH3SwallowedErrorBody(body: string): boolean {
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
+      if(new URL(request.url).pathname==="/api/ares-ai")return await serveNodeHandler(request,aresHandler);
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
       return await normalizeCatastrophicSsrResponse(response);

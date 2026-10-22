@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import handler from "../api/ares-ai.js";
-const KEYS=["VERCEL_ENV","ARES_AI_ENABLED","ARES_AI_SHARE_PROJECT_DATA","OPENROUTER_API_KEY","SUPABASE_URL","SUPABASE_PUBLISHABLE_KEY"];
+const KEYS=["ARES_AI_ALLOW_PRODUCTION","VERCEL_ENV","ARES_AI_ENABLED","ARES_AI_SHARE_PROJECT_DATA","OPENROUTER_API_KEY","SUPABASE_URL","SUPABASE_PUBLISHABLE_KEY"];
 const initial=Object.fromEntries(KEYS.map(k=>[k,process.env[k]]));
 const full={VERCEL_ENV:"preview",ARES_AI_ENABLED:"true",ARES_AI_SHARE_PROJECT_DATA:"true",OPENROUTER_API_KEY:"secret-test-key",
   SUPABASE_URL:"https://example.supabase.co",SUPABASE_PUBLISHABLE_KEY:"publishable-test"};
@@ -17,14 +17,14 @@ test("OpenRouter trial requires both active and explicit project-sharing consent
  env({...full,ARES_AI_SHARE_PROJECT_DATA:"false"});r=await ask();assert.equal(r.body.enabled,false);
  env(full);r=await ask();assert.equal(r.body.enabled,true);
 });
-test("Ares never allows an external model in production",async()=>{
+test("Production external AI is disabled without explicit production opt-in",async()=>{
  env({...full,VERCEL_ENV:"production"});
  const r=await ask("POST",headers,{question:"Mis proyectos"});
  assert.equal(r.code,403);
 });
 test("No authorization means no provider request",async()=>{
  env(full);const r=await ask("POST",{host:"staging.local"},{question:"Mis proyectos"});
- assert.equal(r.code,400);
+ assert.equal(r.code,401);
 });
 test("Financial and secret-bearing questions are blocked before external API",async()=>{
  env(full);
@@ -38,6 +38,7 @@ test("Authenticated trial sends only permitted record summaries to openrouter/fr
  const oldFetch=global.fetch,calls=[];
  global.fetch=async(url,options={})=>{
   const target=String(url);calls.push({target,options});
+  if(target.endsWith("/rpc/selflearn_tutor_take_quota"))return Response.json(true);
   if(target.endsWith("/auth/v1/user"))return Response.json({id:"11111111-1111-4111-8111-111111111111"});
   if(target.includes("/rest/v1/hub_records"))return Response.json([
     {record_type:"renzo_project",title:"Dutch Academy",status:"active",occurred_at:"2026-10-13",payload:{output:"B1",secret:"MUST_NOT_SEND"}},
@@ -69,7 +70,8 @@ test("Empty staging Project Tracker never invents missing GitHub projects or con
  const beforeFetch=global.fetch,calls=[];
  global.fetch=async(url)=>{
    const target=String(url);calls.push(target);
-   if(target.endsWith("/auth/v1/user"))return Response.json({id:"11111111-1111-4111-8111-111111111111"});
+   if(target.endsWith("/rpc/selflearn_tutor_take_quota"))return Response.json(true);
+  if(target.endsWith("/auth/v1/user"))return Response.json({id:"11111111-1111-4111-8111-111111111111"});
    if(target.includes("/rest/v1/hub_records"))return Response.json([]);
    throw new Error("No external model call expected for empty tracker");
  };
@@ -89,6 +91,7 @@ test("OpenRouter rate limit is surfaced so chat can use private fallback",async(
  const previous=global.fetch;
  global.fetch=async(url)=>{
   const target=String(url);
+  if(target.endsWith("/rpc/selflearn_tutor_take_quota"))return Response.json(true);
   if(target.endsWith("/auth/v1/user"))return Response.json({id:"11111111-1111-4111-8111-111111111111"});
   if(target.includes("/rest/v1/hub_records"))return Response.json([{record_type:"renzo_project",title:"Test sample",status:"active",payload:{}}]);
   return new Response(null,{status:429});
@@ -97,3 +100,17 @@ test("OpenRouter rate limit is surfaced so chat can use private fallback",async(
  finally{global.fetch=previous;}
 });
 test.after(()=>{for(const [k,value] of Object.entries(initial)){if(value===undefined)delete process.env[k];else process.env[k]=value;}});
+
+test('Production opt-in still authenticates and fails closed without quota',async()=>{
+ env({...full,VERCEL_ENV:'production',ARES_AI_ALLOW_PRODUCTION:'true'});
+ const before=global.fetch;let providerCalls=0;
+ try{
+  global.fetch=async(url)=>{if(String(url).endsWith('/auth/v1/user'))return new Response(null,{status:401});providerCalls++;throw Error('Unexpected');};
+  assert.equal((await ask('POST',headers,{question:'Mis proyectos'})).code,401);
+  assert.equal(providerCalls,0);
+  global.fetch=async(url)=>{if(String(url).endsWith('/auth/v1/user'))return Response.json({id:'11111111-1111-4111-8111-111111111111'});
+   if(String(url).includes('/rpc/'))return new Response(null,{status:404});providerCalls++;throw Error('Unexpected');};
+  assert.equal((await ask('POST',headers,{question:'Mis proyectos'})).code,503);
+  assert.equal(providerCalls,0);
+ }finally{global.fetch=before;}
+});

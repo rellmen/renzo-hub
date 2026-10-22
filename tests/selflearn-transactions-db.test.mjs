@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {PGlite} from '@electric-sql/pglite';
-const pending=new URL('../supabase/pending/20261022090000_selflearn_transactions.sql',import.meta.url);
+const pending=new URL('../supabase/migrations/20261022090000_selflearn_transactions.sql',import.meta.url);
 const uid='22222222-2222-4222-8222-222222222222',other='44444444-4444-4444-8444-444444444444';
 const cp='33333333-3333-4333-8333-333333333333',eventId='55555555-5555-4555-8555-555555555555',cardId='66666666-6666-4666-8666-666666666666';
 test('Postgres SelfLearn transactions: owner isolation, retry, stale review, legacy XP and rollback',async()=>{
@@ -20,7 +20,9 @@ test('Postgres SelfLearn transactions: owner isolation, retry, stale review, leg
    ('aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',$1,'learning','renzo_vocabulary','{"id":"aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa","front":"historic","back":"histórico","course":"nl","repetitions":0}')`,[uid]);
   await db.exec('alter default privileges revoke execute on functions from public');
   await db.exec(await readFile(pending,'utf8'));
+  await db.exec(await readFile(new URL('../supabase/migrations/20261022141917_selflearn_capabilities_contract.sql',import.meta.url),'utf8'));
   await db.exec(`set role authenticated;set request.jwt.claim.sub='${uid}'`);
+  assert.deepEqual((await db.query('select selflearn_capabilities() result')).rows[0].result,{version:1,ready:true});
   const run={version:2,mode:'lesson',course:'nl',unitId:'a1-legacy-1',index:1,queue:['s1'],steps:[{id:'s1',type:'choice'}],attempts:{s1:1},firstTry:{s1:true}};
   await db.query(`insert into hub_records(id,owner_id,domain,record_type,payload) values($1,$2,'learning','learning_run',$3)`,[cp,uid,{sessionId:cp,course:'nl',run}]);
   const event={id:eventId,owner_id:uid,payload:{id:eventId,kind:'learning',course:'nl',practice:'Study path',courseLessonId:run.unitId,passed:true,score:1,totalQuestions:1,xp:10,date:'2026-10-22'}};
@@ -67,7 +69,8 @@ test('Postgres SelfLearn transactions: owner isolation, retry, stale review, leg
   await assert.rejects(finish(),/permission/);
   await db.exec('reset role');
   const before=(await db.query('select count(*)::int n from hub_records')).rows[0].n;
-  await db.exec(await readFile(new URL('../supabase/pending/20261022090000_selflearn_transactions.rollback.sql',import.meta.url),'utf8'));
+  await db.exec(await readFile(new URL('../supabase/rollbacks/20261022141917_selflearn_capabilities_contract.rollback.sql',import.meta.url),'utf8'));
+  await db.exec(await readFile(new URL('../supabase/rollbacks/20261022090000_selflearn_transactions.rollback.sql',import.meta.url),'utf8'));
   assert.equal((await db.query('select count(*)::int n from hub_records')).rows[0].n,before);
   await assert.rejects(finish(),/does not exist/);
  }finally{await db.close()}
