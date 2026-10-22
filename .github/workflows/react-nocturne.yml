@@ -60,6 +60,9 @@ jobs:
           npx playwright install --with-deps chromium webkit
       - name: React hydration, login screen and PWA smoke via Vite dev (no real accounts)
         working-directory: apps/rise-react
+        env:
+          VITE_SUPABASE_URL: https://ci-placeholder.supabase.co
+          VITE_SUPABASE_PUBLISHABLE_KEY: sb_publishable_ci_placeholder_1234567890
         run: |
           npm run dev -- --host 127.0.0.1 --port 4174 >/tmp/rise-react-preview.log 2>&1 &
           app_pid=$!
