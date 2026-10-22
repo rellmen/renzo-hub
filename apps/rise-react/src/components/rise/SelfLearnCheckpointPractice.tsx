@@ -116,7 +116,7 @@ export function SelfLearnCheckpointPractice({client,uid,course,legacyActive,next
    onSuccess:async({session,evaluation})=>{
      setActive(session);setSelection("");setMatching([]);
      setFeedback(evaluation.complete
-       ?"Práctica guardada. La acreditación de la lección, XP y FSRS siguen en el reproductor clásico."
+       ?allowOfficialAward?"Práctica guardada. Puedes solicitar la acreditación de XP en pruebas; el servidor debe confirmarla.":"Práctica guardada. La acreditación de la lección, XP y FSRS siguen en el reproductor clásico."
        :evaluation.correct?"Respuesta registrada y guardada correctamente."
          :"Respuesta guardada. Se repetirá cuando corresponda. Corrección: "+String(evaluation.expected||""));
      await qc.invalidateQueries({queryKey:key});
@@ -169,7 +169,7 @@ export function SelfLearnCheckpointPractice({client,uid,course,legacyActive,next
         disabled={!nextUnitId||!!query.error||query.isFetching||start.isPending||legacyActive||!!(latest&&!practicePrompt(latest.run).complete)}
         onClick={()=>start.mutate()}><BookOpen className="h-4 w-4"/> {start.isPending?"Guardando…":"Iniciar práctica"}</button>
     </div>
-    <p className="text-xs text-muted-foreground">Este reproductor es una práctica de la unidad original. No otorga XP ni cambia el estado oficial de completado hasta terminar la integración de FSRS.</p>
+    <p className="text-xs text-muted-foreground">{allowOfficialAward?"Guardar checkpoints no otorga XP. Tras completar la lección puedes solicitar la acreditación experimental y comprobar su confirmación remota.":"Este reproductor es una práctica de la unidad original. No otorga XP ni cambia el estado oficial de completado hasta terminar la integración de FSRS."}</p>
   </div>}
   {run&&<div className="space-y-4">
     <div className="flex items-center justify-between gap-2 text-xs text-muted-foreground">
