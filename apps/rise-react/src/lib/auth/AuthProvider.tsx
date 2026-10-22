@@ -15,7 +15,7 @@ const INITIAL:AuthState={status:'loading',client:null,session:null,user:null,err
 // Keep backend details out of the UI and distinguish user errors from staging outages.
 // Authentication and user identities are isolated from the production environment.
 function currentEnvironment(): 'production'|'staging'{
-  const target=import.meta.env?.VITE_NOCTURNE_RELEASE_TARGET;
+  const target=import.meta.env?.['VITE_NOCTURNE_RELEASE_TARGET'];
   if(target==='production')return 'production';
   if(typeof window!=='undefined'&&backendEnvironmentForHost(window.location.hostname)==='production')return 'production';
   return 'staging';
