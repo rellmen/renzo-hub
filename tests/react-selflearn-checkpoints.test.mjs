@@ -48,7 +48,7 @@ test('Every answered step can append immutable private checkpoint with exact ori
  assert(!('state' in row));
 });
 test('Read only own checkpoints, filter malformed runs, prefer latest valid row',async()=>{
- const a=run(),next=run();advance(next);
+ const a=run(),next=run();advance(next);next.updatedAt=a.updatedAt+1000;
  const oldRow={id:'A',created_at:'2026-10-21T10:00:00Z',payload:{course:'nl',sessionId,run:a}};
  const newRow={id:'B',created_at:'2026-10-21T10:01:00Z',payload:{course:'nl',sessionId,run:next}};
  const {db,actions}=mock({rows:[newRow,{id:'C',payload:{course:'nl',sessionId,run:{queue:['bad']}}},oldRow]});
