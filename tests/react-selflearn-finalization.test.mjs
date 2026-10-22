@@ -132,7 +132,7 @@ test("Previously accredited legacy unit is never paid again and no FSRS cards ar
 });
 test("Staging official-award control is always disabled in default builds",()=>{
  const src=readFileSync(new URL("../apps/rise-react/src/components/rise/SelfLearnCheckpointPractice.tsx",import.meta.url),"utf8");
- assert.match(src,/VITE_ENABLE_SELFLEARN_AWARDS===\s*["']true["']/);
+ assert.match(src,/VITE_ENABLE_SELFLEARN_AWARDS"\]===\s*["\']true["\']/);
  assert.match(src,/finalizeOfficialLesson\(/);
  assert.match(src,/legacyActive/);
 });
