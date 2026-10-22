@@ -43,7 +43,15 @@ export function lessonAward(run,existing,{at=new Date(),uid}={}){
   const vocab=existing?.vocabulary||[];
   const known=new Set(vocab.filter(v=>(v.course|| (v.area==="English"?"en":"nl"))===run.course)
     .map(v=>normalize(v.front)));
-  const newWords=unit.words.filter(w=>Array.isArray(w)&&w[0]&&w[1]&&!known.has(normalize(w[0])));
+  const newWords=[];
+  const planned=new Set(known);
+  for(const word of unit.words){
+    if(!Array.isArray(word)||!word[0]||!word[1])continue;
+    const fingerprint=normalize(word[0]);
+    if(!fingerprint||planned.has(fingerprint))continue;
+    planned.add(fingerprint);
+    newWords.push(word);
+  }
   const start=Number(run.startedAt);
   const minutes=Number.isFinite(start)&&start>0
     ?Math.max(1,Math.min(1440,Math.round((at.getTime()-start)/60000))):1;
