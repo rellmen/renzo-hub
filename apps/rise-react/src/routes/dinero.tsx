@@ -1,4 +1,4 @@
-import {createFileRoute} from "@tanstack/react-router";
+import {createFileRoute,Link} from "@tanstack/react-router";
 import {useQuery} from "@tanstack/react-query";
 import {useEffect,useState} from "react";
 import {ArrowDownLeft,ArrowUpRight,Landmark,PiggyBank,RefreshCw,ShieldCheck,Wallet} from "lucide-react";
@@ -134,7 +134,7 @@ function Money(){
         </SectionCard>
       </div>
       <p className="flex items-start gap-2 text-xs text-muted-foreground">
-        <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0"/> Vista de consulta. Las importaciones, categorizaciones y ediciones financieras permanecen en la aplicación anterior hasta portar sus verificaciones y reglas de revisión.
+        <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0"/> El resumen utiliza transacciones verificadas. <Link to="/gastos" className="text-gold underline">Editar categorías de gastos en React</Link>. La importación bancaria y algunas funciones avanzadas siguen pendientes.
       </p>
     </>}
   </div>;
