@@ -4,6 +4,7 @@ import {SectionCard} from "@/components/rise/primitives";
 import type {MoneySummary} from "@/lib/money-records.mjs";
 import type {PayrollOverview} from "@/lib/payroll-overview.mjs";
 import {incomeBreakdown} from "@/lib/salary-reconciliation.mjs";
+import {expectedPayDate} from "@/lib/payroll-monthly.mjs";
 
 const money=(n:number)=>new Intl.NumberFormat("es-ES",{style:"currency",currency:"EUR"}).format(n);
 export function SalaryReconciliation({moneyData,payrollData,month}:{moneyData:MoneySummary;payrollData:PayrollOverview;month:string}){
@@ -11,7 +12,7 @@ export function SalaryReconciliation({moneyData,payrollData,month}:{moneyData:Mo
   if(!/^\d{4}-\d{2}$/.test(month)||!moneyData.months.includes(month))return null;
   return incomeBreakdown({
    items:moneyData.items,txs:moneyData.salaryBankTxs,payslips:payrollData.rows,
-   month,expectedDate:(p:{payment_date?:string|null})=>p.payment_date||null,
+   month,expectedDate:(p:{payment_date?:string|null;period_end?:string|null})=>expectedPayDate(p),
    lastImport:moneyData.bankUpdatedThrough["ING"]||null
   });
  },[moneyData,payrollData,month]);

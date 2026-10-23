@@ -11,6 +11,7 @@ import {LEGACY_FALLBACK_URL,backendEnvironmentForHost} from "@/lib/nocturne-envi
 import {PayrollUpload} from "@/components/rise/PayrollUpload";
 import {PayrollReview} from "@/components/rise/PayrollReview";
 import {FinanceSections} from "@/components/rise/FinanceSections";
+import {PayrollMonthly} from "@/components/rise/PayrollMonthly";
 
 export const Route=createFileRoute("/nominas")({
  head:()=>pageHead("Nóminas","Documentos salariales reales, validaciones y auditoría privada."),
@@ -64,6 +65,7 @@ function Payroll(){
      <p className="text-xs text-muted-foreground">Comprobaciones no superadas registradas históricamente</p>
     </SectionCard>
    </div>
+   <PayrollMonthly rows={data.rows}/>
    <SectionCard eyebrow="Historial privado" title="Documentos y periodos" accent="var(--gold)">
     {!data.rows.length?<p className="text-sm text-muted-foreground">No hay nóminas vinculadas a tu cuenta.</p>:
     <ul className="divide-y divide-hairline">{data.rows.map(p=><li key={p.id} className="flex flex-wrap items-center justify-between gap-4 py-4">
