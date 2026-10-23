@@ -1,11 +1,12 @@
 import {createFileRoute} from "@tanstack/react-router";
 import {useMutation,useQuery,useQueryClient} from "@tanstack/react-query";
 import {useMemo,useState,type FormEvent} from "react";
-import {BookOpen,Check,FilePenLine,Plus,RefreshCw,ShieldCheck,Trash2,X} from "lucide-react";
+import {BookOpen,Check,FilePenLine,Plus,RefreshCw,Search,ShieldCheck,Trash2,X} from "lucide-react";
 import {pageHead} from "@/lib/seo";
 import {PageHeader,SectionCard,EmptyState} from "@/components/rise/primitives";
 import {useAuth} from "@/lib/auth/AuthProvider";
 import {createRecords,type HubNote} from "@/lib/legacy-records.mjs";
+import {loadAllNotes,removeNote,searchNotes,updateNote} from "@/lib/notes-records.mjs";
 
 export const Route=createFileRoute("/notas")({
   head:()=>pageHead("Notas","Notas personales reales y privadas de RISE HUB."),
@@ -21,11 +22,12 @@ function Notes(){
   const [input,setInput]=useState<Input>(EMPTY);
   const [edit,setEdit]=useState<HubNote|null>(null);
   const [confirmId,setConfirmId]=useState<string|null>(null);
+  const [query,setQuery]=useState("");
   const store=useMemo(()=>client&&uid?createRecords(client,()=>({id:uid}),{domain:"personal",type:"note"}):null,[client,uid]);
   const key=["notes",uid];
   const notes=useQuery({
     queryKey:key,enabled:!!store,
-    queryFn:async()=>{if(!store)throw Error("Sesión no disponible.");return store.list({limit:200});},
+    queryFn:async()=>{if(!client||!uid)throw Error("Sesión no disponible.");return loadAllNotes(client,uid);},
     staleTime:15000,refetchOnWindowFocus:true
   });
   const save=useMutation({
@@ -36,16 +38,16 @@ function Notes(){
       if(!title)throw Error("El título es obligatorio.");
       if(edit){
         // Preserve additional legacy payload fields on edits.
-        return store.update(edit.id,{title,payload:{...(edit.payload||{}),body}});
+        return updateNote(client,uid,edit,{title,body});
       }
       return store.add({title,payload:{body}});
     },
     onSuccess:async()=>{setInput(EMPTY);setEdit(null);await qc.invalidateQueries({queryKey:key});}
   });
   const remove=useMutation({
-    mutationFn:async(id:string)=>{
-      if(!store)throw Error("La sesión ha terminado.");
-      await store.remove(id);
+    mutationFn:async(note:HubNote)=>{
+      if(!client||!uid)throw Error("La sesión ha terminado.");
+      await removeNote(client,uid,note);
     },
     onSuccess:async()=>{setConfirmId(null);await qc.invalidateQueries({queryKey:key});}
   });
@@ -94,10 +96,13 @@ function Notes(){
         {notes.error&&<p role="alert" className="rounded-xl border border-gym/40 p-4 text-sm text-gym">
           No se pudieron cargar las notas: {humanError(notes.error)}.
         </p>}
-        {notes.data?.length===0&&<EmptyState icon={<BookOpen className="h-5 w-5"/>}
+        {(notes.data?.rows.length||0)>0&&<label className="relative mb-4 block"><span className="sr-only">Buscar notas</span>
+          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"/>
+          <input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Buscar en título o contenido" className="min-h-11 w-full rounded-xl border border-hairline bg-obsidian pl-9 pr-3 text-sm text-foreground"/></label>}
+        {notes.data?.rows.length===0&&<EmptyState icon={<BookOpen className="h-5 w-5"/>}
           title="Todavía no hay notas" text="Las notas privadas aparecerán aquí cuando las guardes."/>}
-        {notes.data&&notes.data.length>0&&<ul className="space-y-3">
-          {notes.data.map(n=><li key={n.id} className="rounded-2xl border border-hairline bg-raised p-4">
+        {notes.data&&notes.data.rows.length>0&&<ul className="space-y-3">
+          {searchNotes(notes.data.rows,query).map(n=><li key={n.id} className="rounded-2xl border border-hairline bg-raised p-4">
             <div className="flex items-center justify-between gap-2">
               <p className="text-[11px] text-muted-foreground">
                 {n.occurred_at?new Date(n.occurred_at).toLocaleDateString("es-ES",{dateStyle:"medium"}):"Sin fecha"}
@@ -113,7 +118,7 @@ function Notes(){
                 className={"btn-ghost min-h-10 px-3 "+(confirmId===n.id?"border-gym/40 text-gym":"")}
                 onClick={()=>{
                   if(confirmId!==n.id){setConfirmId(n.id);return;}
-                  remove.mutate(n.id);
+                  remove.mutate(n);
                 }}><Trash2 className="h-4 w-4"/>
                 {confirmId===n.id?"Confirmar eliminación":"Eliminar"}
               </button>
@@ -121,9 +126,7 @@ function Notes(){
           </li>)}
         </ul>}
         {remove.error&&<p role="alert" className="mt-4 text-sm text-gym">{humanError(remove.error)}</p>}
-        {notes.data&&notes.data.length>=200&&<p className="mt-4 text-xs text-muted-foreground">
-          Mostrando hasta 200 registros. El histórico completo deberá incorporar paginación.
-        </p>}
+        {notes.data?.partial&&<p className="mt-4 text-xs text-muted-foreground">Se muestran las 5.000 notas más recientes.</p>}
       </SectionCard>
     </div>
   </div>;
