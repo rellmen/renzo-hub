@@ -14,7 +14,7 @@ const round2 = n => Math.round(n * 100) / 100;
 
 let pdfjsPromise = null;
 async function loadPdfjs() {
-  if (!pdfjsPromise) pdfjsPromise = import(/* @vite-ignore */ "/vendor/pdfjs/pdf.min.js").then(lib => {
+  if (!pdfjsPromise) pdfjsPromise = import(/* @vite-ignore */ ["/vendor","pdfjs","pdf.min.js"].join("/")).then(lib => {
     lib.GlobalWorkerOptions.workerSrc = "/vendor/pdfjs/pdf.worker.min.js";
     return lib;
   });

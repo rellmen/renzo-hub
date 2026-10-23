@@ -27,7 +27,7 @@ test("Client PDF rules are bit-for-bit equivalent to legacy parser except Vite d
  const classic=src("payroll-pdf.js").trim();
  const react=src("apps/rise-react/src/lib/payroll-pdf-parser.mjs")
   .replace(/^\/\/ Nocturne browser-safe adapter[^\n]*\n\/\/ Equivalent[^\n]*\n/,"")
-  .replace("/* @vite-ignore */ ","").trim();
+  .replace('/* @vite-ignore */ ["/vendor","pdfjs","pdf.min.js"].join("/")','"/vendor/pdfjs/pdf.min.js"').trim();
  assert.equal(react,classic,"React and Classic payroll parsing rules have diverged");
  assert.deepEqual(reactParse(rows),classicParse(rows));
  assert.equal(reactParse(rows).validation_status,"review_required");
