@@ -1,5 +1,17 @@
 # RISE HUB (antes Renzo Hub): instrucciones para cualquier IA
 
+## Decisión vigente de Renzo · 23 octubre 2026 · Nocturne como único staging
+
+Esta decisión sustituye las asignaciones históricas de desarrollo Classic de este archivo y de documentos anteriores.
+- Desarrollar exclusivamente Nocturne en `apps/rise-react/`, con sus pruebas, API servidor y migraciones revisadas. Rama de integración `feature/nocturne-integral-migration`, PR #150 hacia `staging` hasta superar CI y revisión; no merge automático ni publicación en producción.
+- Proyecto de pruebas canónico: Vercel `renzo-hub-2-1-staging` (`prj_kt9EGP7NvU1SghR5wJrbXMptDJMl`), raíz `apps/rise-react`, Supabase staging `zpueziugbezqxompwsol`.
+- Classic es SOLO respaldo y referencia de lectura: consultar sus modelos, reglas y comportamiento para adaptar funcionalidades a Nocturne. No modificar ni desarrollar sus pantallas, `world.js`, `gym.js`, `phase1.js`, módulos Classic, `index.html`, service worker o release Classic; no desplegar nuevas versiones Classic.
+- El proyecto `rise-hub` se conserva como respaldo. El antiguo `rise-hub-nocturne-qa` deja de ser destino de nuevas previews: actualmente también aloja el dominio público; no borrarlo, renombrarlo ni alterar producción. Las previews automáticas de ambos proyectos se han deshabilitado, conservando los despliegues existentes.
+- La rama Git `staging` y un deployment preview no son lo mismo: mientras #150 no se fusione, el staging canónico prueba un SHA explícito de la rama candidata. No afirmar que #150 está fusionado ni que la migración está terminada.
+- No copiar datos ni secretos de producción a pruebas. No rediseñar Nocturne. Una mejora se implementa en Nocturne usando Classic como especificación; los pendientes no justifican abrir otra línea de desarrollo Classic.
+- Para esta congelación, los cambios de documentación/configuración Nocturne NO requieren incrementar `release.json` ni cambiar `sw.js` de Classic. Conservarlos intactos.
+- Antes de trabajar, leer `docs/NOCTURNE-STAGING-CLASSIC-READONLY.md`. La prueba de interfaz en iPhone ha sido aprobada por Renzo; no equivale a certificar todos los flujos PWA/offline/datos.
+
 ## Qué es
 RISE HUB (antes Renzo HUB) es la plataforma personal y privada de Renzo. El cambio de nombre es solo visible: URLs, repositorio, proyectos de Vercel y Supabase, nombres de archivo y prefijos técnicos (`renzo-hub-…`) se mantienen. **No forma parte de Nodalys**: no compartir código, datos, credenciales, documentación ni agentes con Nodalys.
 

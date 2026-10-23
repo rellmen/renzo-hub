@@ -1,5 +1,9 @@
 # RISE HUB · trabajo conjunto Claude + ChatGPT
 
+## DECISIÓN VIGENTE · 23 octubre 2026 · sustituye reparto histórico
+
+Renzo ordena **staging con Nocturne; Classic solo respaldo y consulta, sin desarrollo**. Instrucciones obligatorias en `../AGENTS.md`, `../CLAUDE.md` y `NOCTURNE-STAGING-CLASSIC-READONLY.md`. Único destino de pruebas: proyecto Vercel `renzo-hub-2-1-staging`, raíz React. Se conserva rama candidata / PR #150; no se fusiona mientras fallen gates. No tocar versiones, caché o funcionalidades Classic para integrar nuevas tareas. Los repartos antiguos por microapp y PR #75 quedan como historial, no como órdenes vigentes.
+
 ## Work · 23 octubre 2026 · Nocturne integral
 
 Por encargo actual de Renzo se trabaja sobre `feature/nocturne-integral-migration` / PR #150; la asignación histórica a PR #75 no aplica a esta misión. Se prepara RPC CAS de revisión Payroll y rollback en pending, cliente sin fallback inseguro y prueba SQL local; flag apagado, sin DDL remoto. Correcciones de copy en Money/Gastos/Turnos y árbol generado de rutas; E2E mock añade Career. Evidencias y bloqueos: `docs/WORK-NOCTURNE-QA-2026-10-23.md`. Alias QA corto reparado hacia c6e80b4f; dominio público y Classic intactos. Integración release/sw/CURRENT sigue pendiente del dueño al preparar una release; esta tanda no publica Classic ni cambia su caché.
