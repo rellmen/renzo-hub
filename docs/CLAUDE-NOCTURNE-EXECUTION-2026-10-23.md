@@ -14,7 +14,7 @@ Estados: `DONE+VERIFIED` · `IMPLEMENTED/QA PENDING` · `BLOCKED` · `NOT IMPLEM
 
 | Bloque | Estado | Commit | Prueba |
 |---|---|---|---|
-| P0 Payroll credencial staging | Configurada por Renzo (ver estado) | — | `SUPABASE_SECRET_KEY` creada en Vercel staging, solo Preview, tipo sensible; redeploy necesario para leerla |
+| P0 Payroll credencial staging | DONE+VERIFIED (config) · E2E PDF QA PENDING | 3b0c006 | `SUPABASE_SECRET_KEY` (Preview, sensible) creada por Renzo; deployment `dpl_GpGajqUDK31SMsmYsN3u6xyod1yd`: GET `configured:true`, POST sin sesión → 401. Falta subir un PDF sintético con sesión real |
 | P0 Payroll CAS concurrente | DONE+VERIFIED (BD) · HTTP/JWT BLOCKED | 25d3ec0 | 2 conexiones PG17: B espera lock y recibe 40001, 1 corrección, rollback sin pérdida |
 | P0 Revisión de capturas concurrente | DONE+VERIFIED (BD) | 25d3ec0 | 1 recibo, 1 evento, 0 `bank_tx` |
 | P0 SelfLearn XP/FSRS concurrencia | DONE+VERIFIED (BD) | 4e3739f | 1 repaso por versión, reintento idempotente, 0 XP; finalize ya cubierto por `selflearn_test.sh` |
@@ -49,7 +49,7 @@ Estados: `DONE+VERIFIED` · `IMPLEMENTED/QA PENDING` · `BLOCKED` · `NOT IMPLEM
 
 ## Pendiente exclusivamente externo
 
-- Credencial Payroll server-only de staging (operador seguro, nunca por chat).
+- Subir una nómina PDF **sintética** con sesión real en staging (la credencial ya está configurada).
 - Sesiones QA reales (cuenta A; la B fue omitida por Renzo, el aislamiento A/B sigue sin PASS).
 - iPhone físico para PWA/offline.
 - Exportación de datos locales de Classic desde los dispositivos originales; restauración integral Auth + Storage + filas.
@@ -57,7 +57,7 @@ Estados: `DONE+VERIFIED` · `IMPLEMENTED/QA PENDING` · `BLOCKED` · `NOT IMPLEM
 
 ## GO/NO-GO
 
-**NO-GO** para producción y para retirar Classic. Motivos: QA autenticada de los nuevos flujos sin hacer, Payroll upload bloqueado, aislamiento A/B sin PASS, restauración integral no ensayada, iPhone PWA no certificada. `tools/react-cutover-audit.mjs` → `ready:false`.
+**NO-GO** para producción y para retirar Classic. Motivos: QA autenticada de los nuevos flujos sin hacer, Payroll upload sin E2E real, aislamiento A/B sin PASS, restauración integral no ensayada, iPhone PWA no certificada. `tools/react-cutover-audit.mjs` → `ready:false`.
 
 **GO** para seguir probando en staging: el código compila, los tests pasan y cada escritura nueva está protegida por propietario + versión.
 

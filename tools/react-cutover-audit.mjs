@@ -44,7 +44,7 @@ const report={
   // 23-10 (Claude): code for Shift Tracker writes, Gastos merchant rules, Career/portfolio, Quest daily
   // missions, Idea Vault/Sprint, Gym/Skin private photos and Body/Food/Notes edits now exists in
   // Nocturne. It stays listed until authenticated staging QA proves each flow.
-  functionalParityPending:['Payroll PDF upload E2E (blocked: staging server-only credential) and review CAS over HTTP/JWT',
+  functionalParityPending:['Payroll PDF upload E2E with a real session (staging credential configured 23-10) and review CAS over HTTP/JWT',
     'Authenticated QA of new Nocturne write flows (Turnos, Gastos rules, Career, Idea Vault/Sprint, Gym/Skin photos, Body/Food/Notes edits)',
     'Gym atomic save RPC applied in staging only (20261023182426); production pending',
     'Ares dispatch disabled: needs Jarvis outbound config and separate authorization',
