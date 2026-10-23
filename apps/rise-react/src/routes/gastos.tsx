@@ -79,6 +79,6 @@ function Expenses(){
   </>}
   {status&&<p role="status" className="surface p-3 text-sm">{status}</p>}
   {mutation.error&&<p role="alert" className="surface border border-gym/40 p-3 text-sm text-gym">{mutation.error instanceof Error?mutation.error.message:"No se pudo guardar la categoría."}</p>}
-  <p className="text-xs text-muted-foreground">Importación y reglas por comercio siguen pendientes de portar a React. <Link to="/dinero" className="text-gold underline">Volver al resumen financiero</Link>.</p>
+  <p className="text-xs text-muted-foreground">Importa extractos y gestiona reglas de gastos recurrentes en Money. <Link to="/dinero" className="text-gold underline">Abrir Money</Link>.</p>
  </div>;
 }

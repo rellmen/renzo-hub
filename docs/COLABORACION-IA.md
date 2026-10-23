@@ -1,5 +1,9 @@
 # RISE HUB · trabajo conjunto Claude + ChatGPT
 
+## Work · 23 octubre 2026 · Nocturne integral
+
+Por encargo actual de Renzo se trabaja sobre `feature/nocturne-integral-migration` / PR #150; la asignación histórica a PR #75 no aplica a esta misión. Se prepara RPC CAS de revisión Payroll y rollback en pending, cliente sin fallback inseguro y prueba SQL local; flag apagado, sin DDL remoto. Correcciones de copy en Money/Gastos/Turnos y árbol generado de rutas; E2E mock añade Career. Evidencias y bloqueos: `docs/WORK-NOCTURNE-QA-2026-10-23.md`. Alias QA corto reparado hacia c6e80b4f; dominio público y Classic intactos. Integración release/sw/CURRENT sigue pendiente del dueño al preparar una release; esta tanda no publica Classic ni cambia su caché.
+
 Decisión de Renzo (17 oct 2026): Claude y ChatGPT trabajan **juntos en una sola actualización**, no en ramas separadas.
 Este archivo es el canal de coordinación: cada IA lo lee antes de empezar y lo actualiza al terminar una tarea.
 

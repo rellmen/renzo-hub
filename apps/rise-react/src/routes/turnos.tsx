@@ -59,7 +59,7 @@ function Shifts(){
   <PageHeader eyebrow="TRABAJO · CALENDARIO" title="Mis turnos"
    subtitle="Los turnos y excepciones se guardan en el estado original de RISE HUB. No se inventan horas trabajadas ni suplementos de salario."/>
   <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-platinum/75">
-   <p><ShieldCheck className="mr-2 inline h-4 w-4 text-gold"/>Misma cuenta y datos de Supabase producción</p>
+   <p><ShieldCheck className="mr-2 inline h-4 w-4 text-gold"/>Calendario privado de la cuenta y el entorno actuales</p>
    <button type="button" className="btn-ghost" disabled={query.isFetching} onClick={()=>void query.refetch()}>
     <RefreshCw className={"h-4 w-4 "+(query.isFetching?"animate-spin":"")}/> Actualizar
    </button>

@@ -19,7 +19,8 @@ test("Review RPC checks owner and fresh pending version; does not use service ro
   from:()=>({select:()=>({eq(){return this;},maybeSingle:async()=>({data:{id:"pay",user_id:uid,review_status:"pending",updated_at:original.updated_at},error:null})})}),
   rpc:async(name,args)=>{rpcName=name;rpcArgs=args;return{data:{ok:true,payslip_id:"pay"},error:null};}};
  const out=await applyPayrollReview(db,uid,original,{...unchanged,net_payment:"501"},"approved","Comprobado con PDF");
- assert.equal(out.ok,true);assert.equal(rpcName,"payroll_apply_review");
+ assert.equal(out.ok,true);assert.equal(rpcName,"payroll_apply_review_cas");
+ assert.equal(rpcArgs.p_expected_updated_at,original.updated_at);
  assert.equal(rpcArgs.p_changes.net_payment,501);
  await assert.rejects(()=>applyPayrollReview(db,"wrong",original,unchanged,"approved"),/sesión/);
 });
