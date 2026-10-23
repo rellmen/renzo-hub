@@ -2,6 +2,7 @@
 # Concurrencia REAL (dos conexiones PostgreSQL independientes) para las RPC Nocturne ya instaladas en staging:
 #   - payroll_apply_review_cas  (supabase/pending/20261023124512_payroll_review_cas.sql)
 #   - nocturne_review_capture   (supabase/pending/20261023155335_nocturne_capture_review.sql)
+#   - selflearn_review_vocabulary (FSRS, migración ya aplicada)
 # Réplica local vacía + migraciones del repo + datos SINTÉTICOS. Nunca se conecta a Supabase.
 # No sustituye la prueba HTTP con dos JWT reales: acredita la semántica transaccional bajo contención.
 # Uso: bash tools/db-replica/nocturne_cas_concurrency_test.sh   (PGBIN=/usr/lib/postgresql/16/bin para otra versión)
@@ -55,7 +56,7 @@ race(){ # $1 nombre, $2 llamada A, $3 llamada B, $4 tabla/relación bloqueada pa
   wait $A || fail "$name: A falló"
   if wait $B; then fail "$name: B debía ser rechazada"; fi
   grep -q -E "changed|cambi" "$WORK/$name-b.log" || fail "$name: B rechazada por un motivo inesperado"
-  echo "  OK  $name: B esperó el lock de A y fue rechazada por versión ($(grep -o -m1 -E 'Payroll changed[^"]*|Capture changed[^"]*' "$WORK/$name-b.log" | head -c 60))"
+  echo "  OK  $name: B esperó el lock de A y fue rechazada por versión ($(grep -o -m1 -E 'Payroll changed[^"]*|Capture changed[^"]*|versión de la tarjeta[^"]*' "$WORK/$name-b.log" | head -c 60))"
 }
 
 STAMP=$(q "select updated_at::text from payroll_payslips where id='$ID'")
@@ -79,6 +80,20 @@ R=$(q "select (select count(*) from hub_records where record_type='renzo_money')
 [ "$R" = "1:1:reviewed" ] || fail "capture estado final $R (esperado 1 recibo, 1 evento, reviewed)"
 echo "  OK  capture: 1 recibo renzo_money, 1 evento, captura reviewed; sin movimiento bancario creado ($(q "select count(*) from hub_records where record_type='bank_tx'") bank_tx)"
 
+# SelfLearn FSRS: dos dispositivos repasan la MISMA tarjeta con la misma versión; uno gana, el otro debe recargar.
+CARD=66666666-6666-4666-8666-666666666666; RA=88888888-8888-4888-8888-888888888881; RB=88888888-8888-4888-8888-888888888882
+q "begin;$AUTH insert into hub_records(id,owner_id,domain,record_type,payload) values('$CARD',auth.uid(),'learning','renzo_vocabulary',
+   '{\"id\":\"$CARD\",\"course\":\"nl\",\"area\":\"Dutch\",\"unitId\":\"a1-1\",\"front\":\"de winkel\",\"back\":\"la tienda\",\"repetitions\":0}');commit;" >/dev/null
+VSTAMP=$(q "select updated_at::text from hub_records where id='$CARD'")
+REV(){ echo "select selflearn_review_vocabulary('$CARD','$VSTAMP','$1','{\"id\":\"$CARD\",\"course\":\"nl\",\"area\":\"Dutch\",\"unitId\":\"a1-1\",\"front\":\"de winkel\",\"back\":\"la tienda\",\"repetitions\":1,\"fsrsCard\":{\"due\":\"2026-10-25T00:00:00Z\"},\"lastReviewed\":\"2026-10-23\"}'::jsonb,'$2')"; }
+race fsrs "$(REV $RA good)" "$(REV $RB easy)"
+R=$(q "select (select payload->>'repetitions' from hub_records where id='$CARD')||':'||(select count(*) from hub_records where record_type='renzo_event' and payload->>'practice'='Vocabulary FSRS')||':'||(select coalesce(sum((payload->>'xp')::int),0) from hub_records where payload->>'practice'='Vocabulary FSRS')")
+[ "$R" = "1:1:0" ] || fail "fsrs estado final $R (esperado repeticiones 1, 1 repaso, 0 XP)"
+# Reintento del ganador con su mismo ID tras respuesta perdida: idempotente, sin segundo evento.
+q "begin;$AUTH $(REV $RA good);commit;" >/dev/null || fail "fsrs: reintento idempotente rechazado"
+[ "$(q "select count(*) from hub_records where payload->>'practice'='Vocabulary FSRS'")" = 1 ] || fail "fsrs: el reintento duplicó el repaso"
+echo "  OK  fsrs: un repaso por versión, perdedor debe recargar, reintento con mismo ID idempotente, 0 XP"
+
 # Rollbacks retiran solo las funciones y conservan todas las filas.
 BEFORE=$(q "select (select count(*) from hub_records)||':'||(select count(*) from payroll_payslips)||':'||(select count(*) from payroll_corrections)")
 load "$ROOT/supabase/pending/20261023155335_nocturne_capture_review.rollback.sql"
@@ -87,4 +102,4 @@ AFTER=$(q "select (select count(*) from hub_records)||':'||(select count(*) from
 [ "$BEFORE" = "$AFTER" ] || fail "rollback perdió filas $BEFORE -> $AFTER"
 [ -z "$(q "select to_regprocedure('public.nocturne_review_capture(uuid,timestamptz)')")" ] || fail "rollback captura no retiró la función"
 echo "  OK  rollbacks: funciones retiradas, filas conservadas ($AFTER)"
-echo "TEST_OK Nocturne CAS: contención real de 2 conexiones en nómina y captura, una sola escritura, rollback sin pérdida"
+echo "TEST_OK Nocturne CAS: contención real de 2 conexiones en nómina, captura y FSRS, una sola escritura, rollback sin pérdida"
