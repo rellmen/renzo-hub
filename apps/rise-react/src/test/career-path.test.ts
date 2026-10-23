@@ -1,4 +1,4 @@
-import {describe,it,expect} from "vitest";
+import {describe,it,expect,vi} from "vitest";
 import {START_DAY,CHAPTERS,FUTURE_STAGES,allTasks,dayOffset,pathMetrics,tasksForWeek,weekForDate,weekStart,setPathTask,loadPathProgress} from "../lib/career-path.mjs";
 
 const uid="22222222-2222-4222-8222-222222222222";
@@ -37,10 +37,14 @@ describe("Career / DataLab roadmap 2026–2032",()=>{
   expect(pathMetrics(rows).completeWeeks).toBe(0);
  });
  it("disallows ticking future tasks without saving anything",async()=>{
-  let touched=false;
-  const client={from:()=>{touched=true;return {};}};
-  await expect(setPathTask(client,uid,tasksForWeek(23)[0],true)).rejects.toThrow("Todavía no");
-  expect(touched).toBe(false);
+  vi.useFakeTimers();
+  try{
+   vi.setSystemTime(new Date("2026-10-24T12:00:00Z"));
+   let touched=false;
+   const client={from:()=>{touched=true;return {};}};
+   await expect(setPathTask(client,uid,tasksForWeek(23)[0],true)).rejects.toThrow("Todavía no");
+   expect(touched).toBe(false);
+  }finally{vi.useRealTimers();}
  });
  it("rejects cross-account rows and keeps user_id scoping in the read",async()=>{
   const calls:string[]=[];
