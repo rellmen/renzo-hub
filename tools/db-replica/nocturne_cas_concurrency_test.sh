@@ -3,6 +3,7 @@
 #   - payroll_apply_review_cas  (supabase/pending/20261023124512_payroll_review_cas.sql)
 #   - nocturne_review_capture   (supabase/pending/20261023155335_nocturne_capture_review.sql)
 #   - selflearn_review_vocabulary (FSRS, migración ya aplicada)
+#   - gym_save_session_cas (supabase/pending/20261023190000_gym_save_session_cas.sql, NO aplicada)
 # Réplica local vacía + migraciones del repo + datos SINTÉTICOS. Nunca se conecta a Supabase.
 # No sustituye la prueba HTTP con dos JWT reales: acredita la semántica transaccional bajo contención.
 # Uso: bash tools/db-replica/nocturne_cas_concurrency_test.sh   (PGBIN=/usr/lib/postgresql/16/bin para otra versión)
@@ -26,7 +27,8 @@ q "create publication supabase_realtime" >/dev/null 2>&1 || true
 for f in "$ROOT"/supabase/migrations/*.sql; do load "$f"; done
 load "$ROOT/supabase/pending/20261023124512_payroll_review_cas.sql"
 load "$ROOT/supabase/pending/20261023155335_nocturne_capture_review.sql"
-echo "  OK  esquema: $(ls "$ROOT"/supabase/migrations/*.sql | wc -l) migraciones + 2 RPC pendientes (CAS nómina, revisión captura)"
+load "$ROOT/supabase/pending/20261023190000_gym_save_session_cas.sql"
+echo "  OK  esquema: $(ls "$ROOT"/supabase/migrations/*.sql | wc -l) migraciones + 3 RPC pendientes (CAS nómina, revisión captura, sesión Gym)"
 
 U=22222222-2222-4222-8222-222222222222; ID=33333333-3333-4333-8333-333333333333; CAP=77777777-7777-4777-8777-777777777777
 q "insert into auth.users(id) values('$U')" >/dev/null
@@ -56,7 +58,7 @@ race(){ # $1 nombre, $2 llamada A, $3 llamada B, $4 tabla/relación bloqueada pa
   wait $A || fail "$name: A falló"
   if wait $B; then fail "$name: B debía ser rechazada"; fi
   grep -q -E "changed|cambi" "$WORK/$name-b.log" || fail "$name: B rechazada por un motivo inesperado"
-  echo "  OK  $name: B esperó el lock de A y fue rechazada por versión ($(grep -o -m1 -E 'Payroll changed[^"]*|Capture changed[^"]*|versión de la tarjeta[^"]*' "$WORK/$name-b.log" | head -c 60))"
+  echo "  OK  $name: B esperó el lock de A y fue rechazada por versión ($(grep -o -m1 -E 'Payroll changed[^"]*|Capture changed[^"]*|versión de la tarjeta[^"]*|Gym session changed[^"]*' "$WORK/$name-b.log" | head -c 60))"
 }
 
 STAMP=$(q "select updated_at::text from payroll_payslips where id='$ID'")
@@ -94,12 +96,32 @@ q "begin;$AUTH $(REV $RA good);commit;" >/dev/null || fail "fsrs: reintento idem
 [ "$(q "select count(*) from hub_records where payload->>'practice'='Vocabulary FSRS'")" = 1 ] || fail "fsrs: el reintento duplicó el repaso"
 echo "  OK  fsrs: un repaso por versión, perdedor debe recargar, reintento con mismo ID idempotente, 0 XP"
 
+# Gym: dos dispositivos guardan el MISMO borrador abierto con el mismo snapshot; el segundo debe recargar.
+G=99999999-9999-4999-8999-999999999999
+EX0='[{"name":"Chest Press","sets":[{"weight":null,"reps":null,"rir":null,"completed":false}]}]'
+EXA='[{"name":"Chest Press","sets":[{"weight":60,"reps":10,"rir":2,"completed":true}]}]'
+EXB='[{"name":"Chest Press","sets":[{"weight":99,"reps":1,"rir":0,"completed":true}]}]'
+q "insert into gym_sessions(id,user_id,workout_date,day,title,cardio_target,started_at,exercises) values('$G','$U','2026-10-23',0,'Upper','',now(),'$EX0')" >/dev/null
+race gym \
+  "select gym_save_session_cas('$G','$EX0'::jsonb,'$EXA'::jsonb,false,null)" \
+  "select gym_save_session_cas('$G','$EX0'::jsonb,'$EXB'::jsonb,true,45)"
+R=$(q "select (exercises->0->'sets'->0->>'weight')||':'||coalesce(completed_at::text,'open') from gym_sessions where id='$G'")
+[ "$R" = "60:open" ] || fail "gym estado final $R (esperado 60:open, B no debe sobrescribir ni cerrar)"
+# Cerrar y volver a guardar: rechazado; otro usuario: no encontrado.
+q "begin;$AUTH select gym_save_session_cas('$G','$EXA'::jsonb,'$EXA'::jsonb,true,40);commit;" >/dev/null || fail "gym: cierre válido rechazado"
+q "begin;$AUTH select gym_save_session_cas('$G','$EXA'::jsonb,'$EXA'::jsonb,false,null);commit;" >/dev/null 2>&1 && fail "gym: guardó en sesión cerrada"
+q "begin;set local role authenticated;set local request.jwt.claim.sub='44444444-4444-4444-8444-444444444444';select gym_save_session_cas('$G','$EXA'::jsonb,'$EXA'::jsonb,false,null);commit;" >/dev/null 2>&1 && fail "gym: otra identidad pudo guardar"
+q "begin;set local role anon;select gym_save_session_cas('$G','$EXA'::jsonb,'$EXA'::jsonb,false,null);commit;" >/dev/null 2>&1 && fail "gym: anon pudo ejecutar"
+echo "  OK  gym: un solo guardado por snapshot, sesión cerrada inmutable, otra identidad y anon rechazados"
+
 # Rollbacks retiran solo las funciones y conservan todas las filas.
 BEFORE=$(q "select (select count(*) from hub_records)||':'||(select count(*) from payroll_payslips)||':'||(select count(*) from payroll_corrections)")
 load "$ROOT/supabase/pending/20261023155335_nocturne_capture_review.rollback.sql"
 load "$ROOT/supabase/pending/20261023124512_payroll_review_cas.rollback.sql"
+load "$ROOT/supabase/pending/20261023190000_gym_save_session_cas.rollback.sql"
+[ "$(q "select count(*) from gym_sessions")" = 1 ] || fail "rollback gym perdió sesiones"
 AFTER=$(q "select (select count(*) from hub_records)||':'||(select count(*) from payroll_payslips)||':'||(select count(*) from payroll_corrections)")
 [ "$BEFORE" = "$AFTER" ] || fail "rollback perdió filas $BEFORE -> $AFTER"
 [ -z "$(q "select to_regprocedure('public.nocturne_review_capture(uuid,timestamptz)')")" ] || fail "rollback captura no retiró la función"
 echo "  OK  rollbacks: funciones retiradas, filas conservadas ($AFTER)"
-echo "TEST_OK Nocturne CAS: contención real de 2 conexiones en nómina, captura y FSRS, una sola escritura, rollback sin pérdida"
+echo "TEST_OK Nocturne CAS: contención real de 2 conexiones en nómina, captura, FSRS y Gym, una sola escritura, rollback sin pérdida"
