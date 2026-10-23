@@ -5,6 +5,7 @@ import {useAuth} from "@/lib/auth/AuthProvider";
 import {PageHeader,SectionCard} from "@/components/rise/primitives";
 import {pageHead} from "@/lib/seo";
 import {loadVerifiedXP} from "@/lib/xp-overview.mjs";
+import {loadLanguageXP} from "@/lib/language-xp.mjs";
 
 export const Route=createFileRoute("/quest")({
  head:()=>pageHead("RISE Quest","Historial verificado de puntos de experiencia del sistema clásico."),
@@ -14,6 +15,8 @@ function Quest(){
  const {client,user}=useAuth(),uid=user?.id||"";
  const q=useQuery({queryKey:["quest-xp",uid],enabled:!!client&&!!uid,
   queryFn:()=>loadVerifiedXP(client!,uid),staleTime:30000,refetchOnWindowFocus:true});
+ const learning=useQuery({queryKey:["quest-language-xp",uid],enabled:!!client&&!!uid,
+  queryFn:()=>loadLanguageXP(client!,uid),staleTime:30000,refetchOnWindowFocus:true});
  return <div className="space-y-6">
   <PageHeader eyebrow="RISE HUB · EXPERIENCIA" title="Quest"
    subtitle="Tu progreso se fundamenta en eventos guardados, sin misiones completadas de demostración."/>
@@ -39,6 +42,20 @@ function Quest(){
      </li>)}</ul>}
    {!!q.data.duplicates&&<p className="mt-3 text-xs text-muted-foreground">Se omitieron {q.data.duplicates} eventos con ID de origen repetido.</p>}
   </SectionCard>}
+  <SectionCard eyebrow="SELFLEARN · NO SUMADO" title="XP de idiomas verificado" accent="var(--learn)">
+   <p className="text-sm text-platinum/80">XP documentado de lecciones de idiomas, separado del total global para evitar duplicados.</p>
+   {learning.isLoading&&<p role="status" className="mt-3 text-sm">Comprobando lecciones acreditadas…</p>}
+   {learning.error&&<p role="alert" className="mt-3 text-sm text-gym">No se pudo comprobar el historial de idiomas.</p>}
+   {learning.data&&<div className="mt-3 space-y-2">
+    <p className="font-display text-3xl text-gold-gradient">{learning.data.points} XP</p>
+    <p className="text-xs text-muted-foreground">{learning.data.lessonCount} lecciones únicas con evento persistido
+     {learning.data.duplicates>0?" · "+learning.data.duplicates+" duplicados omitidos":""}</p>
+    <ul className="divide-y divide-hairline">{learning.data.events.slice(0,12).map(e=><li key={e.id} className="flex justify-between gap-3 py-2 text-xs">
+     <span>{e.course==="nl"?"Neerlandés":"Inglés"} · {e.lesson} · {e.date.slice(0,10)}</span>
+     <strong>+{e.xp} XP</strong>
+    </li>)}</ul>
+   </div>}
+  </SectionCard>
   <SectionCard eyebrow="Continúa avanzando" title="Áreas de desarrollo" accent="var(--projects)">
    <div className="flex flex-wrap gap-2">
     <Link to="/aprender" className="btn-ghost inline-flex min-h-11 items-center"><BookOpen className="h-4 w-4"/> Idiomas</Link>
