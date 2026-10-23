@@ -5,7 +5,7 @@ import aresSourcesHandler from "../server/ares-sources.mjs";
 // @ts-expect-error Server-only legacy tutor handler with its original JWT and quota checks.
 import tutorHandler from "../server/selflearn-tutor.mjs";
 // @ts-expect-error Reused server-only PDF handler with JWT verification and private Storage.
-import payrollUploadHandler from "../../../api/payroll-upload.js";
+import payrollUploadHandler from "../server/payroll-upload.mjs";
 // @ts-expect-error Shared metadata handler is plain JavaScript, server-side only.
 import deploymentInfoHandler from "../api/deployment-info.js";
 import {serveNodeHandler} from "./lib/server/node-handler.mjs";

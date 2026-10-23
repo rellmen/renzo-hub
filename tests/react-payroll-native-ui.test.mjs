@@ -6,7 +6,7 @@ import {execFileSync} from "node:child_process";
 import {fileURLToPath} from "node:url";
 import {dirname,join,resolve} from "node:path";
 import payrollHandler from "../apps/rise-react/api/payroll-upload.js";
-import classicHandler from "../api/payroll-upload.js";
+import localHandler from "../apps/rise-react/server/payroll-upload.mjs";
 import {parseSdWorx as classicParse} from "../payroll-pdf.js";
 import {parseSdWorx as reactParse} from "../apps/rise-react/src/lib/payroll-pdf-parser.mjs";
 const root=resolve(dirname(fileURLToPath(import.meta.url)),"..");
@@ -15,10 +15,13 @@ const rows=JSON.parse(src("tests/fixtures/nomina-sdworx-ficticia.rows.json"));
 const hash=b=>createHash("sha256").update(b).digest("hex");
 
 test("Payroll endpoint reuses classic private JWT/storage/review handler",()=>{
- assert.strictEqual(payrollHandler,classicHandler);
+ assert.strictEqual(payrollHandler,localHandler);
+ const legacy=src("api/payroll-upload.js").trim();
+ const react=src("apps/rise-react/server/payroll-upload.mjs").replace(/^\/\/ Local server-only copy[^\n]*\n\/\/ Same audited validation[^\n]*\n/,"").trim();
+ assert.equal(react,legacy,"Vercel handler must remain equivalent to Classic");
  const api=src("apps/rise-react/api/payroll-upload.js");
  const server=src("apps/rise-react/src/server.ts");
- assert.match(api,/\.\.\/\.\.\/\.\.\/api\/payroll-upload\.js/);
+ assert.match(api,/\.\.\/server\/payroll-upload\.mjs/);
  assert.match(server,/serveNodeHandler\(request,payrollUploadHandler,\{maxBodyBytes:/);
  assert.match(server,/\/api\/payroll-upload/);
 });
