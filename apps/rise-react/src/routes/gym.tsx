@@ -11,6 +11,7 @@ import {fmt,useCountdown} from "@/components/rise/FocusTimer";
 import {useAuth} from "@/lib/auth/AuthProvider";
 import {loadGymRecords,workoutVolume,workoutSetCount,type GymSet} from "@/lib/gym-records.mjs";
 import {startGymDraft,saveGymDraft,type GymDraftSet} from "@/lib/gym-session-actions.mjs";
+import {GymProgressPhotos} from "@/components/rise/GymProgressPhotos";
 import {bestE1rm,isRecord,lastSets,sessionSummary,suggestSets} from "@/lib/legacy-gym/progression.js";
 
 export const Route=createFileRoute("/gym")({
@@ -234,6 +235,7 @@ function Gym(){
           </ol>
         </SectionCard>
       </div>
+      <GymProgressPhotos/>
     </>}
   </div>;
 }
