@@ -11,6 +11,7 @@ const PRODUCTION_HOSTS=new Set([
   "rise-hub-classic-renzojesus99-1996.vercel.app"
 ]);
 const STAGING_HOSTS=new Set([
+  "rise-hub-nocturne-qa.vercel.app",
   "renzo-hub-2-1-staging.vercel.app",
   "renzo-hub-2-1-staging-renzojesus99-1996.vercel.app",
   "renzo-hub-2-1-staging-git-staging-renzojesus99-1996.vercel.app"
@@ -25,7 +26,7 @@ export function verifyNocturneBackendIsolation(config,{hostname="",releaseTarget
  const fromHost=backendEnvironmentForHost(hostname);
  if(releaseTarget&&releaseTarget!=="production"&&releaseTarget!=="staging"&&releaseTarget!=="preview")
    throw Error("Entorno Nocturne desconocido.");
- const explicit=releaseTarget==="preview"?null:releaseTarget||null;
+ const explicit=releaseTarget==="preview"?"staging":releaseTarget||null;
  if(explicit&&fromHost&&explicit!==fromHost)
    throw Error("El dominio y el entorno de Nocturne no coinciden. Acceso suspendido.");
  const target=explicit||fromHost;
@@ -41,5 +42,6 @@ export function verifyNocturneBackendIsolation(config,{hostname="",releaseTarget
  */
 export function officialSelfLearnAwardsEnabled(flag,{hostname="",releaseTarget="",backendReady=false}={}){
  if(releaseTarget==="production"||backendEnvironmentForHost(hostname)==="production")return flag===true&&backendReady===true;
- return flag===true&&releaseTarget!=="production"&&backendEnvironmentForHost(hostname)==="staging";
+ if(releaseTarget==="preview")return flag===true&&backendReady===true;
+ return flag===true&&backendEnvironmentForHost(hostname)==="staging";
 }

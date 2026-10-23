@@ -23,8 +23,9 @@ test("Production SelfLearn award flag fails closed until backend capability is v
   assert.equal(officialSelfLearnAwardsEnabled(true,{hostname:"renzo-hub.vercel.app",releaseTarget:"production",backendReady:false}),false);
   assert.equal(officialSelfLearnAwardsEnabled(false,{hostname:"renzo-hub.vercel.app",releaseTarget:"production",backendReady:true}),false);
   assert.equal(officialSelfLearnAwardsEnabled(true,{hostname:"renzo-hub.vercel.app",releaseTarget:"production",backendReady:true}),true);
-  assert.equal(officialSelfLearnAwardsEnabled(true,{hostname:"rise-hub-nocturne-qa.vercel.app",releaseTarget:"preview",backendReady:true}),false);
-  assert.equal(backendEnvironmentForHost("rise-hub-nocturne-qa.vercel.app"),null);
+  assert.equal(officialSelfLearnAwardsEnabled(true,{hostname:"rise-hub-nocturne-qa.vercel.app",releaseTarget:"preview",backendReady:true}),true);
+  assert.equal(officialSelfLearnAwardsEnabled(true,{hostname:"rise-hub-nocturne-qa.vercel.app",releaseTarget:"preview",backendReady:false}),false);
+  assert.equal(backendEnvironmentForHost("rise-hub-nocturne-qa.vercel.app"),"staging");
 });
 
 test("Mobile More indicates all grouped finance and wellness routes as active",()=>{

@@ -37,6 +37,19 @@ test('Explicit release target protects unique Vercel candidate URLs before alias
  assert.throws(()=>verify(stage,'renzo-hub.vercel.app','staging'),/dominio/);
  assert.throws(()=>verify(stage,candidate,'unknown'),/desconocido/);
 });
+test('Nocturne previews require staging DB isolation and verified backend before awarding XP',()=>{
+ const alias='rise-hub-nocturne-qa.vercel.app';
+ const versioned='rise-hub-nocturne-4g3k2-renzojesus99-1996.vercel.app';
+ assert.equal(backendEnvironmentForHost(alias),'staging');
+ for(const host of [alias,versioned]){
+  assert.equal(verify(stage,host,'preview'),stage);
+  assert.throws(()=>verify(prod,host,'preview'),/bloqueado/);
+  assert.equal(officialSelfLearnAwardsEnabled(true,{hostname:host,releaseTarget:'preview',backendReady:false}),false);
+  assert.equal(officialSelfLearnAwardsEnabled(true,{hostname:host,releaseTarget:'preview',backendReady:true}),true);
+  assert.equal(officialSelfLearnAwardsEnabled(false,{hostname:host,releaseTarget:'preview',backendReady:true}),false);
+ }
+ assert.throws(()=>verify(stage,'renzo-hub.vercel.app','preview'),/dominio/);
+});
 test('Legacy fallback is immutable independent URL, not the primary production alias',()=>{
  const backup=new URL(LEGACY_FALLBACK_URL);
  assert.equal(backup.protocol,'https:');
