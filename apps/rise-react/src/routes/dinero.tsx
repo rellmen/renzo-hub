@@ -12,6 +12,7 @@ import {WeeklyBudgetEditor} from "@/components/rise/WeeklyBudgetEditor";
 import {loadPayrollOverview} from "@/lib/payroll-overview.mjs";
 import {BankStatementImport} from "@/components/rise/BankStatementImport";
 import {AssetValuationEditor} from "@/components/rise/AssetValuationEditor";
+import {FinancialGoals} from "@/components/rise/FinancialGoals";
 import {FinanceSections} from "@/components/rise/FinanceSections";
 
 export const Route=createFileRoute("/dinero")({
@@ -144,17 +145,10 @@ function Money(){
           </dl>
           <p className="mt-3 text-xs text-muted-foreground">No incluye automáticamente deuda, patrimonio ni cuentas que no hayas registrado.</p>
         </SectionCard>
-        <SectionCard eyebrow="Objetivos registrados" title="Metas financieras" accent="var(--gold)">
-          {data.goals.length?<ul className="space-y-3">
-            {data.goals.map(goal=><li key={goal.id} className="rounded-xl border border-hairline bg-raised p-4">
-              <p className="font-medium">{goal.title}</p><p className="mt-1 text-xs text-muted-foreground">Tipo: {goal.type||"No identificado"} · Progreso pendiente de cálculo verificado</p>
-            </li>)}
-          </ul>:<EmptyState icon={<PiggyBank className="h-5 w-5"/>} title="Sin objetivos financieros registrados"
-              text="Los objetivos aparecerán cuando los guardes en RISE HUB."/>}
-        </SectionCard>
+        <FinancialGoals data={data}/>
       </div>
       <p className="flex items-start gap-2 text-xs text-muted-foreground">
-        <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0"/> El resumen utiliza transacciones verificadas. <Link to="/gastos" className="text-gold underline">Editar categorías de gastos en React</Link>. La importación bancaria y algunas funciones avanzadas siguen pendientes.
+        <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0"/> El resumen utiliza transacciones bancarias importadas. <Link to="/gastos" className="text-gold underline">Editar categorías de gastos</Link>. Las importaciones se revisan y confirman manualmente.
       </p>
     </>}
     <AssetValuationEditor/>
