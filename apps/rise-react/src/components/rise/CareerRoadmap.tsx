@@ -3,7 +3,7 @@ import {useMutation,useQuery,useQueryClient} from "@tanstack/react-query";
 import {BookOpen,CalendarDays,CheckCircle2,ChevronLeft,ChevronRight,Clock3,Flag,LockKeyhole,RefreshCw,ShieldCheck,Target} from "lucide-react";
 import {useAuth} from "@/lib/auth/AuthProvider";
 import {SectionCard} from "@/components/rise/primitives";
-import {CHAPTERS,FUTURE_STAGES,PATH_VERSION,localDate,pathMetrics,loadPathProgress,setPathTask,tasksForWeek,weekForDate,weekStart,type PathMission,type PathRow} from "@/lib/career-path.mjs";
+import {BOSSES,CHAPTERS,FUTURE_STAGES,PATH_VERSION,localDate,pathMetrics,loadPathProgress,setPathTask,tasksForWeek,weekForDate,weekStart,type PathMission,type PathRow} from "@/lib/career-path.mjs";
 
 function readableDate(day:string){
  return new Date(day+"T12:00:00Z").toLocaleDateString("es-ES",{timeZone:"UTC",weekday:"long",day:"numeric",month:"short"});
@@ -50,7 +50,7 @@ export function CareerRoadmap(){
    <div className="min-w-0 flex-1">
     <div className="flex flex-wrap items-start justify-between gap-x-3 gap-y-1">
      <span className={"text-sm font-medium "+(done?"text-gold":"text-foreground")}>{task.subject} · {task.title}</span>
-     <span className="inline-flex shrink-0 items-center gap-1 text-xs text-muted-foreground"><Clock3 className="h-3.5 w-3.5"/>{task.minutes} min</span>
+     {task.minutes>0&&<span className="inline-flex shrink-0 items-center gap-1 text-xs text-muted-foreground"><Clock3 className="h-3.5 w-3.5"/>{task.minutes} min</span>}
     </div>
     <p className="mt-1 text-xs text-muted-foreground">{task.detail}</p>
     {future&&<span className="mt-1 inline-flex items-center gap-1 text-[11px] text-muted-foreground"><LockKeyhole className="h-3 w-3"/>Disponible ese día</span>}
@@ -137,6 +137,11 @@ export function CareerRoadmap(){
     <p className="mt-3 text-xs text-muted-foreground">Las misiones duplicadas en «hoy» y en la semana representan una sola tarea; ambas leen el mismo registro. Puedes desmarcar una misión y el progreso se recalcula.</p>
     <button type="button" className="btn-ghost mt-3 min-h-10" disabled={q.isFetching} onClick={()=>void q.refetch()}><RefreshCw className={"h-4 w-4 "+(q.isFetching?"animate-spin":"")}/>Sincronizar progreso</button>
    </>}
+  </SectionCard>
+
+  <SectionCard eyebrow="BOSS LEVELS · EXÁMENES OFICIALES" title="Dos hitos que debes superar" accent="var(--gold)">
+   <p className="text-xs text-muted-foreground">Estas misiones se marcan solo después de realizar realmente los exámenes. No significan que hayas aprobado.</p>
+   <ul className="mt-3 divide-y divide-hairline">{BOSSES.map(renderTask)}</ul>
   </SectionCard>
 
   <SectionCard eyebrow="SIGUIENTE NIVEL · 2026–2032" title="Camino profesional completo" accent="var(--projects)">
