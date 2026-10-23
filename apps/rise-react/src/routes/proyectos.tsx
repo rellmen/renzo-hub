@@ -9,6 +9,7 @@ import {SectionCard} from "@/components/rise/primitives";
 import {ProgressRing} from "@/components/rise/ProgressRing";
 import {Dialog,DialogContent,DialogDescription,DialogHeader,DialogTitle} from "@/components/ui/dialog";
 import {useAuth} from "@/lib/auth/AuthProvider";
+import {WorkPlanning} from "@/components/rise/WorkPlanning";
 import {
   WORK_STATUSES,WORK_PRIORITIES,loadWorkRecords,createWorkTask,
   updateWorkTaskStatus,statusColumn,columnTargetStatus,
@@ -150,7 +151,8 @@ function Projects(){
     <Dialog open={createOpen} onOpenChange={setCreateOpen}>
       <DialogContent className="border-hairline bg-raised">
         <DialogHeader><DialogTitle className="font-display text-3xl">Nueva tarea</DialogTitle>
-          <DialogDescription>Se guardará en tus tareas reales de RISE HUB.</DialogDescription></DialogHeader>
+          {records.data&&<WorkPlanning projects={projects}/>}
+    <DialogDescription>Se guardará en tus tareas reales de RISE HUB.</DialogDescription></DialogHeader>
         <form onSubmit={submit} className="space-y-4">
           <label className="block space-y-2 text-sm">Título
             <input required maxLength={180} autoFocus value={form.title}
