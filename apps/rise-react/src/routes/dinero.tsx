@@ -13,6 +13,7 @@ import {loadPayrollOverview} from "@/lib/payroll-overview.mjs";
 import {BankStatementImport} from "@/components/rise/BankStatementImport";
 import {AssetValuationEditor} from "@/components/rise/AssetValuationEditor";
 import {FinancialGoals} from "@/components/rise/FinancialGoals";
+import {SalaryReconciliation} from "@/components/rise/SalaryReconciliation";
 import {FinanceSections} from "@/components/rise/FinanceSections";
 
 export const Route=createFileRoute("/dinero")({
@@ -77,6 +78,7 @@ function Money(){
         </div>}
         <p className="mt-3 text-xs text-muted-foreground">El salario documentado no se suma a los movimientos bancarios: evita contabilizar dos veces el mismo ingreso.</p>
       </SectionCard>
+      {payroll.data&&month&&<SalaryReconciliation moneyData={data} payrollData={payroll.data} month={month}/>}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <p className="flex items-center gap-2 text-xs text-muted-foreground">
           <ShieldCheck className="h-4 w-4 text-money"/> Origen: extractos y registros privados de RISE HUB
