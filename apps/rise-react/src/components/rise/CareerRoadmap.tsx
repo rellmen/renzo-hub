@@ -64,20 +64,20 @@ export function CareerRoadmap(){
    <div className="mt-4 grid gap-3 sm:grid-cols-3">
     <div className="rounded-xl border border-hairline bg-obsidian/40 p-4">
      <p className="text-xs text-muted-foreground">Misiones confirmadas</p>
-     <strong className="mt-1 block font-display text-2xl text-foreground">{stats.done} <span className="text-sm text-muted-foreground">/ {stats.total}</span></strong>
+     <strong className="mt-1 block font-display text-2xl text-foreground">{q.data?stats.done:"—"} <span className="text-sm text-muted-foreground">/ {stats.total}</span></strong>
     </div>
     <div className="rounded-xl border border-hairline bg-obsidian/40 p-4">
      <p className="text-xs text-muted-foreground">Semanas completadas</p>
-     <strong className="mt-1 block font-display text-2xl text-foreground">{stats.completeWeeks} <span className="text-sm text-muted-foreground">/ 24</span></strong>
+     <strong className="mt-1 block font-display text-2xl text-foreground">{q.data?stats.completeWeeks:"—"} <span className="text-sm text-muted-foreground">/ 24</span></strong>
     </div>
     <div className="rounded-xl border border-hairline bg-obsidian/40 p-4">
      <p className="text-xs text-muted-foreground">Progreso de preparación</p>
-     <strong className="mt-1 block font-display text-2xl text-gold">{stats.percent}%</strong>
+     <strong className="mt-1 block font-display text-2xl text-gold">{q.data?stats.percent+"%":"—"}</strong>
     </div>
    </div>
-   <div className="mt-4 h-2 overflow-hidden rounded-full bg-foreground/10" role="progressbar" aria-label="Progreso de la preparación UOC" aria-valuenow={stats.percent} aria-valuemin={0} aria-valuemax={100}>
+   {q.data&&<div className="mt-4 h-2 overflow-hidden rounded-full bg-foreground/10" role="progressbar" aria-label="Progreso de la preparación UOC" aria-valuenow={stats.percent} aria-valuemin={0} aria-valuemax={100}>
     <div className="h-full rounded-full bg-gold transition-[width]" style={{width:stats.percent+"%"}}/>
-   </div>
+   </div>}
    <p className="mt-3 flex items-start gap-2 text-xs text-muted-foreground"><ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-gold"/>Progreso basado únicamente en casillas guardadas; no se inventan cursos aprobados, XP de Quest ni resultados de exámenes. Sin conexión entre datos de Nodalys y RISE HUB.</p>
   </SectionCard>
 
