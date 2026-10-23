@@ -67,6 +67,49 @@ for(const [label,engine,opts] of [
   await page.getByRole('heading',{name:'Tu espacio privado.'}).waitFor({state:'hidden',timeout:20000});
   await page.getByRole('heading',{level:1}).first().waitFor({timeout:20000});
 
+  // Production navigation adapter: all data remains intercepted and synthetic.
+  const openLauncher=async()=>{
+    await page.getByRole('button',{name:'Buscar apps…',exact:false}).click();
+    await page.getByRole('dialog').waitFor();
+  };
+  await openLauncher();
+  const dialog=page.getByRole('dialog');
+  await dialog.getByRole('searchbox',{name:'Buscar apps'}).fill('NOMINA');
+  await dialog.getByRole('link').filter({hasText:'Nóminas'}).click();
+  await page.waitForURL('**/nominas');
+  await openLauncher();
+  await dialog.getByRole('searchbox',{name:'Buscar apps'}).fill('Car');
+  const car=dialog.locator('a[href$="?app=car"]');
+  assert.match(await car.getAttribute('href'),/^https:\/\/rise-hub-classic-renzojesus99-1996.vercel.app\/\?app=car$/);
+  await page.keyboard.press('Escape');
+  await page.getByRole('dialog').waitFor({state:'hidden'});
+  await page.keyboard.press('Control+k');
+  await dialog.waitFor();
+  await dialog.getByRole('searchbox',{name:'Buscar apps'}).fill('Notas');
+  await dialog.getByRole('button',{name:'Añadir Notas a favoritos'}).click();
+  await dialog.getByRole('searchbox',{name:'Buscar apps'}).fill('');
+  await dialog.getByLabel('Atajo del dock').selectOption('notas');
+  await page.keyboard.press('Escape');
+  await page.reload({waitUntil:'domcontentloaded'});
+  await openLauncher();
+  await dialog.getByRole('button',{name:'Quitar Notas de favoritos'}).waitFor();
+  assert.equal(await dialog.getByLabel('Atajo del dock').inputValue(),'notas');
+  await page.keyboard.press('Escape');
+  if(label.includes('WebKit')){
+    for(const width of [360,390,430]){
+      await page.setViewportSize({width,height:844});
+      const dock=page.getByRole('navigation',{name:'Navegación inferior'});
+      await dock.getByRole('button',{name:'Apps: abrir lanzador'}).click();
+      await dialog.waitFor();
+      assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth), 'mobile horizontal overflow');
+      const bounds=await dialog.boundingBox();assert.ok(bounds && bounds.width<=width);
+      await dialog.getByRole('searchbox',{name:'Buscar apps'}).fill('quests');
+      await dialog.getByRole('link').filter({hasText:'Quests'}).click();
+      await page.waitForURL('**/quest');
+      await dock.getByRole('link',{name:'Quests',exact:true}).waitFor();
+    }
+  }
+
   for(const path of routes){
     const res=await page.goto(new URL(path,origin).href,{waitUntil:'domcontentloaded'});
     assert.equal(res?.status(),200,label+' '+path+' HTTP failure');

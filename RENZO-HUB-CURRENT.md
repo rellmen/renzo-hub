@@ -797,3 +797,8 @@ Worktree: `/Users/Nodalys/Renzo HUB/payroll-2.8`, creado desde `main` en `7c110e
 
 - En `2.29.1` el array `CORE` de `sw.js` repetía `/microapps/payroll/shifts.js`: `Cache.addAll` rechaza con `InvalidStateError` las peticiones duplicadas y deja al navegador controlado por el Service Worker antiguo, que oculta Turnos aunque los recursos nuevos estén desplegados. Reproducido con Chromium Cache API y observado en Safari staging.
 - La versión `2.29.2` elimina el recurso duplicado y cambia la caché a `v14`; test automatizado de unicidad y activación real del SW. Hotfix limitado a staging. El cierre de fase 1 y la migración a producción siguen pendientes.
+
+
+## 2026-10-23 — navegación Nocturne autorizada para producción
+
+Rama feature/nocturne-navigation-launcher: adaptación de Lovable a rutas reales con Quest, lanzador, favoritos y atajo móvil. Sin datos demo, cambios de base de datos ni inclusión de PR #150. Véase docs/NOCTURNE-NAVIGATION-RELEASE.md y la PR de navegación para evidencias de publicación. Classic queda como respaldo sin modificar su versión ni su service worker.
