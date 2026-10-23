@@ -20,6 +20,6 @@ test("Reconciliation UI is read-only and uses latest verified import coverage",(
  const money=readFileSync(new URL("../apps/rise-react/src/routes/dinero.tsx",import.meta.url),"utf8");
  const comp=readFileSync(new URL("../apps/rise-react/src/components/rise/SalaryReconciliation.tsx",import.meta.url),"utf8");
  assert.match(money,/<SalaryReconciliation moneyData=\{data\}/);
- assert.match(comp,/lastImport:moneyData\.bankUpdatedThrough\.ING/);
+ assert.match(comp,/lastImport:moneyData\.bankUpdatedThrough\["ING"\]/);
  assert.doesNotMatch(comp,/\.insert\(|\.update\(|\.delete\(/);
 });
