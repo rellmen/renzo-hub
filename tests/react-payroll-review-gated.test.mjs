@@ -25,7 +25,7 @@ test("Review RPC checks owner and fresh pending version; does not use service ro
 });
 test("Nocturne review is gated off by default and does not replace Classic without QA",()=>{
  const c=readFileSync(new URL("../apps/rise-react/src/components/rise/PayrollReview.tsx",import.meta.url),"utf8");
- assert.match(c,/VITE_PAYROLL_REVIEW_ENABLED==="true"/);
+ assert.match(c,/VITE_PAYROLL_REVIEW_ENABLED"\]==="true"/);
  assert.match(c,/!enabled/);
  assert.match(c,/applyPayrollReview\(client,uid,row/);
 });

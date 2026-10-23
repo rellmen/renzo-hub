@@ -3,7 +3,7 @@ import {useMutation,useQueryClient} from "@tanstack/react-query";
 import {useAuth} from "@/lib/auth/AuthProvider";
 import {PAYROLL_REVIEW_FIELDS,payrollReviewChanges,applyPayrollReview} from "@/lib/payroll-review.mjs";
 import type {PayrollRow} from "@/lib/payroll-overview.mjs";
-const enabled=import.meta.env.VITE_PAYROLL_REVIEW_ENABLED==="true";
+const enabled=import.meta.env["VITE_PAYROLL_REVIEW_ENABLED"]==="true";
 const keys=Object.keys(PAYROLL_REVIEW_FIELDS);
 export function PayrollReview({row}:{row:PayrollRow}){
  const {client,user}=useAuth(),uid=user?.id||"";
