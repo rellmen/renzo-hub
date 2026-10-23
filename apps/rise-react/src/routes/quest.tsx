@@ -1,11 +1,12 @@
 import {createFileRoute,Link} from "@tanstack/react-router";
 import {useQuery} from "@tanstack/react-query";
-import {RefreshCw,ShieldCheck,BookOpen,Briefcase,Dumbbell} from "lucide-react";
+import {RefreshCw,ShieldCheck,BookOpen,Briefcase,Dumbbell,CheckCircle2,Circle} from "lucide-react";
 import {useAuth} from "@/lib/auth/AuthProvider";
 import {PageHeader,SectionCard} from "@/components/rise/primitives";
 import {pageHead} from "@/lib/seo";
 import {loadVerifiedXP} from "@/lib/xp-overview.mjs";
 import {loadLanguageXP} from "@/lib/language-xp.mjs";
+import {loadDailyQuests} from "@/lib/quest-missions.mjs";
 
 export const Route=createFileRoute("/quest")({
  head:()=>pageHead("RISE Quest","Historial verificado de puntos de experiencia del sistema clásico."),
@@ -17,6 +18,8 @@ function Quest(){
   queryFn:()=>loadVerifiedXP(client!,uid),staleTime:30000,refetchOnWindowFocus:true});
  const learning=useQuery({queryKey:["quest-language-xp",uid],enabled:!!client&&!!uid,
   queryFn:()=>loadLanguageXP(client!,uid),staleTime:30000,refetchOnWindowFocus:true});
+ const daily=useQuery({queryKey:["quest-daily",uid],enabled:!!client&&!!uid,
+  queryFn:()=>loadDailyQuests(client!,uid),staleTime:30000,refetchOnWindowFocus:true});
  return <div className="space-y-6">
   <PageHeader eyebrow="RISE HUB · EXPERIENCIA" title="Quest"
    subtitle="Tu progreso se fundamenta en eventos guardados, sin misiones completadas de demostración."/>
@@ -32,6 +35,19 @@ function Quest(){
    </div>}
    <button type="button" className="btn-ghost mt-3 min-h-11" disabled={q.isFetching} onClick={()=>void q.refetch()}>
     <RefreshCw className={"h-4 w-4 "+(q.isFetching?"animate-spin":"")}/> Actualizar</button>
+  </SectionCard>
+  <SectionCard eyebrow="Daily Quests" title={daily.data?`${daily.data.today.done}/${daily.data.today.total} hoy`:"Comprobando…"} accent="var(--projects)">
+   <p className="text-sm text-platinum/75">Misiones del sistema clásico, cumplidas solo con actividad registrada en esta cuenta hoy. No suman XP automáticamente.</p>
+   {daily.error&&<p role="alert" className="mt-3 text-sm text-gym">No se pudo comprobar la actividad de hoy.</p>}
+   {daily.data&&<>
+    <ul className="mt-3 divide-y divide-hairline">{daily.data.today.items.map(item=><li key={item.id} className="flex items-center justify-between gap-3 py-3 text-sm">
+     <span className="flex items-center gap-2">{item.done?<CheckCircle2 className="h-4 w-4 text-gold" aria-hidden/>:<Circle className="h-4 w-4 text-muted-foreground" aria-hidden/>}{item.title}</span>
+     {item.done?<span className="text-xs text-gold">Registrado</span>:<Link to={item.route} className="text-xs text-gold underline">Ir</Link>}
+    </li>)}</ul>
+    <div className="mt-3 flex flex-wrap gap-1.5" aria-label="Últimos 7 días">{daily.data.week.map(d=><span key={d.day} title={d.day+": "+d.done+"/"+d.total}
+     className={"rounded-md border border-hairline px-2 py-1 text-[11px] "+(d.done===d.total?"bg-gold/20 text-gold":"text-muted-foreground")}>{d.day.slice(8)} · {d.done}/{d.total}</span>)}</div>
+    <p className="mt-2 text-xs text-muted-foreground">Racha de días completos: {daily.data.streak}.</p>
+   </>}
   </SectionCard>
   {q.error&&<p role="alert" className="rounded-xl border border-gym/40 p-4 text-sm text-gym">No fue posible validar el historial XP.</p>}
   {q.data&&<SectionCard eyebrow="Actividad" title="Eventos registrados" accent="var(--learn)">
