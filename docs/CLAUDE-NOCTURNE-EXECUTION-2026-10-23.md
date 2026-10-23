@@ -61,6 +61,24 @@ Estados: `DONE+VERIFIED` · `IMPLEMENTED/QA PENDING` · `BLOCKED` · `NOT IMPLEM
 
 **GO** para seguir probando en staging: el código compila, los tests pasan y cada escritura nueva está protegida por propietario + versión.
 
+## Producción · 24 octubre 2026 (autorizado por Renzo)
+
+Renzo probó staging y autorizó el paso a producción ("autorizo para que vaya a produccion"). Entregó una copia de Classic que se verificó (formato `renzo-hub-export` v1, 20 tablas, 35 archivos) y se guarda fuera del repositorio.
+
+- PR #150 fusionado en `staging` → `c5d70c3` (CI verde: test, typecheck con mock QA, db-migrations).
+- Supabase producción `mgncykyrhavpepfggmng`, funciones nuevas:
+  - `payroll_apply_review_cas` (aplicada por Claude)
+  - `nocturne_review_capture` y `gym_save_session_cas` (pegadas por Renzo en el SQL Editor; el entorno de Claude bloqueó la escritura)
+  - Verificado: las 3 SECURITY INVOKER, `search_path` vacío, `anon` sin EXECUTE, `authenticated` con EXECUTE. Advisors: solo los 3 avisos previos.
+- Vercel `rise-hub-nocturne-qa`, deployment de producción `dpl_4tzaXocwe7zYitzuPwb7G9VGGxzq` (SHA `c5d70c3`). `renzo-hub.vercel.app` y `rise-hub-nocturne-qa.vercel.app` apuntan a él. `/api/supabase-config` → `mgnc…` (producción); 19 rutas responden 200.
+- **Rollback**: reasignar `renzo-hub.vercel.app` a `dpl_J3BmwDUXkJZHNKovmqVcNPJNFH4x` (SHA `75dd2e21`). Las funciones nuevas son aditivas y Classic no las usa; los `.rollback.sql` retiran solo cada función.
+- Staging de pruebas sigue en `renzo-hub-2-1-staging.vercel.app` (Supabase staging).
+
+Pendiente:
+- `SUPABASE_SECRET_KEY` de producción en `rise-hub-nocturne-qa` (entorno Production): sin ella `/api/payroll-upload` devuelve `configured:false`, así que la subida de nóminas no funciona en producción.
+- Leaked password protection sigue desactivada (Supabase → Auth).
+- Classic (`rise-hub`) NO se retira: periodo de observación y autorización aparte.
+
 ## Rollback
 
 Código: revertir con commits nuevos (sin force-push). Única migración aplicada (solo staging): RPC Gym; `supabase/pending/20261023190000_gym_save_session_cas.rollback.sql` retira solo la función.
