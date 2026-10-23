@@ -1,9 +1,9 @@
 import {useMutation,useQueryClient} from '@tanstack/react-query';
 import {useEffect,useState} from 'react';
+import {Link} from '@tanstack/react-router';
 import {useAuth} from '@/lib/auth/AuthProvider';
 import {reviewAresRequest} from '@/lib/ares-decisions.mjs';
 import type {AresRecord} from '@/lib/ares-records.mjs';
-import {LEGACY_FALLBACK_URL} from '@/lib/nocturne-environment.mjs';
 import {SectionCard} from './primitives';
 export function AresOperations({approvals,agents}:{approvals:AresRecord[];agents:AresRecord[]}){
  const {client,user}=useAuth();const qc=useQueryClient();
@@ -23,7 +23,7 @@ export function AresOperations({approvals,agents}:{approvals:AresRecord[];agents
      <h3 className="break-words text-sm font-medium">{row.title||'Solicitud sin título'}</h3>
      <p className="mt-2 whitespace-pre-wrap break-words text-sm text-muted-foreground">{String(row.payload?.['details']||row.payload?.['note']||'Sin detalles')}</p>
      <p className="mt-2 text-xs text-muted-foreground">{row.status||'Sin estado'} · {row.occurred_at?.slice(0,10)||'Sin fecha'}</p>
-     {canReview?<div className="mt-3 flex flex-wrap gap-2">{(['approved','rejected'] as const).map(decision=><button key={decision} type="button" className="btn-ghost" disabled={mutation.isPending} onClick={()=>{mutation.reset();setChoice({row,decision});}}>{decision==='approved'?'Registrar aprobación':'Rechazar'}</button>)}</div>:<a className="mt-3 inline-block text-sm text-gold underline" href={`${LEGACY_FALLBACK_URL}?app=ares-center`} target="_blank" rel="noopener noreferrer">Revisar en Work / Ares clásico</a>}
+     {canReview?<div className="mt-3 flex flex-wrap gap-2">{(['approved','rejected'] as const).map(decision=><button key={decision} type="button" className="btn-ghost" disabled={mutation.isPending} onClick={()=>{mutation.reset();setChoice({row,decision});}}>{decision==='approved'?'Registrar aprobación':'Rechazar'}</button>)}</div>:<Link className="mt-3 inline-block text-sm text-gold underline" to="/inbox">Revisar captura en AI Inbox</Link>}
     </li>;
    })}</ul>
    {choice&&<div className="mt-4 rounded-xl border border-gold/40 p-4" role="group" aria-label="Confirmar decisión">

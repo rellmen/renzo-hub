@@ -1,4 +1,4 @@
-import { BookOpen, Briefcase, Dumbbell, Home, Settings, Sparkles, Wallet, Flower2, NotebookPen, HeartPulse, UtensilsCrossed, CalendarClock, FileSpreadsheet, DatabaseBackup, LayoutGrid, Trophy, Newspaper, Bot, Receipt } from "lucide-react";
+import { BookOpen, Briefcase, Dumbbell, Home, Settings, Sparkles, Wallet, Flower2, NotebookPen, HeartPulse, UtensilsCrossed, CalendarClock, FileSpreadsheet, DatabaseBackup, LayoutGrid, Trophy, Newspaper, Bot, Receipt, Car, Inbox } from "lucide-react";
 
 export const NAV = [
   { to: "/", label: "Centro de mando", short: "Inicio", icon: Home, accent: "var(--gold)" },
@@ -15,6 +15,8 @@ export const NAV = [
   { to: "/quest", label: "RISE Quest", short: "Quest", icon: Trophy, accent: "var(--learn)" },
   { to: "/news", label: "News", short: "News", icon: Newspaper, accent: "var(--projects)" },
   { to: "/agentes", label: "Agent Monitor", short: "Agentes", icon: Bot, accent: "var(--ares)" },
+  { to: "/inbox", label: "AI Inbox", short: "Inbox", icon: Inbox, accent: "var(--ares)" },
+  { to: "/car", label: "Car", short: "Car", icon: Car, accent: "var(--money)" },
   { to: "/apps", label: "Todas las microapps", short: "Apps", icon: LayoutGrid, accent: "var(--gold)" },
   { to: "/career", label: "Career / Data Lab", short: "Career", icon: Briefcase, accent: "var(--projects)" },
   { to: "/nominas", label: "Nóminas", short: "Nóminas", icon: FileSpreadsheet, accent: "var(--money)" },

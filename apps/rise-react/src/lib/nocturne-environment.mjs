@@ -41,7 +41,10 @@ export function verifyNocturneBackendIsolation(config,{hostname="",releaseTarget
  * An inherited staging flag alone never enables writes. RPCs remain authoritative.
  */
 export function officialSelfLearnAwardsEnabled(flag,{hostname="",releaseTarget="",backendReady=false}={}){
- if(releaseTarget==="production"||backendEnvironmentForHost(hostname)==="production")return flag===true&&backendReady===true;
- if(releaseTarget==="preview")return flag===true&&backendReady===true;
- return flag===true&&backendEnvironmentForHost(hostname)==="staging";
+ if(flag!==true||backendReady!==true)return false;
+ const hostEnvironment=backendEnvironmentForHost(hostname);
+ if(releaseTarget&&!["production","staging","preview"].includes(releaseTarget))return false;
+ const target=releaseTarget==="preview"?"staging":releaseTarget;
+ if(target&&hostEnvironment&&target!==hostEnvironment)return false;
+ return !!target||!!hostEnvironment;
 }

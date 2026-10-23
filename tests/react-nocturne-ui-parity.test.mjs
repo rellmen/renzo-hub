@@ -26,6 +26,15 @@ test("Production SelfLearn award flag fails closed until backend capability is v
   assert.equal(officialSelfLearnAwardsEnabled(true,{hostname:"rise-hub-nocturne-qa.vercel.app",releaseTarget:"preview",backendReady:true}),true);
   assert.equal(officialSelfLearnAwardsEnabled(true,{hostname:"rise-hub-nocturne-qa.vercel.app",releaseTarget:"preview",backendReady:false}),false);
   assert.equal(backendEnvironmentForHost("rise-hub-nocturne-qa.vercel.app"),"staging");
+  for(const hostname of ['rise-hub-nocturne-qa.vercel.app','renzo-hub-2-1-staging.vercel.app','renzo-hub-2-1-staging-candidate.vercel.app']){
+    for(const releaseTarget of ['', 'staging', 'preview']){
+      assert.equal(officialSelfLearnAwardsEnabled(true,{hostname,releaseTarget,backendReady:false}),false);
+      assert.equal(officialSelfLearnAwardsEnabled(true,{hostname,releaseTarget,backendReady:true}),true);
+    }
+    assert.equal(officialSelfLearnAwardsEnabled(true,{hostname,releaseTarget:'production',backendReady:true}),false);
+  }
+  assert.equal(officialSelfLearnAwardsEnabled(true,{hostname:'renzo-hub.vercel.app',releaseTarget:'preview',backendReady:true}),false);
+  assert.equal(officialSelfLearnAwardsEnabled(true,{hostname:'localhost',releaseTarget:'typo',backendReady:true}),false);
 });
 
 test("Mobile More indicates all grouped finance and wellness routes as active",()=>{

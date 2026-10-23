@@ -10,6 +10,7 @@
 | Antiguo QA | No usar para nuevas previews; también conserva alojamiento público actual, no borrar/renombrar. |
 | Reglas para Claude | `CLAUDE.md`, `AGENTS.md`, `docs/NOCTURNE-STAGING-CLASSIC-READONLY.md`; sustituyen repartos históricos. |
 | Producción | Sin cambios por esta consolidación; PR #150 sigue candidato hacia staging, no autorización de lanzamiento. |
+| Funciones nativas Work 23 oct | Car y AI Inbox (capturas/adjuntos/revisión CAS); guardia SelfLearn corregida y flags solo preview. 589 Node, 18 Vitest, build y TypeScript locales; QA real pendiente. Ver `docs/NOCTURNE-FUNCTIONAL-COMPLETION-2026-10-23.md`. |
 
 ## Reparación Nocturne Ares/SelfLearn · 22 octubre 2026 · publicado en producción con Ares habilitado
 

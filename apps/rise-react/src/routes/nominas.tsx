@@ -7,7 +7,7 @@ import {PageHeader,SectionCard} from "@/components/rise/primitives";
 import {pageHead} from "@/lib/seo";
 import {loadPayrollOverview,downloadPayrollDocument,type PayrollDocument} from "@/lib/payroll-overview.mjs";
 import {loadPayrollRecords} from "@/lib/payroll-records.mjs";
-import {LEGACY_FALLBACK_URL} from "@/lib/nocturne-environment.mjs";
+import {LEGACY_FALLBACK_URL,backendEnvironmentForHost} from "@/lib/nocturne-environment.mjs";
 import {PayrollUpload} from "@/components/rise/PayrollUpload";
 import {PayrollReview} from "@/components/rise/PayrollReview";
 import {FinanceSections} from "@/components/rise/FinanceSections";
@@ -20,6 +20,7 @@ const eur=new Intl.NumberFormat("es-ES",{style:"currency",currency:"EUR"});
 const money=(v:number|null|undefined)=>typeof v==="number"?eur.format(v):"—";
 function Payroll(){
  const {client,user}=useAuth(),uid=user?.id||"";
+ const isStaging=import.meta.env['VITE_NOCTURNE_RELEASE_TARGET']==='preview'||import.meta.env['VITE_NOCTURNE_RELEASE_TARGET']==='staging'||(typeof window!=='undefined'&&backendEnvironmentForHost(window.location.hostname)==='staging');
  const [downloading,setDownloading]=useState<string|null>(null);
  const [fileError,setFileError]=useState("");
  const query=useQuery({queryKey:["payroll-overview",uid],enabled:!!client&&!!uid,
@@ -41,7 +42,8 @@ function Payroll(){
  return <div className="space-y-6">
   <FinanceSections/>
   <PageHeader eyebrow="MY FINANCE · NÓMINAS" title="Tu historial salarial"
-    subtitle="Datos originales de Supabase. No se alteran importes, nóminas ni documentos durante esta migración."/>
+    subtitle="Documentos, conceptos e historial salarial vinculados a tu cuenta en este entorno."/>
+  {isStaging&&<p role="note" className="surface border border-gold/20 p-4 text-sm text-platinum/80">Estás en staging. Aquí solo aparecen sus nóminas de prueba; las nóminas recientes de tu cuenta habitual no se copian a este entorno.</p>}
   <PayrollUpload/>
   <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-platinum/75">
    <p><ShieldCheck className="mr-2 inline h-4 w-4 text-gold"/>Solo se muestran las nóminas vinculadas a tu sesión.</p>

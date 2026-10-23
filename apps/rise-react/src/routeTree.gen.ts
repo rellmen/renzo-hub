@@ -16,11 +16,13 @@ import { Route as AppsRouteImport } from './routes/apps'
 import { Route as AprenderRouteImport } from './routes/aprender'
 import { Route as AresRouteImport } from './routes/ares'
 import { Route as BodyRouteImport } from './routes/body'
+import { Route as CarRouteImport } from './routes/car'
 import { Route as CareerRouteImport } from './routes/career'
 import { Route as DineroRouteImport } from './routes/dinero'
 import { Route as FoodRouteImport } from './routes/food'
 import { Route as GastosRouteImport } from './routes/gastos'
 import { Route as GymRouteImport } from './routes/gym'
+import { Route as InboxRouteImport } from './routes/inbox'
 import { Route as MigracionRouteImport } from './routes/migracion'
 import { Route as NewsRouteImport } from './routes/news'
 import { Route as NominasRouteImport } from './routes/nominas'
@@ -65,6 +67,11 @@ const BodyRoute = BodyRouteImport.update({
   path: '/body',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CarRoute = CarRouteImport.update({
+  id: '/car',
+  path: '/car',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CareerRoute = CareerRouteImport.update({
   id: '/career',
   path: '/career',
@@ -88,6 +95,11 @@ const GastosRoute = GastosRouteImport.update({
 const GymRoute = GymRouteImport.update({
   id: '/gym',
   path: '/gym',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InboxRoute = InboxRouteImport.update({
+  id: '/inbox',
+  path: '/inbox',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MigracionRoute = MigracionRouteImport.update({
@@ -139,11 +151,13 @@ export interface FileRoutesByFullPath {
   '/aprender': typeof AprenderRoute
   '/ares': typeof AresRoute
   '/body': typeof BodyRoute
+  '/car': typeof CarRoute
   '/career': typeof CareerRoute
   '/dinero': typeof DineroRoute
   '/food': typeof FoodRoute
   '/gastos': typeof GastosRoute
   '/gym': typeof GymRoute
+  '/inbox': typeof InboxRoute
   '/migracion': typeof MigracionRoute
   '/news': typeof NewsRoute
   '/nominas': typeof NominasRoute
@@ -161,11 +175,13 @@ export interface FileRoutesByTo {
   '/aprender': typeof AprenderRoute
   '/ares': typeof AresRoute
   '/body': typeof BodyRoute
+  '/car': typeof CarRoute
   '/career': typeof CareerRoute
   '/dinero': typeof DineroRoute
   '/food': typeof FoodRoute
   '/gastos': typeof GastosRoute
   '/gym': typeof GymRoute
+  '/inbox': typeof InboxRoute
   '/migracion': typeof MigracionRoute
   '/news': typeof NewsRoute
   '/nominas': typeof NominasRoute
@@ -184,11 +200,13 @@ export interface FileRoutesById {
   '/aprender': typeof AprenderRoute
   '/ares': typeof AresRoute
   '/body': typeof BodyRoute
+  '/car': typeof CarRoute
   '/career': typeof CareerRoute
   '/dinero': typeof DineroRoute
   '/food': typeof FoodRoute
   '/gastos': typeof GastosRoute
   '/gym': typeof GymRoute
+  '/inbox': typeof InboxRoute
   '/migracion': typeof MigracionRoute
   '/news': typeof NewsRoute
   '/nominas': typeof NominasRoute
@@ -208,11 +226,13 @@ export interface FileRouteTypes {
     | '/aprender'
     | '/ares'
     | '/body'
+    | '/car'
     | '/career'
     | '/dinero'
     | '/food'
     | '/gastos'
     | '/gym'
+    | '/inbox'
     | '/migracion'
     | '/news'
     | '/nominas'
@@ -230,11 +250,13 @@ export interface FileRouteTypes {
     | '/aprender'
     | '/ares'
     | '/body'
+    | '/car'
     | '/career'
     | '/dinero'
     | '/food'
     | '/gastos'
     | '/gym'
+    | '/inbox'
     | '/migracion'
     | '/news'
     | '/nominas'
@@ -252,11 +274,13 @@ export interface FileRouteTypes {
     | '/aprender'
     | '/ares'
     | '/body'
+    | '/car'
     | '/career'
     | '/dinero'
     | '/food'
     | '/gastos'
     | '/gym'
+    | '/inbox'
     | '/migracion'
     | '/news'
     | '/nominas'
@@ -275,11 +299,13 @@ export interface RootRouteChildren {
   AprenderRoute: typeof AprenderRoute
   AresRoute: typeof AresRoute
   BodyRoute: typeof BodyRoute
+  CarRoute: typeof CarRoute
   CareerRoute: typeof CareerRoute
   DineroRoute: typeof DineroRoute
   FoodRoute: typeof FoodRoute
   GastosRoute: typeof GastosRoute
   GymRoute: typeof GymRoute
+  InboxRoute: typeof InboxRoute
   MigracionRoute: typeof MigracionRoute
   NewsRoute: typeof NewsRoute
   NominasRoute: typeof NominasRoute
@@ -341,6 +367,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BodyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/car': {
+      id: '/car'
+      path: '/car'
+      fullPath: '/car'
+      preLoaderRoute: typeof CarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/career': {
       id: '/career'
       path: '/career'
@@ -374,6 +407,13 @@ declare module '@tanstack/react-router' {
       path: '/gym'
       fullPath: '/gym'
       preLoaderRoute: typeof GymRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/inbox': {
+      id: '/inbox'
+      path: '/inbox'
+      fullPath: '/inbox'
+      preLoaderRoute: typeof InboxRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/migracion': {
@@ -443,11 +483,13 @@ const rootRouteChildren: RootRouteChildren = {
   AprenderRoute: AprenderRoute,
   AresRoute: AresRoute,
   BodyRoute: BodyRoute,
+  CarRoute: CarRoute,
   CareerRoute: CareerRoute,
   DineroRoute: DineroRoute,
   FoodRoute: FoodRoute,
   GastosRoute: GastosRoute,
   GymRoute: GymRoute,
+  InboxRoute: InboxRoute,
   MigracionRoute: MigracionRoute,
   NewsRoute: NewsRoute,
   NominasRoute: NominasRoute,
