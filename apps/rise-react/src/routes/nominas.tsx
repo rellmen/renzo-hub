@@ -71,6 +71,27 @@ function Payroll(){
        {(p.unresolved>0||p.failedValidations>0)&&<p className="text-xs text-gym">
         <AlertTriangle className="mr-1 inline h-3 w-3"/>{p.unresolved} anomalías pendientes · {p.failedValidations} reglas fallidas
        </p>}
+
+       <details className="mt-3 rounded-xl border border-hairline bg-raised p-3 text-xs">
+        <summary className="cursor-pointer font-medium text-gold">Desglose y auditoría · {p.lineItems.length} conceptos</summary>
+        <div className="mt-3 space-y-3">
+         {p.lineItems.length?<ul className="divide-y divide-hairline">{p.lineItems.map(i=><li key={i.id} className="flex items-center justify-between gap-3 py-2">
+          <span className="min-w-0 break-words">{i.label_original||i.code||"Concepto sin etiqueta"}</span>
+          <strong className="whitespace-nowrap tabular-nums">{money(i.amount)}</strong>
+         </li>)}</ul>:<p className="text-muted-foreground">No hay conceptos normalizados registrados para esta nómina.</p>}
+         {p.validations.length>0&&<div><p className="mb-1 font-medium">Validaciones ({p.validations.length})</p>
+          <ul className="space-y-1">{p.validations.map(v=><li key={v.id} className={v.passed?"text-platinum/75":"text-gym"}>
+           {v.passed?"Correcta":"Revisar"} · {v.rule_code||"Regla sin código"}
+          </li>)}</ul>
+         </div>}
+         {p.anomalies.length>0&&<div><p className="mb-1 font-medium">Anomalías ({p.anomalies.length})</p>
+          <ul className="space-y-1">{p.anomalies.map(a=><li key={a.id} className="text-platinum/75">
+           {a.anomaly_type||"Anomalía"} · {a.status||"Sin estado"}
+          </li>)}</ul>
+         </div>}
+         <p className="text-muted-foreground">Datos originales de revisión, sin modificar ni aprobar automáticamente.</p>
+        </div>
+       </details>
       </div>
       {p.document?.storage_path_archive||p.document?.storage_path_raw?
        <button type="button" className="btn-ghost min-h-11" disabled={!!downloading}
