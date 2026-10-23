@@ -1,6 +1,7 @@
 import {createFileRoute} from "@tanstack/react-router";
 import {useMutation,useQuery,useQueryClient} from "@tanstack/react-query";
 import {useEffect,useState} from "react";
+import {SkinCompatibility,SkinHistoryAndPhotos} from "@/components/rise/SkinExtras";
 import {Check,Moon,Sun,ShieldCheck,RefreshCcw} from "lucide-react";
 import img from "@/assets/skin.jpg";
 import {pageHead} from "@/lib/seo";
@@ -151,6 +152,8 @@ function Skin(){
         {inventoryEdit.isPending&&<p role="status" className="mt-3 text-sm text-muted-foreground">Guardando inventario en Supabase…</p>}
         <p className="mt-3 text-xs text-muted-foreground">Cambios privados guardados en los ajustes originales de RISE HUB. Si otro dispositivo editó el inventario, actualiza antes de reintentar.</p>
       </SectionCard>
+      <SkinCompatibility inventory={state.data.inventory as Record<string,string>} barrierFirst={state.data.barrierFirst}/>
+      <SkinHistoryAndPhotos/>
     </>}
   </div>;
 }
