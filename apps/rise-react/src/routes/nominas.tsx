@@ -9,6 +9,7 @@ import {loadPayrollOverview,downloadPayrollDocument,type PayrollDocument} from "
 import {loadPayrollRecords} from "@/lib/payroll-records.mjs";
 import {LEGACY_FALLBACK_URL} from "@/lib/nocturne-environment.mjs";
 import {PayrollUpload} from "@/components/rise/PayrollUpload";
+import {PayrollReview} from "@/components/rise/PayrollReview";
 import {FinanceSections} from "@/components/rise/FinanceSections";
 
 export const Route=createFileRoute("/nominas")({
@@ -92,6 +93,7 @@ function Payroll(){
          <p className="text-muted-foreground">Datos originales de revisión, sin modificar ni aprobar automáticamente.</p>
         </div>
        </details>
+       <PayrollReview row={p}/>
       </div>
       {p.document?.storage_path_archive||p.document?.storage_path_raw?
        <button type="button" className="btn-ghost min-h-11" disabled={!!downloading}

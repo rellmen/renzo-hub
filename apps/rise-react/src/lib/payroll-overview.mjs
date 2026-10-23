@@ -1,6 +1,6 @@
 // Nocturne payroll adapter: preserves normalized legacy records and RLS.
 // NO re-extraction, rewriting, AI inference or hidden mutation.
-const PAYSLIP_COLS="id,user_id,document_id,employer_id,period_start,period_end,period_label,payment_date,period_year,period_number,payslip_number,worked_hours,gross_salary,net_salary,net_payment,validation_status,review_status,currency";
+const PAYSLIP_COLS="id,user_id,document_id,employer_id,period_start,period_end,period_label,payment_date,period_year,period_number,payslip_number,updated_at,worked_hours,hourly_rate,loonheffing,shift_allowance,gross_salary,net_salary,net_payment,validation_status,review_status,currency";
 const DOC_COLS="id,user_id,original_file_name,status,storage_path_raw,storage_path_archive,doc_class";
 async function all(client,table,cols,uid,max=5000){
  const rows=[];
