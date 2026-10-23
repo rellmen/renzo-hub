@@ -41,9 +41,14 @@ const report={
   stagingAuthenticatedE2eVerified:null,
   iphonePwaVerified:null,
   browserLocalDataReconciled:null,
-  functionalParityPending:['Payroll import/review/edit','Shift Tracker writes and weekly reconciliation',
-    'Finance/Gastos writes and imports','Career/portfolio','Quest','Work advanced flows',
-    'Private photos and advanced Body/Food/Skin/Gym features','Remaining classic API contracts'],
+  // 23-10 (Claude): code for Shift Tracker writes, Gastos merchant rules, Career/portfolio, Quest daily
+  // missions, Idea Vault/Sprint, Gym/Skin private photos and Body/Food/Notes edits now exists in
+  // Nocturne. It stays listed until authenticated staging QA proves each flow.
+  functionalParityPending:['Payroll PDF upload E2E (blocked: staging server-only credential) and review CAS over HTTP/JWT',
+    'Authenticated QA of new Nocturne write flows (Turnos, Gastos rules, Career, Idea Vault/Sprint, Gym/Skin photos, Body/Food/Notes edits)',
+    'Gym atomic save RPC (supabase/pending) not applied to staging',
+    'Ares dispatch disabled: needs Jarvis outbound config and separate authorization',
+    'Remaining classic API contracts (jarvis inbound)'],
   mainStagingReconciliationVerified:null
 };
 const blockers=[];

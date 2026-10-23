@@ -11,3 +11,5 @@ Repositorio `rellmen/renzo-hub`; integración `feature/nocturne-integral-migrati
 El proyecto antiguo `rise-hub-nocturne-qa` también sirve el dominio público actual: **no borrarlo ni renombrarlo** al consolidar staging. `rise-hub` conserva Classic de respaldo. Las previews automáticas de estos dos proyectos se deshabilitaron; sus despliegues existentes se conservan.
 
 Trabajo pendiente de migración, seguridad, Payroll y QA: `docs/WORK-NOCTURNE-QA-2026-10-23.md`. La función CAS salarial ya está instalada SOLO en staging; no reaplicarla ni encender revisión sin probar concurrencia HTTP. No copiar nóminas ni datos personales de producción a staging. No crear tareas nuevas para otros agentes sin necesidad.
+
+Ejecución Claude 23 octubre (tarde): ver `docs/CLAUDE-NOCTURNE-EXECUTION-2026-10-23.md`. 15 commits de paridad P0/P1; RPC Gym `gym_save_session_cas` preparada en `supabase/pending/` y **no aplicada** (requiere autorización); entrega Ares→Jarvis implementada pero apagada. GO/NO-GO: NO-GO producción.

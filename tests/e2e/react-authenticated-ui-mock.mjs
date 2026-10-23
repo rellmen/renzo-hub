@@ -58,6 +58,11 @@ for(const [label,engine,opts] of [
       await route.fulfill({status:200,contentType:'application/json',body:singleton?'null':'[]',
         headers:{'access-control-allow-origin':origin,'access-control-allow-credentials':'true','vary':'Origin','content-range':'0-0/0'}});return;
     }
+    // Private Storage (progress photos, evidence): empty folder listings / no signed URLs in mock QA.
+    if(url.pathname.startsWith('/storage/v1/object/list/')||url.pathname.startsWith('/storage/v1/object/sign/')){
+      await route.fulfill({status:200,contentType:'application/json',body:'[]',
+        headers:{'access-control-allow-origin':origin,'access-control-allow-credentials':'true','vary':'Origin'}});return;
+    }
     throw Error('Unexpected external request in mock QA: '+url.pathname);
   });
   const first=await page.goto(origin+'/',{waitUntil:'domcontentloaded'});
