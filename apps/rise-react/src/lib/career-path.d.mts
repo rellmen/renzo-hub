@@ -5,6 +5,7 @@ export interface FutureStage{year:string;name:string;detail:string}
 export declare const PATH_VERSION:string;
 export declare const START_DAY:string;
 export declare const LAST_WEEK:number;
+export declare const BOSSES:readonly PathMission[];
 export declare const CHAPTERS:readonly PathChapter[];
 export declare const FUTURE_STAGES:readonly FutureStage[];
 export declare function localDate(d?:Date):string;
