@@ -13,7 +13,9 @@ export function summarizeAresRecords(rows=[]){
     (r.record_type==="ares_decision"&&r.status==="pending")||
     (r.record_type==="renzo_inbox"&&!REVIEWED.has(asStatus(r))));
   const agents=safe.filter(r=>r.record_type==="ares_agent_run"||(r.record_type==="renzo_event"&&r.source==="automation"));
-  return {projects,tasks,approvals,agents,records:safe.length,partial:safe.length>=300};
+  // Aprobadas por el propietario y aún no entregadas: candidatas a un envío manual de un solo intento.
+  const handoffs=safe.filter(r=>r.record_type==="ares_operation"&&["approved","dispatching","submitted","delivery_unknown"].includes(r.status)&&r.payload?.agent==="Jarvis");
+  return {projects,tasks,approvals,agents,handoffs,records:safe.length,partial:safe.length>=300};
 }
 export async function loadAresRecords(client,uid){
   const id=owner(uid);

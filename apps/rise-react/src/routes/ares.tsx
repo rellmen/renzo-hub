@@ -143,6 +143,6 @@ function AresPage(){
         <AresDevelopmentSources/>
       </div>
     </div>
-    {data&&<AresOperations approvals={data.approvals} agents={data.agents}/>}
+    {data&&<AresOperations approvals={data.approvals} agents={data.agents} handoffs={data.handoffs}/>}
   </div>;
 }

@@ -2,6 +2,8 @@
 import aresHandler from "../server/ares-ai.mjs";
 // @ts-expect-error Classic read-only sources handler is plain JavaScript, server-side only.
 import aresSourcesHandler from "../server/ares-sources.mjs";
+// @ts-expect-error Ares dispatch: approved-operation handoff behind the tool contract, off by default.
+import aresDispatchHandler from "../server/ares-dispatch.mjs";
 // @ts-expect-error Server-only legacy tutor handler with its original JWT and quota checks.
 import tutorHandler from "../server/selflearn-tutor.mjs";
 // @ts-expect-error Reused server-only PDF handler with JWT verification and private Storage.
@@ -60,6 +62,7 @@ export default {
     try {
       if(new URL(request.url).pathname==="/api/ares-ai")return await serveNodeHandler(request,aresHandler);
       if(new URL(request.url).pathname==="/api/ares-sources")return await serveNodeHandler(request,aresSourcesHandler);
+      if(new URL(request.url).pathname==="/api/ares-dispatch")return await serveNodeHandler(request,aresDispatchHandler);
       if(new URL(request.url).pathname==="/api/selflearn-tutor")return await serveNodeHandler(request,tutorHandler);
       if(new URL(request.url).pathname==="/api/payroll-upload")return await serveNodeHandler(request,payrollUploadHandler,{maxBodyBytes:Math.ceil(3*1024*1024/3)*4+65536});
       if(new URL(request.url).pathname==="/api/deployment-info")return await serveNodeHandler(request,deploymentInfoHandler);
