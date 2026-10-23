@@ -3,7 +3,7 @@ import {Link} from "@tanstack/react-router";
 import {SectionCard} from "@/components/rise/primitives";
 import type {MoneySummary} from "@/lib/money-records.mjs";
 import type {PayrollOverview} from "@/lib/payroll-overview.mjs";
-import {incomeBreakdown} from "../../../../microapps/finance/income.js";
+import {incomeBreakdown} from "@/lib/salary-reconciliation.mjs";
 
 const money=n=>new Intl.NumberFormat("es-ES",{style:"currency",currency:"EUR"}).format(n);
 export function SalaryReconciliation({moneyData,payrollData,month}:{moneyData:MoneySummary;payrollData:PayrollOverview;month:string}){
