@@ -10,6 +10,7 @@ import {useAuth} from "@/lib/auth/AuthProvider";
 import {loadRealMoney,moneyMonthView,type MoneySummary} from "@/lib/money-records.mjs";
 import {WeeklyBudgetEditor} from "@/components/rise/WeeklyBudgetEditor";
 import {loadPayrollOverview} from "@/lib/payroll-overview.mjs";
+import {BankStatementImport} from "@/components/rise/BankStatementImport";
 import {FinanceSections} from "@/components/rise/FinanceSections";
 
 export const Route=createFileRoute("/dinero")({
@@ -155,6 +156,7 @@ function Money(){
         <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0"/> El resumen utiliza transacciones verificadas. <Link to="/gastos" className="text-gold underline">Editar categorías de gastos en React</Link>. La importación bancaria y algunas funciones avanzadas siguen pendientes.
       </p>
     </>}
+    <BankStatementImport/>
     <WeeklyBudgetEditor/>
   </div>;
 }
