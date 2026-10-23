@@ -5,14 +5,14 @@ import type {MoneySummary} from "@/lib/money-records.mjs";
 import type {PayrollOverview} from "@/lib/payroll-overview.mjs";
 import {incomeBreakdown} from "@/lib/salary-reconciliation.mjs";
 
-const money=n=>new Intl.NumberFormat("es-ES",{style:"currency",currency:"EUR"}).format(n);
+const money=(n:number)=>new Intl.NumberFormat("es-ES",{style:"currency",currency:"EUR"}).format(n);
 export function SalaryReconciliation({moneyData,payrollData,month}:{moneyData:MoneySummary;payrollData:PayrollOverview;month:string}){
  const result=useMemo(()=>{
   if(!/^\d{4}-\d{2}$/.test(month)||!moneyData.months.includes(month))return null;
   return incomeBreakdown({
    items:moneyData.items,txs:moneyData.salaryBankTxs,payslips:payrollData.rows,
    month,expectedDate:(p:{payment_date?:string|null})=>p.payment_date||null,
-   lastImport:moneyData.bankUpdatedThrough.ING||null
+   lastImport:moneyData.bankUpdatedThrough["ING"]||null
   });
  },[moneyData,payrollData,month]);
  if(!result)return null;
