@@ -23,7 +23,7 @@ export function ShiftPayrollReport(){
   </p>}
   {query.data&&<>
    <p className="mt-3 text-xs text-platinum/70">{query.data.count} turnos con historial. {query.data.warning}</p>
-   {!query.data.weeks.length&&<p className="mt-3 text-sm text-muted-foreground">No hay importes que calcular; crea y confirma tus turnos en el sistema clásico hasta portar el editor completo.</p>}
+   {!query.data.weeks.length&&<p className="mt-3 text-sm text-muted-foreground">No hay importes que calcular; registra tus turnos con su contrato en el Shift Tracker de esta página.</p>}
    {!!query.data.weeks.length&&<ul className="mt-3 divide-y divide-hairline">
      {query.data.weeks.slice(0,52).map(w=><li key={w.week+"-"+w.agency} className="space-y-1 py-3">
        <div className="flex flex-wrap items-center justify-between gap-2 text-sm">
