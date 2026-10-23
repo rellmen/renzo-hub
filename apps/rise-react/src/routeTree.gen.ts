@@ -10,25 +10,43 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AgentesRouteImport } from './routes/agentes'
 import { Route as AjustesRouteImport } from './routes/ajustes'
+import { Route as AppsRouteImport } from './routes/apps'
 import { Route as AprenderRouteImport } from './routes/aprender'
 import { Route as AresRouteImport } from './routes/ares'
 import { Route as BodyRouteImport } from './routes/body'
+import { Route as CareerRouteImport } from './routes/career'
 import { Route as DineroRouteImport } from './routes/dinero'
 import { Route as FoodRouteImport } from './routes/food'
 import { Route as GymRouteImport } from './routes/gym'
+import { Route as MigracionRouteImport } from './routes/migracion'
+import { Route as NewsRouteImport } from './routes/news'
+import { Route as NominasRouteImport } from './routes/nominas'
 import { Route as NotasRouteImport } from './routes/notas'
 import { Route as PielRouteImport } from './routes/piel'
 import { Route as ProyectosRouteImport } from './routes/proyectos'
+import { Route as QuestRouteImport } from './routes/quest'
+import { Route as TurnosRouteImport } from './routes/turnos'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AgentesRoute = AgentesRouteImport.update({
+  id: '/agentes',
+  path: '/agentes',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AjustesRoute = AjustesRouteImport.update({
   id: '/ajustes',
   path: '/ajustes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppsRoute = AppsRouteImport.update({
+  id: '/apps',
+  path: '/apps',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AprenderRoute = AprenderRouteImport.update({
@@ -46,6 +64,11 @@ const BodyRoute = BodyRouteImport.update({
   path: '/body',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CareerRoute = CareerRouteImport.update({
+  id: '/career',
+  path: '/career',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DineroRoute = DineroRouteImport.update({
   id: '/dinero',
   path: '/dinero',
@@ -59,6 +82,21 @@ const FoodRoute = FoodRouteImport.update({
 const GymRoute = GymRouteImport.update({
   id: '/gym',
   path: '/gym',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MigracionRoute = MigracionRouteImport.update({
+  id: '/migracion',
+  path: '/migracion',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewsRoute = NewsRouteImport.update({
+  id: '/news',
+  path: '/news',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NominasRoute = NominasRouteImport.update({
+  id: '/nominas',
+  path: '/nominas',
   getParentRoute: () => rootRouteImport,
 } as any)
 const NotasRoute = NotasRouteImport.update({
@@ -76,101 +114,167 @@ const ProyectosRoute = ProyectosRouteImport.update({
   path: '/proyectos',
   getParentRoute: () => rootRouteImport,
 } as any)
+const QuestRoute = QuestRouteImport.update({
+  id: '/quest',
+  path: '/quest',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TurnosRoute = TurnosRouteImport.update({
+  id: '/turnos',
+  path: '/turnos',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/agentes': typeof AgentesRoute
   '/ajustes': typeof AjustesRoute
+  '/apps': typeof AppsRoute
   '/aprender': typeof AprenderRoute
   '/ares': typeof AresRoute
   '/body': typeof BodyRoute
+  '/career': typeof CareerRoute
   '/dinero': typeof DineroRoute
   '/food': typeof FoodRoute
   '/gym': typeof GymRoute
+  '/migracion': typeof MigracionRoute
+  '/news': typeof NewsRoute
+  '/nominas': typeof NominasRoute
   '/notas': typeof NotasRoute
   '/piel': typeof PielRoute
   '/proyectos': typeof ProyectosRoute
+  '/quest': typeof QuestRoute
+  '/turnos': typeof TurnosRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/agentes': typeof AgentesRoute
   '/ajustes': typeof AjustesRoute
+  '/apps': typeof AppsRoute
   '/aprender': typeof AprenderRoute
   '/ares': typeof AresRoute
   '/body': typeof BodyRoute
+  '/career': typeof CareerRoute
   '/dinero': typeof DineroRoute
   '/food': typeof FoodRoute
   '/gym': typeof GymRoute
+  '/migracion': typeof MigracionRoute
+  '/news': typeof NewsRoute
+  '/nominas': typeof NominasRoute
   '/notas': typeof NotasRoute
   '/piel': typeof PielRoute
   '/proyectos': typeof ProyectosRoute
+  '/quest': typeof QuestRoute
+  '/turnos': typeof TurnosRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/agentes': typeof AgentesRoute
   '/ajustes': typeof AjustesRoute
+  '/apps': typeof AppsRoute
   '/aprender': typeof AprenderRoute
   '/ares': typeof AresRoute
   '/body': typeof BodyRoute
+  '/career': typeof CareerRoute
   '/dinero': typeof DineroRoute
   '/food': typeof FoodRoute
   '/gym': typeof GymRoute
+  '/migracion': typeof MigracionRoute
+  '/news': typeof NewsRoute
+  '/nominas': typeof NominasRoute
   '/notas': typeof NotasRoute
   '/piel': typeof PielRoute
   '/proyectos': typeof ProyectosRoute
+  '/quest': typeof QuestRoute
+  '/turnos': typeof TurnosRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/agentes'
     | '/ajustes'
+    | '/apps'
     | '/aprender'
     | '/ares'
     | '/body'
+    | '/career'
     | '/dinero'
     | '/food'
     | '/gym'
+    | '/migracion'
+    | '/news'
+    | '/nominas'
     | '/notas'
     | '/piel'
     | '/proyectos'
+    | '/quest'
+    | '/turnos'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/agentes'
     | '/ajustes'
+    | '/apps'
     | '/aprender'
     | '/ares'
     | '/body'
+    | '/career'
     | '/dinero'
     | '/food'
     | '/gym'
+    | '/migracion'
+    | '/news'
+    | '/nominas'
     | '/notas'
     | '/piel'
     | '/proyectos'
+    | '/quest'
+    | '/turnos'
   id:
     | '__root__'
     | '/'
+    | '/agentes'
     | '/ajustes'
+    | '/apps'
     | '/aprender'
     | '/ares'
     | '/body'
+    | '/career'
     | '/dinero'
     | '/food'
     | '/gym'
+    | '/migracion'
+    | '/news'
+    | '/nominas'
     | '/notas'
     | '/piel'
     | '/proyectos'
+    | '/quest'
+    | '/turnos'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AgentesRoute: typeof AgentesRoute
   AjustesRoute: typeof AjustesRoute
+  AppsRoute: typeof AppsRoute
   AprenderRoute: typeof AprenderRoute
   AresRoute: typeof AresRoute
   BodyRoute: typeof BodyRoute
+  CareerRoute: typeof CareerRoute
   DineroRoute: typeof DineroRoute
   FoodRoute: typeof FoodRoute
   GymRoute: typeof GymRoute
+  MigracionRoute: typeof MigracionRoute
+  NewsRoute: typeof NewsRoute
+  NominasRoute: typeof NominasRoute
   NotasRoute: typeof NotasRoute
   PielRoute: typeof PielRoute
   ProyectosRoute: typeof ProyectosRoute
+  QuestRoute: typeof QuestRoute
+  TurnosRoute: typeof TurnosRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -182,11 +286,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/agentes': {
+      id: '/agentes'
+      path: '/agentes'
+      fullPath: '/agentes'
+      preLoaderRoute: typeof AgentesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/ajustes': {
       id: '/ajustes'
       path: '/ajustes'
       fullPath: '/ajustes'
       preLoaderRoute: typeof AjustesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/apps': {
+      id: '/apps'
+      path: '/apps'
+      fullPath: '/apps'
+      preLoaderRoute: typeof AppsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/aprender': {
@@ -210,6 +328,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BodyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/career': {
+      id: '/career'
+      path: '/career'
+      fullPath: '/career'
+      preLoaderRoute: typeof CareerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dinero': {
       id: '/dinero'
       path: '/dinero'
@@ -229,6 +354,27 @@ declare module '@tanstack/react-router' {
       path: '/gym'
       fullPath: '/gym'
       preLoaderRoute: typeof GymRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/migracion': {
+      id: '/migracion'
+      path: '/migracion'
+      fullPath: '/migracion'
+      preLoaderRoute: typeof MigracionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/news': {
+      id: '/news'
+      path: '/news'
+      fullPath: '/news'
+      preLoaderRoute: typeof NewsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/nominas': {
+      id: '/nominas'
+      path: '/nominas'
+      fullPath: '/nominas'
+      preLoaderRoute: typeof NominasRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/notas': {
@@ -252,21 +398,43 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProyectosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/quest': {
+      id: '/quest'
+      path: '/quest'
+      fullPath: '/quest'
+      preLoaderRoute: typeof QuestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/turnos': {
+      id: '/turnos'
+      path: '/turnos'
+      fullPath: '/turnos'
+      preLoaderRoute: typeof TurnosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AgentesRoute: AgentesRoute,
   AjustesRoute: AjustesRoute,
+  AppsRoute: AppsRoute,
   AprenderRoute: AprenderRoute,
   AresRoute: AresRoute,
   BodyRoute: BodyRoute,
+  CareerRoute: CareerRoute,
   DineroRoute: DineroRoute,
   FoodRoute: FoodRoute,
   GymRoute: GymRoute,
+  MigracionRoute: MigracionRoute,
+  NewsRoute: NewsRoute,
+  NominasRoute: NominasRoute,
   NotasRoute: NotasRoute,
   PielRoute: PielRoute,
   ProyectosRoute: ProyectosRoute,
+  QuestRoute: QuestRoute,
+  TurnosRoute: TurnosRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
