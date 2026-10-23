@@ -1,5 +1,5 @@
 import {describe,it,expect,vi} from "vitest";
-import {START_DAY,CHAPTERS,FUTURE_STAGES,allTasks,dayOffset,pathMetrics,tasksForWeek,weekForDate,weekStart,setPathTask,loadPathProgress} from "../lib/career-path.mjs";
+import {START_DAY,CHAPTERS,FUTURE_STAGES,BOSSES,allTasks,dayOffset,pathMetrics,tasksForWeek,weekForDate,weekStart,setPathTask,loadPathProgress} from "../lib/career-path.mjs";
 
 const uid="22222222-2222-4222-8222-222222222222";
 describe("Career / DataLab roadmap 2026–2032",()=>{
@@ -7,18 +7,19 @@ describe("Career / DataLab roadmap 2026–2032",()=>{
   expect(START_DAY).toBe("2026-10-26");
   expect(CHAPTERS).toHaveLength(6);
   expect(FUTURE_STAGES).toHaveLength(6);
+  expect(BOSSES.map(m=>m.day)).toEqual(["2027-04-10","2027-04-17"]);
   expect(weekStart(0)).toBe("2026-10-26");
   expect(weekStart(23)).toBe("2027-04-05");
   expect(dayOffset(weekStart(23),6)).toBe("2027-04-11");
   expect(weekForDate("2026-10-24")).toBe(0);
   expect(weekForDate("2027-04-11")).toBe(23);
  });
- it("generates 264 unique tasks across 24 weeks without creating false credit",()=>{
+ it("generates 264 study tasks plus 2 boss exams without creating false credit",()=>{
   const items=allTasks(),ids=new Set(items.map(t=>t.id));
-  expect(items).toHaveLength(264);
+  expect(items).toHaveLength(266);
   expect(ids.size).toBe(264);
-  expect(items.every(t=>t.day>="2026-10-26"&&t.day<="2027-04-11")).toBe(true);
-  expect(pathMetrics([])).toEqual({done:0,total:264,percent:0,completeWeeks:0});
+  expect(items.every(t=>t.day>="2026-10-26"&&t.day<="2027-04-17")).toBe(true);
+  expect(pathMetrics([])).toEqual({done:0,total:266,percent:0,completeWeeks:0});
  });
  it("respects the weekly study budget, the Sunday review and the Friday off",()=>{
   const tasks=tasksForWeek(0);
