@@ -2,13 +2,14 @@
 // dates, ownership, importer provenance, or inferred transaction identifiers.
 import {loadFinance} from "./legacy-money/finance/data.js";
 import {CATEGORIES,CATEGORY,monthsOf,monthSummary} from "./legacy-money/gastos/categories.js";
+import {withRealIncome} from "./money-income.mjs";
 
 export const GASTOS_CATEGORIES=CATEGORIES;
 export async function loadGastos(client,uid){
  if(!client?.from||!uid)throw Error("Sesión necesaria.");
  const fin=await loadFinance(client,uid);
  return {items:fin.items,transactions:fin.txs,rules:fin.rules||[],categories:CATEGORIES,
-  months:monthsOf(fin.items),summary:month=>monthSummary(fin.items,month)};
+  months:monthsOf(fin.items),summary:month=>withRealIncome(monthSummary(fin.items,month),fin.items,month)};
 }
 export function categoryPayload(original,category){
  if(!original||typeof original!=="object"||Array.isArray(original))throw Error("Movimiento bancario inválido.");

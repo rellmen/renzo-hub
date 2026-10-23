@@ -1,13 +1,13 @@
-import {createFileRoute,Link} from "@tanstack/react-router";
+import {createFileRoute} from "@tanstack/react-router";
 import {useQuery} from "@tanstack/react-query";
 import {useState} from "react";
-import {Download,FileText,RefreshCw,ShieldCheck,AlertTriangle,ArrowRight} from "lucide-react";
+import {Download,FileText,RefreshCw,ShieldCheck,AlertTriangle} from "lucide-react";
 import {useAuth} from "@/lib/auth/AuthProvider";
 import {PageHeader,SectionCard} from "@/components/rise/primitives";
 import {pageHead} from "@/lib/seo";
 import {loadPayrollOverview,downloadPayrollDocument,type PayrollDocument} from "@/lib/payroll-overview.mjs";
 import {loadPayrollRecords} from "@/lib/payroll-records.mjs";
-import {LEGACY_FALLBACK_URL,backendEnvironmentForHost} from "@/lib/nocturne-environment.mjs";
+import {backendEnvironmentForHost} from "@/lib/nocturne-environment.mjs";
 import {PayrollUpload} from "@/components/rise/PayrollUpload";
 import {PayrollReview} from "@/components/rise/PayrollReview";
 import {FinanceSections} from "@/components/rise/FinanceSections";
@@ -125,12 +125,5 @@ function Payroll(){
    </div>}
   </SectionCard>
   {fileError&&<p role="alert" className="rounded-xl border border-gym/40 p-4 text-sm text-gym">{fileError}</p>}
-  <SectionCard eyebrow="Compatibilidad" title="Herramientas laborales avanzadas" accent="var(--projects)">
-   <p className="text-sm text-platinum/75">Las correcciones, reextracción documental y comparación salarial avanzada siguen en el módulo clásico hasta superar la paridad de escrituras en React.</p>
-   <div className="mt-3 flex flex-wrap gap-2">
-    <Link to="/turnos" className="btn-gold inline-flex min-h-11 items-center"><ArrowRight className="h-4 w-4"/> Turnos</Link>
-    <a href={LEGACY_FALLBACK_URL+"/?app=payroll"} target="_blank" rel="noopener noreferrer" className="btn-ghost inline-flex min-h-11 items-center">Herramientas clásicas</a>
-   </div>
-  </SectionCard>
  </div>;
 }

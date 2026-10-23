@@ -109,10 +109,11 @@ function Money(){
               </select>
             </label>:null}>
             {view?<div className="space-y-5">
-              <dl className="grid grid-cols-3 gap-2">
-                <div className="rounded-xl border border-hairline p-3"><dt className="text-xs text-muted-foreground">Ingresos</dt><dd className="mt-2 break-words text-lg font-semibold text-money">{euro(view.earned)}</dd></div>
+              <dl className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+                <div className="rounded-xl border border-hairline p-3"><dt className="text-xs text-muted-foreground">Ingresos</dt><dd className="mt-2 break-words text-lg font-semibold text-money">{euro(view.earned)}</dd><p className="mt-1 text-[10px] text-muted-foreground">Nómina y ayudas</p></div>
+                <div className="rounded-xl border border-hairline p-3"><dt className="text-xs text-muted-foreground">Recibido de personas</dt><dd className="mt-2 break-words text-lg font-semibold">{euro(view.received)}</dd><p className="mt-1 text-[10px] text-muted-foreground">{view.loans>0?"Incluye "+euro(view.loans)+" de préstamos":"Reembolsos y regalos"}</p></div>
                 <div className="rounded-xl border border-hairline p-3"><dt className="text-xs text-muted-foreground">Gastos</dt><dd className="mt-2 break-words text-lg font-semibold text-gym">{euro(view.spent)}</dd></div>
-                <div className="rounded-xl border border-hairline p-3"><dt className="text-xs text-muted-foreground">Neto</dt><dd className="mt-2 break-words text-lg font-semibold">{euro(view.savings)}</dd></div>
+                <div className="rounded-xl border border-hairline p-3"><dt className="text-xs text-muted-foreground">Balance del mes</dt><dd className="mt-2 break-words text-lg font-semibold">{euro(view.cash)}</dd><p className="mt-1 text-[10px] text-muted-foreground">Todo lo que entró menos gastos</p></div>
               </dl>
               <p className="text-xs text-muted-foreground">{view.count} movimientos registrados · traspasos internos excluidos del flujo. {view.uncategorized?view.uncategorized+" sin categoría.":""}</p>
               {categories.length>0&&<ul className="space-y-4">{categories.map(c=>
