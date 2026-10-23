@@ -30,31 +30,33 @@ for(const [label,engine,opts] of [
   const errors=[];
   const visited=[];
   page.on('pageerror',e=>errors.push(e.message));
-  await page.route('https://ci-placeholder.supabase.co/**',async route=>{
+  await context.route('https://ci-placeholder.supabase.co/**',async route=>{
     const url=new URL(route.request().url());
     if(route.request().method()==='OPTIONS'){
-      await route.fulfill({status:204,headers:{'access-control-allow-origin':'*',
+      const requestedHeaders=route.request().headers()['access-control-request-headers']||'apikey,authorization,x-client-info,content-type,prefer';
+      await route.fulfill({status:204,headers:{'access-control-allow-origin':origin,
+        'access-control-allow-credentials':'true',
         'access-control-allow-methods':'GET,POST,PATCH,DELETE,OPTIONS',
-        'access-control-allow-headers':'apikey,authorization,x-client-info,content-type,prefer',
-        'access-control-max-age':'0'}});return;
+        'access-control-allow-headers':requestedHeaders,
+        'access-control-max-age':'0','vary':'Origin'}});return;
     }
     if(url.pathname.startsWith('/auth/v1/token')){
       await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(session),
-        headers:{'access-control-allow-origin':'*'}});return;
+        headers:{'access-control-allow-origin':origin,'access-control-allow-credentials':'true','vary':'Origin'}});return;
     }
     if(url.pathname==='/auth/v1/user'){
       await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(user),
-        headers:{'access-control-allow-origin':'*'}});return;
+        headers:{'access-control-allow-origin':origin,'access-control-allow-credentials':'true','vary':'Origin'}});return;
     }
     if(url.pathname.startsWith('/auth/v1/')){
       await route.fulfill({status:200,contentType:'application/json',body:'{}',
-        headers:{'access-control-allow-origin':'*'}});return;
+        headers:{'access-control-allow-origin':origin,'access-control-allow-credentials':'true','vary':'Origin'}});return;
     }
     if(url.pathname.startsWith('/rest/v1/')){
       const accept=route.request().headers().accept||'';
       const singleton=accept.includes('vnd.pgrst.object');
       await route.fulfill({status:200,contentType:'application/json',body:singleton?'null':'[]',
-        headers:{'access-control-allow-origin':'*','content-range':'0-0/0'}});return;
+        headers:{'access-control-allow-origin':origin,'access-control-allow-credentials':'true','vary':'Origin','content-range':'0-0/0'}});return;
     }
     throw Error('Unexpected external request in mock QA: '+url.pathname);
   });
