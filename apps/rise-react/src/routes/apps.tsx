@@ -16,19 +16,19 @@ const CATALOG=[
  {name:"Body",group:"Bienestar",path:"/body",status:"React · mediciones"},
  {name:"Food",group:"Bienestar",path:"/food",status:"React · registros básicos"},
  {name:"Skin Routine",group:"Bienestar",path:"/piel",status:"React · rutinas"},
- {name:"My Finance",group:"Finanzas",path:"/dinero",status:"React · consultas",classic:"money"},
+ {name:"My Finance",group:"Finanzas",path:"/dinero",status:"React · importación y gestión; QA real pendiente",classic:"money"},
  {name:"Nóminas",group:"Finanzas",path:"/nominas",status:"React · historial y PDF",classic:"payroll"},
  {name:"Shift Tracker",group:"Trabajo",path:"/turnos",status:"React · calendario",classic:"payroll"},
  {name:"Proyectos",group:"Trabajo",path:"/proyectos",status:"React · tareas"},
  {name:"Notas",group:"Trabajo",path:"/notas",status:"React · notas"},
  {name:"Migración y copias",group:"Sistema",path:"/migracion",status:"React · auditoría"},
  {name:"News",group:"Sistema",path:"/news",status:"React · historial",classic:"news"},
- {name:"Gastos avanzados",group:"Finanzas",classic:"gastos",status:"Clásico · pendiente de React"},
- {name:"Car",group:"Sistema",classic:"car",status:"Clásico · pendiente de React"},
+ {name:"Gastos",group:"Finanzas",path:"/gastos",classic:"gastos",status:"React · categorías; importación en Money"},
+ {name:"Car",group:"Finanzas",path:"/car",classic:"car",status:"React · banco, documentos y pendientes"},
  {name:"Career / Data Lab",group:"Trabajo",path:"/career",classic:"work",status:"React · perfil; cursos y portafolio pendientes"},
  {name:"Quest / RPG",group:"Aprendizaje",path:"/quest",classic:"study",status:"React · XP histórico; misiones pendientes"},
  {name:"Agent Monitor",group:"Inteligencia",path:"/agentes",classic:"ares-center",status:"React · eventos reales"},
- {name:"AI Inbox",group:"Inteligencia",classic:"ares-center",status:"Clásico · pendiente de React"},
+ {name:"AI Inbox",group:"Inteligencia",path:"/inbox",classic:"ares-center",status:"React · capturas y adjuntos privados"},
  {name:"Ajustes",group:"Sistema",path:"/ajustes",status:"React · cuenta"}
 ] as const;
 function AllApps(){

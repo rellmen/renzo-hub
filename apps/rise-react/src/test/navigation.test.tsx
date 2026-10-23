@@ -12,9 +12,15 @@ describe('production app registry', () => {
   expect(appForPath('/quest')?.id).toBe('quests');
   expect(appForPath('/unknown')).toBeUndefined();
  });
- it('keeps classic-only functions on the backup domain', () => {
+ it('opens Gastos, Car, AI Inbox and Money natively; any remaining classic link uses the backup domain', () => {
+  for(const [id,path] of [['gastos','/gastos'],['car','/car'],['ai-inbox','/inbox'],['dinero','/dinero']] as const){
+   const a=APPS.find(x=>x.id===id);
+   expect(a?.kind).toBe('live');
+   if(a?.kind==='live')expect(a.to).toBe(path);
+  }
+  expect(new Set(APPS.map(a=>a.id)).size).toBe(APPS.length);
+  expect(searchApps('my finance').map(a=>a.id)).toContain('dinero');
   const classic=APPS.filter(a=>a.kind==='classic');
-  expect(classic.length).toBeGreaterThanOrEqual(4);
   for(const a of classic) if(a.kind==='classic') {
    expect(new URL(a.href).hostname).toBe('rise-hub-classic-renzojesus99-1996.vercel.app');
    expect(new URL(a.href).searchParams.has('app')).toBe(true);

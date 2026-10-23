@@ -1,12 +1,14 @@
 import {createFileRoute,Link} from "@tanstack/react-router";
 import {useMutation,useQuery,useQueryClient} from "@tanstack/react-query";
 import {useState} from "react";
-import {CalendarDays,Clock3,RefreshCw,Save,ShieldCheck} from "lucide-react";
+import {CalendarDays,RefreshCw,Save,ShieldCheck} from "lucide-react";
 import {useAuth} from "@/lib/auth/AuthProvider";
 import {PageHeader,SectionCard} from "@/components/rise/primitives";
 import {pageHead} from "@/lib/seo";
 import {SHIFT_MODES,loadShiftState,saveShiftState,nextShiftState,nextTemplateState,shiftPreview} from "@/lib/shift-state.mjs";
-import {LEGACY_FALLBACK_URL} from "@/lib/nocturne-environment.mjs";
+import {ShiftPayrollReport} from "@/components/rise/ShiftPayrollReport";
+import {ShiftTrackerEditor} from "@/components/rise/ShiftTrackerEditor";
+import {FinanceSections} from "@/components/rise/FinanceSections";
 
 export const Route=createFileRoute("/turnos")({
  head:()=>pageHead("Turnos","Calendario laboral con el mismo estado que la aplicación clásica."),
@@ -53,10 +55,11 @@ function Shifts(){
  const saveTemplate=()=>{setStatus("");save.mutate({kind:"template",day,mode:templateMode});};
  const calendar=nextDays(),data=query.data;
  return <div className="space-y-6">
+  <FinanceSections/>
   <PageHeader eyebrow="TRABAJO · CALENDARIO" title="Mis turnos"
    subtitle="Los turnos y excepciones se guardan en el estado original de RISE HUB. No se inventan horas trabajadas ni suplementos de salario."/>
   <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-platinum/75">
-   <p><ShieldCheck className="mr-2 inline h-4 w-4 text-gold"/>Misma cuenta y datos de Supabase producción</p>
+   <p><ShieldCheck className="mr-2 inline h-4 w-4 text-gold"/>Calendario privado de la cuenta y el entorno actuales</p>
    <button type="button" className="btn-ghost" disabled={query.isFetching} onClick={()=>void query.refetch()}>
     <RefreshCw className={"h-4 w-4 "+(query.isFetching?"animate-spin":"")}/> Actualizar
    </button>
@@ -100,12 +103,8 @@ function Shifts(){
   {save.error&&<p role="alert" className="rounded-xl border border-gym/40 p-4 text-sm text-gym">
    {save.error instanceof Error?save.error.message:"No se guardó. Actualiza antes de reintentar."}
   </p>}
-  <SectionCard eyebrow="Compatibilidad" title="Cálculos salariales y nóminas" accent="var(--money)">
-   <p className="text-sm text-platinum/75">El cálculo contractual de pluses y la conciliación de turnos siguen en el módulo clásico. Esos cálculos no deben sustituirse por estimaciones sin conocer el contrato confirmado.</p>
-   <div className="mt-3 flex flex-wrap gap-2">
-    <Link to="/nominas" className="btn-gold inline-flex min-h-11 items-center"><CalendarDays className="h-4 w-4"/> Nóminas</Link>
-    <a className="btn-ghost inline-flex min-h-11 items-center" target="_blank" rel="noopener noreferrer" href={LEGACY_FALLBACK_URL+"/?app=payroll"}><Clock3 className="h-4 w-4"/> Shift Tracker clásico</a>
-   </div>
-  </SectionCard>
+  <ShiftTrackerEditor/>
+  <div className="flex flex-wrap gap-2"><Link to="/nominas" className="btn-ghost inline-flex min-h-11 items-center"><CalendarDays className="h-4 w-4"/> Comparar con nóminas</Link></div>
+  <ShiftPayrollReport/>
  </div>;
 }

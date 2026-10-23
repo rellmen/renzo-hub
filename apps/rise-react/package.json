@@ -12,7 +12,8 @@
     "format": "prettier --write .",
     "test": "vitest run",
     "test:watch": "vitest",
-    "prebuild": "node generate-pwa-icons.mjs"
+    "prebuild": "node generate-pwa-icons.mjs && node copy-payroll-assets.mjs",
+    "predev": "node copy-payroll-assets.mjs"
   },
   "overrides": {
     "rolldown": "1.2.1"

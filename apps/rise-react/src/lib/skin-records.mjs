@@ -66,3 +66,38 @@ export function weekSkinProgress(logs=[],at=new Date(),barrierFirst=true){
   }
   return days;
 }
+
+const VALID_SKIN_STATUS=new Set(["unknown","available","paused","finished"]);
+
+/** Native React inventory write: preserve all existing user_settings keys and use
+ * an optimistic version gate to reject updates from another device. */
+export async function setSkinInventoryStatus(client,uid,productId,status){
+ const user_id=loggedUser(uid);
+ if(!/^p\d{1,3}$/.test(String(productId))||!VALID_SKIN_STATUS.has(status))
+  throw Error("Producto o estado de inventario inválido.");
+ const r=await client.from("user_settings").select("settings,updated_at")
+  .eq("user_id",user_id).maybeSingle();
+ if(r.error)throw Error("No se pudo leer el inventario actualizado.");
+ const old=r.data;
+ const settings=old?.settings;
+ if(settings!==null&&settings!==undefined&&(typeof settings!=="object"||Array.isArray(settings)))
+  throw Error("El formato de ajustes es incompatible; no se ha modificado.");
+ const current=settings&&typeof settings.skinInventory==="object"&&!Array.isArray(settings.skinInventory)
+  ?settings.skinInventory:{};
+ const nextSettings={...(settings||{}),skinInventory:{...current,[productId]:status}};
+ const updated_at=new Date().toISOString();
+ let q;
+ if(old){
+  if(typeof old.updated_at!=="string"||!old.updated_at)
+   throw Error("Falta la versión del inventario; actualiza antes de editar.");
+  q=await client.from("user_settings").update({settings:nextSettings,updated_at})
+   .eq("user_id",user_id).eq("updated_at",old.updated_at)
+   .select("settings,updated_at").maybeSingle();
+  if(q.error||!q.data)throw Error("El inventario cambió en otro dispositivo o no se pudo guardar. Actualiza antes de reintentar.");
+ }else{
+  q=await client.from("user_settings").insert({user_id,settings:nextSettings,updated_at})
+   .select("settings,updated_at").single();
+  if(q.error||!q.data)throw Error("No se pudieron crear los ajustes de inventario; actualiza antes de reintentar.");
+ }
+ return q.data.settings.skinInventory;
+}

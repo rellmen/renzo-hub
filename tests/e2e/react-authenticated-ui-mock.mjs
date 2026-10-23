@@ -5,7 +5,7 @@ import {chromium,webkit,devices} from 'playwright';
 import assert from 'node:assert/strict';
 
 const origin=process.env.REACT_QA_BASE_URL||'http://127.0.0.1:4174';
-const routes=['/','/ares','/aprender','/gym','/dinero','/piel','/proyectos','/notas','/body','/food','/ajustes','/nominas','/turnos','/migracion','/apps','/quest','/news','/agentes'];
+const routes=['/','/ares','/aprender','/gym','/dinero','/gastos','/piel','/proyectos','/notas','/body','/food','/ajustes','/nominas','/turnos','/migracion','/apps','/quest','/news','/agentes','/career','/car','/inbox'];
 const uid='22222222-2222-4222-8222-222222222222';
 const email='qa-nocturne@example.invalid';
 const user={id:uid,aud:'authenticated',role:'authenticated',email,
@@ -30,31 +30,38 @@ for(const [label,engine,opts] of [
   const errors=[];
   const visited=[];
   page.on('pageerror',e=>errors.push(e.message));
-  await page.route('https://ci-placeholder.supabase.co/**',async route=>{
+  await context.route('https://ci-placeholder.supabase.co/**',async route=>{
     const url=new URL(route.request().url());
     if(route.request().method()==='OPTIONS'){
-      await route.fulfill({status:204,headers:{'access-control-allow-origin':'*',
+      const requestedHeaders=route.request().headers()['access-control-request-headers']||'apikey,authorization,x-client-info,content-type,prefer';
+      await route.fulfill({status:204,headers:{'access-control-allow-origin':origin,
+        'access-control-allow-credentials':'true',
         'access-control-allow-methods':'GET,POST,PATCH,DELETE,OPTIONS',
-        'access-control-allow-headers':'apikey,authorization,x-client-info,content-type,prefer',
-        'access-control-max-age':'0'}});return;
+        'access-control-allow-headers':requestedHeaders,
+        'access-control-max-age':'0','vary':'Origin'}});return;
     }
     if(url.pathname.startsWith('/auth/v1/token')){
       await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(session),
-        headers:{'access-control-allow-origin':'*'}});return;
+        headers:{'access-control-allow-origin':origin,'access-control-allow-credentials':'true','vary':'Origin'}});return;
     }
     if(url.pathname==='/auth/v1/user'){
       await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(user),
-        headers:{'access-control-allow-origin':'*'}});return;
+        headers:{'access-control-allow-origin':origin,'access-control-allow-credentials':'true','vary':'Origin'}});return;
     }
     if(url.pathname.startsWith('/auth/v1/')){
       await route.fulfill({status:200,contentType:'application/json',body:'{}',
-        headers:{'access-control-allow-origin':'*'}});return;
+        headers:{'access-control-allow-origin':origin,'access-control-allow-credentials':'true','vary':'Origin'}});return;
     }
     if(url.pathname.startsWith('/rest/v1/')){
       const accept=route.request().headers().accept||'';
       const singleton=accept.includes('vnd.pgrst.object');
       await route.fulfill({status:200,contentType:'application/json',body:singleton?'null':'[]',
-        headers:{'access-control-allow-origin':'*','content-range':'0-0/0'}});return;
+        headers:{'access-control-allow-origin':origin,'access-control-allow-credentials':'true','vary':'Origin','content-range':'0-0/0'}});return;
+    }
+    // Private Storage (progress photos, evidence): empty folder listings / no signed URLs in mock QA.
+    if(url.pathname.startsWith('/storage/v1/object/list/')||url.pathname.startsWith('/storage/v1/object/sign/')){
+      await route.fulfill({status:200,contentType:'application/json',body:'[]',
+        headers:{'access-control-allow-origin':origin,'access-control-allow-credentials':'true','vary':'Origin'}});return;
     }
     throw Error('Unexpected external request in mock QA: '+url.pathname);
   });
@@ -79,8 +86,10 @@ for(const [label,engine,opts] of [
   await page.waitForURL('**/nominas');
   await openLauncher();
   await dialog.getByRole('searchbox',{name:'Buscar apps'}).fill('Car');
-  const car=dialog.locator('a[href$="?app=car"]');
-  assert.match(await car.getAttribute('href'),/^https:\/\/rise-hub-classic-renzojesus99-1996.vercel.app\/\?app=car$/);
+  // Car is native in Nocturne (#150): the launcher must link to /car, never to Classic.
+  const car=dialog.locator('a[href="/car"]');
+  assert.equal(await car.getAttribute('href'),'/car');
+  assert.equal(await dialog.locator('a[href*="?app=car"]').count(),0);
   await page.keyboard.press('Escape');
   await page.getByRole('dialog').waitFor({state:'hidden'});
   await page.keyboard.press('Control+k');

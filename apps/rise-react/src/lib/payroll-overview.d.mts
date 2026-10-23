@@ -1,7 +1,10 @@
 import type {SupabaseClient} from "@supabase/supabase-js";
 export type PayrollDocument={id:string;user_id:string;original_file_name?:string|null;status?:string|null;storage_path_raw?:string|null;storage_path_archive?:string|null;doc_class?:string|null};
-export type PayrollRow={id:string;document_id?:string|null;period_end?:string|null;period_label?:string|null;gross_salary?:number|null;net_salary?:number|null;net_payment?:number|null;worked_hours?:number|null;review_status?:string|null;validation_status?:string|null;currency?:string|null;document:PayrollDocument|null;unresolved:number;failedValidations:number};
+export type PayrollLineItem={id:string;payslip_id:string;category?:string|null;code?:string|null;label_original?:string|null;amount?:number|null};
+export type PayrollAnomaly={id:string;payslip_id:string;status:string;severity?:string|null;anomaly_type?:string|null};
+export type PayrollValidation={id:string;payslip_id:string;passed:boolean;severity?:string|null;rule_code?:string|null};
+export type PayrollRow={id:string;document_id?:string|null;period_end?:string|null;period_label?:string|null;payslip_number?:string|null;period_year?:number|null;updated_at?:string|null;user_id?:string;hourly_rate?:number|null;loonheffing?:number|null;shift_allowance?:number|null;payment_date?:string|null;gross_salary?:number|null;net_salary?:number|null;net_payment?:number|null;worked_hours?:number|null;review_status?:string|null;validation_status?:string|null;currency?:string|null;document:PayrollDocument|null;unresolved:number;failedValidations:number;lineItems:PayrollLineItem[];anomalies:PayrollAnomaly[];validations:PayrollValidation[]};
 export type PayrollOverview={rows:PayrollRow[];documentCount:number;anomalyCount:number;unresolvedAnomalies:number;failedValidations:number;approvedCount:number;latestNet:number|null};
-export declare function summarizePayroll(payslips?:Record<string,unknown>[],documents?:Record<string,unknown>[],anomalies?:Record<string,unknown>[],validations?:Record<string,unknown>[]):PayrollOverview;
+export declare function summarizePayroll(payslips?:Record<string,unknown>[],documents?:Record<string,unknown>[],anomalies?:Record<string,unknown>[],validations?:Record<string,unknown>[],lineItems?:Record<string,unknown>[]):PayrollOverview;
 export declare function loadPayrollOverview(client:SupabaseClient,uid:string):Promise<PayrollOverview>;
 export declare function downloadPayrollDocument(client:SupabaseClient,uid:string,doc:PayrollDocument):Promise<{blob:Blob;name:string}>;

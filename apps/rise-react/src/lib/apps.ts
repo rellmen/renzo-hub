@@ -1,9 +1,8 @@
 import { NAV } from "./nav";
-import { LEGACY_FALLBACK_URL } from "./nocturne-environment.mjs";
 import type { LucideIcon } from "lucide-react";
 import {
   Activity, Apple, BookOpen, Briefcase, CalendarClock, Car, Dumbbell, FileText, Flower2, Home,
-  Newspaper, NotebookPen, PiggyBank, Receipt, Settings, Sparkles, Target, Wallet,
+  Newspaper, NotebookPen, Receipt, Settings, Sparkles, Target, Wallet,
 } from "lucide-react";
 
 export type AppCategory = "bienestar" | "aprendizaje" | "productividad" | "finanzas" | "sistema";
@@ -38,7 +37,7 @@ export const APPS: AppEntry[] = [
   { id: "ares", kind: "live", to: "/ares", label: "Ares AI", short: "Ares", blurb: "Consultas privadas y asistencia autorizada", icon: Sparkles, accent: "var(--ares)", category: "sistema", aliases: ["ia", "ai", "asistente", "chat"] },
   { id: "aprender", kind: "live", to: "/aprender", label: "SelfLearn", short: "Aprender", blurb: "Neerlandés B2 · Inglés C1", icon: BookOpen, accent: "var(--learn)", category: "aprendizaje", aliases: ["learn", "idiomas", "neerlandes", "dutch", "ingles", "english", "lecciones"] },
   { id: "gym", kind: "live", to: "/gym", label: "Gym", short: "Gym", blurb: "Entrenos y descansos", icon: Dumbbell, accent: "var(--gym)", category: "bienestar", aliases: ["gimnasio", "entreno", "workout", "fitness"] },
-  { id: "dinero", kind: "live", to: "/dinero", label: "Money", short: "Money", blurb: "Bancos, gastos y presupuesto", icon: Wallet, accent: "var(--money)", category: "finanzas", aliases: ["dinero", "presupuesto", "budget"] },
+  { id: "dinero", kind: "live", to: "/dinero", label: "Money", short: "Money", blurb: "Bancos, gastos y presupuesto", icon: Wallet, accent: "var(--money)", category: "finanzas", aliases: ["dinero", "presupuesto", "budget", "my finance", "finanzas", "ahorro", "inversion", "savings", "patrimonio"] },
   { id: "piel", kind: "live", to: "/piel", label: "Skin Routine", short: "Skin", blurb: "Rutina mañana y noche", icon: Flower2, accent: "var(--skin)", category: "bienestar", aliases: ["piel", "skincare", "rutina", "cuidado"] },
   { id: "proyectos", kind: "live", to: "/proyectos", label: "Proyectos", short: "Proyectos", blurb: "Tareas y tablero", icon: Briefcase, accent: "var(--projects)", category: "productividad", aliases: ["projects", "tareas", "tasks", "kanban"] },
   { id: "ajustes", kind: "live", to: "/ajustes", label: "Ajustes", short: "Ajustes", blurb: "Preferencias y privacidad", icon: Settings, accent: "var(--platinum)", category: "sistema", aliases: ["settings", "configuracion", "preferencias", "perfil"] },
@@ -46,16 +45,15 @@ export const APPS: AppEntry[] = [
   { id: "body", kind: "live", to: "/body", label: "Body", short: "Body", blurb: "Medidas y progreso", icon: Activity, accent: "var(--gym)", category: "bienestar", aliases: ["cuerpo", "peso", "medidas"] },
   { id: "food", kind: "live", to: "/food", label: "Food", short: "Food", blurb: "Comidas y nutrición", icon: Apple, accent: "var(--skin)", category: "bienestar", aliases: ["comida", "nutricion", "dieta", "recetas"] },
   { id: "nominas", kind: "live", to: "/nominas", label: "Nóminas", short: "Nóminas", blurb: "Recibos de sueldo", icon: FileText, accent: "var(--money)", category: "finanzas", aliases: ["payroll", "sueldo", "salario", "nomina"] },
-  { id: "gastos", kind: "classic", href: LEGACY_FALLBACK_URL + "?app=gastos", label: "Gastos avanzados", short: "Gastos", blurb: "Abrir módulo clásico", icon: Receipt, accent: "var(--money)", category: "finanzas", aliases: ["expenses", "compras", "pagos"] },
+  { id: "gastos", kind: "live", to: "/gastos", label: "Gastos", short: "Gastos", blurb: "Categorías y reglas por comercio", icon: Receipt, accent: "var(--money)", category: "finanzas", aliases: ["expenses", "compras", "pagos", "categorias"] },
   { id: "turnos", kind: "live", to: "/turnos", label: "Turnos", short: "Turnos", blurb: "Horarios de trabajo", icon: CalendarClock, accent: "var(--projects)", category: "productividad", aliases: ["shifts", "horario", "calendario"] },
-  { id: "my-finance", kind: "classic", href: LEGACY_FALLBACK_URL + "?app=money", label: "My Finance", short: "Finance", blurb: "Finanzas avanzadas · módulo clásico", icon: PiggyBank, accent: "var(--money)", category: "finanzas", aliases: ["finanzas", "ahorro", "inversion", "savings"] },
   { id: "news", kind: "live", to: "/news", label: "News", short: "News", blurb: "Lecturas seleccionadas", icon: Newspaper, accent: "var(--learn)", category: "aprendizaje", aliases: ["noticias", "lectura", "articulos"] },
-  { id: "car", kind: "classic", href: LEGACY_FALLBACK_URL + "?app=car", label: "Car", short: "Car", blurb: "Mantenimiento · módulo clásico", icon: Car, accent: "var(--platinum)", category: "sistema", aliases: ["coche", "auto", "vehiculo", "carro"] },
-  ...NAV.filter(n => !["/","/quest","/ares","/aprender","/gym","/dinero","/piel","/proyectos","/ajustes","/notas","/body","/food","/nominas","/turnos","/news"].includes(n.to)).map(n => ({
+  { id: "car", kind: "live", to: "/car", label: "Car", short: "Car", blurb: "Gastos y documentos del coche", icon: Car, accent: "var(--platinum)", category: "sistema", aliases: ["coche", "auto", "vehiculo", "carro"] },
+  { id: "ai-inbox", kind: "live", to: "/inbox", label: "AI Inbox", short: "Inbox", blurb: "Capturas y revisiones privadas", icon: Sparkles, accent: "var(--ares)", category: "sistema", aliases: ["aprobaciones", "bandeja", "inbox", "capturas"] },
+  ...NAV.filter(n => !["/","/quest","/ares","/aprender","/gym","/dinero","/piel","/proyectos","/ajustes","/notas","/body","/food","/nominas","/turnos","/news","/gastos","/car","/inbox"].includes(n.to)).map(n => ({
     ...n, id: n.to.slice(1), kind: "live" as const, blurb: "Abrir " + n.label,
     category: "productividad" as const, aliases: [n.label,n.short]
   })),
-  {id:"ai-inbox",kind:"classic",href:LEGACY_FALLBACK_URL+"?app=ares-center",label:"AI Inbox",short:"Inbox",blurb:"Bandeja de solicitudes · clásico",icon:Sparkles,accent:"var(--ares)",category:"sistema",aliases:["aprobaciones","bandeja"]},
 ];
 
 export const APP_BY_ID: Record<string, AppEntry> = Object.fromEntries(APPS.map((a) => [a.id, a]));

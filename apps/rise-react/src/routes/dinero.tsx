@@ -1,4 +1,4 @@
-import {createFileRoute} from "@tanstack/react-router";
+import {createFileRoute,Link} from "@tanstack/react-router";
 import {useQuery} from "@tanstack/react-query";
 import {useEffect,useState} from "react";
 import {ArrowDownLeft,ArrowUpRight,Landmark,PiggyBank,RefreshCw,ShieldCheck,Wallet} from "lucide-react";
@@ -8,6 +8,14 @@ import {PageHero} from "@/components/rise/PageHero";
 import {SectionCard,EmptyState,Bar} from "@/components/rise/primitives";
 import {useAuth} from "@/lib/auth/AuthProvider";
 import {loadRealMoney,moneyMonthView,type MoneySummary} from "@/lib/money-records.mjs";
+import {WeeklyBudgetEditor} from "@/components/rise/WeeklyBudgetEditor";
+import {loadPayrollOverview} from "@/lib/payroll-overview.mjs";
+import {BankStatementImport} from "@/components/rise/BankStatementImport";
+import {AssetValuationEditor} from "@/components/rise/AssetValuationEditor";
+import {FinancialGoals} from "@/components/rise/FinancialGoals";
+import {SalaryReconciliation} from "@/components/rise/SalaryReconciliation";
+import {RecurringExpenses} from "@/components/rise/RecurringExpenses";
+import {FinanceSections} from "@/components/rise/FinanceSections";
 
 export const Route=createFileRoute("/dinero")({
   head:()=>pageHead("Money","Ingresos, gastos y patrimonio conocidos a partir de tus registros financieros privados."),
@@ -38,11 +46,14 @@ function Money(){
   const state=useQuery({queryKey:key,enabled:!!client&&!!uid,
     queryFn:()=>loadRealMoney(client!,uid),staleTime:60_000,refetchOnWindowFocus:true});
   useEffect(()=>{if(state.data&&!state.data.months.includes(month))setMonth(state.data.month||"");},[state.data,month]);
+  const payroll=useQuery({queryKey:["payroll-overview",uid],enabled:!!client&&!!uid,
+    queryFn:()=>loadPayrollOverview(client!,uid),staleTime:30000,refetchOnWindowFocus:true});
   const data=state.data;
   const view=data&&month?moneyMonthView(data,month):data?.monthSummary;
   const categories=(view?.categories||[]).slice(0,6);
   const largest=Math.max(1,...categories.map(c=>c.total));
   return <div className="space-y-6">
+    <FinanceSections/>
     <PageHero image={img} eyebrow="MY FINANCE · PRIVADO"
       title="Capital con intención."
       subtitle="Solo movimientos bancarios importados y valoraciones que has registrado. Sin cifras de demostración."
@@ -56,6 +67,19 @@ function Money(){
     {state.isLoading&&<p role="status" className="surface p-5">Cargando información financiera privada…</p>}
 
     {data&&<>
+      <SectionCard eyebrow="MY FINANCE · INGRESOS LABORALES" title="Tus nóminas" accent="var(--gold)">
+        {payroll.isLoading&&<p role="status" className="text-sm text-muted-foreground">Consultando historial salarial…</p>}
+        {payroll.error&&<p role="alert" className="text-sm text-gym">No se pudo consultar el historial de nóminas.</p>}
+        {payroll.data&&<div className="flex flex-wrap items-center justify-between gap-4">
+          <div><strong className="text-xl">{payroll.data.rows.length} nóminas</strong>
+            <p className="mt-1 text-xs text-muted-foreground">Último neto documental: {euro(payroll.data.latestNet)}</p>
+            {payroll.data.unresolvedAnomalies>0&&<p className="mt-1 text-xs text-gym">{payroll.data.unresolvedAnomalies} anomalías por revisar</p>}
+          </div>
+          <Link to="/nominas" className="btn-ghost min-h-11">Abrir nóminas y subir PDF</Link>
+        </div>}
+        <p className="mt-3 text-xs text-muted-foreground">El salario documentado no se suma a los movimientos bancarios: evita contabilizar dos veces el mismo ingreso.</p>
+      </SectionCard>
+      {payroll.data&&month&&<SalaryReconciliation moneyData={data} payrollData={payroll.data} month={month}/>}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <p className="flex items-center gap-2 text-xs text-muted-foreground">
           <ShieldCheck className="h-4 w-4 text-money"/> Origen: extractos y registros privados de RISE HUB
@@ -111,6 +135,7 @@ function Money(){
           </SectionCard>
         </div>
       </>}
+      <RecurringExpenses data={data}/>
       <div className="grid gap-6 lg:grid-cols-2">
         <SectionCard eyebrow="Patrimonio" title="Activos y deudas conocidos" accent="var(--money)">
           <dl className="space-y-4">
@@ -124,18 +149,14 @@ function Money(){
           </dl>
           <p className="mt-3 text-xs text-muted-foreground">No incluye automáticamente deuda, patrimonio ni cuentas que no hayas registrado.</p>
         </SectionCard>
-        <SectionCard eyebrow="Objetivos registrados" title="Metas financieras" accent="var(--gold)">
-          {data.goals.length?<ul className="space-y-3">
-            {data.goals.map(goal=><li key={goal.id} className="rounded-xl border border-hairline bg-raised p-4">
-              <p className="font-medium">{goal.title}</p><p className="mt-1 text-xs text-muted-foreground">Tipo: {goal.type||"No identificado"} · Progreso pendiente de cálculo verificado</p>
-            </li>)}
-          </ul>:<EmptyState icon={<PiggyBank className="h-5 w-5"/>} title="Sin objetivos financieros registrados"
-              text="Los objetivos aparecerán cuando los guardes en RISE HUB."/>}
-        </SectionCard>
+        <FinancialGoals data={data}/>
       </div>
       <p className="flex items-start gap-2 text-xs text-muted-foreground">
-        <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0"/> Vista de consulta. Las importaciones, categorizaciones y ediciones financieras permanecen en la aplicación anterior hasta portar sus verificaciones y reglas de revisión.
+        <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0"/> El resumen utiliza transacciones bancarias importadas. <Link to="/gastos" className="text-gold underline">Editar categorías de gastos</Link>. Las importaciones se revisan y confirman manualmente.
       </p>
     </>}
+    <AssetValuationEditor/>
+    <BankStatementImport/>
+    <WeeklyBudgetEditor/>
   </div>;
 }

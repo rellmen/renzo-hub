@@ -6,7 +6,11 @@ import {useAuth} from "@/lib/auth/AuthProvider";
 import {PageHeader,SectionCard} from "@/components/rise/primitives";
 import {pageHead} from "@/lib/seo";
 import {loadPayrollOverview,downloadPayrollDocument,type PayrollDocument} from "@/lib/payroll-overview.mjs";
-import {LEGACY_FALLBACK_URL} from "@/lib/nocturne-environment.mjs";
+import {loadPayrollRecords} from "@/lib/payroll-records.mjs";
+import {LEGACY_FALLBACK_URL,backendEnvironmentForHost} from "@/lib/nocturne-environment.mjs";
+import {PayrollUpload} from "@/components/rise/PayrollUpload";
+import {PayrollReview} from "@/components/rise/PayrollReview";
+import {FinanceSections} from "@/components/rise/FinanceSections";
 
 export const Route=createFileRoute("/nominas")({
  head:()=>pageHead("Nóminas","Documentos salariales reales, validaciones y auditoría privada."),
@@ -16,11 +20,14 @@ const eur=new Intl.NumberFormat("es-ES",{style:"currency",currency:"EUR"});
 const money=(v:number|null|undefined)=>typeof v==="number"?eur.format(v):"—";
 function Payroll(){
  const {client,user}=useAuth(),uid=user?.id||"";
+ const isStaging=import.meta.env['VITE_NOCTURNE_RELEASE_TARGET']==='preview'||import.meta.env['VITE_NOCTURNE_RELEASE_TARGET']==='staging'||(typeof window!=='undefined'&&backendEnvironmentForHost(window.location.hostname)==='staging');
  const [downloading,setDownloading]=useState<string|null>(null);
  const [fileError,setFileError]=useState("");
  const query=useQuery({queryKey:["payroll-overview",uid],enabled:!!client&&!!uid,
   queryFn:()=>loadPayrollOverview(client!,uid),staleTime:30000,refetchOnWindowFocus:true});
  const data=query.data;
+ const historical=useQuery({queryKey:["payroll-contracts-shifts",uid],enabled:!!client&&!!uid,
+  queryFn:()=>loadPayrollRecords(client!,uid),staleTime:30000,refetchOnWindowFocus:true});
  async function download(doc:PayrollDocument){
   if(!client)return;
   setDownloading(doc.id);setFileError("");
@@ -33,8 +40,11 @@ function Payroll(){
   finally{setDownloading(null);}
  }
  return <div className="space-y-6">
+  <FinanceSections/>
   <PageHeader eyebrow="MY FINANCE · NÓMINAS" title="Tu historial salarial"
-    subtitle="Datos originales de Supabase. No se alteran importes, nóminas ni documentos durante esta migración."/>
+    subtitle="Documentos, conceptos e historial salarial vinculados a tu cuenta en este entorno."/>
+  {isStaging&&<p role="note" className="surface border border-gold/20 p-4 text-sm text-platinum/80">Estás en staging. Aquí solo aparecen sus nóminas de prueba; las nóminas recientes de tu cuenta habitual no se copian a este entorno.</p>}
+  <PayrollUpload/>
   <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-platinum/75">
    <p><ShieldCheck className="mr-2 inline h-4 w-4 text-gold"/>Solo se muestran las nóminas vinculadas a tu sesión.</p>
    <button type="button" className="btn-ghost" disabled={query.isFetching} onClick={()=>void query.refetch()}>
@@ -64,6 +74,28 @@ function Payroll(){
        {(p.unresolved>0||p.failedValidations>0)&&<p className="text-xs text-gym">
         <AlertTriangle className="mr-1 inline h-3 w-3"/>{p.unresolved} anomalías pendientes · {p.failedValidations} reglas fallidas
        </p>}
+
+       <details className="mt-3 rounded-xl border border-hairline bg-raised p-3 text-xs">
+        <summary className="cursor-pointer font-medium text-gold">Desglose y auditoría · {p.lineItems.length} conceptos</summary>
+        <div className="mt-3 space-y-3">
+         {p.lineItems.length?<ul className="divide-y divide-hairline">{p.lineItems.map(i=><li key={i.id} className="flex items-center justify-between gap-3 py-2">
+          <span className="min-w-0 break-words">{i.label_original||i.code||"Concepto sin etiqueta"}</span>
+          <strong className="whitespace-nowrap tabular-nums">{money(i.amount)}</strong>
+         </li>)}</ul>:<p className="text-muted-foreground">No hay conceptos normalizados registrados para esta nómina.</p>}
+         {p.validations.length>0&&<div><p className="mb-1 font-medium">Validaciones ({p.validations.length})</p>
+          <ul className="space-y-1">{p.validations.map(v=><li key={v.id} className={v.passed?"text-platinum/75":"text-gym"}>
+           {v.passed?"Correcta":"Revisar"} · {v.rule_code||"Regla sin código"}
+          </li>)}</ul>
+         </div>}
+         {p.anomalies.length>0&&<div><p className="mb-1 font-medium">Anomalías ({p.anomalies.length})</p>
+          <ul className="space-y-1">{p.anomalies.map(a=><li key={a.id} className="text-platinum/75">
+           {a.anomaly_type||"Anomalía"} · {a.status||"Sin estado"}
+          </li>)}</ul>
+         </div>}
+         <p className="text-muted-foreground">Datos originales de revisión, sin modificar ni aprobar automáticamente.</p>
+        </div>
+       </details>
+       <PayrollReview row={p}/>
       </div>
       {p.document?.storage_path_archive||p.document?.storage_path_raw?
        <button type="button" className="btn-ghost min-h-11" disabled={!!downloading}
@@ -73,6 +105,23 @@ function Payroll(){
      </li>)}</ul>}
    </SectionCard>
   </>}
+  <SectionCard eyebrow="SHIFT TRACKER · DATOS REALES" title="Contratos y turnos importados" accent="var(--projects)">
+   {historical.isLoading&&<p role="status" className="text-sm">Consultando contratos y turnos…</p>}
+   {historical.error&&<p role="alert" className="text-sm text-gym">No se pudo recuperar la información contractual completa.</p>}
+   {historical.data&&<div className="space-y-4">
+     <p className="text-sm text-platinum/80">{historical.data.contracts.length} contratos · {historical.data.shifts.length} turnos guardados. No se calculan complementos sin reglas contractuales verificadas.</p>
+     <details><summary className="cursor-pointer text-sm font-medium">Ver contratos registrados</summary>
+       <ul className="mt-3 space-y-2">{historical.data.contracts.map(c=><li key={c.id} className="rounded-xl border border-hairline p-3 text-sm">
+         <strong>{c.title||"Contrato sin título"}</strong><p className="mt-1 text-xs text-muted-foreground">Tarifa base registrada: {typeof c.payload?.hourlyRate==="number"?money(c.payload.hourlyRate)+"/h":"No verificada"}</p>
+       </li>)}</ul>
+     </details>
+     <details><summary className="cursor-pointer text-sm font-medium">Ver historial de turnos</summary>
+       <ul className="mt-3 space-y-2">{historical.data.shifts.slice(0,100).map(t=><li key={t.id} className="rounded-xl border border-hairline p-3 text-sm">
+         <strong>{t.title||String(t.payload?.date||"Fecha pendiente")}</strong><p className="mt-1 text-xs text-muted-foreground">{String(t.payload?.start||"—")}–{String(t.payload?.end||"—")}</p>
+       </li>)}</ul>
+     </details>
+   </div>}
+  </SectionCard>
   {fileError&&<p role="alert" className="rounded-xl border border-gym/40 p-4 text-sm text-gym">{fileError}</p>}
   <SectionCard eyebrow="Compatibilidad" title="Herramientas laborales avanzadas" accent="var(--projects)">
    <p className="text-sm text-platinum/75">Las correcciones, reextracción documental y comparación salarial avanzada siguen en el módulo clásico hasta superar la paridad de escrituras en React.</p>

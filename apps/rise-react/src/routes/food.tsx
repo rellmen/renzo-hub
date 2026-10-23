@@ -7,6 +7,7 @@ import {useAuth} from "@/lib/auth/AuthProvider";
 import {PageHeader,SectionCard,EmptyState,Bar} from "@/components/rise/primitives";
 import {loadBodyFoodSnapshot,type NutritionProgress} from "@/lib/body-food-snapshot.mjs";
 import {saveFoodMeal} from "@/lib/body-food-entry.mjs";
+import {FoodMealEditor,FoodShopping} from "@/components/rise/FoodPlanning";
 export const Route=createFileRoute("/food")({head:()=>pageHead("Food","Alimentación registrada sin datos ficticios."),component:Food});
 function FoodMetric({title,value,unit,progress}:{title:string;value:number;unit:string;progress:NutritionProgress}){
  return <SectionCard eyebrow="Registro de hoy" title={title} accent="var(--gold)">
@@ -68,9 +69,11 @@ function Food(){
      {saving.error instanceof Error?saving.error.message:"No se pudo guardar la comida."}
    </p>}
    {saving.isSuccess&&<p role="status" className="mt-3 text-xs text-muted-foreground">Comida guardada en Supabase.</p>}
-   <p className="mt-3 text-xs text-muted-foreground">Solo utiliza valores nutricionales que conozcas; los campos vacíos no se convierten en mediciones ficticias. No se modifican entradas anteriores.</p>
+   <p className="mt-3 text-xs text-muted-foreground">Solo utiliza valores nutricionales que conozcas; los campos vacíos no se convierten en mediciones ficticias. Puedes corregir o eliminar las comidas de hoy más abajo.</p>
  </SectionCard>
- <p className="text-xs text-muted-foreground">La edición de comidas y las compras siguen en la aplicación anterior hasta verificar su sincronización. <Link to="/body" className="text-gold underline">Volver a Body</Link></p>
+ <FoodMealEditor day={d.today}/>
+ <FoodShopping budget={{min:Number(d.profile['budgetMin']),max:Number(d.profile['budgetMax'])}}/>
+ <p className="text-xs text-muted-foreground">Los rangos de kcal, proteína y presupuesto se configuran en <Link to="/body" className="text-gold underline">Body</Link>.</p>
  </>}
  </div>;
 }

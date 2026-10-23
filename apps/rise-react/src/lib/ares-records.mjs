@@ -13,12 +13,14 @@ export function summarizeAresRecords(rows=[]){
     (r.record_type==="ares_decision"&&r.status==="pending")||
     (r.record_type==="renzo_inbox"&&!REVIEWED.has(asStatus(r))));
   const agents=safe.filter(r=>r.record_type==="ares_agent_run"||(r.record_type==="renzo_event"&&r.source==="automation"));
-  return {projects,tasks,approvals,agents,records:safe.length,partial:safe.length>=300};
+  // Aprobadas por el propietario y aún no entregadas: candidatas a un envío manual de un solo intento.
+  const handoffs=safe.filter(r=>r.record_type==="ares_operation"&&["approved","dispatching","submitted","delivery_unknown"].includes(r.status)&&r.payload?.agent==="Jarvis");
+  return {projects,tasks,approvals,agents,handoffs,records:safe.length,partial:safe.length>=300};
 }
 export async function loadAresRecords(client,uid){
   const id=owner(uid);
   const {data,error}=await client.from("hub_records")
-    .select("id,owner_id,record_type,title,status,occurred_at,payload,source,requires_review")
+    .select("id,owner_id,domain,record_type,title,status,occurred_at,payload,source,requires_review,updated_at")
     .eq("owner_id",id).in("record_type",TYPES).order("occurred_at",{ascending:false}).limit(300);
   if(error)throw new Error(error.message||"No se pudieron cargar tus registros.");
   if(!Array.isArray(data))throw new Error("Datos de Ares no disponibles.");

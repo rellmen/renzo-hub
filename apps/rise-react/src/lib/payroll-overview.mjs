@@ -1,6 +1,6 @@
 // Nocturne payroll adapter: preserves normalized legacy records and RLS.
 // NO re-extraction, rewriting, AI inference or hidden mutation.
-const PAYSLIP_COLS="id,user_id,document_id,employer_id,period_start,period_end,period_label,payment_date,period_year,period_number,worked_hours,gross_salary,net_salary,net_payment,validation_status,review_status,currency";
+const PAYSLIP_COLS="id,user_id,document_id,employer_id,period_start,period_end,period_label,payment_date,period_year,period_number,payslip_number,updated_at,worked_hours,hourly_rate,loonheffing,shift_allowance,gross_salary,net_salary,net_payment,validation_status,review_status,currency";
 const DOC_COLS="id,user_id,original_file_name,status,storage_path_raw,storage_path_archive,doc_class";
 async function all(client,table,cols,uid,max=5000){
  const rows=[];
@@ -13,15 +13,18 @@ async function all(client,table,cols,uid,max=5000){
  throw Error("Tabla "+table+" con demasiados registros para una lectura completa; se ha bloqueado el resumen parcial.");
 }
 const number=x=>typeof x==="number"&&Number.isFinite(x)?x:null;
-export function summarizePayroll(payslips=[],documents=[],anomalies=[],validations=[]){
+export function summarizePayroll(payslips=[],documents=[],anomalies=[],validations=[],lineItems=[]){
  const docMap=new Map(documents.map(d=>[d.id,d]));
  const issues=new Map();
  for(const a of anomalies)if(a.status!=="resolved"&&a.status!=="dismissed")issues.set(a.payslip_id,(issues.get(a.payslip_id)||0)+1);
  const invalid=new Map();
+ const bySlip=(rows)=>{const mapped=new Map();for(const row of rows){if(!row.payslip_id)continue;const current=mapped.get(row.payslip_id)||[];current.push(row);mapped.set(row.payslip_id,current);}return mapped;};
+ const linesBySlip=bySlip(lineItems),anomaliesBySlip=bySlip(anomalies),validationsBySlip=bySlip(validations);
  for(const v of validations)if(v.passed===false)invalid.set(v.payslip_id,(invalid.get(v.payslip_id)||0)+1);
  const rows=payslips.map(p=>({
   ...p,document:docMap.get(p.document_id)||null,
-  unresolved:issues.get(p.id)||0,failedValidations:invalid.get(p.id)||0
+  unresolved:issues.get(p.id)||0,failedValidations:invalid.get(p.id)||0,
+  lineItems:linesBySlip.get(p.id)||[],anomalies:anomaliesBySlip.get(p.id)||[],validations:validationsBySlip.get(p.id)||[]
  })).sort((a,b)=>String(b.period_end||b.payment_date||"").localeCompare(String(a.period_end||a.payment_date||"")));
  const verified=rows.filter(r=>r.review_status==="approved"||r.review_status==="reviewed");
  return{rows,documentCount:documents.length,anomalyCount:anomalies.length,
@@ -34,13 +37,14 @@ export function summarizePayroll(payslips=[],documents=[],anomalies=[],validatio
 }
 export async function loadPayrollOverview(client,uid){
  if(!client||typeof uid!=="string"||!uid)throw Error("Sesión requerida para Nóminas");
- const [s,d,a,v]=await Promise.all([
+ const [s,d,a,v,l]=await Promise.all([
   all(client,"payroll_payslips",PAYSLIP_COLS,uid),
   all(client,"payroll_documents",DOC_COLS,uid),
   all(client,"payroll_anomalies","id,user_id,payslip_id,status,severity,anomaly_type",uid),
-  all(client,"payroll_validations","id,user_id,payslip_id,passed,severity,rule_code",uid)
+  all(client,"payroll_validations","id,user_id,payslip_id,passed,severity,rule_code",uid),
+  all(client,"payroll_line_items","id,user_id,payslip_id,category,code,label_original,amount",uid)
  ]);
- return summarizePayroll(s,d,a,v);
+ return summarizePayroll(s,d,a,v,l);
 }
 export async function downloadPayrollDocument(client,uid,doc){
  if(!client||!uid||!doc||doc.user_id!==uid)throw Error("Documento no autorizado.");

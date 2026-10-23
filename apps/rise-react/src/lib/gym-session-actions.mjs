@@ -51,8 +51,11 @@ export function prepareGymSave(base,updates,{finish=false,at=new Date()}={}){
   const exercises=base.exercises.map((ex,i)=>{
     const old=Array.isArray(ex?.sets)?ex.sets:[];
     const next=updates[i];
-    if(!Array.isArray(next)||next.length!==old.length)throw Error("Número de series distinto del registro.");
-    return {...ex,sets:old.map((original,j)=>{
+    // Series añadidas al final (máx. 20) o retiradas del final SOLO si no estaban completadas.
+    if(!Array.isArray(next)||next.length<1||next.length>20)throw Error("Número de series distinto del registro.");
+    if(next.length<old.length&&old.slice(next.length).some(x=>x?.completed))throw Error("Número de series distinto del registro.");
+    const template=Array.from({length:next.length},(_,j)=>old[j]||{weight:null,reps:null,rir:null,completed:false,added:true});
+    return {...ex,sets:template.map((original,j)=>{
       const x=next[j]||{};
       const completed=x.completed===true;
       if(completed)setsDone++;
@@ -76,14 +79,24 @@ export function prepareGymSave(base,updates,{finish=false,at=new Date()}={}){
 export async function saveGymDraft(client,uid,base,updates,{finish=false,at=new Date()}={}){
   const user_id=logged(uid);
   if(base?.user_id!==user_id)throw Error("La sesión no pertenece a la cuenta activa.");
-  // Preflight detects stale edits. The DB currently has no revision or updated_at
-  // column on gym_sessions: truly atomic CAS requires a schema/RPC migration.
-  // Do NOT claim cross-device conflict safety from this non-atomic check.
+  // Preflight detects stale edits. When gym_save_session_cas is installed the save is atomic;
+  // without it, the legacy update below is NOT conflict-safe across devices (do not claim it is).
   const fresh=result(await client.from("gym_sessions").select("*").eq("id",base.id)
     .eq("user_id",user_id).maybeSingle());
   if(!fresh||fresh.completed_at)throw Error("La sesión ya no está abierta.");
   if(!sessionsEqual(fresh.exercises,base.exercises))throw Error("Esta sesión cambió en otro dispositivo. Actualiza antes de guardar.");
   const next=prepareGymSave(fresh,updates,{finish,at});
+  // Atomic path (supabase/pending/20261023190000_gym_save_session_cas.sql): compares the snapshot under row lock.
+  if(typeof client.rpc==="function"){
+    const r=await client.rpc("gym_save_session_cas",{p_id:base.id,p_expected:fresh.exercises,p_exercises:next.exercises,
+      p_finish:!!finish,p_duration:finish?next.duration_minutes:null});
+    if(!r?.error&&r?.data)return r.data;
+    const code=String(r?.error?.code||""),text=String(r?.error?.message||"");
+    if(code==="40001"||/changed on another device/i.test(text))throw Error("Esta sesión cambió en otro dispositivo. Actualiza antes de guardar.");
+    if(code==="22023")throw Error(/closed/i.test(text)?"La sesión ya no está abierta.":"Datos de sesión no válidos.");
+    // Only "function not installed" falls back to the legacy non-atomic path below.
+    if(!(code==="PGRST202"||code==="42883"||/could not find the function|does not exist/i.test(text)))throw Error(text||"No se pudo sincronizar la sesión.");
+  }
   const saved=result(await client.from("gym_sessions")
     .update({exercises:next.exercises,completed_at:next.completed_at,duration_minutes:next.duration_minutes})
     .eq("id",base.id).eq("user_id",user_id).is("completed_at",null).select("*").maybeSingle());

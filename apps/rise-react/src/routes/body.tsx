@@ -7,6 +7,7 @@ import {useAuth} from "@/lib/auth/AuthProvider";
 import {PageHeader,SectionCard,EmptyState,Bar} from "@/components/rise/primitives";
 import {loadBodyFoodSnapshot} from "@/lib/body-food-snapshot.mjs";
 import {saveBodyWeight} from "@/lib/body-food-entry.mjs";
+import {BodyGoals} from "@/components/rise/BodyGoals";
 export const Route=createFileRoute("/body")({head:()=>pageHead("Body","Tu cuerpo y progreso privado a partir de registros reales."),component:Body});
 const kg=(x:number)=>new Intl.NumberFormat("es-ES",{maximumFractionDigits:1}).format(x)+" kg";
 function Body(){
@@ -64,8 +65,9 @@ function Body(){
      {save.error instanceof Error?save.error.message:"No se guardó la medición."}
    </p>}
    {save.isSuccess&&<p role="status" className="mt-3 text-xs text-muted-foreground">Registro confirmado en tu cuenta.</p>}
-   <p className="mt-3 text-xs text-muted-foreground">Este registro se añade al historial sin reemplazar mediciones anteriores. Los ajustes de metas permanecen en la aplicación anterior.</p>
+   <p className="mt-3 text-xs text-muted-foreground">Este registro se añade al historial sin reemplazar mediciones anteriores. Puedes corregirlo abajo; el valor anterior se conserva.</p>
  </SectionCard>
+ <BodyGoals/>
  </>}
  </div>;
 }

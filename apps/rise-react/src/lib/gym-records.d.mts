@@ -1,5 +1,5 @@
 export type GymSet={weight:number|null;reps:number|null;rir?:number|null;completed:boolean};
-export type GymExercise={name:string;muscle?:string;sets:GymSet[];min?:number;max?:number};
+export type GymExercise={name:string;muscle?:string;sets:GymSet[];min?:number;max?:number;compound?:boolean;superset?:boolean;rest?:string|number;rir?:number|null;tip?:string;unit?:string};
 export type GymSession={id:string;user_id:string;workout_date:string;day:number;title:string;started_at:string|null;completed_at:string|null;duration_minutes:number|null;cardio_minutes:number;body_weight:number|null;notes?:string;exercises:GymExercise[]};
 export type GymPlanExercise=[name:string,count:number,min:number,max:number,muscle:string,...extra:unknown[]];
 export type GymPlanDay=[title:string,cardioTarget:string,exercises:GymPlanExercise[]];
