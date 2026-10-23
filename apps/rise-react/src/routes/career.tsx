@@ -4,6 +4,7 @@ import {Briefcase,BookOpen,RefreshCw,ShieldCheck} from "lucide-react";
 import {useAuth} from "@/lib/auth/AuthProvider";
 import {PageHeader,SectionCard} from "@/components/rise/primitives";
 import {pageHead} from "@/lib/seo";
+import {CareerTracker} from "@/components/rise/CareerTracker";
 
 export const Route=createFileRoute("/career")({
  head:()=>pageHead("Career y Data Lab","Trayectoria, habilidades y objetivos profesionales confirmados."),
@@ -67,8 +68,9 @@ function Career(){
      </div>)}</dl>}
    </SectionCard>
   </>}
+  <CareerTracker/>
   <SectionCard eyebrow="Aprendizaje separado" title="Career frente a SelfLearn" accent="var(--learn)">
-   <p className="text-sm text-platinum/80">Career es para herramientas de datos, trabajo y portafolio. SelfLearn es exclusivamente para neerlandés e inglés. Los cursos técnicos todavía requieren un seguimiento específico para completar el portafolio.</p>
+   <p className="text-sm text-platinum/80">Career es para herramientas de datos, trabajo y portafolio. SelfLearn es exclusivamente para neerlandés e inglés. La formación técnica, las skills y el portfolio se registran arriba.</p>
    <div className="mt-4 flex flex-wrap gap-2">
     <Link to="/proyectos" className="btn-gold inline-flex min-h-11 items-center"><Briefcase className="h-4 w-4"/>Proyectos</Link>
     <Link to="/aprender" className="btn-ghost inline-flex min-h-11 items-center"><BookOpen className="h-4 w-4"/>Idiomas</Link>
