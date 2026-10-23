@@ -3,6 +3,10 @@
 export const PATH_VERSION="2026-10-24";
 export const START_DAY="2026-10-26";
 export const LAST_WEEK=23;
+export const BOSSES=Object.freeze([
+ {id:"boss-general-2027",day:"2027-04-10",weekday:5,subject:"Fase general UOC +25",minutes:0,title:"Realizar el examen de la fase general",detail:"Comentario de texto, Castellano e Inglés. Marcar solo después de presentarte.",chapter:5,week:23},
+ {id:"boss-specific-2027",day:"2027-04-17",weekday:5,subject:"Fase específica UOC +25",minutes:0,title:"Realizar el examen de Matemáticas y Economía",detail:"Registrar después tus resultados cuando sean oficiales, sin asumir aprobado.",chapter:5,week:23}
+]);
 export const CHAPTERS=Object.freeze([
  {name:"Diagnóstico",subtitle:"26 oct – 22 nov 2026",detail:"Nivel de partida, álgebra, conceptos de empresa y comprensión.",color:"var(--learn)"},
  {name:"Fundamentos",subtitle:"23 nov – 20 dic 2026",detail:"Funciones, ecuaciones, porcentajes, costes y organización.",color:"var(--gold)"},
@@ -71,7 +75,7 @@ export function tasksForWeek(week){
    title:p.action,detail:topic,chapter,week};
  });
 }
-export function allTasks(){return Array.from({length:24},(_,w)=>tasksForWeek(w)).flat();}
+export function allTasks(){return [...Array.from({length:24},(_,w)=>tasksForWeek(w)).flat(),...BOSSES];}
 export function pathMetrics(rows=[]){
  const completed=new Set(rows.filter(r=>r?.status==="completed"&&typeof r?.payload?.taskId==="string").map(r=>r.payload.taskId));
  const full=allTasks(),valid=full.filter(t=>completed.has(t.id));
