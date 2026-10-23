@@ -30,12 +30,13 @@ export function summarizeMoney(fin,assets,goals,{at=new Date()}={}){
   const salaryIds=new Set(fin.items.filter(i=>i.category==="nomina"&&i.amount>0).map(i=>i.id));
   const salaryBankTxs=fin.txs.filter(t=>salaryIds.has(t.id)).map(t=>({id:t.id,payload:{date:t.payload?.date,amount:t.payload?.amount,payslip_numbers:t.payload?.payslip_numbers||[],bank:t.payload?.bank}}));
   const unknownBankMonths=current?revolutGap(fin.items,current):null;
-  const fixedMonthly=current?recurring(fin.items,current,fixedFlags(fin.rules||[])).total:null;
+  const fixed=current?recurring(fin.items,current,fixedFlags(fin.rules||[])):null;
+  const fixedMonthly=fixed?.items.length?fixed.total:null;
   const today=dayStamp(at);
   const goalContext={items:fin.items,today,month:current||today.slice(0,7),cash:nw.accounts.length?nw.cash:null,fixedMonthly,months};
   return {
     months,month:current,items:fin.items,salaryBankTxs,
-    txCount:fin.txs.length,bankUpdatedThrough:banks,
+    txCount:fin.txs.length,bankUpdatedThrough:banks,fixedExpenses:fixed,
     monthSummary:entries,worth:nw,
     // If Revolut has no imported statement, its spending cannot be treated as complete.
     noRevolutStatement:fin.items.length>0&&!banks.Revolut,

@@ -14,6 +14,7 @@ import {BankStatementImport} from "@/components/rise/BankStatementImport";
 import {AssetValuationEditor} from "@/components/rise/AssetValuationEditor";
 import {FinancialGoals} from "@/components/rise/FinancialGoals";
 import {SalaryReconciliation} from "@/components/rise/SalaryReconciliation";
+import {RecurringExpenses} from "@/components/rise/RecurringExpenses";
 import {FinanceSections} from "@/components/rise/FinanceSections";
 
 export const Route=createFileRoute("/dinero")({
@@ -134,6 +135,7 @@ function Money(){
           </SectionCard>
         </div>
       </>}
+      <RecurringExpenses data={data}/>
       <div className="grid gap-6 lg:grid-cols-2">
         <SectionCard eyebrow="Patrimonio" title="Activos y deudas conocidos" accent="var(--money)">
           <dl className="space-y-4">
