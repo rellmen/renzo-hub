@@ -37,11 +37,12 @@ test("Production SelfLearn award flag fails closed until backend capability is v
   assert.equal(officialSelfLearnAwardsEnabled(true,{hostname:'localhost',releaseTarget:'typo',backendReady:true}),false);
 });
 
-test("Mobile More indicates all grouped finance and wellness routes as active",()=>{
+test("Approved launcher (#152) reaches all grouped finance and wellness routes natively",()=>{
+  // The old mobile "Más" group was replaced by the approved app launcher; every route must be a live entry.
   const shell=read("components/rise/AppShell.tsx");
-  const nav=shell.match(/const moreActive\s*=\s*\[([^\]]+)\]/);
-  assert.ok(nav,"More route group must exist");
-  for(const route of ["/gastos","/dinero","/nominas","/turnos","/body","/food","/piel"]){
-    assert.match(nav[1],new RegExp('"'+route+'"'),route+" is missing from More active routes");
+  assert.match(shell,/<AppLauncher\s*\/>/,"Shell must mount the app launcher");
+  const apps=read("lib/apps.ts");
+  for(const route of ["/gastos","/dinero","/nominas","/turnos","/body","/food","/piel","/car","/inbox"]){
+    assert.match(apps,new RegExp('kind: "live", to: "'+route+'"'),route+" must open natively from the launcher");
   }
 });
