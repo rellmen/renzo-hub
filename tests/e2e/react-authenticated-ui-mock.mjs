@@ -79,7 +79,7 @@ for(const [label,engine,opts] of [
   await page.waitForURL('**/nominas');
   await openLauncher();
   await dialog.getByRole('searchbox',{name:'Buscar apps'}).fill('Car');
-  const car=dialog.getByRole('link').filter({hasText:/^Car/});
+  const car=dialog.locator('a[href$="?app=car"]');
   assert.match(await car.getAttribute('href'),/^https:\/\/rise-hub-classic-renzojesus99-1996.vercel.app\/\?app=car$/);
   await page.keyboard.press('Escape');
   await page.getByRole('dialog').waitFor({state:'hidden'});
