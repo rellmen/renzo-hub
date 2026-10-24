@@ -57,20 +57,18 @@
       },
       {
        "id": "matematicas-m00-l03",
-       "title": "Fracciones equivalentes",
+       "title": "Fracciones equivalentes, simplificación y comparación",
        "topic_scope": "fracciones equivalentes",
        "level": "N0",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
         "matematicas-m00-l02"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "matematicas-m00-l04",
@@ -93,51 +91,45 @@
        "title": "Decimales y porcentajes",
        "topic_scope": "decimales y porcentajes",
        "level": "N0",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
         "matematicas-m00-l04"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "matematicas-m00-l06",
-       "title": "Potencias, raíces, notación científica",
+       "title": "Potencias, raíces y notación científica",
        "topic_scope": "potencias, raíces, notación científica",
        "level": "N0",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
         "matematicas-m00-l05"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "matematicas-m00-l07",
-       "title": "Razones, proporcionalidad, unidades y errores",
+       "title": "Razones, regla de tres, unidades y errores de medida",
        "topic_scope": "razones, proporcionalidad, unidades y errores",
        "level": "N0",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
         "matematicas-m00-l06"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     },
@@ -2409,22 +2401,22 @@
  ],
  "stats": {
   "by_status": {
-   "planned": 93,
-   "draft": 27,
+   "planned": 89,
+   "draft": 31,
    "reviewed": 0,
    "ready": 0,
    "published": 0
   },
   "lessons_total": 120,
-  "meets_standard": 27,
+  "meets_standard": 31,
   "courses": {
    "matematicas": {
     "total": 56,
-    "with_content": 9,
-    "meets_standard": 9,
+    "with_content": 13,
+    "meets_standard": 13,
     "by_status": {
-     "planned": 47,
-     "draft": 9,
+     "planned": 43,
+     "draft": 13,
      "reviewed": 0,
      "ready": 0,
      "published": 0
@@ -2491,8 +2483,8 @@
     }
    }
   },
-  "questions_total": 191,
-  "exit_questions": 135,
+  "questions_total": 211,
+  "exit_questions": 155,
   "bank_questions": 56
  }
 }

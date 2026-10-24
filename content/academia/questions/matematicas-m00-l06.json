@@ -1,0 +1,39 @@
+{
+  "lesson_id": "matematicas-m00-l06",
+  "questions": [
+    {
+      "id": "m00l06-x1", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["powers"],
+      "prompt_md": "Simplifica $5^4\\cdot5^{-2}\\cdot5$.",
+      "choices": [{"id": "a", "text": "$5^{-8}$"}, {"id": "b", "text": "$5^{3}$"}, {"id": "c", "text": "$25^{3}$"}, {"id": "d", "text": "$5^{2}$"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Misma base: $4+(-2)+1=3$ → $5^3$."
+    },
+    {
+      "id": "m00l06-x2", "kind": "numeric", "difficulty": 1, "skill_ids": ["powers"],
+      "prompt_md": "Calcula $2^{-3}$ y escribe el resultado como decimal o fracción.",
+      "key": {"value": 0.125, "tolerance": 0.0001},
+      "explanation_md": "$2^{-3}=\\dfrac{1}{2^3}=\\dfrac18=0{,}125$."
+    },
+    {
+      "id": "m00l06-x3", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["roots"],
+      "prompt_md": "Simplifica $\\sqrt{75}-\\sqrt{27}$.",
+      "choices": [{"id": "a", "text": "$\\sqrt{48}$"}, {"id": "b", "text": "$2\\sqrt3$"}, {"id": "c", "text": "$8\\sqrt3$"}, {"id": "d", "text": "$2\\sqrt{12}$"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "$5\\sqrt3-3\\sqrt3=2\\sqrt3$. (a) resta los radicandos, lo cual no es válido (aunque $\\sqrt{48}=4\\sqrt3\\neq2\\sqrt3$)."
+    },
+    {
+      "id": "m00l06-x4", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["scientific_notation"],
+      "prompt_md": "Calcula $(6\\cdot10^{-4})\\cdot(5\\cdot10^{7})$ en notación científica.",
+      "choices": [{"id": "a", "text": "$30\\cdot10^{3}$"}, {"id": "b", "text": "$3\\cdot10^{4}$"}, {"id": "c", "text": "$3\\cdot10^{3}$"}, {"id": "d", "text": "$1{,}1\\cdot10^{4}$"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "$6\\cdot5=30$ y $10^{-4}\\cdot10^{7}=10^{3}$: $30\\cdot10^3=3\\cdot10^4$. (a) es el mismo número, pero no está en notación científica."
+    },
+    {
+      "id": "m00l06-x5", "kind": "numeric", "difficulty": 3, "skill_ids": ["powers"],
+      "prompt_md": "Calcula $\\dfrac{9^2\\cdot3^{-1}}{27}$.",
+      "hint_md": "Escribe todo en base 3.",
+      "key": {"value": 1, "tolerance": 0},
+      "explanation_md": "$\\dfrac{3^4\\cdot3^{-1}}{3^3}=3^{4-1-3}=3^0=1$."
+    }
+  ]
+}
