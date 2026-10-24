@@ -1,0 +1,36 @@
+{
+  "lesson_id": "matematicas-m10-l01",
+  "questions": [
+    {
+      "id": "m10l01-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["exam_format"],
+      "prompt_md": "En el formato de referencia, ¿cuántos puntos vale en total la parte de cuestiones (4 cuestiones respondidas)?",
+      "key": {"value": 6, "tolerance": 0},
+      "explanation_md": "$4\\cdot1{,}5=6$ puntos."
+    },
+    {
+      "id": "m10l01-x2", "kind": "numeric", "difficulty": 1, "skill_ids": ["exam_format"],
+      "prompt_md": "Obtienes 1,5; 1; 1,5 y 0,5 en las cuestiones y 3 en el problema. ¿Qué nota sacas?",
+      "key": {"value": 7.5, "tolerance": 0.001},
+      "explanation_md": "$4{,}5+3=7{,}5$."
+    },
+    {
+      "id": "m10l01-x3", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["written_solutions"],
+      "prompt_md": "¿Qué respuesta tiene más opciones de obtener puntuación parcial si el resultado final es incorrecto?",
+      "choices": [{"id": "a", "text": "Solo el resultado final, subrayado"}, {"id": "b", "text": "Método y fórmula escritos, cálculos intermedios visibles y conclusión justificada"}, {"id": "c", "text": "Los cálculos en sucio, sin ordenar"}, {"id": "d", "text": "Resolver más ejercicios de los pedidos"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "El criterio puntúa el razonamiento y los pasos parciales; deben ser visibles y ordenados."
+    },
+    {
+      "id": "m10l01-x4", "kind": "numeric", "difficulty": 2, "skill_ids": ["written_solutions"],
+      "prompt_md": "Cuestión de examen: pendiente de la tangente a $f(x)=x^3-2x$ en $x=2$.",
+      "key": {"value": 10, "tolerance": 0},
+      "explanation_md": "$f'(x)=3x^2-2$ → $f'(2)=10$."
+    },
+    {
+      "id": "m10l01-x5", "kind": "numeric", "difficulty": 3, "skill_ids": ["written_solutions"],
+      "prompt_md": "Apartado de problema: ¿para qué valor de $a$ el sistema $x+y=2$, $2x+ay=4$ no es compatible determinado?",
+      "key": {"value": 2, "tolerance": 0},
+      "explanation_md": "$|A|=a-2=0$ → $a=2$ (sistema compatible indeterminado)."
+    }
+  ]
+}

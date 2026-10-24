@@ -911,18 +911,19 @@
      "lessons": [
       {
        "id": "matematicas-m09-l01",
-       "title": "Antiderivadas inmediatas, linealidad, sustitución sencilla, integración por partes, integral definida, áreas y relación derivada-integral",
+       "title": "Integrales: primitivas, métodos de integración, integral definida y áreas",
        "topic_scope": "antiderivadas inmediatas, linealidad, sustitución sencilla, integración por partes, integral definida, áreas y relación derivada-integral",
        "level": "N2",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
-       "prerequisites": [],
-       "has_content": false,
+       "prerequisites": [
+        "matematicas-m08-l03",
+        "matematicas-m08-l05"
+       ],
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     },
@@ -933,35 +934,36 @@
      "lessons": [
       {
        "id": "matematicas-m10-l01",
-       "title": "4/6 preguntas y 1/2 problemas",
+       "title": "Estructura del examen: 4 de 6 cuestiones y 1 de 2 problemas",
        "topic_scope": "4/6 preguntas y 1/2 problemas",
        "level": "N3",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 60,
-       "prerequisites": [],
-       "has_content": false,
+       "prerequisites": [
+        "matematicas-m08-l07",
+        "matematicas-m09-l01",
+        "matematicas-m06-l04",
+        "matematicas-m07-l04"
+       ],
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "matematicas-m10-l02",
-       "title": "Selección estratégica, procedimientos escritos, estimación y comprobación, simulacros cronometrados, rúbrica parcial",
+       "title": "Estrategia de examen: selección, procedimiento, estimación, simulacros y rúbrica parcial",
        "topic_scope": "selección estratégica, procedimientos escritos, estimación y comprobación, simulacros cronometrados, rúbrica parcial",
        "level": "N3",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 60,
        "prerequisites": [
         "matematicas-m10-l01"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     },
@@ -972,18 +974,18 @@
      "lessons": [
       {
        "id": "matematicas-m11-l01",
-       "title": "Lógica, conjuntos, demostración elemental, combinatoria, probabilidad, estadística, álgebra lineal computacional, cálculo multivariable inicial",
+       "title": "Puente universitario: lógica, conjuntos, demostración, combinatoria, probabilidad, estadística, álgebra lineal computacional y cálculo de varias variables",
        "topic_scope": "lógica, conjuntos, demostración elemental, combinatoria, probabilidad, estadística, álgebra lineal computacional, cálculo multivariable inicial",
        "level": "N4",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
-       "prerequisites": [],
-       "has_content": false,
+       "prerequisites": [
+        "matematicas-m10-l02"
+       ],
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     }
@@ -2366,22 +2368,22 @@
  ],
  "stats": {
   "by_status": {
-   "planned": 50,
-   "draft": 70,
+   "planned": 46,
+   "draft": 74,
    "reviewed": 0,
    "ready": 0,
    "published": 0
   },
   "lessons_total": 120,
-  "meets_standard": 70,
+  "meets_standard": 74,
   "courses": {
    "matematicas": {
     "total": 56,
-    "with_content": 52,
-    "meets_standard": 52,
+    "with_content": 56,
+    "meets_standard": 56,
     "by_status": {
-     "planned": 4,
-     "draft": 52,
+     "planned": 0,
+     "draft": 56,
      "reviewed": 0,
      "ready": 0,
      "published": 0
@@ -2448,8 +2450,8 @@
     }
    }
   },
-  "questions_total": 406,
-  "exit_questions": 350,
+  "questions_total": 426,
+  "exit_questions": 370,
   "bank_questions": 56
  }
 }
