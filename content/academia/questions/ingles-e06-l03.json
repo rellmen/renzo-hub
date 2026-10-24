@@ -1,0 +1,36 @@
+{
+  "lesson_id": "ingles-e06-l03",
+  "questions": [
+    {
+      "id": "e06l03-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["penalty_strategy_en"],
+      "prompt_md": "Aciertas 6 preguntas objetivas (1 punto cada una) y fallas 2 (−0,33 cada una). ¿Cuántos puntos obtienes?",
+      "key": {"value": 5.34, "tolerance": 0.001},
+      "explanation_md": "$6-2\\cdot0{,}33=5{,}34$."
+    },
+    {
+      "id": "e06l03-x2", "kind": "numeric", "difficulty": 2, "skill_ids": ["penalty_strategy_en"],
+      "prompt_md": "Dudas entre dos opciones (acierto +1, fallo −0,33). ¿Cuál es el valor esperado de responder? Da 3 decimales.",
+      "key": {"value": 0.335, "tolerance": 0.001},
+      "explanation_md": "$\\tfrac12\\cdot1-\\tfrac12\\cdot0{,}33=0{,}5-0{,}165=0{,}335$."
+    },
+    {
+      "id": "e06l03-x3", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["penalty_strategy_en"],
+      "prompt_md": "No tienes ninguna pista en una pregunta de cuatro opciones. ¿Qué te conviene, de media?",
+      "choices": [{"id": "a", "text": "Responder siempre: algo caerá"}, {"id": "b", "text": "Dejarla en blanco: adivinar a ciegas no aporta nada de media y añade riesgo"}, {"id": "c", "text": "Elegir siempre la opción c"}, {"id": "d", "text": "Marcar dos opciones"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "$\\tfrac14-\\tfrac34\\cdot0{,}33\\approx0$: sin ganancia esperada."
+    },
+    {
+      "id": "e06l03-x4", "kind": "numeric", "difficulty": 1, "skill_ids": ["error_reduction_en"],
+      "prompt_md": "Tus dos respuestas abiertas tienen en total 6 errores de lengua (−0,05 cada uno). ¿Cuántos puntos restan?",
+      "key": {"value": 0.3, "tolerance": 0.001},
+      "explanation_md": "$6\\cdot0{,}05=0{,}3$."
+    },
+    {
+      "id": "e06l03-x5", "kind": "numeric", "difficulty": 3, "skill_ids": ["penalty_strategy_en"],
+      "prompt_md": "Has descartado una opción de cuatro (acierto +1, fallo −0,33). ¿Cuál es el valor esperado de responder? Da 2 decimales.",
+      "key": {"value": 0.11, "tolerance": 0.005},
+      "explanation_md": "$\\tfrac13-\\tfrac23\\cdot0{,}33\\approx0{,}333-0{,}22=0{,}113$."
+    }
+  ]
+}

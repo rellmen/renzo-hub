@@ -1,0 +1,40 @@
+{
+  "lesson_id": "ingles-e07-l01",
+  "questions": [
+    {
+      "id": "e07l01-x1", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["technical_reading"],
+      "prompt_md": "In software documentation, a function marked as **deprecated**...",
+      "choices": [{"id": "a", "text": "is new and recommended"}, {"id": "b", "text": "still works but will be removed and should not be used in new code"}, {"id": "c", "text": "is faster than other functions"}, {"id": "d", "text": "is required in every program"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "*Deprecated* = obsoleto: se mantiene por compatibilidad, pero desaparecerá."
+    },
+    {
+      "id": "e07l01-x2", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["technical_reading"],
+      "prompt_md": "How do you translate *warehouse management system*?",
+      "choices": [{"id": "a", "text": "almacén de gestión del sistema"}, {"id": "b", "text": "sistema de gestión de almacenes"}, {"id": "c", "text": "gestión de sistemas del almacén"}, {"id": "d", "text": "sistema de almacén de gestión"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "El núcleo va al final (*system*); se traduce de derecha a izquierda."
+    },
+    {
+      "id": "e07l01-x3", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["technical_reading"],
+      "prompt_md": "*The `format` parameter is optional; the default value is \"csv\".* What happens if you do not specify the format?",
+      "choices": [{"id": "a", "text": "The program shows an error."}, {"id": "b", "text": "The file is saved as csv."}, {"id": "c", "text": "The file is not saved."}, {"id": "d", "text": "You must choose a format."}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "*Optional* (no obligatorio) y *default* (valor por defecto): si no se indica, se usa csv."
+    },
+    {
+      "id": "e07l01-x4", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["report_writing"],
+      "prompt_md": "Which sentence is appropriate for a formal report?",
+      "choices": [{"id": "a", "text": "I think the results are really bad, to be honest."}, {"id": "b", "text": "It is recommended that weekly checks be introduced."}, {"id": "c", "text": "We gotta fix this ASAP."}, {"id": "d", "text": "The data's kinda weird."}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Impersonal, sin contracciones ni coloquialismos, con una recomendación clara."
+    },
+    {
+      "id": "e07l01-x5", "kind": "multiple_choice", "difficulty": 3, "skill_ids": ["academic_vocabulary"],
+      "prompt_md": "*The study found no **significant** difference between the two groups.* What does *significant* mean here?",
+      "choices": [{"id": "a", "text": "meaningful or important (in statistical terms)"}, {"id": "b", "text": "signed"}, {"id": "c", "text": "small"}, {"id": "d", "text": "secret"}],
+      "key": {"correct_choice_id": "a"},
+      "explanation_md": "*Significant* = relevante o importante; en estudios, a menudo «estadísticamente significativo»."
+    }
+  ]
+}

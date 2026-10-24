@@ -1,0 +1,39 @@
+{
+  "lesson_id": "ingles-e06-l02",
+  "questions": [
+    {
+      "id": "e06l02-x1", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["objective_questions"],
+      "prompt_md": "Text: *The new canteen opens at eight.* True, False or Not mentioned: *The canteen serves vegetarian food.*",
+      "choices": [{"id": "a", "text": "True"}, {"id": "b", "text": "False"}, {"id": "c", "text": "Not mentioned"}],
+      "key": {"correct_choice_id": "c"},
+      "explanation_md": "El texto solo habla del horario; no dice nada del tipo de comida."
+    },
+    {
+      "id": "e06l02-x2", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["objective_questions"],
+      "prompt_md": "Text: *Some customers complained about the delays, but most were satisfied with the service.* Which statement is correct?",
+      "choices": [{"id": "a", "text": "All customers complained about the delays."}, {"id": "b", "text": "The majority of customers were happy with the service."}, {"id": "c", "text": "The company stopped the service."}, {"id": "d", "text": "Nobody noticed the delays."}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "*Most were satisfied* = *the majority were happy*. (a) exagera; (c) no aparece; (d) contradice el texto."
+    },
+    {
+      "id": "e06l02-x3", "kind": "numeric", "difficulty": 1, "skill_ids": ["open_answers"],
+      "prompt_md": "En el formato de referencia, ¿cuántas palabras como **máximo** debe tener cada respuesta abierta?",
+      "key": {"value": 60, "tolerance": 0},
+      "explanation_md": "El intervalo es de 40 a 60 palabras."
+    },
+    {
+      "id": "e06l02-x4", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["open_answers"],
+      "prompt_md": "Question: *Why did the company move to a new warehouse?* Which is the best opening sentence for your answer?",
+      "choices": [{"id": "a", "text": "This is a very interesting question about warehouses."}, {"id": "b", "text": "The company moved to a new warehouse because the old one was too small for its growing stock."}, {"id": "c", "text": "Warehouses are very important in logistics."}, {"id": "d", "text": "I think that companies should never move."}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Responde directamente y reutiliza las palabras de la pregunta. Las demás son rodeos, generalidades u opiniones no pedidas."
+    },
+    {
+      "id": "e06l02-x5", "kind": "multiple_choice", "difficulty": 3, "skill_ids": ["answer_revision"],
+      "prompt_md": "Which sentence has **no** grammar mistakes?",
+      "choices": [{"id": "a", "text": "The text say that prices has increased."}, {"id": "b", "text": "The text says that prices have increased."}, {"id": "c", "text": "The text says that prices has increase."}, {"id": "d", "text": "The text saying that prices increased."}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "*The text* (3.ª persona singular) → *says*; *prices* (plural) → *have increased*."
+    }
+  ]
+}

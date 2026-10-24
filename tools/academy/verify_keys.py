@@ -418,6 +418,17 @@ NUMERIC.update({
     "t06l01-x3": lambda: F(4, 10) * 90,
     "t06l02-x1": lambda: 7 * F(1, 10),
 })
+# ---- Inglés E06 (formato de referencia y valor esperado con penalización) ----
+NUMERIC.update({
+    "e06l02-x3": lambda: 60,
+    "e06l03-x1": lambda: 6 - 2 * F(33, 100),
+    "e06l03-x2": lambda: F(1, 2) * 1 - F(1, 2) * F(33, 100),
+    "e06l03-x4": lambda: 6 * F(5, 100),
+    "e06l03-x5": lambda: F(1, 3) - F(2, 3) * F(33, 100),
+})
+MC.update({
+    "e06l03-x3": ("b", lambda: abs(F(1, 4) - F(3, 4) * F(33, 100)) < F(1, 100)),
+})
 
 def as_float(v):
     if isinstance(v, F):
