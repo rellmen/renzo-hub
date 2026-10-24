@@ -2,16 +2,22 @@
 
 Actualizado: 24 octubre 2026 (noche, 3.ª tanda) · Rama `feature/academia-uoc25` · **No terminado.** Ninguna lección está publicada.
 
+## Decisión de ruta (24-10-2026, verificada en la web oficial de la UOC, convocatoria 2026)
+
+**Ruta: Ingeniería (Informática) → específicas Matemáticas + Física.** En la prueba de la UOC en castellano, Ingeniería y Arquitectura elige entre Física, Matemáticas y Química; **Economía de la Empresa no figura en ninguna opción**. Las 10 lecciones de Economía quedan como material **complementario** (no cuentan para el examen). Datos UOC 2026: examen virtual (Google Meet); Comentario 90 min; Castellano + Inglés 105 min; fase específica 180 min para las dos materias; nota final = media de fases, cada fase ≥ 4, aprobado ≥ 5; sin catalán. Fuente: https://www.uoc.edu/es/estudios/acceso-mayores/acceso-universidad-mayores-25 . Revalidar con la convocatoria 2027.
+
+Repositorio de exámenes oficiales (sistema catalán, enlaces a PDF originales; no se copian): bóveda del proyecto `renzo-hub/academia/Repositorio_Examenes_Mayores25.md`. La web de la Generalitat bloquea la lectura automática: Renzo adjuntará los PDF 2024–2025 para calibrar simulacros originales; 2026 se reserva como simulacro final.
+
 ## Cobertura verificada (salida de `node tools/academy/build.mjs --check`)
 
 | Materia | Lecciones en catálogo | Con texto | Al estándar | Publicadas |
 |---|---|---|---|---|
 | Matemáticas | 56 | **56** | **56** | 0 |
-| Economía de la Empresa | 10 | **10** | **10** | 0 |
+| Economía de la Empresa (complementaria) | 10 | **10** | **10** | 0 |
 | Lengua castellana | 11 | **11** | **11** | 0 |
 | Comentario de texto | 10 | **10** | **10** | 0 |
 | Inglés | 10 | **10** | **10** | 0 |
-| Física (optativa) | 23 | 4 | 4 | 0 |
+| Física (**específica elegida**) | 23 | 4 | 4 | 0 |
 | **Total** | **120** | **101 (84 %)** | **101** | **0** |
 
 Estados editoriales: 19 `planned`, 101 `draft`, 0 `reviewed`, 0 `ready`, 0 `published`.
@@ -37,16 +43,13 @@ M10, C07, T06 y E06 usan el formato de referencia 2026 de `exam-profiles.json` (
 
 ## Pendiente, en este orden
 
-1. **Revisión humana de las 101 lecciones** (prioridad: Matemáticas y las lecciones de formato de examen) (Renzo o revisor): botón «He revisado esta versión» en cada lección → estado `reviewed`. Cambiar `editorial_status` en el frontmatter solo tras esa revisión.
-2. ~~Matemáticas M00–M02~~ (hecho el 24-10-2026).
-3. ~~Fase general (Castellano, Comentario, Inglés)~~ (hecho el 24-10-2026).
-4. ~~Economía de la Empresa~~ (hecho el 24-10-2026).
-5. ~~Matemáticas M03–M11~~ (hecho el 24-10-2026).
-6. **Simulacros originales** por perfil (`exam-profiles.json`), etiquetados por año, temario y competencia, calibrados contra los exámenes oficiales 2024–2026 **enlazados** (no copiados).
-7. **Diagnóstico de Física** (sin datos) y del resto de materias con ≥5 preguntas por habilidad crítica.
-8. **QA con sesión real** en staging (cuenta A y cuenta B) y en iPhone físico.
-9. **Confirmar con la UOC** la fórmula de nota, plazos y específicas disponibles de 2027 en castellano.
-10. Solo después: autorización de Renzo para producción (migración en producción + fusión del PR).
+1. **Física: 19 lecciones** (F00, F01-L02..L04, F02-L02..L05, F03-L02..L05, F04–F07, F09, F10, F11), en el orden del plan de estudio (F00–F03 primero).
+2. **Simulacros originales** de Matemáticas, Física, Comentario, Castellano e Inglés, calibrados con los PDF 2024–2025 que adjunte Renzo (sin copiar enunciados).
+3. Ajustar M10 y F10 con la duración real de la fase específica (180 min para dos materias) y marcar Economía como complementaria en la interfaz.
+4. **Revisión humana** de las lecciones en staging (botones de revisión editorial).
+5. **QA con sesión real** (cuenta A y B) y en iPhone físico.
+6. Confirmar la convocatoria 2027 de la UOC cuando se publique.
+7. Solo después: autorización de Renzo para producción.
 
 ## Cómo añadir una lección sin tocar código
 
