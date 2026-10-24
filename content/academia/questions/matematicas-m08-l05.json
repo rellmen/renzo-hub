@@ -1,0 +1,36 @@
+{
+  "lesson_id": "matematicas-m08-l05",
+  "questions": [
+    {
+      "id": "m08l05-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["local_extrema"],
+      "prompt_md": "¿En qué abscisa tiene $f(x)=x^2-10x+3$ su mínimo?",
+      "key": {"value": 5, "tolerance": 0},
+      "explanation_md": "$f'(x)=2x-10=0$ → $x=5$; $f''=2>0$."
+    },
+    {
+      "id": "m08l05-x2", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["monotonicity"],
+      "prompt_md": "¿En qué intervalo es decreciente $f(x)=x^3-12x$?",
+      "choices": [{"id": "a", "text": "$(-\\infty,-2)$"}, {"id": "b", "text": "$(-2,2)$"}, {"id": "c", "text": "$(2,+\\infty)$"}, {"id": "d", "text": "$(0,+\\infty)$"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "$f'(x)=3x^2-12=3(x-2)(x+2)<0$ entre $-2$ y $2$."
+    },
+    {
+      "id": "m08l05-x3", "kind": "numeric", "difficulty": 2, "skill_ids": ["local_extrema"],
+      "prompt_md": "¿Cuál es el valor máximo relativo de $f(x)=-x^2+4x+1$?",
+      "key": {"value": 5, "tolerance": 0},
+      "explanation_md": "$f'(x)=-2x+4=0$ → $x=2$; $f(2)=-4+8+1=5$."
+    },
+    {
+      "id": "m08l05-x4", "kind": "numeric", "difficulty": 3, "skill_ids": ["absolute_extrema"],
+      "prompt_md": "¿Cuál es el máximo absoluto de $f(x)=x^3-3x$ en el intervalo $[-2,3]$?",
+      "key": {"value": 18, "tolerance": 0},
+      "explanation_md": "Críticos $\\pm1$: $f(-1)=2$, $f(1)=-2$. Extremos: $f(-2)=-2$, $f(3)=18$. Máximo 18."
+    },
+    {
+      "id": "m08l05-x5", "kind": "numeric", "difficulty": 3, "skill_ids": ["local_extrema"],
+      "prompt_md": "$f(x)=x^3+ax^2$ tiene un extremo relativo en $x=2$. ¿Cuánto vale $a$?",
+      "key": {"value": -3, "tolerance": 0},
+      "explanation_md": "$f'(2)=12+4a=0$ → $a=-3$."
+    }
+  ]
+}

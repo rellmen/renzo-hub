@@ -1,0 +1,36 @@
+{
+  "lesson_id": "matematicas-m08-l03",
+  "questions": [
+    {
+      "id": "m08l03-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["derivative_rules"],
+      "prompt_md": "Si $f(x)=x^3-4x^2+2$, ¿cuánto vale $f'(2)$?",
+      "key": {"value": -4, "tolerance": 0},
+      "explanation_md": "$f'(x)=3x^2-8x$ → $f'(2)=12-16=-4$."
+    },
+    {
+      "id": "m08l03-x2", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["derivative_rules"],
+      "prompt_md": "¿Cuál es la derivada de $f(x)=x^2e^x$?",
+      "choices": [{"id": "a", "text": "$2xe^x$"}, {"id": "b", "text": "$x^2e^x$"}, {"id": "c", "text": "$xe^x(x+2)$"}, {"id": "d", "text": "$2x+e^x$"}],
+      "key": {"correct_choice_id": "c"},
+      "explanation_md": "Producto: $2xe^x+x^2e^x=xe^x(x+2)$."
+    },
+    {
+      "id": "m08l03-x3", "kind": "numeric", "difficulty": 2, "skill_ids": ["derivative_rules"],
+      "prompt_md": "Si $f(x)=\\dfrac{x}{x+1}$, ¿cuánto vale $f'(1)$? Da el resultado decimal.",
+      "key": {"value": 0.25, "tolerance": 0.001},
+      "explanation_md": "$f'(x)=\\dfrac{(x+1)-x}{(x+1)^2}=\\dfrac{1}{(x+1)^2}$ → $f'(1)=\\dfrac14=0{,}25$."
+    },
+    {
+      "id": "m08l03-x4", "kind": "numeric", "difficulty": 3, "skill_ids": ["chain_rule"],
+      "prompt_md": "Si $f(x)=(2x+1)^3$, ¿cuánto vale $f'(1)$?",
+      "key": {"value": 54, "tolerance": 0},
+      "explanation_md": "$f'(x)=3(2x+1)^2\\cdot2=6(2x+1)^2$ → $6\\cdot9=54$."
+    },
+    {
+      "id": "m08l03-x5", "kind": "numeric", "difficulty": 3, "skill_ids": ["chain_rule"],
+      "prompt_md": "Si $f(x)=\\ln(x^2+1)$, ¿cuánto vale $f'(1)$?",
+      "key": {"value": 1, "tolerance": 0},
+      "explanation_md": "$f'(x)=\\dfrac{2x}{x^2+1}$ → $\\dfrac22=1$."
+    }
+  ]
+}

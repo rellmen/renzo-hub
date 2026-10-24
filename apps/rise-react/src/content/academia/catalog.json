@@ -808,105 +808,99 @@
       },
       {
        "id": "matematicas-m08-l02",
-       "title": "Derivada como tasa de cambio",
+       "title": "La derivada como tasa de cambio instantánea",
        "topic_scope": "derivada como tasa de cambio",
        "level": "N2",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
+        "matematicas-m04-l08",
         "matematicas-m08-l01"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "matematicas-m08-l03",
-       "title": "Derivación de potencias/polinomios, producto/cociente/cadena",
+       "title": "Reglas de derivación: potencias, producto, cociente y cadena",
        "topic_scope": "derivación de potencias/polinomios, producto/cociente/cadena",
        "level": "N2",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
-        "matematicas-m08-l02"
+        "matematicas-m08-l02",
+        "matematicas-m05-l01"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "matematicas-m08-l04",
-       "title": "Recta tangente",
+       "title": "Recta tangente y recta normal",
        "topic_scope": "recta tangente",
        "level": "N2",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
-        "matematicas-m08-l03"
+        "matematicas-m08-l03",
+        "matematicas-m07-l02"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "matematicas-m08-l05",
-       "title": "Crecimiento/decrecimiento, máximos/mínimos",
+       "title": "Crecimiento, decrecimiento, máximos y mínimos",
        "topic_scope": "crecimiento/decrecimiento, máximos/mínimos",
        "level": "N2",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
-        "matematicas-m08-l04"
+        "matematicas-m08-l03",
+        "matematicas-m02-l07"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "matematicas-m08-l06",
-       "title": "Concavidad/inflexión",
+       "title": "Concavidad, puntos de inflexión y representación de funciones",
        "topic_scope": "concavidad/inflexión",
        "level": "N2",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
-        "matematicas-m08-l05"
+        "matematicas-m08-l05",
+        "matematicas-m08-l01"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "matematicas-m08-l07",
-       "title": "Optimización",
+       "title": "Problemas de optimización",
        "topic_scope": "optimización",
        "level": "N2",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
-        "matematicas-m08-l06"
+        "matematicas-m08-l05",
+        "matematicas-m02-l06"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     },
@@ -2372,22 +2366,22 @@
  ],
  "stats": {
   "by_status": {
-   "planned": 56,
-   "draft": 64,
+   "planned": 50,
+   "draft": 70,
    "reviewed": 0,
    "ready": 0,
    "published": 0
   },
   "lessons_total": 120,
-  "meets_standard": 64,
+  "meets_standard": 70,
   "courses": {
    "matematicas": {
     "total": 56,
-    "with_content": 46,
-    "meets_standard": 46,
+    "with_content": 52,
+    "meets_standard": 52,
     "by_status": {
-     "planned": 10,
-     "draft": 46,
+     "planned": 4,
+     "draft": 52,
      "reviewed": 0,
      "ready": 0,
      "published": 0
@@ -2454,8 +2448,8 @@
     }
    }
   },
-  "questions_total": 376,
-  "exit_questions": 320,
+  "questions_total": 406,
+  "exit_questions": 350,
   "bank_questions": 56
  }
 }
