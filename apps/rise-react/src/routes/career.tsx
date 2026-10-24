@@ -5,6 +5,7 @@ import {useAuth} from "@/lib/auth/AuthProvider";
 import {PageHeader,SectionCard} from "@/components/rise/primitives";
 import {pageHead} from "@/lib/seo";
 import {CareerTracker} from "@/components/rise/CareerTracker";
+import {CareerRoadmap} from "@/components/rise/CareerRoadmap";
 
 export const Route=createFileRoute("/career")({
  head:()=>pageHead("Career y Data Lab","Trayectoria, habilidades y objetivos profesionales confirmados."),
@@ -68,6 +69,7 @@ function Career(){
      </div>)}</dl>}
    </SectionCard>
   </>}
+  <CareerRoadmap/>
   <CareerTracker/>
   <SectionCard eyebrow="Aprendizaje separado" title="Career frente a SelfLearn" accent="var(--learn)">
    <p className="text-sm text-platinum/80">Career es para herramientas de datos, trabajo y portafolio. SelfLearn es exclusivamente para neerlandés e inglés. La formación técnica, las skills y el portfolio se registran arriba.</p>
