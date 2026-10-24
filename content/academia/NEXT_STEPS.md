@@ -6,7 +6,7 @@ Actualizado: 24 octubre 2026 (noche, 3.ª tanda) · Rama `feature/academia-uoc25
 
 **Ruta: Ingeniería (Informática) → específicas Matemáticas + Física.** En la prueba de la UOC en castellano, Ingeniería y Arquitectura elige entre Física, Matemáticas y Química; **Economía de la Empresa no figura en ninguna opción**. Las 10 lecciones de Economía quedan como material **complementario** (no cuentan para el examen). Datos UOC 2026: examen virtual (Google Meet); Comentario 90 min; Castellano + Inglés 105 min; fase específica 180 min para las dos materias; nota final = media de fases, cada fase ≥ 4, aprobado ≥ 5; sin catalán. Fuente: https://www.uoc.edu/es/estudios/acceso-mayores/acceso-universidad-mayores-25 . Revalidar con la convocatoria 2027.
 
-Repositorio de exámenes oficiales (sistema catalán, enlaces a PDF originales; no se copian): bóveda del proyecto `renzo-hub/academia/Repositorio_Examenes_Mayores25.md`. La web de la Generalitat bloquea la lectura automática: Renzo adjuntará los PDF 2024–2025 para calibrar simulacros originales; 2026 se reserva como simulacro final.
+Repositorio de exámenes oficiales (sistema catalán, enlaces a PDF originales; no se copian): bóveda del proyecto `renzo-hub/academia/Repositorio_Examenes_Mayores25.md`. La web de la Generalitat bloquea la lectura automática: Renzo aportó los PDF 2024–2025 (24-10) y se analizaron estructura, criterios y frecuencia de temas; 2026 se reserva como simulacro final y no se ha abierto.
 
 ## Cobertura verificada (salida de `node tools/academy/build.mjs --check`)
 
@@ -43,9 +43,9 @@ M10, C07, T06 y E06 usan el formato de referencia 2026 de `exam-profiles.json` (
 
 ## Pendiente, en este orden
 
-1. **Física: 19 lecciones** (F00, F01-L02..L04, F02-L02..L05, F03-L02..L05, F04–F07, F09, F10, F11), en el orden del plan de estudio (F00–F03 primero).
-2. **Simulacros originales** de Matemáticas, Física, Comentario, Castellano e Inglés, calibrados con los PDF 2024–2025 que adjunte Renzo (sin copiar enunciados).
-3. Ajustar M10 y F10 con la duración real de la fase específica (180 min para dos materias) y marcar Economía como complementaria en la interfaz.
+1. **Física: 19 lecciones** (F00, F01-L02..L04, F02-L02..L05, F03-L02..L05, F04–F07, F09, F10, F11). Prioridad por frecuencia en los modelos 2024–2025: cinemática y dinámica, magnetismo e inducción, unidades y errores, MHS y ondas; luego gravitación y óptica. F10 debe incluir la regla de unidades (−0,5) y los 180 min de la fase específica.
+2. Simulacros: **serie 1 hecha** (24-10, `content/academia/simulacros/serie1-enunciados.md`; soluciones y rúbricas solo en la bóveda, no en el repositorio ni en la app). Pendiente: serie 2 y, si Renzo lo pide, integrarlos en la app con corrección en servidor.
+3. Hecho 24-10 (`e0a9aba`): Física por defecto, Economía complementaria, perfiles calibrados (test Matemáticas −0,25, unidades Física −0,5, Comentario −0,5 fuera de 150–200 palabras, Castellano 2.1 + 2.2), tiempos UOC en M10-L01, T06-L01 y C07-L01.
 4. **Revisión humana** de las lecciones en staging (botones de revisión editorial).
 5. **QA con sesión real** (cuenta A y B) y en iPhone físico.
 6. Confirmar la convocatoria 2027 de la UOC cuando se publique.
