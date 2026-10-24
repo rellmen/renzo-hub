@@ -122,6 +122,160 @@ NUMERIC = {
     "m02l07-x5": lambda: sp.deg(sp.arg(sp.sqrt(3) + sp.I)),
 }
 
+# ---- Matemáticas M03–M11 (cálculo independiente con SymPy) ----
+y, t, h, a, q_ = sp.symbols("y t h a q")
+
+
+def _seq_rec(a1, f, n):
+    v = sp.Integer(a1)
+    for _ in range(n - 1):
+        v = f(v)
+    return v
+
+
+def _lin_solve(eqs, syms):
+    return sp.solve(eqs, syms, dict=True)[0]
+
+
+def _crit_extreme(f, lo, hi, kind=max):
+    pts = [p for p in sp.solve(sp.diff(f, x), x) if p.is_real and lo <= p <= hi] + [lo, hi]
+    return kind(f.subs(x, p) for p in pts)
+
+
+def _tax(base):
+    tramos = [(0, 10000, 0), (10000, 30000, F(20, 100)), (30000, 10**9, F(30, 100))]
+    return sum(max(0, min(base, b) - lo) * tasa for lo, b, tasa in tramos)
+
+
+def _area_between(f, g):
+    xs = sorted(sp.solve(sp.Eq(f, g), x))
+    return sum(sp.Abs(sp.integrate(f - g, (x, xs[i], xs[i + 1]))) for i in range(len(xs) - 1))
+
+
+NUMERIC.update({
+    # M03 sucesiones, progresiones y matemática financiera
+    "m03l01-x1": lambda: (5 * x - 3).subs(x, 20),
+    "m03l01-x3": lambda: _seq_rec(3, lambda v: 2 * v - 1, 4),
+    "m03l01-x4": lambda: sp.solve(sp.Eq(3 * x + 7, 64), x)[0],
+    "m03l01-x5": lambda: sp.solve(sp.Eq(x, sp.Rational(3, 4) * x + 50), x)[0],
+    "m03l02-x1": lambda: 8 + (15 - 1) * (-3),
+    "m03l02-x2": lambda: 5 * 3**4,
+    "m03l02-x3": lambda: _lin_solve([x + 3 * y - 10, x + 8 * y - 35], [x, y])[y],
+    "m03l02-x5": lambda: [12 / r for r in sp.solve(sp.Eq(12 * r**2, 48), r) if r > 0][0],
+    "m03l03-x1": lambda: sp.summation(x, (x, 1, 80)),
+    "m03l03-x2": lambda: sp.summation(4 + 3 * (x - 1), (x, 1, 10)),
+    "m03l03-x3": lambda: sp.summation(2 * 3 ** (x - 1), (x, 1, 5)),
+    "m03l03-x5": lambda: sp.summation(6 * sp.Rational(1, 2) ** x, (x, 0, sp.oo)),
+    "m03l04-x1": lambda: F(8000) * F(25, 1000) * 4,
+    "m03l04-x2": lambda: 1000 * F(11, 10) ** 3,
+    "m03l04-x3": lambda: ((1 + sp.Rational(6, 400)) ** 4 - 1) * 100,
+    "m03l04-x5": lambda: sp.solve(sp.Eq(x * sp.Rational(105, 100) ** 2, 11025), x)[0],
+    # M04 funciones
+    "m04l02-x4": lambda: sp.minimum(x**2 - 6 * x + 11, x),
+    "m04l03-x1": lambda: len(sp.real_roots(x**3 - 9 * x)),
+    "m04l03-x5": lambda: max(sp.real_roots(x**3 - 2 * x**2 - 8 * x)),
+    "m04l04-x1": lambda: sp.Piecewise((x**2, x < 2), (3 * x - 1, True)).subs(x, 3),
+    "m04l04-x2": lambda: sp.Piecewise((x**2, x < 2), (3 * x - 1, True)).subs(x, -1),
+    "m04l04-x4": lambda: ([s for s in sp.solve(x + 4 - 7, x) if s < 0] + [s for s in sp.solve(2 * x + 1 - 7, x) if s >= 0])[0],
+    "m04l04-x5": lambda: _tax(18000),
+    "m04l05-x1": lambda: (3 * x - 1).subs(x, (x**2).subs(x, 2)),
+    "m04l05-x2": lambda: (x**2).subs(x, (3 * x - 1).subs(x, 2)),
+    "m04l05-x3": lambda: sp.solve(sp.Eq(2 * x + 6, 10), x)[0],
+    "m04l06-x1": lambda: sp.log(64, 2),
+    "m04l06-x2": lambda: sp.solve(sp.Eq(2 ** (x - 1), 16), x)[0],
+    "m04l06-x3": lambda: sp.solve(sp.Eq(sp.log(x, 10), 2), x)[0],
+    "m04l06-x5": lambda: [s for s in sp.solve(sp.Eq((x - 1) * (x + 1), 3), x) if s > 1][0],
+    "m04l07-x2": lambda: sp.solve(x - 7, x)[0],
+    "m04l07-x3": lambda: sp.limit((4 * x - 1) / (2 * x + 3), x, sp.oo),
+    "m04l08-x1": lambda: (sp.Integer(5) ** 2 - 2**2) / (5 - 2),
+    "m04l08-x2": lambda: ((2 * x + 7).subs(x, 10) - (2 * x + 7).subs(x, 1)) / 9,
+    "m04l08-x3": lambda: ((4 * t**2).subs(t, 3) - (4 * t**2).subs(t, 1)) / 2,
+    "m04l08-x5": lambda: sp.limit(((3 + h) ** 2 - 9) / h, h, 0),
+    # M05 trigonometría
+    "m05l01-x1": lambda: sp.Rational(135, 180),
+    "m05l01-x2": lambda: sp.deg(5 * sp.pi / 6),
+    "m05l01-x4": lambda: -sp.sqrt(1 - sp.Rational(4, 5) ** 2),
+    "m05l02-x1": lambda: 20 * sp.sin(sp.pi / 6),
+    "m05l02-x2": lambda: sp.sqrt(5**2 + 12**2),
+    "m05l02-x3": lambda: sp.sqrt(25 + 64 - 2 * 5 * 8 * sp.cos(sp.pi / 3)),
+    "m05l02-x4": lambda: sp.Rational(1, 2) * 10 * 12 * sp.sin(sp.pi / 6),
+    "m05l02-x5": lambda: 8 * sp.sin(sp.pi / 2) / sp.sin(sp.pi / 6),
+    "m05l03-x1": lambda: 2 * sp.Rational(6, 10) * sp.Rational(8, 10),
+    "m05l03-x3": lambda: len(sp.solveset(sp.Eq(sp.sin(x), sp.Rational(1, 2)), x, sp.Interval.Ropen(0, 2 * sp.pi))),
+    "m05l03-x4": lambda: sp.deg(min(sp.solveset(2 * sp.cos(x) - 1, x, sp.Interval.open(0, 2 * sp.pi)))),
+    "m05l04-x1": lambda: sp.Rational(1, 2) * 4**2 * sp.pi / 2,
+    "m05l04-x2": lambda: 20 * sp.cos(sp.pi / 3),
+    "m05l04-x3": lambda: 5 * 8 * sp.sin(sp.pi / 6),
+    "m05l04-x4": lambda: 3 * sp.rad(120),
+    "m05l04-x5": lambda: 6 * sp.sqrt(3) / 4 * 2**2,
+    # M06 álgebra lineal
+    "m06l02-x1": lambda: (sp.Matrix([[1, 2], [3, 4]]) * sp.Matrix([[2, 0], [1, 3]]))[0, 1],
+    "m06l02-x4": lambda: (sp.Matrix([[1, 2], [0, 3]]) ** 2).trace(),
+    "m06l03-x1": lambda: sp.Matrix([[3, -1], [4, 2]]).det(),
+    "m06l03-x2": lambda: sp.Matrix([[2, 0, 1], [1, 3, 0], [0, 1, 4]]).det(),
+    "m06l03-x3": lambda: sp.solve(sp.Matrix([[k, 6], [2, 3]]).det(), k)[0],
+    "m06l03-x5": lambda: sp.Matrix([[1, 2, 1], [2, 4, 2], [0, 1, 1]]).rank(),
+    "m06l04-x1": lambda: _lin_solve([x + y + t - 6, y + t - 5, t - 3], [x, y, t])[x],
+    "m06l04-x3": lambda: _lin_solve([x + y + t - 6, 2 * x - y + t - 3, x + 2 * y - t - 2], [x, y, t])[t],
+    "m06l04-x4": lambda: sp.solve(sp.Matrix([[1, 1, 1], [1, k, 1], [1, 1, k]]).det(), k)[0],
+    # M07 geometría analítica
+    "m07l01-x1": lambda: sp.Point(0, 0).distance(sp.Point(6, 8)),
+    "m07l01-x2": lambda: sp.Point(-3, 5).midpoint(sp.Point(7, 1)).x,
+    "m07l01-x3": lambda: sp.Line(sp.Point(1, 2), sp.Point(4, 11)).slope,
+    "m07l01-x5": lambda: sp.deg(sp.atan(sp.sqrt(3))),
+    "m07l02-x1": lambda: sp.solve(4 * x - 2 * y + 5, y)[0].coeff(x),
+    "m07l02-x3": lambda: sp.Abs(3 * 3 + 4 * 4) / sp.sqrt(3**2 + 4**2),
+    "m07l02-x4": lambda: _lin_solve([x + y - 7, x - y - 1], [x, y])[x],
+    "m07l03-x1": lambda: -sp.Matrix([1, 1, 1]).dot(sp.Matrix([1, 2, 3])),
+    "m07l03-x3": lambda: (1 + t).subs(t, sp.solve(3 - t, t)[0]),
+    "m07l03-x5": lambda: sp.solve(2 + 1 + k * 1 - 6, k)[0],
+    "m07l04-x2": lambda: sp.Matrix([3, 0, 0]).cross(sp.Matrix([0, 4, 0])).norm(),
+    "m07l04-x3": lambda: sp.Abs(2 + 2 * 1 + 2 * 2) / sp.sqrt(1 + 4 + 4),
+    "m07l04-x4": lambda: sp.Abs(sp.Matrix([[1, 0, 0], [0, 1, 0], [1, 1, 5]]).det()),
+    "m07l04-x5": lambda: sp.deg(sp.acos(sp.Matrix([1, 0, 0]).dot(sp.Matrix([1, 1, 0])) / (sp.Matrix([1, 0, 0]).norm() * sp.Matrix([1, 1, 0]).norm()))),
+    # M08 derivadas
+    "m08l02-x1": lambda: sp.limit(((4 + h) ** 2 - 16) / h, h, 0),
+    "m08l02-x2": lambda: sp.diff(7 * x + 3, x),
+    "m08l02-x3": lambda: sp.limit((5 * (3 + h) ** 2 - 45) / h, h, 0),
+    "m08l02-x5": lambda: sp.limit((1 / (1 + h) - 1) / h, h, 0),
+    "m08l03-x1": lambda: sp.diff(x**3 - 4 * x**2 + 2, x).subs(x, 2),
+    "m08l03-x3": lambda: sp.diff(x / (x + 1), x).subs(x, 1),
+    "m08l03-x4": lambda: sp.diff((2 * x + 1) ** 3, x).subs(x, 1),
+    "m08l03-x5": lambda: sp.diff(sp.log(x**2 + 1), x).subs(x, 1),
+    "m08l04-x1": lambda: sp.diff(x**2 + 5 * x, x).subs(x, 1),
+    "m08l04-x3": lambda: sp.solve(sp.diff(x**2 - 8 * x + 3, x), x)[0],
+    "m08l04-x4": lambda: -1 / sp.diff(x**2, x).subs(x, 2),
+    "m08l04-x5": lambda: sp.sqrt(16) + sp.diff(sp.sqrt(x), x).subs(x, 16) * sp.Rational(4, 10),
+    "m08l05-x1": lambda: sp.solve(sp.diff(x**2 - 10 * x + 3, x), x)[0],
+    "m08l05-x3": lambda: _crit_extreme(-x**2 + 4 * x + 1, -100, 100),
+    "m08l05-x4": lambda: _crit_extreme(x**3 - 3 * x, -2, 3),
+    "m08l05-x5": lambda: sp.solve(sp.diff(x**3 + a * x**2, x).subs(x, 2), a)[0],
+    "m08l06-x1": lambda: sp.solve(sp.diff(x**3 - 9 * x**2 + 1, x, 2), x)[0],
+    "m08l06-x4": lambda: sp.limit((3 * x - 1) / (x + 2), x, sp.oo),
+    "m08l06-x5": lambda: sp.solve(sp.diff(x**3 + a * x**2 + 5, x, 2).subs(x, 1), a)[0],
+    "m08l07-x1": lambda: _crit_extreme(x * (16 - x), 0, 16),
+    "m08l07-x2": lambda: _crit_extreme(x * (30 - x), 0, 30),
+    "m08l07-x3": lambda: [c for c in sp.solve(sp.diff(-3 * q_**2 + 120 * q_ - 200, q_), q_)][0],
+    "m08l07-x4": lambda: max((p for p in sp.solve(sp.diff(x * (18 - 2 * x) ** 2, x), x) if 0 < p < 9), key=lambda p: (x * (18 - 2 * x) ** 2).subs(x, p)),
+    # M09 integrales
+    "m09l01-x1": lambda: sp.integrate(2 * x, (x, 1, 3)),
+    "m09l01-x4": lambda: _area_between(9 - x**2, sp.Integer(0)),
+    "m09l01-x5": lambda: _area_between(x**2, 2 * x),
+    # M10 examen (aritmética de formato y cálculo)
+    "m10l01-x1": lambda: 4 * F(3, 2),
+    "m10l01-x2": lambda: F(3, 2) + 1 + F(3, 2) + F(1, 2) + 3,
+    "m10l01-x4": lambda: sp.diff(x**3 - 2 * x, x).subs(x, 2),
+    "m10l01-x5": lambda: sp.solve(sp.Matrix([[1, 1], [2, a]]).det(), a)[0],
+    "m10l02-x2": lambda: F(6, 10) * 100 / 4,
+    "m10l02-x4": lambda: sp.floor(sp.sqrt(130)),
+    "m10l02-x5": lambda: F(1, 2) + F(1, 2) + 0,
+    # M11 puente universitario
+    "m11l01-x2": lambda: sp.binomial(10, 2),
+    "m11l01-x3": lambda: F(3, 3 + 5),
+    "m11l01-x4": lambda: len(set(range(18)) | set(range(13, 25))),
+    "m11l01-x5": lambda: sp.diff(x**2 * y + 3 * y**2, y).subs({x: 2, y: 1}),
+})
+
 # ---- Banco del kit (content/academia/kit/preguntas_iniciales.json): numéricas ----
 KIT_NUMERIC = {
     "mat-005": lambda: sp.solve(sp.Eq(3 * x + 5, 20), x)[0],
@@ -206,6 +360,47 @@ MC = {
     "m02l07-x4": ("b", lambda: sp.I**10 == -1),
 }
 
+
+# ---- Opción múltiple calculable M03–M11 ----
+_R = sp.S.Reals
+MC.update({
+    "m03l01-x2": ("b", lambda: all((5 * n - 1) == v for n, v in zip(range(1, 5), [4, 9, 14, 19]))),
+    "m03l03-x4": ("b", lambda: sp.summation(x**2, (x, 1, 4)) == 30),
+    "m03l04-x4": ("c", lambda: 1 + F(5, 100) * 20 < F(105, 100) ** 20),
+    "m04l02-x1": ("c", lambda: sp.calculus.util.continuous_domain(5 / (x + 2), x, _R) == _R - sp.FiniteSet(-2)),
+    "m04l02-x2": ("b", lambda: sp.calculus.util.continuous_domain(sp.sqrt(2 * x - 8), x, _R) == sp.Interval(4, sp.oo)),
+    "m04l02-x3": ("c", lambda: sp.calculus.util.continuous_domain(sp.sqrt(x) / (x - 1), x, _R) == sp.Union(sp.Interval.Ropen(0, 1), sp.Interval.open(1, sp.oo))),
+    "m04l02-x5": ("b", lambda: sp.calculus.util.function_range(sp.sqrt(x) + 2, x, sp.Interval(0, sp.oo)) == sp.Interval(2, sp.oo)),
+    "m04l03-x2": ("a", lambda: sp.solve_univariate_inequality(x**2 - 4 * x < 0, x, relational=False) == sp.Interval.open(0, 4)),
+    "m04l03-x3": ("b", lambda: sp.solve_univariate_inequality((x - 5) / (x + 2) >= 0, x, relational=False) == sp.Union(sp.Interval.open(-sp.oo, -2), sp.Interval(5, sp.oo))),
+    "m04l03-x4": ("b", lambda: sp.calculus.util.continuous_domain(sp.sqrt(9 - x**2), x, _R) == sp.Interval(-3, 3)),
+    "m04l04-x3": ("b", lambda: all(sp.Abs(v - 5) == (5 - v if v < 5 else v - 5) for v in range(-3, 12))),
+    "m04l05-x4": ("b", lambda: sp.simplify(((x - 3) / 4).subs(x, 4 * x + 3) - x) == 0),
+    "m04l05-x5": ("c", lambda: (x**2).subs(x, 2) == (x**2).subs(x, -2)),
+    "m04l06-x4": ("b", lambda: sp.expand_log(sp.log(sp.Symbol("p", positive=True) * sp.Symbol("s", positive=True)), force=True) == sp.log(sp.Symbol("p", positive=True)) + sp.log(sp.Symbol("s", positive=True))),
+    "m04l07-x4": ("b", lambda: sp.limit((x**2 + 3 * x) / (x + 1) - (x + 2), x, sp.oo) == 0),
+    "m04l07-x5": ("b", lambda: sp.limit((x**2 - 9) / (x - 3), x, 3) == 6 and sp.Integer(3) not in sp.calculus.util.continuous_domain((x**2 - 9) / (x - 3), x, _R)),
+    "m05l01-x3": ("c", lambda: sp.sin(sp.rad(250)).evalf() < 0 and sp.cos(sp.rad(250)).evalf() < 0),
+    "m05l01-x5": ("b", lambda: sp.cos(sp.rad(240)) == -sp.Rational(1, 2)),
+    "m05l03-x2": ("c", lambda: sp.expand_trig(sp.cos(x + y)) == sp.cos(x) * sp.cos(y) - sp.sin(x) * sp.sin(y)),
+    "m05l03-x5": ("a", lambda: sp.simplify(1 + sp.tan(x) ** 2 - 1 / sp.cos(x) ** 2) == 0),
+    "m06l02-x2": ("b", lambda: (sp.ones(2, 3) * sp.ones(3, 4)).shape == (2, 4)),
+    "m06l02-x5": ("a", lambda: sp.Matrix([[1, 2, 3], [4, 5, 6]]).T == sp.Matrix([[1, 4], [2, 5], [3, 6]])),
+    "m06l03-x4": ("a", lambda: sp.Matrix([[1, 2], [0, 1]]).inv() == sp.Matrix([[1, -2], [0, 1]])),
+    "m06l04-x2": ("c", lambda: sp.linsolve((sp.Matrix([[1, 1, 1], [0, 1, 1], [0, 0, 0]]), sp.Matrix([1, 2, 4])), x, y, k) == sp.EmptySet),
+    "m07l01-x4": ("a", lambda: sp.Point.is_collinear(sp.Point(0, 1), sp.Point(2, 5), sp.Point(4, 9))),
+    "m07l02-x2": ("b", lambda: sp.Line(sp.Point(0, 3), slope=2).is_parallel(sp.Line(sp.Point(0, -1), slope=2))),
+    "m07l03-x2": ("b", lambda: sp.Plane(sp.Point3D(1, 0, 0), normal_vector=(1, 2, -1)).is_parallel(sp.Plane(sp.Point3D(sp.Rational(3, 2), 0, 0), normal_vector=(2, 4, -2))) and sp.Point3D(sp.Rational(3, 2), 0, 0) not in sp.Plane(sp.Point3D(1, 0, 0), normal_vector=(1, 2, -1))),
+    "m07l03-x4": ("b", lambda: sp.Matrix([2, 1, 0]).dot(sp.Matrix([1, -2, 5])) == 0),
+    "m07l04-x1": ("a", lambda: sp.Matrix([1, 2, 0]).cross(sp.Matrix([0, 1, 1])) == sp.Matrix([2, -1, 1])),
+    "m08l03-x2": ("c", lambda: sp.simplify(sp.diff(x**2 * sp.exp(x), x) - x * sp.exp(x) * (x + 2)) == 0),
+    "m08l04-x2": ("a", lambda: sp.expand(1 + 3 * (x - 1)) == 3 * x - 2),
+    "m08l05-x2": ("b", lambda: sp.solve_univariate_inequality(sp.diff(x**3 - 12 * x, x) < 0, x, relational=False) == sp.Interval.open(-2, 2)),
+    "m08l06-x3": ("b", lambda: sp.solve_univariate_inequality(sp.diff(x**4, x, 2) < 0, x, relational=False) == sp.EmptySet),
+    "m09l01-x2": ("a", lambda: sp.simplify(sp.diff(3 * sp.log(x) + sp.exp(2 * x) / 2, x) - (3 / x + sp.exp(2 * x))) == 0),
+    "m09l01-x3": ("b", lambda: sp.simplify(sp.diff(sp.exp(x) * (x - 1), x) - x * sp.exp(x)) == 0),
+    "m10l02-x3": ("b", lambda: sp.integrate(x**2, (x, 0, 3)) == 9),
+})
 
 def as_float(v):
     if isinstance(v, F):

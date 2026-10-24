@@ -58,7 +58,7 @@ function BlockView({b,evaluation,onSection}:{b:Block;evaluation?:ReactNode|undef
     }
     case "quote":return <blockquote className="space-y-3 rounded-xl border-l-2 border-learn/60 bg-foreground/[0.03] px-4 py-3 italic text-platinum/85">{b.children.map((c,k)=><BlockView key={k} b={c}/>)}</blockquote>;
     case "table":return <div className="overflow-x-auto rounded-xl border border-hairline">
-      <table className="w-full min-w-[420px] text-left text-sm">
+      <table className="w-full text-left text-sm">
         {b.head&&<thead className="bg-foreground/[0.05]"><tr>{b.head.map((h,k)=><th key={k} scope="col" className="px-3 py-2 font-semibold text-foreground"><InlineMd text={h}/></th>)}</tr></thead>}
         <tbody>{b.rows.map((r,k)=><tr key={k} className="border-t border-hairline">{r.map((c,j)=><td key={j} className="px-3 py-2 align-top"><InlineMd text={c}/></td>)}</tr>)}</tbody>
       </table></div>;

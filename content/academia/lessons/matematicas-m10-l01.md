@@ -38,11 +38,11 @@ Las cuestiones son como «sprints»: cortas, de un solo concepto, se resuelven e
 
 **Formato de referencia** (contrastado con la prueba de 2026; hay que revalidarlo con la convocatoria oficial de 2027 antes del examen):
 
-| Parte | Se ofrecen | Se responden | Puntos cada uno | Total |
-|---|---|---|---|---|
-| Cuestiones | 6 | 4 | 1,5 | 6 |
-| Problemas | 2 | 1 | 4 | 4 |
-| **Examen** | | | | **10** |
+| Parte | Se responden | Puntos |
+|---|---|---|
+| Cuestiones | 4 de 6 | 6 (1,5 cada una) |
+| Problemas | 1 de 2 | 4 |
+| **Examen** | | **10** |
 
 Consecuencias directas:
 - Las **cuestiones** pesan el 60 % de la nota. Cuatro cuestiones bien hechas ya son un 6.
