@@ -5,7 +5,7 @@ import {chromium,webkit,devices} from 'playwright';
 import assert from 'node:assert/strict';
 
 const origin=process.env.REACT_QA_BASE_URL||'http://127.0.0.1:4174';
-const routes=['/','/ares','/aprender','/gym','/dinero','/gastos','/piel','/proyectos','/notas','/body','/food','/ajustes','/nominas','/turnos','/migracion','/apps','/quest','/news','/agentes','/career','/car','/inbox','/academia','/academia?v=cursos','/academia?leccion=matematicas-m00-l01'];
+const routes=['/','/ares','/academy','/aprender','/gym','/dinero','/gastos','/piel','/proyectos','/notas','/body','/food','/ajustes','/nominas','/turnos','/migracion','/apps','/quest','/news','/agentes','/career','/car','/inbox','/academia','/academia?v=cursos','/academia?leccion=matematicas-m00-l01'];
 const uid='22222222-2222-4222-8222-222222222222';
 const email='qa-nocturne@example.invalid';
 const user={id:uid,aud:'authenticated',role:'authenticated',email,
@@ -115,7 +115,9 @@ for(const [label,engine,opts] of [
       await dialog.getByRole('searchbox',{name:'Buscar apps'}).fill('quests');
       await dialog.getByRole('link').filter({hasText:'Quests'}).click();
       await page.waitForURL('**/quest');
-      await dock.getByRole('link',{name:'Quests',exact:true}).waitFor();
+      // Quests vive dentro del hub Inicio: el dock marca Inicio y las pestañas del hub marcan "XP y Quests".
+      await dock.locator('a[aria-current="page"]').filter({hasText:'Inicio'}).waitFor();
+      await page.getByRole('navigation',{name:'Secciones de Inicio'}).locator('a[aria-current="page"]').filter({hasText:'XP y Quests'}).waitFor();
     }
   }
 
@@ -125,8 +127,21 @@ for(const [label,engine,opts] of [
     await page.getByRole('heading',{name:'Tu espacio privado.'}).waitFor({state:'hidden',timeout:20000});
     await page.getByRole('heading',{level:1}).first().waitFor({timeout:20000});
     assert.equal(await page.getByRole('button',{name:'Entrar'}).count(),0,label+' '+path+' dropped mock session');
+    // WebKit informa como error de página las peticiones que siguen en vuelo cuando se navega a la
+    // siguiente ruta («due to access control checks»). Esperar a que la red se calme evita ese falso
+    // positivo sin ocultar excepciones reales de la app (siguen registrándose en `errors`).
+    await page.waitForLoadState('networkidle',{timeout:5000}).catch(()=>{});
     visited.push(path);
   }
+  // Hubs: Money agrupa Resumen, Gastos, Nóminas y Car como pestañas; Academy agrupa los estudios.
+  await page.goto(new URL('/nominas',origin).href,{waitUntil:'domcontentloaded'});
+  const moneyTabs=page.getByRole('navigation',{name:'Secciones de Money'});
+  await moneyTabs.waitFor();
+  assert.deepEqual((await moneyTabs.getByRole('link').allInnerTexts()).map(t=>t.trim()),['Resumen','Gastos','Nóminas','Car']);
+  await page.goto(new URL('/academy',origin).href,{waitUntil:'domcontentloaded'});
+  const academyTabs=page.getByRole('navigation',{name:'Secciones de Academy'});
+  await academyTabs.waitFor();
+  assert.equal(await academyTabs.getByRole('link').count(),5);
   // The route matrix no longer ends at Ajustes; the account email lives there.
   // Visit it explicitly so this test verifies session persistence instead of
   // accidentally depending on the order of the route array.

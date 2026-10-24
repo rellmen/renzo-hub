@@ -23,7 +23,7 @@ export const Route=createFileRoute("/")({
 });
 
 const MODULES=[
-  {to:"/aprender" as const,image:learn,eyebrow:"SELFLEARN",title:"Aprende sin límites",meta:"Neerlandés B2 · Inglés C1",color:"var(--learn)"},
+  {to:"/academy" as const,image:learn,eyebrow:"ACADEMY",title:"Aprende sin límites",meta:"Idiomas · UOC +25 · Data",color:"var(--learn)"},
   {to:"/gym" as const,image:gym,eyebrow:"GYM",title:"Más fuerte cada día",meta:"Rutinas, sesiones y progreso",color:"var(--gym)"},
   {to:"/dinero" as const,image:money,eyebrow:"MONEY",title:"Capital con intención",meta:"Tus registros financieros privados",color:"var(--money)"},
   {to:"/piel" as const,image:skin,eyebrow:"SKIN ROUTINE",title:"Ritual consciente",meta:"Cuidado personal",color:"var(--skin)"},

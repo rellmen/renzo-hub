@@ -10,7 +10,6 @@ import {loadPayrollRecords} from "@/lib/payroll-records.mjs";
 import {backendEnvironmentForHost} from "@/lib/nocturne-environment.mjs";
 import {PayrollUpload} from "@/components/rise/PayrollUpload";
 import {PayrollReview} from "@/components/rise/PayrollReview";
-import {FinanceSections} from "@/components/rise/FinanceSections";
 import {PayrollMonthly} from "@/components/rise/PayrollMonthly";
 
 export const Route=createFileRoute("/nominas")({
@@ -41,7 +40,7 @@ function Payroll(){
   finally{setDownloading(null);}
  }
  return <div className="space-y-6">
-  <FinanceSections/>
+  
   <PageHeader eyebrow="MY FINANCE · NÓMINAS" title="Tu historial salarial"
     subtitle="Documentos, conceptos e historial salarial vinculados a tu cuenta en este entorno."/>
   {isStaging&&<p role="note" className="surface border border-gold/20 p-4 text-sm text-platinum/80">Estás en staging. Aquí solo aparecen sus nóminas de prueba; las nóminas recientes de tu cuenta habitual no se copian a este entorno.</p>}

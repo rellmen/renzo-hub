@@ -3,7 +3,6 @@ import {useQuery} from '@tanstack/react-query';
 import {RefreshCw} from 'lucide-react';
 import {useAuth} from '@/lib/auth/AuthProvider';
 import {PageHeader,SectionCard} from '@/components/rise/primitives';
-import {FinanceSections} from '@/components/rise/FinanceSections';
 import {loadCar} from '@/lib/car-records.mjs';
 import {pageHead} from '@/lib/seo';
 export const Route=createFileRoute('/car')({head:()=>pageHead('Car','Gastos privados del coche y documentos pendientes.'),component:Car});
@@ -11,7 +10,7 @@ const eur=new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'});
 function Car(){
  const {client,user}=useAuth(),uid=user?.id||'';
  const q=useQuery({queryKey:['car',uid],enabled:!!uid&&!!client,queryFn:()=>loadCar(client!,uid),staleTime:15000,refetchOnWindowFocus:true});
- return <div className="space-y-6"><FinanceSections/>
+ return <div className="space-y-6">
   <PageHeader eyebrow="MY FINANCE · CAR" title="Tu coche, en detalle" subtitle="Combustible, parking y gastos registrados. Los documentos y movimientos bancarios se muestran por separado para evitar sumarlos dos veces."/>
   <button type="button" className="btn-ghost" disabled={q.isFetching} onClick={()=>void q.refetch()}><RefreshCw className="h-4 w-4"/>Actualizar Car</button>
   {q.isLoading&&<p role="status">Consultando gastos del coche…</p>}

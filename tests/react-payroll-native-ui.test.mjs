@@ -108,12 +108,17 @@ test("Native payroll UX does not transmit a PDF until explicit user confirmation
  assert.doesNotMatch(ui,/OPENROUTER_API_KEY|SUPABASE_SECRET_KEY/);
 });
 
-test("Money, Gastos, Nóminas and Turnos preserve URLs and share the same financial nav",()=>{
- const nav=src("apps/rise-react/src/components/rise/FinanceSections.tsx");
- for(const [path,route] of [["dinero.tsx","dinero"],["gastos.tsx","gastos"],["nominas.tsx","nominas"],["turnos.tsx","turnos"]]){
+test("Money hub keeps its URLs and every page gets the hub tabs from the shell (no per-page nav)",()=>{
+ const hubs=src("apps/rise-react/src/lib/hubs.ts"),shell=src("apps/rise-react/src/components/rise/AppShell.tsx");
+ assert.match(shell,/<HubSections \/>\{children\}/);
+ const money=hubs.slice(hubs.indexOf('id: "money"'),hubs.indexOf('id: "trabajo"'));
+ for(const [path,route,id] of [["dinero.tsx","dinero","dinero"],["gastos.tsx","gastos","gastos"],["nominas.tsx","nominas","nominas"],["car.tsx","car","car"]]){
   const code=src("apps/rise-react/src/routes/"+path);
-  assert.match(code,/<FinanceSections\/>/);
-  assert.match(code,new RegExp('createFileRoute\\("/'+route+'"\\)'));
-  assert.match(nav,new RegExp('to:"/'+route+'"'));
+  assert.doesNotMatch(code,/FinanceSections/);
+  assert.match(code,new RegExp('createFileRoute\\([\'"]/'+route+'[\'"]\\)'));
+  assert.match(money,new RegExp('appId: "'+id+'"'));
  }
+ // Turnos pasa al hub Trabajo (decisión 24-10-2026), sin cambiar su URL.
+ assert.match(src("apps/rise-react/src/routes/turnos.tsx"),/createFileRoute\("\/turnos"\)/);
+ assert.match(hubs.slice(hubs.indexOf('id: "trabajo"')),/appId: "turnos"/);
 });
