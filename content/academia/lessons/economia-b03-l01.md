@@ -47,13 +47,20 @@ $$FM=AC-PC=(PN+PNC)-ANC.$$
 
 **Ratios financieros** (valores de referencia orientativos; varían según el sector y el manual):
 
-| Ratio | Fórmula | Referencia | Mide |
-|---|---|---|---|
-| Liquidez (solvencia a corto) | $\dfrac{AC}{PC}$ | 1,5 – 2 | Capacidad de pagar deudas a corto con todo el activo corriente |
-| Tesorería (prueba ácida) | $\dfrac{\text{Realizable}+\text{Disponible}}{PC}$ | ≈ 1 | Igual, pero sin contar existencias (las menos líquidas) |
-| Disponibilidad | $\dfrac{\text{Disponible}}{PC}$ | 0,1 – 0,3 | Pago inmediato |
-| Solvencia (garantía) | $\dfrac{\text{Activo total}}{\text{Pasivo exigible}}$ | > 1,5 | Capacidad de pagar todas las deudas con todo el activo |
-| Endeudamiento | $\dfrac{\text{Pasivo exigible}}{PN+\text{Pasivo exigible}}$ | 0,4 – 0,6 | Peso de la financiación ajena |
+| Ratio | Fórmula | Referencia |
+|---|---|---|
+| Liquidez | $AC/PC$ | 1,5 – 2 |
+| Tesorería | $(R+D)/PC$ | ≈ 1 |
+| Disponibilidad | $D/PC$ | 0,1 – 0,3 |
+| Solvencia | $AT/PE$ | > 1,5 |
+| Endeudamiento | $PE/(PN+PE)$ | 0,4 – 0,6 |
+
+Notación: $R$ = realizable; $D$ = disponible; $AT$ = activo total; $PE$ = pasivo exigible. Qué mide cada ratio:
+- **Liquidez** (solvencia a corto plazo): capacidad de pagar las deudas a corto con todo el activo corriente.
+- **Tesorería** (prueba ácida): lo mismo, pero sin contar las existencias, que son lo menos líquido.
+- **Disponibilidad:** capacidad de pago inmediato con caja y bancos.
+- **Solvencia** (garantía): capacidad de pagar todas las deudas con todo el activo.
+- **Endeudamiento:** peso de la financiación ajena en el total.
 
 Algunos manuales calculan el endeudamiento como $\dfrac{\text{Pasivo exigible}}{PN}$ (referencia aproximada de 0,5 a 1,5). En el examen, **escribe la fórmula que usas** antes de calcular.
 

@@ -60,13 +60,20 @@ Sus intereses pueden chocar: los accionistas quieren más dividendos; los trabaj
 
 **Formas jurídicas principales en España** (síntesis orientativa; la normativa puede cambiar, compruébala en fuentes oficiales antes de decisiones reales):
 
-| Forma | Socios | Responsabilidad | Capital mínimo | Fiscalidad |
-|---|---|---|---|---|
-| Empresario individual (autónomo) | 1 | **Ilimitada**: responde con su patrimonio personal | No hay | IRPF |
-| Sociedad limitada (SL) | 1 o más | **Limitada** al capital aportado | Desde 1 € (con requisitos de reserva y garantías mientras no alcanza 3.000 €) | Impuesto de Sociedades |
-| Sociedad anónima (SA) | 1 o más | Limitada | 60.000 € (al menos el 25 % desembolsado al constituirla) | Impuesto de Sociedades |
-| Cooperativa | Varios (mínimo legal según la norma aplicable) | Limitada al capital aportado | Según estatutos | Régimen especial |
-| Sociedad laboral (SLL, SAL) | Mayoría del capital en manos de trabajadores | Limitada | Como SL o SA | Impuesto de Sociedades |
+| Forma | Responsabilidad | Capital mínimo | Impuesto |
+|---|---|---|---|
+| Autónomo | Ilimitada | No hay | IRPF |
+| SL | Limitada | Desde 1 € | Sociedades |
+| SA | Limitada | 60.000 € | Sociedades |
+| Cooperativa | Limitada | Según estatutos | Régimen especial |
+| Sociedad laboral | Limitada | Como SL o SA | Sociedades |
+
+Notas a la tabla:
+- **Autónomo (empresario individual):** una sola persona que responde con todo su patrimonio personal.
+- **SL:** uno o más socios. Mientras el capital no llega a 3.000 €, la ley exige destinar parte del beneficio a reservas y establece garantías para los acreedores.
+- **SA:** uno o más socios; al constituirla debe desembolsarse al menos el 25 % del capital.
+- **Cooperativa:** varios socios (el mínimo depende de la norma aplicable) con gestión democrática.
+- **Sociedad laboral (SLL, SAL):** la mayoría del capital pertenece a los trabajadores.
 
 Diferencias clave entre SL y SA: la SL tiene participaciones que no se transmiten libremente (pensada para empresas pequeñas y familiares); la SA tiene acciones que se transmiten con libertad y puede cotizar en bolsa (pensada para grandes empresas).
 
