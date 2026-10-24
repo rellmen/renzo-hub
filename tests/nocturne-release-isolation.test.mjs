@@ -78,3 +78,13 @@ test('Production awards require both opt-in and compatible backend contract',()=
  assert.equal(officialSelfLearnAwardsEnabled(false,{...opts,backendReady:true}),false);
  assert.equal(officialSelfLearnAwardsEnabled(true,{...opts,backendReady:true}),true);
 });
+
+test('El dominio QA servido por producción redirige al dominio público sin relajar el aislamiento',async()=>{
+ const {productionRedirectUrl}=await import('../apps/rise-react/src/lib/nocturne-environment.mjs');
+ assert.equal(productionRedirectUrl({hostname:'rise-hub-nocturne-qa.vercel.app',releaseTarget:'production',pathname:'/academia',search:'?v=examenes',hash:'#x'}),'https://renzo-hub.vercel.app/academia?v=examenes#x');
+ assert.equal(productionRedirectUrl({hostname:'RISE-HUB-NOCTURNE-QA.vercel.app.',releaseTarget:'production'}),'https://renzo-hub.vercel.app/');
+ for(const releaseTarget of ['','staging','preview'])assert.equal(productionRedirectUrl({hostname:'rise-hub-nocturne-qa.vercel.app',releaseTarget}),null);
+ for(const hostname of ['renzo-hub.vercel.app','renzo-hub-2-1-staging.vercel.app','localhost','evil.example'])assert.equal(productionRedirectUrl({hostname,releaseTarget:'production'}),null);
+ assert.equal(productionRedirectUrl({hostname:'rise-hub-nocturne-qa.vercel.app',releaseTarget:'production',pathname:'//evil.example/x'}),'https://renzo-hub.vercel.app//evil.example/x');
+ assert.throws(()=>verify(prod,'rise-hub-nocturne-qa.vercel.app','production'),/dominio/);
+});
