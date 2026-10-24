@@ -1238,18 +1238,16 @@
      "lessons": [
       {
        "id": "castellano-c00-l01",
-       "title": "Oración y párrafo, puntuación básica, ortografía fundamental, idea principal y secundaria, vocabulario contextual",
+       "title": "Oración, párrafo y puntuación básica",
        "topic_scope": "oración y párrafo, puntuación básica, ortografía fundamental, idea principal y secundaria, vocabulario contextual",
        "level": "N0",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     },
@@ -1315,20 +1313,18 @@
       },
       {
        "id": "castellano-c03-l02",
-       "title": "Transitividad, pasiva/activa, concordancia",
+       "title": "Transitividad, voz activa y pasiva, y concordancia",
        "topic_scope": "transitividad, pasiva/activa, concordancia",
        "level": "N2",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
         "castellano-c03-l01"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     },
@@ -1339,18 +1335,18 @@
      "lessons": [
       {
        "id": "castellano-c04-l01",
-       "title": "Coordinación, subordinación sustantiva/adjetiva/adverbial, nexos, estilo directo/indirecto, transformaciones",
+       "title": "La oración compuesta: coordinación, subordinación y estilo indirecto",
        "topic_scope": "coordinación, subordinación sustantiva/adjetiva/adverbial, nexos, estilo directo/indirecto, transformaciones",
        "level": "N2",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
-       "prerequisites": [],
-       "has_content": false,
+       "prerequisites": [
+        "castellano-c03-l02"
+       ],
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     },
@@ -1361,35 +1357,34 @@
      "lessons": [
       {
        "id": "castellano-c05-l01",
-       "title": "Sinónimos, antónimos, polisemia/homonimia, hiperónimos/hipónimos",
+       "title": "Relaciones de significado: sinonimia, antonimia, polisemia, homonimia e hiperonimia",
        "topic_scope": "sinónimos, antónimos, polisemia/homonimia, hiperónimos/hipónimos",
        "level": "N2",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
-       "prerequisites": [],
-       "has_content": false,
+       "prerequisites": [
+        "castellano-c00-l01"
+       ],
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "castellano-c05-l02",
-       "title": "Registros, recursos retóricos, anáfora, cohesión, conectores, coherencia",
+       "title": "Registros, recursos retóricos, cohesión y coherencia",
        "topic_scope": "registros, recursos retóricos, anáfora, cohesión, conectores, coherencia",
        "level": "N2",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
-        "castellano-c05-l01"
+        "castellano-c05-l01",
+        "castellano-c04-l01"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     },
@@ -1423,18 +1418,19 @@
      "lessons": [
       {
        "id": "castellano-c07-l01",
-       "title": "Formatos de comprensión 3 puntos, expresión 4 y reflexión 3, penalizaciones, administración del tiempo",
+       "title": "El examen de Lengua castellana: formato, penalizaciones y gestión del tiempo",
        "topic_scope": "formatos de comprensión 3 puntos, expresión 4 y reflexión 3, penalizaciones, administración del tiempo",
        "level": "N3",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 60,
-       "prerequisites": [],
-       "has_content": false,
+       "prerequisites": [
+        "castellano-c05-l02",
+        "castellano-c06-l01"
+       ],
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     },
@@ -1445,18 +1441,18 @@
      "lessons": [
       {
        "id": "castellano-c08-l01",
-       "title": "Redacción académica, citas y fuentes, textos científicos, razonamiento y argumentación rigurosa",
+       "title": "Puente universitario: redacción académica, citas, fuentes y argumentación rigurosa",
        "topic_scope": "redacción académica, citas y fuentes, textos científicos, razonamiento y argumentación rigurosa",
        "level": "N4",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
-       "prerequisites": [],
-       "has_content": false,
+       "prerequisites": [
+        "castellano-c07-l01"
+       ],
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     }
@@ -2368,14 +2364,14 @@
  ],
  "stats": {
   "by_status": {
-   "planned": 46,
-   "draft": 74,
+   "planned": 39,
+   "draft": 81,
    "reviewed": 0,
    "ready": 0,
    "published": 0
   },
   "lessons_total": 120,
-  "meets_standard": 74,
+  "meets_standard": 81,
   "courses": {
    "matematicas": {
     "total": 56,
@@ -2403,11 +2399,11 @@
    },
    "castellano": {
     "total": 11,
-    "with_content": 4,
-    "meets_standard": 4,
+    "with_content": 11,
+    "meets_standard": 11,
     "by_status": {
-     "planned": 7,
-     "draft": 4,
+     "planned": 0,
+     "draft": 11,
      "reviewed": 0,
      "ready": 0,
      "published": 0
@@ -2450,8 +2446,8 @@
     }
    }
   },
-  "questions_total": 426,
-  "exit_questions": 370,
+  "questions_total": 461,
+  "exit_questions": 405,
   "bank_questions": 56
  }
 }

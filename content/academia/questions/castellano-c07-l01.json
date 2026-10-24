@@ -1,0 +1,36 @@
+{
+  "lesson_id": "castellano-c07-l01",
+  "questions": [
+    {
+      "id": "c07l01-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["exam_format_castellano"],
+      "prompt_md": "En el formato de referencia, ¿cuántos puntos vale cada una de las 6 preguntas de comprensión (que suman 3 puntos)?",
+      "key": {"value": 0.5, "tolerance": 0.001},
+      "explanation_md": "$3/6=0{,}5$."
+    },
+    {
+      "id": "c07l01-x2", "kind": "numeric", "difficulty": 2, "skill_ids": ["penalty_strategy"],
+      "prompt_md": "En reflexión lingüística aciertas 3, fallas 2 y dejas 1 en blanco. ¿Cuántos puntos obtienes? (0,5 por acierto; −0,16 por fallo)",
+      "key": {"value": 1.18, "tolerance": 0.001},
+      "explanation_md": "$3\\cdot0{,}5-2\\cdot0{,}16=1{,}5-0{,}32=1{,}18$."
+    },
+    {
+      "id": "c07l01-x3", "kind": "numeric", "difficulty": 1, "skill_ids": ["penalty_strategy"],
+      "prompt_md": "¿Cuántos puntos restan 6 errores de escritura (−0,1 cada uno)?",
+      "key": {"value": 0.6, "tolerance": 0.001},
+      "explanation_md": "$6\\cdot0{,}1=0{,}6$."
+    },
+    {
+      "id": "c07l01-x4", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["penalty_strategy"],
+      "prompt_md": "En una pregunta de cuatro opciones has descartado dos con seguridad. ¿Qué te conviene hacer?",
+      "choices": [{"id": "a", "text": "Dejarla en blanco: hay penalización"}, {"id": "b", "text": "Responder: el valor esperado es positivo (≈ +0,17)"}, {"id": "c", "text": "Marcar las dos opciones que quedan"}, {"id": "d", "text": "Da igual: el valor esperado es 0"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "$\\tfrac12\\cdot0{,}5-\\tfrac12\\cdot0{,}16=0{,}17>0$."
+    },
+    {
+      "id": "c07l01-x5", "kind": "numeric", "difficulty": 3, "skill_ids": ["time_management"],
+      "prompt_md": "Tienes 50 minutos de trabajo. Según la regla de los puntos, ¿cuántos minutos dedicas a la expresión (4 de 10 puntos)?", "unit": "min",
+      "key": {"value": 20, "tolerance": 0},
+      "explanation_md": "$0{,}4\\cdot50=20$ minutos."
+    }
+  ]
+}

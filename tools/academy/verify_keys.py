@@ -401,6 +401,16 @@ MC.update({
     "m09l01-x3": ("b", lambda: sp.simplify(sp.diff(sp.exp(x) * (x - 1), x) - x * sp.exp(x)) == 0),
     "m10l02-x3": ("b", lambda: sp.integrate(x**2, (x, 0, 3)) == 9),
 })
+# ---- Castellano C07 (aritmética de puntuación del formato de referencia) ----
+NUMERIC.update({
+    "c07l01-x1": lambda: F(3, 6),
+    "c07l01-x2": lambda: 3 * F(1, 2) - 2 * F(16, 100),
+    "c07l01-x3": lambda: 6 * F(1, 10),
+    "c07l01-x5": lambda: F(4, 10) * 50,
+})
+MC.update({
+    "c07l01-x4": ("b", lambda: F(1, 2) * F(1, 2) - F(1, 2) * F(16, 100) > 0),
+})
 
 def as_float(v):
     if isinstance(v, F):
