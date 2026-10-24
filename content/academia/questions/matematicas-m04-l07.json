@@ -1,0 +1,38 @@
+{
+  "lesson_id": "matematicas-m04-l07",
+  "questions": [
+    {
+      "id": "m04l07-x1", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["graph_transformations"],
+      "prompt_md": "La gráfica de $y=f(x-3)+2$ se obtiene de la de $y=f(x)$…",
+      "choices": [{"id": "a", "text": "3 a la izquierda y 2 hacia arriba"}, {"id": "b", "text": "3 a la derecha y 2 hacia arriba"}, {"id": "c", "text": "3 a la derecha y 2 hacia abajo"}, {"id": "d", "text": "2 a la derecha y 3 hacia arriba"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "$x-3$ desplaza a la derecha; $+2$ sube."
+    },
+    {
+      "id": "m04l07-x2", "kind": "numeric", "difficulty": 1, "skill_ids": ["asymptotes"],
+      "prompt_md": "¿En qué valor de $x$ tiene asíntota vertical $f(x)=\\dfrac{5x}{x-7}$?",
+      "key": {"value": 7, "tolerance": 0},
+      "explanation_md": "El denominador se anula en 7 y el numerador vale 35."
+    },
+    {
+      "id": "m04l07-x3", "kind": "numeric", "difficulty": 2, "skill_ids": ["asymptotes"],
+      "prompt_md": "Halla el valor $L$ de la asíntota horizontal $y=L$ de $f(x)=\\dfrac{4x-1}{2x+3}$.",
+      "key": {"value": 2, "tolerance": 0},
+      "explanation_md": "Grados iguales: $\\dfrac42=2$."
+    },
+    {
+      "id": "m04l07-x4", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["asymptotes"],
+      "prompt_md": "¿Cuál es la asíntota oblicua de $f(x)=\\dfrac{x^2+3x}{x+1}$?",
+      "choices": [{"id": "a", "text": "$y=x+3$"}, {"id": "b", "text": "$y=x+2$"}, {"id": "c", "text": "$y=x$"}, {"id": "d", "text": "No tiene"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "$x^2+3x=(x+1)(x+2)-2$ → $f(x)=x+2-\\dfrac{2}{x+1}$."
+    },
+    {
+      "id": "m04l07-x5", "kind": "multiple_choice", "difficulty": 3, "skill_ids": ["asymptotes"],
+      "prompt_md": "¿Qué ocurre en $x=3$ con $f(x)=\\dfrac{x^2-9}{x-3}$?",
+      "choices": [{"id": "a", "text": "Hay una asíntota vertical"}, {"id": "b", "text": "La función no existe en $x=3$, pero no hay asíntota: es un agujero"}, {"id": "c", "text": "La función vale 0"}, {"id": "d", "text": "La función vale 6"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Se simplifica a $x+3$ (para $x\\neq3$); el límite es 6, pero $f(3)$ no existe: discontinuidad evitable."
+    }
+  ]
+}

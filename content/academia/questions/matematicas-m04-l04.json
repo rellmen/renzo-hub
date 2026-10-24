@@ -1,0 +1,36 @@
+{
+  "lesson_id": "matematicas-m04-l04",
+  "questions": [
+    {
+      "id": "m04l04-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["piecewise_functions"],
+      "prompt_md": "Sea $f(x)=\\begin{cases}x^2 & x<2\\\\ 3x-1 & x\\ge2\\end{cases}$. Calcula $f(3)$.",
+      "key": {"value": 8, "tolerance": 0},
+      "explanation_md": "$3\\ge2$: segundo tramo, $3\\cdot3-1=8$."
+    },
+    {
+      "id": "m04l04-x2", "kind": "numeric", "difficulty": 1, "skill_ids": ["piecewise_functions"],
+      "prompt_md": "Con la misma función $f(x)=\\begin{cases}x^2 & x<2\\\\ 3x-1 & x\\ge2\\end{cases}$, calcula $f(-1)$.",
+      "key": {"value": 1, "tolerance": 0},
+      "explanation_md": "$-1<2$: primer tramo, $(-1)^2=1$."
+    },
+    {
+      "id": "m04l04-x3", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["piecewise_functions"],
+      "prompt_md": "¿Cuál es la expresión a trozos de $|x-5|$?",
+      "choices": [{"id": "a", "text": "$x-5$ si $x<5$; $5-x$ si $x\\ge5$"}, {"id": "b", "text": "$5-x$ si $x<5$; $x-5$ si $x\\ge5$"}, {"id": "c", "text": "$x+5$ si $x<-5$; $x-5$ si $x\\ge-5$"}, {"id": "d", "text": "$x-5$ para todo $x$"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Para $x<5$, $x-5$ es negativo y el valor absoluto le cambia el signo."
+    },
+    {
+      "id": "m04l04-x4", "kind": "numeric", "difficulty": 2, "skill_ids": ["piecewise_functions"],
+      "prompt_md": "Resuelve $f(x)=7$ con $f(x)=\\begin{cases}x+4 & x<0\\\\ 2x+1 & x\\ge0\\end{cases}$.",
+      "key": {"value": 3, "tolerance": 0},
+      "explanation_md": "Tramo 1: $x=3$, pero exige $x<0$: se descarta. Tramo 2: $2x+1=7$ → $x=3\\ge0$: válida."
+    },
+    {
+      "id": "m04l04-x5", "kind": "numeric", "difficulty": 3, "skill_ids": ["piecewise_functions"],
+      "prompt_md": "Con el impuesto ficticio de la lección (0 % hasta 10.000 €, 20 % entre 10.000 y 30.000 €, 30 % por encima), ¿cuál es la cuota para una base de 18.000 € (en euros)?", "unit": "€",
+      "key": {"value": 1600, "tolerance": 0},
+      "explanation_md": "Solo tributa al 20 % la parte que supera 10.000 €: $0{,}2\\cdot8000=1600$ €."
+    }
+  ]
+}

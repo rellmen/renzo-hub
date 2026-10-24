@@ -459,122 +459,119 @@
       },
       {
        "id": "matematicas-m04-l02",
-       "title": "Dominio/recorrido",
+       "title": "Dominio y recorrido de una función",
        "topic_scope": "dominio/recorrido",
        "level": "N2",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
-        "matematicas-m04-l01"
+        "matematicas-m04-l01",
+        "matematicas-m01-l05",
+        "matematicas-m02-l03"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "matematicas-m04-l03",
-       "title": "Ceros y signos",
+       "title": "Ceros y signo de una función; inecuaciones de segundo grado y racionales",
        "topic_scope": "ceros y signos",
        "level": "N2",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
-        "matematicas-m04-l02"
+        "matematicas-m04-l02",
+        "matematicas-m02-l02",
+        "matematicas-m02-l04"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "matematicas-m04-l04",
-       "title": "Funciones a trozos",
+       "title": "Funciones definidas a trozos",
        "topic_scope": "funciones a trozos",
        "level": "N2",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
-        "matematicas-m04-l03"
+        "matematicas-m04-l03",
+        "matematicas-m01-l06"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "matematicas-m04-l05",
-       "title": "Composición/inversa",
+       "title": "Composición de funciones y función inversa",
        "topic_scope": "composición/inversa",
        "level": "N2",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
-        "matematicas-m04-l04"
+        "matematicas-m04-l02",
+        "matematicas-m01-l03"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "matematicas-m04-l06",
-       "title": "Exponenciales y logaritmos",
+       "title": "Funciones exponenciales y logarítmicas",
        "topic_scope": "exponenciales y logaritmos",
        "level": "N2",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
-        "matematicas-m04-l05"
+        "matematicas-m04-l05",
+        "matematicas-m00-l06",
+        "matematicas-m03-l04"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "matematicas-m04-l07",
-       "title": "Transformaciones y asintotas",
+       "title": "Transformaciones de gráficas y asíntotas",
        "topic_scope": "transformaciones y asintotas",
        "level": "N2",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
-        "matematicas-m04-l06"
+        "matematicas-m04-l06",
+        "matematicas-m08-l01",
+        "matematicas-m02-l02"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "matematicas-m04-l08",
-       "title": "Tasas de variación",
+       "title": "Tasa de variación media e instantánea",
        "topic_scope": "tasas de variación",
        "level": "N2",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
-        "matematicas-m04-l07"
+        "matematicas-m04-l01",
+        "matematicas-m08-l01"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     },
@@ -2384,22 +2381,22 @@
  ],
  "stats": {
   "by_status": {
-   "planned": 74,
-   "draft": 46,
+   "planned": 67,
+   "draft": 53,
    "reviewed": 0,
    "ready": 0,
    "published": 0
   },
   "lessons_total": 120,
-  "meets_standard": 46,
+  "meets_standard": 53,
   "courses": {
    "matematicas": {
     "total": 56,
-    "with_content": 28,
-    "meets_standard": 28,
+    "with_content": 35,
+    "meets_standard": 35,
     "by_status": {
-     "planned": 28,
-     "draft": 28,
+     "planned": 21,
+     "draft": 35,
      "reviewed": 0,
      "ready": 0,
      "published": 0
@@ -2466,8 +2463,8 @@
     }
    }
   },
-  "questions_total": 286,
-  "exit_questions": 230,
+  "questions_total": 321,
+  "exit_questions": 265,
   "bank_questions": 56
  }
 }
