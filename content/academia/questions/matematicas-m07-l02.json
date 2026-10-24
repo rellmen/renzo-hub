@@ -1,0 +1,37 @@
+{
+  "lesson_id": "matematicas-m07-l02",
+  "questions": [
+    {
+      "id": "m07l02-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["line_equations_2d"],
+      "prompt_md": "¿Cuál es la pendiente de la recta $4x-2y+5=0$?",
+      "key": {"value": 2, "tolerance": 0},
+      "explanation_md": "$m=-\\dfrac{A}{B}=-\\dfrac{4}{-2}=2$ (explícita: $y=2x+\\tfrac52$)."
+    },
+    {
+      "id": "m07l02-x2", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["parallel_perpendicular"],
+      "prompt_md": "¿Qué recta es paralela a $y=2x-1$ y pasa por $(0,3)$?",
+      "choices": [{"id": "a", "text": "$y=-2x+3$"}, {"id": "b", "text": "$y=2x+3$"}, {"id": "c", "text": "$y=-\\dfrac12x+3$"}, {"id": "d", "text": "$y=3x$"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Paralela: misma pendiente 2; ordenada en el origen 3."
+    },
+    {
+      "id": "m07l02-x3", "kind": "numeric", "difficulty": 2, "skill_ids": ["point_line_distance"],
+      "prompt_md": "Calcula la distancia del punto $(3,4)$ a la recta $3x+4y=0$.",
+      "key": {"value": 5, "tolerance": 0},
+      "explanation_md": "$\\dfrac{|9+16|}{\\sqrt{9+16}}=\\dfrac{25}{5}=5$."
+    },
+    {
+      "id": "m07l02-x4", "kind": "numeric", "difficulty": 1, "skill_ids": ["line_equations_2d"],
+      "prompt_md": "Las rectas $x+y=7$ y $x-y=1$ se cortan en un punto. ¿Cuál es su coordenada $x$?",
+      "key": {"value": 4, "tolerance": 0},
+      "explanation_md": "Sumando: $2x=8$ → $x=4$ ($y=3$)."
+    },
+    {
+      "id": "m07l02-x5", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["parallel_perpendicular"],
+      "prompt_md": "Dos rectas de pendientes $m_1$ y $m_2$ (no verticales) son perpendiculares si…",
+      "choices": [{"id": "a", "text": "$m_1=m_2$"}, {"id": "b", "text": "$m_1\\cdot m_2=-1$"}, {"id": "c", "text": "$m_1+m_2=0$"}, {"id": "d", "text": "$m_1\\cdot m_2=1$"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Sus vectores directores $(1,m_1)$ y $(1,m_2)$ deben tener producto escalar 0: $1+m_1m_2=0$."
+    }
+  ]
+}

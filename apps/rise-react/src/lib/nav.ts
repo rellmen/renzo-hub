@@ -1,9 +1,10 @@
-import { BookOpen, Briefcase, Dumbbell, Home, Settings, Sparkles, Wallet, Flower2, NotebookPen, HeartPulse, UtensilsCrossed, CalendarClock, FileSpreadsheet, DatabaseBackup, LayoutGrid, Trophy, Newspaper, Bot, Receipt, Car, Inbox } from "lucide-react";
+import { BookOpen, Briefcase, Dumbbell, Home, Settings, Sparkles, Wallet, Flower2, NotebookPen, HeartPulse, UtensilsCrossed, CalendarClock, FileSpreadsheet, DatabaseBackup, LayoutGrid, Trophy, Newspaper, Bot, Receipt, Car, Inbox, GraduationCap } from "lucide-react";
 
 export const NAV = [
   { to: "/", label: "Centro de mando", short: "Inicio", icon: Home, accent: "var(--gold)" },
   { to: "/ares", label: "Ares AI", short: "Ares", icon: Sparkles, accent: "var(--ares)" },
   { to: "/aprender", label: "SelfLearn", short: "Aprender", icon: BookOpen, accent: "var(--learn)" },
+  { to: "/academia", label: "Academia +25", short: "Academia", icon: GraduationCap, accent: "var(--learn)" },
   { to: "/gym", label: "Gym", short: "Gym", icon: Dumbbell, accent: "var(--gym)" },
   { to: "/body", label: "Body", short: "Body", icon: HeartPulse, accent: "var(--gym)" },
   { to: "/food", label: "Food", short: "Food", icon: UtensilsCrossed, accent: "var(--gold)" },

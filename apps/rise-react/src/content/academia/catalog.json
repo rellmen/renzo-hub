@@ -1,0 +1,2459 @@
+{
+ "schema_version": "academia-1",
+ "generated_from": "content/academia",
+ "exam_dates": {
+  "general": "2027-04-10",
+  "especifica": "2027-04-17",
+  "source": "https://universitats.gencat.cat/es/proves-majors/25-anys/",
+  "note": "Fechas de la Generalitat para 2027 (consulta 24-10-2026). La UOC fija las suyas: en 2026 fueron el 11 y 12 de abril, en línea. Confirmar la convocatoria UOC 2027."
+ },
+ "elective": {
+  "chosen": "fisica",
+  "alternative": "economia",
+  "confirmed": true,
+  "note": "Ingeniería (UOC 2026): específicas entre Física, Matemáticas y Química. Economía de la Empresa no es opción para Ingeniería: queda como complementaria."
+ },
+ "courses": [
+  {
+   "slug": "matematicas",
+   "title": "Matemáticas",
+   "role": "especifica",
+   "role_label": "Específica 1 · troncal",
+   "exam_profile": "math_2026_cat_ref",
+   "models_url": "https://universitats.gencat.cat/ca/proves-majors/25-anys/models-examen/matematiques/",
+   "official_syllabus_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/",
+   "modules": [
+    {
+     "id": "M00",
+     "title": "Aritmética cero",
+     "level": "N0",
+     "lessons": [
+      {
+       "id": "matematicas-m00-l01",
+       "title": "Enteros, signos y jerarquía de operaciones",
+       "topic_scope": "números naturales/enteros, signos, orden, jerarquía de operaciones",
+       "level": "N0",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m00-l02",
+       "title": "Divisibilidad, MCD y mcm",
+       "topic_scope": "divisibilidad, MCD/mcm",
+       "level": "N0",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m00-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m00-l03",
+       "title": "Fracciones equivalentes, simplificación y comparación",
+       "topic_scope": "fracciones equivalentes",
+       "level": "N0",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m00-l02"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m00-l04",
+       "title": "Operaciones con fracciones",
+       "topic_scope": "suma/resta/multiplicación/división de fracciones",
+       "level": "N0",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m00-l02",
+        "matematicas-m00-l03"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m00-l05",
+       "title": "Decimales y porcentajes",
+       "topic_scope": "decimales y porcentajes",
+       "level": "N0",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m00-l04"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m00-l06",
+       "title": "Potencias, raíces y notación científica",
+       "topic_scope": "potencias, raíces, notación científica",
+       "level": "N0",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m00-l05"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m00-l07",
+       "title": "Razones, regla de tres, unidades y errores de medida",
+       "topic_scope": "razones, proporcionalidad, unidades y errores",
+       "level": "N0",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m00-l06"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "M01",
+     "title": "Preálgebra",
+     "level": "N1",
+     "lessons": [
+      {
+       "id": "matematicas-m01-l01",
+       "title": "Lenguaje algebraico, distributiva y términos semejantes",
+       "topic_scope": "lenguaje algebraico, variables, paréntesis, distributiva, reducción de términos",
+       "level": "N1",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m00-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m01-l02",
+       "title": "Ecuaciones de primer grado con paréntesis y fracciones",
+       "topic_scope": "ecuaciones de primer grado con paréntesis/fracciones",
+       "level": "N1",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m01-l01",
+        "matematicas-m00-l04"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m01-l03",
+       "title": "Despeje de fórmulas",
+       "topic_scope": "despeje de fórmulas",
+       "level": "N1",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m01-l02"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m01-l04",
+       "title": "Proporcionalidad algebraica, regla de tres compuesta y repartos",
+       "topic_scope": "proporcionalidad",
+       "level": "N1",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m01-l03",
+        "matematicas-m00-l07"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m01-l05",
+       "title": "Desigualdades, intervalos y recta real",
+       "topic_scope": "desigualdades, intervalos y recta real",
+       "level": "N1",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m01-l02"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m01-l06",
+       "title": "Valor absoluto, distancia en la recta y ecuaciones e inecuaciones con valor absoluto",
+       "topic_scope": "valor absoluto",
+       "level": "N1",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m01-l05"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m01-l07",
+       "title": "Leer y plantear problemas con ecuaciones",
+       "topic_scope": "lectura de problemas",
+       "level": "N1",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m01-l02",
+        "matematicas-m01-l04"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "M02",
+     "title": "Álgebra intermedia",
+     "level": "N1",
+     "lessons": [
+      {
+       "id": "matematicas-m02-l01",
+       "title": "Identidades notables y factorización",
+       "topic_scope": "identidades notables, productos notables, factorización",
+       "level": "N1",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m01-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m02-l02",
+       "title": "Polinomios, división, regla de Ruffini y raíces",
+       "topic_scope": "polinomios, división, raíces",
+       "level": "N1",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m02-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m02-l03",
+       "title": "Fracciones algebraicas y restricciones del dominio",
+       "topic_scope": "fracciones algebraicas y restricciones",
+       "level": "N1",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m02-l02",
+        "matematicas-m00-l04"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m02-l04",
+       "title": "Ecuación de segundo grado y discriminante",
+       "topic_scope": "ecuación cuadrática/discriminante",
+       "level": "N1",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m02-l01",
+        "matematicas-m01-l07"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m02-l05",
+       "title": "Radicales y potencias de exponente racional",
+       "topic_scope": "radicales y potencias racionales",
+       "level": "N1",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m00-l06",
+        "matematicas-m02-l04"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m02-l06",
+       "title": "Sistemas 2×2 y ecuaciones racionales e irracionales",
+       "topic_scope": "sistemas 2×2, ecuaciones racionales e irracionales, verificación de raíces",
+       "level": "N1",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m02-l03",
+        "matematicas-m02-l04",
+        "matematicas-m02-l05"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m02-l07",
+       "title": "Números complejos en forma binómica y polar",
+       "topic_scope": "complejos (forma binómica/polar conceptual)",
+       "level": "N1",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m02-l04",
+        "matematicas-m06-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "M03",
+     "title": "Sucesiones e interés",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "matematicas-m03-l01",
+       "title": "Sucesiones, término general y recurrencias",
+       "topic_scope": "patrones, término general y recurrencias",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m01-l02",
+        "matematicas-m00-l06"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m03-l02",
+       "title": "Progresiones aritméticas y geométricas",
+       "topic_scope": "progresiones aritméticas y geométricas",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m03-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m03-l03",
+       "title": "Sumas de progresiones y notación sumatorio",
+       "topic_scope": "sumas finitas",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m03-l02"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m03-l04",
+       "title": "Interés simple y compuesto, TAE y amortización de préstamos",
+       "topic_scope": "interés simple y compuesto, crecimiento porcentual y amortización conceptual",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m03-l02",
+        "matematicas-m03-l03",
+        "matematicas-m00-l05"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "M04",
+     "title": "Funciones y gráficos",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "matematicas-m04-l01",
+       "title": "Plano cartesiano, funciones lineales y cuadráticas",
+       "topic_scope": "plano cartesiano, gráficas lineales y cuadráticas",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m01-l02",
+        "matematicas-m02-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m04-l02",
+       "title": "Dominio y recorrido de una función",
+       "topic_scope": "dominio/recorrido",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m04-l01",
+        "matematicas-m01-l05",
+        "matematicas-m02-l03"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m04-l03",
+       "title": "Ceros y signo de una función; inecuaciones de segundo grado y racionales",
+       "topic_scope": "ceros y signos",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m04-l02",
+        "matematicas-m02-l02",
+        "matematicas-m02-l04"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m04-l04",
+       "title": "Funciones definidas a trozos",
+       "topic_scope": "funciones a trozos",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m04-l03",
+        "matematicas-m01-l06"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m04-l05",
+       "title": "Composición de funciones y función inversa",
+       "topic_scope": "composición/inversa",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m04-l02",
+        "matematicas-m01-l03"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m04-l06",
+       "title": "Funciones exponenciales y logarítmicas",
+       "topic_scope": "exponenciales y logaritmos",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m04-l05",
+        "matematicas-m00-l06",
+        "matematicas-m03-l04"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m04-l07",
+       "title": "Transformaciones de gráficas y asíntotas",
+       "topic_scope": "transformaciones y asintotas",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m04-l06",
+        "matematicas-m08-l01",
+        "matematicas-m02-l02"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m04-l08",
+       "title": "Tasa de variación media e instantánea",
+       "topic_scope": "tasas de variación",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m04-l01",
+        "matematicas-m08-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "M05",
+     "title": "Trigonometría",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "matematicas-m05-l01",
+       "title": "Ángulos en radianes, circunferencia unitaria y razones trigonométricas",
+       "topic_scope": "grados/radianes, circunferencia unitaria, seno/coseno/tangente",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m04-l01",
+        "matematicas-m02-l05"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m05-l02",
+       "title": "Resolución de triángulos: rectángulos, teorema del seno y teorema del coseno",
+       "topic_scope": "triángulos rectángulos y oblicuángulos, leyes seno/coseno",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m05-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m05-l03",
+       "title": "Identidades trigonométricas y ecuaciones trigonométricas",
+       "topic_scope": "identidades y ecuaciones básicas",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m05-l01",
+        "matematicas-m02-l04"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m05-l04",
+       "title": "Aplicaciones de la trigonometría a la geometría",
+       "topic_scope": "aplicaciones geométricas",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m05-l02",
+        "matematicas-m05-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "M06",
+     "title": "Álgebra lineal",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "matematicas-m06-l01",
+       "title": "Vectores en el plano y en el espacio, suma y producto escalar",
+       "topic_scope": "vectores 2D/3D, suma y producto escalar",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m04-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m06-l02",
+       "title": "Matrices, operaciones, producto y traspuesta",
+       "topic_scope": "matrices, productos y transpuesta",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m06-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m06-l03",
+       "title": "Determinantes, matriz inversa y rango",
+       "topic_scope": "determinantes 2×2/3×3, inversa y rango",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m06-l02"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m06-l04",
+       "title": "Sistemas 3×3, método de Gauss y discusión con parámetro",
+       "topic_scope": "sistemas 3×3, escalonamiento Gauss, discusión con parámetro, interpretación geométrica",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m06-l03",
+        "matematicas-m02-l06"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "M07",
+     "title": "Geometría analítica",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "matematicas-m07-l01",
+       "title": "Distancia entre puntos, punto medio y pendiente",
+       "topic_scope": "distancias, punto medio, pendientes",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m06-l01",
+        "matematicas-m04-l01",
+        "matematicas-m05-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m07-l02",
+       "title": "Rectas en el plano: ecuaciones, paralelismo, perpendicularidad y distancias",
+       "topic_scope": "rectas 2D, paralelismo y perpendicularidad",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m07-l01",
+        "matematicas-m02-l06"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m07-l03",
+       "title": "Rectas y planos en el espacio y posiciones relativas",
+       "topic_scope": "rectas y planos 3D, vectores normales, posiciones relativas",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m07-l02",
+        "matematicas-m06-l04"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m07-l04",
+       "title": "Producto vectorial y mixto, ángulos y distancias en el espacio",
+       "topic_scope": "producto vectorial, ángulos y distancias",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m07-l03",
+        "matematicas-m06-l03"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "M08",
+     "title": "Cálculo diferencial",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "matematicas-m08-l01",
+       "title": "Límites intuitivos y continuidad",
+       "topic_scope": "límites intuitivos y continuidad",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m04-l01",
+        "matematicas-m02-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m08-l02",
+       "title": "La derivada como tasa de cambio instantánea",
+       "topic_scope": "derivada como tasa de cambio",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m04-l08",
+        "matematicas-m08-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m08-l03",
+       "title": "Reglas de derivación: potencias, producto, cociente y cadena",
+       "topic_scope": "derivación de potencias/polinomios, producto/cociente/cadena",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m08-l02",
+        "matematicas-m05-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m08-l04",
+       "title": "Recta tangente y recta normal",
+       "topic_scope": "recta tangente",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m08-l03",
+        "matematicas-m07-l02"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m08-l05",
+       "title": "Crecimiento, decrecimiento, máximos y mínimos",
+       "topic_scope": "crecimiento/decrecimiento, máximos/mínimos",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m08-l03",
+        "matematicas-m02-l07"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m08-l06",
+       "title": "Concavidad, puntos de inflexión y representación de funciones",
+       "topic_scope": "concavidad/inflexión",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m08-l05",
+        "matematicas-m08-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m08-l07",
+       "title": "Problemas de optimización",
+       "topic_scope": "optimización",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m08-l05",
+        "matematicas-m02-l06"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "M09",
+     "title": "Cálculo integral",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "matematicas-m09-l01",
+       "title": "Integrales: primitivas, métodos de integración, integral definida y áreas",
+       "topic_scope": "antiderivadas inmediatas, linealidad, sustitución sencilla, integración por partes, integral definida, áreas y relación derivada-integral",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m08-l03",
+        "matematicas-m08-l05"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "M10",
+     "title": "Entrenamiento examen",
+     "level": "N3",
+     "lessons": [
+      {
+       "id": "matematicas-m10-l01",
+       "title": "Estructura del examen: 4 de 6 cuestiones y 1 de 2 problemas",
+       "topic_scope": "4/6 preguntas y 1/2 problemas",
+       "level": "N3",
+       "status": "draft",
+       "estimated_minutes": 60,
+       "prerequisites": [
+        "matematicas-m08-l07",
+        "matematicas-m09-l01",
+        "matematicas-m06-l04",
+        "matematicas-m07-l04"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "matematicas-m10-l02",
+       "title": "Estrategia de examen: selección, procedimiento, estimación, simulacros y rúbrica parcial",
+       "topic_scope": "selección estratégica, procedimientos escritos, estimación y comprobación, simulacros cronometrados, rúbrica parcial",
+       "level": "N3",
+       "status": "draft",
+       "estimated_minutes": 60,
+       "prerequisites": [
+        "matematicas-m10-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "M11",
+     "title": "Puente universitario (aplazado hasta tras fase específica)",
+     "level": "N4",
+     "lessons": [
+      {
+       "id": "matematicas-m11-l01",
+       "title": "Puente universitario: lógica, conjuntos, demostración, combinatoria, probabilidad, estadística, álgebra lineal computacional y cálculo de varias variables",
+       "topic_scope": "lógica, conjuntos, demostración elemental, combinatoria, probabilidad, estadística, álgebra lineal computacional, cálculo multivariable inicial",
+       "level": "N4",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m10-l02"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "slug": "fisica",
+   "title": "Física",
+   "role": "especifica",
+   "role_label": "Específica 2 · Ingeniería (Matemáticas + Física)",
+   "exam_profile": "physics_2026_cat_ref",
+   "models_url": "https://universitats.gencat.cat/ca/proves-majors/25-anys/models-examen/fisica/",
+   "official_syllabus_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/",
+   "modules": [
+    {
+     "id": "F00",
+     "title": "Rescate",
+     "level": "N0",
+     "lessons": [
+      {
+       "id": "fisica-f00-l01",
+       "title": "Operaciones y álgebra usadas en física, potencia de diez, despeje, tablas y gráficas, notación científica",
+       "topic_scope": "operaciones y álgebra usadas en física, potencia de diez, despeje, tablas y gráficas, notación científica",
+       "level": "N0",
+       "status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "has_content": false,
+       "pilot": false,
+       "meets_standard": false,
+       "gaps": [
+        "sin redactar"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "F01",
+     "title": "Magnitudes",
+     "level": "N1",
+     "lessons": [
+      {
+       "id": "fisica-f01-l01",
+       "title": "Magnitudes, Sistema Internacional y prefijos",
+       "topic_scope": "medidas, SI y prefijos",
+       "level": "N1",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "fisica-f00-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "fisica-f01-l02",
+       "title": "Escalar/vector, componentes y módulo",
+       "topic_scope": "escalar/vector, componentes y módulo",
+       "level": "N1",
+       "status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "fisica-f01-l01"
+       ],
+       "has_content": false,
+       "pilot": false,
+       "meets_standard": false,
+       "gaps": [
+        "sin redactar"
+       ]
+      },
+      {
+       "id": "fisica-f01-l03",
+       "title": "Producto escalar y vectorial",
+       "topic_scope": "producto escalar y vectorial",
+       "level": "N1",
+       "status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "fisica-f01-l02"
+       ],
+       "has_content": false,
+       "pilot": false,
+       "meets_standard": false,
+       "gaps": [
+        "sin redactar"
+       ]
+      },
+      {
+       "id": "fisica-f01-l04",
+       "title": "Cifras significativas, errores absolutos/relativos, dimensionalidad",
+       "topic_scope": "cifras significativas, errores absolutos/relativos, dimensionalidad",
+       "level": "N1",
+       "status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "fisica-f01-l03"
+       ],
+       "has_content": false,
+       "pilot": false,
+       "meets_standard": false,
+       "gaps": [
+        "sin redactar"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "F02",
+     "title": "Cinemática",
+     "level": "N1",
+     "lessons": [
+      {
+       "id": "fisica-f02-l01",
+       "title": "Posición, desplazamiento, velocidad y aceleración",
+       "topic_scope": "posición, desplazamiento, velocidad y aceleración",
+       "level": "N1",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "fisica-f01-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "fisica-f02-l02",
+       "title": "MRU/MRUA",
+       "topic_scope": "MRU/MRUA",
+       "level": "N1",
+       "status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "fisica-f02-l01"
+       ],
+       "has_content": false,
+       "pilot": false,
+       "meets_standard": false,
+       "gaps": [
+        "sin redactar"
+       ]
+      },
+      {
+       "id": "fisica-f02-l03",
+       "title": "Gráficos x–t/v–t",
+       "topic_scope": "gráficos x–t/v–t",
+       "level": "N1",
+       "status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "fisica-f02-l02"
+       ],
+       "has_content": false,
+       "pilot": false,
+       "meets_standard": false,
+       "gaps": [
+        "sin redactar"
+       ]
+      },
+      {
+       "id": "fisica-f02-l04",
+       "title": "Tiro parabólico, movimiento circular, angular",
+       "topic_scope": "tiro parabólico, movimiento circular, angular",
+       "level": "N1",
+       "status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "fisica-f02-l03"
+       ],
+       "has_content": false,
+       "pilot": false,
+       "meets_standard": false,
+       "gaps": [
+        "sin redactar"
+       ]
+      },
+      {
+       "id": "fisica-f02-l05",
+       "title": "Movimiento armónico simple",
+       "topic_scope": "movimiento armónico simple",
+       "level": "N1",
+       "status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "fisica-f02-l04"
+       ],
+       "has_content": false,
+       "pilot": false,
+       "meets_standard": false,
+       "gaps": [
+        "sin redactar"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "F03",
+     "title": "Dinámica",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "fisica-f03-l01",
+       "title": "Las tres leyes de Newton",
+       "topic_scope": "primera, segunda y tercera ley de Newton",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "fisica-f02-l01",
+        "fisica-f01-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "fisica-f03-l02",
+       "title": "Diagramas de cuerpo libre",
+       "topic_scope": "diagramas de cuerpo libre",
+       "level": "N2",
+       "status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "fisica-f03-l01"
+       ],
+       "has_content": false,
+       "pilot": false,
+       "meets_standard": false,
+       "gaps": [
+        "sin redactar"
+       ]
+      },
+      {
+       "id": "fisica-f03-l03",
+       "title": "Peso/normal/tensión/fricción",
+       "topic_scope": "peso/normal/tensión/fricción",
+       "level": "N2",
+       "status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "fisica-f03-l02"
+       ],
+       "has_content": false,
+       "pilot": false,
+       "meets_standard": false,
+       "gaps": [
+        "sin redactar"
+       ]
+      },
+      {
+       "id": "fisica-f03-l04",
+       "title": "Plano inclinado",
+       "topic_scope": "plano inclinado",
+       "level": "N2",
+       "status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "fisica-f03-l03"
+       ],
+       "has_content": false,
+       "pilot": false,
+       "meets_standard": false,
+       "gaps": [
+        "sin redactar"
+       ]
+      },
+      {
+       "id": "fisica-f03-l05",
+       "title": "Fuerza centrípeta y ley de Hooke",
+       "topic_scope": "fuerza centrípeta y ley de Hooke",
+       "level": "N2",
+       "status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "fisica-f03-l04"
+       ],
+       "has_content": false,
+       "pilot": false,
+       "meets_standard": false,
+       "gaps": [
+        "sin redactar"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "F04",
+     "title": "Energía y momento",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "fisica-f04-l01",
+       "title": "Trabajo y potencia, energía cinética/potencial, fuerzas conservativas, conservación de energía, cantidad de movimiento, impulsos, choques",
+       "topic_scope": "trabajo y potencia, energía cinética/potencial, fuerzas conservativas, conservación de energía, cantidad de movimiento, impulsos, choques",
+       "level": "N2",
+       "status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "has_content": false,
+       "pilot": false,
+       "meets_standard": false,
+       "gaps": [
+        "sin redactar"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "F05",
+     "title": "Gravitación",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "fisica-f05-l01",
+       "title": "Newton universal, intensidad/campo terrestre, órbitas circulares, energía gravitacional",
+       "topic_scope": "Newton universal, intensidad/campo terrestre, órbitas circulares, energía gravitacional",
+       "level": "N2",
+       "status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "has_content": false,
+       "pilot": false,
+       "meets_standard": false,
+       "gaps": [
+        "sin redactar"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "F06",
+     "title": "Ondas",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "fisica-f06-l01",
+       "title": "Frecuencia, período, longitud de onda, velocidad, ondas armónicas, reflexión/refracción, interferencia, difracción, Doppler",
+       "topic_scope": "frecuencia, período, longitud de onda, velocidad, ondas armónicas, reflexión/refracción, interferencia, difracción, Doppler",
+       "level": "N2",
+       "status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "has_content": false,
+       "pilot": false,
+       "meets_standard": false,
+       "gaps": [
+        "sin redactar"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "F07",
+     "title": "Electrostática",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "fisica-f07-l01",
+       "title": "Carga y campo, Coulomb, potencial, energía, condensadores y serie/paralelo",
+       "topic_scope": "carga y campo, Coulomb, potencial, energía, condensadores y serie/paralelo",
+       "level": "N2",
+       "status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "has_content": false,
+       "pilot": false,
+       "meets_standard": false,
+       "gaps": [
+        "sin redactar"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "F08",
+     "title": "Electricidad",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "fisica-f08-l01",
+       "title": "Corriente eléctrica, ley de Ohm y circuitos",
+       "topic_scope": "intensidad/voltaje/resistencia, Ohm, Joule, resistencias serie/paralelo, FEM, Kirchhoff, circuitos con esquemas",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "fisica-f01-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "F09",
+     "title": "Magnetismo",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "fisica-f09-l01",
+       "title": "Campos magnéticos, cargas/corrientes en B, inducción, Faraday–Lenz, espectro EM, corriente alterna",
+       "topic_scope": "campos magnéticos, cargas/corrientes en B, inducción, Faraday–Lenz, espectro EM, corriente alterna",
+       "level": "N2",
+       "status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "has_content": false,
+       "pilot": false,
+       "meets_standard": false,
+       "gaps": [
+        "sin redactar"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "F10",
+     "title": "Entrenamiento examen",
+     "level": "N3",
+     "lessons": [
+      {
+       "id": "fisica-f10-l01",
+       "title": "Magnitudes correctas, unidades, dibujos, elección entre 6+2, resultados numéricos con unidades, comprobaciones dimensionales",
+       "topic_scope": "magnitudes correctas, unidades, dibujos, elección entre 6+2, resultados numéricos con unidades, comprobaciones dimensionales",
+       "level": "N3",
+       "status": "planned",
+       "estimated_minutes": 60,
+       "prerequisites": [],
+       "has_content": false,
+       "pilot": false,
+       "meets_standard": false,
+       "gaps": [
+        "sin redactar"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "F11",
+     "title": "Puente universitario",
+     "level": "N4",
+     "lessons": [
+      {
+       "id": "fisica-f11-l01",
+       "title": "Cálculo vectorial básico, mecánica con cálculo diferencial, modelado físico y simulación (posterior a +25)",
+       "topic_scope": "cálculo vectorial básico, mecánica con cálculo diferencial, modelado físico y simulación (posterior a +25)",
+       "level": "N4",
+       "status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "has_content": false,
+       "pilot": false,
+       "meets_standard": false,
+       "gaps": [
+        "sin redactar"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "slug": "castellano",
+   "title": "Lengua castellana",
+   "role": "general",
+   "role_label": "Fase general",
+   "exam_profile": "castellano_2026_cat_ref",
+   "models_url": "https://universitats.gencat.cat/ca/proves-majors/25-anys/models-examen/llengua-castellana/",
+   "official_syllabus_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacastellana/",
+   "modules": [
+    {
+     "id": "C00",
+     "title": "Lectoescritura funcional",
+     "level": "N0",
+     "lessons": [
+      {
+       "id": "castellano-c00-l01",
+       "title": "Oración, párrafo y puntuación básica",
+       "topic_scope": "oración y párrafo, puntuación básica, ortografía fundamental, idea principal y secundaria, vocabulario contextual",
+       "level": "N0",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "C01",
+     "title": "Ortografía y norma",
+     "level": "N1",
+     "lessons": [
+      {
+       "id": "castellano-c01-l01",
+       "title": "Acentuación: agudas, llanas, esdrújulas, hiatos y tilde diacrítica",
+       "topic_scope": "reglas de acentuación, hiatos/diptongos, interrogativos, signos de puntuación, mayúsculas, grafías problemáticas, concordancia, preposiciones",
+       "level": "N1",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "C02",
+     "title": "Morfología",
+     "level": "N1",
+     "lessons": [
+      {
+       "id": "castellano-c02-l01",
+       "title": "Categorías gramaticales, flexión verbal y formación de palabras",
+       "topic_scope": "sustantivos/adjetivos/determinantes/pronombres, flexión verbal, personas/tiempos/modos, formación de palabras: derivación/composición",
+       "level": "N1",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "castellano-c01-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "C03",
+     "title": "Sintaxis simple",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "castellano-c03-l01",
+       "title": "Sujeto, predicado y complementos del verbo",
+       "topic_scope": "sujeto y predicado, núcleo, CD/CI/atributo/complementos",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "castellano-c03-l02",
+       "title": "Transitividad, voz activa y pasiva, y concordancia",
+       "topic_scope": "transitividad, pasiva/activa, concordancia",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "castellano-c03-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "C04",
+     "title": "Sintaxis compuesta",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "castellano-c04-l01",
+       "title": "La oración compuesta: coordinación, subordinación y estilo indirecto",
+       "topic_scope": "coordinación, subordinación sustantiva/adjetiva/adverbial, nexos, estilo directo/indirecto, transformaciones",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "castellano-c03-l02"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "C05",
+     "title": "Semántica y discurso",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "castellano-c05-l01",
+       "title": "Relaciones de significado: sinonimia, antonimia, polisemia, homonimia e hiperonimia",
+       "topic_scope": "sinónimos, antónimos, polisemia/homonimia, hiperónimos/hipónimos",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "castellano-c00-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "castellano-c05-l02",
+       "title": "Registros, recursos retóricos, cohesión y coherencia",
+       "topic_scope": "registros, recursos retóricos, anáfora, cohesión, conectores, coherencia",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "castellano-c05-l01",
+        "castellano-c04-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "C06",
+     "title": "Lectura y producción",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "castellano-c06-l01",
+       "title": "Comprender un texto y escribir una respuesta de 50 a 80 palabras",
+       "topic_scope": "propósito del autor, inferencias, textos de 250 palabras, paráfrasis, reescritura, 50–80 palabras, revisión lingüística",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "castellano-c01-l01",
+        "comentario-t00-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "C07",
+     "title": "Examen",
+     "level": "N3",
+     "lessons": [
+      {
+       "id": "castellano-c07-l01",
+       "title": "El examen de Lengua castellana: formato, penalizaciones y gestión del tiempo",
+       "topic_scope": "formatos de comprensión 3 puntos, expresión 4 y reflexión 3, penalizaciones, administración del tiempo",
+       "level": "N3",
+       "status": "draft",
+       "estimated_minutes": 60,
+       "prerequisites": [
+        "castellano-c05-l02",
+        "castellano-c06-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "C08",
+     "title": "Puente universitario",
+     "level": "N4",
+     "lessons": [
+      {
+       "id": "castellano-c08-l01",
+       "title": "Puente universitario: redacción académica, citas, fuentes y argumentación rigurosa",
+       "topic_scope": "redacción académica, citas y fuentes, textos científicos, razonamiento y argumentación rigurosa",
+       "level": "N4",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "castellano-c07-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "slug": "comentario",
+   "title": "Comentario de texto",
+   "role": "general",
+   "role_label": "Fase general",
+   "exam_profile": "comment_2026_cat_ref",
+   "models_url": "https://universitats.gencat.cat/ca/proves-majors/25-anys/models-examen/comentari-de-text/",
+   "official_syllabus_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/comentari_text/",
+   "modules": [
+    {
+     "id": "T00",
+     "title": "Comprender literalmente",
+     "level": "N0",
+     "lessons": [
+      {
+       "id": "comentario-t00-l01",
+       "title": "Asunto, tema y tesis: entender de qué habla un texto",
+       "topic_scope": "tema vs asunto, vocabulario en contexto, autor/narrador, proposiciones explícitas",
+       "level": "N0",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "T01",
+     "title": "Comprender inferencialmente",
+     "level": "N1",
+     "lessons": [
+      {
+       "id": "comentario-t01-l01",
+       "title": "Tesis, intención y argumentos de un texto",
+       "topic_scope": "tesis, presuposiciones, intención comunicativa, postura y matices, argumentos y evidencias",
+       "level": "N1",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "comentario-t00-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "T02",
+     "title": "Estructura",
+     "level": "N1",
+     "lessons": [
+      {
+       "id": "comentario-t02-l01",
+       "title": "Estructura del texto, progresión temática y relaciones lógicas",
+       "topic_scope": "párrafos, introducción/desarrollo/conclusión, progresión temática, relaciones causales, ejemplo y contraejemplo",
+       "level": "N1",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "comentario-t01-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "T03",
+     "title": "Síntesis",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "comentario-t03-l01",
+       "title": "Resumir y titular sin copiar ni opinar",
+       "topic_scope": "titular y justificación, resumen objetivo, paráfrasis sin copiar, explicación de expresiones",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "comentario-t00-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "T04",
+     "title": "Argumentación",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "comentario-t04-l01",
+       "title": "Construir tu propia argumentación: tesis, razones, evidencias y contraargumentos",
+       "topic_scope": "tesis propia, razones, evidencias, contraargumentos, cierre",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "comentario-t01-l01",
+        "comentario-t02-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "comentario-t04-l02",
+       "title": "Falacias y lenguaje adecuado en la argumentación",
+       "topic_scope": "detectar falacias, lenguaje adecuado",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "comentario-t04-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "T05",
+     "title": "Escritura 150–200",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "comentario-t05-l01",
+       "title": "Redacción argumentativa de 150 a 200 palabras",
+       "topic_scope": "esquema previo, cohesión, conectores, revisión ortográfica, cronometraje y rúbrica 4 puntos",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "comentario-t03-l01",
+        "comentario-t04-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "T06",
+     "title": "Examen",
+     "level": "N3",
+     "lessons": [
+      {
+       "id": "comentario-t06-l01",
+       "title": "El examen de Comentario de texto: primera parte de 6 puntos y segunda de 4",
+       "topic_scope": "primera parte 6 puntos, segunda 4",
+       "level": "N3",
+       "status": "draft",
+       "estimated_minutes": 60,
+       "prerequisites": [
+        "comentario-t04-l02",
+        "comentario-t05-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "comentario-t06-l02",
+       "title": "Errores que penalizan, simulacros y reescritura con retroalimentación",
+       "topic_scope": "errores que penalizan, simulacros y reescritura con feedback",
+       "level": "N3",
+       "status": "draft",
+       "estimated_minutes": 60,
+       "prerequisites": [
+        "comentario-t06-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "T07",
+     "title": "Puente universitario",
+     "level": "N4",
+     "lessons": [
+      {
+       "id": "comentario-t07-l01",
+       "title": "Puente universitario: pensamiento crítico, lectura de artículos científicos y síntesis de fuentes",
+       "topic_scope": "pensamiento crítico, lectura de papers, síntesis de fuentes y escritura académica",
+       "level": "N4",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "comentario-t06-l02",
+        "castellano-c08-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "slug": "ingles",
+   "title": "Inglés",
+   "role": "general",
+   "role_label": "Fase general",
+   "exam_profile": "english_2026_cat_ref",
+   "models_url": "https://universitats.gencat.cat/ca/proves-majors/25-anys/models-examen/angles/",
+   "official_syllabus_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguaestrangera/",
+   "modules": [
+    {
+     "id": "E00",
+     "title": "A1 rescate",
+     "level": "N0",
+     "lessons": [
+      {
+       "id": "ingles-e00-l01",
+       "title": "La oración básica: to be, to have, there is/are y el presente simple",
+       "topic_scope": "pronombres, verbo be/have, artículos, plurales, there is/are, preguntas/negaciones, vocabulario de vida diaria",
+       "level": "N0",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "E01",
+     "title": "A2 base",
+     "level": "N1",
+     "lessons": [
+      {
+       "id": "ingles-e01-l01",
+       "title": "A2 base: presente simple y continuo, pasado simple, futuro, modales y comparativos",
+       "topic_scope": "present simple/continuous, past simple, futuro básico, modales, comparativos, preposiciones, conectores",
+       "level": "N1",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "ingles-e00-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "E02",
+     "title": "B1",
+     "level": "N1",
+     "lessons": [
+      {
+       "id": "ingles-e02-l01",
+       "title": "B1 base: present perfect, past continuous, condicionales, pasiva, relativos y estilo indirecto",
+       "topic_scope": "present perfect vs past, past continuous, futuro y condicionales 0/1/2, voz pasiva introductoria, relative clauses, reported speech, phrasal verbs frecuentes",
+       "level": "N1",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "ingles-e01-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "E03",
+     "title": "Lectura B1–B2",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "ingles-e03-l01",
+       "title": "Reading comprehension: idea global, scanning y distractores",
+       "topic_scope": "idea global, scanning, inferencia, referentes, significado en contexto, distractores, títulos y resúmenes",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "ingles-e00-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "E04",
+     "title": "B2 gramática",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "ingles-e04-l01",
+       "title": "B1+ / B2: pasivas avanzadas, tercer condicional, modales de deducción, participios y conectores",
+       "topic_scope": "pasivas, condicional 3/mixtos conceptuales, modales de deducción, participios, conectores de contraste/causa, reformulación",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "ingles-e02-l01",
+        "ingles-e03-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "E05",
+     "title": "Respuesta abierta",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "ingles-e05-l01",
+       "title": "Respuestas abiertas de 40 a 60 palabras en inglés",
+       "topic_scope": "desarrollar 40–60 palabras con tesis, justificación y evidencia del texto, evitar traducción literal, revisar concordancia/tiempos",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "ingles-e03-l01",
+        "ingles-e01-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "E06",
+     "title": "Examen",
+     "level": "N3",
+     "lessons": [
+      {
+       "id": "ingles-e06-l01",
+       "title": "Leer un texto de 250 a 300 palabras en condiciones de examen",
+       "topic_scope": "texto 250–300",
+       "level": "N3",
+       "status": "draft",
+       "estimated_minutes": 60,
+       "prerequisites": [
+        "ingles-e03-l01",
+        "ingles-e04-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "ingles-e06-l02",
+       "title": "Las 8 preguntas objetivas y las 2 respuestas abiertas de 40 a 60 palabras",
+       "topic_scope": "8 objetivas y 2 abiertas",
+       "level": "N3",
+       "status": "draft",
+       "estimated_minutes": 60,
+       "prerequisites": [
+        "ingles-e06-l01",
+        "ingles-e05-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "ingles-e06-l03",
+       "title": "Entrenamiento con penalización real: cuándo responder, simulacros y tiempo",
+       "topic_scope": "entrenamiento con penalización real",
+       "level": "N3",
+       "status": "draft",
+       "estimated_minutes": 60,
+       "prerequisites": [
+        "ingles-e06-l02"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "E07",
+     "title": "Puente universitario C1",
+     "level": "N4",
+     "lessons": [
+      {
+       "id": "ingles-e07-l01",
+       "title": "Puente universitario: documentación técnica, vocabulario académico, informes y presentaciones en inglés",
+       "topic_scope": "comprensión lectora de documentación técnica, resúmenes, vocabulario académico, escritura de informes y presentaciones",
+       "level": "N4",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "ingles-e06-l03"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "slug": "economia",
+   "title": "Economía de la Empresa",
+   "role": "complementaria",
+   "role_label": "Complementaria · no cuenta para Ingeniería en la UOC",
+   "exam_profile": "economia_2026_cat_ref",
+   "models_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/models-examen/",
+   "official_syllabus_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/economia_empresa/",
+   "modules": [
+    {
+     "id": "B00",
+     "title": "Aritmética aplicada",
+     "level": "N0",
+     "lessons": [
+      {
+       "id": "economia-b00-l01",
+       "title": "Porcentajes, variaciones y regla de tres para Economía de la Empresa",
+       "topic_scope": "porcentajes, regla de tres, fracciones, tasas, descuento, lectura de tablas y gráficas",
+       "level": "N0",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "B01",
+     "title": "Empresa básica",
+     "level": "N1",
+     "lessons": [
+      {
+       "id": "economia-b01-l01",
+       "title": "La empresa: funciones, objetivos, grupos de interés y formas jurídicas",
+       "topic_scope": "funciones, objetivos, grupos de interés, formas jurídicas, nociones de ingresos/gastos",
+       "level": "N1",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "economia-b00-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "B02",
+     "title": "Contabilidad",
+     "level": "N1",
+     "lessons": [
+      {
+       "id": "economia-b02-l01",
+       "title": "Patrimonio, balance y cuenta de pérdidas y ganancias",
+       "topic_scope": "activos, pasivos, patrimonio neto, partida doble, ciclo contable, balance, PyG, masas patrimoniales",
+       "level": "N1",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "economia-b01-l01",
+        "economia-b00-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "B03",
+     "title": "Análisis",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "economia-b03-l01",
+       "title": "Análisis de estados financieros: fondo de maniobra, periodo medio de maduración, ratios y rentabilidades",
+       "topic_scope": "fondo de maniobra, periodo medio de maduración, ratios liquidez/tesorería/solvencia/endeudamiento, rentabilidad económica/financiera",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "economia-b02-l01",
+        "economia-b00-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "B04",
+     "title": "Financiación",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "economia-b04-l01",
+       "title": "Financiación de la empresa: recursos propios y ajenos, leasing, factoring, renting y amortizaciones",
+       "topic_scope": "recursos propios/ajenos, créditos, leasing, factoring, renting, amortizaciones",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "economia-b02-l01",
+        "economia-b03-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "B05",
+     "title": "Inversión",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "economia-b05-l01",
+       "title": "Selección de inversiones: flujos de caja, payback, VAN y TIR",
+       "topic_scope": "cashflows, payback, VAN, TIR e interpretación",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "economia-b00-l01",
+        "matematicas-m03-l04"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "B06",
+     "title": "Estrategia y crecimiento",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "economia-b06-l01",
+       "title": "Estrategia empresarial: DAFO, cadena de valor, ventaja competitiva, localización, dimensión y crecimiento",
+       "topic_scope": "DAFO, cadena de valor, ventaja competitiva, localización, dimensiones, expansión nacional/internacional",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "economia-b01-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "B07",
+     "title": "Proyecto empresarial",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "economia-b07-l01",
+       "title": "Plan de negocio, estudio de mercado, marketing mix, punto muerto y viabilidad",
+       "topic_scope": "plan de negocio, estudio de mercado, marketing mix, punto muerto, viabilidad técnica/legal/financiera/medioambiental",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "economia-b01-l01",
+        "economia-b06-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "B08",
+     "title": "Examen",
+     "level": "N3",
+     "lessons": [
+      {
+       "id": "economia-b08-l01",
+       "title": "El examen de Economía de la Empresa: elegir 4 de 5 ejercicios, interpretar cifras y justificar decisiones",
+       "topic_scope": "4 de 5 ejercicios, 2,5 puntos, elegir correctamente, interpretar cifras y justificar decisiones",
+       "level": "N3",
+       "status": "draft",
+       "estimated_minutes": 60,
+       "prerequisites": [
+        "economia-b03-l01",
+        "economia-b04-l01",
+        "economia-b05-l01",
+        "economia-b07-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "B09",
+     "title": "Puente universitario",
+     "level": "N4",
+     "lessons": [
+      {
+       "id": "economia-b09-l01",
+       "title": "Puente universitario: microeconomía, finanzas cuantitativas, sistemas de información y estrategia de productos tecnológicos",
+       "topic_scope": "microeconomía, finanzas cuantitativas, sistemas de información y estrategia de productos tecnológicos",
+       "level": "N4",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "economia-b08-l01",
+        "matematicas-m08-l05"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "stats": {
+  "by_status": {
+   "planned": 19,
+   "draft": 101,
+   "reviewed": 0,
+   "ready": 0,
+   "published": 0
+  },
+  "lessons_total": 120,
+  "meets_standard": 101,
+  "courses": {
+   "matematicas": {
+    "total": 56,
+    "with_content": 56,
+    "meets_standard": 56,
+    "by_status": {
+     "planned": 0,
+     "draft": 56,
+     "reviewed": 0,
+     "ready": 0,
+     "published": 0
+    }
+   },
+   "fisica": {
+    "total": 23,
+    "with_content": 4,
+    "meets_standard": 4,
+    "by_status": {
+     "planned": 19,
+     "draft": 4,
+     "reviewed": 0,
+     "ready": 0,
+     "published": 0
+    }
+   },
+   "castellano": {
+    "total": 11,
+    "with_content": 11,
+    "meets_standard": 11,
+    "by_status": {
+     "planned": 0,
+     "draft": 11,
+     "reviewed": 0,
+     "ready": 0,
+     "published": 0
+    }
+   },
+   "comentario": {
+    "total": 10,
+    "with_content": 10,
+    "meets_standard": 10,
+    "by_status": {
+     "planned": 0,
+     "draft": 10,
+     "reviewed": 0,
+     "ready": 0,
+     "published": 0
+    }
+   },
+   "ingles": {
+    "total": 10,
+    "with_content": 10,
+    "meets_standard": 10,
+    "by_status": {
+     "planned": 0,
+     "draft": 10,
+     "reviewed": 0,
+     "ready": 0,
+     "published": 0
+    }
+   },
+   "economia": {
+    "total": 10,
+    "with_content": 10,
+    "meets_standard": 10,
+    "by_status": {
+     "planned": 0,
+     "draft": 10,
+     "reviewed": 0,
+     "ready": 0,
+     "published": 0
+    }
+   }
+  },
+  "questions_total": 561,
+  "exit_questions": 505,
+  "bank_questions": 56
+ }
+}

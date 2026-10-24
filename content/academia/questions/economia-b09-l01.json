@@ -1,0 +1,37 @@
+{
+  "lesson_id": "economia-b09-l01",
+  "questions": [
+    {
+      "id": "b09l01-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["microeconomics"],
+      "prompt_md": "Demanda $Q_d=90-3P$ y oferta $Q_s=10+2P$. ¿Cuál es el precio de equilibrio?",
+      "key": {"value": 16, "tolerance": 0},
+      "explanation_md": "$90-3P=10+2P$ → $5P=80$ → $P=16$ (con $Q=42$)."
+    },
+    {
+      "id": "b09l01-x2", "kind": "numeric", "difficulty": 2, "skill_ids": ["microeconomics"],
+      "prompt_md": "El precio sube un 5 % y la cantidad demandada baja un 2 %. ¿Cuál es el valor absoluto de la elasticidad precio de la demanda?",
+      "key": {"value": 0.4, "tolerance": 0.001},
+      "explanation_md": "$|E|=2/5=0{,}4$: demanda inelástica."
+    },
+    {
+      "id": "b09l01-x3", "kind": "numeric", "difficulty": 2, "skill_ids": ["tech_product_strategy"],
+      "prompt_md": "Un servicio de suscripción gana 12 € de margen al mes por cliente y tiene un churn mensual del 3 %. ¿Cuál es el LTV aproximado (€)?", "unit": "€",
+      "key": {"value": 400, "tolerance": 0.01},
+      "explanation_md": "$LTV\\approx12/0{,}03=400$ €."
+    },
+    {
+      "id": "b09l01-x4", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["information_systems"],
+      "prompt_md": "¿Qué describe mejor un ERP?",
+      "choices": [{"id": "a", "text": "Una hoja de cálculo para un departamento"}, {"id": "b", "text": "Un sistema que integra en una base de datos común compras, inventario, producción, ventas y finanzas"}, {"id": "c", "text": "Una red social interna"}, {"id": "d", "text": "Un programa solo para diseñar gráficos"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "*Enterprise Resource Planning*: integración de los procesos de la empresa en un único sistema."
+    },
+    {
+      "id": "b09l01-x5", "kind": "multiple_choice", "difficulty": 3, "skill_ids": ["microeconomics"],
+      "prompt_md": "La demanda de un producto es elástica ($|E|=2$). ¿Qué efecto tiene una subida de precio sobre los ingresos de la empresa?",
+      "choices": [{"id": "a", "text": "Aumentan, porque cada unidad se vende más cara"}, {"id": "b", "text": "Disminuyen, porque la cantidad cae proporcionalmente más que lo que sube el precio"}, {"id": "c", "text": "No cambian"}, {"id": "d", "text": "Se duplican"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Con $|E|>1$, la caída porcentual de la cantidad supera la subida porcentual del precio: los ingresos bajan."
+    }
+  ]
+}

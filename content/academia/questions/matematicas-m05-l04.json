@@ -1,0 +1,35 @@
+{
+  "lesson_id": "matematicas-m05-l04",
+  "questions": [
+    {
+      "id": "m05l04-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["trig_geometry"],
+      "prompt_md": "Calcula el área de un sector circular de radio 4 y ángulo $\\dfrac{\\pi}{2}$ rad (con dos decimales).",
+      "key": {"value": 12.566, "tolerance": 0.01},
+      "explanation_md": "$\\dfrac12\\cdot16\\cdot\\dfrac\\pi2=4\\pi\\approx12{,}57$."
+    },
+    {
+      "id": "m05l04-x2", "kind": "numeric", "difficulty": 1, "skill_ids": ["vector_components"],
+      "prompt_md": "Una fuerza de 20 N forma 60° con la horizontal. ¿Cuánto vale su componente horizontal (en N)?", "unit": "N",
+      "key": {"value": 10, "tolerance": 0.001},
+      "explanation_md": "$20\\cos60^\\circ=10$ N."
+    },
+    {
+      "id": "m05l04-x3", "kind": "numeric", "difficulty": 2, "skill_ids": ["trig_geometry"],
+      "prompt_md": "Calcula el área de un paralelogramo de lados 5 y 8 que forman 30°.",
+      "key": {"value": 20, "tolerance": 0.001},
+      "explanation_md": "$5\\cdot8\\cdot\\sin30^\\circ=20$."
+    },
+    {
+      "id": "m05l04-x4", "kind": "numeric", "difficulty": 2, "skill_ids": ["trig_geometry"],
+      "prompt_md": "Calcula la longitud del arco de radio 3 que abarca un ángulo central de 120° (con dos decimales).",
+      "key": {"value": 6.2832, "tolerance": 0.01},
+      "explanation_md": "$120^\\circ=\\dfrac{2\\pi}{3}$; arco $=3\\cdot\\dfrac{2\\pi}{3}=2\\pi\\approx6{,}28$."
+    },
+    {
+      "id": "m05l04-x5", "kind": "numeric", "difficulty": 3, "skill_ids": ["trig_geometry"],
+      "prompt_md": "Calcula el área de un hexágono regular de lado 2 (con dos decimales).",
+      "key": {"value": 10.392, "tolerance": 0.01},
+      "explanation_md": "$\\dfrac{3\\sqrt3}{2}\\cdot4=6\\sqrt3\\approx10{,}39$."
+    }
+  ]
+}

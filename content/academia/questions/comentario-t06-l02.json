@@ -1,0 +1,39 @@
+{
+  "lesson_id": "comentario-t06-l02",
+  "questions": [
+    {
+      "id": "t06l02-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["error_detection"],
+      "prompt_md": "Tu redacción tiene 7 errores de lengua (−0,1 cada uno). ¿Cuántos puntos te restan?",
+      "key": {"value": 0.7, "tolerance": 0.001},
+      "explanation_md": "$7\\cdot0{,}1=0{,}7$."
+    },
+    {
+      "id": "t06l02-x2", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["error_detection"],
+      "prompt_md": "¿Qué oración no tiene errores?",
+      "choices": [{"id": "a", "text": "No sé por qué llegó tarde."}, {"id": "b", "text": "No se porqué llegó tarde."}, {"id": "c", "text": "No sé porque llegó tarde."}, {"id": "d", "text": "No se por que llegó tarde."}],
+      "key": {"correct_choice_id": "a"},
+      "explanation_md": "*Sé* (verbo *saber*) lleva tilde diacrítica, y en la interrogativa indirecta se escribe *por qué*."
+    },
+    {
+      "id": "t06l02-x3", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["error_detection"],
+      "prompt_md": "Te preguntan la función de un párrafo y respondes: *Habla de las ventajas del transporte público.* ¿Qué problema tiene la respuesta?",
+      "choices": [{"id": "a", "text": "Ninguno"}, {"id": "b", "text": "Resume el contenido en lugar de indicar la función (por ejemplo, aporta un argumento a favor de la tesis)"}, {"id": "c", "text": "Es demasiado corta"}, {"id": "d", "text": "Tiene errores de ortografía"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "La función se expresa con un verbo de acción textual: introduce, argumenta, ejemplifica, refuta, concluye."
+    },
+    {
+      "id": "t06l02-x4", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["rewriting"],
+      "prompt_md": "Tras corregir un simulacro, ¿qué es lo más eficaz?",
+      "choices": [{"id": "a", "text": "Pasar directamente al siguiente simulacro"}, {"id": "b", "text": "Reescribir el texto completo y anotar los errores en el registro"}, {"id": "c", "text": "Corregir solo las palabras marcadas"}, {"id": "d", "text": "Memorizar la versión corregida"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Reescribir practica la versión correcta, y el registro convierte los errores en una lista de control."
+    },
+    {
+      "id": "t06l02-x5", "kind": "multiple_choice", "difficulty": 3, "skill_ids": ["self_assessment"],
+      "prompt_md": "¿Qué conclusión de una redacción argumentativa es correcta?",
+      "choices": [{"id": "a", "text": "En conclusión, también hay que pensar en otro tema muy importante que no he tratado."}, {"id": "b", "text": "En definitiva, reducir los envases de plástico es una medida necesaria que los supermercados pueden aplicar sin grandes costes."}, {"id": "c", "text": "Y eso es todo, la verdad es que el tema da para mucho."}, {"id": "d", "text": "En conclusión, no sé qué pensar."}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Reformula la tesis y cierra. (a) introduce una idea nueva; (c) es coloquial; (d) abandona la tesis."
+    }
+  ]
+}

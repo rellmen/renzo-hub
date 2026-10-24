@@ -1,0 +1,38 @@
+{
+  "lesson_id": "matematicas-m01-l02",
+  "questions": [
+    {
+      "id": "m01l02-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["linear_equation"],
+      "prompt_md": "Resuelve $7x-4=2x+11$.",
+      "key": {"value": 3, "tolerance": 0},
+      "explanation_md": "$5x=15$, luego $x=3$. Comprobación: $17=17$."
+    },
+    {
+      "id": "m01l02-x2", "kind": "numeric", "difficulty": 2, "skill_ids": ["linear_equation"],
+      "prompt_md": "Resuelve $2(3x-1)-(x+4)=9$.",
+      "key": {"value": 3, "tolerance": 0},
+      "explanation_md": "$6x-2-x-4=9$ → $5x-6=9$ → $x=3$."
+    },
+    {
+      "id": "m01l02-x3", "kind": "numeric", "difficulty": 2, "skill_ids": ["equation_fractions"],
+      "prompt_md": "Resuelve $\\dfrac{x}{3}+\\dfrac{x}{6}=5$.",
+      "hint_md": "Multiplica todos los términos por 6.",
+      "key": {"value": 10, "tolerance": 0},
+      "explanation_md": "$2x+x=30$ → $3x=30$ → $x=10$."
+    },
+    {
+      "id": "m01l02-x4", "kind": "multiple_choice", "difficulty": 3, "skill_ids": ["equation_fractions"],
+      "prompt_md": "Al multiplicar por 12 la ecuación $\\dfrac{x+1}{4}-\\dfrac{x-2}{3}=1$, ¿qué ecuación equivalente se obtiene correctamente?",
+      "choices": [{"id": "a", "text": "$3x+3-4x-8=12$"}, {"id": "b", "text": "$3x+3-4x+8=12$"}, {"id": "c", "text": "$3x+1-4x+2=1$"}, {"id": "d", "text": "$x+1-x+2=12$"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "$3(x+1)-4(x-2)=12$; el $-4$ multiplica también al $-2$ y da $+8$. La solución es $x=-1$."
+    },
+    {
+      "id": "m01l02-x5", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["solution_check", "linear_equation"],
+      "prompt_md": "¿Cuántas soluciones tiene $3(x-1)+2=3x-1$?",
+      "choices": [{"id": "a", "text": "Ninguna"}, {"id": "b", "text": "Exactamente una"}, {"id": "c", "text": "Infinitas"}, {"id": "d", "text": "Dos"}],
+      "key": {"correct_choice_id": "c"},
+      "explanation_md": "$3x-3+2=3x-1$, es decir, $3x-1=3x-1$: se cumple para cualquier $x$ (identidad)."
+    }
+  ]
+}

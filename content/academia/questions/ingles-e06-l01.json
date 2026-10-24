@@ -1,0 +1,40 @@
+{
+  "lesson_id": "ingles-e06-l01",
+  "questions": [
+    {
+      "id": "e06l01-x1", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["exam_reading_routine"],
+      "prompt_md": "¿Cuál es el primer paso de la rutina de lectura recomendada para el examen?",
+      "choices": [{"id": "a", "text": "Traducir el texto palabra por palabra"}, {"id": "b", "text": "Leer las preguntas y subrayar las palabras clave"}, {"id": "c", "text": "Buscar las palabras difíciles en el texto"}, {"id": "d", "text": "Responder primero las preguntas abiertas"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Saber qué se pregunta orienta la lectura y ahorra tiempo."
+    },
+    {
+      "id": "e06l01-x2", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["vocabulary_in_context"],
+      "prompt_md": "*Small businesses often own a single old van and cannot **afford** a new one.* What does *afford* mean here?",
+      "choices": [{"id": "a", "text": "to drive"}, {"id": "b", "text": "to have enough money for"}, {"id": "c", "text": "to sell"}, {"id": "d", "text": "to repair"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "El contexto (negocios pequeños, una furgoneta vieja, necesitar una nueva) indica capacidad económica."
+    },
+    {
+      "id": "e06l01-x3", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["skimming_scanning"],
+      "prompt_md": "*Some delivery firms have already replaced part of their fleet.* True, False or Not mentioned: *Every delivery firm now uses only electric vans.*",
+      "choices": [{"id": "a", "text": "True"}, {"id": "b", "text": "False"}, {"id": "c", "text": "Not mentioned"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "*Some* y *part of their fleet* contradicen *every* y *only*."
+    },
+    {
+      "id": "e06l01-x4", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["vocabulary_in_context"],
+      "prompt_md": "Which word is a false friend for Spanish speakers?",
+      "choices": [{"id": "a", "text": "pollution"}, {"id": "b", "text": "eventually (= finalmente)"}, {"id": "c", "text": "residential"}, {"id": "d", "text": "subsidy"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "*Eventually* significa *finalmente*, no *eventualmente*. Las demás son cognados fiables."
+    },
+    {
+      "id": "e06l01-x5", "kind": "multiple_choice", "difficulty": 3, "skill_ids": ["skimming_scanning"],
+      "prompt_md": "*This system works well for light packages, but it is less practical for heavy or bulky goods.* What can we infer?",
+      "choices": [{"id": "a", "text": "Cargo bikes should be banned."}, {"id": "b", "text": "Cargo bikes are a partial solution that depends on the type of goods."}, {"id": "c", "text": "Heavy goods cannot be delivered in cities."}, {"id": "d", "text": "Light packages are more expensive to deliver."}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "El contraste (*works well… but less practical*) muestra un sistema útil solo para cierto tipo de mercancía."
+    }
+  ]
+}

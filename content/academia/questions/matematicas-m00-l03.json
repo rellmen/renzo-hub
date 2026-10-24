@@ -1,0 +1,38 @@
+{
+  "lesson_id": "matematicas-m00-l03",
+  "questions": [
+    {
+      "id": "m00l03-x1", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["fraction_simplify"],
+      "prompt_md": "¿Cuál es la fracción irreducible de $\\dfrac{56}{98}$?",
+      "choices": [{"id": "a", "text": "$\\dfrac{28}{49}$"}, {"id": "b", "text": "$\\dfrac{4}{7}$"}, {"id": "c", "text": "$\\dfrac{8}{14}$"}, {"id": "d", "text": "$\\dfrac{7}{12}$"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "MCD$(56,98)=14$: $\\dfrac{56:14}{98:14}=\\dfrac{4}{7}$. (a) y (c) son equivalentes pero no irreducibles."
+    },
+    {
+      "id": "m00l03-x2", "kind": "numeric", "difficulty": 1, "skill_ids": ["fraction_equivalence"],
+      "prompt_md": "Halla $x$ para que $\\dfrac{9}{12}=\\dfrac{x}{20}$.",
+      "key": {"value": 15, "tolerance": 0},
+      "explanation_md": "$9\\cdot20=12x$ → $x=\\dfrac{180}{12}=15$."
+    },
+    {
+      "id": "m00l03-x3", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["fraction_compare"],
+      "prompt_md": "¿Cuál de estas fracciones es la **mayor**?",
+      "choices": [{"id": "a", "text": "$\\dfrac{5}{8}$"}, {"id": "b", "text": "$\\dfrac{7}{12}$"}, {"id": "c", "text": "$\\dfrac{2}{3}$"}, {"id": "d", "text": "$\\dfrac{3}{5}$"}],
+      "key": {"correct_choice_id": "c"},
+      "explanation_md": "Con denominador 120: $75$, $70$, $80$ y $72$. La mayor es $\\dfrac{2}{3}$."
+    },
+    {
+      "id": "m00l03-x4", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["fraction_compare"],
+      "prompt_md": "¿Qué afirmación es correcta?",
+      "choices": [{"id": "a", "text": "$-\\dfrac{2}{3}<-\\dfrac{3}{4}$"}, {"id": "b", "text": "$-\\dfrac{3}{4}<-\\dfrac{2}{3}$"}, {"id": "c", "text": "$-\\dfrac{2}{3}=-\\dfrac{3}{4}$"}, {"id": "d", "text": "No se pueden comparar fracciones negativas"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "$\\dfrac{3}{4}>\\dfrac{2}{3}$, y con signo negativo el orden se invierte: $-0{,}75<-0{,}67$."
+    },
+    {
+      "id": "m00l03-x5", "kind": "numeric", "difficulty": 3, "skill_ids": ["fraction_equivalence", "fraction_simplify"],
+      "prompt_md": "En una nave de 360 palés, $\\dfrac{5}{12}$ son de un cliente. ¿Cuántos palés son de ese cliente?",
+      "key": {"value": 150, "tolerance": 0},
+      "explanation_md": "Fracción como operador: $\\dfrac{5}{12}\\cdot360=5\\cdot30=150$ palés."
+    }
+  ]
+}

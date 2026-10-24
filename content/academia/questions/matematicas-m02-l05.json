@@ -1,0 +1,37 @@
+{
+  "lesson_id": "matematicas-m02-l05",
+  "questions": [
+    {
+      "id": "m02l05-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["rational_exponents"],
+      "prompt_md": "Calcula $27^{2/3}$.",
+      "key": {"value": 9, "tolerance": 0},
+      "explanation_md": "$\\left(\\sqrt[3]{27}\\right)^2=3^2=9$."
+    },
+    {
+      "id": "m02l05-x2", "kind": "numeric", "difficulty": 2, "skill_ids": ["rational_exponents"],
+      "prompt_md": "Calcula $16^{-1/4}$ (como decimal o fracción).",
+      "key": {"value": 0.5, "tolerance": 0.0001},
+      "explanation_md": "$\\dfrac{1}{\\sqrt[4]{16}}=\\dfrac12$."
+    },
+    {
+      "id": "m02l05-x3", "kind": "numeric", "difficulty": 2, "skill_ids": ["radicals"],
+      "prompt_md": "Calcula $\\sqrt8\\cdot\\sqrt{18}$.",
+      "key": {"value": 12, "tolerance": 0},
+      "explanation_md": "$\\sqrt{144}=12$."
+    },
+    {
+      "id": "m02l05-x4", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["rationalize"],
+      "prompt_md": "Racionaliza $\\dfrac{3}{\\sqrt6}$.",
+      "choices": [{"id": "a", "text": "$\\dfrac{\\sqrt6}{2}$"}, {"id": "b", "text": "$3\\sqrt6$"}, {"id": "c", "text": "$\\dfrac{\\sqrt3}{2}$"}, {"id": "d", "text": "$\\dfrac{3\\sqrt6}{36}$"}],
+      "key": {"correct_choice_id": "a"},
+      "explanation_md": "$\\dfrac{3\\sqrt6}{6}=\\dfrac{\\sqrt6}{2}$."
+    },
+    {
+      "id": "m02l05-x5", "kind": "multiple_choice", "difficulty": 3, "skill_ids": ["rational_exponents", "radicals"],
+      "prompt_md": "Simplifica $\\dfrac{x^{3/4}\\cdot x^{1/4}}{x^{1/2}}$ (con $x>0$).",
+      "choices": [{"id": "a", "text": "$\\sqrt{x}$"}, {"id": "b", "text": "$x^{3/32}$"}, {"id": "c", "text": "$x^2$"}, {"id": "d", "text": "$1$"}],
+      "key": {"correct_choice_id": "a"},
+      "explanation_md": "$x^{3/4+1/4-1/2}=x^{1/2}=\\sqrt x$."
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "lesson_id": "matematicas-m02-l07",
+  "questions": [
+    {
+      "id": "m02l07-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["complex_polar"],
+      "prompt_md": "Calcula el módulo de $z=6+8i$.",
+      "key": {"value": 10, "tolerance": 0},
+      "explanation_md": "$\\sqrt{36+64}=\\sqrt{100}=10$."
+    },
+    {
+      "id": "m02l07-x2", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["complex_binomial"],
+      "prompt_md": "Calcula $(1+2i)(3-i)$.",
+      "choices": [{"id": "a", "text": "$3-2i$"}, {"id": "b", "text": "$5+5i$"}, {"id": "c", "text": "$1+5i$"}, {"id": "d", "text": "$5-5i$"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "$3-i+6i-2i^2=3+5i+2=5+5i$."
+    },
+    {
+      "id": "m02l07-x3", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["complex_binomial"],
+      "prompt_md": "¿Cuáles son las soluciones de $x^2-4x+13=0$?",
+      "choices": [{"id": "a", "text": "$2\\pm3i$"}, {"id": "b", "text": "$-2\\pm3i$"}, {"id": "c", "text": "$4\\pm6i$"}, {"id": "d", "text": "No tiene soluciones"}],
+      "key": {"correct_choice_id": "a"},
+      "explanation_md": "$\\Delta=16-52=-36$; $x=\\dfrac{4\\pm6i}{2}=2\\pm3i$. Sin soluciones reales, pero sí complejas."
+    },
+    {
+      "id": "m02l07-x4", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["complex_binomial"],
+      "prompt_md": "¿Cuánto vale $i^{10}$?",
+      "choices": [{"id": "a", "text": "$i$"}, {"id": "b", "text": "$-1$"}, {"id": "c", "text": "$-i$"}, {"id": "d", "text": "$1$"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "$10=4\\cdot2+2$ → $i^{10}=i^2=-1$."
+    },
+    {
+      "id": "m02l07-x5", "kind": "numeric", "difficulty": 3, "skill_ids": ["complex_polar"],
+      "prompt_md": "¿Cuál es el argumento, en grados, de $z=\\sqrt3+i$?", "unit": "°",
+      "key": {"value": 30, "tolerance": 0.01},
+      "explanation_md": "Primer cuadrante, $\\tan\\alpha=\\dfrac{1}{\\sqrt3}$ → $\\alpha=30^\\circ$; $z=2_{30^\\circ}$."
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 import { NAV } from "./nav";
 import type { LucideIcon } from "lucide-react";
 import {
-  Activity, Apple, BookOpen, Briefcase, CalendarClock, Car, Dumbbell, FileText, Flower2, Home,
+  Activity, Apple, BookOpen, GraduationCap, Briefcase, CalendarClock, Car, Dumbbell, FileText, Flower2, Home,
   Newspaper, NotebookPen, Receipt, Settings, Sparkles, Target, Wallet,
 } from "lucide-react";
 
@@ -36,6 +36,7 @@ export const APPS: AppEntry[] = [
   { id: "quests", kind: "live", to: "/quest", label: "Quests", short: "Quests", blurb: "Tu experiencia y progreso guardados", icon: Target, accent: "var(--gold)", category: "productividad", aliases: ["misiones", "retos", "objetivos", "goals"] },
   { id: "ares", kind: "live", to: "/ares", label: "Ares AI", short: "Ares", blurb: "Consultas privadas y asistencia autorizada", icon: Sparkles, accent: "var(--ares)", category: "sistema", aliases: ["ia", "ai", "asistente", "chat"] },
   { id: "aprender", kind: "live", to: "/aprender", label: "SelfLearn", short: "Aprender", blurb: "Neerlandés B2 · Inglés C1", icon: BookOpen, accent: "var(--learn)", category: "aprendizaje", aliases: ["learn", "idiomas", "neerlandes", "dutch", "ingles", "english", "lecciones"] },
+  { id: "academia", kind: "live", to: "/academia", label: "Academia +25", short: "Academia", blurb: "Prueba de acceso +25 · UOC", icon: GraduationCap, accent: "var(--learn)", category: "aprendizaje", aliases: ["uoc", "universidad", "acceso", "mayores de 25", "matematicas", "economia", "examen", "estudiar", "academy"] },
   { id: "gym", kind: "live", to: "/gym", label: "Gym", short: "Gym", blurb: "Entrenos y descansos", icon: Dumbbell, accent: "var(--gym)", category: "bienestar", aliases: ["gimnasio", "entreno", "workout", "fitness"] },
   { id: "dinero", kind: "live", to: "/dinero", label: "Money", short: "Money", blurb: "Bancos, gastos y presupuesto", icon: Wallet, accent: "var(--money)", category: "finanzas", aliases: ["dinero", "presupuesto", "budget", "my finance", "finanzas", "ahorro", "inversion", "savings", "patrimonio"] },
   { id: "piel", kind: "live", to: "/piel", label: "Skin Routine", short: "Skin", blurb: "Rutina mañana y noche", icon: Flower2, accent: "var(--skin)", category: "bienestar", aliases: ["piel", "skincare", "rutina", "cuidado"] },
@@ -50,7 +51,7 @@ export const APPS: AppEntry[] = [
   { id: "news", kind: "live", to: "/news", label: "News", short: "News", blurb: "Lecturas seleccionadas", icon: Newspaper, accent: "var(--learn)", category: "aprendizaje", aliases: ["noticias", "lectura", "articulos"] },
   { id: "car", kind: "live", to: "/car", label: "Car", short: "Car", blurb: "Gastos y documentos del coche", icon: Car, accent: "var(--platinum)", category: "sistema", aliases: ["coche", "auto", "vehiculo", "carro"] },
   { id: "ai-inbox", kind: "live", to: "/inbox", label: "AI Inbox", short: "Inbox", blurb: "Capturas y revisiones privadas", icon: Sparkles, accent: "var(--ares)", category: "sistema", aliases: ["aprobaciones", "bandeja", "inbox", "capturas"] },
-  ...NAV.filter(n => !["/","/quest","/ares","/aprender","/gym","/dinero","/piel","/proyectos","/ajustes","/notas","/body","/food","/nominas","/turnos","/news","/gastos","/car","/inbox"].includes(n.to)).map(n => ({
+  ...NAV.filter(n => !["/","/quest","/ares","/aprender","/academia","/gym","/dinero","/piel","/proyectos","/ajustes","/notas","/body","/food","/nominas","/turnos","/news","/gastos","/car","/inbox"].includes(n.to)).map(n => ({
     ...n, id: n.to.slice(1), kind: "live" as const, blurb: "Abrir " + n.label,
     category: "productividad" as const, aliases: [n.label,n.short]
   })),

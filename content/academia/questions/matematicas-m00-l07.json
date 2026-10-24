@@ -1,0 +1,36 @@
+{
+  "lesson_id": "matematicas-m00-l07",
+  "questions": [
+    {
+      "id": "m00l07-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["ratios"],
+      "prompt_md": "Halla $x$ en la proporción $\\dfrac{5}{12}=\\dfrac{x}{84}$.",
+      "key": {"value": 35, "tolerance": 0},
+      "explanation_md": "$5\\cdot84=12x$ → $x=\\dfrac{420}{12}=35$."
+    },
+    {
+      "id": "m00l07-x2", "kind": "numeric", "difficulty": 1, "skill_ids": ["rule_of_three"],
+      "prompt_md": "Una impresora imprime 240 etiquetas en 8 minutos. ¿Cuántas imprime en 15 minutos al mismo ritmo?",
+      "key": {"value": 450, "tolerance": 0},
+      "explanation_md": "Directa: $\\dfrac{240\\cdot15}{8}=450$ etiquetas."
+    },
+    {
+      "id": "m00l07-x3", "kind": "numeric", "difficulty": 2, "skill_ids": ["rule_of_three"],
+      "prompt_md": "Con 8 carretillas iguales se vacía un muelle en 9 horas. ¿Cuántas horas se tarda con 12 carretillas?", "unit": "h",
+      "key": {"value": 6, "tolerance": 0},
+      "explanation_md": "Inversa: $8\\cdot9=72$; $\\dfrac{72}{12}=6$ horas."
+    },
+    {
+      "id": "m00l07-x4", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["rule_of_three"],
+      "prompt_md": "¿Cuál de estas relaciones es de proporcionalidad **directa**?",
+      "choices": [{"id": "a", "text": "Velocidad y tiempo para recorrer una distancia fija"}, {"id": "b", "text": "Coste de un taxi con bajada de bandera y kilómetros recorridos"}, {"id": "c", "text": "Kilos de un producto a precio fijo por kilo y coste total"}, {"id": "d", "text": "Número de grifos iguales y tiempo para llenar un depósito"}],
+      "key": {"correct_choice_id": "c"},
+      "explanation_md": "Coste/kilos es constante. (a) y (d) son inversas; (b) no es proporcional por la cuota fija."
+    },
+    {
+      "id": "m00l07-x5", "kind": "numeric", "difficulty": 3, "skill_ids": ["measurement_error"],
+      "prompt_md": "Se aproxima una distancia real de 250 m por 245 m. ¿Cuál es el error relativo en porcentaje?", "unit": "%",
+      "key": {"value": 2, "tolerance": 0.001},
+      "explanation_md": "$E_a=5$ m; $E_r=\\dfrac{5}{250}=0{,}02=2\\,\\%$."
+    }
+  ]
+}

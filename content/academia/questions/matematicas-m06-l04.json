@@ -1,0 +1,37 @@
+{
+  "lesson_id": "matematicas-m06-l04",
+  "questions": [
+    {
+      "id": "m06l04-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["gauss_elimination"],
+      "prompt_md": "Resuelve el sistema escalonado $x+y+z=6$, $y+z=5$, $z=3$. ¿Cuánto vale $x$?",
+      "key": {"value": 1, "tolerance": 0},
+      "explanation_md": "$z=3$, $y=2$, $x=6-2-3=1$."
+    },
+    {
+      "id": "m06l04-x2", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["rouche"],
+      "prompt_md": "Al escalonar la matriz ampliada de un sistema 3×3, la última fila queda $(0\\ 0\\ 0\\ |\\ 4)$. El sistema es…",
+      "choices": [{"id": "a", "text": "compatible determinado"}, {"id": "b", "text": "compatible indeterminado"}, {"id": "c", "text": "incompatible"}, {"id": "d", "text": "no se puede saber"}],
+      "key": {"correct_choice_id": "c"},
+      "explanation_md": "Esa fila equivale a $0=4$, imposible."
+    },
+    {
+      "id": "m06l04-x3", "kind": "numeric", "difficulty": 2, "skill_ids": ["gauss_elimination"],
+      "prompt_md": "Resuelve $\\begin{cases}x+y+z=6\\\\2x-y+z=3\\\\x+2y-z=2\\end{cases}$ e indica el valor de $z$.",
+      "key": {"value": 3, "tolerance": 0},
+      "explanation_md": "Por Gauss: $(1,2,3)$, así que $z=3$."
+    },
+    {
+      "id": "m06l04-x4", "kind": "numeric", "difficulty": 2, "skill_ids": ["parametric_systems"],
+      "prompt_md": "¿Para qué valor de $k$ se anula el determinante de $\\begin{pmatrix}1&1&1\\\\1&k&1\\\\1&1&k\\end{pmatrix}$?",
+      "key": {"value": 1, "tolerance": 0},
+      "explanation_md": "$|A|=(k-1)^2$, que se anula solo en $k=1$."
+    },
+    {
+      "id": "m06l04-x5", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["rouche"],
+      "prompt_md": "En un sistema de 3 incógnitas, $\\text{rg}A=\\text{rg}A^*=2$. Entonces el sistema…",
+      "choices": [{"id": "a", "text": "tiene solución única"}, {"id": "b", "text": "tiene infinitas soluciones con un parámetro"}, {"id": "c", "text": "no tiene solución"}, {"id": "d", "text": "tiene exactamente dos soluciones"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Rangos iguales pero menores que 3: SCI con $3-2=1$ parámetro."
+    }
+  ]
+}

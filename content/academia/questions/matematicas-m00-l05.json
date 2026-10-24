@@ -1,0 +1,37 @@
+{
+  "lesson_id": "matematicas-m00-l05",
+  "questions": [
+    {
+      "id": "m00l05-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["percentages"],
+      "prompt_md": "Calcula el 12 % de 850.",
+      "key": {"value": 102, "tolerance": 0.001},
+      "explanation_md": "$0{,}12\\cdot850=102$."
+    },
+    {
+      "id": "m00l05-x2", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["decimals"],
+      "prompt_md": "¿Qué fracción irreducible es igual a $0{,}\\overline{36}$?",
+      "choices": [{"id": "a", "text": "$\\dfrac{36}{100}$"}, {"id": "b", "text": "$\\dfrac{9}{25}$"}, {"id": "c", "text": "$\\dfrac{4}{11}$"}, {"id": "d", "text": "$\\dfrac{36}{90}$"}],
+      "key": {"correct_choice_id": "c"},
+      "explanation_md": "$0{,}\\overline{36}=\\dfrac{36}{99}=\\dfrac{4}{11}$. (a) y (b) corresponden a $0{,}36$ exacto."
+    },
+    {
+      "id": "m00l05-x3", "kind": "numeric", "difficulty": 2, "skill_ids": ["percent_change"],
+      "prompt_md": "Un precio con IVA del 21 % es 302,50 €. ¿Cuál es el precio sin IVA (en euros)?", "unit": "€",
+      "key": {"value": 250, "tolerance": 0.01},
+      "explanation_md": "$\\dfrac{302{,}50}{1{,}21}=250$ €."
+    },
+    {
+      "id": "m00l05-x4", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["percent_change"],
+      "prompt_md": "Un producto sube un 25 % y después baja un 20 %. Respecto al precio inicial, el precio final es…",
+      "choices": [{"id": "a", "text": "un 5 % mayor"}, {"id": "b", "text": "igual"}, {"id": "c", "text": "un 5 % menor"}, {"id": "d", "text": "un 45 % mayor"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "$1{,}25\\cdot0{,}80=1$: el precio vuelve exactamente al inicial."
+    },
+    {
+      "id": "m00l05-x5", "kind": "numeric", "difficulty": 3, "skill_ids": ["percent_change"],
+      "prompt_md": "Las devoluciones pasaron de 400 a 340 unidades al mes. ¿Cuál es la variación porcentual? (Escribe un número negativo si es una bajada.)", "unit": "%",
+      "key": {"value": -15, "tolerance": 0.01},
+      "explanation_md": "$\\dfrac{340-400}{400}\\cdot100=-15\\,\\%$."
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "lesson_id": "comentario-t07-l01",
+  "questions": [
+    {
+      "id": "t07l01-x1", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["paper_reading"],
+      "prompt_md": "¿Qué sección de un artículo científico describe cómo se realizó el estudio?",
+      "choices": [{"id": "a", "text": "Introducción"}, {"id": "b", "text": "Método"}, {"id": "c", "text": "Discusión"}, {"id": "d", "text": "Referencias"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "El método detalla la muestra, los materiales y el procedimiento."
+    },
+    {
+      "id": "t07l01-x2", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["critical_thinking"],
+      "prompt_md": "Un estudio observacional halla que quienes desayunan cada día tienen mejor salud. ¿Qué conclusión es razonable?",
+      "choices": [{"id": "a", "text": "Desayunar causa mejor salud."}, {"id": "b", "text": "Desayunar se asocia con mejor salud, pero puede haber otros factores implicados."}, {"id": "c", "text": "El estudio es falso."}, {"id": "d", "text": "No desayunar es peligroso para todos."}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Un estudio observacional muestra asociación, no causalidad; quienes desayunan pueden tener otros hábitos saludables."
+    },
+    {
+      "id": "t07l01-x3", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["paper_reading"],
+      "prompt_md": "¿Para qué sirve un grupo de control?",
+      "choices": [{"id": "a", "text": "Para vigilar a los participantes"}, {"id": "b", "text": "Para comparar con un grupo que no recibe la intervención"}, {"id": "c", "text": "Para aumentar el tamaño de la muestra"}, {"id": "d", "text": "Para revisar el artículo antes de publicarlo"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Permite saber si el efecto se debe a la intervención y no a otros factores."
+    },
+    {
+      "id": "t07l01-x4", "kind": "multiple_choice", "difficulty": 3, "skill_ids": ["source_synthesis"],
+      "prompt_md": "¿Qué fragmento es una **síntesis** de fuentes y no un resumen encadenado?",
+      "choices": [{"id": "a", "text": "A dice X. B dice Y. C dice Z."}, {"id": "b", "text": "Primero leí A, luego B y al final C."}, {"id": "c", "text": "A y B coinciden en X, aunque B matiza Y; C, en cambio, lo atribuye a Z."}, {"id": "d", "text": "Las fuentes A, B y C son muy interesantes."}],
+      "key": {"correct_choice_id": "c"},
+      "explanation_md": "Relaciona las fuentes entre sí (coincidencias, matices, diferencias) en lugar de enumerarlas."
+    },
+    {
+      "id": "t07l01-x5", "kind": "multiple_choice", "difficulty": 3, "skill_ids": ["critical_thinking"],
+      "prompt_md": "Un resultado es «estadísticamente significativo». ¿Qué significa?",
+      "choices": [{"id": "a", "text": "Que el efecto es grande e importante"}, {"id": "b", "text": "Que es poco probable que se deba solo al azar, aunque el efecto puede ser pequeño"}, {"id": "c", "text": "Que el estudio es perfecto"}, {"id": "d", "text": "Que se puede aplicar a toda la población sin dudas"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "La significación habla del azar, no del tamaño ni de la importancia práctica del efecto."
+    }
+  ]
+}

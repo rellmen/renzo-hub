@@ -1,0 +1,305 @@
+{
+ "mock_id": "s1-ingles",
+ "course": "ingles",
+ "title": "Simulacro 1 · Inglés",
+ "duration_minutes": 45,
+ "content_version": 1,
+ "intro_md": "Original practice exam with the 2024–2025 structure. Read the text, then answer.",
+ "text_md": "**The return of the repair shop**\n\nFor decades, the easiest answer to a broken object was to throw it away. A cracked phone screen, a kettle that would not heat up or a vacuum cleaner with a dead motor usually ended up in the bin, and a new one arrived a few days later. Repairing things seemed slow, expensive and slightly old-fashioned.\n\nThat attitude is starting to change. In many European cities, volunteer \"repair cafés\" now open once or twice a month. Neighbours bring broken lamps, bicycles and clothes, and experienced volunteers help them fix the items themselves. The goal is not only to save money, but also to share skills that were in danger of disappearing.\n\nGovernments are also paying attention. New European rules aim to give consumers a \"right to repair\", which means that manufacturers must make spare parts and repair information available for several years after a product is sold. Supporters argue that this will reduce electronic waste, one of the fastest-growing types of rubbish in the world.\n\nNot everyone is convinced. Some companies warn that opening devices can be dangerous, especially when they contain powerful batteries, and that unofficial repairs may affect safety. Others say that products are now so cheap that repairing them makes little economic sense.\n\nStill, the movement keeps growing. For many people, fixing something with their own hands brings a satisfaction that buying a new product cannot offer. As one volunteer put it, \"When you repair an object, you also repair a little bit of your relationship with it.\"\n\n*Original text by RISE HUB Academia.*",
+ "sections": [
+  {
+   "id": "s1",
+   "label": "Questions",
+   "instructions_md": "Each question is worth 1 point. Multiple choice: −0.33 per wrong answer (the multiple-choice total cannot go below 0). Open answers: −0.05 per language error.",
+   "choose": null,
+   "groups": [
+    {
+     "id": "mcq",
+     "label": "Choose the correct answer (1-8)",
+     "points": 8,
+     "mode": "sum",
+     "floor0": true,
+     "items": [
+      {
+       "id": "e1",
+       "kind": "multiple_choice",
+       "points": 1,
+       "penalty": 0.33,
+       "prompt_md": "1. In the past, broken objects were usually",
+       "choices": [
+        {
+         "id": "a",
+         "text": "repaired at home."
+        },
+        {
+         "id": "b",
+         "text": "thrown away and replaced."
+        },
+        {
+         "id": "c",
+         "text": "sent back to the manufacturer."
+        },
+        {
+         "id": "d",
+         "text": "sold to repair shops."
+        }
+       ],
+       "key": {
+        "correct": "b"
+       },
+       "solution_md": "«The easiest answer to a broken object was to throw it away... a new one arrived»."
+      },
+      {
+       "id": "e2",
+       "kind": "multiple_choice",
+       "points": 1,
+       "penalty": 0.33,
+       "prompt_md": "2. Repair cafés are places where",
+       "choices": [
+        {
+         "id": "a",
+         "text": "people buy second-hand products."
+        },
+        {
+         "id": "b",
+         "text": "volunteers sell spare parts."
+        },
+        {
+         "id": "c",
+         "text": "people learn to fix their own objects with help."
+        },
+        {
+         "id": "d",
+         "text": "companies repair products for free."
+        }
+       ],
+       "key": {
+        "correct": "c"
+       },
+       "solution_md": "«Volunteers help them fix the items themselves»."
+      },
+      {
+       "id": "e3",
+       "kind": "multiple_choice",
+       "points": 1,
+       "penalty": 0.33,
+       "prompt_md": "3. According to the text, repair cafés want to",
+       "choices": [
+        {
+         "id": "a",
+         "text": "only help people save money."
+        },
+        {
+         "id": "b",
+         "text": "save money and keep repair skills alive."
+        },
+        {
+         "id": "c",
+         "text": "replace professional repair shops."
+        },
+        {
+         "id": "d",
+         "text": "sell new products."
+        }
+       ],
+       "key": {
+        "correct": "b"
+       },
+       "solution_md": "«Not only to save money, but also to share skills that were in danger of disappearing»."
+      },
+      {
+       "id": "e4",
+       "kind": "multiple_choice",
+       "points": 1,
+       "penalty": 0.33,
+       "prompt_md": "4. The \"right to repair\" means that manufacturers must",
+       "choices": [
+        {
+         "id": "a",
+         "text": "repair every product for free."
+        },
+        {
+         "id": "b",
+         "text": "stop selling cheap products."
+        },
+        {
+         "id": "c",
+         "text": "offer spare parts and repair information for some years."
+        },
+        {
+         "id": "d",
+         "text": "open repair cafés."
+        }
+       ],
+       "key": {
+        "correct": "c"
+       },
+       "solution_md": "«Make spare parts and repair information available for several years»."
+      },
+      {
+       "id": "e5",
+       "kind": "multiple_choice",
+       "points": 1,
+       "penalty": 0.33,
+       "prompt_md": "5. Which statement is TRUE according to the text?",
+       "choices": [
+        {
+         "id": "a",
+         "text": "Electronic waste is decreasing quickly."
+        },
+        {
+         "id": "b",
+         "text": "Some companies think unofficial repairs can be unsafe."
+        },
+        {
+         "id": "c",
+         "text": "All companies support the right to repair."
+        },
+        {
+         "id": "d",
+         "text": "Batteries make repairs easier."
+        }
+       ],
+       "key": {
+        "correct": "b"
+       },
+       "solution_md": "«Unofficial repairs may affect safety»."
+      },
+      {
+       "id": "e6",
+       "kind": "multiple_choice",
+       "points": 1,
+       "penalty": 0.33,
+       "prompt_md": "6. Which is NOT a reason given against repairing?",
+       "choices": [
+        {
+         "id": "a",
+         "text": "Opening devices can be dangerous."
+        },
+        {
+         "id": "b",
+         "text": "Products are very cheap."
+        },
+        {
+         "id": "c",
+         "text": "Repairs may affect safety."
+        },
+        {
+         "id": "d",
+         "text": "Repair cafés are too far away."
+        }
+       ],
+       "key": {
+        "correct": "d"
+       },
+       "solution_md": "The text never mentions distance."
+      },
+      {
+       "id": "e7",
+       "kind": "multiple_choice",
+       "points": 1,
+       "penalty": 0.33,
+       "prompt_md": "7. Which word CANNOT replace \"aim\" in \"New European rules aim to give consumers a right to repair\"?",
+       "choices": [
+        {
+         "id": "a",
+         "text": "intend"
+        },
+        {
+         "id": "b",
+         "text": "try"
+        },
+        {
+         "id": "c",
+         "text": "refuse"
+        },
+        {
+         "id": "d",
+         "text": "seek"
+        }
+       ],
+       "key": {
+        "correct": "c"
+       },
+       "solution_md": "*Refuse* means the opposite."
+      },
+      {
+       "id": "e8",
+       "kind": "multiple_choice",
+       "points": 1,
+       "penalty": 0.33,
+       "prompt_md": "8. Which word is closest in meaning to \"satisfaction\" in the last paragraph?",
+       "choices": [
+        {
+         "id": "a",
+         "text": "pleasure"
+        },
+        {
+         "id": "b",
+         "text": "boredom"
+        },
+        {
+         "id": "c",
+         "text": "anger"
+        },
+        {
+         "id": "d",
+         "text": "fear"
+        }
+       ],
+       "key": {
+        "correct": "a"
+       },
+       "solution_md": "*Satisfaction* ≈ *pleasure*."
+      }
+     ]
+    },
+    {
+     "id": "open",
+     "label": "Open questions (40–60 words, in your own words)",
+     "points": 2,
+     "mode": "sum",
+     "floor0": false,
+     "items": [
+      {
+       "id": "e9",
+       "kind": "open",
+       "points": 1,
+       "prompt_md": "9. Why did people stop repairing objects, and why is this changing?",
+       "solution_md": "People stopped because new products became cheap and repairs seemed slow and expensive. It is changing because repair cafés help neighbours fix objects and share skills, and new European rules force manufacturers to provide spare parts and information, reducing electronic waste.",
+       "rubric_md": "1 if it answers both parts in your own words (0.5 each). −0.05 per language error.",
+       "words": [
+        40,
+        60
+       ]
+      },
+      {
+       "id": "e10",
+       "kind": "open",
+       "points": 1,
+       "prompt_md": "10. Do you think the \"right to repair\" is a good idea? Give at least one reason.",
+       "solution_md": "Free answer. Example: it is a good idea because fewer devices become rubbish and consumers save money, although repairs must be done safely because some batteries are dangerous.",
+       "rubric_md": "1 if there is a clear opinion and at least one valid reason in your own words. −0.05 per language error.",
+       "words": [
+        40,
+        60
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "word_rules": {
+  "e9": {
+   "min": 40,
+   "max": 60,
+   "penalty": 0
+  },
+  "e10": {
+   "min": 40,
+   "max": 60,
+   "penalty": 0
+  }
+ }
+}

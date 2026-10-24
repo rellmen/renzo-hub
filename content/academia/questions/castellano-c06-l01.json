@@ -1,0 +1,39 @@
+{
+  "lesson_id": "castellano-c06-l01",
+  "questions": [
+    {
+      "id": "c06l01-x1", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["reading_comprehension"],
+      "prompt_md": "Según el texto modelo de la lección, ¿cuál es la **intención** principal del autor?",
+      "choices": [{"id": "a", "text": "Informar de la historia del libro impreso"}, {"id": "b", "text": "Convencer de que leer despacio es una capacidad valiosa que se entrena"}, {"id": "c", "text": "Criticar a los investigadores de la lectura"}, {"id": "d", "text": "Proponer que se prohíban las pantallas"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Es un texto argumentativo: defiende la lectura atenta y propone cómo practicarla."
+    },
+    {
+      "id": "c06l01-x2", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["inference"],
+      "prompt_md": "¿Cuál de estas afirmaciones es una **inferencia válida** a partir del texto modelo?",
+      "choices": [{"id": "a", "text": "El autor no utiliza nunca el móvil"}, {"id": "b", "text": "Leer en papel es siempre mejor que en pantalla"}, {"id": "c", "text": "Un lector entrenado es más difícil de engañar con argumentos exagerados"}, {"id": "d", "text": "Los libros siguen siendo caros hoy"}],
+      "key": {"correct_choice_id": "c"},
+      "explanation_md": "Se deduce de «aprende… a detectar cuándo un argumento se apoya en una exageración». (a) y (d) no aparecen; (b) generaliza con *siempre*, y el texto matiza que la tecnología no es culpable."
+    },
+    {
+      "id": "c06l01-x3", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["reading_comprehension"],
+      "prompt_md": "¿Qué función cumple la comparación con la maratón?",
+      "choices": [{"id": "a", "text": "Introducir un tema nuevo sobre deporte"}, {"id": "b", "text": "Ilustrar que la atención profunda se desarrolla de forma gradual"}, {"id": "c", "text": "Contradecir la tesis del texto"}, {"id": "d", "text": "Aportar un dato estadístico"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Es una analogía que apoya la tesis: la lectura atenta, como correr distancias largas, se entrena poco a poco."
+    },
+    {
+      "id": "c06l01-x4", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["short_writing"],
+      "prompt_md": "¿Cuál de estas oraciones está escrita **sin errores**?",
+      "choices": [{"id": "a", "text": "El autor explica porqué es importante leer despacio."}, {"id": "b", "text": "El autor, explica por qué es importante leer despacio."}, {"id": "c", "text": "El autor explica por qué es importante leer despacio."}, {"id": "d", "text": "El autor explica por que es importante leer despacio."}],
+      "key": {"correct_choice_id": "c"},
+      "explanation_md": "Interrogativa indirecta: *por qué* separado y con tilde. En (b) sobra la coma entre sujeto y verbo."
+    },
+    {
+      "id": "c06l01-x5", "kind": "numeric", "difficulty": 1, "skill_ids": ["short_writing"],
+      "prompt_md": "¿Cuántas palabras tiene la frase «La recompensa no es solo entender mejor»?", "unit": "palabras",
+      "key": {"value": 7, "tolerance": 0},
+      "explanation_md": "La / recompensa / no / es / solo / entender / mejor = 7. Cada forma separada por espacios cuenta."
+    }
+  ]
+}

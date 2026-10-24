@@ -1,0 +1,37 @@
+{
+  "lesson_id": "matematicas-m10-l02",
+  "questions": [
+    {
+      "id": "m10l02-x1", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["exam_strategy"],
+      "prompt_md": "¿Cuál es la mejor primera acción al recibir el examen?",
+      "choices": [{"id": "a", "text": "Empezar por la cuestión 1"}, {"id": "b", "text": "Leer todos los enunciados y clasificarlos antes de escribir"}, {"id": "c", "text": "Empezar por el problema porque vale más"}, {"id": "d", "text": "Hacer las 6 cuestiones por si acaso"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Leer y clasificar permite elegir los ejercicios que más puntos darán."
+    },
+    {
+      "id": "m10l02-x2", "kind": "numeric", "difficulty": 2, "skill_ids": ["exam_strategy"],
+      "prompt_md": "Tienes 100 minutos de trabajo. Con la regla de los puntos (60 % cuestiones), ¿cuántos minutos corresponden a cada una de las 4 cuestiones?", "unit": "min",
+      "key": {"value": 15, "tolerance": 0},
+      "explanation_md": "$0{,}6\\cdot100=60$ min; $60/4=15$ min."
+    },
+    {
+      "id": "m10l02-x3", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["estimation_checking"],
+      "prompt_md": "Obtienes que el área bajo $y=x^2$ entre 0 y 3 es $-9$. ¿Qué indica?",
+      "choices": [{"id": "a", "text": "Es correcto: la integral puede ser negativa"}, {"id": "b", "text": "Hay un error: la función es positiva en $[0,3]$ y el área debe ser positiva"}, {"id": "c", "text": "El área es $|-9|=9$ y ya está"}, {"id": "d", "text": "Hay que restar la constante $C$"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "$x^2\\ge0$: el área es $\\int_0^3x^2dx=9$; el signo negativo revela un error de cálculo."
+    },
+    {
+      "id": "m10l02-x4", "kind": "numeric", "difficulty": 2, "skill_ids": ["estimation_checking"],
+      "prompt_md": "Sin calculadora: ¿entre qué dos enteros consecutivos está $\\sqrt{130}$? Escribe el menor.",
+      "key": {"value": 11, "tolerance": 0},
+      "explanation_md": "$11^2=121<130<144=12^2$."
+    },
+    {
+      "id": "m10l02-x5", "kind": "numeric", "difficulty": 3, "skill_ids": ["self_assessment"],
+      "prompt_md": "Con la rúbrica de entrenamiento (0,5 planteamiento + 0,5 cálculos + 0,5 resultado), una cuestión tiene planteamiento y cálculos correctos pero el resultado final está mal copiado. ¿Cuántos puntos te asignas?",
+      "key": {"value": 1, "tolerance": 0},
+      "explanation_md": "$0{,}5+0{,}5+0=1{,}0$."
+    }
+  ]
+}

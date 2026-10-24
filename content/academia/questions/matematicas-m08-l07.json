@@ -1,0 +1,36 @@
+{
+  "lesson_id": "matematicas-m08-l07",
+  "questions": [
+    {
+      "id": "m08l07-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["optimization"],
+      "prompt_md": "Dos números positivos suman 16. ¿Cuál es el valor máximo de su producto?",
+      "key": {"value": 64, "tolerance": 0},
+      "explanation_md": "$P(x)=x(16-x)$, máximo en $x=8$: $8\\cdot8=64$."
+    },
+    {
+      "id": "m08l07-x2", "kind": "numeric", "difficulty": 2, "skill_ids": ["optimization"],
+      "prompt_md": "Con 60 m de valla se cerca un rectángulo. ¿Cuál es el área máxima (m²)?", "unit": "m²",
+      "key": {"value": 225, "tolerance": 0},
+      "explanation_md": "$y=30-x$, $A=x(30-x)$, máximo en $x=15$: $225$ m²."
+    },
+    {
+      "id": "m08l07-x3", "kind": "numeric", "difficulty": 2, "skill_ids": ["optimization", "modeling"],
+      "prompt_md": "El beneficio de una empresa es $B(q)=-3q^2+120q-200$ €. ¿Cuántas unidades $q$ maximizan el beneficio?",
+      "key": {"value": 20, "tolerance": 0},
+      "explanation_md": "$B'(q)=-6q+120=0$ → $q=20$; $B''=-6<0$."
+    },
+    {
+      "id": "m08l07-x4", "kind": "numeric", "difficulty": 3, "skill_ids": ["optimization", "modeling"],
+      "prompt_md": "De una lámina cuadrada de 18 cm se recortan cuadrados de lado $x$ en las esquinas para hacer una caja sin tapa. ¿Qué valor de $x$ (cm) da el volumen máximo?", "unit": "cm",
+      "key": {"value": 3, "tolerance": 0},
+      "explanation_md": "$V=x(18-2x)^2$; $V'=(18-2x)(18-6x)=0$ → $x=3$ (el otro, 9, anula la caja)."
+    },
+    {
+      "id": "m08l07-x5", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["optimization"],
+      "prompt_md": "En un problema de optimización has obtenido $f'(a)=0$. ¿Qué falta antes de responder?",
+      "choices": [{"id": "a", "text": "Nada, $f'(a)=0$ garantiza el óptimo"}, {"id": "b", "text": "Justificar que es máximo o mínimo y comprobar que $a$ está en el dominio con sentido"}, {"id": "c", "text": "Calcular la integral de $f$"}, {"id": "d", "text": "Comprobar que $f(a)=0$"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "$f'(a)=0$ solo da candidatos: hay que clasificar y verificar el dominio."
+    }
+  ]
+}

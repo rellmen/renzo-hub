@@ -1,0 +1,37 @@
+{
+  "lesson_id": "economia-b07-l01",
+  "questions": [
+    {
+      "id": "b07l01-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["break_even"],
+      "prompt_md": "Costes fijos 18.000 €, precio 50 €, coste variable unitario 35 €. ¿Cuál es el punto muerto (unidades)?", "unit": "uds.",
+      "key": {"value": 1200, "tolerance": 0},
+      "explanation_md": "$18.000/(50-35)=1.200$ unidades."
+    },
+    {
+      "id": "b07l01-x2", "kind": "numeric", "difficulty": 2, "skill_ids": ["break_even"],
+      "prompt_md": "Con CF = 8.000 €, $p=25$ € y $cv=15$ €, ¿qué beneficio (€) se obtiene vendiendo 1.000 unidades?", "unit": "€",
+      "key": {"value": 2000, "tolerance": 0},
+      "explanation_md": "$(25-15)\\cdot1.000-8.000=2.000$ €."
+    },
+    {
+      "id": "b07l01-x3", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["market_research"],
+      "prompt_md": "¿Cuál es una fuente **secundaria** para un estudio de mercado?",
+      "choices": [{"id": "a", "text": "Una encuesta a clientes potenciales"}, {"id": "b", "text": "Un grupo de discusión organizado por la empresa"}, {"id": "c", "text": "Las estadísticas de un instituto oficial"}, {"id": "d", "text": "La observación del comportamiento en la tienda"}],
+      "key": {"correct_choice_id": "c"},
+      "explanation_md": "Son datos que ya existían, elaborados por otros. Las demás se obtienen expresamente para el estudio (primarias)."
+    },
+    {
+      "id": "b07l01-x4", "kind": "numeric", "difficulty": 3, "skill_ids": ["break_even"],
+      "prompt_md": "Una empresa quiere que su punto muerto sea de 400 unidades. Sus costes fijos son 6.000 € y su coste variable unitario 20 €. ¿Qué precio (€) debe fijar?", "unit": "€",
+      "key": {"value": 35, "tolerance": 0},
+      "explanation_md": "$400=6.000/(p-20)$ → $p-20=15$ → $p=35$ €."
+    },
+    {
+      "id": "b07l01-x5", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["marketing_mix"],
+      "prompt_md": "Una marca vende solo a través de su propia web, sin tiendas ni intermediarios. ¿A qué variable del marketing mix se refiere esta decisión?",
+      "choices": [{"id": "a", "text": "Producto"}, {"id": "b", "text": "Precio"}, {"id": "c", "text": "Distribución"}, {"id": "d", "text": "Promoción"}],
+      "key": {"correct_choice_id": "c"},
+      "explanation_md": "Es la elección del canal: distribución directa."
+    }
+  ]
+}

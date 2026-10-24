@@ -1,0 +1,39 @@
+{
+  "lesson_id": "castellano-c05-l01",
+  "questions": [
+    {
+      "id": "c05l01-x1", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["hypernyms"],
+      "prompt_md": "¿Cuál es el hiperónimo de *factura, contrato, albarán*?",
+      "choices": [{"id": "a", "text": "papel"}, {"id": "b", "text": "documento"}, {"id": "c", "text": "oficina"}, {"id": "d", "text": "firma"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Los tres son tipos de *documento*. *Papel* es el material; *oficina* y *firma* pertenecen al campo asociativo, no los incluyen."
+    },
+    {
+      "id": "c05l01-x2", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["synonyms_antonyms"],
+      "prompt_md": "En *El director **planteó** una solución novedosa*, ¿qué palabra puede sustituir a *planteó* sin cambiar el sentido?",
+      "choices": [{"id": "a", "text": "plantó"}, {"id": "b", "text": "propuso"}, {"id": "c", "text": "aplanó"}, {"id": "d", "text": "resolvió"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "*Plantear una solución* es *proponerla*. *Resolvió* cambia el sentido (ya la habría aplicado)."
+    },
+    {
+      "id": "c05l01-x3", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["synonyms_antonyms"],
+      "prompt_md": "¿Qué par está formado por antónimos **recíprocos**?",
+      "choices": [{"id": "a", "text": "caro / barato"}, {"id": "b", "text": "vivo / muerto"}, {"id": "c", "text": "enseñar / aprender"}, {"id": "d", "text": "legal / ilegal"}],
+      "key": {"correct_choice_id": "c"},
+      "explanation_md": "Si alguien enseña, otro aprende: uno implica al otro. (a) es gradual; (b) y (d), complementarios."
+    },
+    {
+      "id": "c05l01-x4", "kind": "short_text", "difficulty": 2, "skill_ids": ["polysemy_homonymy"],
+      "prompt_md": "Completa con la forma correcta (*ay*, *hay* o *ahí*): *¿___ alguna caja vacía en el muelle?*",
+      "key": {"accepted": ["hay"], "case_sensitive": false, "accent_sensitive": true},
+      "explanation_md": "*Hay* es el verbo *haber* (existencia). *Ahí* es adverbio de lugar y *ay*, interjección."
+    },
+    {
+      "id": "c05l01-x5", "kind": "multiple_choice", "difficulty": 3, "skill_ids": ["polysemy_homonymy"],
+      "prompt_md": "¿Qué ejemplo muestra **homonimia** (palabras de origen distinto con la misma forma)?",
+      "choices": [{"id": "a", "text": "*hoja* de un árbol / *hoja* de papel"}, {"id": "b", "text": "*vino* (bebida) / *vino* (del verbo *venir*)"}, {"id": "c", "text": "*red* de pesca / *red* informática"}, {"id": "d", "text": "*pie* de una persona / *pie* de página"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Un sustantivo y una forma verbal sin relación de origen ni de significado. Las demás son polisemia."
+    }
+  ]
+}

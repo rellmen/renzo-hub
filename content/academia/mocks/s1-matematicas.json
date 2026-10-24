@@ -1,0 +1,499 @@
+{
+ "mock_id": "s1-matematicas",
+ "course": "matematicas",
+ "title": "Simulacro 1 · Matemáticas",
+ "duration_minutes": 90,
+ "content_version": 1,
+ "intro_md": "Simulacro original con la estructura y el nivel de los modelos 2024–2025. Puede usar calculadora científica no programable. Escriba los números con **coma decimal** (por ejemplo, 2,5) o como fracción (8/3).",
+ "sections": [
+  {
+   "id": "p1",
+   "label": "Parte 1 · Cuestiones",
+   "instructions_md": "Responda a **CUATRO** de las seis cuestiones. [6 puntos: 1,5 por cuestión]",
+   "choose": 4,
+   "groups": [
+    {
+     "id": "c1",
+     "label": "Cuestión 1",
+     "points": 1.5,
+     "mode": "sum",
+     "floor0": false,
+     "items": [
+      {
+       "id": "c1a",
+       "kind": "open",
+       "points": 1,
+       "prompt_md": "a) Encuentre la ecuación general del plano que pasa por $A$, $B$ y $C$. [1 punto]",
+       "solution_md": "$\\vec{AB}=(1,1,-2)$, $\\vec{AC}=(-1,1,-1)$. Normal: $\\vec n=\\vec{AB}\\times\\vec{AC}=(1,3,2)$. Plano: $x+3y+2z-5=0$.",
+       "rubric_md": "Vectores directores 0,25 · producto vectorial 0,5 · ecuación final 0,25. Cualquier múltiplo de la ecuación es correcto."
+      },
+      {
+       "id": "c1b",
+       "kind": "multiple_choice",
+       "points": 0.5,
+       "penalty": 0,
+       "prompt_md": "b) ¿Pertenece el punto $D(1,1,1)$ al plano? [0,5 puntos]",
+       "choices": [
+        {
+         "id": "si",
+         "text": "Sí"
+        },
+        {
+         "id": "no",
+         "text": "No"
+        }
+       ],
+       "key": {
+        "correct": "no"
+       },
+       "solution_md": "Sustituyendo: $1+3+2-5=1\\neq0$, así que $D$ no pertenece al plano."
+      }
+     ],
+     "stem_md": "Considere los puntos $A(1,0,2)$, $B(2,1,0)$ y $C(0,1,1)$."
+    },
+    {
+     "id": "c2",
+     "label": "Cuestión 2",
+     "points": 1.5,
+     "mode": "sum",
+     "floor0": false,
+     "items": [
+      {
+       "id": "c2a",
+       "kind": "open",
+       "points": 0.5,
+       "prompt_md": "a) Justifique que, si $a=4$, el sistema es incompatible. [0,5 puntos]",
+       "solution_md": "$\\det A=a-4$. Con $a=4$, la tercera fila de coeficientes es la suma de las dos primeras, pero $1+2=3\\neq4$: $\\operatorname{rang}A=2$ y $\\operatorname{rang}A^*=3$, incompatible.",
+       "rubric_md": "Determinante o rangos 0,25 · conclusión justificada 0,25."
+      },
+      {
+       "id": "c2b",
+       "kind": "multiple_choice",
+       "points": 0.25,
+       "penalty": 0,
+       "prompt_md": "b) El sistema es compatible determinado si: [0,25 puntos]",
+       "choices": [
+        {
+         "id": "a",
+         "text": "$a\\neq4$"
+        },
+        {
+         "id": "b",
+         "text": "$a=4$"
+        },
+        {
+         "id": "c",
+         "text": "$a\\neq5$"
+        },
+        {
+         "id": "d",
+         "text": "Para ningún valor de $a$"
+        }
+       ],
+       "key": {
+        "correct": "a"
+       },
+       "solution_md": "Compatible determinado si $\\det A\\neq0$, es decir, $a\\neq4$."
+      },
+      {
+       "id": "c2x",
+       "kind": "numeric",
+       "points": 0.25,
+       "prompt_md": "c) Resuelva el sistema para $a=5$. Valor de $x$:",
+       "key": {
+        "value": 1,
+        "display": "1"
+       },
+       "solution_md": "Con $a=5$: $x=1$, $y=-1$, $z=1$."
+      },
+      {
+       "id": "c2y",
+       "kind": "numeric",
+       "points": 0.25,
+       "prompt_md": "Valor de $y$:",
+       "key": {
+        "value": -1,
+        "display": "-1"
+       },
+       "solution_md": "Con $a=5$: $x=1$, $y=-1$, $z=1$."
+      },
+      {
+       "id": "c2z",
+       "kind": "numeric",
+       "points": 0.25,
+       "prompt_md": "Valor de $z$:",
+       "key": {
+        "value": 1,
+        "display": "1"
+       },
+       "solution_md": "Con $a=5$: $x=1$, $y=-1$, $z=1$."
+      }
+     ],
+     "stem_md": "Considere el sistema, donde $a$ es un parámetro real:\n\n$$\\begin{cases}x+y+z=1\\\\ x+2y+3z=2\\\\ 2x+3y+az=4\\end{cases}$$"
+    },
+    {
+     "id": "c3",
+     "label": "Cuestión 3",
+     "points": 1.5,
+     "mode": "sum",
+     "floor0": true,
+     "items": [
+      {
+       "id": "c3a",
+       "kind": "multiple_choice",
+       "points": 0.5,
+       "penalty": 0.25,
+       "prompt_md": "3.1. La función es creciente ($f'(x)\\ge0$) en:",
+       "choices": [
+        {
+         "id": "a",
+         "text": "$(-\\infty,0]\\cup[2,+\\infty)$"
+        },
+        {
+         "id": "b",
+         "text": "$[0,2]$"
+        },
+        {
+         "id": "c",
+         "text": "todo $\\mathbb{R}$"
+        }
+       ],
+       "key": {
+        "correct": "a"
+       },
+       "solution_md": "$f'(x)=3x^2-6x=3x(x-2)\\ge0$ fuera del intervalo $(0,2)$."
+      },
+      {
+       "id": "c3b",
+       "kind": "multiple_choice",
+       "points": 0.5,
+       "penalty": 0.25,
+       "prompt_md": "3.2. La función tiene un mínimo relativo en:",
+       "choices": [
+        {
+         "id": "a",
+         "text": "$x=0$"
+        },
+        {
+         "id": "b",
+         "text": "$x=2$"
+        },
+        {
+         "id": "c",
+         "text": "$x=-2$"
+        }
+       ],
+       "key": {
+        "correct": "b"
+       },
+       "solution_md": "$f'$ pasa de negativa a positiva en $x=2$ (y $f''(2)=6>0$)."
+      },
+      {
+       "id": "c3c",
+       "kind": "multiple_choice",
+       "points": 0.5,
+       "penalty": 0.25,
+       "prompt_md": "3.3. La función tiene un punto de inflexión en:",
+       "choices": [
+        {
+         "id": "a",
+         "text": "$x=1$"
+        },
+        {
+         "id": "b",
+         "text": "$x=0$"
+        },
+        {
+         "id": "c",
+         "text": "$x=3$"
+        }
+       ],
+       "key": {
+        "correct": "a"
+       },
+       "solution_md": "$f''(x)=6x-6=0$ en $x=1$ y cambia de signo."
+      }
+     ],
+     "stem_md": "Sea $f(x)=x^3-3x^2$. Elija la opción correcta. [1,5 puntos: cada acierto 0,5; cada fallo resta 0,25; en blanco no resta]"
+    },
+    {
+     "id": "c4",
+     "label": "Cuestión 4",
+     "points": 1.5,
+     "mode": "sum",
+     "floor0": false,
+     "items": [
+      {
+       "id": "c4a",
+       "kind": "numeric",
+       "points": 1,
+       "prompt_md": "Solución válida de la ecuación: $x=$",
+       "key": {
+        "value": 2,
+        "display": "2"
+       },
+       "solution_md": "$\\ln[(x+3)(x-1)]=\\ln5\\Rightarrow x^2+2x-8=0\\Rightarrow x=2$ o $x=-4$. Solo $x=2$ cumple $x>1$."
+      },
+      {
+       "id": "c4b",
+       "kind": "multiple_choice",
+       "points": 0.5,
+       "penalty": 0,
+       "prompt_md": "La solución algebraica $x=-4$:",
+       "choices": [
+        {
+         "id": "a",
+         "text": "también es válida"
+        },
+        {
+         "id": "b",
+         "text": "no es válida porque daría logaritmos de números negativos"
+        },
+        {
+         "id": "c",
+         "text": "solo es válida con logaritmos decimales"
+        },
+        {
+         "id": "d",
+         "text": "no es solución de la ecuación de segundo grado"
+        }
+       ],
+       "key": {
+        "correct": "b"
+       },
+       "solution_md": "Con $x=-4$, $x+3=-1$ y $x-1=-5$: los logaritmos no están definidos."
+      }
+     ],
+     "stem_md": "Resuelva la ecuación $\\ln(x+3)+\\ln(x-1)=\\ln5$, donde $\\ln$ es el logaritmo neperiano."
+    },
+    {
+     "id": "c5",
+     "label": "Cuestión 5",
+     "points": 1.5,
+     "mode": "sum",
+     "floor0": false,
+     "items": [
+      {
+       "id": "c5a",
+       "kind": "multiple_choice",
+       "points": 0.5,
+       "penalty": 0,
+       "prompt_md": "a) El dominio de $f$ es:",
+       "choices": [
+        {
+         "id": "a",
+         "text": "$\\mathbb{R}-\\{-1,2\\}$"
+        },
+        {
+         "id": "b",
+         "text": "$\\mathbb{R}-\\{1,-2\\}$"
+        },
+        {
+         "id": "c",
+         "text": "$\\mathbb{R}-\\{2\\}$"
+        },
+        {
+         "id": "d",
+         "text": "$(2,+\\infty)$"
+        }
+       ],
+       "key": {
+        "correct": "a"
+       },
+       "solution_md": "$x^2-x-2=(x-2)(x+1)=0$ en $x=2$ y $x=-1$."
+      },
+      {
+       "id": "c5b",
+       "kind": "numeric",
+       "points": 0.5,
+       "prompt_md": "b) $\\displaystyle\\lim_{x\\to2}f(x)=$",
+       "key": {
+        "value": 2.6666666666666665,
+        "display": "8/3",
+        "tol_abs": 0.01
+       },
+       "solution_md": "$f(x)=\\dfrac{2(x-2)(x+2)}{(x-2)(x+1)}=\\dfrac{2(x+2)}{x+1}$ si $x\\neq2$; el límite es $8/3$."
+      },
+      {
+       "id": "c5c",
+       "kind": "numeric",
+       "points": 0.5,
+       "prompt_md": "c) Asíntota horizontal: $y=$",
+       "key": {
+        "value": 2,
+        "display": "2"
+       },
+       "solution_md": "Numerador y denominador tienen el mismo grado: $y=2/1=2$."
+      }
+     ],
+     "stem_md": "Sea $f(x)=\\dfrac{2x^2-8}{x^2-x-2}$."
+    },
+    {
+     "id": "c6",
+     "label": "Cuestión 6",
+     "points": 1.5,
+     "mode": "sum",
+     "floor0": false,
+     "items": [
+      {
+       "id": "c6a",
+       "kind": "open",
+       "points": 0.75,
+       "prompt_md": "a) Encuentre la primitiva $F(x)$ de $f(x)$ que cumple $F(1)=4$. [0,75 puntos]",
+       "solution_md": "$F(x)=x^3-x^2+x+C$; $F(1)=1+C=4\\Rightarrow C=3$. $F(x)=x^3-x^2+x+3$.",
+       "rubric_md": "Primitiva 0,5 · constante 0,25."
+      },
+      {
+       "id": "c6b",
+       "kind": "numeric",
+       "points": 0.75,
+       "prompt_md": "b) $\\displaystyle\\int_0^2 f(x)\\,dx=$",
+       "key": {
+        "value": 6,
+        "display": "6"
+       },
+       "solution_md": "$[x^3-x^2+x]_0^2=8-4+2=6$."
+      }
+     ],
+     "stem_md": "Sea $f(x)=3x^2-2x+1$."
+    }
+   ]
+  },
+  {
+   "id": "p2",
+   "label": "Parte 2 · Problemas",
+   "instructions_md": "Resuelva **UNO** de los dos problemas. [4 puntos]",
+   "choose": 1,
+   "groups": [
+    {
+     "id": "pr1",
+     "label": "Problema 1",
+     "points": 4,
+     "mode": "sum",
+     "floor0": false,
+     "items": [
+      {
+       "id": "p1a",
+       "kind": "open",
+       "points": 1.5,
+       "prompt_md": "a) Plantee un sistema de ecuaciones que describa la situación, indicando qué representa cada incógnita. [1,5 puntos]",
+       "solution_md": "$u$ urbanas, $m$ montaña, $e$ eléctricas: $u+m+e=40$; $300u+450m+600e=16\\,500$; $u=2e$.",
+       "rubric_md": "0,5 por cada ecuación bien planteada (incógnitas definidas)."
+      },
+      {
+       "id": "p1u",
+       "kind": "numeric",
+       "points": 0.5,
+       "prompt_md": "b) Bicicletas urbanas vendidas:",
+       "key": {
+        "value": 20,
+        "display": "20"
+       },
+       "solution_md": "Con $u=2e$: $3e+m=40$ y $1200e+450m=16500$, de donde $e=10$, $m=10$, $u=20$.",
+       "unit_label": "bicicletas"
+      },
+      {
+       "id": "p1m",
+       "kind": "numeric",
+       "points": 0.5,
+       "prompt_md": "Bicicletas de montaña vendidas:",
+       "key": {
+        "value": 10,
+        "display": "10"
+       },
+       "solution_md": "$m=10$.",
+       "unit_label": "bicicletas"
+      },
+      {
+       "id": "p1e",
+       "kind": "numeric",
+       "points": 0.5,
+       "prompt_md": "Bicicletas eléctricas vendidas:",
+       "key": {
+        "value": 10,
+        "display": "10"
+       },
+       "solution_md": "$e=10$. Comprobación: $6000+4500+6000=16500$ €.",
+       "unit_label": "bicicletas"
+      },
+      {
+       "id": "p1c",
+       "kind": "numeric",
+       "points": 1,
+       "prompt_md": "c) Ingresos de este mes:",
+       "key": {
+        "value": 16950,
+        "display": "16.950"
+       },
+       "solution_md": "Montaña a 495 €: $20\\cdot300+10\\cdot495+10\\cdot600=16\\,950$ €.",
+       "unit_label": "€"
+      }
+     ],
+     "stem_md": "Un taller vende tres modelos de bicicleta: urbana a 300 €, de montaña a 450 € y eléctrica a 600 €. El mes pasado vendió 40 bicicletas e ingresó 16.500 €. Vendió el doble de urbanas que de eléctricas. Este mes el precio de la de montaña sube un 10 % y se venden las mismas unidades de cada modelo."
+    },
+    {
+     "id": "pr2",
+     "label": "Problema 2",
+     "points": 4,
+     "mode": "sum",
+     "floor0": false,
+     "items": [
+      {
+       "id": "p2a",
+       "kind": "open",
+       "points": 1.5,
+       "prompt_md": "a) Llamando $y$ a cada lado perpendicular al río, exprese el área en función de $y$. [1,5 puntos]",
+       "solution_md": "Coste: $6x+8y=2400\\Rightarrow x=400-\\tfrac43y$. $A(y)=400y-\\tfrac43y^2$, con $0<y<300$.",
+       "rubric_md": "Restricción de coste 0,75 · función área 0,75."
+      },
+      {
+       "id": "p2b",
+       "kind": "open",
+       "points": 1,
+       "prompt_md": "b) Derive, encuentre el punto crítico y justifique que es un máximo. [1 punto]",
+       "solution_md": "$A'(y)=400-\\tfrac83y=0\\Rightarrow y=150$; $A''(y)=-\\tfrac83<0$: máximo.",
+       "rubric_md": "Derivada 0,5 · justificación del máximo 0,5."
+      },
+      {
+       "id": "p2y",
+       "kind": "numeric",
+       "points": 0.5,
+       "prompt_md": "Lado perpendicular al río: $y=$",
+       "key": {
+        "value": 150,
+        "display": "150"
+       },
+       "solution_md": "$y=150$ m.",
+       "unit_label": "m"
+      },
+      {
+       "id": "p2x",
+       "kind": "numeric",
+       "points": 0.5,
+       "prompt_md": "Lado paralelo al río: $x=$",
+       "key": {
+        "value": 200,
+        "display": "200"
+       },
+       "solution_md": "$x=400-\\tfrac43\\cdot150=200$ m.",
+       "unit_label": "m"
+      },
+      {
+       "id": "p2c",
+       "kind": "numeric",
+       "points": 0.5,
+       "prompt_md": "c) Área máxima:",
+       "key": {
+        "value": 30000,
+        "display": "30.000"
+       },
+       "solution_md": "$A=200\\cdot150=30\\,000$ m².",
+       "unit_label": "m²"
+      }
+     ],
+     "stem_md": "Se valla un terreno rectangular junto a un río. El lado paralelo al río no lleva valla; el lado opuesto se valla a 6 €/m y los dos lados perpendiculares al río a 4 €/m. El presupuesto es de 2.400 €."
+    }
+   ]
+  }
+ ]
+}

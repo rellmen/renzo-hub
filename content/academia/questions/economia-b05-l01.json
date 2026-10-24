@@ -1,0 +1,37 @@
+{
+  "lesson_id": "economia-b05-l01",
+  "questions": [
+    {
+      "id": "b05l01-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["payback"],
+      "prompt_md": "Una inversión de 9.000 € genera flujos de 2.000 €, 3.000 €, 4.000 € y 4.000 €. ¿Cuál es su payback en años?", "unit": "años",
+      "key": {"value": 3, "tolerance": 0.001},
+      "explanation_md": "$2.000+3.000+4.000=9.000$ € al final del año 3."
+    },
+    {
+      "id": "b05l01-x2", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["npv_irr"],
+      "prompt_md": "Un proyecto tiene un VAN de +3.200 € con un tipo de descuento del 6 %. ¿Qué significa?",
+      "choices": [{"id": "a", "text": "Que rinde exactamente un 6 %"}, {"id": "b", "text": "Que rinde más que el 6 % exigido y aporta valor"}, {"id": "c", "text": "Que se recupera en 3,2 años"}, {"id": "d", "text": "Que su TIR es del 3,2 %"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "VAN > 0 indica que, en euros de hoy, el proyecto genera más de lo que exige el 6 %; su TIR es mayor que el 6 %."
+    },
+    {
+      "id": "b05l01-x3", "kind": "numeric", "difficulty": 2, "skill_ids": ["npv_irr"],
+      "prompt_md": "Calcula el VAN (en euros, con dos decimales) de una inversión de 5.000 € con flujos de 2.000 € durante 3 años y un tipo del 4 %.", "unit": "€",
+      "key": {"value": 550.18, "tolerance": 0.05},
+      "explanation_md": "$-5000+1923{,}08+1849{,}11+1777{,}99=550{,}18$ €."
+    },
+    {
+      "id": "b05l01-x4", "kind": "numeric", "difficulty": 2, "skill_ids": ["payback"],
+      "prompt_md": "Desembolso 20.000 €; flujos 8.000 €, 8.000 € y 10.000 €. ¿Cuál es el payback (en años, con un decimal)?", "unit": "años",
+      "key": {"value": 2.4, "tolerance": 0.001},
+      "explanation_md": "Tras 2 años: 16.000 €. Faltan 4.000 € de 10.000 € → 0,4 años. Payback 2,4 años."
+    },
+    {
+      "id": "b05l01-x5", "kind": "numeric", "difficulty": 3, "skill_ids": ["npv_irr"],
+      "prompt_md": "Una inversión de 1.000 € devuelve un único flujo de 1.150 € al cabo de un año. ¿Cuál es su TIR en porcentaje?", "unit": "%",
+      "hint_md": "Resuelve $0=-1000+\\dfrac{1150}{1+r}$.",
+      "key": {"value": 15, "tolerance": 0.01},
+      "explanation_md": "$1+r=\\dfrac{1150}{1000}=1{,}15$ → $r=15\\,\\%$."
+    }
+  ]
+}

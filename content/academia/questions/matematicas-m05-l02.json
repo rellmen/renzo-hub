@@ -1,0 +1,35 @@
+{
+  "lesson_id": "matematicas-m05-l02",
+  "questions": [
+    {
+      "id": "m05l02-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["right_triangles"],
+      "prompt_md": "En un triángulo rectángulo, la hipotenusa mide 20 y un ángulo agudo 30°. ¿Cuánto mide el cateto opuesto a ese ángulo?",
+      "key": {"value": 10, "tolerance": 0.001},
+      "explanation_md": "$20\\sin30^\\circ=10$."
+    },
+    {
+      "id": "m05l02-x2", "kind": "numeric", "difficulty": 1, "skill_ids": ["right_triangles"],
+      "prompt_md": "Los catetos de un triángulo rectángulo miden 5 y 12. ¿Cuánto mide la hipotenusa?",
+      "key": {"value": 13, "tolerance": 0},
+      "explanation_md": "$\\sqrt{25+144}=\\sqrt{169}=13$."
+    },
+    {
+      "id": "m05l02-x3", "kind": "numeric", "difficulty": 2, "skill_ids": ["law_of_cosines"],
+      "prompt_md": "Dos lados de un triángulo miden 5 y 8 y forman un ángulo de 60°. ¿Cuánto mide el tercer lado?",
+      "key": {"value": 7, "tolerance": 0.001},
+      "explanation_md": "$c^2=25+64-2\\cdot5\\cdot8\\cdot0{,}5=49$ → $c=7$."
+    },
+    {
+      "id": "m05l02-x4", "kind": "numeric", "difficulty": 2, "skill_ids": ["law_of_cosines"],
+      "prompt_md": "Calcula el área de un triángulo con dos lados de 10 y 12 que forman 30°.",
+      "key": {"value": 30, "tolerance": 0.001},
+      "explanation_md": "$\\dfrac12\\cdot10\\cdot12\\cdot\\sin30^\\circ=30$."
+    },
+    {
+      "id": "m05l02-x5", "kind": "numeric", "difficulty": 3, "skill_ids": ["law_of_sines"],
+      "prompt_md": "En un triángulo, $a=8$, $A=30^\\circ$ y $B=90^\\circ$. Calcula $b$ con el teorema del seno.",
+      "key": {"value": 16, "tolerance": 0.001},
+      "explanation_md": "$b=\\dfrac{8\\sin90^\\circ}{\\sin30^\\circ}=\\dfrac{8}{0{,}5}=16$ (es la hipotenusa)."
+    }
+  ]
+}

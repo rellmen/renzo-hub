@@ -1,0 +1,37 @@
+{
+  "lesson_id": "matematicas-m04-l05",
+  "questions": [
+    {
+      "id": "m04l05-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["function_composition"],
+      "prompt_md": "Con $f(x)=3x-1$ y $g(x)=x^2$, calcula $(f\\circ g)(2)$.",
+      "key": {"value": 11, "tolerance": 0},
+      "explanation_md": "$g(2)=4$; $f(4)=11$."
+    },
+    {
+      "id": "m04l05-x2", "kind": "numeric", "difficulty": 1, "skill_ids": ["function_composition"],
+      "prompt_md": "Con las mismas funciones, calcula $(g\\circ f)(2)$.",
+      "key": {"value": 25, "tolerance": 0},
+      "explanation_md": "$f(2)=5$; $g(5)=25$. Distinto de $(f\\circ g)(2)$: el orden importa."
+    },
+    {
+      "id": "m04l05-x3", "kind": "numeric", "difficulty": 2, "skill_ids": ["inverse_function"],
+      "prompt_md": "Si $f(x)=2x+6$, calcula $f^{-1}(10)$.",
+      "key": {"value": 2, "tolerance": 0},
+      "explanation_md": "$f^{-1}(x)=\\dfrac{x-6}{2}$; $f^{-1}(10)=2$. Comprobación: $f(2)=10$."
+    },
+    {
+      "id": "m04l05-x4", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["inverse_function"],
+      "prompt_md": "¿Cuál es la inversa de $f(x)=\\dfrac{x-3}{4}$?",
+      "choices": [{"id": "a", "text": "$\\dfrac{4}{x-3}$"}, {"id": "b", "text": "$4x+3$"}, {"id": "c", "text": "$4x-3$"}, {"id": "d", "text": "$\\dfrac{x+3}{4}$"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "$4y=x-3$ → $x=4y+3$. (a) es $\\dfrac{1}{f(x)}$, no la inversa."
+    },
+    {
+      "id": "m04l05-x5", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["inverse_function"],
+      "prompt_md": "¿Cuál de estas funciones **no** tiene inversa definida en todo $\\mathbb R$?",
+      "choices": [{"id": "a", "text": "$f(x)=5x-2$"}, {"id": "b", "text": "$f(x)=x^3$"}, {"id": "c", "text": "$f(x)=x^2$"}, {"id": "d", "text": "$f(x)=-x+4$"}],
+      "key": {"correct_choice_id": "c"},
+      "explanation_md": "$x^2$ no es inyectiva: $f(-2)=f(2)=4$."
+    }
+  ]
+}

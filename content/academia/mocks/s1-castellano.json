@@ -1,0 +1,615 @@
+{
+ "mock_id": "s1-castellano",
+ "course": "castellano",
+ "title": "Simulacro 1 · Lengua castellana",
+ "duration_minutes": 60,
+ "content_version": 1,
+ "intro_md": "Simulacro original con la estructura de los modelos 2024–2025. En las respuestas cortas, escribe solo la palabra o forma pedida, con sus tildes.",
+ "text_md": "**El último turno**\n\nMatías llegó a la estación de autobuses cuando ya habían apagado la mitad de las luces. El reloj del vestíbulo marcaba las doce y diez, y en el andén solo quedaban una mujer con una maleta de cuadros y un chico que dormía sentado, abrazado a su mochila. El último autobús hacia el pueblo salía a las doce y media; si lo perdía, tendría que esperar hasta las seis de la mañana.\n\nHabía trabajado catorce horas seguidas en el almacén. Le dolían los hombros y tenía las manos marcadas por el plástico de las cajas, pero sonreía. Esa tarde el encargado le había dicho que, a partir del lunes, coordinaría el turno de noche. No era un gran ascenso, pero significaba un sueldo algo mejor y, sobre todo, que alguien se había fijado en él.\n\nSe sentó junto a la mujer de la maleta. Ella le preguntó si sabía cuánto tardaba el viaje, y él le explicó que unos cuarenta minutos, si no nevaba en el puerto. La mujer le contó que iba a ver a su hermana, a quien no visitaba desde hacía años por una discusión que ya ni recordaba. «Una tontería», dijo, «pero las tonterías, si las dejas crecer, se convierten en montañas».\n\nCuando el autobús apareció al fondo de la calle, el chico de la mochila se despertó de golpe. Los tres subieron en silencio. Matías eligió un asiento junto a la ventanilla y, mientras el vehículo arrancaba, pensó que también él tenía una llamada pendiente. Sacó el teléfono, buscó el nombre de su padre y, por primera vez en mucho tiempo, no tuvo miedo de que nadie contestara.\n\n*Texto original de RISE HUB Academia.*",
+ "sections": [
+  {
+   "id": "s1",
+   "label": "1 · Comprensión lectora",
+   "instructions_md": "[3 puntos: 0,5 por cuestión; −0,16 por fallo en las de opción múltiple; la parte no baja de 0]",
+   "choose": null,
+   "groups": [
+    {
+     "id": "comp",
+     "label": "Comprensión",
+     "points": 3,
+     "mode": "sum",
+     "floor0": true,
+     "items": [
+      {
+       "id": "c11",
+       "kind": "multiple_choice",
+       "points": 0.5,
+       "penalty": 0.16,
+       "prompt_md": "1.1. ¿Por qué estaba preocupado Matías al llegar a la estación?",
+       "choices": [
+        {
+         "id": "a",
+         "text": "Porque no tenía billete."
+        },
+        {
+         "id": "b",
+         "text": "Porque podía perder el último autobús."
+        },
+        {
+         "id": "c",
+         "text": "Porque había nevado en el puerto."
+        },
+        {
+         "id": "d",
+         "text": "Porque había discutido con su padre."
+        }
+       ],
+       "key": {
+        "correct": "b"
+       },
+       "solution_md": "Si perdía el autobús de las doce y media, tendría que esperar hasta las seis."
+      },
+      {
+       "id": "c12",
+       "kind": "multiple_choice",
+       "points": 0.5,
+       "penalty": 0.16,
+       "prompt_md": "1.2. La noticia que había recibido Matías era:",
+       "choices": [
+        {
+         "id": "a",
+         "text": "un despido."
+        },
+        {
+         "id": "b",
+         "text": "un cambio de turno con más responsabilidad."
+        },
+        {
+         "id": "c",
+         "text": "un aumento de sueldo muy importante."
+        },
+        {
+         "id": "d",
+         "text": "unas vacaciones."
+        }
+       ],
+       "key": {
+        "correct": "b"
+       },
+       "solution_md": "Coordinaría el turno de noche; el texto dice que «no era un gran ascenso»."
+      },
+      {
+       "id": "c13",
+       "kind": "multiple_choice",
+       "points": 0.5,
+       "penalty": 0.16,
+       "prompt_md": "1.3. «Las tonterías, si las dejas crecer, se convierten en montañas» significa que:",
+       "choices": [
+        {
+         "id": "a",
+         "text": "los problemas pequeños se agravan si no se resuelven."
+        },
+        {
+         "id": "b",
+         "text": "las montañas son peligrosas."
+        },
+        {
+         "id": "c",
+         "text": "no hay que discutir nunca."
+        },
+        {
+         "id": "d",
+         "text": "las tonterías no tienen importancia."
+        }
+       ],
+       "key": {
+        "correct": "a"
+       },
+       "solution_md": "Metáfora: un conflicto pequeño sin resolver crece con el tiempo."
+      },
+      {
+       "id": "c14",
+       "kind": "open",
+       "points": 0.5,
+       "prompt_md": "1.4. ¿Qué relación tiene la historia de la mujer con la decisión final de Matías?",
+       "solution_md": "La mujer va a reconciliarse con su hermana tras una discusión sin importancia; su historia empuja a Matías a llamar a su padre.",
+       "rubric_md": "0,5 si relaciona la reconciliación de la mujer con la llamada al padre · 0,25 si solo menciona una de las dos."
+      },
+      {
+       "id": "c15",
+       "kind": "multiple_choice",
+       "points": 0.5,
+       "penalty": 0.16,
+       "prompt_md": "1.5. El narrador de la historia es:",
+       "choices": [
+        {
+         "id": "a",
+         "text": "un narrador en primera persona protagonista."
+        },
+        {
+         "id": "b",
+         "text": "un narrador en tercera persona."
+        },
+        {
+         "id": "c",
+         "text": "un narrador en segunda persona."
+        },
+        {
+         "id": "d",
+         "text": "la mujer de la maleta."
+        }
+       ],
+       "key": {
+        "correct": "b"
+       },
+       "solution_md": "Narra desde fuera: «Matías llegó...», «Se sentó...»."
+      },
+      {
+       "id": "c16",
+       "kind": "open",
+       "points": 0.5,
+       "prompt_md": "1.6. Escribe un sinónimo de «encargado» adecuado al texto.",
+       "solution_md": "Jefe, supervisor, responsable o coordinador.",
+       "rubric_md": "0,5 si el sinónimo encaja en el contexto laboral del texto."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s2",
+   "label": "2 · Expresión escrita",
+   "instructions_md": "[4 puntos; −0,1 por cada error de lengua]",
+   "choose": null,
+   "groups": [
+    {
+     "id": "e21",
+     "label": "2.1",
+     "points": 1,
+     "mode": "sum",
+     "floor0": false,
+     "items": [
+      {
+       "id": "e21",
+       "kind": "open",
+       "points": 1,
+       "prompt_md": "2.1. Explica en dos o tres líneas por qué Matías sonreía a pesar del cansancio.",
+       "solution_md": "Porque le habían ascendido a coordinador del turno de noche: ganaría algo más y, sobre todo, sentía que alguien había valorado su trabajo.",
+       "rubric_md": "1 si da la causa con palabras propias y bien redactada · 0,5 si es parcial. −0,1 por error de lengua."
+      }
+     ]
+    },
+    {
+     "id": "e22",
+     "label": "2.2",
+     "points": 3,
+     "mode": "sum",
+     "floor0": false,
+     "items": [
+      {
+       "id": "e22",
+       "kind": "open",
+       "points": 3,
+       "prompt_md": "2.2. Redacta un texto de **50 a 80 palabras**: ¿es importante que en el trabajo reconozcan nuestro esfuerzo?",
+       "solution_md": "Respuesta libre: postura clara, uno o dos argumentos con ejemplo y cierre.",
+       "rubric_md": "Adecuación, coherencia, cohesión y riqueza de expresión (3 puntos en total). Respeta 50–80 palabras. −0,1 por error de lengua.",
+       "words": [
+        50,
+        80
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s3",
+   "label": "3 · Reflexión lingüística",
+   "instructions_md": "[3 puntos: 0,5 por cuestión]",
+   "choose": null,
+   "groups": [
+    {
+     "id": "r31",
+     "label": "3.1",
+     "points": 0.5,
+     "mode": "deduct",
+     "floor0": false,
+     "items": [
+      {
+       "id": "r31camion",
+       "kind": "short_text",
+       "points": 0.1,
+       "penalty": 0.1,
+       "prompt_md": "Escribe correctamente: *camion*",
+       "key": {
+        "accepted": [
+         "camión"
+        ],
+        "accent_sensitive": true
+       },
+       "solution_md": "camión (aguda acabada en n)"
+      },
+      {
+       "id": "r31arbol",
+       "kind": "short_text",
+       "points": 0.1,
+       "penalty": 0.1,
+       "prompt_md": "Escribe correctamente: *arbol*",
+       "key": {
+        "accepted": [
+         "árbol"
+        ],
+        "accent_sensitive": true
+       },
+       "solution_md": "árbol (llana acabada en consonante distinta de n o s)"
+      },
+      {
+       "id": "r31examen",
+       "kind": "short_text",
+       "points": 0.1,
+       "penalty": 0.1,
+       "prompt_md": "Escribe correctamente: *examen*",
+       "key": {
+        "accepted": [
+         "examen"
+        ],
+        "accent_sensitive": true
+       },
+       "solution_md": "examen (llana acabada en n: sin tilde)"
+      },
+      {
+       "id": "r31cesped",
+       "kind": "short_text",
+       "points": 0.1,
+       "penalty": 0.1,
+       "prompt_md": "Escribe correctamente: *cesped*",
+       "key": {
+        "accepted": [
+         "césped"
+        ],
+        "accent_sensitive": true
+       },
+       "solution_md": "césped (llana acabada en d)"
+      },
+      {
+       "id": "r31heroe",
+       "kind": "short_text",
+       "points": 0.1,
+       "penalty": 0.1,
+       "prompt_md": "Escribe correctamente: *heroe*",
+       "key": {
+        "accepted": [
+         "héroe"
+        ],
+        "accent_sensitive": true
+       },
+       "solution_md": "héroe (esdrújula)"
+      },
+      {
+       "id": "r31raiz",
+       "kind": "short_text",
+       "points": 0.1,
+       "penalty": 0.1,
+       "prompt_md": "Escribe correctamente: *raiz*",
+       "key": {
+        "accepted": [
+         "raíz"
+        ],
+        "accent_sensitive": true
+       },
+       "solution_md": "raíz (hiato con vocal cerrada tónica)"
+      }
+     ],
+     "stem_md": "Escribe la tilde en las palabras que la necesiten (copia la palabra tal como debe quedar). [0,5; −0,1 por cada palabra mal resuelta]"
+    },
+    {
+     "id": "r32",
+     "label": "3.2",
+     "points": 0.5,
+     "mode": "sum",
+     "floor0": false,
+     "items": [
+      {
+       "id": "r32",
+       "kind": "multiple_choice",
+       "points": 0.5,
+       "penalty": 0.16,
+       "prompt_md": "3.2. En «Había trabajado catorce horas *seguidas*», *seguidas* es:",
+       "choices": [
+        {
+         "id": "a",
+         "text": "un adjetivo (participio con valor adjetival)."
+        },
+        {
+         "id": "b",
+         "text": "un adverbio."
+        },
+        {
+         "id": "c",
+         "text": "un verbo en forma personal."
+        },
+        {
+         "id": "d",
+         "text": "un sustantivo."
+        }
+       ],
+       "key": {
+        "correct": "a"
+       },
+       "solution_md": "Concuerda en género y número con *horas* y lo complementa."
+      }
+     ]
+    },
+    {
+     "id": "r33",
+     "label": "3.3",
+     "points": 0.5,
+     "mode": "deduct",
+     "floor0": false,
+     "items": [
+      {
+       "id": "r330",
+       "kind": "short_text",
+       "points": 0.1,
+       "penalty": 0.1,
+       "prompt_md": "Plural de *el andén*:",
+       "key": {
+        "accepted": [
+         "andenes",
+         "los andenes"
+        ],
+        "accent_sensitive": true
+       },
+       "solution_md": "los andenes"
+      },
+      {
+       "id": "r331",
+       "kind": "short_text",
+       "points": 0.1,
+       "penalty": 0.1,
+       "prompt_md": "Plural de *el lápiz*:",
+       "key": {
+        "accepted": [
+         "lápices",
+         "los lápices"
+        ],
+        "accent_sensitive": true
+       },
+       "solution_md": "los lápices"
+      },
+      {
+       "id": "r332",
+       "kind": "short_text",
+       "points": 0.1,
+       "penalty": 0.1,
+       "prompt_md": "Plural de *el autobús*:",
+       "key": {
+        "accepted": [
+         "autobuses",
+         "los autobuses"
+        ],
+        "accent_sensitive": true
+       },
+       "solution_md": "los autobuses"
+      },
+      {
+       "id": "r333",
+       "kind": "short_text",
+       "points": 0.1,
+       "penalty": 0.1,
+       "prompt_md": "Plural de *el régimen*:",
+       "key": {
+        "accepted": [
+         "regímenes",
+         "los regímenes"
+        ],
+        "accent_sensitive": true
+       },
+       "solution_md": "los regímenes"
+      },
+      {
+       "id": "r334",
+       "kind": "short_text",
+       "points": 0.1,
+       "penalty": 0.1,
+       "prompt_md": "Plural de *el carácter*:",
+       "key": {
+        "accepted": [
+         "caracteres",
+         "los caracteres"
+        ],
+        "accent_sensitive": true
+       },
+       "solution_md": "los caracteres"
+      }
+     ],
+     "stem_md": "Escribe el plural. [0,5; −0,1 por cada error]"
+    },
+    {
+     "id": "r34",
+     "label": "3.4",
+     "points": 0.5,
+     "mode": "deduct",
+     "floor0": false,
+     "items": [
+      {
+       "id": "r340",
+       "kind": "short_text",
+       "points": 0.1,
+       "penalty": 0.1,
+       "prompt_md": "*conducir*, 1.ª persona del singular, pretérito perfecto simple:",
+       "key": {
+        "accepted": [
+         "conduje"
+        ],
+        "accent_sensitive": true
+       },
+       "solution_md": "conduje"
+      },
+      {
+       "id": "r341",
+       "kind": "short_text",
+       "points": 0.1,
+       "penalty": 0.1,
+       "prompt_md": "*caber*, 1.ª persona del singular, presente de indicativo:",
+       "key": {
+        "accepted": [
+         "quepo"
+        ],
+        "accent_sensitive": true
+       },
+       "solution_md": "quepo"
+      },
+      {
+       "id": "r342",
+       "kind": "short_text",
+       "points": 0.1,
+       "penalty": 0.1,
+       "prompt_md": "*andar*, 3.ª persona del plural, pretérito perfecto simple:",
+       "key": {
+        "accepted": [
+         "anduvieron"
+        ],
+        "accent_sensitive": true
+       },
+       "solution_md": "anduvieron"
+      },
+      {
+       "id": "r343",
+       "kind": "short_text",
+       "points": 0.1,
+       "penalty": 0.1,
+       "prompt_md": "*satisfacer*, 3.ª persona del singular, futuro simple:",
+       "key": {
+        "accepted": [
+         "satisfará"
+        ],
+        "accent_sensitive": true
+       },
+       "solution_md": "satisfará"
+      },
+      {
+       "id": "r344",
+       "kind": "short_text",
+       "points": 0.1,
+       "penalty": 0.1,
+       "prompt_md": "*haber*, 3.ª persona del singular, presente de subjuntivo:",
+       "key": {
+        "accepted": [
+         "haya"
+        ],
+        "accent_sensitive": true
+       },
+       "solution_md": "haya"
+      }
+     ],
+     "stem_md": "Escribe la forma verbal indicada. [0,5; −0,1 por cada forma errónea]"
+    },
+    {
+     "id": "r35",
+     "label": "3.5",
+     "points": 0.5,
+     "mode": "sum",
+     "floor0": false,
+     "items": [
+      {
+       "id": "r35a",
+       "kind": "multiple_choice",
+       "points": 0.25,
+       "penalty": 0,
+       "prompt_md": "«Matías eligió un asiento junto a la ventanilla» es una oración:",
+       "choices": [
+        {
+         "id": "a",
+         "text": "simple."
+        },
+        {
+         "id": "b",
+         "text": "compuesta."
+        }
+       ],
+       "key": {
+        "correct": "a"
+       },
+       "solution_md": "Tiene un solo verbo conjugado: *eligió*."
+      },
+      {
+       "id": "r35b",
+       "kind": "short_text",
+       "points": 0.25,
+       "penalty": 0,
+       "prompt_md": "Sujeto de esa oración:",
+       "key": {
+        "accepted": [
+         "Matías",
+         "Matias"
+        ],
+        "accent_sensitive": true
+       },
+       "solution_md": "Matías"
+      }
+     ]
+    },
+    {
+     "id": "r36",
+     "label": "3.6",
+     "points": 0.5,
+     "mode": "sum",
+     "floor0": false,
+     "items": [
+      {
+       "id": "r36a",
+       "kind": "short_text",
+       "points": 0.2,
+       "penalty": 0,
+       "prompt_md": "«La mujer *cuenta*...» → pasado:",
+       "key": {
+        "accepted": [
+         "contó"
+        ],
+        "accent_sensitive": true
+       },
+       "solution_md": "contó"
+      },
+      {
+       "id": "r36b",
+       "kind": "short_text",
+       "points": 0.15,
+       "penalty": 0,
+       "prompt_md": "«...que *va* a ver a su hermana» → pasado:",
+       "key": {
+        "accepted": [
+         "iba"
+        ],
+        "accent_sensitive": true
+       },
+       "solution_md": "iba"
+      },
+      {
+       "id": "r36c",
+       "kind": "short_text",
+       "points": 0.15,
+       "penalty": 0,
+       "prompt_md": "«...a quien no *visita* desde hace años» → pasado:",
+       "key": {
+        "accepted": [
+         "visitaba"
+        ],
+        "accent_sensitive": true
+       },
+       "solution_md": "visitaba (y «desde hacía años»)"
+      }
+     ],
+     "stem_md": "Pasa al pasado los verbos en cursiva de: «La mujer *cuenta* que *va* a ver a su hermana, a quien no *visita* desde hace años». Escribe solo la forma verbal."
+    }
+   ]
+  }
+ ],
+ "word_rules": {
+  "e22": {
+   "min": 50,
+   "max": 80,
+   "penalty": 0
+  }
+ }
+}

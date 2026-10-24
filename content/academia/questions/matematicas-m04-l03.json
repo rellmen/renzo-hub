@@ -1,0 +1,38 @@
+{
+  "lesson_id": "matematicas-m04-l03",
+  "questions": [
+    {
+      "id": "m04l03-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["function_zeros"],
+      "prompt_md": "¿Cuántos ceros reales tiene $f(x)=x^3-9x$?",
+      "key": {"value": 3, "tolerance": 0},
+      "explanation_md": "$x(x-3)(x+3)=0$ → $0$, $3$ y $-3$."
+    },
+    {
+      "id": "m04l03-x2", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["polynomial_inequalities"],
+      "prompt_md": "Resuelve $x^2-4x<0$.",
+      "choices": [{"id": "a", "text": "$(0,4)$"}, {"id": "b", "text": "$(-\\infty,0)\\cup(4,+\\infty)$"}, {"id": "c", "text": "$[0,4]$"}, {"id": "d", "text": "$(-4,0)$"}],
+      "key": {"correct_choice_id": "a"},
+      "explanation_md": "$x(x-4)<0$: con $a>0$ es negativa entre las raíces 0 y 4."
+    },
+    {
+      "id": "m04l03-x3", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["sign_table"],
+      "prompt_md": "Resuelve $\\dfrac{x-5}{x+2}\\ge0$.",
+      "choices": [{"id": "a", "text": "$(-\\infty,-2]\\cup[5,+\\infty)$"}, {"id": "b", "text": "$(-\\infty,-2)\\cup[5,+\\infty)$"}, {"id": "c", "text": "$(-2,5]$"}, {"id": "d", "text": "$[5,+\\infty)$"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Positivo fuera de $-2$ y $5$; el 5 se incluye (vale 0) pero el $-2$ no (anula el denominador)."
+    },
+    {
+      "id": "m04l03-x4", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["polynomial_inequalities"],
+      "prompt_md": "¿Cuál es el dominio de $f(x)=\\sqrt{9-x^2}$?",
+      "choices": [{"id": "a", "text": "$(-3,3)$"}, {"id": "b", "text": "$[-3,3]$"}, {"id": "c", "text": "$(-\\infty,-3]\\cup[3,+\\infty)$"}, {"id": "d", "text": "$[0,3]$"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "$9-x^2\\ge0$: parábola con $a<0$, no negativa entre sus raíces $\\pm3$, incluidas."
+    },
+    {
+      "id": "m04l03-x5", "kind": "numeric", "difficulty": 3, "skill_ids": ["function_zeros"],
+      "prompt_md": "¿Cuál es el **mayor** cero de $f(x)=x^3-2x^2-8x$?",
+      "key": {"value": 4, "tolerance": 0},
+      "explanation_md": "$x(x^2-2x-8)=x(x-4)(x+2)$ → ceros $-2$, $0$ y $4$."
+    }
+  ]
+}

@@ -1,0 +1,667 @@
+{
+ "mock_id": "s1-fisica",
+ "course": "fisica",
+ "title": "Simulacro 1 · Física",
+ "duration_minutes": 90,
+ "content_version": 1,
+ "intro_md": "Simulacro original con la estructura y el nivel de los modelos 2024–2025. **Escriba siempre la unidad del SI** en su casilla: sin unidad correcta se restan 0,5 puntos o el apartado no puntúa, como en los criterios oficiales. Coma decimal; notación científica como `1,6e-13` o `1,6·10^-13`.",
+ "data_md": "Datos: $g=9{,}8\\ \\text{m/s}^2$ · $G=6{,}67\\cdot10^{-11}\\ \\text{N·m}^2/\\text{kg}^2$ · $M_T=5{,}97\\cdot10^{24}$ kg · $R_T=6{,}37\\cdot10^{6}$ m · $q_p=1{,}602\\cdot10^{-19}$ C · $m_p=1{,}673\\cdot10^{-27}$ kg",
+ "sections": [
+  {
+   "id": "p1",
+   "label": "Parte 1 · Cuestiones",
+   "instructions_md": "Responda a **CUATRO** de las seis cuestiones. [6 puntos: 1,5 por cuestión]",
+   "choose": 4,
+   "groups": [
+    {
+     "id": "c1",
+     "label": "Cuestión 1",
+     "points": 1.5,
+     "mode": "sum",
+     "floor0": false,
+     "items": [
+      {
+       "id": "c1a",
+       "kind": "multiple_choice",
+       "points": 0.5,
+       "penalty": 0,
+       "prompt_md": "a) La unidad de la potencia en unidades básicas del SI es:",
+       "choices": [
+        {
+         "id": "a",
+         "text": "kg·m/s²"
+        },
+        {
+         "id": "b",
+         "text": "kg·m²/s³"
+        },
+        {
+         "id": "c",
+         "text": "kg·m²/s²"
+        }
+       ],
+       "key": {
+        "correct": "b"
+       },
+       "solution_md": "$W=J/s=kg·m^2/s^3$."
+      },
+      {
+       "id": "c1b",
+       "kind": "multiple_choice",
+       "points": 0.5,
+       "penalty": 0,
+       "prompt_md": "b) Es una magnitud vectorial:",
+       "choices": [
+        {
+         "id": "a",
+         "text": "la masa"
+        },
+        {
+         "id": "b",
+         "text": "la energía cinética"
+        },
+        {
+         "id": "c",
+         "text": "la aceleración"
+        }
+       ],
+       "key": {
+        "correct": "c"
+       },
+       "solution_md": "La aceleración tiene módulo, dirección y sentido."
+      },
+      {
+       "id": "c1c",
+       "kind": "multiple_choice",
+       "points": 0.5,
+       "penalty": 0,
+       "prompt_md": "c) 72 km/h equivalen a:",
+       "choices": [
+        {
+         "id": "a",
+         "text": "20 m/s"
+        },
+        {
+         "id": "b",
+         "text": "7,2 m/s"
+        },
+        {
+         "id": "c",
+         "text": "259,2 m/s"
+        }
+       ],
+       "key": {
+        "correct": "a"
+       },
+       "solution_md": "$72/3{,}6=20$ m/s."
+      }
+     ],
+     "stem_md": "Elija la opción correcta en cada caso. [0,5 puntos por apartado]"
+    },
+    {
+     "id": "c2",
+     "label": "Cuestión 2",
+     "points": 1.5,
+     "mode": "sum",
+     "floor0": false,
+     "items": [
+      {
+       "id": "c2a",
+       "kind": "numeric",
+       "points": 0.75,
+       "prompt_md": "a) Módulo de la aceleración de frenado:",
+       "key": {
+        "value": 4,
+        "display": "4,0 m/s²",
+        "tol_rel": 0.02,
+        "units": [
+         "m/s2",
+         "m.s-2",
+         "m/s/s",
+         "ms-2"
+        ]
+       },
+       "solution_md": "$v_0=20$ m/s; $v^2=v_0^2-2ad\\Rightarrow a=\\dfrac{400}{100}=4{,}0$ m/s².",
+       "unit_required": true
+      },
+      {
+       "id": "c2b",
+       "kind": "numeric",
+       "points": 0.25,
+       "prompt_md": "b) Tiempo de frenado:",
+       "key": {
+        "value": 5,
+        "display": "5,0 s",
+        "tol_rel": 0.02,
+        "units": [
+         "s",
+         "segundos"
+        ]
+       },
+       "solution_md": "$t=v_0/a=5{,}0$ s.",
+       "unit_required": true
+      },
+      {
+       "id": "c2c",
+       "kind": "numeric",
+       "points": 0.5,
+       "prompt_md": "c) Fuerza de frenado neta:",
+       "key": {
+        "value": 4800,
+        "display": "4,8·10³ N",
+        "tol_rel": 0.02,
+        "units": [
+         "n",
+         "newton",
+         "newtons"
+        ]
+       },
+       "solution_md": "$F=ma=1200\\cdot4{,}0=4{,}8\\cdot10^3$ N, opuesta al movimiento.",
+       "unit_required": true
+      }
+     ],
+     "stem_md": "Un coche de 1.200 kg circula a 72 km/h y frena con aceleración constante hasta detenerse en 50 m."
+    },
+    {
+     "id": "c3",
+     "label": "Cuestión 3",
+     "points": 1.5,
+     "mode": "sum",
+     "floor0": false,
+     "items": [
+      {
+       "id": "c3a",
+       "kind": "numeric",
+       "points": 1,
+       "prompt_md": "a) Velocidad orbital:",
+       "key": {
+        "value": 7558,
+        "display": "7,56·10³ m/s",
+        "tol_rel": 0.015,
+        "units": [
+         "m/s",
+         "m.s-1",
+         "ms-1"
+        ]
+       },
+       "solution_md": "$r=R_T+h=6{,}97\\cdot10^6$ m; $\\dfrac{GMm}{r^2}=\\dfrac{mv^2}{r}\\Rightarrow v=\\sqrt{GM/r}=7{,}56\\cdot10^3$ m/s.",
+       "unit_required": true
+      },
+      {
+       "id": "c3b",
+       "kind": "numeric",
+       "points": 0.5,
+       "prompt_md": "b) Periodo, en minutos:",
+       "key": {
+        "value": 96.6,
+        "display": "96,6 min",
+        "tol_abs": 1.0,
+        "units": [
+         "min",
+         "minutos",
+         "minuto"
+        ]
+       },
+       "solution_md": "$T=2\\pi r/v=5{,}79\\cdot10^3$ s $\\approx96{,}6$ min.",
+       "unit_required": true
+      }
+     ],
+     "stem_md": "Un satélite describe una órbita circular a 600 km de altura sobre la superficie terrestre."
+    },
+    {
+     "id": "c4",
+     "label": "Cuestión 4",
+     "points": 1.5,
+     "mode": "sum",
+     "floor0": false,
+     "items": [
+      {
+       "id": "c4w",
+       "kind": "numeric",
+       "points": 0.25,
+       "prompt_md": "a) Frecuencia angular:",
+       "key": {
+        "value": 20,
+        "display": "20 rad/s",
+        "tol_rel": 0.01,
+        "units": [
+         "rad/s",
+         "rad.s-1",
+         "s-1"
+        ]
+       },
+       "solution_md": "$\\omega=\\sqrt{k/m}=\\sqrt{400}=20$ rad/s.",
+       "unit_required": true
+      },
+      {
+       "id": "c4t",
+       "kind": "numeric",
+       "points": 0.25,
+       "prompt_md": "Periodo:",
+       "key": {
+        "value": 0.31416,
+        "display": "0,314 s",
+        "tol_abs": 0.005,
+        "units": [
+         "s"
+        ]
+       },
+       "solution_md": "$T=2\\pi/\\omega=0{,}314$ s.",
+       "unit_required": true
+      },
+      {
+       "id": "c4f",
+       "kind": "numeric",
+       "points": 0.25,
+       "prompt_md": "Frecuencia:",
+       "key": {
+        "value": 3.1831,
+        "display": "3,18 Hz",
+        "tol_abs": 0.03,
+        "units": [
+         "hz",
+         "s-1",
+         "1/s"
+        ]
+       },
+       "solution_md": "$f=1/T=3{,}18$ Hz.",
+       "unit_required": true
+      },
+      {
+       "id": "c4v",
+       "kind": "numeric",
+       "points": 0.25,
+       "prompt_md": "b) Velocidad máxima:",
+       "key": {
+        "value": 2,
+        "display": "2,0 m/s",
+        "tol_rel": 0.01,
+        "units": [
+         "m/s",
+         "m.s-1"
+        ]
+       },
+       "solution_md": "$v_{max}=A\\omega=0{,}10\\cdot20=2{,}0$ m/s.",
+       "unit_required": true
+      },
+      {
+       "id": "c4e",
+       "kind": "numeric",
+       "points": 0.5,
+       "prompt_md": "c) Energía mecánica total:",
+       "key": {
+        "value": 1,
+        "display": "1,0 J",
+        "tol_rel": 0.01,
+        "units": [
+         "j",
+         "julio",
+         "julios"
+        ]
+       },
+       "solution_md": "$E=\\tfrac12kA^2=\\tfrac12\\cdot200\\cdot0{,}10^2=1{,}0$ J.",
+       "unit_required": true
+      }
+     ],
+     "stem_md": "Un cuerpo de 0,5 kg unido a un muelle de constante $k=200$ N/m oscila sin rozamiento con una amplitud de 10 cm."
+    },
+    {
+     "id": "c5",
+     "label": "Cuestión 5",
+     "points": 1.5,
+     "mode": "sum",
+     "floor0": false,
+     "items": [
+      {
+       "id": "c5a",
+       "kind": "numeric",
+       "points": 0.75,
+       "prompt_md": "a) Ángulo límite:",
+       "key": {
+        "value": 48.75,
+        "display": "48,8°",
+        "tol_abs": 0.3,
+        "units": [
+         "°",
+         "deg"
+        ]
+       },
+       "solution_md": "$\\sin\\theta_L=1/1{,}33\\Rightarrow\\theta_L=48{,}8°$.",
+       "unit_required": true
+      },
+      {
+       "id": "c5b",
+       "kind": "numeric",
+       "points": 0.5,
+       "prompt_md": "b) Ángulo de refracción en el aire (incidencia de 30°):",
+       "key": {
+        "value": 41.68,
+        "display": "41,7°",
+        "tol_abs": 0.3,
+        "units": [
+         "°",
+         "deg"
+        ]
+       },
+       "solution_md": "$1{,}33\\sin30°=\\sin\\theta\\Rightarrow\\theta=41{,}7°$; el rayo se aleja de la normal.",
+       "unit_required": true
+      },
+      {
+       "id": "c5d",
+       "kind": "open",
+       "points": 0.25,
+       "prompt_md": "Dibujo de la situación (en papel). Autoevalúalo con la rúbrica tras entregar.",
+       "solution_md": "Normal perpendicular a la superficie, rayo incidente a 30° en el agua y refractado a 41,7° en el aire, alejándose de la normal.",
+       "rubric_md": "0,25 si aparecen la normal, los dos medios y los ángulos medidos desde la normal."
+      }
+     ],
+     "stem_md": "Un rayo de luz viaja por el agua ($n=1{,}33$) hacia la superficie de separación con el aire ($n=1{,}00$). Escriba los ángulos en grados (unidad: °)."
+    },
+    {
+     "id": "c6",
+     "label": "Cuestión 6",
+     "points": 1.5,
+     "mode": "sum",
+     "floor0": false,
+     "items": [
+      {
+       "id": "c6r",
+       "kind": "numeric",
+       "points": 0.25,
+       "prompt_md": "a) Resistencia equivalente:",
+       "key": {
+        "value": 4,
+        "display": "4 Ω",
+        "tol_rel": 0.01,
+        "units": [
+         "ohm",
+         "Ω"
+        ]
+       },
+       "solution_md": "Paralelo: $6\\cdot3/(6+3)=2\\ \\Omega$; en serie con 2 Ω: $R_{eq}=4\\ \\Omega$.",
+       "unit_required": true
+      },
+      {
+       "id": "c6i",
+       "kind": "numeric",
+       "points": 0.5,
+       "prompt_md": "Intensidad que suministra la pila:",
+       "key": {
+        "value": 3,
+        "display": "3,0 A",
+        "tol_rel": 0.01,
+        "units": [
+         "a",
+         "amperios",
+         "amperio"
+        ]
+       },
+       "solution_md": "$I=12/4=3{,}0$ A.",
+       "unit_required": true
+      },
+      {
+       "id": "c6a",
+       "kind": "numeric",
+       "points": 0.25,
+       "prompt_md": "b) Intensidad por la resistencia de 6 Ω:",
+       "key": {
+        "value": 1,
+        "display": "1,0 A",
+        "tol_rel": 0.01,
+        "units": [
+         "a",
+         "amperios",
+         "amperio"
+        ]
+       },
+       "solution_md": "$V_{paralelo}=3\\cdot2=6$ V; $I_6=6/6=1{,}0$ A.",
+       "unit_required": true
+      },
+      {
+       "id": "c6b",
+       "kind": "numeric",
+       "points": 0.25,
+       "prompt_md": "Intensidad por la resistencia de 3 Ω:",
+       "key": {
+        "value": 2,
+        "display": "2,0 A",
+        "tol_rel": 0.01,
+        "units": [
+         "a",
+         "amperios",
+         "amperio"
+        ]
+       },
+       "solution_md": "$I_3=6/3=2{,}0$ A.",
+       "unit_required": true
+      },
+      {
+       "id": "c6p",
+       "kind": "numeric",
+       "points": 0.25,
+       "prompt_md": "c) Potencia total que suministra la pila:",
+       "key": {
+        "value": 36,
+        "display": "36 W",
+        "tol_rel": 0.01,
+        "units": [
+         "w",
+         "vatios",
+         "vatio"
+        ]
+       },
+       "solution_md": "$P=VI=12\\cdot3=36$ W.",
+       "unit_required": true
+      }
+     ],
+     "stem_md": "Una pila ideal de 12 V alimenta una resistencia de 2 Ω en serie con una asociación en paralelo de dos resistencias de 6 Ω y 3 Ω. (Puede escribir la unidad de resistencia como Ω u «ohm».)"
+    }
+   ]
+  },
+  {
+   "id": "p2",
+   "label": "Parte 2 · Problemas",
+   "instructions_md": "Resuelva **UNO** de los dos problemas. [4 puntos]",
+   "choose": 1,
+   "groups": [
+    {
+     "id": "pr1",
+     "label": "Problema 1",
+     "points": 4,
+     "mode": "sum",
+     "floor0": false,
+     "items": [
+      {
+       "id": "p1f",
+       "kind": "numeric",
+       "points": 1,
+       "prompt_md": "a) Módulo de la fuerza magnética:",
+       "key": {
+        "value": 1.602e-13,
+        "display": "1,6·10⁻¹³ N",
+        "tol_rel": 0.02,
+        "units": [
+         "n",
+         "newton",
+         "newtons"
+        ]
+       },
+       "solution_md": "$F=qvB=1{,}602\\cdot10^{-19}\\cdot2{,}0\\cdot10^6\\cdot0{,}50=1{,}6\\cdot10^{-13}$ N.",
+       "unit_required": true
+      },
+      {
+       "id": "p1j",
+       "kind": "open",
+       "points": 0.5,
+       "prompt_md": "b) Justifique que el movimiento es circular uniforme.",
+       "solution_md": "La fuerza magnética es siempre perpendicular a la velocidad: cambia su dirección pero no su módulo, y actúa como fuerza centrípeta.",
+       "rubric_md": "0,5 si menciona que la fuerza es perpendicular a la velocidad y actúa como centrípeta."
+      },
+      {
+       "id": "p1r",
+       "kind": "numeric",
+       "points": 0.5,
+       "prompt_md": "Radio de la trayectoria:",
+       "key": {
+        "value": 0.041773,
+        "display": "4,2·10⁻² m",
+        "tol_rel": 0.02,
+        "units": [
+         "m",
+         "metros"
+        ]
+       },
+       "solution_md": "$qvB=mv^2/r\\Rightarrow r=\\dfrac{mv}{qB}=4{,}2\\cdot10^{-2}$ m.",
+       "unit_required": true
+      },
+      {
+       "id": "p1t",
+       "kind": "numeric",
+       "points": 1,
+       "prompt_md": "c) Periodo del movimiento:",
+       "key": {
+        "value": 1.3123e-07,
+        "display": "1,3·10⁻⁷ s",
+        "tol_rel": 0.03,
+        "units": [
+         "s"
+        ]
+       },
+       "solution_md": "$T=\\dfrac{2\\pi m}{qB}=1{,}3\\cdot10^{-7}$ s.",
+       "unit_required": true
+      },
+      {
+       "id": "p1w",
+       "kind": "multiple_choice",
+       "points": 0.5,
+       "penalty": 0,
+       "prompt_md": "d) El trabajo de la fuerza magnética en una vuelta completa es:",
+       "choices": [
+        {
+         "id": "a",
+         "text": "0 J"
+        },
+        {
+         "id": "b",
+         "text": "positivo"
+        },
+        {
+         "id": "c",
+         "text": "negativo"
+        },
+        {
+         "id": "d",
+         "text": "depende del radio"
+        }
+       ],
+       "key": {
+        "correct": "a"
+       },
+       "solution_md": "La fuerza es perpendicular al desplazamiento en todo momento: $W=0$ J y la energía cinética no cambia."
+      },
+      {
+       "id": "p1k",
+       "kind": "open",
+       "points": 0.5,
+       "prompt_md": "Justifique la respuesta anterior.",
+       "solution_md": "La fuerza magnética es perpendicular al desplazamiento en cada instante, así que su trabajo es nulo; por eso la velocidad mantiene su módulo.",
+       "rubric_md": "0,5 si relaciona la perpendicularidad con el trabajo nulo."
+      }
+     ],
+     "stem_md": "Un protón entra con una velocidad de $2{,}0\\cdot10^6$ m/s en una región con un campo magnético uniforme de 0,50 T, perpendicular a la velocidad."
+    },
+    {
+     "id": "pr2",
+     "label": "Problema 2",
+     "points": 4,
+     "mode": "sum",
+     "floor0": false,
+     "items": [
+      {
+       "id": "p2f",
+       "kind": "numeric",
+       "points": 1,
+       "prompt_md": "a) Variación del flujo magnético a través de una espira:",
+       "key": {
+        "value": 0.006,
+        "display": "6,0·10⁻³ Wb",
+        "tol_rel": 0.02,
+        "units": [
+         "wb",
+         "weber",
+         "t.m2",
+         "tm2"
+        ]
+       },
+       "solution_md": "$\\Delta\\Phi=\\Delta B\\cdot S=0{,}60\\cdot0{,}010=6{,}0\\cdot10^{-3}$ Wb.",
+       "unit_required": true
+      },
+      {
+       "id": "p2e",
+       "kind": "numeric",
+       "points": 1,
+       "prompt_md": "b) Fuerza electromotriz inducida en la bobina:",
+       "key": {
+        "value": 4,
+        "display": "4,0 V",
+        "tol_rel": 0.02,
+        "units": [
+         "v",
+         "voltios",
+         "voltio"
+        ]
+       },
+       "solution_md": "$|\\varepsilon|=N\\dfrac{\\Delta\\Phi}{\\Delta t}=200\\cdot\\dfrac{6{,}0\\cdot10^{-3}}{0{,}30}=4{,}0$ V.",
+       "unit_required": true
+      },
+      {
+       "id": "p2i",
+       "kind": "numeric",
+       "points": 1,
+       "prompt_md": "c) Intensidad de la corriente inducida:",
+       "key": {
+        "value": 1,
+        "display": "1,0 A",
+        "tol_rel": 0.02,
+        "units": [
+         "a",
+         "amperios",
+         "amperio"
+        ]
+       },
+       "solution_md": "$I=\\varepsilon/R=1{,}0$ A.",
+       "unit_required": true
+      },
+      {
+       "id": "p2l",
+       "kind": "open",
+       "points": 0.5,
+       "prompt_md": "d) Enuncie la ley de Lenz y explique el sentido del campo creado por la corriente inducida.",
+       "solution_md": "La corriente inducida se opone a la variación del flujo que la produce. Como el flujo aumenta, el campo inducido tiene sentido contrario al campo externo.",
+       "rubric_md": "0,25 por el enunciado · 0,25 por el sentido justificado."
+      },
+      {
+       "id": "p2q",
+       "kind": "numeric",
+       "points": 0.5,
+       "prompt_md": "Energía disipada en la resistencia durante los 0,30 s:",
+       "key": {
+        "value": 1.2,
+        "display": "1,2 J",
+        "tol_rel": 0.02,
+        "units": [
+         "j",
+         "julio",
+         "julios"
+        ]
+       },
+       "solution_md": "$E=I^2Rt=1{,}0^2\\cdot4{,}0\\cdot0{,}30=1{,}2$ J.",
+       "unit_required": true
+      }
+     ],
+     "stem_md": "Una bobina de 200 espiras, de 0,010 m² cada una, está perpendicular a un campo magnético uniforme que pasa de 0,20 T a 0,80 T en 0,30 s de manera uniforme. La resistencia total del circuito es de 4,0 Ω."
+    }
+   ]
+  }
+ ]
+}

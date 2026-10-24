@@ -1,0 +1,40 @@
+{
+  "lesson_id": "ingles-e04-l01",
+  "questions": [
+    {
+      "id": "e04l01-x1", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["third_conditional"],
+      "prompt_md": "*If the team had prepared better, they would have won.* What actually happened?",
+      "choices": [{"id": "a", "text": "They prepared well and won."}, {"id": "b", "text": "They didn't prepare well and didn't win."}, {"id": "c", "text": "They will win next time."}, {"id": "d", "text": "They prepared well but lost."}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "El tercer condicional describe lo contrario de lo que ocurrió: no se prepararon bien y perdieron."
+    },
+    {
+      "id": "e04l01-x2", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["deduction_modals"],
+      "prompt_md": "*Her coat is still here. She ___ have left yet.*",
+      "choices": [{"id": "a", "text": "must"}, {"id": "b", "text": "can't"}, {"id": "c", "text": "should"}, {"id": "d", "text": "would"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "La evidencia (el abrigo sigue aquí) lleva a deducir que no puede haberse ido: *can't have left*."
+    },
+    {
+      "id": "e04l01-x3", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["connectors"],
+      "prompt_md": "Choose the correct option: *___ the high price, the product sold well.*",
+      "choices": [{"id": "a", "text": "Although"}, {"id": "b", "text": "Despite"}, {"id": "c", "text": "Because"}, {"id": "d", "text": "However"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "*Despite* + sustantivo (*the high price*). *Although* necesitaría una oración (*although the price was high*)."
+    },
+    {
+      "id": "e04l01-x4", "kind": "multiple_choice", "difficulty": 3, "skill_ids": ["advanced_passive"],
+      "prompt_md": "*The minister is said to be considering a new tax.* What does this sentence suggest?",
+      "choices": [{"id": "a", "text": "The minister has announced a new tax."}, {"id": "b", "text": "People report that the minister may be planning a new tax, but it is not confirmed."}, {"id": "c", "text": "The minister said that the tax is bad."}, {"id": "d", "text": "The new tax has been approved."}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "*Is said to* atribuye la información a otros: no es una afirmación confirmada."
+    },
+    {
+      "id": "e04l01-x5", "kind": "multiple_choice", "difficulty": 3, "skill_ids": ["paraphrase_en"],
+      "prompt_md": "Which sentence has the same meaning as *Sales fell as a result of the strike*?",
+      "choices": [{"id": "a", "text": "The strike was caused by low sales."}, {"id": "b", "text": "The strike led to a decrease in sales."}, {"id": "c", "text": "Sales fell, and then there was a strike."}, {"id": "d", "text": "Sales rose despite the strike."}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Misma relación causa-efecto (huelga → caída de ventas), reformulada con *led to a decrease*."
+    }
+  ]
+}

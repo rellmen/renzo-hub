@@ -1,0 +1,40 @@
+{
+  "lesson_id": "comentario-t01-l01",
+  "questions": [
+    {
+      "id": "t01l01-x1", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["thesis_identification"],
+      "prompt_md": "¿Cuál de estas formulaciones es una **tesis** y no un tema?",
+      "choices": [{"id": "a", "text": "El reciclaje en las empresas"}, {"id": "b", "text": "Las empresas deberían estar obligadas a reciclar sus residuos"}, {"id": "c", "text": "Los residuos industriales"}, {"id": "d", "text": "La legislación ambiental"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Es una oración completa que expresa una postura. Las demás solo nombran un asunto."
+    },
+    {
+      "id": "t01l01-x2", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["presuppositions"],
+      "prompt_md": "¿Qué presupone *La empresa ya no paga las horas extra*?",
+      "choices": [{"id": "a", "text": "Que nunca las pagó"}, {"id": "b", "text": "Que antes sí las pagaba"}, {"id": "c", "text": "Que pagará más en el futuro"}, {"id": "d", "text": "Que no hay horas extra"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "*Ya no* indica un cambio respecto a una situación anterior."
+    },
+    {
+      "id": "t01l01-x3", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["arguments_evidence"],
+      "prompt_md": "*Un estudio de la universidad X con 2.000 trabajadores halló menos bajas en las empresas con horario flexible.* En un texto argumentativo, esto es...",
+      "choices": [{"id": "a", "text": "La tesis"}, {"id": "b", "text": "Una evidencia que apoya un argumento"}, {"id": "c", "text": "Una presuposición"}, {"id": "d", "text": "Una opinión del autor"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Es un dato verificable (estudio con muestra) que sostiene una razón a favor del horario flexible."
+    },
+    {
+      "id": "t01l01-x4", "kind": "multiple_choice", "difficulty": 3, "skill_ids": ["author_intent"],
+      "prompt_md": "Un autor escribe: *Las redes sociales pueden ayudar a encontrar empleo, siempre que se cuide la imagen pública.* ¿Qué opción **exagera** su postura?",
+      "choices": [{"id": "a", "text": "Las redes pueden ser útiles para buscar trabajo."}, {"id": "b", "text": "Conviene cuidar la imagen en redes."}, {"id": "c", "text": "Sin redes sociales es imposible encontrar empleo."}, {"id": "d", "text": "La utilidad de las redes depende de cómo se usen."}],
+      "key": {"correct_choice_id": "c"},
+      "explanation_md": "El autor dice *pueden ayudar* con una condición; no afirma que sean imprescindibles."
+    },
+    {
+      "id": "t01l01-x5", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["thesis_identification"],
+      "prompt_md": "Un texto presenta tres ejemplos y, en el último párrafo, una conclusión general que defiende una idea. ¿Qué estructura tiene?",
+      "choices": [{"id": "a", "text": "Deductiva (tesis al inicio)"}, {"id": "b", "text": "Inductiva (tesis al final)"}, {"id": "c", "text": "Encuadrada (al inicio y al final)"}, {"id": "d", "text": "No tiene tesis"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Va de los casos concretos a la conclusión general: inductiva o sintetizante."
+    }
+  ]
+}

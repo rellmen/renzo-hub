@@ -1,0 +1,38 @@
+{
+  "lesson_id": "economia-b01-l01",
+  "questions": [
+    {
+      "id": "b01l01-x1", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["legal_forms"],
+      "prompt_md": "¿Qué forma jurídica implica responsabilidad **ilimitada** del titular?",
+      "choices": [{"id": "a", "text": "Sociedad limitada"}, {"id": "b", "text": "Sociedad anónima"}, {"id": "c", "text": "Empresario individual (autónomo)"}, {"id": "d", "text": "Sociedad laboral"}],
+      "key": {"correct_choice_id": "c"},
+      "explanation_md": "El autónomo responde de las deudas con todo su patrimonio personal."
+    },
+    {
+      "id": "b01l01-x2", "kind": "numeric", "difficulty": 1, "skill_ids": ["income_expenses"],
+      "prompt_md": "Una empresa ingresa 80.000 € y tiene unos gastos de 62.500 €. ¿Cuál es su beneficio (€)?", "unit": "€",
+      "key": {"value": 17500, "tolerance": 0},
+      "explanation_md": "$80.000-62.500=17.500$ €."
+    },
+    {
+      "id": "b01l01-x3", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["stakeholders"],
+      "prompt_md": "¿Cuál es un grupo de interés **interno**?",
+      "choices": [{"id": "a", "text": "Los proveedores"}, {"id": "b", "text": "Los trabajadores"}, {"id": "c", "text": "La administración pública"}, {"id": "d", "text": "Los competidores"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Trabajadores, directivos y propietarios forman parte de la empresa; los demás son externos."
+    },
+    {
+      "id": "b01l01-x4", "kind": "numeric", "difficulty": 2, "skill_ids": ["legal_forms"],
+      "prompt_md": "Una sociedad anónima se constituye con el capital mínimo de 60.000 €. ¿Qué importe mínimo (€) debe desembolsarse al constituirla (25 %)?", "unit": "€",
+      "key": {"value": 15000, "tolerance": 0},
+      "explanation_md": "$0{,}25\\cdot60.000=15.000$ €."
+    },
+    {
+      "id": "b01l01-x5", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["income_expenses"],
+      "prompt_md": "Una empresa vende en marzo mercancía que el cliente pagará en mayo. ¿Qué afirmación es correcta?",
+      "choices": [{"id": "a", "text": "En marzo hay un cobro y en mayo un ingreso"}, {"id": "b", "text": "En marzo hay un ingreso y en mayo un cobro"}, {"id": "c", "text": "No hay ingreso hasta mayo"}, {"id": "d", "text": "Es un gasto"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "El ingreso se reconoce cuando se produce la venta; el cobro, cuando entra el dinero."
+    }
+  ]
+}

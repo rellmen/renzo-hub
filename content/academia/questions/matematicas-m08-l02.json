@@ -1,0 +1,36 @@
+{
+  "lesson_id": "matematicas-m08-l02",
+  "questions": [
+    {
+      "id": "m08l02-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["derivative_definition"],
+      "prompt_md": "Para $f(x)=x^2$, el cociente $\\dfrac{f(4+h)-f(4)}{h}$ simplificado vale $8+h$. ¿Cuánto vale $f'(4)$?",
+      "key": {"value": 8, "tolerance": 0},
+      "explanation_md": "Haciendo $h\\to0$: $f'(4)=8$."
+    },
+    {
+      "id": "m08l02-x2", "kind": "numeric", "difficulty": 1, "skill_ids": ["derivative_definition"],
+      "prompt_md": "¿Cuál es la derivada de $f(x)=7x+3$ en cualquier punto?",
+      "key": {"value": 7, "tolerance": 0},
+      "explanation_md": "Es una recta de pendiente 7: $\\dfrac{7h}{h}=7$."
+    },
+    {
+      "id": "m08l02-x3", "kind": "numeric", "difficulty": 2, "skill_ids": ["derivative_interpretation"],
+      "prompt_md": "Un móvil recorre $s(t)=5t^2$ metros en $t$ segundos. ¿Cuál es su velocidad instantánea en $t=3$ (m/s)?", "unit": "m/s",
+      "key": {"value": 30, "tolerance": 0},
+      "explanation_md": "$\\dfrac{5(3+h)^2-45}{h}=30+5h$ → $30$ m/s."
+    },
+    {
+      "id": "m08l02-x4", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["derivative_definition"],
+      "prompt_md": "¿Qué afirmación es correcta?",
+      "choices": [{"id": "a", "text": "Toda función continua es derivable"}, {"id": "b", "text": "Toda función derivable en un punto es continua en ese punto"}, {"id": "c", "text": "$|x|$ es derivable en $x=0$"}, {"id": "d", "text": "Si una función no es derivable, no es continua"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Derivable ⇒ continua. Lo contrario falla: $|x|$ es continua en 0 y no derivable."
+    },
+    {
+      "id": "m08l02-x5", "kind": "numeric", "difficulty": 3, "skill_ids": ["derivative_definition"],
+      "prompt_md": "Con la definición, calcula $f'(1)$ para $f(x)=\\dfrac1x$.",
+      "key": {"value": -1, "tolerance": 0},
+      "explanation_md": "$\\dfrac{\\frac{1}{1+h}-1}{h}=\\dfrac{-1}{1+h}$ → $-1$."
+    }
+  ]
+}

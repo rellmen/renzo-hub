@@ -1,0 +1,38 @@
+{
+  "lesson_id": "matematicas-m01-l03",
+  "questions": [
+    {
+      "id": "m01l03-x1", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["formula_rearrange"],
+      "prompt_md": "Despeja $m$ en $F=m\\,a$.",
+      "choices": [{"id": "a", "text": "$m=F\\,a$"}, {"id": "b", "text": "$m=\\dfrac{a}{F}$"}, {"id": "c", "text": "$m=\\dfrac{F}{a}$"}, {"id": "d", "text": "$m=F-a$"}],
+      "key": {"correct_choice_id": "c"},
+      "explanation_md": "$m$ está multiplicada por $a$: se divide entre $a$ ($a\\neq0$)."
+    },
+    {
+      "id": "m01l03-x2", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["formula_rearrange"],
+      "prompt_md": "Despeja $x$ en $y=\\dfrac{x+4}{5}$.",
+      "choices": [{"id": "a", "text": "$x=5y-4$"}, {"id": "b", "text": "$x=5y+4$"}, {"id": "c", "text": "$x=\\dfrac{y}{5}-4$"}, {"id": "d", "text": "$x=5(y-4)$"}],
+      "key": {"correct_choice_id": "a"},
+      "explanation_md": "Multiplica por 5: $5y=x+4$; resta 4: $x=5y-4$."
+    },
+    {
+      "id": "m01l03-x3", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["formula_rearrange", "inverse_operations"],
+      "prompt_md": "Despeja $k$ en $a k-b=c k$ (con $a\\neq c$).",
+      "choices": [{"id": "a", "text": "$k=\\dfrac{b}{a-c}$"}, {"id": "b", "text": "$k=\\dfrac{b}{a+c}$"}, {"id": "c", "text": "$k=\\dfrac{c+b}{a}$"}, {"id": "d", "text": "$k=b(a-c)$"}],
+      "key": {"correct_choice_id": "a"},
+      "explanation_md": "$ak-ck=b$ → $k(a-c)=b$ → $k=\\dfrac{b}{a-c}$."
+    },
+    {
+      "id": "m01l03-x4", "kind": "numeric", "difficulty": 2, "skill_ids": ["formula_rearrange"],
+      "prompt_md": "En $V=\\dfrac{1}{3}A\\,h$, calcula $h$ si $V=40$ y $A=24$.",
+      "key": {"value": 5, "tolerance": 0},
+      "explanation_md": "$h=\\dfrac{3V}{A}=\\dfrac{120}{24}=5$."
+    },
+    {
+      "id": "m01l03-x5", "kind": "numeric", "difficulty": 3, "skill_ids": ["inverse_operations"],
+      "prompt_md": "Con $v^2=v_0^2+2a\\,d$, calcula $d$ si $v=0$, $v_0=20$ y $a=-4$.",
+      "key": {"value": 50, "tolerance": 0},
+      "explanation_md": "$d=\\dfrac{v^2-v_0^2}{2a}=\\dfrac{0-400}{-8}=50$."
+    }
+  ]
+}

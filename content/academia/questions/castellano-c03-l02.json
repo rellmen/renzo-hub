@@ -1,0 +1,39 @@
+{
+  "lesson_id": "castellano-c03-l02",
+  "questions": [
+    {
+      "id": "c03l02-x1", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["agreement"],
+      "prompt_md": "¿Qué oración es correcta?",
+      "choices": [{"id": "a", "text": "Habían muchas personas en la reunión."}, {"id": "b", "text": "Hubieron problemas con el envío."}, {"id": "c", "text": "Había muchas personas en la reunión."}, {"id": "d", "text": "Habrán cambios en el horario."}],
+      "key": {"correct_choice_id": "c"},
+      "explanation_md": "*Haber* impersonal no tiene sujeto: siempre en singular (*había, hubo, habrá*)."
+    },
+    {
+      "id": "c03l02-x2", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["active_passive"],
+      "prompt_md": "¿Cuál es la pasiva correcta de *El encargado revisaba los albaranes*?",
+      "choices": [{"id": "a", "text": "Los albaranes fueron revisados por el encargado."}, {"id": "b", "text": "Los albaranes eran revisados por el encargado."}, {"id": "c", "text": "Los albaranes son revisados por el encargado."}, {"id": "d", "text": "Los albaranes era revisado por el encargado."}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "*revisaba* es pretérito imperfecto → *eran revisados*, concordado en plural."
+    },
+    {
+      "id": "c03l02-x3", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["transitivity"],
+      "prompt_md": "¿Qué oración **no** se puede poner en pasiva?",
+      "choices": [{"id": "a", "text": "El jurado premió la propuesta."}, {"id": "b", "text": "El avión aterrizó a las nueve."}, {"id": "c", "text": "Los vecinos limpiaron el parque."}, {"id": "d", "text": "La empresa despidió a dos empleados."}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "*Aterrizar* es intransitivo aquí: no hay CD que pueda pasar a sujeto paciente."
+    },
+    {
+      "id": "c03l02-x4", "kind": "short_text", "difficulty": 2, "skill_ids": ["active_passive", "agreement"],
+      "prompt_md": "Completa con el verbo *vender* en presente: *Se ___ coches de segunda mano.* (una palabra)",
+      "key": {"accepted": ["venden"], "case_sensitive": false, "accent_sensitive": false},
+      "explanation_md": "Pasiva refleja: el verbo concuerda con el sujeto paciente *coches*."
+    },
+    {
+      "id": "c03l02-x5", "kind": "multiple_choice", "difficulty": 3, "skill_ids": ["transitivity"],
+      "prompt_md": "¿Qué tipo de oración es *Los dos equipos se felicitaron al final*?",
+      "choices": [{"id": "a", "text": "Reflexiva"}, {"id": "b", "text": "Recíproca"}, {"id": "c", "text": "Impersonal"}, {"id": "d", "text": "Pasiva refleja"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Cada equipo felicita al otro: acción mutua (*el uno al otro*)."
+    }
+  ]
+}

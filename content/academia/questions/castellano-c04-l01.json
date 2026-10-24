@@ -1,0 +1,40 @@
+{
+  "lesson_id": "castellano-c04-l01",
+  "questions": [
+    {
+      "id": "c04l01-x1", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["subordination"],
+      "prompt_md": "¿Qué tipo de subordinada es *si llegaremos a tiempo* en *No sé si llegaremos a tiempo*?",
+      "choices": [{"id": "a", "text": "Adverbial condicional"}, {"id": "b", "text": "Sustantiva de complemento directo"}, {"id": "c", "text": "Adjetiva especificativa"}, {"id": "d", "text": "Coordinada disyuntiva"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "*No lo sé*: es CD de *sé* (interrogativa indirecta). No expresa una condición."
+    },
+    {
+      "id": "c04l01-x2", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["subordination"],
+      "prompt_md": "¿Qué valor tiene la subordinada de *Te lo explico para que no te equivoques*?",
+      "choices": [{"id": "a", "text": "Causal"}, {"id": "b", "text": "Final"}, {"id": "c", "text": "Consecutiva"}, {"id": "d", "text": "Concesiva"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "*Para que* introduce la finalidad de la acción principal."
+    },
+    {
+      "id": "c04l01-x3", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["subordination"],
+      "prompt_md": "¿Qué oración es correcta?",
+      "choices": [{"id": "a", "text": "Pienso de que tienes razón."}, {"id": "b", "text": "Estoy seguro que vendrá."}, {"id": "c", "text": "Me acuerdo de que llovía."}, {"id": "d", "text": "Me di cuenta que faltaba una caja."}],
+      "key": {"correct_choice_id": "c"},
+      "explanation_md": "*Me acuerdo de eso* → *de que*. (a) es dequeísmo; (b) y (d) son queísmos: *seguro de que*, *darse cuenta de que*."
+    },
+    {
+      "id": "c04l01-x4", "kind": "multiple_choice", "difficulty": 3, "skill_ids": ["reported_speech"],
+      "prompt_md": "Estilo indirecto de *Luis dijo: «Mañana iré al médico»*:",
+      "choices": [{"id": "a", "text": "Luis dijo que mañana iré al médico."}, {"id": "b", "text": "Luis dijo que al día siguiente iría al médico."}, {"id": "c", "text": "Luis dijo que al día siguiente fue al médico."}, {"id": "d", "text": "Luis dijo que mañana iba a ir al médico ayer."}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Futuro → condicional; *mañana* → *al día siguiente*; primera persona → tercera."
+    },
+    {
+      "id": "c04l01-x5", "kind": "multiple_choice", "difficulty": 3, "skill_ids": ["subordination"],
+      "prompt_md": "En *Los pedidos, que llegaron tarde, se devolvieron*, la relativa indica que...",
+      "choices": [{"id": "a", "text": "solo se devolvieron los pedidos que llegaron tarde"}, {"id": "b", "text": "todos los pedidos llegaron tarde y se devolvieron"}, {"id": "c", "text": "algunos pedidos no se devolvieron"}, {"id": "d", "text": "los pedidos llegaron tarde porque se devolvieron"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Entre comas es explicativa: aporta información sobre todos los pedidos, no selecciona un grupo."
+    }
+  ]
+}

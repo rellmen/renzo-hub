@@ -1,0 +1,40 @@
+{
+  "lesson_id": "comentario-t02-l01",
+  "questions": [
+    {
+      "id": "t02l01-x1", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["logical_relations"],
+      "prompt_md": "¿Qué relación expresa *de ahí que* en *Subieron los precios; de ahí que bajaran las ventas*?",
+      "choices": [{"id": "a", "text": "Causa"}, {"id": "b", "text": "Consecuencia"}, {"id": "c", "text": "Contraste"}, {"id": "d", "text": "Ejemplo"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Introduce el resultado de lo anterior: la bajada de ventas es consecuencia de la subida de precios."
+    },
+    {
+      "id": "t02l01-x2", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["text_structure"],
+      "prompt_md": "Un párrafo dice: *Algunos piensan que estudiar a distancia es más fácil. Nada más lejos: exige más autonomía y constancia.* ¿Qué función cumple?",
+      "choices": [{"id": "a", "text": "Introduce el tema"}, {"id": "b", "text": "Presenta una objeción y la refuta"}, {"id": "c", "text": "Aporta un ejemplo"}, {"id": "d", "text": "Resume el texto"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Recoge una opinión contraria (*algunos piensan*) y la rebate (*nada más lejos*)."
+    },
+    {
+      "id": "t02l01-x3", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["thematic_progression"],
+      "prompt_md": "¿Qué progresión temática tiene *El coche eléctrico gana mercado. Es silencioso. Contamina menos en la ciudad. Pero todavía es caro.*?",
+      "choices": [{"id": "a", "text": "Lineal"}, {"id": "b", "text": "De tema constante"}, {"id": "c", "text": "De temas derivados"}, {"id": "d", "text": "No tiene progresión"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Todas las oraciones dicen algo nuevo del mismo tema: *el coche eléctrico*."
+    },
+    {
+      "id": "t02l01-x4", "kind": "multiple_choice", "difficulty": 3, "skill_ids": ["logical_relations"],
+      "prompt_md": "*Se dice que los idiomas solo se aprenden de niño. Mi abuela aprendió inglés a los 60 años.* La segunda oración funciona como...",
+      "choices": [{"id": "a", "text": "Ejemplo que confirma la idea"}, {"id": "b", "text": "Contraejemplo que debilita la generalización"}, {"id": "c", "text": "Conclusión"}, {"id": "d", "text": "Causa de la primera"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Un caso concreto que contradice la afirmación general (*solo de niño*)."
+    },
+    {
+      "id": "t02l01-x5", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["text_structure"],
+      "prompt_md": "Al describir la estructura de un texto en el examen, ¿qué respuesta es mejor?",
+      "choices": [{"id": "a", "text": "En el párrafo 1 habla del clima, en el 2 habla del calor y en el 3 habla de las ciudades."}, {"id": "b", "text": "Introducción (1) que plantea el problema; desarrollo (2) con causas y datos; conclusión (3) con una propuesta. Estructura inductiva."}, {"id": "c", "text": "Tiene tres párrafos."}, {"id": "d", "text": "Es un texto bien estructurado."}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Agrupa en partes, nombra funciones y clasifica la estructura; las demás solo resumen o valoran."
+    }
+  ]
+}

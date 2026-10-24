@@ -1,0 +1,36 @@
+{
+  "lesson_id": "matematicas-m11-l01",
+  "questions": [
+    {
+      "id": "m11l01-x1", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["logic_sets"],
+      "prompt_md": "¿Cuál es la negación de «todos los alumnos aprobaron»?",
+      "choices": [{"id": "a", "text": "Ningún alumno aprobó"}, {"id": "b", "text": "Existe al menos un alumno que no aprobó"}, {"id": "c", "text": "Todos los alumnos suspendieron"}, {"id": "d", "text": "Algún alumno aprobó"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "$\\neg(\\forall x,\\,P(x))\\equiv\\exists x,\\,\\neg P(x)$."
+    },
+    {
+      "id": "m11l01-x2", "kind": "numeric", "difficulty": 2, "skill_ids": ["combinatorics"],
+      "prompt_md": "¿De cuántas formas se pueden elegir 2 delegados (sin cargos distintos) en un grupo de 10 personas?",
+      "key": {"value": 45, "tolerance": 0},
+      "explanation_md": "$\\binom{10}{2}=\\dfrac{10\\cdot9}{2}=45$."
+    },
+    {
+      "id": "m11l01-x3", "kind": "numeric", "difficulty": 2, "skill_ids": ["probability_statistics"],
+      "prompt_md": "En una urna hay 3 bolas rojas y 5 azules. Se saca una al azar. ¿Probabilidad de que sea roja? Da el resultado decimal.",
+      "key": {"value": 0.375, "tolerance": 0.001},
+      "explanation_md": "Laplace: $\\dfrac38=0{,}375$."
+    },
+    {
+      "id": "m11l01-x4", "kind": "numeric", "difficulty": 2, "skill_ids": ["logic_sets"],
+      "prompt_md": "En una clase, 18 estudian inglés, 12 francés y 5 ambos idiomas. ¿Cuántos estudian al menos uno?",
+      "key": {"value": 25, "tolerance": 0},
+      "explanation_md": "$|A\\cup B|=18+12-5=25$."
+    },
+    {
+      "id": "m11l01-x5", "kind": "numeric", "difficulty": 3, "skill_ids": ["multivariable_intro"],
+      "prompt_md": "Sea $f(x,y)=x^2y+3y^2$. ¿Cuánto vale $\\dfrac{\\partial f}{\\partial y}$ en el punto $(2,1)$?",
+      "key": {"value": 10, "tolerance": 0},
+      "explanation_md": "$\\dfrac{\\partial f}{\\partial y}=x^2+6y$ → $4+6=10$."
+    }
+  ]
+}

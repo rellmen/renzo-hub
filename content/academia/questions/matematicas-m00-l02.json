@@ -1,0 +1,38 @@
+{
+  "lesson_id": "matematicas-m00-l02",
+  "questions": [
+    {
+      "id": "m00l02-x1", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["prime_factorization"],
+      "prompt_md": "¿Cuál es la descomposición en factores primos de 72?",
+      "choices": [{"id": "a", "text": "$2^3\\cdot 3^2$"}, {"id": "b", "text": "$2^2\\cdot 3^3$"}, {"id": "c", "text": "$8\\cdot 9$"}, {"id": "d", "text": "$2\\cdot 36$"}],
+      "key": {"correct_choice_id": "a"},
+      "explanation_md": "$72=2\\cdot36=2\\cdot2\\cdot18=2\\cdot2\\cdot2\\cdot9=2^3\\cdot3^2$. «$8\\cdot 9$» es correcto como producto pero 8 y 9 no son primos."
+    },
+    {
+      "id": "m00l02-x2", "kind": "numeric", "difficulty": 1, "skill_ids": ["gcd_lcm"],
+      "prompt_md": "Calcula el MCD de 42 y 56.",
+      "key": {"value": 14, "tolerance": 0},
+      "explanation_md": "$42=2\\cdot3\\cdot7$, $56=2^3\\cdot7$. Comunes con menor exponente: $2\\cdot7=14$."
+    },
+    {
+      "id": "m00l02-x3", "kind": "numeric", "difficulty": 2, "skill_ids": ["gcd_lcm"],
+      "prompt_md": "Calcula el mcm de 10, 12 y 15.",
+      "key": {"value": 60, "tolerance": 0},
+      "explanation_md": "$10=2\\cdot5$, $12=2^2\\cdot3$, $15=3\\cdot5$. mcm $=2^2\\cdot3\\cdot5=60$."
+    },
+    {
+      "id": "m00l02-x4", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["divisibility"],
+      "prompt_md": "¿Cuál de estos números es divisible entre 9?",
+      "choices": [{"id": "a", "text": "1 234"}, {"id": "b", "text": "4 572"}, {"id": "c", "text": "3 335"}, {"id": "d", "text": "8 002"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "$4+5+7+2=18$, múltiplo de 9. Las demás suman 10, 14 y 10, que no son múltiplos de 9."
+    },
+    {
+      "id": "m00l02-x5", "kind": "numeric", "difficulty": 2, "skill_ids": ["gcd_lcm"],
+      "prompt_md": "Se tienen 90 botellas de agua y 126 de zumo. Se quieren cajas iguales, cada una con un solo tipo de bebida, lo más grandes posible y sin que sobre nada. ¿Cuántas botellas lleva cada caja?",
+      "hint_md": "«Lo más grandes posible» y «sin que sobre» → máximo común divisor.",
+      "key": {"value": 18, "tolerance": 0},
+      "explanation_md": "$90=2\\cdot3^2\\cdot5$, $126=2\\cdot3^2\\cdot7$. MCD $=2\\cdot3^2=18$ botellas por caja."
+    }
+  ]
+}

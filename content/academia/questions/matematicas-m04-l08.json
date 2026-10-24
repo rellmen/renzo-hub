@@ -1,0 +1,36 @@
+{
+  "lesson_id": "matematicas-m04-l08",
+  "questions": [
+    {
+      "id": "m04l08-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["rate_of_change"],
+      "prompt_md": "Calcula la tasa de variación media de $f(x)=x^2$ en $[2,5]$.",
+      "key": {"value": 7, "tolerance": 0},
+      "explanation_md": "$\\dfrac{25-4}{3}=7$."
+    },
+    {
+      "id": "m04l08-x2", "kind": "numeric", "difficulty": 1, "skill_ids": ["rate_of_change"],
+      "prompt_md": "Calcula la tasa de variación media de $f(x)=2x+7$ en $[1,10]$.",
+      "key": {"value": 2, "tolerance": 0},
+      "explanation_md": "Función lineal: la TVM es la pendiente, 2."
+    },
+    {
+      "id": "m04l08-x3", "kind": "numeric", "difficulty": 2, "skill_ids": ["rate_of_change"],
+      "prompt_md": "Un móvil recorre $s(t)=4t^2$ metros en $t$ segundos. ¿Cuál es su velocidad media entre $t=1$ y $t=3$ (en m/s)?", "unit": "m/s",
+      "key": {"value": 16, "tolerance": 0},
+      "explanation_md": "$\\dfrac{36-4}{2}=16$ m/s."
+    },
+    {
+      "id": "m04l08-x4", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["rate_of_change"],
+      "prompt_md": "Si la tasa de variación media de una función en $[a,b]$ es negativa, entonces…",
+      "choices": [{"id": "a", "text": "la función es decreciente en todo el intervalo"}, {"id": "b", "text": "$f(b)<f(a)$, aunque puede haber subido en algún tramo"}, {"id": "c", "text": "la función es negativa en el intervalo"}, {"id": "d", "text": "la función es lineal"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "La TVM solo compara los extremos: indica que acaba por debajo de donde empezó."
+    },
+    {
+      "id": "m04l08-x5", "kind": "numeric", "difficulty": 3, "skill_ids": ["rate_of_change"],
+      "prompt_md": "La TVM de $f(x)=x^2$ en $[3,3+h]$ es $6+h$. ¿Cuál es la tasa de variación instantánea en $x=3$?",
+      "key": {"value": 6, "tolerance": 0},
+      "explanation_md": "Haciendo $h\\to0$: $6$."
+    }
+  ]
+}

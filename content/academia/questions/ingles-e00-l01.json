@@ -1,0 +1,39 @@
+{
+  "lesson_id": "ingles-e00-l01",
+  "questions": [
+    {
+      "id": "e00l01-x1", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["present_simple_form"],
+      "prompt_md": "Choose the correct sentence.",
+      "choices": [{"id": "a", "text": "Does she works on Saturdays?"}, {"id": "b", "text": "Does she work on Saturdays?"}, {"id": "c", "text": "Do she work on Saturdays?"}, {"id": "d", "text": "She does works on Saturdays?"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Con *does* el verbo va en forma base: *work*."
+    },
+    {
+      "id": "e00l01-x2", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["there_is_are"],
+      "prompt_md": "___ two problems with this order.",
+      "choices": [{"id": "a", "text": "There is"}, {"id": "b", "text": "There are"}, {"id": "c", "text": "It is"}, {"id": "d", "text": "They are"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "*Two problems* es plural → *there are*."
+    },
+    {
+      "id": "e00l01-x3", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["verb_be"],
+      "prompt_md": "¿Cómo se dice «Tengo 30 años»?",
+      "choices": [{"id": "a", "text": "I have 30 years."}, {"id": "b", "text": "I am 30 years old."}, {"id": "c", "text": "I have 30 years old."}, {"id": "d", "text": "I'm have 30."}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "La edad se expresa con *be*: *I am 30 (years old)*."
+    },
+    {
+      "id": "e00l01-x4", "kind": "short_text", "difficulty": 2, "skill_ids": ["present_simple_form"],
+      "prompt_md": "Escribe la forma correcta del verbo: *My sister ___ (study) nursing.*",
+      "key": {"accepted": ["studies"], "case_sensitive": false, "accent_sensitive": true},
+      "explanation_md": "Consonante + *y* → *-ies*: *studies*."
+    },
+    {
+      "id": "e00l01-x5", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["present_simple_form", "verb_be"],
+      "prompt_md": "Choose the correct negative: *He is in the office and he has a key.*",
+      "choices": [{"id": "a", "text": "He doesn't in the office and he hasn't a key."}, {"id": "b", "text": "He isn't in the office and he doesn't have a key."}, {"id": "c", "text": "He not is in the office and he don't have a key."}, {"id": "d", "text": "He isn't in the office and he doesn't has a key."}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "*Be* se niega con *isn't*; *have* como verbo normal con *doesn't have* (forma base)."
+    }
+  ]
+}

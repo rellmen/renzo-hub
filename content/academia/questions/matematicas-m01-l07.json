@@ -1,0 +1,36 @@
+{
+  "lesson_id": "matematicas-m01-l07",
+  "questions": [
+    {
+      "id": "m01l07-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["problem_modeling"],
+      "prompt_md": "La suma de dos números consecutivos es 131. ¿Cuál es el mayor?",
+      "key": {"value": 66, "tolerance": 0},
+      "explanation_md": "$x+(x+1)=131$ → $x=65$; el mayor es 66."
+    },
+    {
+      "id": "m01l07-x2", "kind": "numeric", "difficulty": 2, "skill_ids": ["problem_modeling"],
+      "prompt_md": "Un padre tiene 45 años y su hijo 15. ¿Hace cuántos años la edad del padre era el cuádruple de la del hijo?", "unit": "años",
+      "key": {"value": 5, "tolerance": 0},
+      "explanation_md": "$45-x=4(15-x)$ → $45-x=60-4x$ → $3x=15$ → $x=5$. Hace 5 años: 40 y 10."
+    },
+    {
+      "id": "m01l07-x3", "kind": "numeric", "difficulty": 2, "skill_ids": ["problem_modeling"],
+      "prompt_md": "Un operario prepara un pedido en 5 horas y otro en 20 horas. ¿Cuántas horas tardan trabajando juntos?", "unit": "h",
+      "key": {"value": 4, "tolerance": 0},
+      "explanation_md": "$\\dfrac15+\\dfrac1{20}=\\dfrac{5}{20}=\\dfrac14$ → 4 horas."
+    },
+    {
+      "id": "m01l07-x4", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["problem_modeling"],
+      "prompt_md": "«Se mezclan $x$ kg de arroz de 2 €/kg con 10 kg de 3,50 €/kg y la mezcla sale a 2,60 €/kg». ¿Qué ecuación es correcta?",
+      "choices": [{"id": "a", "text": "$2x+35=2{,}6x$"}, {"id": "b", "text": "$2x+35=2{,}6(x+10)$"}, {"id": "c", "text": "$2+3{,}5=2{,}6\\cdot2$"}, {"id": "d", "text": "$2x+3{,}5=2{,}6(x+10)$"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Importe de los dos arroces = precio de la mezcla × kilos totales. Solución $x=15$ kg."
+    },
+    {
+      "id": "m01l07-x5", "kind": "numeric", "difficulty": 3, "skill_ids": ["problem_modeling", "solution_check"],
+      "prompt_md": "Una nave cobra 12 € por palé almacenado y 0,80 € por cada movimiento. Un mes facturó 1.584 € por 120 palés. ¿Cuántos movimientos hubo?",
+      "key": {"value": 180, "tolerance": 0},
+      "explanation_md": "$12\\cdot120+0{,}8m=1584$ → $0{,}8m=144$ → $m=180$ movimientos."
+    }
+  ]
+}

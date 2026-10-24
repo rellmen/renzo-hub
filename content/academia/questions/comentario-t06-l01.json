@@ -1,0 +1,37 @@
+{
+  "lesson_id": "comentario-t06-l01",
+  "questions": [
+    {
+      "id": "t06l01-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["exam_format_comment"],
+      "prompt_md": "En el formato de referencia, ¿cuántos puntos vale cada una de las 3 preguntas del segundo bloque de comprensión (que suman 3 puntos)?",
+      "key": {"value": 1, "tolerance": 0},
+      "explanation_md": "$3/3=1$ punto por pregunta."
+    },
+    {
+      "id": "t06l01-x2", "kind": "numeric", "difficulty": 2, "skill_ids": ["exam_format_comment"],
+      "prompt_md": "En el bloque de 6 preguntas (0,5 cada una; −0,16 por fallo), aciertas 5 y fallas 1. ¿Cuántos puntos obtienes?",
+      "key": {"value": 2.34, "tolerance": 0.001},
+      "explanation_md": "$5\\cdot0{,}5-0{,}16=2{,}34$."
+    },
+    {
+      "id": "t06l01-x3", "kind": "numeric", "difficulty": 2, "skill_ids": ["time_management"],
+      "prompt_md": "Tienes 90 minutos de trabajo. Con la regla de los puntos, ¿cuántos minutos dedicas a la redacción (4 de 10 puntos)?", "unit": "min",
+      "key": {"value": 36, "tolerance": 0},
+      "explanation_md": "$0{,}4\\cdot90=36$ minutos."
+    },
+    {
+      "id": "t06l01-x4", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["comprehension_method"],
+      "prompt_md": "¿Cuál es la mejor respuesta a una pregunta abierta de comprensión?",
+      "choices": [{"id": "a", "text": "Copiar el párrafo del texto donde aparece la idea"}, {"id": "b", "text": "Responder en la primera oración con tus palabras y justificar con una referencia al texto"}, {"id": "c", "text": "Dar tu opinión personal sobre el tema"}, {"id": "d", "text": "Escribir lo máximo posible para asegurar puntos"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Demuestra comprensión (palabras propias) y la apoya en el texto."
+    },
+    {
+      "id": "t06l01-x5", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["exam_format_comment"],
+      "prompt_md": "¿Qué criterio es mejor para elegir entre los dos temas de la redacción?",
+      "choices": [{"id": "a", "text": "El que parezca más original"}, {"id": "b", "text": "El primero, para no perder tiempo"}, {"id": "c", "text": "Aquel para el que se te ocurren dos razones y un ejemplo en un minuto"}, {"id": "d", "text": "El que tenga el enunciado más largo"}],
+      "key": {"correct_choice_id": "c"},
+      "explanation_md": "Garantiza que puedes construir una argumentación completa en el tiempo disponible."
+    }
+  ]
+}

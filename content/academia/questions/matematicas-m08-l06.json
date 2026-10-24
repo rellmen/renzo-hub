@@ -1,0 +1,37 @@
+{
+  "lesson_id": "matematicas-m08-l06",
+  "questions": [
+    {
+      "id": "m08l06-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["inflection_points"],
+      "prompt_md": "¿En qué abscisa tiene un punto de inflexión $f(x)=x^3-9x^2+1$?",
+      "key": {"value": 3, "tolerance": 0},
+      "explanation_md": "$f''(x)=6x-18=0$ → $x=3$, y cambia de signo."
+    },
+    {
+      "id": "m08l06-x2", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["concavity"],
+      "prompt_md": "Si $f''(x)>0$ en un intervalo, la gráfica en ese intervalo...",
+      "choices": [{"id": "a", "text": "es creciente"}, {"id": "b", "text": "tiene forma $\\cup$ (cóncava hacia arriba)"}, {"id": "c", "text": "tiene forma $\\cap$ (cóncava hacia abajo)"}, {"id": "d", "text": "tiene un máximo"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "$f''>0$: la pendiente aumenta, forma $\\cup$. No dice nada sobre si crece."
+    },
+    {
+      "id": "m08l06-x3", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["inflection_points"],
+      "prompt_md": "Para $f(x)=x^4$, se cumple $f''(0)=0$. ¿Tiene un punto de inflexión en $x=0$?",
+      "choices": [{"id": "a", "text": "Sí, porque $f''(0)=0$"}, {"id": "b", "text": "No, porque $f''$ no cambia de signo en 0"}, {"id": "c", "text": "No, porque $f$ no es continua en 0"}, {"id": "d", "text": "Sí, porque $f'(0)=0$"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "$f''(x)=12x^2\\ge0$: no hay cambio de curvatura. En 0 hay un mínimo."
+    },
+    {
+      "id": "m08l06-x4", "kind": "numeric", "difficulty": 2, "skill_ids": ["curve_sketching"],
+      "prompt_md": "¿Cuál es la asíntota horizontal $y=k$ de $f(x)=\\dfrac{3x-1}{x+2}$? Indica $k$.",
+      "key": {"value": 3, "tolerance": 0},
+      "explanation_md": "Cociente de coeficientes principales: $\\dfrac31=3$."
+    },
+    {
+      "id": "m08l06-x5", "kind": "numeric", "difficulty": 3, "skill_ids": ["inflection_points"],
+      "prompt_md": "$f(x)=x^3+ax^2+5$ tiene un punto de inflexión en $x=1$. ¿Cuánto vale $a$?",
+      "key": {"value": -3, "tolerance": 0},
+      "explanation_md": "$f''(x)=6x+2a$; $f''(1)=6+2a=0$ → $a=-3$ (y $f''$ cambia de signo)."
+    }
+  ]
+}
