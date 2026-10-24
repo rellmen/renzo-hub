@@ -21,7 +21,7 @@ export function SelfLearnVocabularyReview({client,uid,course,cards,legacyActive}
  const card=due[0];
  const revision=card?card.id+':'+String(card['updatedAt']):'';
  const save=useMutation({mutationFn:async(grade:ReviewGrade)=>{
-   if(!client||!card||legacyActive)throw Error('Termina primero la sesión clásica y recarga los repasos.');
+   if(!client||!card||legacyActive)throw Error('Primero continúa o cierra la lección antigua y recarga los repasos.');
    const key=uid+':'+revision;
    if(intent.current?.key!==key)intent.current={key,id:crypto.randomUUID(),grade,at:new Date()};
    if(intent.current.grade!==grade)throw Error('Reintenta la misma calificación para confirmar el repaso pendiente.');
@@ -38,7 +38,7 @@ export function SelfLearnVocabularyReview({client,uid,course,cards,legacyActive}
  return <section className="surface rim space-y-4 p-5 sm:p-6" aria-label="Repaso de vocabulario">
   <h2 className="font-display text-2xl">Vocabulario para repasar</h2>
   <p className="text-sm text-muted-foreground">{due.length} tarjetas pendientes. Valora cuánto has recordado después de ver la respuesta.</p>
-  {legacyActive?<p role="status">Termina tu sesión clásica antes de repasar aquí.</p>:card?<div className="space-y-4">
+  {legacyActive?<p role="status">Primero continúa o cierra la lección antigua en «Entrena y conserva cada paso», justo debajo.</p>:card?<div className="space-y-4">
    <p className="font-display text-3xl">{String(card['front']||'')}</p>
    {revealed===revision?<><p className="text-lg">{String(card['back']||'')}</p>
     <div className="flex flex-wrap gap-2">{([
