@@ -16,6 +16,7 @@ import {useAuth} from "@/lib/auth/AuthProvider";
 import {loadAresRecords} from "@/lib/ares-records.mjs";
 import {loadWorkRecords,WORK_STATUSES} from "@/lib/work-records.mjs";
 import {loadLearningSnapshot} from "@/lib/selflearn-snapshot.mjs";
+import {RoadmapToday} from "@/components/rise/roadmap/RoadmapToday";
 
 export const Route=createFileRoute("/")({
   head:()=>pageHead("Centro de mando","Tu próxima evolución: tus datos reales y las disciplinas de RISE HUB."),
@@ -52,6 +53,7 @@ function Home(){
     {label:"SelfLearn",value:learn.data?String(learn.data.completed.nl.length+learn.data.completed.en.length):"—",caption:learn.data?"NL "+learn.data.completed.nl.length+" · EN "+learn.data.completed.en.length:"Unidades verificadas",icon:Activity,color:"var(--learn)"}
   ];
   return <div className="space-y-6 lg:space-y-8">
+    <RoadmapToday compact/>
     <section className="surface rim relative min-h-[460px] overflow-hidden lg:min-h-[420px]" style={{background:"var(--gradient-wine)"}}>
       <img src={hero} alt="" width={1920} height={832} className="absolute inset-0 h-full w-full object-cover object-[60%_center] animate-pan"/>
       <div className="absolute inset-0 bg-hero-side"/>

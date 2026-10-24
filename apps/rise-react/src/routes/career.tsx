@@ -1,6 +1,6 @@
 import {createFileRoute,Link} from "@tanstack/react-router";
 import {useQuery} from "@tanstack/react-query";
-import {Briefcase,BookOpen,RefreshCw,ShieldCheck} from "lucide-react";
+import {Briefcase,BookOpen,Map,RefreshCw,ShieldCheck} from "lucide-react";
 import {useAuth} from "@/lib/auth/AuthProvider";
 import {PageHeader,SectionCard} from "@/components/rise/primitives";
 import {pageHead} from "@/lib/seo";
@@ -68,6 +68,10 @@ function Career(){
      </div>)}</dl>}
    </SectionCard>
   </>}
+  <SectionCard eyebrow="Roadmap 2026–2032" title="Tu ruta en tareas y subtareas" accent="var(--gold)"
+   action={<Link to="/roadmap" className="btn-gold min-h-11"><Map className="h-4 w-4"/>Abrir</Link>}>
+   <p className="text-sm text-platinum/80">Operaciones → Logistics Data Analyst → Data Engineer → AI Systems → Nodalys. La tarea de hoy también aparece en Inicio.</p>
+  </SectionCard>
   <CareerTracker/>
   <SectionCard eyebrow="Aprendizaje separado" title="Career frente a SelfLearn" accent="var(--learn)">
    <p className="text-sm text-platinum/80">Career es para herramientas de datos, trabajo y portafolio. SelfLearn es exclusivamente para neerlandés e inglés. La formación técnica, las skills y el portfolio se registran arriba.</p>

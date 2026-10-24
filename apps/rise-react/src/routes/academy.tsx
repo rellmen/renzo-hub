@@ -11,6 +11,7 @@ import {backendEnvironmentForHost} from "@/lib/nocturne-environment.mjs";
 import {CATALOG,courseTitle,lessonMeta} from "@/lib/academy/content";
 import {academyEnvironmentAllowed,courseProgress,todayPlan} from "@/lib/academy/engine.mjs";
 import {AcademyBackendMissing,loadAcademyState} from "@/lib/academy/records.mjs";
+import {tasksForDay} from "@/lib/career-path.mjs";
 import {academyToday,localDay,nextStep,reviewQueue,studySlot,weeklyMinutes} from "@/lib/academy-today.mjs";
 
 export const Route=createFileRoute("/academy")({
@@ -44,7 +45,9 @@ function Academy(){
     progress:uoc.data?.progress??null,lessonMinutes,goal:uoc.data?.prefs?.weekly_minutes??null});
   const shift=shifts.data?shiftPreview(shifts.data,localDay()):undefined;
   const slot=studySlot(shift,uoc.data?.prefs?.session_minutes??null);
-  const step=nextStep({queue,uocNext:plan?plan.next.map(n=>({...n,courseTitle:courseTitle(n.course)})):null,slot,weekly,uocOn:uocAllowed});
+  const ROADMAP_COURSE:Record<string,string>={math:"matematicas",physics:"fisica",spanish:"castellano",comment:"comentario",english:"ingles"};
+  const preferCourses=tasksForDay(localDay()).map(t=>ROADMAP_COURSE[t.source]).filter((c):c is string=>!!c);
+  const step=nextStep({preferCourses,queue,uocNext:plan?plan.next.map(n=>({...n,courseTitle:courseTitle(n.course)})):null,slot,weekly,uocOn:uocAllowed});
   const loading=learning.isLoading||(uocAllowed&&uoc.isLoading);
 
   return <div className="space-y-6">

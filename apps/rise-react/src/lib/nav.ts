@@ -1,4 +1,4 @@
-import { BookOpen, Briefcase, Dumbbell, Home, Settings, Sparkles, Wallet, Flower2, NotebookPen, HeartPulse, UtensilsCrossed, CalendarClock, FileSpreadsheet, DatabaseBackup, LayoutGrid, Trophy, Newspaper, Bot, Receipt, Car, Inbox, GraduationCap } from "lucide-react";
+import { BookOpen, Briefcase, Dumbbell, Home, Settings, Sparkles, Wallet, Flower2, NotebookPen, HeartPulse, UtensilsCrossed, CalendarClock, FileSpreadsheet, DatabaseBackup, LayoutGrid, Trophy, Newspaper, Bot, Receipt, Car, Inbox, GraduationCap, Map } from "lucide-react";
 
 export const NAV = [
   { to: "/", label: "Centro de mando", short: "Inicio", icon: Home, accent: "var(--gold)" },
@@ -14,11 +14,12 @@ export const NAV = [
   { to: "/piel", label: "Skin Routine", short: "Skin", icon: Flower2, accent: "var(--skin)" },
   { to: "/proyectos", label: "Proyectos", short: "Proyectos", icon: Briefcase, accent: "var(--projects)" },
   { to: "/notas", label: "Notas", short: "Notas", icon: NotebookPen, accent: "var(--projects)" },
+  { to: "/roadmap", label: "Roadmap", short: "Roadmap", icon: Map, accent: "var(--gold)" },
   { to: "/quest", label: "XP y Quests", short: "Quests", icon: Trophy, accent: "var(--learn)" },
   { to: "/news", label: "Biblioteca", short: "Biblioteca", icon: Newspaper, accent: "var(--projects)" },
   { to: "/agentes", label: "Agentes", short: "Agentes", icon: Bot, accent: "var(--ares)" },
   { to: "/inbox", label: "AI Inbox", short: "Inbox", icon: Inbox, accent: "var(--ares)" },
-  { to: "/car", label: "Car", short: "Car", icon: Car, accent: "var(--money)" },
+  { to: "/car", label: "Coche", short: "Coche", icon: Car, accent: "var(--money)" },
   { to: "/apps", label: "Todas las apps", short: "Apps", icon: LayoutGrid, accent: "var(--gold)" },
   { to: "/career", label: "Data & Carrera", short: "Data", icon: Briefcase, accent: "var(--projects)" },
   { to: "/nominas", label: "Nóminas", short: "Nóminas", icon: FileSpreadsheet, accent: "var(--money)" },

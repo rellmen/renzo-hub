@@ -132,7 +132,7 @@ export function studySlot(shift, sessionMinutes) {
  * · 3) vocabulario pendiente · 4) lección UOC aunque no quepa (se puede dejar a medias) · 5) idiomas.
  * Si el objetivo semanal ya está cumplido, solo propone repasos.
  */
-export function nextStep({ queue, uocNext, slot, weekly, uocOn = true } = {}) {
+export function nextStep({ queue, uocNext, slot, weekly, uocOn = true, preferCourses = [] } = {}) {
   const items = queue?.items ?? [];
   const goalMet = !!(weekly && weekly.goal && weekly.total !== null && weekly.total >= weekly.goal);
   const fromItem = (i, reason) => ({ kind: i.source === "uoc" ? "uoc-review" : "vocab", title: i.source === "uoc" ? "Repasa: " + i.label : i.label,
@@ -140,10 +140,13 @@ export function nextStep({ queue, uocNext, slot, weekly, uocOn = true } = {}) {
   const uocReview = items.find((i) => i.source === "uoc");
   if (uocReview) return fromItem(uocReview, "Repaso espaciado de UOC vencido: va primero para no perder lo ya estudiado.");
   const vocab = items.find((i) => i.source !== "uoc");
-  const lesson = Array.isArray(uocNext) ? uocNext[0] : null;
+  // El roadmap decide la materia del día; Academia, la lección concreta.
+  const preferred = Array.isArray(uocNext) ? uocNext.find((n) => preferCourses.includes(n.course)) : null;
+  const lesson = preferred || (Array.isArray(uocNext) ? uocNext[0] : null);
+  const roadmapNote = preferred ? " Es la materia que toca hoy en tu roadmap." : "";
   const fromLesson = (reason) => ({ kind: "uoc-lesson", title: lesson.lesson.title,
     detail: `${lesson.courseTitle || lesson.course} · ${lesson.inProgress ? "continúa" : "empieza"}`,
-    minutes: Number(lesson.lesson.estimated_minutes) || null, to: "/academia", search: { leccion: lesson.lesson.id }, reason });
+    minutes: Number(lesson.lesson.estimated_minutes) || null, to: "/academia", search: { leccion: lesson.lesson.id }, reason: reason + roadmapNote });
   if (goalMet) {
     if (vocab) return fromItem(vocab, "Objetivo semanal cumplido: hoy basta con el repaso.");
     return { kind: "done", title: "Objetivo semanal cumplido", detail: "No hay repasos pendientes.", minutes: null,
