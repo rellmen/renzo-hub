@@ -1090,25 +1090,19 @@
      "lessons": [
       {
        "id": "economia-b02-l01",
-       "title": "Balance: activo, pasivo y patrimonio neto",
+       "title": "Patrimonio, balance y cuenta de pérdidas y ganancias",
        "topic_scope": "activos, pasivos, patrimonio neto, partida doble, ciclo contable, balance, PyG, masas patrimoniales",
        "level": "N1",
        "status": "draft",
        "estimated_minutes": 35,
-       "prerequisites": [],
+       "prerequisites": [
+        "economia-b01-l01",
+        "economia-b00-l01"
+       ],
        "has_content": true,
-       "pilot": true,
-       "meets_standard": false,
-       "gaps": [
-        "faltan secciones 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11",
-        "teoría 0 palabras (<600)",
-        "0 ejemplos resueltos (<2)",
-        "sin bloque de error típico",
-        "sin ejercicio guiado con pista y solución",
-        "0 prácticas sin soluciones (<6)",
-        "0 preguntas de salida (<5)",
-        "sin marcador ::evaluacion"
-       ]
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     },
@@ -1163,25 +1157,19 @@
      "lessons": [
       {
        "id": "economia-b05-l01",
-       "title": "VAN: decidir si conviene una inversión",
+       "title": "Selección de inversiones: flujos de caja, payback, VAN y TIR",
        "topic_scope": "cashflows, payback, VAN, TIR e interpretación",
        "level": "N2",
        "status": "draft",
        "estimated_minutes": 35,
-       "prerequisites": [],
+       "prerequisites": [
+        "economia-b00-l01",
+        "matematicas-m03-l04"
+       ],
        "has_content": true,
-       "pilot": true,
-       "meets_standard": false,
-       "gaps": [
-        "faltan secciones 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11",
-        "teoría 0 palabras (<600)",
-        "0 ejemplos resueltos (<2)",
-        "sin bloque de error típico",
-        "sin ejercicio guiado con pista y solución",
-        "0 prácticas sin soluciones (<6)",
-        "0 preguntas de salida (<5)",
-        "sin marcador ::evaluacion"
-       ]
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     },
@@ -1333,25 +1321,18 @@
      "lessons": [
       {
        "id": "castellano-c02-l01",
-       "title": "Las clases de palabras sin memorizar a ciegas",
+       "title": "Categorías gramaticales, flexión verbal y formación de palabras",
        "topic_scope": "sustantivos/adjetivos/determinantes/pronombres, flexión verbal, personas/tiempos/modos, formación de palabras: derivación/composición",
        "level": "N1",
        "status": "draft",
        "estimated_minutes": 35,
-       "prerequisites": [],
+       "prerequisites": [
+        "castellano-c01-l01"
+       ],
        "has_content": true,
-       "pilot": true,
-       "meets_standard": false,
-       "gaps": [
-        "faltan secciones 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11",
-        "teoría 0 palabras (<600)",
-        "0 ejemplos resueltos (<2)",
-        "sin bloque de error típico",
-        "sin ejercicio guiado con pista y solución",
-        "0 prácticas sin soluciones (<6)",
-        "0 preguntas de salida (<5)",
-        "sin marcador ::evaluacion"
-       ]
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     },
@@ -1460,25 +1441,19 @@
      "lessons": [
       {
        "id": "castellano-c06-l01",
-       "title": "Redacción de 50–80 palabras orientada a examen",
+       "title": "Comprender un texto y escribir una respuesta de 50 a 80 palabras",
        "topic_scope": "propósito del autor, inferencias, textos de 250 palabras, paráfrasis, reescritura, 50–80 palabras, revisión lingüística",
        "level": "N2",
        "status": "draft",
        "estimated_minutes": 35,
-       "prerequisites": [],
+       "prerequisites": [
+        "castellano-c01-l01",
+        "comentario-t00-l01"
+       ],
        "has_content": true,
-       "pilot": true,
-       "meets_standard": false,
-       "gaps": [
-        "faltan secciones 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11",
-        "teoría 0 palabras (<600)",
-        "0 ejemplos resueltos (<2)",
-        "sin bloque de error típico",
-        "sin ejercicio guiado con pista y solución",
-        "0 prácticas sin soluciones (<6)",
-        "0 preguntas de salida (<5)",
-        "sin marcador ::evaluacion"
-       ]
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     },
@@ -1669,25 +1644,19 @@
      "lessons": [
       {
        "id": "comentario-t05-l01",
-       "title": "Construir una argumentación de 150–200 palabras",
+       "title": "Redacción argumentativa de 150 a 200 palabras",
        "topic_scope": "esquema previo, cohesión, conectores, revisión ortográfica, cronometraje y rúbrica 4 puntos",
        "level": "N2",
        "status": "draft",
        "estimated_minutes": 35,
-       "prerequisites": [],
+       "prerequisites": [
+        "comentario-t03-l01",
+        "comentario-t04-l01"
+       ],
        "has_content": true,
-       "pilot": true,
-       "meets_standard": false,
-       "gaps": [
-        "faltan secciones 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11",
-        "teoría 0 palabras (<600)",
-        "0 ejemplos resueltos (<2)",
-        "sin bloque de error típico",
-        "sin ejercicio guiado con pista y solución",
-        "0 prácticas sin soluciones (<6)",
-        "0 preguntas de salida (<5)",
-        "sin marcador ::evaluacion"
-       ]
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     },
@@ -1790,25 +1759,18 @@
      "lessons": [
       {
        "id": "ingles-e01-l01",
-       "title": "Present Simple vs Present Continuous",
+       "title": "A2 base: presente simple y continuo, pasado simple, futuro, modales y comparativos",
        "topic_scope": "present simple/continuous, past simple, futuro básico, modales, comparativos, preposiciones, conectores",
        "level": "N1",
        "status": "draft",
        "estimated_minutes": 35,
-       "prerequisites": [],
+       "prerequisites": [
+        "ingles-e00-l01"
+       ],
        "has_content": true,
-       "pilot": true,
-       "meets_standard": false,
-       "gaps": [
-        "faltan secciones 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11",
-        "teoría 0 palabras (<600)",
-        "0 ejemplos resueltos (<2)",
-        "sin bloque de error típico",
-        "sin ejercicio guiado con pista y solución",
-        "0 prácticas sin soluciones (<6)",
-        "0 preguntas de salida (<5)",
-        "sin marcador ::evaluacion"
-       ]
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     },
@@ -1885,25 +1847,19 @@
      "lessons": [
       {
        "id": "ingles-e05-l01",
-       "title": "Writing a strong 40–60 word answer",
+       "title": "Respuestas abiertas de 40 a 60 palabras en inglés",
        "topic_scope": "desarrollar 40–60 palabras con tesis, justificación y evidencia del texto, evitar traducción literal, revisar concordancia/tiempos",
        "level": "N2",
        "status": "draft",
        "estimated_minutes": 35,
-       "prerequisites": [],
+       "prerequisites": [
+        "ingles-e03-l01",
+        "ingles-e01-l01"
+       ],
        "has_content": true,
-       "pilot": true,
-       "meets_standard": false,
-       "gaps": [
-        "faltan secciones 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11",
-        "teoría 0 palabras (<600)",
-        "0 ejemplos resueltos (<2)",
-        "sin bloque de error típico",
-        "sin ejercicio guiado con pista y solución",
-        "0 prácticas sin soluciones (<6)",
-        "0 preguntas de salida (<5)",
-        "sin marcador ::evaluacion"
-       ]
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     },
@@ -2460,7 +2416,7 @@
    "published": 0
   },
   "lessons_total": 120,
-  "meets_standard": 20,
+  "meets_standard": 27,
   "courses": {
    "matematicas": {
     "total": 56,
@@ -2477,7 +2433,7 @@
    "economia": {
     "total": 10,
     "with_content": 3,
-    "meets_standard": 1,
+    "meets_standard": 3,
     "by_status": {
      "planned": 7,
      "draft": 3,
@@ -2489,7 +2445,7 @@
    "castellano": {
     "total": 11,
     "with_content": 4,
-    "meets_standard": 2,
+    "meets_standard": 4,
     "by_status": {
      "planned": 7,
      "draft": 4,
@@ -2501,7 +2457,7 @@
    "comentario": {
     "total": 10,
     "with_content": 3,
-    "meets_standard": 2,
+    "meets_standard": 3,
     "by_status": {
      "planned": 7,
      "draft": 3,
@@ -2513,7 +2469,7 @@
    "ingles": {
     "total": 10,
     "with_content": 4,
-    "meets_standard": 2,
+    "meets_standard": 4,
     "by_status": {
      "planned": 6,
      "draft": 4,
@@ -2535,8 +2491,8 @@
     }
    }
   },
-  "questions_total": 156,
-  "exit_questions": 100,
+  "questions_total": 191,
+  "exit_questions": 135,
   "bank_questions": 56
  }
 }

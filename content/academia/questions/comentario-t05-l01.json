@@ -1,0 +1,40 @@
+{
+  "lesson_id": "comentario-t05-l01",
+  "questions": [
+    {
+      "id": "t05l01-x1", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["cohesion"],
+      "prompt_md": "¿Qué conector introduce una **consecuencia**?",
+      "choices": [{"id": "a", "text": "*no obstante*"}, {"id": "b", "text": "*por consiguiente*"}, {"id": "c", "text": "*asimismo*"}, {"id": "d", "text": "*puesto que*"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "*por consiguiente* = consecuencia. *no obstante*: contraste; *asimismo*: adición; *puesto que*: causa."
+    },
+    {
+      "id": "t05l01-x2", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["essay_planning"],
+      "prompt_md": "En una redacción de 150–200 palabras, ¿dónde conviene situar la tesis?",
+      "choices": [{"id": "a", "text": "Al final de la conclusión, como sorpresa"}, {"id": "b", "text": "En la introducción, de forma clara"}, {"id": "c", "text": "No hace falta tesis si los argumentos son buenos"}, {"id": "d", "text": "En el título"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "La introducción anuncia la tesis; la conclusión la reformula con otras palabras."
+    },
+    {
+      "id": "t05l01-x3", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["essay_planning"],
+      "prompt_md": "¿Qué párrafo es una **refutación** bien construida?",
+      "choices": [{"id": "a", "text": "«Todo el mundo sabe que tengo razón.»"}, {"id": "b", "text": "«Es cierto que reducir la jornada puede encarecer algunos servicios; sin embargo, el ahorro en bajas por fatiga compensa parte de ese coste.»"}, {"id": "c", "text": "«Hay quien piensa otra cosa, pero se equivoca.»"}, {"id": "d", "text": "«¿Acaso alguien puede estar en contra?»"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Reconoce la objeción y la contesta con una razón concreta. Las demás descalifican sin argumentar."
+    },
+    {
+      "id": "t05l01-x4", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["essay_revision"],
+      "prompt_md": "¿Qué oración contiene un error que restaría puntos?",
+      "choices": [{"id": "a", "text": "Los trabajadores, que hacen turnos de noche, duermen peor."}, {"id": "b", "text": "Considero que esta medida es necesaria."}, {"id": "c", "text": "Las empresas, deberían escuchar a su plantilla."}, {"id": "d", "text": "Por tanto, conviene implantarla de forma gradual."}],
+      "key": {"correct_choice_id": "c"},
+      "explanation_md": "No se pone coma entre el sujeto (*Las empresas*) y el verbo (*deberían*). En (a) las comas delimitan una explicativa y son correctas."
+    },
+    {
+      "id": "t05l01-x5", "kind": "multiple_choice", "difficulty": 3, "skill_ids": ["essay_revision", "essay_planning"],
+      "prompt_md": "Tu borrador tiene 132 palabras: introducción, un argumento largo y conclusión. ¿Cuál es la mejor corrección?",
+      "choices": [{"id": "a", "text": "Repetir la tesis con otras palabras en cada párrafo"}, {"id": "b", "text": "Añadir un segundo argumento distinto con su ejemplo"}, {"id": "c", "text": "Alargar la introducción con datos generales del tema"}, {"id": "d", "text": "Dejarlo así: lo importante son las ideas"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Añadir un argumento nuevo mejora la argumentación y sitúa el texto en el intervalo de 150–200 palabras; rellenar o repetir no suma puntos."
+    }
+  ]
+}

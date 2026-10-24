@@ -1,0 +1,38 @@
+{
+  "lesson_id": "economia-b02-l01",
+  "questions": [
+    {
+      "id": "b02l01-x1", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["balance_sheet"],
+      "prompt_md": "Un préstamo bancario que vence dentro de 4 años se clasifica como:",
+      "choices": [{"id": "a", "text": "Activo no corriente"}, {"id": "b", "text": "Pasivo corriente"}, {"id": "c", "text": "Pasivo no corriente"}, {"id": "d", "text": "Patrimonio neto"}],
+      "key": {"correct_choice_id": "c"},
+      "explanation_md": "Es una deuda con terceros (pasivo) que vence en más de un año (no corriente)."
+    },
+    {
+      "id": "b02l01-x2", "kind": "numeric", "difficulty": 1, "skill_ids": ["balance_sheet"],
+      "prompt_md": "Una empresa tiene un activo de 250.000 € y un patrimonio neto de 140.000 €. ¿Cuánto es su pasivo (en euros)?", "unit": "€",
+      "key": {"value": 110000, "tolerance": 0},
+      "explanation_md": "Pasivo = Activo − PN = 250.000 − 140.000 = 110.000 €."
+    },
+    {
+      "id": "b02l01-x3", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["balance_sheet"],
+      "prompt_md": "¿Dónde aparece la amortización acumulada del inmovilizado en el balance?",
+      "choices": [{"id": "a", "text": "En el pasivo corriente"}, {"id": "b", "text": "Restando en el activo no corriente"}, {"id": "c", "text": "En el patrimonio neto"}, {"id": "d", "text": "Solo en la cuenta de pérdidas y ganancias"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Es una corrección de valor del inmovilizado: se resta en el activo no corriente. La dotación anual sí es un gasto en la PyG."
+    },
+    {
+      "id": "b02l01-x4", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["double_entry"],
+      "prompt_md": "Un cliente paga por transferencia una factura de 2.000 € que debía. ¿Qué ocurre?",
+      "choices": [{"id": "a", "text": "Aumenta el activo y aumenta el pasivo"}, {"id": "b", "text": "Aumenta bancos y disminuye clientes: el activo total no cambia"}, {"id": "c", "text": "Aumenta el patrimonio neto por un ingreso"}, {"id": "d", "text": "Disminuye el pasivo"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Es un cobro, no un ingreso nuevo: un derecho (clientes) se convierte en dinero (bancos). Bancos al debe, clientes al haber."
+    },
+    {
+      "id": "b02l01-x5", "kind": "numeric", "difficulty": 3, "skill_ids": ["income_statement"],
+      "prompt_md": "Ventas 300.000 €, gastos de explotación 240.000 €, gastos financieros 10.000 € e impuesto sobre beneficios del 25 %. ¿Cuál es el resultado neto del ejercicio (en euros)?", "unit": "€",
+      "key": {"value": 37500, "tolerance": 0},
+      "explanation_md": "BAII 60.000; BAI 50.000; impuesto 12.500; resultado neto 37.500 €."
+    }
+  ]
+}

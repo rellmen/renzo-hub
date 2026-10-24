@@ -135,7 +135,8 @@ export function build(){
   const kitQs=JSON.parse(readFileSync(join(SRC,"kit","preguntas_iniciales.json"),"utf8")).questions;
   const profiles=JSON.parse(readFileSync(join(SRC,"exam-profiles.json"),"utf8"));
   const lessonFiles={};
-  for(const dir of ["lessons","pilot"])for(const f of readdirSync(join(SRC,dir)).filter(f=>f.endsWith(".md"))){
+  // pilot/ guarda borradores del kit sin reescribir; puede no existir cuando todos están reescritos en lessons/.
+  for(const dir of ["lessons","pilot"])for(const f of (existsSync(join(SRC,dir))?readdirSync(join(SRC,dir)):[]).filter(f=>f.endsWith(".md"))){
     const id=f.replace(/\.md$/,"");
     if(lessonFiles[id])fail(`lección duplicada ${id}`);
     lessonFiles[id]={dir,text:readFileSync(join(SRC,dir,f),"utf8")};
