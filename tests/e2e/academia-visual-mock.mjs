@@ -28,7 +28,7 @@ const cors={'access-control-allow-origin':origin,'access-control-allow-credentia
 const browser=await engine.launch();
 const errors=[];
 try{
-  for(const [label,opts] of [['desktop',{viewport:{width:1440,height:1000}}],['iphone',{...devices['iPhone 13'],...(engine===chromium?{defaultBrowserType:undefined}:{})}]]){
+  for(const [label,opts] of [['desktop',{viewport:{width:1440,height:1000}}],['iphone',{...devices['iPhone 13'],...(engine===chromium?{defaultBrowserType:undefined}:{})}],['ipad',{...devices['iPad (gen 7)'],...(engine===chromium?{defaultBrowserType:undefined}:{})}]]){
     const ctx=await browser.newContext(opts);const page=await ctx.newPage();
     page.on('pageerror',e=>errors.push(label+': '+e.message));
     await ctx.route('https://ci-placeholder.supabase.co/**',async route=>{
@@ -72,6 +72,10 @@ try{
     await page.getByText('Correcto').first().waitFor();
     void first;
     await page.screenshot({path:`${shots}/${label}-quiz.png`});
+    // Lecciones nuevas: matemáticas en bloque ($$ cases $$) y texto citado largo (lectura de Castellano).
+    await snap('/academia?leccion=matematicas-m08-l01','leccion-m08','Límites intuitivos y continuidad');
+    assert.ok(await page.locator('.katex-display').count()>=1,`${label}: falta la fórmula en bloque (cases) en M08`);
+    await snap('/academia?leccion=castellano-c06-l01','leccion-c06','Comprender un texto');
     await snap('/academia?v=examenes','examenes','Simulacros entregados');
     await snap('/academia?v=resultados','resultados','Cobertura real del contenido');
     await snap('/academia?v=practicar','practicar','Diagnóstico completo');

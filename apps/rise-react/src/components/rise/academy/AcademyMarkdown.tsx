@@ -56,7 +56,7 @@ function BlockView({b,evaluation,onSection}:{b:Block;evaluation?:ReactNode|undef
       const items=b.items.map((it,k)=><li key={k} className="pl-1"><InlineMd text={it}/></li>);
       return b.ordered?<ol start={b.start} className="list-decimal space-y-1.5 pl-6">{items}</ol>:<ul className="list-disc space-y-1.5 pl-6">{items}</ul>;
     }
-    case "quote":return <blockquote className="rounded-xl border-l-2 border-learn/60 bg-foreground/[0.03] px-4 py-3 italic text-platinum/85">{b.children.map((c,k)=><BlockView key={k} b={c}/>)}</blockquote>;
+    case "quote":return <blockquote className="space-y-3 rounded-xl border-l-2 border-learn/60 bg-foreground/[0.03] px-4 py-3 italic text-platinum/85">{b.children.map((c,k)=><BlockView key={k} b={c}/>)}</blockquote>;
     case "table":return <div className="overflow-x-auto rounded-xl border border-hairline">
       <table className="w-full min-w-[420px] text-left text-sm">
         {b.head&&<thead className="bg-foreground/[0.05]"><tr>{b.head.map((h,k)=><th key={k} scope="col" className="px-3 py-2 font-semibold text-foreground"><InlineMd text={h}/></th>)}</tr></thead>}
