@@ -1,6 +1,6 @@
 # Academia +25 · Estado real y próximos pasos
 
-Actualizado: 24 octubre 2026 (noche, 3.ª tanda) · Rama `feature/academia-uoc25` · **No terminado.** Ninguna lección está publicada.
+Actualizado: 24 octubre 2026 (noche, 4.ª tanda: simulacros en la app) · Rama `feature/academia-uoc25` · **No terminado.** Ninguna lección está publicada.
 
 ## Decisión de ruta (24-10-2026, verificada en la web oficial de la UOC, convocatoria 2026)
 
@@ -44,12 +44,12 @@ M10, C07, T06 y E06 usan el formato de referencia 2026 de `exam-profiles.json` (
 ## Pendiente, en este orden
 
 1. **Física: 19 lecciones** (F00, F01-L02..L04, F02-L02..L05, F03-L02..L05, F04–F07, F09, F10, F11). Prioridad por frecuencia en los modelos 2024–2025: cinemática y dinámica, magnetismo e inducción, unidades y errores, MHS y ondas; luego gravitación y óptica. F10 debe incluir la regla de unidades (−0,5) y los 180 min de la fase específica.
-2. Simulacros: **serie 1 hecha** (24-10, `content/academia/simulacros/serie1-enunciados.md`; soluciones y rúbricas solo en la bóveda, no en el repositorio ni en la app). Pendiente: serie 2 y, si Renzo lo pide, integrarlos en la app con corrección en servidor.
+2. Simulacros: **serie 1 en la app** (`ebdb59b`): 5 materias, 110 preguntas, cronómetro del servidor, corrección automática de lo objetivo (penalizaciones oficiales, unidades en Física, tildes y formas verbales, regla de palabras) y autocorrección con rúbrica de lo abierto. Migración `20261024200000_academy_mocks` aplicada **solo en staging** (historial `20261024171227`), semilla de 110 claves con checksum idéntico al local, prueba en transacción revertida (Matemáticas 4,5 automático y 7,5 total; Física 5,75 con unidad omitida penalizada) y 0 filas residuales. Soluciones y rúbricas solo en la base de datos (se devuelven al entregar), nunca en el bundle. Enunciados en `content/academia/mocks/`; versión PDF en la bóveda. Pendiente: serie 2.
 3. Hecho 24-10 (`e0a9aba`): Física por defecto, Economía complementaria, perfiles calibrados (test Matemáticas −0,25, unidades Física −0,5, Comentario −0,5 fuera de 150–200 palabras, Castellano 2.1 + 2.2), tiempos UOC en M10-L01, T06-L01 y C07-L01.
 4. **Revisión humana** de las lecciones en staging (botones de revisión editorial).
 5. **QA con sesión real** (cuenta A y B) y en iPhone físico.
 6. Confirmar la convocatoria 2027 de la UOC cuando se publique.
-7. Solo después: autorización de Renzo para producción.
+7. Producción: Renzo pidió (24-10) enviar a producción «cuando todo esté perfecto». Requiere: fusionar #158, aplicar en producción las migraciones `academy_foundation` y `academy_mocks` con sus semillas, y activar `VITE_ENABLE_ACADEMY` en el proyecto de producción. Pendiente de su confirmación expresa con los puntos 1, 4 y 5 abiertos.
 
 ## Cómo añadir una lección sin tocar código
 
