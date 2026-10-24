@@ -1,0 +1,40 @@
+{
+  "lesson_id": "ingles-e03-l01",
+  "questions": [
+    {
+      "id": "e03l01-x1", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["reading_gist"],
+      "prompt_md": "Text: *Remote work has become common in many offices. Employees save time on commuting, but some say they feel isolated. Companies are now organising one team day per week.* — What is the text mainly about?",
+      "choices": [{"id": "a", "text": "Why commuting is expensive"}, {"id": "b", "text": "Advantages, a disadvantage and a response related to remote work"}, {"id": "c", "text": "How to organise a team day"}, {"id": "d", "text": "Why offices are closing"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Recoge las tres partes: ventaja (tiempo), problema (aislamiento) y reacción de las empresas."
+    },
+    {
+      "id": "e03l01-x2", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["distractor_analysis"],
+      "prompt_md": "Same text. True, False or Not mentioned: *All employees feel isolated when they work from home.*",
+      "choices": [{"id": "a", "text": "True"}, {"id": "b", "text": "False"}, {"id": "c", "text": "Not mentioned"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "El texto dice *some*, no *all*: la opción exagera y contradice el texto."
+    },
+    {
+      "id": "e03l01-x3", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["distractor_analysis"],
+      "prompt_md": "Same text. True, False or Not mentioned: *Remote workers are more productive than office workers.*",
+      "choices": [{"id": "a", "text": "True"}, {"id": "b", "text": "False"}, {"id": "c", "text": "Not mentioned"}],
+      "key": {"correct_choice_id": "c"},
+      "explanation_md": "La productividad no aparece en el texto. Suena razonable, pero no hay línea que lo justifique."
+    },
+    {
+      "id": "e03l01-x4", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["reading_scanning"],
+      "prompt_md": "Text: *The library opened a study room in 2021. It is open until midnight, and students can book it online.* — What does *it* refer to in the second sentence?",
+      "choices": [{"id": "a", "text": "The library"}, {"id": "b", "text": "The study room"}, {"id": "c", "text": "2021"}, {"id": "d", "text": "Midnight"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Lo que se reserva en línea y abre hasta medianoche es la sala de estudio, el sustantivo más cercano y coherente."
+    },
+    {
+      "id": "e03l01-x5", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["reading_scanning"],
+      "prompt_md": "Which word is the best paraphrase of *decreased* in *Errors decreased*?",
+      "choices": [{"id": "a", "text": "disappeared"}, {"id": "b", "text": "fell"}, {"id": "c", "text": "increased"}, {"id": "d", "text": "stopped"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "*Decrease* = disminuir: *fell* (*went down*). *Disappeared* y *stopped* exageran."
+    }
+  ]
+}

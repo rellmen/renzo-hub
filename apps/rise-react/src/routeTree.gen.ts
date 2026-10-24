@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AcademiaRouteImport } from './routes/academia'
 import { Route as AgentesRouteImport } from './routes/agentes'
 import { Route as AjustesRouteImport } from './routes/ajustes'
 import { Route as AppsRouteImport } from './routes/apps'
@@ -35,6 +36,11 @@ import { Route as TurnosRouteImport } from './routes/turnos'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AcademiaRoute = AcademiaRouteImport.update({
+  id: '/academia',
+  path: '/academia',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AgentesRoute = AgentesRouteImport.update({
@@ -145,6 +151,7 @@ const TurnosRoute = TurnosRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/academia': typeof AcademiaRoute
   '/agentes': typeof AgentesRoute
   '/ajustes': typeof AjustesRoute
   '/apps': typeof AppsRoute
@@ -169,6 +176,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/academia': typeof AcademiaRoute
   '/agentes': typeof AgentesRoute
   '/ajustes': typeof AjustesRoute
   '/apps': typeof AppsRoute
@@ -194,6 +202,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/academia': typeof AcademiaRoute
   '/agentes': typeof AgentesRoute
   '/ajustes': typeof AjustesRoute
   '/apps': typeof AppsRoute
@@ -220,6 +229,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/academia'
     | '/agentes'
     | '/ajustes'
     | '/apps'
@@ -244,6 +254,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/academia'
     | '/agentes'
     | '/ajustes'
     | '/apps'
@@ -268,6 +279,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/academia'
     | '/agentes'
     | '/ajustes'
     | '/apps'
@@ -293,6 +305,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AcademiaRoute: typeof AcademiaRoute
   AgentesRoute: typeof AgentesRoute
   AjustesRoute: typeof AjustesRoute
   AppsRoute: typeof AppsRoute
@@ -323,6 +336,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/academia': {
+      id: '/academia'
+      path: '/academia'
+      fullPath: '/academia'
+      preLoaderRoute: typeof AcademiaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/agentes': {
@@ -477,6 +497,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AcademiaRoute: AcademiaRoute,
   AgentesRoute: AgentesRoute,
   AjustesRoute: AjustesRoute,
   AppsRoute: AppsRoute,

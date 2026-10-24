@@ -5,7 +5,7 @@ import {chromium,webkit,devices} from 'playwright';
 import assert from 'node:assert/strict';
 
 const origin=process.env.REACT_QA_BASE_URL||'http://127.0.0.1:4174';
-const routes=['/','/ares','/aprender','/gym','/dinero','/gastos','/piel','/proyectos','/notas','/body','/food','/ajustes','/nominas','/turnos','/migracion','/apps','/quest','/news','/agentes','/career','/car','/inbox'];
+const routes=['/','/ares','/aprender','/gym','/dinero','/gastos','/piel','/proyectos','/notas','/body','/food','/ajustes','/nominas','/turnos','/migracion','/apps','/quest','/news','/agentes','/career','/car','/inbox','/academia','/academia?v=cursos','/academia?leccion=matematicas-m00-l01'];
 const uid='22222222-2222-4222-8222-222222222222';
 const email='qa-nocturne@example.invalid';
 const user={id:uid,aud:'authenticated',role:'authenticated',email,

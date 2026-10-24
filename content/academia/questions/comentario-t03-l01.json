@@ -1,0 +1,40 @@
+{
+  "lesson_id": "comentario-t03-l01",
+  "questions": [
+    {
+      "id": "t03l01-x1", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["summary"],
+      "prompt_md": "¿Qué **no** debe aparecer en un resumen?",
+      "choices": [{"id": "a", "text": "La tesis del autor"}, {"id": "b", "text": "Conectores que muestren la relación entre ideas"}, {"id": "c", "text": "La valoración personal de quien resume"}, {"id": "d", "text": "Las ideas principales"}],
+      "key": {"correct_choice_id": "c"},
+      "explanation_md": "El resumen es objetivo: la opinión va en otras preguntas."
+    },
+    {
+      "id": "t03l01-x2", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["summary"],
+      "prompt_md": "Texto: «Los coches eléctricos reducen las emisiones locales, siempre que la electricidad proceda de fuentes limpias». ¿Qué resumen es fiel?",
+      "choices": [{"id": "a", "text": "Los coches eléctricos no contaminan."}, {"id": "b", "text": "El beneficio ambiental del coche eléctrico depende del origen de la electricidad."}, {"id": "c", "text": "Las fuentes limpias son caras."}, {"id": "d", "text": "Hay que prohibir los coches de gasolina."}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Conserva la condición (*siempre que*). (a) la convierte en afirmación absoluta; (c) y (d) añaden información."
+    },
+    {
+      "id": "t03l01-x3", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["paraphrase"],
+      "prompt_md": "Un hiperónimo adecuado para «sillas, mesas y estanterías» es:",
+      "choices": [{"id": "a", "text": "objetos de madera"}, {"id": "b", "text": "mobiliario"}, {"id": "c", "text": "sillas"}, {"id": "d", "text": "decoración"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "*Mobiliario* engloba las tres sin añadir rasgos que el texto no dice (no sabemos si son de madera)."
+    },
+    {
+      "id": "t03l01-x4", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["headline"],
+      "prompt_md": "Para un texto que defiende que la jornada de cuatro días mejora la productividad solo si se reorganizan las tareas, ¿qué título es más preciso?",
+      "choices": [{"id": "a", "text": "El trabajo"}, {"id": "b", "text": "Semana de cuatro días: productiva solo con nueva organización"}, {"id": "c", "text": "¡Viva la semana de cuatro días!"}, {"id": "d", "text": "Productividad"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Recoge el tema concreto y la condición de la tesis. (a) y (d) son asuntos; (c) es una opinión exagerada."
+    },
+    {
+      "id": "t03l01-x5", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["summary"],
+      "prompt_md": "Si el texto original tiene unas 160 palabras y la pregunta no indica extensión, un resumen razonable tendría aproximadamente…",
+      "choices": [{"id": "a", "text": "10 palabras"}, {"id": "b", "text": "40–55 palabras"}, {"id": "c", "text": "150 palabras"}, {"id": "d", "text": "200 palabras"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Entre un cuarto y un tercio del original (40–53). Diez palabras pierden información; 150 casi lo repite."
+    }
+  ]
+}

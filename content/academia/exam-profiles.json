@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0",
+  "year": 2026,
+  "purpose": "Referencias de formato contrastadas; NO usar como rúbricas 2027 sin revalidación",
+  "profiles": [
+    {
+      "id": "math_2026_cat_ref", "course": "matematicas", "scale": 10,
+      "sections": [
+        {"label": "cuestiones", "available": 6, "choose": 4, "points_each": 1.5},
+        {"label": "problemas", "available": 2, "choose": 1, "points_each": 4}
+      ],
+      "grading": "Puntuar razonamiento y pasos parciales; no exigir respuesta final perfecta para todo crédito.",
+      "official_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+    },
+    {
+      "id": "physics_2026_cat_ref", "course": "fisica", "scale": 10,
+      "sections": [
+        {"label": "cuestiones", "available": 6, "choose": 4, "points_each": 1.5},
+        {"label": "problemas", "available": 2, "choose": 1, "points_each": 4}
+      ],
+      "grading": "Comprobar magnitudes, unidades, diagramas, fórmulas, despeje y razonamiento.",
+      "official_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
+    },
+    {
+      "id": "castellano_2026_cat_ref", "course": "castellano", "scale": 10,
+      "sections": [
+        {"label": "comprensión", "points": 3, "items": 6},
+        {"label": "expresión", "points": 4, "tasks": ["respuesta breve", "redacción de 50 a 80 palabras"]},
+        {"label": "reflexión lingüística", "points": 3, "items": 6}
+      ],
+      "penalties": {"wrong_four_option_mc_points": -0.16, "writing_error_points": -0.1},
+      "official_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacastellana/"
+    },
+    {
+      "id": "comment_2026_cat_ref", "course": "comentario", "scale": 10,
+      "sections": [
+        {"label": "comprensión", "points": 6, "blocks": [{"count": 6, "points": 3},{"count": 3, "points": 3}]},
+        {"label": "redacción", "points": 4, "words": [150,200], "options": 2, "choose": 1}
+      ],
+      "penalties": {"wrong_four_option_mc_points": -0.16, "language_error_points": -0.1},
+      "official_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/comentari_text/"
+    },
+    {
+      "id": "english_2026_cat_ref", "course": "ingles", "scale": 10,
+      "sections": [
+        {"label": "objetivas", "count": 8, "points_each": 1},
+        {"label": "respuesta abierta", "count": 2, "points_each": 1, "words_each": [40,60]}
+      ],
+      "reading_words": [250,300],
+      "penalties": {"wrong_four_option_mc_points": -0.33, "language_error_points": -0.05},
+      "official_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguaestrangera/"
+    },
+    {
+      "id": "economia_2026_cat_ref", "course": "economia", "scale": 10,
+      "sections": [{"label": "ejercicios", "available": 5, "choose": 4, "points_each": 2.5}],
+      "note": "Cuatro ejercicios por bloques + quinto test; se eligen 4 de 5.",
+      "penalties": {"test_wrong_points": -0.15},
+      "official_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/economia_empresa/"
+    }
+  ],
+  "global_notice": "Las reglas de inscripción, elección de asignaturas y media para UOC en castellano 2027 deben confirmarse con su documentación específica."
+}

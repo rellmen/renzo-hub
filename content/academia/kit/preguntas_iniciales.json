@@ -1,0 +1,1671 @@
+{
+  "schema_version": "1.0",
+  "editorial_status": "draft",
+  "copyright": "Originales de Nodalys Academy, no extractos oficiales",
+  "questions": [
+    {
+      "id": "mat-001",
+      "course": "matematicas",
+      "lesson_id": "matematicas-m00-l01",
+      "kind": "multiple_choice",
+      "difficulty": 1,
+      "skill_ids": [
+        "operation_order"
+      ],
+      "prompt_md": "Calcula $7+2\\times5$.",
+      "choices": [
+        {
+          "id": "a",
+          "text": "45"
+        },
+        {
+          "id": "b",
+          "text": "17"
+        },
+        {
+          "id": "c",
+          "text": "35"
+        },
+        {
+          "id": "d",
+          "text": "19"
+        }
+      ],
+      "grading_private": {
+        "correct_choice_id": "b",
+        "points": 1,
+        "explanation_md": "Primero 2×5=10; después 7+10=17."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "mat-002",
+      "course": "matematicas",
+      "lesson_id": "matematicas-m00-l01",
+      "kind": "multiple_choice",
+      "difficulty": 1,
+      "skill_ids": [
+        "signed_powers"
+      ],
+      "prompt_md": "¿Cuánto vale $(-3)^2$?",
+      "choices": [
+        {
+          "id": "a",
+          "text": "-9"
+        },
+        {
+          "id": "b",
+          "text": "-6"
+        },
+        {
+          "id": "c",
+          "text": "6"
+        },
+        {
+          "id": "d",
+          "text": "9"
+        }
+      ],
+      "grading_private": {
+        "correct_choice_id": "d",
+        "points": 1,
+        "explanation_md": "La base es -3 y el cuadrado da 9."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "mat-003",
+      "course": "matematicas",
+      "lesson_id": "matematicas-m00-l02",
+      "kind": "multiple_choice",
+      "difficulty": 1,
+      "skill_ids": [
+        "fraction_add"
+      ],
+      "prompt_md": "Calcula $1/2+1/3$.",
+      "choices": [
+        {
+          "id": "a",
+          "text": "2/5"
+        },
+        {
+          "id": "b",
+          "text": "5/6"
+        },
+        {
+          "id": "c",
+          "text": "1/6"
+        },
+        {
+          "id": "d",
+          "text": "3/5"
+        }
+      ],
+      "grading_private": {
+        "correct_choice_id": "b",
+        "points": 1,
+        "explanation_md": "mcm(2,3)=6; 3/6+2/6=5/6."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "mat-004",
+      "course": "matematicas",
+      "lesson_id": "matematicas-m00-l02",
+      "kind": "multiple_choice",
+      "difficulty": 1,
+      "skill_ids": [
+        "fraction_div"
+      ],
+      "prompt_md": "¿Cuánto vale $(3/4)\\div(9/8)$?",
+      "choices": [
+        {
+          "id": "a",
+          "text": "2/3"
+        },
+        {
+          "id": "b",
+          "text": "27/32"
+        },
+        {
+          "id": "c",
+          "text": "3/2"
+        },
+        {
+          "id": "d",
+          "text": "1/6"
+        }
+      ],
+      "grading_private": {
+        "correct_choice_id": "a",
+        "points": 1,
+        "explanation_md": "Multiplica por recíproco: (3/4)(8/9)=2/3."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "mat-005",
+      "course": "matematicas",
+      "lesson_id": "matematicas-m01-l01",
+      "kind": "numeric",
+      "difficulty": 1,
+      "skill_ids": [
+        "linear_equation"
+      ],
+      "prompt_md": "Resuelve $3x+5=20$. Indica x.",
+      "grading_private": {
+        "correct_value": 5,
+        "unit": "",
+        "absolute_tolerance": 0.001,
+        "points": 1,
+        "explanation_md": "3x=15 y x=5."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "mat-006",
+      "course": "matematicas",
+      "lesson_id": "matematicas-m01-l01",
+      "kind": "numeric",
+      "difficulty": 2,
+      "skill_ids": [
+        "linear_equation"
+      ],
+      "prompt_md": "Resuelve $4(x+1)=2x+10$. Indica x.",
+      "grading_private": {
+        "correct_value": 3,
+        "unit": "",
+        "absolute_tolerance": 0.001,
+        "points": 1,
+        "explanation_md": "4x+4=2x+10 ⇒ 2x=6 ⇒ x=3."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "mat-007",
+      "course": "matematicas",
+      "lesson_id": "matematicas-m02-l01",
+      "kind": "multiple_choice",
+      "difficulty": 2,
+      "skill_ids": [
+        "quadratic_equation"
+      ],
+      "prompt_md": "Raíces de $x^2-5x+6=0$.",
+      "choices": [
+        {
+          "id": "a",
+          "text": "-2 y -3"
+        },
+        {
+          "id": "b",
+          "text": "2 y 3"
+        },
+        {
+          "id": "c",
+          "text": "1 y 6"
+        },
+        {
+          "id": "d",
+          "text": "0 y 5"
+        }
+      ],
+      "grading_private": {
+        "correct_choice_id": "b",
+        "points": 1,
+        "explanation_md": "Factoriza (x−2)(x−3)=0."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "mat-008",
+      "course": "matematicas",
+      "lesson_id": "matematicas-m02-l01",
+      "kind": "multiple_choice",
+      "difficulty": 2,
+      "skill_ids": [
+        "quadratic_discriminant"
+      ],
+      "prompt_md": "Si el discriminante de una cuadrática es negativo, ¿cuántas raíces reales hay?",
+      "choices": [
+        {
+          "id": "a",
+          "text": "Dos"
+        },
+        {
+          "id": "b",
+          "text": "Una doble"
+        },
+        {
+          "id": "c",
+          "text": "Ninguna"
+        },
+        {
+          "id": "d",
+          "text": "Infinitas"
+        }
+      ],
+      "grading_private": {
+        "correct_choice_id": "c",
+        "points": 1,
+        "explanation_md": "Raíz cuadrada de número negativo no es real."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "mat-009",
+      "course": "matematicas",
+      "lesson_id": "matematicas-m04-l01",
+      "kind": "multiple_choice",
+      "difficulty": 2,
+      "skill_ids": [
+        "function_domain"
+      ],
+      "prompt_md": "¿Cuál es el dominio real de $\\sqrt{x-5}$?",
+      "choices": [
+        {
+          "id": "a",
+          "text": "x<5"
+        },
+        {
+          "id": "b",
+          "text": "x≤5"
+        },
+        {
+          "id": "c",
+          "text": "x>5"
+        },
+        {
+          "id": "d",
+          "text": "x≥5"
+        }
+      ],
+      "grading_private": {
+        "correct_choice_id": "d",
+        "points": 1,
+        "explanation_md": "Radicando x−5≥0 ⇒ x≥5."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "mat-010",
+      "course": "matematicas",
+      "lesson_id": "matematicas-m04-l01",
+      "kind": "multiple_choice",
+      "difficulty": 3,
+      "skill_ids": [
+        "function_domain"
+      ],
+      "prompt_md": "Dominio real de $1/(x^2-9)$.",
+      "choices": [
+        {
+          "id": "a",
+          "text": "Todos los reales"
+        },
+        {
+          "id": "b",
+          "text": "R excepto 3 y -3"
+        },
+        {
+          "id": "c",
+          "text": "R excepto 9"
+        },
+        {
+          "id": "d",
+          "text": "x>9"
+        }
+      ],
+      "grading_private": {
+        "correct_choice_id": "b",
+        "points": 1,
+        "explanation_md": "El denominador no puede ser 0: x²=9 ⇒ ±3."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "mat-011",
+      "course": "matematicas",
+      "lesson_id": "matematicas-m08-l01",
+      "kind": "numeric",
+      "difficulty": 3,
+      "skill_ids": [
+        "derivative"
+      ],
+      "prompt_md": "Si $f(x)=x^2$, calcula $f'(-1)$.",
+      "grading_private": {
+        "correct_value": -2,
+        "unit": "",
+        "absolute_tolerance": 0.001,
+        "points": 1,
+        "explanation_md": "f'(x)=2x, por tanto f'(-1)=-2."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "mat-012",
+      "course": "matematicas",
+      "lesson_id": "matematicas-m06-l01",
+      "kind": "numeric",
+      "difficulty": 3,
+      "skill_ids": [
+        "determinant"
+      ],
+      "prompt_md": "Determinante de la matriz $[[3,2],[1,4]]$.",
+      "grading_private": {
+        "correct_value": 10,
+        "unit": "",
+        "absolute_tolerance": 0.001,
+        "points": 1,
+        "explanation_md": "3×4−2×1=10."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "mat-013",
+      "course": "matematicas",
+      "lesson_id": "matematicas-m06-l01",
+      "kind": "numeric",
+      "difficulty": 3,
+      "skill_ids": [
+        "linear_system"
+      ],
+      "prompt_md": "Resuelve x+y=5, x−y=1. Introduce el valor de x.",
+      "grading_private": {
+        "correct_value": 3,
+        "unit": "",
+        "absolute_tolerance": 0.001,
+        "points": 1,
+        "explanation_md": "Sumando las ecuaciones, 2x=6 ⇒ x=3."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "mat-014",
+      "course": "matematicas",
+      "lesson_id": "matematicas-m08-l01",
+      "kind": "multiple_choice",
+      "difficulty": 3,
+      "skill_ids": [
+        "derivative"
+      ],
+      "prompt_md": "Derivada de $3x^2-4x+7$.",
+      "choices": [
+        {
+          "id": "a",
+          "text": "6x−4"
+        },
+        {
+          "id": "b",
+          "text": "3x−4"
+        },
+        {
+          "id": "c",
+          "text": "6x+7"
+        },
+        {
+          "id": "d",
+          "text": "x²−4"
+        }
+      ],
+      "grading_private": {
+        "correct_choice_id": "a",
+        "points": 1,
+        "explanation_md": "Aplicamos regla de potencia término a término: 6x−4."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "fis-001",
+      "course": "fisica",
+      "lesson_id": "fisica-f01-l01",
+      "kind": "numeric",
+      "difficulty": 1,
+      "skill_ids": [
+        "unit_conversion"
+      ],
+      "prompt_md": "Convierte 72 km/h a m/s.",
+      "grading_private": {
+        "correct_value": 20,
+        "unit": "m/s",
+        "absolute_tolerance": 0.001,
+        "points": 1,
+        "explanation_md": "72×1000/3600=20."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "fis-002",
+      "course": "fisica",
+      "lesson_id": "fisica-f01-l01",
+      "kind": "numeric",
+      "difficulty": 1,
+      "skill_ids": [
+        "unit_conversion"
+      ],
+      "prompt_md": "Convierte 500 g en kg.",
+      "grading_private": {
+        "correct_value": 0.5,
+        "unit": "kg",
+        "absolute_tolerance": 0.001,
+        "points": 1,
+        "explanation_md": "500/1000=0,5."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "fis-003",
+      "course": "fisica",
+      "lesson_id": "fisica-f01-l01",
+      "kind": "multiple_choice",
+      "difficulty": 1,
+      "skill_ids": [
+        "si_units"
+      ],
+      "prompt_md": "Unidad SI de campo magnético (B).",
+      "choices": [
+        {
+          "id": "a",
+          "text": "newton"
+        },
+        {
+          "id": "b",
+          "text": "tesla"
+        },
+        {
+          "id": "c",
+          "text": "watt"
+        },
+        {
+          "id": "d",
+          "text": "pascal"
+        }
+      ],
+      "grading_private": {
+        "correct_choice_id": "b",
+        "points": 1,
+        "explanation_md": "B se mide en tesla (T)."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "fis-004",
+      "course": "fisica",
+      "lesson_id": "fisica-f01-l01",
+      "kind": "multiple_choice",
+      "difficulty": 1,
+      "skill_ids": [
+        "si_units"
+      ],
+      "prompt_md": "¿Cuál es la unidad SI de una fuerza?",
+      "choices": [
+        {
+          "id": "a",
+          "text": "kg"
+        },
+        {
+          "id": "b",
+          "text": "J"
+        },
+        {
+          "id": "c",
+          "text": "N"
+        },
+        {
+          "id": "d",
+          "text": "m/s"
+        }
+      ],
+      "grading_private": {
+        "correct_choice_id": "c",
+        "points": 1,
+        "explanation_md": "N=kg·m/s²."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "fis-005",
+      "course": "fisica",
+      "lesson_id": "fisica-f02-l01",
+      "kind": "numeric",
+      "difficulty": 1,
+      "skill_ids": [
+        "mru"
+      ],
+      "prompt_md": "Una cinta a 1,5 m/s se mueve 40 s. ¿Cuántos metros?",
+      "grading_private": {
+        "correct_value": 60,
+        "unit": "m",
+        "absolute_tolerance": 0.001,
+        "points": 1,
+        "explanation_md": "x=v·t=1,5×40=60."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "fis-006",
+      "course": "fisica",
+      "lesson_id": "fisica-f02-l01",
+      "kind": "numeric",
+      "difficulty": 1,
+      "skill_ids": [
+        "acceleration"
+      ],
+      "prompt_md": "Un objeto acelera desde 5 hasta 17 m/s en 4 s. ¿Aceleración?",
+      "grading_private": {
+        "correct_value": 3,
+        "unit": "m/s²",
+        "absolute_tolerance": 0.001,
+        "points": 1,
+        "explanation_md": "(17−5)/4=3."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "fis-007",
+      "course": "fisica",
+      "lesson_id": "fisica-f02-l01",
+      "kind": "numeric",
+      "difficulty": 1,
+      "skill_ids": [
+        "mrua"
+      ],
+      "prompt_md": "Parte del reposo con aceleración constante 3 m/s² durante 2 s. ¿Distancia?",
+      "grading_private": {
+        "correct_value": 6,
+        "unit": "m",
+        "absolute_tolerance": 0.001,
+        "points": 1,
+        "explanation_md": "s=0,5·3·2²=6 m."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "fis-008",
+      "course": "fisica",
+      "lesson_id": "fisica-f03-l01",
+      "kind": "numeric",
+      "difficulty": 1,
+      "skill_ids": [
+        "newton_second"
+      ],
+      "prompt_md": "Sobre 4 kg actúa fuerza neta horizontal 12 N. ¿a?",
+      "grading_private": {
+        "correct_value": 3,
+        "unit": "m/s²",
+        "absolute_tolerance": 0.001,
+        "points": 1,
+        "explanation_md": "a=F/m=12/4=3."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "fis-009",
+      "course": "fisica",
+      "lesson_id": "fisica-f03-l01",
+      "kind": "numeric",
+      "difficulty": 1,
+      "skill_ids": [
+        "newton_second"
+      ],
+      "prompt_md": "Peso de 3 kg con g=9,8 m/s².",
+      "grading_private": {
+        "correct_value": 29.4,
+        "unit": "N",
+        "absolute_tolerance": 0.001,
+        "points": 1,
+        "explanation_md": "P=3×9,8=29,4."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "fis-010",
+      "course": "fisica",
+      "lesson_id": "fisica-f08-l01",
+      "kind": "numeric",
+      "difficulty": 1,
+      "skill_ids": [
+        "ohm_law"
+      ],
+      "prompt_md": "En resistencia 6 Ω se aplican 12 V. ¿Cuánta corriente I?",
+      "grading_private": {
+        "correct_value": 2,
+        "unit": "A",
+        "absolute_tolerance": 0.001,
+        "points": 1,
+        "explanation_md": "I=V/R=12/6=2."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "fis-011",
+      "course": "fisica",
+      "lesson_id": "fisica-f08-l01",
+      "kind": "numeric",
+      "difficulty": 1,
+      "skill_ids": [
+        "resistor_network"
+      ],
+      "prompt_md": "Dos resistencias iguales de 6 Ω en paralelo. ¿Resistencia equivalente?",
+      "grading_private": {
+        "correct_value": 3,
+        "unit": "Ω",
+        "absolute_tolerance": 0.001,
+        "points": 1,
+        "explanation_md": "1/R=1/6+1/6=1/3."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "cas-001",
+      "course": "castellano",
+      "lesson_id": "castellano-c01-l01",
+      "kind": "multiple_choice",
+      "difficulty": 1,
+      "skill_ids": [
+        "accentuation"
+      ],
+      "prompt_md": "Elige la forma correctamente escrita.",
+      "choices": [
+        {
+          "id": "a",
+          "text": "arbol"
+        },
+        {
+          "id": "b",
+          "text": "árbol"
+        },
+        {
+          "id": "c",
+          "text": "árbòl"
+        },
+        {
+          "id": "d",
+          "text": "arból"
+        }
+      ],
+      "grading_private": {
+        "correct_choice_id": "b",
+        "points": 1,
+        "explanation_md": "Palabra llana terminada en consonante distinta de n/s."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "cas-002",
+      "course": "castellano",
+      "lesson_id": "castellano-c01-l01",
+      "kind": "multiple_choice",
+      "difficulty": 1,
+      "skill_ids": [
+        "accentuation"
+      ],
+      "prompt_md": "¿Cuál es la palabra esdrújula?",
+      "choices": [
+        {
+          "id": "a",
+          "text": "canción"
+        },
+        {
+          "id": "b",
+          "text": "casa"
+        },
+        {
+          "id": "c",
+          "text": "médico"
+        },
+        {
+          "id": "d",
+          "text": "papel"
+        }
+      ],
+      "grading_private": {
+        "correct_choice_id": "c",
+        "points": 1,
+        "explanation_md": "MÉ-di-co, la sílaba tónica es la antepenúltima."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "cas-003",
+      "course": "castellano",
+      "lesson_id": "castellano-c01-l01",
+      "kind": "multiple_choice",
+      "difficulty": 1,
+      "skill_ids": [
+        "accentuation"
+      ],
+      "prompt_md": "¿Cuál se escribe SIN tilde?",
+      "choices": [
+        {
+          "id": "a",
+          "text": "exámenes"
+        },
+        {
+          "id": "b",
+          "text": "país"
+        },
+        {
+          "id": "c",
+          "text": "examen"
+        },
+        {
+          "id": "d",
+          "text": "camión"
+        }
+      ],
+      "grading_private": {
+        "correct_choice_id": "c",
+        "points": 1,
+        "explanation_md": "examen: llana terminada en -n."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "cas-004",
+      "course": "castellano",
+      "lesson_id": "castellano-c02-l01",
+      "kind": "multiple_choice",
+      "difficulty": 1,
+      "skill_ids": [
+        "morphology"
+      ],
+      "prompt_md": "«Rápidamente» en «Trabaja rápidamente» es…",
+      "choices": [
+        {
+          "id": "a",
+          "text": "sustantivo"
+        },
+        {
+          "id": "b",
+          "text": "adjetivo"
+        },
+        {
+          "id": "c",
+          "text": "adverbio"
+        },
+        {
+          "id": "d",
+          "text": "pronombre"
+        }
+      ],
+      "grading_private": {
+        "correct_choice_id": "c",
+        "points": 1,
+        "explanation_md": "Modifica al verbo trabaja, expresa modo."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "cas-005",
+      "course": "castellano",
+      "lesson_id": "castellano-c02-l01",
+      "kind": "multiple_choice",
+      "difficulty": 1,
+      "skill_ids": [
+        "morphology"
+      ],
+      "prompt_md": "En «Este equipo funciona», la palabra «Este» es…",
+      "choices": [
+        {
+          "id": "a",
+          "text": "determinante"
+        },
+        {
+          "id": "b",
+          "text": "adverbio"
+        },
+        {
+          "id": "c",
+          "text": "verbo"
+        },
+        {
+          "id": "d",
+          "text": "preposición"
+        }
+      ],
+      "grading_private": {
+        "correct_choice_id": "a",
+        "points": 1,
+        "explanation_md": "Acompaña y determina el sustantivo equipo."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "cas-006",
+      "course": "castellano",
+      "lesson_id": "castellano-c03-l01",
+      "kind": "multiple_choice",
+      "difficulty": 1,
+      "skill_ids": [
+        "syntax"
+      ],
+      "prompt_md": "En «María envió el informe a Pablo», ¿qué es «el informe»?",
+      "choices": [
+        {
+          "id": "a",
+          "text": "sujeto"
+        },
+        {
+          "id": "b",
+          "text": "complemento directo"
+        },
+        {
+          "id": "c",
+          "text": "complemento indirecto"
+        },
+        {
+          "id": "d",
+          "text": "atributo"
+        }
+      ],
+      "grading_private": {
+        "correct_choice_id": "b",
+        "points": 1,
+        "explanation_md": "Lo envió: se sustituye por lo y es CD."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "cas-007",
+      "course": "castellano",
+      "lesson_id": "castellano-c03-l01",
+      "kind": "multiple_choice",
+      "difficulty": 1,
+      "skill_ids": [
+        "syntax"
+      ],
+      "prompt_md": "Sujeto de «Llegaron ayer los camiones».",
+      "choices": [
+        {
+          "id": "a",
+          "text": "ayer"
+        },
+        {
+          "id": "b",
+          "text": "Llegaron"
+        },
+        {
+          "id": "c",
+          "text": "los camiones"
+        },
+        {
+          "id": "d",
+          "text": "no tiene sujeto"
+        }
+      ],
+      "grading_private": {
+        "correct_choice_id": "c",
+        "points": 1,
+        "explanation_md": "Concuerda en plural con llegaron y puede aparecer pospuesto."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "cas-008",
+      "course": "castellano",
+      "lesson_id": "castellano-c06-l01",
+      "kind": "essay",
+      "difficulty": 2,
+      "skill_ids": [
+        "written_expression"
+      ],
+      "prompt_md": "Escribe 50–80 palabras: una ventaja y una dificultad del estudio online.",
+      "grading_private": {
+        "model_response": "Estudiar a distancia permite organizar mejor el tiempo... Sin embargo, exige constancia...",
+        "rubric": [
+          "Responde a ventaja y dificultad",
+          "50–80 palabras",
+          "Coherencia y cohesión",
+          "Corrección ortográfica y sintáctica"
+        ],
+        "words_range": [
+          50,
+          80
+        ],
+        "requires_manual_or_rubric_review": true,
+        "points": 4
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "com-001",
+      "course": "comentario",
+      "lesson_id": "comentario-t00-l01",
+      "kind": "multiple_choice",
+      "difficulty": 1,
+      "skill_ids": [
+        "thesis"
+      ],
+      "prompt_md": "¿Cuál es la tesis en el texto «La tecnología acelera tareas; sin formación, los errores persisten. Por eso, cada implantación tecnológica debería incluir capacitación»?",
+      "choices": [
+        {
+          "id": "a",
+          "text": "La tecnología siempre falla"
+        },
+        {
+          "id": "b",
+          "text": "La formación debe acompañar la tecnología"
+        },
+        {
+          "id": "c",
+          "text": "La velocidad importa más que la seguridad"
+        },
+        {
+          "id": "d",
+          "text": "No deben usarse máquinas"
+        }
+      ],
+      "grading_private": {
+        "correct_choice_id": "b",
+        "points": 1,
+        "explanation_md": "El autor defiende incluir formación, no abandonar tecnología."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "com-002",
+      "course": "comentario",
+      "lesson_id": "comentario-t00-l01",
+      "kind": "multiple_choice",
+      "difficulty": 1,
+      "skill_ids": [
+        "topic_vs_subject"
+      ],
+      "prompt_md": "En un comentario, «tecnología» por sí sola es normalmente…",
+      "choices": [
+        {
+          "id": "a",
+          "text": "asunto general"
+        },
+        {
+          "id": "b",
+          "text": "argumento completo"
+        },
+        {
+          "id": "c",
+          "text": "conclusión"
+        },
+        {
+          "id": "d",
+          "text": "dato cuantitativo"
+        }
+      ],
+      "grading_private": {
+        "correct_choice_id": "a",
+        "points": 1,
+        "explanation_md": "Asunto demasiado amplio; tema identifica una cuestión concreta."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "com-003",
+      "course": "comentario",
+      "lesson_id": "comentario-t03-l01",
+      "kind": "multiple_choice",
+      "difficulty": 1,
+      "skill_ids": [
+        "summary"
+      ],
+      "prompt_md": "Un resumen objetivo debe…",
+      "choices": [
+        {
+          "id": "a",
+          "text": "añadir la opinión personal"
+        },
+        {
+          "id": "b",
+          "text": "copiar frases largas"
+        },
+        {
+          "id": "c",
+          "text": "seleccionar ideas y parafrasearlas"
+        },
+        {
+          "id": "d",
+          "text": "incluir ejemplos nuevos no presentes"
+        }
+      ],
+      "grading_private": {
+        "correct_choice_id": "c",
+        "points": 1,
+        "explanation_md": "Recoge tesis y relaciones sin opinión ni copia textual."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "com-004",
+      "course": "comentario",
+      "lesson_id": "comentario-t03-l01",
+      "kind": "multiple_choice",
+      "difficulty": 1,
+      "skill_ids": [
+        "summary"
+      ],
+      "prompt_md": "¿Qué conducta es un error en un resumen?",
+      "choices": [
+        {
+          "id": "a",
+          "text": "emplear palabras propias"
+        },
+        {
+          "id": "b",
+          "text": "reducir ejemplos"
+        },
+        {
+          "id": "c",
+          "text": "cambiar una condición necesaria en suficiente"
+        },
+        {
+          "id": "d",
+          "text": "identificar idea central"
+        }
+      ],
+      "grading_private": {
+        "correct_choice_id": "c",
+        "points": 1,
+        "explanation_md": "Transforma el significado lógico del original."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "com-005",
+      "course": "comentario",
+      "lesson_id": "comentario-t05-l01",
+      "kind": "multiple_choice",
+      "difficulty": 1,
+      "skill_ids": [
+        "argumentation"
+      ],
+      "prompt_md": "¿Qué es un contraargumento?",
+      "choices": [
+        {
+          "id": "a",
+          "text": "una repetición de tesis"
+        },
+        {
+          "id": "b",
+          "text": "objeción razonable que se analiza"
+        },
+        {
+          "id": "c",
+          "text": "una errata"
+        },
+        {
+          "id": "d",
+          "text": "un párrafo descriptivo sin relación"
+        }
+      ],
+      "grading_private": {
+        "correct_choice_id": "b",
+        "points": 1,
+        "explanation_md": "Es una objeción real ante la tesis."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "com-006",
+      "course": "comentario",
+      "lesson_id": "comentario-t05-l01",
+      "kind": "essay",
+      "difficulty": 3,
+      "skill_ids": [
+        "argumentation"
+      ],
+      "prompt_md": "Redacta 150–200 palabras sobre si las empresas deberían financiar formación continua. Incluye un contraargumento.",
+      "grading_private": {
+        "model_response": "Las empresas deben valorar la formación... aunque implica coste... sus beneficios...",
+        "rubric": [
+          "Tesis definida",
+          "Argumentos razonados y contraargumento",
+          "Estructura y coherencia",
+          "Norma gramatical y registro"
+        ],
+        "words_range": [
+          150,
+          200
+        ],
+        "requires_manual_or_rubric_review": true,
+        "points": 4
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "com-007",
+      "course": "comentario",
+      "lesson_id": "comentario-t03-l01",
+      "kind": "essay",
+      "difficulty": 2,
+      "skill_ids": [
+        "summary"
+      ],
+      "prompt_md": "Resume sin opinar (25–35 palabras): «Los sensores aportan datos del consumo de edificios. Pero si no se analizan, las cifras no reducen el gasto ni mejoran el servicio».",
+      "grading_private": {
+        "model_response": "Los sensores ayudan a conocer el gasto, pero solo un análisis que conduzca a decisiones permite obtener mejoras reales.",
+        "rubric": [
+          "Preserva las dos ideas",
+          "Reformulación propia",
+          "Sin opinión",
+          "25–35 palabras"
+        ],
+        "words_range": [
+          25,
+          35
+        ],
+        "requires_manual_or_rubric_review": true,
+        "points": 4
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "eng-001",
+      "course": "ingles",
+      "lesson_id": "ingles-e00-l01",
+      "kind": "multiple_choice",
+      "difficulty": 1,
+      "skill_ids": [
+        "present_simple"
+      ],
+      "prompt_md": "Complete: «He ___ inventory every day».",
+      "choices": [
+        {
+          "id": "a",
+          "text": "check"
+        },
+        {
+          "id": "b",
+          "text": "checks"
+        },
+        {
+          "id": "c",
+          "text": "checking"
+        },
+        {
+          "id": "d",
+          "text": "checked"
+        }
+      ],
+      "grading_private": {
+        "correct_choice_id": "b",
+        "points": 1,
+        "explanation_md": "Third person singular present simple: checks."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "eng-002",
+      "course": "ingles",
+      "lesson_id": "ingles-e00-l01",
+      "kind": "multiple_choice",
+      "difficulty": 1,
+      "skill_ids": [
+        "auxiliaries"
+      ],
+      "prompt_md": "Choose the correct question.",
+      "choices": [
+        {
+          "id": "a",
+          "text": "Does she works on Monday?"
+        },
+        {
+          "id": "b",
+          "text": "Do she work on Monday?"
+        },
+        {
+          "id": "c",
+          "text": "Does she work on Monday?"
+        },
+        {
+          "id": "d",
+          "text": "She does work on Monday?"
+        }
+      ],
+      "grading_private": {
+        "correct_choice_id": "c",
+        "points": 1,
+        "explanation_md": "After does, use base verb work."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "eng-003",
+      "course": "ingles",
+      "lesson_id": "ingles-e01-l01",
+      "kind": "multiple_choice",
+      "difficulty": 1,
+      "skill_ids": [
+        "present_continuous"
+      ],
+      "prompt_md": "Complete: «Right now, I ___ English».",
+      "choices": [
+        {
+          "id": "a",
+          "text": "study"
+        },
+        {
+          "id": "b",
+          "text": "studies"
+        },
+        {
+          "id": "c",
+          "text": "am studying"
+        },
+        {
+          "id": "d",
+          "text": "studied"
+        }
+      ],
+      "grading_private": {
+        "correct_choice_id": "c",
+        "points": 1,
+        "explanation_md": "Right now indicates an ongoing action."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "eng-004",
+      "course": "ingles",
+      "lesson_id": "ingles-e01-l01",
+      "kind": "multiple_choice",
+      "difficulty": 1,
+      "skill_ids": [
+        "present_simple"
+      ],
+      "prompt_md": "Complete: «We usually ___ at five».",
+      "choices": [
+        {
+          "id": "a",
+          "text": "finish"
+        },
+        {
+          "id": "b",
+          "text": "are finishing"
+        },
+        {
+          "id": "c",
+          "text": "finishes"
+        },
+        {
+          "id": "d",
+          "text": "finished"
+        }
+      ],
+      "grading_private": {
+        "correct_choice_id": "a",
+        "points": 1,
+        "explanation_md": "Habit uses present simple."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "eng-005",
+      "course": "ingles",
+      "lesson_id": "ingles-e03-l01",
+      "kind": "multiple_choice",
+      "difficulty": 1,
+      "skill_ids": [
+        "reading_detail"
+      ],
+      "prompt_md": "Text: «An app was introduced alongside paper forms, causing duplicate work. Later the forms were removed». Why remove paper?",
+      "choices": [
+        {
+          "id": "a",
+          "text": "To avoid duplicated tasks"
+        },
+        {
+          "id": "b",
+          "text": "To increase paperwork"
+        },
+        {
+          "id": "c",
+          "text": "Because computers failed"
+        },
+        {
+          "id": "d",
+          "text": "To close the company"
+        }
+      ],
+      "grading_private": {
+        "correct_choice_id": "a",
+        "points": 1,
+        "explanation_md": "The stated reason is duplication."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "eng-006",
+      "course": "ingles",
+      "lesson_id": "ingles-e03-l01",
+      "kind": "multiple_choice",
+      "difficulty": 1,
+      "skill_ids": [
+        "reading_inference"
+      ],
+      "prompt_md": "Text: «The app reduced errors, but staff still needed training». Did the app eliminate training?",
+      "choices": [
+        {
+          "id": "a",
+          "text": "Yes, immediately"
+        },
+        {
+          "id": "b",
+          "text": "No, employees still needed it"
+        },
+        {
+          "id": "c",
+          "text": "Only managers needed it"
+        },
+        {
+          "id": "d",
+          "text": "The text gives no information"
+        }
+      ],
+      "grading_private": {
+        "correct_choice_id": "b",
+        "points": 1,
+        "explanation_md": "Explicitly still needed training."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "eng-007",
+      "course": "ingles",
+      "lesson_id": "ingles-e05-l01",
+      "kind": "multiple_choice",
+      "difficulty": 1,
+      "skill_ids": [
+        "short_answer"
+      ],
+      "prompt_md": "Which opener answers «Why was training useful?» directly?",
+      "choices": [
+        {
+          "id": "a",
+          "text": "In my personal life I like learning"
+        },
+        {
+          "id": "b",
+          "text": "The world is changing a lot"
+        },
+        {
+          "id": "c",
+          "text": "Training was useful because staff faced unusual cases"
+        },
+        {
+          "id": "d",
+          "text": "This is a very complicated question"
+        }
+      ],
+      "grading_private": {
+        "correct_choice_id": "c",
+        "points": 1,
+        "explanation_md": "The direct answer states cause and connects to text."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "eng-008",
+      "course": "ingles",
+      "lesson_id": "ingles-e05-l01",
+      "kind": "essay",
+      "difficulty": 2,
+      "skill_ids": [
+        "short_answer"
+      ],
+      "prompt_md": "In English, write 40–60 words: «Why can a digital tool still require employee training?»",
+      "grading_private": {
+        "model_response": "A digital tool may speed up routine tasks, but unusual cases need human judgement. Training helps people understand errors, follow safety procedures and use information responsibly. Therefore, introducing new software is not enough unless employees also learn how to use it correctly.",
+        "rubric": [
+          "Answers question",
+          "40–60 English words",
+          "Coherent reason and example",
+          "Grammar, lexis, spelling"
+        ],
+        "words_range": [
+          40,
+          60
+        ],
+        "requires_manual_or_rubric_review": true,
+        "points": 4
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "eco-001",
+      "course": "economia",
+      "lesson_id": "economia-b00-l01",
+      "kind": "numeric",
+      "difficulty": 1,
+      "skill_ids": [
+        "percentages"
+      ],
+      "prompt_md": "Calcula el 12% de 150 euros.",
+      "grading_private": {
+        "correct_value": 18,
+        "unit": "EUR",
+        "absolute_tolerance": 0.001,
+        "points": 1,
+        "explanation_md": "150×0,12=18."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "eco-002",
+      "course": "economia",
+      "lesson_id": "economia-b00-l01",
+      "kind": "numeric",
+      "difficulty": 1,
+      "skill_ids": [
+        "percentages"
+      ],
+      "prompt_md": "Un artículo de 200€ sube el 5%. ¿Precio final?",
+      "grading_private": {
+        "correct_value": 210,
+        "unit": "EUR",
+        "absolute_tolerance": 0.001,
+        "points": 1,
+        "explanation_md": "200×1,05=210."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "eco-003",
+      "course": "economia",
+      "lesson_id": "economia-b00-l01",
+      "kind": "numeric",
+      "difficulty": 1,
+      "skill_ids": [
+        "percent_change"
+      ],
+      "prompt_md": "Precio de 60 a 75€. ¿Incremento porcentual? Introduce solo número.",
+      "grading_private": {
+        "correct_value": 25,
+        "unit": "%",
+        "absolute_tolerance": 0.001,
+        "points": 1,
+        "explanation_md": "(75−60)/60×100=25%."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "eco-004",
+      "course": "economia",
+      "lesson_id": "economia-b02-l01",
+      "kind": "numeric",
+      "difficulty": 1,
+      "skill_ids": [
+        "balance_sheet"
+      ],
+      "prompt_md": "Activo 25.000€, pasivo 9.000€. ¿Patrimonio neto?",
+      "grading_private": {
+        "correct_value": 16000,
+        "unit": "EUR",
+        "absolute_tolerance": 0.001,
+        "points": 1,
+        "explanation_md": "PN=25000−9000=16000."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "eco-005",
+      "course": "economia",
+      "lesson_id": "economia-b02-l01",
+      "kind": "multiple_choice",
+      "difficulty": 1,
+      "skill_ids": [
+        "accounting_equation"
+      ],
+      "prompt_md": "Si una empresa recibe un préstamo bancario de 5.000€, ¿qué ocurre inmediatamente?",
+      "choices": [
+        {
+          "id": "a",
+          "text": "Activo y pasivo suben 5000"
+        },
+        {
+          "id": "b",
+          "text": "Solo sube patrimonio neto"
+        },
+        {
+          "id": "c",
+          "text": "Solo suben beneficios"
+        },
+        {
+          "id": "d",
+          "text": "Disminuye el pasivo"
+        }
+      ],
+      "grading_private": {
+        "correct_choice_id": "a",
+        "points": 1,
+        "explanation_md": "Aumenta banco y obligación de devolver préstamo; PN no cambia."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "eco-006",
+      "course": "economia",
+      "lesson_id": "economia-b05-l01",
+      "kind": "numeric",
+      "difficulty": 1,
+      "skill_ids": [
+        "npv"
+      ],
+      "prompt_md": "VAN con inversión 500€ y cobro de 550€ en 1 año, descuento 10%.",
+      "grading_private": {
+        "correct_value": 0,
+        "unit": "EUR",
+        "absolute_tolerance": 0.001,
+        "points": 1,
+        "explanation_md": "−500+550/1,10=0."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "eco-007",
+      "course": "economia",
+      "lesson_id": "economia-b05-l01",
+      "kind": "numeric",
+      "difficulty": 3,
+      "skill_ids": [
+        "npv"
+      ],
+      "prompt_md": "VAN: coste inicial 1000€, dos cobros de 600€ al final de cada uno de los 2 años, tasa 10%. Redondea a céntimos.",
+      "grading_private": {
+        "correct_value": 41.32,
+        "unit": "EUR",
+        "absolute_tolerance": 0.02,
+        "points": 1,
+        "explanation_md": "−1000+600/1,1+600/1,1²≈41,32."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    },
+    {
+      "id": "eco-008",
+      "course": "economia",
+      "lesson_id": "economia-b05-l01",
+      "kind": "multiple_choice",
+      "difficulty": 2,
+      "skill_ids": [
+        "npv_interpretation"
+      ],
+      "prompt_md": "Un VAN positivo indica…",
+      "choices": [
+        {
+          "id": "a",
+          "text": "beneficio garantizado"
+        },
+        {
+          "id": "b",
+          "text": "valor positivo bajo supuestos de flujos y tasa"
+        },
+        {
+          "id": "c",
+          "text": "dinero recibido hoy mayor que coste"
+        },
+        {
+          "id": "d",
+          "text": "rentabilidad siempre superior al 100%"
+        }
+      ],
+      "grading_private": {
+        "correct_choice_id": "b",
+        "points": 1,
+        "explanation_md": "VAN positivo solo dentro de los supuestos."
+      },
+      "source_kind": "original",
+      "editorial_status": "draft"
+    }
+  ]
+}

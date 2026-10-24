@@ -83,3 +83,4 @@ jobs:
           sudo -E bash tools/db-replica/buckets_test.sh
           sudo -E bash tools/db-replica/selflearn_test.sh
           sudo -E bash tools/db-replica/nocturne_cas_concurrency_test.sh
+          sudo -E bash tools/db-replica/academy_test.sh

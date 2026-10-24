@@ -1,0 +1,40 @@
+{
+  "lesson_id": "comentario-t00-l01",
+  "questions": [
+    {
+      "id": "t00l01-x1", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["topic_vs_subject"],
+      "prompt_md": "¿Cuál de estas formulaciones es un **tema** bien construido?",
+      "choices": [{"id": "a", "text": "La tecnología"}, {"id": "b", "text": "El autor piensa que el teletrabajo es bueno"}, {"id": "c", "text": "Las ventajas del teletrabajo para conciliar vida laboral y familiar"}, {"id": "d", "text": "Yo creo que hay que teletrabajar"}],
+      "key": {"correct_choice_id": "c"},
+      "explanation_md": "Frase nominal concreta y sin opinión. (a) es un asunto; (b) es una tesis mal formulada; (d) es una opinión personal."
+    },
+    {
+      "id": "t00l01-x2", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["thesis"],
+      "prompt_md": "La tesis de un texto es…",
+      "choices": [{"id": "a", "text": "el resumen de todos sus párrafos"}, {"id": "b", "text": "la idea que defiende el autor"}, {"id": "c", "text": "mi opinión sobre el texto"}, {"id": "d", "text": "el título"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "La tesis es la postura del autor; puede ser explícita o implícita."
+    },
+    {
+      "id": "t00l01-x3", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["thesis"],
+      "prompt_md": "Texto: «Muchos jóvenes cambian de empleo cada dos años. Se suele interpretar como falta de compromiso, pero a menudo es la única forma de mejorar el salario en empresas que no premian la experiencia». ¿Cuál es la tesis?",
+      "choices": [{"id": "a", "text": "Los jóvenes cambian de empleo cada dos años."}, {"id": "b", "text": "Los jóvenes no tienen compromiso."}, {"id": "c", "text": "El cambio frecuente de empleo suele responder a la falta de mejoras salariales, no a falta de compromiso."}, {"id": "d", "text": "Las empresas deben subir sueldos cada dos años."}],
+      "key": {"correct_choice_id": "c"},
+      "explanation_md": "El conector *pero* introduce la postura del autor, que corrige la interpretación habitual. (a) es un dato; (b) es la idea que el autor rechaza; (d) va más allá del texto."
+    },
+    {
+      "id": "t00l01-x4", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["main_ideas"],
+      "prompt_md": "En el texto anterior, «Muchos jóvenes cambian de empleo cada dos años» funciona como…",
+      "choices": [{"id": "a", "text": "tesis"}, {"id": "b", "text": "idea secundaria que plantea el fenómeno"}, {"id": "c", "text": "conclusión"}, {"id": "d", "text": "contraargumento del autor"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Presenta el hecho del que se parte; no es lo que el autor defiende."
+    },
+    {
+      "id": "t00l01-x5", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["topic_vs_subject"],
+      "prompt_md": "Para el mismo texto, el **asunto** sería…",
+      "choices": [{"id": "a", "text": "el trabajo / el mercado laboral"}, {"id": "b", "text": "la rotación laboral juvenil como estrategia salarial"}, {"id": "c", "text": "los jóvenes tienen razón"}, {"id": "d", "text": "cada dos años"}],
+      "key": {"correct_choice_id": "a"},
+      "explanation_md": "El asunto es el ámbito general. (b) sería el tema."
+    }
+  ]
+}
