@@ -1,0 +1,36 @@
+{
+  "lesson_id": "matematicas-m03-l02",
+  "questions": [
+    {
+      "id": "m03l02-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["arithmetic_progression"],
+      "prompt_md": "En una progresión aritmética con $a_1=8$ y $d=-3$, calcula $a_{15}$.",
+      "key": {"value": -34, "tolerance": 0},
+      "explanation_md": "$8+14\\cdot(-3)=8-42=-34$."
+    },
+    {
+      "id": "m03l02-x2", "kind": "numeric", "difficulty": 1, "skill_ids": ["geometric_progression"],
+      "prompt_md": "En una progresión geométrica con $a_1=5$ y $r=3$, calcula $a_5$.",
+      "key": {"value": 405, "tolerance": 0},
+      "explanation_md": "$5\\cdot3^4=5\\cdot81=405$."
+    },
+    {
+      "id": "m03l02-x3", "kind": "numeric", "difficulty": 2, "skill_ids": ["arithmetic_progression"],
+      "prompt_md": "En una progresión aritmética, $a_4=10$ y $a_9=35$. ¿Cuánto vale la diferencia $d$?",
+      "key": {"value": 5, "tolerance": 0},
+      "explanation_md": "$d=\\dfrac{35-10}{9-4}=5$."
+    },
+    {
+      "id": "m03l02-x4", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["geometric_progression"],
+      "prompt_md": "Un valor baja un 20 % cada año. ¿Qué sucesión describe su valor año a año?",
+      "choices": [{"id": "a", "text": "Una progresión aritmética de diferencia $-20$"}, {"id": "b", "text": "Una progresión geométrica de razón $0{,}8$"}, {"id": "c", "text": "Una progresión geométrica de razón $-0{,}2$"}, {"id": "d", "text": "Una progresión geométrica de razón $1{,}2$"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Cada año queda el 80 % del anterior: se multiplica por $0{,}8$."
+    },
+    {
+      "id": "m03l02-x5", "kind": "numeric", "difficulty": 3, "skill_ids": ["geometric_progression"],
+      "prompt_md": "En una progresión geométrica de términos positivos, $a_2=12$ y $a_4=48$. Calcula $a_1$.",
+      "key": {"value": 6, "tolerance": 0},
+      "explanation_md": "$r^2=\\dfrac{48}{12}=4$ → $r=2$; $a_1=\\dfrac{12}{2}=6$."
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "lesson_id": "matematicas-m03-l01",
+  "questions": [
+    {
+      "id": "m03l01-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["sequences_general_term"],
+      "prompt_md": "Si $a_n=5n-3$, ¿cuánto vale $a_{20}$?",
+      "key": {"value": 97, "tolerance": 0},
+      "explanation_md": "$5\\cdot20-3=97$."
+    },
+    {
+      "id": "m03l01-x2", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["sequences_general_term"],
+      "prompt_md": "¿Cuál es el término general de $4,\\ 9,\\ 14,\\ 19,\\dots$?",
+      "choices": [{"id": "a", "text": "$a_n=5n$"}, {"id": "b", "text": "$a_n=5n-1$"}, {"id": "c", "text": "$a_n=4n+5$"}, {"id": "d", "text": "$a_n=n+4$"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Diferencia 5 → $5n+c$; con $n=1$: $5+c=4$ → $c=-1$."
+    },
+    {
+      "id": "m03l01-x3", "kind": "numeric", "difficulty": 2, "skill_ids": ["recurrences"],
+      "prompt_md": "Sea $a_1=3$ y $a_{n+1}=2a_n-1$. Calcula $a_4$.",
+      "key": {"value": 17, "tolerance": 0},
+      "explanation_md": "$a_2=5$, $a_3=9$, $a_4=17$."
+    },
+    {
+      "id": "m03l01-x4", "kind": "numeric", "difficulty": 2, "skill_ids": ["sequences_general_term"],
+      "prompt_md": "En la sucesión $a_n=3n+7$, ¿qué posición ocupa el término que vale 64?",
+      "key": {"value": 19, "tolerance": 0},
+      "explanation_md": "$3n+7=64$ → $3n=57$ → $n=19$."
+    },
+    {
+      "id": "m03l01-x5", "kind": "numeric", "difficulty": 3, "skill_ids": ["recurrences"],
+      "prompt_md": "Halla el punto fijo de la recurrencia $s_{n+1}=0{,}75\\,s_n+50$ (el valor $s$ que cumple $s=0{,}75s+50$).",
+      "key": {"value": 200, "tolerance": 0},
+      "explanation_md": "$0{,}25s=50$ → $s=200$."
+    }
+  ]
+}

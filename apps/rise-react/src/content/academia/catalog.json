@@ -373,69 +373,66 @@
      "lessons": [
       {
        "id": "matematicas-m03-l01",
-       "title": "Patrones, término general y recurrencias",
+       "title": "Sucesiones, término general y recurrencias",
        "topic_scope": "patrones, término general y recurrencias",
        "level": "N2",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
-       "prerequisites": [],
-       "has_content": false,
+       "prerequisites": [
+        "matematicas-m01-l02",
+        "matematicas-m00-l06"
+       ],
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "matematicas-m03-l02",
        "title": "Progresiones aritméticas y geométricas",
        "topic_scope": "progresiones aritméticas y geométricas",
        "level": "N2",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
         "matematicas-m03-l01"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "matematicas-m03-l03",
-       "title": "Sumas finitas",
+       "title": "Sumas de progresiones y notación sumatorio",
        "topic_scope": "sumas finitas",
        "level": "N2",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
         "matematicas-m03-l02"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "matematicas-m03-l04",
-       "title": "Interés simple y compuesto, crecimiento porcentual y amortización conceptual",
+       "title": "Interés simple y compuesto, TAE y amortización de préstamos",
        "topic_scope": "interés simple y compuesto, crecimiento porcentual y amortización conceptual",
        "level": "N2",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
-        "matematicas-m03-l03"
+        "matematicas-m03-l02",
+        "matematicas-m03-l03",
+        "matematicas-m00-l05"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     },
@@ -2387,22 +2384,22 @@
  ],
  "stats": {
   "by_status": {
-   "planned": 78,
-   "draft": 42,
+   "planned": 74,
+   "draft": 46,
    "reviewed": 0,
    "ready": 0,
    "published": 0
   },
   "lessons_total": 120,
-  "meets_standard": 42,
+  "meets_standard": 46,
   "courses": {
    "matematicas": {
     "total": 56,
-    "with_content": 24,
-    "meets_standard": 24,
+    "with_content": 28,
+    "meets_standard": 28,
     "by_status": {
-     "planned": 32,
-     "draft": 24,
+     "planned": 28,
+     "draft": 28,
      "reviewed": 0,
      "ready": 0,
      "published": 0
@@ -2469,8 +2466,8 @@
     }
    }
   },
-  "questions_total": 266,
-  "exit_questions": 210,
+  "questions_total": 286,
+  "exit_questions": 230,
   "bank_questions": 56
  }
 }
