@@ -1,0 +1,2 @@
+export declare function peopleReceived(items:Array<{category?:string;amount?:number;date?:string;description?:string;name?:string}>,month:string):{total:number;loans:number;count:number};
+export declare function withRealIncome<T extends {earned:number;spent:number}>(summary:T,items:Array<Record<string,any>>,month:string):T&{earned:number;received:number;loans:number;receivedCount:number;cash:number;savings:number;rate:number|null};

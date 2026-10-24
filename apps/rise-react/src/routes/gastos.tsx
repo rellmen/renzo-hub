@@ -60,7 +60,8 @@ function Expenses(){
     </label>
     {summary&&<div className="mt-4 grid grid-cols-2 gap-4 text-sm sm:grid-cols-3">
      <div><p className="text-xs text-muted-foreground">Gastos</p><strong>{eur.format(summary.spent)}</strong></div>
-     <div><p className="text-xs text-muted-foreground">Ingresos</p><strong>{eur.format(summary.earned)}</strong></div>
+     <div><p className="text-xs text-muted-foreground">Ingresos (nómina y ayudas)</p><strong>{eur.format(summary.earned)}</strong></div>
+     <div><p className="text-xs text-muted-foreground">Recibido de personas</p><strong>{eur.format(summary.received)}</strong></div>
      <div><p className="text-xs text-muted-foreground">Sin categoría</p><strong>{summary.uncategorized}</strong></div>
     </div>}
    </SectionCard>

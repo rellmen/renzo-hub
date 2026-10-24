@@ -1,11 +1,13 @@
-// Nocturne browser-safe adapter of the tested SD Worx parser.
-// Equivalent to root payroll-pdf.js except Vite's dynamic import exclusion.
+// Nocturne SD Worx parser (v2, flexible). Classic payroll-pdf.js queda solo como referencia.
+// v2 tolera cambios de formato: etiquetas con espacios distintos, columnas desplazadas,
+// nóminas sin "Netto loon" (semanas de vacaciones) o sin columna Mutatie; lo que falte y se
+// pueda deducir se calcula y se avisa en checks. Mismo resultado que v1 en nóminas normales.
 // Lectura de nóminas en PDF de SD Worx (Loonspecificatie) en el navegador, sin IA ni n8n.
 // 1) extractRows: texto con posiciones (pdf.js, servido desde /vendor/pdfjs).
 // 2) parseSdWorx: reglas fijas sobre esas posiciones -> payload de payroll_ingest.
 // Todo lo leído pasa siempre por revisión humana (validation_status "review_required").
 
-const NUM = /^-?\d{1,3}(?:\.\d{3})*,\d{2}$/;
+const NUM = /^-?(?:\d{1,3}(?:\.\d{3})+|\d+),\d{2}$/;
 const HOURS = /^(\d{1,3}):(\d{2})$/;
 export const num = s => Number(String(s).replace(/\./g, "").replace(",", "."));
 export const hours = s => { const m = HOURS.exec(String(s).trim()); return m ? Number(m[1]) + Number(m[2]) / 60 : null; };
@@ -53,12 +55,13 @@ const valueAfterColon = r => {
   return rest || r.items[i + 1]?.s;
 };
 
-// Columnas de la tabla principal (x en puntos), iguales en todas las nóminas de SD Worx revisadas.
-function columns(r) {
+// Columnas de la tabla principal (x en puntos, referencia: "Fiscaal" de Mutatie en x=275).
+// dx desplaza todas las columnas si SD Worx mueve la tabla.
+function columns(r, dx = 0) {
   const c = {};
   for (const it of r.items) {
     if (!NUM.test(it.s)) continue;
-    const v = num(it.s), x = it.x;
+    const v = num(it.s), x = it.x - dx;
     if (x >= 225 && x < 260) c.base = v;
     else if (x >= 260 && x < 310) c.mutFiscal = v;
     else if (x >= 310 && x < 352) c.mutPay = v;
@@ -70,25 +73,31 @@ function columns(r) {
   return c;
 }
 
+// Texto de la columna de descripción (puede venir partido en varios trozos).
+const rowLabel = (r, dx = 0) => r.items.filter(i => i.x < 160 + dx && !NUM.test(i.s)).map(i => i.s).join(" ").replace(/\s+/g, " ").trim() || label(r);
+
 const RULES = [
-  [/^Loon normale uren/i, "income", "regular_pay"],
+  [/^Loon\s+normale\s+uren/i, "income", "regular_pay"],
   [/^ORT/i, "income", "shift_allowance"],
   // SD Worx etiqueta las horas extra como "Loon overwerkuren 130%" / "Loon overwerkuren 150%" (W40/W41 2026).
   [/^(Loon\s+)?(Overuren|Overwerk)/i, "income", "overtime_pay"],
-  [/^Vakantiedagen/i, "income", "holiday_pay"],
-  [/^Feestdagen/i, "income", "holiday_pay"],
-  [/^Vakantiegeld/i, "income", "vakantiegeld"],
-  [/^Totaal bruto loon/i, "total", "gross_salary"],
+  [/^Vakantie\s*dagen/i, "income", "holiday_pay"],
+  [/^Feest\s*dagen/i, "income", "holiday_pay"],
+  [/^Vakantie\s*geld/i, "income", "vakantiegeld"],
+  [/^Totaal\s+bruto/i, "total", "gross_salary"],
   [/^PAWW/i, "deduction", "social"],
-  [/^Premie AZV/i, "deduction", "social"],
+  [/^Premie\s+AZV/i, "deduction", "social"],
   [/^StiPP|Pensioen/i, "deduction", "pension_contribution"],
-  [/^Loon voor loonbelasting/i, "total", "loon_voor_loonheffing"],
-  [/^Loonheffingen/i, "deduction", "loonheffing"],
-  [/^Gediff\. premie Whk|WGA/i, "deduction", "social"],
-  [/^Netto loon/i, "total", "net_salary"],
-  [/^Reiskostenvergoeding/i, "income_net", "travel_allowance"],
-  [/^Netto te betalen/i, "total", "net_payment"]
+  [/^Loon\s+voor\s+loon\s*(belasting|heffing)/i, "total", "loon_voor_loonheffing"],
+  [/^Loon\s*heffing/i, "deduction", "loonheffing"],
+  [/^Gediff\.?\s*premie\s+Whk|WGA/i, "deduction", "social"],
+  [/^Netto\s*-?\s*loon/i, "total", "net_salary"],
+  [/^Reis\s*kosten/i, "income_net", "travel_allowance"],
+  [/^Netto\s+te\s+betalen|^Netto\s+uit\s*te\s+betalen/i, "total", "net_payment"]
 ];
+const END = /^Netto\s+(uit\s*)?te\s+betalen/i;
+// Retenciones que SD Worx resta antes de "Loon voor loonbelasting" (Whk/WGA va después).
+const beforeTaxable = (field, name) => (field === "social" || field === "pension_contribution") && !/Whk|WGA/i.test(name);
 
 export class PayslipParseError extends Error {}
 
@@ -113,29 +122,43 @@ export function parseSdWorx(rows) {
 
   // Tabla principal: desde la cabecera "Omschrijving" hasta "Netto te betalen" (página 1).
   const head = rows.findIndex(r => r.page === 1 && /^Omschrijving/i.test(label(r)));
-  const end = rows.findIndex((r, i) => i > head && /^Netto te betalen/i.test(label(r)));
+  const end = rows.findIndex((r, i) => i > head && r.page === rows[head]?.page && END.test(rowLabel(r)));
   if (head < 0 || end < 0) throw new PayslipParseError("No encuentro la tabla de importes de la nómina.");
+  const fiscaal = rows[head].items.find(i => /^Fiscaal$/i.test(i.s));
+  const dx = fiscaal && Math.abs(fiscaal.x - 275) <= 60 ? fiscaal.x - 275 : 0;
+  const table = rows.slice(head + 1, end + 1).map(r => ({ r, name: rowLabel(r, dx), c: columns(r, dx) }));
+  // Si alguna vez desaparece la columna Mutatie, se usa la de Totaal tijdvak.
+  if (!table.some(t => t.c.mut != null)) for (const t of table) t.c.mut = t.c.totPay ?? t.c.totFiscal ?? null;
 
   const out = { regular_pay: 0, shift_allowance: 0, overtime_pay: 0, holiday_pay: 0, vakantiegeld: 0, social: 0, pension_contribution: 0, loonheffing: 0, travel_allowance: 0 };
   const totals = {}, lineItems = [], unknown = [];
-  let bijzonder = null;
-  for (const r of rows.slice(head + 1, end + 1)) {
-    const name = label(r);
-    if (/^-+/.test(name) || /^=+/.test(name)) continue;
-    const c = columns(r);
+  let bijzonder = null, preTaxable = 0;
+  for (const { name, c } of table) {
+    if (!name || /^-+/.test(name) || /^=+/.test(name)) continue;
     const rule = RULES.find(([rx]) => rx.test(name));
     if (!rule) { if (c.mut != null) unknown.push(name); continue; }
     const [, kind, field] = rule;
-    if (kind === "total") { totals[field] = c.mut; continue; }
+    if (kind === "total") { if (c.mut != null) totals[field] = c.mut; continue; }
     if (c.mut == null || c.mut === 0) continue;
     // Retenciones en positivo; una devolución (importe positivo en la columna Betalen) resta.
     const amount = kind === "deduction" ? -c.mut : c.mut;
     out[field] = round2(out[field] + amount);
+    if (beforeTaxable(field, name)) preTaxable = round2(preTaxable + amount);
     if (field === "loonheffing" && /bijz/i.test(name) && c.base) bijzonder = round2(Math.abs(c.mut) / c.base * 100);
     lineItems.push({ category: kind === "deduction" ? "deduction" : "income", code: field, label_original: name, amount: c.mut, rate: c.base ?? null });
   }
-  for (const k of ["gross_salary", "loon_voor_loonheffing", "net_salary", "net_payment"])
-    if (totals[k] == null) throw new PayslipParseError(`No encuentro el importe "${k}" en la nómina.`);
+  // Totales que faltan en algunas nóminas (p. ej. semanas de vacaciones sin "Netto loon"):
+  // se deducen de los demás y quedan marcados para la revisión.
+  const derived = [];
+  const derive = (k, value, why) => { if (totals[k] == null && value != null && Number.isFinite(value)) { totals[k] = round2(value); derived.push(why); } };
+  const incomeTotal = round2(out.regular_pay + out.shift_allowance + out.overtime_pay + out.holiday_pay + out.vakantiegeld);
+  if (totals.gross_salary == null && incomeTotal) derive("gross_salary", incomeTotal, "bruto = suma de conceptos");
+  if (totals.net_salary == null && totals.net_payment != null) derive("net_salary", totals.net_payment - out.travel_allowance, "neto = pagado - gastos de viaje");
+  if (totals.net_payment == null && totals.net_salary != null) derive("net_payment", totals.net_salary + out.travel_allowance, "pagado = neto + gastos de viaje");
+  if (totals.loon_voor_loonheffing == null && totals.gross_salary != null) derive("loon_voor_loonheffing", totals.gross_salary - preTaxable, "base fiscal = bruto - AZV/PAWW/pensión");
+  const names = { gross_salary: "Totaal bruto loon", loon_voor_loonheffing: "Loon voor loonbelasting", net_salary: "Netto loon", net_payment: "Netto te betalen" };
+  for (const k of ["gross_salary", "net_payment", "net_salary", "loon_voor_loonheffing"])
+    if (totals[k] == null) throw new PayslipParseError(`No encuentro "${names[k]}" en la nómina ni puedo calcularlo.`);
 
   // Bloque de declaración (encima de la tabla): horas y tarifa por hora.
   let regularHours = 0, shiftHours = 0, overtimeHours = 0, hourlyRate = null;
@@ -166,6 +189,7 @@ export function parseSdWorx(rows) {
     check("net_salary", totals.gross_salary - deductions, totals.net_salary, "Bruto menos retenciones coincide con el neto"),
     check("net_payment", totals.net_salary + out.travel_allowance, totals.net_payment, "Neto más gastos de viaje coincide con lo pagado")
   ];
+  if (derived.length) checks.push({ rule: "derived_totals", severity: "info", passed: true, message: `No aparece en la nómina y se ha calculado: ${derived.join("; ")}` });
   if (unknown.length) checks.push({ rule: "unknown_lines", severity: "warning", passed: false, message: `Conceptos no reconocidos: ${unknown.join(", ")}` });
   const passed = checks.every(c => c.passed);
 
@@ -191,7 +215,7 @@ export function parseSdWorx(rows) {
     employer: { name: employerRow ? label(employerRow) : "SD Worx Staffing Solutions", code: "SDWORX", loonheffingennummer: employerRow ? valueAfterColon(employerRow) : null },
     payslip, line_items: lineItems, checks,
     validation_status: "review_required", confidence_overall: passed ? 0.95 : 0.5,
-    text_method: "text_layer", model_name: "renzo-hub-parser", prompt_version: "sdworx-v1",
+    text_method: "text_layer", model_name: "renzo-hub-parser", prompt_version: "sdworx-v2",
     summary: `Nómina nº ${payslipNumber} · semana ${week} de ${year} · neto ${totals.net_payment}`
   };
 }

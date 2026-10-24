@@ -7,6 +7,7 @@ import {monthInsights,lastImported,revolutGap} from "./legacy-money/finance/insi
 import {netWorth} from "./legacy-money/finance/networth.js";
 import {recurring,fixedFlags} from "./legacy-money/finance/insights.js";
 import {goalProgress} from "./money-goals.mjs";
+import {withRealIncome} from "./money-income.mjs";
 
 function owner(uid){if(typeof uid!=="string"||!uid.trim())throw new Error("Debes iniciar sesión.");return uid;}
 function unwrap(result){
@@ -24,7 +25,7 @@ function dayStamp(at){return [at.getFullYear(),String(at.getMonth()+1).padStart(
 export function summarizeMoney(fin,assets,goals,{at=new Date()}={}){
   const months=monthsOf(fin.items);
   const current=months[0]||null;
-  const entries=current?monthInsights(fin.items,current):null;
+  const entries=current?withRealIncome(monthInsights(fin.items,current),fin.items,current):null;
   const nw=netWorth(fin.txs,assets,dayStamp(at));
   const banks=lastImported(fin.items);
   const salaryIds=new Set(fin.items.filter(i=>i.category==="nomina"&&i.amount>0).map(i=>i.id));
@@ -64,5 +65,5 @@ export async function loadRealMoney(client,uid,{at=new Date()}={}){
 }
 export function moneyMonthView(summary,month){
   if(!summary.months.includes(month))return null;
-  return monthInsights(summary.items,month);
+  return withRealIncome(monthInsights(summary.items,month),summary.items,month);
 }
