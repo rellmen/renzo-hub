@@ -24,8 +24,8 @@ describe("Academia · contenido público",()=>{
     expect(CATALOG.stats.by_status["planned"]!+CATALOG.stats.by_status["draft"]!).toBe(120);
     expect(CATALOG.stats.meets_standard).toBeGreaterThanOrEqual(10);
     expect(BANK.length).toBe(56);
-    expect(CATALOG.elective.chosen).toBe("economia");
-    expect(CATALOG.elective.confirmed).toBe(false);
+    expect(CATALOG.elective.chosen).toBe("fisica");
+    expect(CATALOG.elective.confirmed).toBe(true);
   });
   it("cada lección con contenido al estándar tiene 5 preguntas de salida y una pregunta evaluable por servidor",()=>{
     for(const f of readdirSync(join(dir,"lessons"))){
@@ -52,7 +52,7 @@ describe("Academia · motor",()=>{
   it("el plan del día pone primero los repasos vencidos y nunca oculta una materia obligatoria",()=>{
     const p=todayPlan(CATALOG,{reviews:[{lesson_id:"castellano-c01-l01",step:0,due_on:"2026-10-23"}],prefs:null,now:new Date(2026,9,24)});
     expect(p.due.map(d=>d.lesson_id)).toEqual(["castellano-c01-l01"]);
-    expect([...p.next.map(n=>n.course),...p.blocked.map(b=>b.course)].sort()).toEqual(["castellano","comentario","economia","ingles","matematicas"]);
+    expect([...p.next.map(n=>n.course),...p.blocked.map(b=>b.course)].sort()).toEqual(["castellano","comentario","fisica","ingles","matematicas"]);
     expect(dueReviews([{lesson_id:"x",step:0,due_on:"2026-10-25"}],new Date(2026,9,24))).toEqual([]);
   });
   it("dominio por habilidad usa los últimos 10 intentos",()=>{
@@ -61,9 +61,9 @@ describe("Academia · motor",()=>{
     expect(m.n).toBe(10);expect(m.correct).toBe(8);expect(m.pct).toBe(80);
   });
   it("reparto semanal de 600 min = 10 h según el plan de 24 semanas",()=>{
-    const w=weeklyPlan(600,"economia");
+    const w=weeklyPlan(600);
     expect(w.find(x=>x.id==="matematicas")?.minutes).toBe(240);
-    expect(w.find(x=>x.id==="economia")?.minutes).toBe(120);
+    expect(w.find(x=>x.id==="fisica")?.minutes).toBe(120);
     expect(w.reduce((n,x)=>n+x.minutes,0)).toBe(600);
   });
   it("progreso por materia cuenta solo lecciones completadas o dominadas",()=>{

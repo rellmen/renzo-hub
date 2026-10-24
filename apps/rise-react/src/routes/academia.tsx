@@ -47,7 +47,7 @@ function Academia(){
   const go=(s:Search)=>void navigate({search:s});
   const data=state.data;
   const prefs=data?.prefs||null;
-  const elective=prefs?.elective||"economia";
+  const elective=prefs?.elective||"fisica";
   const general=daysUntil(CATALOG.exam_dates.general);const especifica=daysUntil(CATALOG.exam_dates.especifica);
 
   if(!allowed)return <EmptyState icon={<Lock className="h-5 w-5"/>} title="Academia en pruebas" text="Disponible en staging hasta que apruebes su paso a producción."/>;
@@ -89,7 +89,7 @@ type Data=Awaited<ReturnType<typeof loadAcademyState>>|undefined;
 
 function PlanView({data,prefs,onOpen,onSaved,client,uid}:{data:Data;prefs:Prefs|null;onOpen:(id:string)=>void;onSaved:()=>void;client:ReturnType<typeof useAuth>["client"];uid:string}){
   const plan=useMemo(()=>todayPlan(CATALOG,{progressRows:data?.progress,reviews:data?.reviews,attempts:data?.attempts,prefs}),[data,prefs]);
-  const [draft,setDraft]=useState<Omit<Prefs,"revision">>({weekly_minutes:prefs?.weekly_minutes??600,session_minutes:prefs?.session_minutes??25,elective:prefs?.elective??"economia",show_drafts:prefs?.show_drafts??true});
+  const [draft,setDraft]=useState<Omit<Prefs,"revision">>({weekly_minutes:prefs?.weekly_minutes??600,session_minutes:prefs?.session_minutes??25,elective:prefs?.elective??"fisica",show_drafts:prefs?.show_drafts??true});
   const [msg,setMsg]=useState<string|null>(null);
   const weekly=weeklyPlan(draft.weekly_minutes,draft.elective);
   async function save(){
@@ -133,9 +133,9 @@ function PlanView({data,prefs,onOpen,onSaved,client,uid}:{data:Data;prefs:Prefs|
       <fieldset className="mt-3"><legend className="text-sm">Duración de sesión</legend><div className="mt-1 flex flex-wrap gap-2">
         {SESSION_OPTIONS.map(m=><button key={m} type="button" aria-pressed={draft.session_minutes===m} onClick={()=>setDraft(d=>({...d,session_minutes:m}))}
           className={"min-h-11 rounded-full border px-4 text-sm "+(draft.session_minutes===m?"border-learn bg-learn/15":"border-hairline")}>{m} min</button>)}</div></fieldset>
-      <fieldset className="mt-3"><legend className="text-sm">Segunda específica (provisional hasta la matrícula)</legend><div className="mt-1 flex flex-wrap gap-2">
-        {(["economia","fisica"] as const).map(c=><button key={c} type="button" aria-pressed={draft.elective===c} onClick={()=>setDraft(d=>({...d,elective:c}))}
-          className={"min-h-11 rounded-full border px-4 text-sm "+(draft.elective===c?"border-learn bg-learn/15":"border-hairline")}>{courseTitle(c)}</button>)}</div></fieldset>
+      <fieldset className="mt-3"><legend className="text-sm">Segunda específica · Ingeniería: Física (Economía solo como material complementario)</legend><div className="mt-1 flex flex-wrap gap-2">
+        {(["fisica","economia"] as const).map(c=><button key={c} type="button" aria-pressed={draft.elective===c} onClick={()=>setDraft(d=>({...d,elective:c}))}
+          className={"min-h-11 rounded-full border px-4 text-sm "+(draft.elective===c?"border-learn bg-learn/15":"border-hairline")}>{courseTitle(c)}{c==="economia"?" (complementaria)":""}</button>)}</div></fieldset>
       <label className="mt-3 flex min-h-11 items-center gap-3 text-sm"><input type="checkbox" className="h-5 w-5" checked={draft.show_drafts} onChange={e=>setDraft(d=>({...d,show_drafts:e.target.checked}))}/> Mostrar lecciones en borrador (modo revisión)</label>
       <ul className="mt-4 space-y-2 text-sm">{weekly.map(w=><li key={w.id} className="flex justify-between gap-2"><span>{w.label}</span><span className="text-muted-foreground">{w.minutes} min</span></li>)}</ul>
       <p className="mt-2 text-xs text-muted-foreground">Reparto de referencia del plan de 24 semanas; ajústalo a tus turnos.</p>

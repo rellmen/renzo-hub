@@ -194,7 +194,7 @@ export function build(){
   const catalog={schema_version:"academia-1",generated_from:"content/academia",exam_dates:{
       general:"2027-04-10",especifica:"2027-04-17",source:"https://universitats.gencat.cat/es/proves-majors/25-anys/",
       note:"Fechas publicadas según el kit (consulta 24-10-2026). Matrícula y fórmula de nota de la modalidad UOC en castellano pendientes de confirmar."},
-    elective:{chosen:"economia",alternative:"fisica",confirmed:false},
+    elective:{chosen:"fisica",alternative:"economia",confirmed:true,note:"Ingeniería (UOC 2026): específicas entre Física, Matemáticas y Química. Economía de la Empresa no es opción para Ingeniería: queda como complementaria."},
     courses,stats:{...stats,questions_total:all.length,exit_questions:Object.values(exitQs).flat().length,bank_questions:bank.length}};
   const files={};
   files["catalog.json"]=JSON.stringify(catalog,null,1)+"\n";

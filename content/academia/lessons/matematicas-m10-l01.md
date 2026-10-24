@@ -59,9 +59,14 @@ Consecuencias directas:
 - Justifica las conclusiones con palabras («como el rango de $A$ es 2 y el de la ampliada es 3, el sistema es incompatible»).
 - Señala el resultado final (subrayado o en un recuadro) con sus unidades si las tiene.
 
+**Detalles comprobados en los modelos 2024 y 2025:**
+- Se permite **calculadora científica**, pero no las que almacenan datos o transmiten información (programables o gráficas con memoria).
+- Algunas cuestiones son de **test** con tres ítems de 0,5 puntos: cada fallo resta **0,25** y en blanco no resta. Responde solo si puedes descartar opciones con seguridad.
+- El enunciado viene en catalán y en castellano: lee la versión que prefieras.
+
 **Mapa de temas probables.** Según el currículo de la academia, alineado con el temario oficial enlazado en la procedencia, el examen recoge los bloques de álgebra lineal (matrices, determinantes, sistemas), geometría analítica (rectas, planos, distancias) y análisis (límites, derivadas, integrales y sus aplicaciones). En la academia, cada bloque tiene lecciones de referencia: M06, M07, M08 y M09.
 
-**Distribución del tiempo.** La duración oficial se debe consultar en la convocatoria. Sea cual sea, una regla útil es repartir el tiempo **en proporción a los puntos**: la parte de cuestiones vale 6 de 10, así que merece aproximadamente el 60 % del tiempo de trabajo, y el problema el 40 %. Reserva unos minutos al principio para leer todo y al final para revisar.
+**Distribución del tiempo.** En la UOC (convocatoria 2026), la fase específica dura **180 minutos para las dos materias** (Matemáticas y Física), así que entrena a unos **90 minutos por materia**. Revalídalo con la convocatoria 2027. Dentro de esos 90 minutos, una regla útil es repartir el tiempo **en proporción a los puntos**: la parte de cuestiones vale 6 de 10, así que merece aproximadamente el 60 % del tiempo de trabajo, y el problema el 40 %. Reserva unos minutos al principio para leer todo y al final para revisar.
 
 ## 5. Ejemplos resueltos
 

@@ -6,7 +6,8 @@ import {PROFILES,courseTitle,CATALOG} from "@/lib/academy/content";
 import {newId,profileMax,profileSlots,scoreExam,type ExamProfile} from "@/lib/academy/engine.mjs";
 import {saveExam,startExam,type ExamRow} from "@/lib/academy/records.mjs";
 
-const DEFAULT_MIN:Record<string,number>={matematicas:90,fisica:90,economia:90,castellano:90,comentario:90,ingles:90};
+// UOC 2026: específica 180 min para dos materias; Castellano + Inglés 105 min en total (reparto orientativo 60/45).
+const DEFAULT_MIN:Record<string,number>={matematicas:90,fisica:90,economia:90,castellano:60,comentario:90,ingles:45};
 
 function sectionText(p:ExamProfile){
   return p.sections.map(s=>{

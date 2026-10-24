@@ -47,7 +47,7 @@ El error más frecuente es pasar demasiado tiempo en la primera parte, releyendo
 
 Valor de cada pregunta: en el bloque de 6, $3/6=0{,}5$ puntos; en el bloque de 3, $3/3=1$ punto.
 
-**Penalizaciones** (formato de referencia): una respuesta incorrecta en una pregunta de **cuatro opciones** resta **0,16**; cada **error de lengua** resta **0,1**. Las preguntas en blanco no restan. La regla del valor esperado de C07-L01 se aplica igual: si descartas al menos una opción con seguridad, responde.
+**Penalizaciones** (formato de referencia): una respuesta incorrecta en una pregunta de **cuatro opciones** resta **0,16**; cada **error de lengua** resta **0,1**. Las preguntas en blanco no restan. Además, en los modelos 2024 y 2025 la redacción pierde **0,5 puntos** si tiene menos de 150 o más de 200 palabras: cuéntalas. El texto viene en catalán y en castellano, y puedes responder en castellano. La regla del valor esperado de C07-L01 se aplica igual: si descartas al menos una opción con seguridad, responde.
 
 **Qué preguntan en comprensión.** Lo trabajado en T00–T04: tema y tesis, intención y postura, sentido de una expresión en el contexto, función de un párrafo o de un conector, relación entre ideas, tipo de argumento, resumen o titular. Las preguntas que valen más suelen pedir respuestas con tus palabras: no copies frases del texto.
 
@@ -60,7 +60,7 @@ Valor de cada pregunta: en el bloque de 6, $3/6=0{,}5$ puntos; en el bloque de 3
 
 **Elegir el tema de la redacción.** Lee los dos temas y elige aquel para el que se te ocurren **dos razones y un ejemplo** en un minuto, no el que te parece más «interesante». Comprueba que entiendes exactamente lo que se pide: no es lo mismo «ventajas del teletrabajo» que «¿debería ser obligatorio el teletrabajo?».
 
-**Reparto del tiempo.** La duración oficial se consulta en la convocatoria. Con la regla de los puntos, la comprensión merece en torno al 60 % del tiempo de trabajo y la redacción, el 40 %. Reserva dos tramos fijos: lectura inicial al principio y revisión de la lengua al final. Escribe la redacción en el **centro** del tiempo disponible, no en los últimos minutos.
+**Reparto del tiempo.** En la UOC (convocatoria 2026), Comentario dura **90 minutos**; revalídalo con la de 2027. Con la regla de los puntos, la comprensión merece en torno al 60 % del tiempo de trabajo y la redacción, el 40 %. Reserva dos tramos fijos: lectura inicial al principio y revisión de la lengua al final. Escribe la redacción en el **centro** del tiempo disponible, no en los últimos minutos.
 
 **Respuestas abiertas breves.** Cuando una pregunta pide explicar con tus palabras:
 - responde en la primera oración (sin rodeos);

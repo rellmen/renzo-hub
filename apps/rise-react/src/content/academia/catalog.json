@@ -8,9 +8,10 @@
   "note": "Fechas publicadas según el kit (consulta 24-10-2026). Matrícula y fórmula de nota de la modalidad UOC en castellano pendientes de confirmar."
  },
  "elective": {
-  "chosen": "economia",
-  "alternative": "fisica",
-  "confirmed": false
+  "chosen": "fisica",
+  "alternative": "economia",
+  "confirmed": true,
+  "note": "Ingeniería (UOC 2026): específicas entre Física, Matemáticas y Química. Economía de la Empresa no es opción para Ingeniería: queda como complementaria."
  },
  "courses": [
   {

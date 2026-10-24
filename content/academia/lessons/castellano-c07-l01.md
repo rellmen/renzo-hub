@@ -70,7 +70,7 @@ Conclusión: **si descartas al menos una opción con seguridad, responde**. Si n
 3. Respeta la extensión pedida (50 a 80 palabras): por debajo puede faltar contenido; muy por encima, aumentas el riesgo de errores y puede penalizar el incumplimiento de la consigna.
 4. Reserva tiempo para revisar solo la ortografía y la puntuación.
 
-**Gestión del tiempo.** La duración oficial se consulta en la convocatoria. Una regla útil es repartir el tiempo de trabajo **en proporción a los puntos** y guardar dos tramos fijos:
+**Gestión del tiempo.** En la UOC (convocatoria 2026), Castellano e Inglés comparten **105 minutos en total**; un reparto razonable es unos 60 para Castellano y 45 para Inglés. Revalídalo con la convocatoria 2027. Una regla útil es repartir el tiempo de trabajo **en proporción a los puntos** y guardar dos tramos fijos:
 1. **Lectura inicial** atenta del texto de comprensión (subraya ideas clave y palabras difíciles).
 2. Comprensión (3 puntos) y reflexión (3 puntos): unos 30 % del tiempo cada una.
 3. Expresión (4 puntos): unos 40 %, con borrador breve.

@@ -66,7 +66,7 @@ export function dueReviews(reviews,now=new Date()){
 
 /** Reparto semanal de referencia del PLAN_24_SEMANAS (10 h): matemáticas 4, específica 2, castellano 1,5, comentario 1, inglés 1, repaso 0,5. */
 export const WEEKLY_SPLIT={matematicas:0.40,especifica:0.20,castellano:0.15,comentario:0.10,ingles:0.10,repaso:0.05};
-export function weeklyPlan(weeklyMinutes,elective="economia"){
+export function weeklyPlan(weeklyMinutes,elective="fisica"){
   const total=Math.max(30,Math.min(4000,Math.round(Number(weeklyMinutes)||600)));
   const rows=[["matematicas","Matemáticas",WEEKLY_SPLIT.matematicas],[elective,elective==="fisica"?"Física":"Economía de la Empresa",WEEKLY_SPLIT.especifica],
     ["castellano","Lengua castellana",WEEKLY_SPLIT.castellano],["comentario","Comentario de texto",WEEKLY_SPLIT.comentario],
@@ -86,7 +86,7 @@ export function priorityScore({examWeight=1,mastery=null,unlocks=0,dueOverdueDay
 export function todayPlan(catalog,{progressRows=[],reviews=[],attempts=[],prefs=null,now=new Date()}={}){
   const progress=progressMap(progressRows);
   const showDrafts=prefs?.show_drafts!==false;
-  const elective=prefs?.elective==="fisica"?"fisica":"economia";
+  const elective=prefs?.elective==="economia"?"economia":"fisica";
   const courses=["matematicas",elective,"castellano","comentario","ingles"];
   const weights={matematicas:1.2,[elective]:1.0,castellano:1.0,comentario:1.0,ingles:1.0};
   const skills=skillMastery(attempts);
