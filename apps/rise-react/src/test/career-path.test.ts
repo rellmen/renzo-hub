@@ -17,7 +17,7 @@ describe("Career / DataLab roadmap 2026–2032",()=>{
  it("generates 264 study tasks plus 2 boss exams without creating false credit",()=>{
   const items=allTasks(),ids=new Set(items.map(t=>t.id));
   expect(items).toHaveLength(266);
-  expect(ids.size).toBe(264);
+  expect(ids.size).toBe(266);
   expect(items.every(t=>t.day>="2026-10-26"&&t.day<="2027-04-17")).toBe(true);
   expect(pathMetrics([])).toEqual({done:0,total:266,percent:0,completeWeeks:0});
  });
