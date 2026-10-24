@@ -6,24 +6,34 @@ import type {SupabaseClient} from "@supabase/supabase-js";
 import {appendStudyCheckpoint,recentLearningCheckpoints,newestStudyRun,type LearningRun} from "@/lib/selflearn-checkpoints.mjs";
 import {makePractice,practicePrompt,gradePractice,type PracticeStep} from "@/lib/selflearn-practice.mjs";
 import {finalizeOfficialLesson} from "@/lib/selflearn-finalization.mjs";
+import {adoptLegacyRun,discardLegacyRun,legacyRunInfo} from "@/lib/selflearn-legacy.mjs";
 import {officialSelfLearnAwardsEnabled} from "@/lib/nocturne-environment.mjs";
+import {primeSpeech,speak,stopSpeaking} from "@/lib/speech";
 
 type Course="nl"|"en";
 type Active={id:string;sessionId:string;run:LearningRun};
-type Props={client:SupabaseClient|null;uid:string;course:Course;legacyActive:boolean;nextUnitId:string|null};
+type Props={client:SupabaseClient|null;uid:string;course:Course;legacyRun:unknown;nextUnitId:string|null};
 const errorMessage=(e:unknown)=>e instanceof Error?e.message:"No se pudo confirmar tu progreso.";
 const CHOICE=new Set(["choice","listen","gap","dialogue"]);
 const PASSIVE=new Set(["learn","grammar","speak"]);
 function AudioButton({text,course}:{text:string;course:Course}){
- const speak=()=>{
-  if(!("speechSynthesis" in window))return;
-  window.speechSynthesis.cancel();
-  const utterance=new SpeechSynthesisUtterance(text);
-  utterance.lang=course==="nl"?"nl-NL":"en-US";utterance.rate=0.85;
-  window.speechSynthesis.speak(utterance);
+ const [playing,setPlaying]=useState(false);
+ const [note,setNote]=useState("");
+ useEffect(()=>primeSpeech(),[]);
+ useEffect(()=>()=>stopSpeaking(),[]);
+ const name=course==="nl"?"neerlandés":"inglés";
+ const onClick=()=>{
+  if(playing){stopSpeaking();setPlaying(false);return;}
+  const r=speak(text,course,{onEnd:()=>setPlaying(false)});
+  if(r==="unsupported"){setNote("Este navegador no puede leer en voz alta.");return;}
+  setPlaying(true);
+  setNote(r==="no-voice"?`Tu móvil no tiene voz en ${name}. En iPhone: Ajustes › Accesibilidad › Contenido leído › Voces › ${course==="nl"?"Nederlands":"English"}.`:"");
  };
- return <button type="button" className="btn-ghost min-h-11" disabled={!text}
-  onClick={speak}><Volume2 className="h-4 w-4"/> Escuchar</button>;
+ return <div className="space-y-1">
+  <button type="button" className="btn-ghost min-h-11" disabled={!text} onClick={onClick} aria-pressed={playing}>
+   <Volume2 className="h-4 w-4"/> {playing?"Detener":"Escuchar"}</button>
+  {note&&<p role="status" className="text-xs text-muted-foreground">{note}</p>}
+ </div>;
 }
 function StepEditor({step,course,value,setValue,match,setMatch}:{step:PracticeStep;course:Course;
  value:string;setValue:(s:string)=>void;match:string[];setMatch:(next:string[])=>void}){
@@ -66,7 +76,7 @@ function StepEditor({step,course,value,setValue,match,setMatch}:{step:PracticeSt
    {kind==="dialogue"&&<div className="space-y-1">{(step.lines||[]).map((line,i)=>
      <p key={i} className="text-xs text-muted-foreground">{line.who}: {i===(step.lines?.length||1)-1?"________":line.t}</p>)}</div>}
    {kind==="listen"&&<><AudioButton text={step.audio||""} course={course}/>
-     <p className="text-xs text-muted-foreground">Escucha y elige el significado. Si no tienes audio disponible, puedes usar el reproductor clásico.</p></>}
+     <p className="text-xs text-muted-foreground">Escucha y elige el significado. Si no se oye, sube el volumen o quita el modo silencio.</p></>}
    {CHOICE.has(kind)?<div className="grid gap-2 sm:grid-cols-2">
      {(step.options||[]).map((option,i)=><button type="button" key={i} aria-pressed={value===option}
        className={"min-h-12 rounded-xl border px-4 text-left text-sm "+(value===option?"border-learn bg-learn/15 text-foreground":"border-hairline bg-raised text-platinum/85")}
@@ -80,8 +90,10 @@ function StepEditor({step,course,value,setValue,match,setMatch}:{step:PracticeSt
    </label>}
  </div>;
 }
-export function SelfLearnCheckpointPractice({client,uid,course,legacyActive,nextUnitId}:Props){
+export function SelfLearnCheckpointPractice({client,uid,course,legacyRun,nextUnitId}:Props){
  const qc=useQueryClient();
+ const legacy=legacyRunInfo(legacyRun);
+ const legacyActive=!!legacy;
  const [active,setActive]=useState<Active|null>(null);
  const [selection,setSelection]=useState("");
  const [matching,setMatching]=useState<string[]>([]);
@@ -100,6 +112,18 @@ export function SelfLearnCheckpointPractice({client,uid,course,legacyActive,next
   queryFn:()=>recentLearningCheckpoints(client!,uid),staleTime:5000,refetchOnWindowFocus:true});
  useEffect(()=>{setActive(null);setSelection("");setMatching([]);setFeedback("");},[uid,course]);
  const latest=query.data?newestStudyRun(query.data,course):null;
+ const legacyFix=useMutation({
+  mutationFn:async(mode:"adopt"|"discard")=>{
+   if(!client||!uid)throw Error("Inicia sesión para continuar.");
+   if(mode==="discard"){await discardLegacyRun(client,uid,course);return null;}
+   return (await adoptLegacyRun(client,uid,course)).adopted;
+  },
+  onSuccess:async adopted=>{
+   if(adopted){setActive(adopted);setFeedback("Lección recuperada: sigues en el mismo paso, ahora guardada aquí.");}
+   else setFeedback("Sesión antigua cerrada. Ya puedes empezar tu lección.");
+   await Promise.all([qc.invalidateQueries({queryKey:key}),qc.invalidateQueries({queryKey:["selflearn-snapshot",uid]})]);
+  }
+ });
  const start=useMutation({
   mutationFn:async()=>{
    if(!client||!uid||!nextUnitId)throw Error("No hay una unidad disponible.");
@@ -161,9 +185,17 @@ export function SelfLearnCheckpointPractice({client,uid,course,legacyActive,next
         <RotateCcw className="h-4 w-4"/> {practicePrompt(latest.run).complete?"Recuperar práctica terminada":"Reanudar práctica guardada"}
       </button>}
     </div>}
-    {legacyActive&&<p className="rounded-xl border border-gold/30 bg-gold/[0.06] p-4 text-sm">
-      Existe una lección iniciada en SelfLearn clásico. Termínala allí antes de empezar otra sesión para evitar resultados duplicados.
-    </p>}
+    {legacy&&<div className="rounded-xl border border-gold/30 bg-gold/[0.06] p-4 text-sm">
+      <p>{legacy.resumable?`Tienes una lección a medias de la versión anterior (${legacy.unitId}, paso ${legacy.step} de ${legacy.total}).`
+        :legacy.complete?"La versión anterior dejó una lección terminada sin cerrar.":"La versión anterior dejó una sesión que ya no se puede abrir."}</p>
+      <p className="mt-1 text-xs text-muted-foreground">{legacy.resumable?"Continúala aquí con el mismo progreso, o descártala y empieza tu siguiente lección.":"Ciérrala para seguir con tus lecciones. No se borra nada acreditado."}</p>
+      <div className="mt-3 flex flex-wrap gap-2">
+        {legacy.resumable&&<button type="button" className="btn-gold min-h-11" disabled={legacyFix.isPending} onClick={()=>legacyFix.mutate("adopt")}>
+          <RotateCcw className="h-4 w-4"/> {legacyFix.isPending?"Recuperando…":"Continuar aquí"}</button>}
+        <button type="button" className="btn-ghost min-h-11" disabled={legacyFix.isPending} onClick={()=>legacyFix.mutate("discard")}>
+          {legacy.resumable?"Descartar y empezar de nuevo":"Cerrar sesión antigua"}</button>
+      </div>
+    </div>}
     <div className="flex flex-wrap items-end gap-3">
       <label className="space-y-1 text-xs text-muted-foreground">Duración de práctica
         <select className="block min-h-11 rounded-xl border border-hairline bg-obsidian px-3 text-sm text-foreground"
@@ -212,6 +244,7 @@ export function SelfLearnCheckpointPractice({client,uid,course,legacyActive,next
     </form>}
   </div>}
   {feedback&&<p role="status" className="rounded-xl border border-learn/25 p-3 text-sm text-platinum/85">{feedback}</p>}
+  {legacyFix.error&&<p role="alert" className="rounded-xl border border-gym/40 p-4 text-sm text-gym">{errorMessage(legacyFix.error)}</p>}
   {(start.error||save.error||award.error)&&<p role="alert" className="rounded-xl border border-gym/40 p-4 text-sm text-gym">
     {errorMessage(start.error||save.error||award.error)}. No se ha avanzado sin confirmación; puedes volver a intentarlo.
   </p>}
