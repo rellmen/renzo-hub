@@ -30,7 +30,7 @@ describe("Career / DataLab roadmap 2026–2032",()=>{
   expect(tasks.filter(t=>t.weekday===6).some(t=>t.subject==="Revisión semanal")).toBe(true);
  });
  it("only credits persisted rows with matching roadmap task IDs; no global XP",()=>{
-  const first=tasksForWeek(0)[0];
+  const first=tasksForWeek(0)[0]!;
   const rows=[{id:"a",owner_id:uid,status:"completed",updated_at:"2026-10-26T00:00:00Z",payload:{taskId:first.id}},
    {id:"b",owner_id:uid,status:"completed",updated_at:"2026-10-26T00:00:00Z",payload:{taskId:"invented"}}];
   expect(pathMetrics(rows).done).toBe(1);
@@ -43,7 +43,7 @@ describe("Career / DataLab roadmap 2026–2032",()=>{
    vi.setSystemTime(new Date("2026-10-24T12:00:00Z"));
    let touched=false;
    const client={from:()=>{touched=true;return {};}};
-   await expect(setPathTask(client,uid,tasksForWeek(23)[0],true)).rejects.toThrow("Todavía no");
+   await expect(setPathTask(client,uid,tasksForWeek(23)[0]!,true)).rejects.toThrow("Todavía no");
    expect(touched).toBe(false);
   }finally{vi.useRealTimers();}
  });
