@@ -1,4 +1,4 @@
-import {createFileRoute,useNavigate} from "@tanstack/react-router";
+import {createFileRoute,Link,useNavigate} from "@tanstack/react-router";
 import {useQuery,useQueryClient} from "@tanstack/react-query";
 import {useMemo,useState} from "react";
 import {BookOpen,CalendarClock,ChevronRight,Lock,RefreshCw,Repeat,ShieldCheck} from "lucide-react";
@@ -157,6 +157,7 @@ function CoursesView({data,curso,onCourse,onOpen}:{data:Data;curso:string;onCour
     <SectionCard eyebrow={course.role_label} title={course.title} accent="var(--learn)"
       action={<a className="text-xs underline" href={course.official_syllabus_url} target="_blank" rel="noopener noreferrer">Temario oficial</a>}>
       <p className="text-xs text-muted-foreground">Estados editoriales reales: «Sin redactar» = solo título del temario; «Borrador» = redactada sin revisión humana. Nada se presenta como curso terminado.</p>
+      {course.slug==="ingles"&&<p className="mt-2 text-xs"><Link to="/aprender" search={{idioma:"uoc"}} className="text-learn underline">También en Idiomas</Link>, junto a Neerlandés B2 e Inglés C1.</p>}
       <div className="mt-4 space-y-5">{course.modules.map(m=><div key={m.id}>
         <p className="eyebrow">{m.id} · {m.level} · {m.title}</p>
         <ul className="mt-2 grid gap-2 sm:grid-cols-2">{m.lessons.map(l=>{

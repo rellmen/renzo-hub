@@ -133,15 +133,26 @@ for(const [label,engine,opts] of [
     await page.waitForLoadState('networkidle',{timeout:5000}).catch(()=>{});
     visited.push(path);
   }
-  // Hubs: Money agrupa Resumen, Gastos, Nóminas y Car como pestañas; Academy agrupa los estudios.
+  // Hubs: Money agrupa Resumen, Gastos y Nóminas (Car vive dentro de Gastos); Academy agrupa los estudios.
   await page.goto(new URL('/nominas',origin).href,{waitUntil:'domcontentloaded'});
   const moneyTabs=page.getByRole('navigation',{name:'Secciones de Money'});
   await moneyTabs.waitFor();
-  assert.deepEqual((await moneyTabs.getByRole('link').allInnerTexts()).map(t=>t.trim()),['Resumen','Gastos','Nóminas','Car']);
+  assert.deepEqual((await moneyTabs.getByRole('link').allInnerTexts()).map(t=>t.trim()),['Resumen','Gastos','Nóminas']);
   await page.goto(new URL('/academy',origin).href,{waitUntil:'domcontentloaded'});
   const academyTabs=page.getByRole('navigation',{name:'Secciones de Academy'});
   await academyTabs.waitFor();
-  assert.equal(await academyTabs.getByRole('link').count(),5);
+  assert.deepEqual((await academyTabs.getByRole('link').allInnerTexts()).map(t=>t.trim()),['Hoy','UOC +25','Idiomas','Data & Carrera','Biblioteca']);
+  await page.getByRole('heading',{name:'Lo que toca estudiar'}).waitFor();
+  await page.getByText('Siguiente paso',{exact:true}).waitFor();
+  // /car lleva a Gastos → «Gastos fijos · Coche».
+  await page.goto(new URL('/car',origin).href,{waitUntil:'domcontentloaded'});
+  await page.waitForURL(/\/gastos#coche$/,{timeout:15000});
+  await page.getByText('Gastos fijos · Coche').waitFor();
+  // Idiomas: un solo apartado con las tres pestañas.
+  await page.goto(new URL('/aprender?idioma=uoc',origin).href,{waitUntil:'domcontentloaded'});
+  await page.getByRole('tab',{name:'Inglés · examen UOC'}).waitFor();
+  assert.deepEqual((await page.getByRole('tablist',{name:'Idioma'}).getByRole('tab').allInnerTexts()).map(t=>t.trim()),['Neerlandés · B2','Inglés · C1','Inglés · examen UOC']);
+  assert.equal(await page.getByRole('tab',{name:'Inglés · examen UOC'}).getAttribute('aria-selected'),'true');
   // The route matrix no longer ends at Ajustes; the account email lives there.
   // Visit it explicitly so this test verifies session persistence instead of
   // accidentally depending on the order of the route array.

@@ -10,11 +10,12 @@ export function HubSections() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const current = appForPath(pathname);
   const hub = hubOfApp(current?.id);
-  if (!hub || hub.sections.length < 2) return null;
+  const tabs = hub ? hub.sections.filter((s) => s.tab !== false) : [];
+  if (!hub || tabs.length < 2) return null;
   return (
     <nav aria-label={`Secciones de ${hub.label}`} className="mb-5 overflow-x-auto rounded-2xl border border-hairline bg-raised p-2 [scrollbar-width:none]">
       <ul className="flex min-w-max items-center gap-2">
-        {hub.sections.map(({ appId, label }) => {
+        {tabs.map(({ appId, label }) => {
           const app = requireApp(appId);
           if (app.kind !== "live") return null;
           const selected = current?.id === appId;
