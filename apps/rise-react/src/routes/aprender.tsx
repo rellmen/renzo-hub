@@ -1,6 +1,7 @@
-import {createFileRoute} from "@tanstack/react-router";
+import {createFileRoute,useNavigate} from "@tanstack/react-router";
 import {useQuery} from "@tanstack/react-query";
 import {useState} from "react";
+import {UocEnglishPanel} from "@/components/rise/UocEnglishPanel";
 import {BookOpen,Check,LockKeyhole,RefreshCw,ShieldCheck} from "lucide-react";
 import img from "@/assets/learn.jpg";
 import {pageHead} from "@/lib/seo";
@@ -16,16 +17,21 @@ import {SelfLearnTutor} from "@/components/rise/SelfLearnTutor";
 import {loadLearningSnapshot} from "@/lib/selflearn-snapshot.mjs";
 import {COURSES,completedUnitIds,levelProgress,nextUnit} from "@/lib/legacy-selflearn/engine.js";
 
+type CourseId="nl"|"en";
+/** Idiomas = un solo apartado: Neerlandés B2 · Inglés C1 (SelfLearn) · Inglés del examen UOC (Academia). Solo UI. */
+type Tab=CourseId|"uoc";
+const TABS:{id:Tab;label:string}[]=[{id:"nl",label:"Neerlandés · B2"},{id:"en",label:"Inglés · C1"},{id:"uoc",label:"Inglés · examen UOC"}];
 export const Route=createFileRoute("/aprender")({
-  head:()=>pageHead("SelfLearn","Catálogo real de neerlandés e inglés con progreso privado sincronizado."),
+  head:()=>pageHead("Idiomas","Neerlandés B2, inglés C1 e inglés del examen UOC +25 en un solo apartado."),
+  validateSearch:(s:Record<string,unknown>):{idioma?:Tab|undefined}=>({idioma:TABS.some(t=>t.id===s["idioma"])?s["idioma"] as Tab:undefined}),
   component:SelfLearn,
 });
-type CourseId="nl"|"en";
-const COURSES_ID:CourseId[]=["nl","en"];
 const err=(e:unknown)=>e instanceof Error?e.message:"No se pudo recuperar tu progreso.";
 function SelfLearn(){
   const {client,user}=useAuth();
-  const [course,setCourse]=useState<CourseId>("nl");
+  const tab:Tab=Route.useSearch().idioma||"nl";
+  const navigate=useNavigate({from:"/aprender"});
+  const course:CourseId=tab==="uoc"?"en":tab;
   const [showAll,setShowAll]=useState(false);
   const uid=user?.id||"";
   const backendReady=useSelfLearnCapabilities(client,uid);
@@ -45,9 +51,9 @@ function SelfLearn(){
   const due=data?.reviewDue[course];
   const next=data?nextUnit(course,data.entries,data.learningSettings):null;
   return <div className="space-y-6">
-    <PageHero image={img} eyebrow="SELFLEARN · IDIOMAS"
+    <PageHero image={img} eyebrow="IDIOMAS"
       title="Aprende sin límites."
-      subtitle="Neerlandés B2 e inglés C1: conserva tus lecciones, vocabulario y progreso de RISE HUB. Sin ejercicios inventados."
+      subtitle="Neerlandés B2, inglés C1 e inglés del examen UOC +25 en un solo apartado. Cada curso conserva su progreso donde siempre. Sin ejercicios inventados."
       color="var(--learn)" priority>
       <div className="flex flex-wrap gap-2">
         <span className="inline-flex items-center gap-2 rounded-full border border-learn/35 bg-ink/70 px-4 py-2 text-xs text-platinum/90">
@@ -58,23 +64,24 @@ function SelfLearn(){
         </span>
       </div>
     </PageHero>
-    {snapshot.error&&<p role="alert" className="surface border border-gym/40 p-4 text-sm text-gym">
+    {tab!=="uoc"&&snapshot.error&&<p role="alert" className="surface border border-gym/40 p-4 text-sm text-gym">
       {err(snapshot.error)}. No mostraré progreso ficticio.
     </p>}
-    {snapshot.isLoading&&<p role="status" className="surface p-5">Cargando tu historial de idiomas…</p>}
+    {tab!=="uoc"&&snapshot.isLoading&&<p role="status" className="surface p-5">Cargando tu historial de idiomas…</p>}
     <div className="flex flex-wrap items-center justify-between gap-3">
-      <div role="tablist" aria-label="Idioma" className="inline-flex rounded-full border border-hairline bg-obsidian p-1">
-        {COURSES_ID.map(id=><button key={id} type="button" role="tab" aria-selected={course===id}
-          className={"min-h-11 rounded-full px-4 text-sm font-semibold "+(course===id?"bg-learn/20 text-foreground ring-1 ring-learn/50":"text-muted-foreground")}
-          onClick={()=>{setCourse(id);setShowAll(false);}}>
-          {COURSES[id].label} · {id==="nl"?"B2":"C1"}
+      <div role="tablist" aria-label="Idioma" className="flex max-w-full flex-wrap gap-1 rounded-3xl border border-hairline bg-obsidian p-1 sm:rounded-full">
+        {TABS.map(t=><button key={t.id} type="button" role="tab" aria-selected={tab===t.id}
+          className={"min-h-11 rounded-full px-4 text-sm font-semibold "+(tab===t.id?"bg-learn/20 text-foreground ring-1 ring-learn/50":"text-muted-foreground")}
+          onClick={()=>{void navigate({search:{idioma:t.id},replace:true});setShowAll(false);}}>
+          {t.label}
         </button>)}
       </div>
-      <button type="button" className="btn-ghost" onClick={()=>void snapshot.refetch()} disabled={snapshot.isFetching}>
+      {tab!=="uoc"&&<button type="button" className="btn-ghost" onClick={()=>void snapshot.refetch()} disabled={snapshot.isFetching}>
         <RefreshCw className={"h-4 w-4 "+(snapshot.isFetching?"animate-spin":"")}/> Actualizar
-      </button>
+      </button>}
     </div>
-    {data&&<>
+    {tab==="uoc"&&<UocEnglishPanel/>}
+    {data&&tab!=="uoc"&&<>
       {data&&<SelfLearnVocabularyReview key={uid+course} client={client} uid={uid} course={course}
         cards={data.vocabulary} legacyActive={!!data.learningRuns[course]}/>}
       <SelfLearnCheckpointPractice key={uid+course} client={client} uid={uid} course={course}

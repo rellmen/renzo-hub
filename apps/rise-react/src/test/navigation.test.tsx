@@ -47,8 +47,10 @@ describe('7 hubs (opción B, 24-10-2026)',()=>{
  });
  it('groups the sections Renzo asked for',()=>{
   const ids=(h:string)=>HUBS.find(x=>x.id===h)!.sections.map(s=>s.appId);
-  expect(ids('academy')).toEqual(['academy','aprender','academia','career','news']);
+  expect(ids('academy')).toEqual(['academy','academia','aprender','career','news']);
   expect(ids('money')).toEqual(['dinero','gastos','nominas','car']);
+  // Car pertenece a Money pero sin pestaña: vive dentro de Gastos (24-10-2026).
+  expect(HUBS.find(x=>x.id==='money')!.sections.filter(s=>s.tab!==false).map(s=>s.label)).toEqual(['Resumen','Gastos','Nóminas']);
   expect(ids('body')).toEqual(['gym','food','piel','body']);
   expect(hubOfApp(appForPath('/nominas')?.id)?.id).toBe('money');
   expect(hubOfApp(appForPath('/aprender')?.id)?.id).toBe('academy');

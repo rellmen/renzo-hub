@@ -8,7 +8,8 @@ import { Activity, Briefcase, GraduationCap, Home, Settings, Sparkles, Wallet } 
  */
 export type HubId = "inicio" | "academy" | "body" | "money" | "trabajo" | "ares" | "ajustes";
 
-export type HubSection = { appId: string; label: string };
+/** `tab: false` = pertenece al hub pero no tiene pestaña propia (vive dentro de otra pantalla). */
+export type HubSection = { appId: string; label: string; tab?: false };
 export type Hub = {
   id: HubId;
   label: string;
@@ -25,9 +26,10 @@ export const HUBS: Hub[] = [
     sections: [{ appId: "inicio", label: "Hoy" }, { appId: "quests", label: "XP y Quests" }] },
   { id: "academy", label: "Academy", short: "Academy", blurb: "Todo lo que estudias", icon: GraduationCap, accent: "var(--learn)",
     sections: [
+      // Orden hasta el examen UOC (abril 2027): primero lo que más pesa en la prueba.
       { appId: "academy", label: "Hoy" },
-      { appId: "aprender", label: "Idiomas" },
       { appId: "academia", label: "UOC +25" },
+      { appId: "aprender", label: "Idiomas" },
       { appId: "career", label: "Data & Carrera" },
       { appId: "news", label: "Biblioteca" },
     ] },
@@ -38,12 +40,13 @@ export const HUBS: Hub[] = [
       { appId: "piel", label: "Skin" },
       { appId: "body", label: "Medidas" },
     ] },
-  { id: "money", label: "Money", short: "Money", blurb: "Resumen, gastos, nóminas y coche", icon: Wallet, accent: "var(--money)",
+  { id: "money", label: "Money", short: "Money", blurb: "Resumen, gastos (con el coche) y nóminas", icon: Wallet, accent: "var(--money)",
     sections: [
       { appId: "dinero", label: "Resumen" },
       { appId: "gastos", label: "Gastos" },
       { appId: "nominas", label: "Nóminas" },
-      { appId: "car", label: "Car" },
+      // Car vive dentro de Gastos como «Gastos fijos · Coche» (24-10-2026); /car redirige allí.
+      { appId: "car", label: "Coche", tab: false },
     ] },
   { id: "trabajo", label: "Trabajo", short: "Trabajo", blurb: "Turnos, proyectos y notas", icon: Briefcase, accent: "var(--projects)",
     sections: [

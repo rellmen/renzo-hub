@@ -5,10 +5,11 @@ import {RefreshCw,ShieldCheck} from "lucide-react";
 import {pageHead} from "@/lib/seo";
 import {useAuth} from "@/lib/auth/AuthProvider";
 import {PageHeader,SectionCard} from "@/components/rise/primitives";
+import {CarPanel} from "@/components/rise/money/CarPanel";
 import {loadGastos,saveGastosCategory,saveMerchantRule,deleteMerchantRule,GASTOS_CATEGORIES,type MoneyRule} from "@/lib/gastos-editor.mjs";
 
 export const Route=createFileRoute("/gastos")({
- head:()=>pageHead("Gastos","Categorías reales de los movimientos bancarios guardados."),
+ head:()=>pageHead("Gastos","Categorías reales de los movimientos bancarios y gastos fijos del coche."),
  component:Expenses
 });
 const eur=new Intl.NumberFormat("es-ES",{style:"currency",currency:"EUR"});
@@ -43,7 +44,7 @@ function Expenses(){
  return <div className="space-y-6">
   
   <PageHeader eyebrow="MY FINANCE · GASTOS" title="Categoriza tus movimientos"
-   subtitle="Utiliza los movimientos originales de ING y Revolut. Puedes corregir una categoría sin alterar fecha, importe o procedencia bancaria."/>
+   subtitle="Movimientos originales de ING y Revolut, con los gastos fijos del coche en su propio bloque. Puedes corregir una categoría sin alterar fecha, importe o procedencia bancaria."/>
   <div className="flex flex-wrap items-center justify-between gap-3">
    <p className="text-xs text-muted-foreground"><ShieldCheck className="mr-1 inline h-4 w-4"/>Solo datos de tu sesión, protegidos por Supabase</p>
    <button className="btn-ghost min-h-11" type="button" disabled={query.isFetching||mutation.isPending} onClick={()=>void query.refetch()}><RefreshCw className="h-4 w-4"/>Actualizar</button>
@@ -64,6 +65,9 @@ function Expenses(){
      <div><p className="text-xs text-muted-foreground">Sin categoría</p><strong>{summary.uncategorized}</strong></div>
     </div>}
    </SectionCard>
+  </>}
+  <CarPanel month={month}/>
+  {query.data&&<>
    <SectionCard eyebrow="Categorías" title="Movimientos bancarios" accent="var(--gold)">
     {!items.length&&<p className="text-sm text-muted-foreground">No hay movimientos para este periodo.</p>}
     <ul className="divide-y divide-hairline">{items.map(i=><li key={i.id} className="grid gap-3 py-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
