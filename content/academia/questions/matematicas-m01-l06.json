@@ -1,0 +1,39 @@
+{
+  "lesson_id": "matematicas-m01-l06",
+  "questions": [
+    {
+      "id": "m01l06-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["absolute_value"],
+      "prompt_md": "Calcula la distancia entre $-7$ y $4$ en la recta real.",
+      "key": {"value": 11, "tolerance": 0},
+      "explanation_md": "$|4-(-7)|=|11|=11$."
+    },
+    {
+      "id": "m01l06-x2", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["abs_equations"],
+      "prompt_md": "¿Cuáles son las soluciones de $|x-3|=5$?",
+      "choices": [{"id": "a", "text": "Solo $x=8$"}, {"id": "b", "text": "$x=8$ y $x=-2$"}, {"id": "c", "text": "$x=2$ y $x=-8$"}, {"id": "d", "text": "No tiene solución"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "$x-3=5$ → $8$; $x-3=-5$ → $-2$."
+    },
+    {
+      "id": "m01l06-x3", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["abs_inequalities"],
+      "prompt_md": "Resuelve $|x-4|<2$.",
+      "choices": [{"id": "a", "text": "$(2,6)$"}, {"id": "b", "text": "$(-\\infty,6)$"}, {"id": "c", "text": "$(-\\infty,2)\\cup(6,+\\infty)$"}, {"id": "d", "text": "$[2,6]$"}],
+      "key": {"correct_choice_id": "a"},
+      "explanation_md": "Puntos a distancia menor que 2 de 4: $2<x<6$. Extremos excluidos por el signo $<$."
+    },
+    {
+      "id": "m01l06-x4", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["abs_equations"],
+      "prompt_md": "¿Cuántas soluciones tiene $|2x+5|=-3$?",
+      "choices": [{"id": "a", "text": "Ninguna"}, {"id": "b", "text": "Una"}, {"id": "c", "text": "Dos"}, {"id": "d", "text": "Infinitas"}],
+      "key": {"correct_choice_id": "a"},
+      "explanation_md": "Un valor absoluto nunca es negativo."
+    },
+    {
+      "id": "m01l06-x5", "kind": "multiple_choice", "difficulty": 3, "skill_ids": ["abs_inequalities"],
+      "prompt_md": "Resuelve $|2x-1|\\ge5$.",
+      "choices": [{"id": "a", "text": "$[-2,3]$"}, {"id": "b", "text": "$(-\\infty,-2]\\cup[3,+\\infty)$"}, {"id": "c", "text": "$(-\\infty,-3]\\cup[2,+\\infty)$"}, {"id": "d", "text": "$[3,+\\infty)$"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "$2x-1\\ge5$ → $x\\ge3$; $2x-1\\le-5$ → $x\\le-2$."
+    }
+  ]
+}

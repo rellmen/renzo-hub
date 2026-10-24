@@ -174,85 +174,77 @@
        "title": "Despeje de fórmulas",
        "topic_scope": "despeje de fórmulas",
        "level": "N1",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
         "matematicas-m01-l02"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "matematicas-m01-l04",
-       "title": "Proporcionalidad",
+       "title": "Proporcionalidad algebraica, regla de tres compuesta y repartos",
        "topic_scope": "proporcionalidad",
        "level": "N1",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
-        "matematicas-m01-l03"
+        "matematicas-m01-l03",
+        "matematicas-m00-l07"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "matematicas-m01-l05",
        "title": "Desigualdades, intervalos y recta real",
        "topic_scope": "desigualdades, intervalos y recta real",
        "level": "N1",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
-        "matematicas-m01-l04"
+        "matematicas-m01-l02"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "matematicas-m01-l06",
-       "title": "Valor absoluto",
+       "title": "Valor absoluto, distancia en la recta y ecuaciones e inecuaciones con valor absoluto",
        "topic_scope": "valor absoluto",
        "level": "N1",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
         "matematicas-m01-l05"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "matematicas-m01-l07",
-       "title": "Lectura de problemas",
+       "title": "Leer y plantear problemas con ecuaciones",
        "topic_scope": "lectura de problemas",
        "level": "N1",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
-        "matematicas-m01-l06"
+        "matematicas-m01-l02",
+        "matematicas-m01-l04"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     },
@@ -2401,22 +2393,22 @@
  ],
  "stats": {
   "by_status": {
-   "planned": 89,
-   "draft": 31,
+   "planned": 84,
+   "draft": 36,
    "reviewed": 0,
    "ready": 0,
    "published": 0
   },
   "lessons_total": 120,
-  "meets_standard": 31,
+  "meets_standard": 36,
   "courses": {
    "matematicas": {
     "total": 56,
-    "with_content": 13,
-    "meets_standard": 13,
+    "with_content": 18,
+    "meets_standard": 18,
     "by_status": {
-     "planned": 43,
-     "draft": 13,
+     "planned": 38,
+     "draft": 18,
      "reviewed": 0,
      "ready": 0,
      "published": 0
@@ -2483,8 +2475,8 @@
     }
    }
   },
-  "questions_total": 211,
-  "exit_questions": 155,
+  "questions_total": 236,
+  "exit_questions": 180,
   "bank_questions": 56
  }
 }

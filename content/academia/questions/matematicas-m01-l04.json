@@ -1,0 +1,36 @@
+{
+  "lesson_id": "matematicas-m01-l04",
+  "questions": [
+    {
+      "id": "m01l04-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["proportional_models"],
+      "prompt_md": "$y$ es directamente proporcional a $x$, e $y=18$ cuando $x=4$. ¿Cuánto vale $y$ cuando $x=10$?",
+      "key": {"value": 45, "tolerance": 0},
+      "explanation_md": "$k=\\dfrac{18}{4}=4{,}5$; $y=4{,}5\\cdot10=45$."
+    },
+    {
+      "id": "m01l04-x2", "kind": "numeric", "difficulty": 1, "skill_ids": ["proportional_models"],
+      "prompt_md": "$y$ es inversamente proporcional a $x$, e $y=9$ cuando $x=4$. ¿Cuánto vale $y$ cuando $x=6$?",
+      "key": {"value": 6, "tolerance": 0},
+      "explanation_md": "$k=4\\cdot9=36$; $y=\\dfrac{36}{6}=6$."
+    },
+    {
+      "id": "m01l04-x3", "kind": "numeric", "difficulty": 2, "skill_ids": ["proportional_sharing"],
+      "prompt_md": "Se reparten 3.600 € en proporción directa a 2, 3 y 7. ¿Cuántos euros corresponden a la parte mayor?", "unit": "€",
+      "key": {"value": 2100, "tolerance": 0},
+      "explanation_md": "Suma 12; $k=300$; la parte de 7 recibe $2100$ €."
+    },
+    {
+      "id": "m01l04-x4", "kind": "numeric", "difficulty": 3, "skill_ids": ["compound_rule_of_three"],
+      "prompt_md": "4 máquinas iguales fabrican 600 piezas en 5 horas. ¿Cuántas horas necesitan 6 máquinas para fabricar 1.080 piezas?", "unit": "h",
+      "key": {"value": 6, "tolerance": 0},
+      "explanation_md": "Máquinas: inversa, $\\dfrac46$. Piezas: directa, $\\dfrac{1080}{600}$. $5\\cdot\\dfrac46\\cdot1{,}8=6$ horas."
+    },
+    {
+      "id": "m01l04-x5", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["proportional_sharing"],
+      "prompt_md": "Se reparte un premio de forma **inversamente** proporcional a los días de retraso de tres proveedores: 2, 4 y 8 días. ¿Qué afirmación es correcta?",
+      "choices": [{"id": "a", "text": "El de 8 días recibe el doble que el de 4"}, {"id": "b", "text": "El de 2 días recibe el doble que el de 4"}, {"id": "c", "text": "Los tres reciben lo mismo"}, {"id": "d", "text": "El de 2 días recibe la mitad que el de 4"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Se reparte a $\\dfrac12,\\dfrac14,\\dfrac18$, proporcionales a 4, 2 y 1: el de 2 días recibe el doble que el de 4."
+    }
+  ]
+}
