@@ -24,6 +24,10 @@ jobs:
         run: npm run check
       - name: Tests unitarios
         run: npm test
+      - name: Academia · claves verificadas por cálculo independiente (SymPy)
+        run: |
+          python3 -m pip install --quiet sympy==1.13.3
+          python3 tools/academy/verify_keys.py
       - name: Smoke test de navegador (sin datos reales)
         env:
           # Valores ficticios: el smoke test no inicia sesión ni toca Supabase real.
