@@ -1,0 +1,40 @@
+{
+  "lesson_id": "comentario-t04-l01",
+  "questions": [
+    {
+      "id": "t04l01-x1", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["own_thesis"],
+      "prompt_md": "¿Cuál es la mejor tesis para una redacción argumentativa?",
+      "choices": [{"id": "a", "text": "Voy a hablar sobre el reciclaje."}, {"id": "b", "text": "El reciclaje existe en muchos países."}, {"id": "c", "text": "Los ayuntamientos deberían premiar con descuentos fiscales a los hogares que reciclan."}, {"id": "d", "text": "Reciclar es bueno."}],
+      "key": {"correct_choice_id": "c"},
+      "explanation_md": "Es clara, delimitada y discutible. (a) anuncia el tema; (b) es un hecho; (d) es obvia."
+    },
+    {
+      "id": "t04l01-x2", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["counterargument"],
+      "prompt_md": "¿Qué opción refuta mejor la objeción *El transporte gratuito cuesta mucho dinero público*?",
+      "choices": [{"id": "a", "text": "Eso no es verdad."}, {"id": "b", "text": "Es cierto que tiene un coste; sin embargo, reduce el tráfico y la contaminación, cuyos costes sanitarios también paga la administración."}, {"id": "c", "text": "Me da igual el dinero."}, {"id": "d", "text": "Todos los expertos lo apoyan."}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Concede la objeción y la responde con un argumento. (a) y (c) no argumentan; (d) es una generalización sin apoyo."
+    },
+    {
+      "id": "t04l01-x3", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["supporting_reasons"],
+      "prompt_md": "Para la tesis *Las empresas deberían ofrecer formación en idiomas*, ¿qué pareja de razones es más sólida?",
+      "choices": [{"id": "a", "text": "Es útil / Sirve para algo"}, {"id": "b", "text": "Mejora la atención a clientes extranjeros / Aumenta la motivación y las opciones de promoción de la plantilla"}, {"id": "c", "text": "Es bueno / Es muy bueno"}, {"id": "d", "text": "Los idiomas son difíciles / Hay muchos idiomas"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Dos razones distintas (negocio y personas) y concretas. Las demás repiten la misma idea o no apoyan la tesis."
+    },
+    {
+      "id": "t04l01-x4", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["conclusion"],
+      "prompt_md": "¿Qué debe hacer la conclusión de una redacción argumentativa?",
+      "choices": [{"id": "a", "text": "Introducir el argumento más fuerte, que se ha guardado para el final"}, {"id": "b", "text": "Reformular la tesis y cerrar con una propuesta o consecuencia"}, {"id": "c", "text": "Copiar literalmente la introducción"}, {"id": "d", "text": "Cambiar de opinión para parecer objetivo"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "La conclusión recoge la tesis con otras palabras y cierra; no añade argumentos nuevos."
+    },
+    {
+      "id": "t04l01-x5", "kind": "multiple_choice", "difficulty": 3, "skill_ids": ["supporting_reasons"],
+      "prompt_md": "No recuerdas una cifra exacta para apoyar un argumento en el examen. ¿Qué haces?",
+      "choices": [{"id": "a", "text": "Inventar una cifra precisa, como «el 73,4 %», para que parezca rigurosa"}, {"id": "b", "text": "Usar un ejemplo concreto o una formulación prudente como «diversos estudios señalan»"}, {"id": "c", "text": "Eliminar el argumento"}, {"id": "d", "text": "Escribir «todo el mundo sabe que»"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Un dato inventado resta credibilidad; un ejemplo honesto o una formulación prudente mantiene el argumento."
+    }
+  ]
+}

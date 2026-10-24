@@ -411,6 +411,13 @@ NUMERIC.update({
 MC.update({
     "c07l01-x4": ("b", lambda: F(1, 2) * F(1, 2) - F(1, 2) * F(16, 100) > 0),
 })
+# ---- Comentario T06 (aritmética de puntuación del formato de referencia) ----
+NUMERIC.update({
+    "t06l01-x1": lambda: F(3, 3),
+    "t06l01-x2": lambda: 5 * F(1, 2) - F(16, 100),
+    "t06l01-x3": lambda: F(4, 10) * 90,
+    "t06l02-x1": lambda: 7 * F(1, 10),
+})
 
 def as_float(v):
     if isinstance(v, F):

@@ -1494,18 +1494,18 @@
      "lessons": [
       {
        "id": "comentario-t01-l01",
-       "title": "Tesis, presuposiciones, intención comunicativa, postura y matices, argumentos y evidencias",
+       "title": "Tesis, intención y argumentos de un texto",
        "topic_scope": "tesis, presuposiciones, intención comunicativa, postura y matices, argumentos y evidencias",
        "level": "N1",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
-       "prerequisites": [],
-       "has_content": false,
+       "prerequisites": [
+        "comentario-t00-l01"
+       ],
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     },
@@ -1516,18 +1516,18 @@
      "lessons": [
       {
        "id": "comentario-t02-l01",
-       "title": "Párrafos, introducción/desarrollo/conclusión, progresión temática, relaciones causales, ejemplo y contraejemplo",
+       "title": "Estructura del texto, progresión temática y relaciones lógicas",
        "topic_scope": "párrafos, introducción/desarrollo/conclusión, progresión temática, relaciones causales, ejemplo y contraejemplo",
        "level": "N1",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
-       "prerequisites": [],
-       "has_content": false,
+       "prerequisites": [
+        "comentario-t01-l01"
+       ],
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     },
@@ -1560,35 +1560,34 @@
      "lessons": [
       {
        "id": "comentario-t04-l01",
-       "title": "Tesis propia, razones, evidencias, contraargumentos, cierre",
+       "title": "Construir tu propia argumentación: tesis, razones, evidencias y contraargumentos",
        "topic_scope": "tesis propia, razones, evidencias, contraargumentos, cierre",
        "level": "N2",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
-       "prerequisites": [],
-       "has_content": false,
+       "prerequisites": [
+        "comentario-t01-l01",
+        "comentario-t02-l01"
+       ],
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "comentario-t04-l02",
-       "title": "Detectar falacias, lenguaje adecuado",
+       "title": "Falacias y lenguaje adecuado en la argumentación",
        "topic_scope": "detectar falacias, lenguaje adecuado",
        "level": "N2",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
         "comentario-t04-l01"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     },
@@ -1622,35 +1621,34 @@
      "lessons": [
       {
        "id": "comentario-t06-l01",
-       "title": "Primera parte 6 puntos, segunda 4",
+       "title": "El examen de Comentario de texto: primera parte de 6 puntos y segunda de 4",
        "topic_scope": "primera parte 6 puntos, segunda 4",
        "level": "N3",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 60,
-       "prerequisites": [],
-       "has_content": false,
+       "prerequisites": [
+        "comentario-t04-l02",
+        "comentario-t05-l01"
+       ],
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "comentario-t06-l02",
-       "title": "Errores que penalizan, simulacros y reescritura con feedback",
+       "title": "Errores que penalizan, simulacros y reescritura con retroalimentación",
        "topic_scope": "errores que penalizan, simulacros y reescritura con feedback",
        "level": "N3",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 60,
        "prerequisites": [
         "comentario-t06-l01"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     },
@@ -1661,18 +1659,19 @@
      "lessons": [
       {
        "id": "comentario-t07-l01",
-       "title": "Pensamiento crítico, lectura de papers, síntesis de fuentes y escritura académica",
+       "title": "Puente universitario: pensamiento crítico, lectura de artículos científicos y síntesis de fuentes",
        "topic_scope": "pensamiento crítico, lectura de papers, síntesis de fuentes y escritura académica",
        "level": "N4",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
-       "prerequisites": [],
-       "has_content": false,
+       "prerequisites": [
+        "comentario-t06-l02",
+        "castellano-c08-l01"
+       ],
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     }
@@ -2364,14 +2363,14 @@
  ],
  "stats": {
   "by_status": {
-   "planned": 39,
-   "draft": 81,
+   "planned": 32,
+   "draft": 88,
    "reviewed": 0,
    "ready": 0,
    "published": 0
   },
   "lessons_total": 120,
-  "meets_standard": 81,
+  "meets_standard": 88,
   "courses": {
    "matematicas": {
     "total": 56,
@@ -2411,11 +2410,11 @@
    },
    "comentario": {
     "total": 10,
-    "with_content": 3,
-    "meets_standard": 3,
+    "with_content": 10,
+    "meets_standard": 10,
     "by_status": {
-     "planned": 7,
-     "draft": 3,
+     "planned": 0,
+     "draft": 10,
      "reviewed": 0,
      "ready": 0,
      "published": 0
@@ -2446,8 +2445,8 @@
     }
    }
   },
-  "questions_total": 461,
-  "exit_questions": 405,
+  "questions_total": 496,
+  "exit_questions": 440,
   "bank_questions": 56
  }
 }
