@@ -31,7 +31,7 @@ Solo necesitas sumar, restar, multiplicar y dividir números naturales (0, 1, 2,
 
 ## 3. Idea intuitiva
 
-Piensa en el saldo de una cuenta bancaria. Si tienes 50 € y pagas 80 €, tu saldo es $-30$ €: debes 30. Los números negativos expresan «lo que falta» o «lo que está por debajo de cero», igual que una temperatura de $-5\,^\circ\text{C}$ o un sótano en la planta $-2$.
+Piensa en el saldo de una cuenta bancaria. Si tienes 50 € y pagas 80 €, tu saldo es $-30$ €: debes 30. Los números negativos expresan «lo que falta» o «lo que está por debajo de cero», igual que una temperatura de $-5\,{}^\circ\text{C}$ o un sótano en la planta $-2$.
 
 La **recta numérica** ordena todos los enteros: a la izquierda los negativos, a la derecha los positivos. Cuanto más a la derecha, mayor es el número. Por eso $-2 > -7$: deber 2 € es mejor que deber 7 €.
 
@@ -132,7 +132,7 @@ $2-(-4)=6$; $3\cdot 6=18$; $18\div 2=9$; $5-9=-4$. **Resultado: $-4$.**
 
 **Tipo examen**
 
-6. Una cámara frigorífica está a $-18\,^\circ\text{C}$. Se apaga y la temperatura sube $4\,^\circ\text{C}$ cada hora durante 3 horas; luego vuelve a encenderse y baja $2\,^\circ\text{C}$ cada hora durante 5 horas. Escribe una sola expresión numérica y calcula la temperatura final.
+6. Una cámara frigorífica está a $-18\,{}^\circ\text{C}$. Se apaga y la temperatura sube $4\,{}^\circ\text{C}$ cada hora durante 3 horas; luego vuelve a encenderse y baja $2\,{}^\circ\text{C}$ cada hora durante 5 horas. Escribe una sola expresión numérica y calcula la temperatura final.
 
 :::solucion Soluciones paso a paso
 1. Producto primero: $2\cdot 5=10$; $7+10=17$.
@@ -140,7 +140,7 @@ $2-(-4)=6$; $3\cdot 6=18$; $18\div 2=9$; $5-9=-4$. **Resultado: $-4$.**
 3. $(-3)(-4)=12$; $12\cdot(-1)=-12$. Tres factores negativos dan negativo.
 4. $12\div 3=4$; $4\cdot 2=8$; $8-(-1)=8+1=9$.
 5. $(-5)^2=25$; $5^2=25$; $(-2)^3=-8$. $25-25-8=-8$.
-6. Expresión: $-18+3\cdot 4-5\cdot 2$. Productos: $12$ y $10$. $-18+12-10=-16$. **Temperatura final: $-16\,^\circ\text{C}$.**
+6. Expresión: $-18+3\cdot 4-5\cdot 2$. Productos: $12$ y $10$. $-18+12-10=-16$. **Temperatura final: $-16\,{}^\circ\text{C}$.**
 :::
 
 ## 8. Cómo revisar tus errores

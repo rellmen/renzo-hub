@@ -37,7 +37,7 @@ Y cuando empujas una pared, la pared te empuja a ti con la misma fuerza: por eso
 
 ## 4. Definición precisa
 
-- **Fuerza:** interacción entre dos cuerpos capaz de cambiar su estado de movimiento o deformarlos. Es un vector; su unidad SI es el **newton**: $1\text{ N}=1\text{ kg·m/s}^2$.
+- **Fuerza:** interacción entre dos cuerpos capaz de cambiar su estado de movimiento o deformarlos. Es un vector; su unidad SI es el **newton**: $1\text{ N}=1\text{ kg}\cdot\text{m/s}^2$.
 - **Fuerza neta o resultante** $\vec F_{\text{neta}}=\sum\vec F$: suma vectorial de todas las fuerzas que actúan **sobre un mismo cuerpo**.
 
 **Primera ley (inercia).** Si la fuerza neta sobre un cuerpo es cero, el cuerpo mantiene su velocidad: sigue en reposo o se mueve en línea recta a velocidad constante. Velocidad constante **no** necesita fuerza neta; lo que necesita fuerza es **cambiar** de velocidad.

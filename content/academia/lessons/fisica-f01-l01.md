@@ -49,7 +49,7 @@ Las unidades se pueden tratar como si fueran letras de álgebra: se multiplican,
 | Temperatura | kelvin | K |
 | Cantidad de sustancia | mol | mol |
 
-- **Magnitudes derivadas:** se definen a partir de las fundamentales. Velocidad (m/s), aceleración (m/s²), fuerza en newtons ($1\text{ N}=1\text{ kg·m/s}^2$), energía en julios ($1\text{ J}=1\text{ N·m}$), potencia en vatios ($1\text{ W}=1\text{ J/s}$).
+- **Magnitudes derivadas:** se definen a partir de las fundamentales. Velocidad (m/s), aceleración (m/s²), fuerza en newtons ($1\text{ N}=1\text{ kg}\cdot\text{m/s}^2$), energía en julios ($1\text{ J}=1\text{ N}\cdot\text{m}$), potencia en vatios ($1\text{ W}=1\text{ J/s}$).
 - **Prefijos** (multiplican la unidad por una potencia de 10):
 
 | Prefijo | Símbolo | Factor |
