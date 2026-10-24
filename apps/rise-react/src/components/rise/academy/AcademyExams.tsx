@@ -4,20 +4,27 @@ import {ExternalLink,Loader2,Play,Send,Timer} from "lucide-react";
 import {SectionCard} from "@/components/rise/primitives";
 import {PROFILES,courseTitle,CATALOG} from "@/lib/academy/content";
 import {newId,profileMax,profileSlots,scoreExam,type ExamProfile} from "@/lib/academy/engine.mjs";
-import {saveExam,startExam,type ExamRow} from "@/lib/academy/records.mjs";
+import {saveExam,startExam,type ExamRow,type MockSession} from "@/lib/academy/records.mjs";
+import {AcademyMocks} from "./AcademyMocks";
 
 // UOC 2026: específica 180 min para dos materias; Castellano + Inglés 105 min en total (reparto orientativo 60/45).
 const DEFAULT_MIN:Record<string,number>={matematicas:90,fisica:90,economia:90,castellano:60,comentario:90,ingles:45};
 
+const PENALTY_LABEL:Record<string,string>={test_wrong_points:"fallo en test",wrong_four_option_mc_points:"fallo en test de 4 opciones",missing_units_points:"sin unidades",
+  writing_error_points:"error de lengua",language_error_points:"error de lengua",essay_outside_150_200_words:"redacción fuera de 150–200 palabras"};
 function sectionText(p:ExamProfile){
   return p.sections.map(s=>{
-    if(typeof s.choose==="number")return `${s.label}: elegir ${s.choose} de ${s.available} (${s.points_each} p. c/u)`;
+    const x=s as typeof s&{options?:number;points?:number};
+    if(typeof s.choose==="number"){
+      const of=s.available??x.options;const each=s.points_each??x.points;
+      return `${s.label}: elegir ${s.choose}${of?` de ${of}`:""}${each?` (${each} p. c/u)`:""}`;
+    }
     if(typeof s.count==="number")return `${s.label}: ${s.count} × ${s.points_each} p.`;
     return `${s.label}: ${s.points} p.`;
   }).join(" · ");
 }
 
-export function AcademyExams({client,uid,exams,elective,onChanged}:{client:SupabaseClient|null;uid:string;exams:ExamRow[];elective:string;onChanged:()=>void}){
+export function AcademyExams({client,uid,exams,elective,onChanged,mocks=[],mocksAvailable=false}:{client:SupabaseClient|null;uid:string;exams:ExamRow[];elective:string;onChanged:()=>void;mocks?:MockSession[];mocksAvailable?:boolean}){
   const active=exams.find(e=>e.status==="in_progress");
   const order=["matematicas",elective,"castellano","comentario","ingles",elective==="fisica"?"economia":"fisica"];
   const profiles=[...PROFILES.profiles].sort((a,b)=>order.indexOf(a.course)-order.indexOf(b.course));
@@ -33,7 +40,14 @@ export function AcademyExams({client,uid,exams,elective,onChanged}:{client:Supab
     }catch(e){setError(e instanceof Error?e.message:"No se pudo iniciar.");}
     finally{setBusy(null);}
   }
-  return <div className="space-y-6">
+  const mockActive=mocks.some(m=>m.status==="in_progress");
+  return <div className="space-y-8">
+    <section aria-labelledby="mocks-h" className="space-y-3">
+      <h2 id="mocks-h" className="font-display text-2xl text-foreground">Simulacros RISE HUB</h2>
+      <AcademyMocks client={client} mocks={mocks} available={mocksAvailable} elective={elective} onChanged={onChanged}/>
+    </section>
+    {!mockActive&&<section aria-labelledby="official-h" className="space-y-6">
+    <h2 id="official-h" className="font-display text-2xl text-foreground">Exámenes oficiales enlazados</h2>
     <p className="rounded-2xl border border-gold/35 bg-gold/[0.06] p-4 text-sm text-platinum/85">
       Los simulacros usan los <strong>exámenes oficiales 2024–2026 enlazados</strong> (no se copian aquí) y tu <strong>autocorrección</strong> con la estructura del perfil 2026.
       No es una nota oficial ni una predicción. {PROFILES.global_notice}
@@ -43,7 +57,7 @@ export function AcademyExams({client,uid,exams,elective,onChanged}:{client:Supab
     <div className="grid gap-4 md:grid-cols-2">
       {profiles.map(p=><SectionCard key={p.id} eyebrow={courseTitle(p.course)+(p.course===elective?" · tu específica":"")} title={`Perfil ${PROFILES.year} · máx. ${profileMax(p)} p.`} accent="var(--learn)">
         <p className="text-sm text-platinum/85">{sectionText(p)}</p>
-        {p.penalties&&<p className="mt-2 text-xs text-muted-foreground">Penalizaciones declaradas: {Object.entries(p.penalties).map(([k,v])=>`${k.replace(/_/g," ")} ${v}`).join(" · ")}</p>}
+        {p.penalties&&<p className="mt-2 text-xs text-muted-foreground">Penalizaciones: {Object.entries(p.penalties).map(([k,v])=>`${PENALTY_LABEL[k]||k.replace(/_/g," ")} ${String(v).replace(".",",")}`).join(" · ")}</p>}
         {p.grading&&<p className="mt-2 text-xs text-muted-foreground">{p.grading}</p>}
         <div className="mt-4 flex flex-wrap gap-2">
           <a className="btn-ghost" href={CATALOG.courses.find(c=>c.slug===p.course)?.models_url||p.official_url} target="_blank" rel="noopener noreferrer"><ExternalLink className="h-4 w-4"/> Modelos oficiales</a>
@@ -58,6 +72,7 @@ export function AcademyExams({client,uid,exams,elective,onChanged}:{client:Supab
         <span className="font-semibold text-foreground">{e.total_score} / 10 <span className="text-xs font-normal text-muted-foreground">(autocorrección)</span></span>
       </li>)}</ul>}
     </SectionCard>
+    </section>}
   </div>;
 }
 

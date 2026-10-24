@@ -3,7 +3,15 @@ import type {AttemptRow,Prefs,ProgressRow,ReviewRow} from "./engine.mjs";
 export type ExamRow={id:string;client_session_id:string;profile_id:string;course:string;source_url:string|null;source_label:string|null;duration_minutes:number;
   status:"in_progress"|"submitted";scores:Record<string,unknown>;notes:string;total_score:number|null;revision:number;started_at:string;submitted_at:string|null};
 export type EditorialRow={lesson_id:string;content_version:number;decision:"reviewed"|"changes_requested";comment:string;created_at:string};
-export type AcademyState={progress:ProgressRow[];reviews:ReviewRow[];attempts:AttemptRow[];prefs:Prefs|null;exams:ExamRow[];editorial:EditorialRow[];attemptsPartial:boolean};
+export type MockAnswer={choice?:string;value?:string;unit?:string;text?:string};
+export type MockItemResult={group_id:string;kind:"multiple_choice"|"numeric"|"short_text"|"open";status:"correct"|"wrong"|"blank"|"unit"|"open"|"not_chosen";
+  score?:number;max:number;correct?:string;solution_md:string;rubric_md?:string;word_count?:number;word_min?:number;word_max?:number;word_penalty?:number};
+export type MockResult={session_id:string;mock_id:string;auto_score:number;open_max:number;late_answers_ignored:boolean;needs_self_score:boolean;
+  groups:{section_id:string;group_id:string;chosen:boolean;auto_score:number;auto_max:number;open_max:number}[];items:Record<string,MockItemResult>;duplicate?:boolean};
+export type MockSession={id:string;client_session_id:string;mock_id:string;course:string;content_version:number;duration_minutes:number;started_at:string;deadline_at:string;
+  status:"in_progress"|"submitted"|"graded";answers:Record<string,MockAnswer>;chosen:Record<string,string[]>;revision:number;submitted_at:string|null;late_answers_ignored:boolean;
+  auto_score:number|null;result:MockResult|null;self_scores:Record<string,{given:number;penalty:number;final:number}>|null;total_score:number|null;graded_at:string|null;server_now?:string};
+export type AcademyState={progress:ProgressRow[];reviews:ReviewRow[];attempts:AttemptRow[];prefs:Prefs|null;exams:ExamRow[];editorial:EditorialRow[];attemptsPartial:boolean;mocks:MockSession[];mocksAvailable:boolean};
 export type GradeResult={attempt_id:string;question_id:string;is_correct:boolean;score:number;max_score:number;correct:string|null;explanation_md:string;duplicate:boolean;session_id:string|null};
 export type FinishResult={lesson_id:string;context:string;pct:number;correct:number;total:number;band:"dominio"|"practica"|"rescate";status:string;next_review:string|null;duplicate:boolean};
 export class AcademyBackendMissing extends Error{}
@@ -16,3 +24,7 @@ export function savePreferences(c:SupabaseClient,uid:string,current:Prefs|null,n
 export function startExam(c:SupabaseClient,uid:string,o:{clientSessionId:string;profileId:string;course:string;sourceUrl?:string|undefined;sourceLabel?:string|undefined;durationMinutes:number}):Promise<ExamRow>;
 export function saveExam(c:SupabaseClient,uid:string,row:ExamRow,o:{scores:Record<string,unknown>;notes:string;total?:number;submit?:boolean}):Promise<ExamRow>;
 export function recordEditorialReview(c:SupabaseClient,uid:string,o:{lessonId:string;contentVersion:number;decision:"reviewed"|"changes_requested";comment?:string}):Promise<boolean>;
+export function startMock(c:SupabaseClient,o:{clientSessionId:string;mockId:string}):Promise<MockSession&{duplicate:boolean;server_now:string}>;
+export function saveMock(c:SupabaseClient,o:{sessionId:string;revision:number;answers:Record<string,MockAnswer>;chosen:Record<string,string[]>}):Promise<{revision:number;saved_at:string;server_now:string}>;
+export function submitMock(c:SupabaseClient,o:{sessionId:string;answers:Record<string,MockAnswer>;chosen:Record<string,string[]>}):Promise<MockResult>;
+export function selfScoreMock(c:SupabaseClient,o:{sessionId:string;scores:Record<string,number>}):Promise<{total_score:number;self_scores:Record<string,{given:number;penalty:number;final:number}>;duplicate:boolean}>;

@@ -9,6 +9,7 @@ function rethrow(error,fallback){
   throw Error(error?.message||fallback);
 }
 const PROGRESS_COLS="lesson_id,status,last_section,draft,revision,best_exit_pct,last_result,completed_at,opened_at,updated_at";
+const MOCK_COLS="id,client_session_id,mock_id,course,content_version,duration_minutes,started_at,deadline_at,status,answers,chosen,revision,submitted_at,late_answers_ignored,auto_score,result,self_scores,total_score,graded_at";
 const ATTEMPT_COLS="question_id,lesson_id,course,context,is_correct,skill_ids,created_at,session_id";
 
 export async function loadAcademyState(client,uid){
@@ -22,8 +23,12 @@ export async function loadAcademyState(client,uid){
     client.from("academy_editorial_reviews").select("lesson_id,content_version,decision,comment,created_at").eq("user_id",id).order("created_at",{ascending:false}).limit(500),
   ]);
   for(const x of [p,r,a,pr,e,ed])if(x.error)rethrow(x.error,"No se pudo cargar tu progreso de Academia.");
+  // Los simulacros llegan con una migración aparte: si aún no está instalada, el resto de Academia sigue funcionando.
+  const m=await client.from("academy_mock_sessions").select(MOCK_COLS).eq("user_id",id).order("started_at",{ascending:false}).limit(200);
+  let mocks=m.data||[],mocksAvailable=true;
+  if(m.error){if(MISSING.test(String(m.error.message||"")+" "+String(m.error.code||""))){mocks=[];mocksAvailable=false;}else rethrow(m.error,"No se pudieron cargar tus simulacros.");}
   return {progress:p.data||[],reviews:r.data||[],attempts:a.data||[],prefs:pr.data||null,exams:e.data||[],editorial:ed.data||[],
-    attemptsPartial:(a.data||[]).length>=1500};
+    attemptsPartial:(a.data||[]).length>=1500,mocks,mocksAvailable};
 }
 
 /** Marca la lección como abierta (en curso). Abrir nunca la completa. */
@@ -100,4 +105,30 @@ export async function recordEditorialReview(client,uid,{lessonId,contentVersion,
   const {error}=await client.from("academy_editorial_reviews").insert({lesson_id:lessonId,content_version:contentVersion,decision,comment:String(comment||"").slice(0,4000)});
   if(error)rethrow(error,"No se pudo registrar la revisión.");
   return true;
+}
+
+// ---------- Simulacros originales: cronómetro y corrección en servidor ----------
+export async function startMock(client,{clientSessionId,mockId}){
+  const {data,error}=await client.rpc("academy_mock_start",{p_client_session_id:clientSessionId,p_mock_id:mockId});
+  if(error)rethrow(error,"No se pudo iniciar el simulacro.");
+  return data;
+}
+export async function saveMock(client,{sessionId,revision,answers,chosen}){
+  const {data,error}=await client.rpc("academy_mock_save",{p_session_id:sessionId,p_revision:revision,p_answers:answers,p_chosen:chosen});
+  if(error){
+    const msg=String(error.message||"");
+    if(/Tiempo agotado/.test(msg)){const e=Error("Tiempo agotado: se entregará lo guardado.");e.name="MockTimeUp";throw e;}
+    rethrow(error,"No se pudo guardar.");
+  }
+  return data;
+}
+export async function submitMock(client,{sessionId,answers,chosen}){
+  const {data,error}=await client.rpc("academy_mock_submit",{p_session_id:sessionId,p_answers:answers,p_chosen:chosen});
+  if(error)rethrow(error,"No se pudo entregar. Tus respuestas siguen en pantalla: vuelve a intentarlo.");
+  return data;
+}
+export async function selfScoreMock(client,{sessionId,scores}){
+  const {data,error}=await client.rpc("academy_mock_self_score",{p_session_id:sessionId,p_scores:scores});
+  if(error)rethrow(error,"No se pudo guardar tu autocorrección.");
+  return data;
 }

@@ -12,17 +12,18 @@ const ROOT=join(dirname(fileURLToPath(import.meta.url)),"..","..");
 const SRC=join(ROOT,"content","academia");
 const OUT=join(ROOT,"apps","rise-react","src","content","academia");
 const SEED=join(ROOT,"supabase","seed","academy_question_keys.sql");
+const MOCK_SEED=join(ROOT,"supabase","seed","academy_mock_keys.sql");
 const CHECK=process.argv.includes("--check");
 
 const COURSE_META={
   matematicas:{title:"Matemáticas",role:"especifica",role_label:"Específica 1 · troncal",exam_profile:"math_2026_cat_ref",models_url:"https://universitats.gencat.cat/ca/proves-majors/25-anys/models-examen/matematiques/"},
-  economia:{title:"Economía de la Empresa",role:"especifica",role_label:"Específica 2 · elegida (pendiente de confirmar en matrícula 2027)",exam_profile:"economia_2026_cat_ref",models_url:"https://universitats.gencat.cat/es/proves-majors/25-anys/models-examen/"},
+  economia:{title:"Economía de la Empresa",role:"complementaria",role_label:"Complementaria · no cuenta para Ingeniería en la UOC",exam_profile:"economia_2026_cat_ref",models_url:"https://universitats.gencat.cat/es/proves-majors/25-anys/models-examen/"},
   castellano:{title:"Lengua castellana",role:"general",role_label:"Fase general",exam_profile:"castellano_2026_cat_ref",models_url:"https://universitats.gencat.cat/ca/proves-majors/25-anys/models-examen/llengua-castellana/"},
   comentario:{title:"Comentario de texto",role:"general",role_label:"Fase general",exam_profile:"comment_2026_cat_ref",models_url:"https://universitats.gencat.cat/ca/proves-majors/25-anys/models-examen/comentari-de-text/"},
   ingles:{title:"Inglés",role:"general",role_label:"Fase general",exam_profile:"english_2026_cat_ref",models_url:"https://universitats.gencat.cat/ca/proves-majors/25-anys/models-examen/angles/"},
-  fisica:{title:"Física",role:"optativa",role_label:"Optativa · puente STEM (no elegida para el examen)",exam_profile:"physics_2026_cat_ref",models_url:"https://universitats.gencat.cat/ca/proves-majors/25-anys/models-examen/fisica/"},
+  fisica:{title:"Física",role:"especifica",role_label:"Específica 2 · Ingeniería (Matemáticas + Física)",exam_profile:"physics_2026_cat_ref",models_url:"https://universitats.gencat.cat/ca/proves-majors/25-anys/models-examen/fisica/"},
 };
-const COURSE_ORDER=["matematicas","economia","castellano","comentario","ingles","fisica"];
+const COURSE_ORDER=["matematicas","fisica","castellano","comentario","ingles","economia"];
 const STATUSES=["planned","draft","reviewed","ready","published"];
 const KINDS=["multiple_choice","numeric","short_text","essay"];
 const ID_RE=/^[a-z0-9-]{3,64}$/;
@@ -129,6 +130,78 @@ const publicQ=q=>{
 };
 const sqlStr=s=>"'"+String(s).replace(/'/g,"''")+"'";
 
+
+// ---------- simulacros originales (content/academia/mocks) ----------
+const MOCK_KINDS=["multiple_choice","numeric","short_text","open"];
+const ITEM_RE=/^[a-z0-9-]{1,40}$/;
+const near=(a,b)=>Math.abs(a-b)<1e-9;
+export function buildMocks(){
+  const dir=join(SRC,"mocks");
+  const files=existsSync(dir)?readdirSync(dir).filter(f=>f.endsWith(".json")).sort():[];
+  const pub=[];const sql=[];
+  for(const f of files){
+    const m=JSON.parse(readFileSync(join(dir,f),"utf8"));
+    const where=`mocks/${f}`;
+    if(!ID_RE.test(m.mock_id||""))fail(`${where}: mock_id inválido`);
+    if(f!==m.mock_id+".json")fail(`${where}: el nombre debe ser ${m.mock_id}.json`);
+    if(!COURSE_ORDER.includes(m.course))fail(`${where}: curso ${m.course}`);
+    if(!(m.duration_minutes>=10&&m.duration_minutes<=240))fail(`${where}: duración`);
+    const seen=new Set();const items=[];let total=0;
+    const structure={sections:[],word_rules:m.word_rules||{}};
+    const pubSections=[];
+    for(const sec of m.sections||[]){
+      const groupIds=new Set();const sGroups=[];const pGroups=[];
+      for(const g of sec.groups||[]){
+        if(!ITEM_RE.test(g.id)||groupIds.has(g.id))fail(`${where}: grupo ${g.id}`);groupIds.add(g.id);
+        if(!["sum","deduct"].includes(g.mode))fail(`${where}: modo ${g.mode}`);
+        let sum=0;
+        for(const it of g.items){
+          if(!ITEM_RE.test(it.id)||seen.has(it.id))fail(`${where}: pregunta ${it.id} inválida o repetida`);seen.add(it.id);
+          if(!MOCK_KINDS.includes(it.kind))fail(`${where}: ${it.id} tipo ${it.kind}`);
+          if(!(it.points>0&&it.points<=10))fail(`${where}: ${it.id} puntos`);
+          if(!it.prompt_md)fail(`${where}: ${it.id} sin enunciado`);
+          if(!it.solution_md)fail(`${where}: ${it.id} sin solución`);
+          if(it.kind==="open"&&!it.rubric_md)fail(`${where}: ${it.id} abierta sin rúbrica`);
+          if(it.kind==="multiple_choice"&&!(it.choices||[]).some(c=>c.id===it.key?.correct))fail(`${where}: ${it.id} clave fuera de las opciones`);
+          if(it.kind==="numeric"&&(typeof it.key?.value!=="number"||!Number.isFinite(it.key.value)||!it.key.display))fail(`${where}: ${it.id} clave numérica`);
+          if(it.kind==="numeric"&&it.unit_required&&!(it.key.units||[]).length)fail(`${where}: ${it.id} sin unidades aceptadas`);
+          if(it.kind==="short_text"&&!(it.key?.accepted||[]).length)fail(`${where}: ${it.id} sin respuestas aceptadas`);
+          if(g.mode==="deduct"&&!(it.penalty>0))fail(`${where}: ${it.id} en grupo de descuento sin descuento`);
+          if(g.mode==="deduct"&&it.kind==="open")fail(`${where}: ${it.id} abierta en grupo de descuento`);
+          if(it.words&&!m.word_rules?.[it.id])fail(`${where}: ${it.id} indica palabras sin regla`);
+          sum+=it.points;
+          items.push(it);
+        }
+        if(g.mode==="sum"&&!near(sum,g.points))fail(`${where}: ${g.id} suma ${sum} y declara ${g.points}`);
+        sGroups.push({id:g.id,points:g.points,mode:g.mode,floor0:!!g.floor0,items:g.items.map(i=>i.id)});
+        pGroups.push({id:g.id,label:g.label,points:g.points,mode:g.mode,floor0:!!g.floor0,stem_md:g.stem_md||"",
+          items:g.items.map(i=>{const o={id:i.id,kind:i.kind,points:i.points,penalty:i.penalty||0,prompt_md:i.prompt_md};
+            if(i.choices)o.choices=i.choices.map(c=>({id:c.id,text:c.text}));
+            if(i.unit_required)o.unit_required=true;if(i.unit_label)o.unit_label=i.unit_label;if(i.words)o.words=i.words;return o;})});
+      }
+      const pts=sGroups.map(g=>g.points);
+      if(typeof sec.choose==="number"){
+        if(!(sec.choose>=1&&sec.choose<=sGroups.length))fail(`${where}: ${sec.id} choose`);
+        if(pts.some(p=>!near(p,pts[0])))fail(`${where}: ${sec.id} grupos elegibles con distinto valor`);
+        total+=sec.choose*pts[0];
+      }else total+=pts.reduce((a,b)=>a+b,0);
+      structure.sections.push({id:sec.id,label:sec.label,choose:typeof sec.choose==="number"?sec.choose:null,groups:sGroups});
+      pubSections.push({id:sec.id,label:sec.label,instructions_md:sec.instructions_md||"",choose:typeof sec.choose==="number"?sec.choose:null,groups:pGroups});
+    }
+    for(const k of Object.keys(m.word_rules||{}))if(!items.some(i=>i.id===k&&i.kind==="open"))fail(`${where}: regla de palabras para ${k} inexistente`);
+    if(!near(total,10))fail(`${where}: la nota máxima es ${total}, no 10`);
+    pub.push({mock_id:m.mock_id,course:m.course,title:m.title,duration_minutes:m.duration_minutes,content_version:m.content_version||1,
+      intro_md:m.intro_md||"",data_md:m.data_md||"",text_md:m.text_md||"",sections:pubSections,word_rules:m.word_rules||{}});
+    sql.push(`insert into public.academy_mock_defs(mock_id,course,title,duration_minutes,structure,content_version) values (${sqlStr(m.mock_id)},${sqlStr(m.course)},${sqlStr(m.title)},${Number(m.duration_minutes)},${sqlStr(JSON.stringify(structure))}::jsonb,${Number(m.content_version||1)}) on conflict (mock_id) do update set course=excluded.course,title=excluded.title,duration_minutes=excluded.duration_minutes,structure=excluded.structure,content_version=excluded.content_version,updated_at=now();`);
+    sql.push(`delete from public.academy_mock_items where mock_id=${sqlStr(m.mock_id)} and item_id not in (${items.map(i=>sqlStr(i.id)).join(",")});`);
+    for(const it of items)sql.push(`insert into public.academy_mock_items(mock_id,item_id,kind,key,points,wrong_penalty,solution_md,rubric_md) values (${sqlStr(m.mock_id)},${sqlStr(it.id)},${sqlStr(it.kind)},${sqlStr(JSON.stringify(it.key||{}))}::jsonb,${Number(it.points)},${Number(it.penalty||0)},${sqlStr(it.solution_md)},${sqlStr(it.rubric_md||"")}) on conflict (mock_id,item_id) do update set kind=excluded.kind,key=excluded.key,points=excluded.points,wrong_penalty=excluded.wrong_penalty,solution_md=excluded.solution_md,rubric_md=excluded.rubric_md;`);
+  }
+  const seed=["-- GENERADO por tools/academy/build.mjs desde content/academia/mocks. No editar a mano.",
+    "-- Claves, soluciones y rúbricas privadas: sin acceso para anon/authenticated; solo las leen las funciones academy_mock_*.",
+    "-- Idempotente.","begin;",...sql,"commit;",""].join("\n");
+  return {pub,seed};
+}
+
 // ---------- construcción ----------
 export function build(){
   const kitCatalog=JSON.parse(readFileSync(join(SRC,"kit","catalogo.json"),"utf8"));
@@ -193,7 +266,7 @@ export function build(){
     if(!allIds.has(q.lesson_id))fail(`${q.id}: lección ${q.lesson_id} inexistente`);}
   const catalog={schema_version:"academia-1",generated_from:"content/academia",exam_dates:{
       general:"2027-04-10",especifica:"2027-04-17",source:"https://universitats.gencat.cat/es/proves-majors/25-anys/",
-      note:"Fechas publicadas según el kit (consulta 24-10-2026). Matrícula y fórmula de nota de la modalidad UOC en castellano pendientes de confirmar."},
+      note:"Fechas de la Generalitat para 2027 (consulta 24-10-2026). La UOC fija las suyas: en 2026 fueron el 11 y 12 de abril, en línea. Confirmar la convocatoria UOC 2027."},
     elective:{chosen:"fisica",alternative:"economia",confirmed:true,note:"Ingeniería (UOC 2026): específicas entre Física, Matemáticas y Química. Economía de la Empresa no es opción para Ingeniería: queda como complementaria."},
     courses,stats:{...stats,questions_total:all.length,exit_questions:Object.values(exitQs).flat().length,bank_questions:bank.length}};
   const files={};
@@ -201,17 +274,20 @@ export function build(){
   for(const [id,l] of Object.entries(lessonsOut))files[`lessons/${id}.json`]=JSON.stringify(l)+"\n";
   files["bank.json"]=JSON.stringify({questions:bank.map(publicQ)})+"\n";
   files["exam-profiles.json"]=JSON.stringify(profiles,null,1)+"\n";
+  const mocks=buildMocks();
+  files["mocks.json"]=JSON.stringify({mocks:mocks.pub})+"\n";
   const gradable=all.filter(q=>q.kind!=="essay");
   const seed=["-- GENERADO por tools/academy/build.mjs. No editar a mano.",
     "-- Claves de corrección privadas: tabla sin políticas para anon/authenticated; solo la lee academy_grade (SECURITY DEFINER).",
     "-- Idempotente: upsert por question_id.","begin;",
     ...gradable.map(q=>`insert into public.academy_question_keys(question_id,lesson_id,course,kind,role,key,explanation_md,skill_ids,points,content_version) values (${sqlStr(q.id)},${sqlStr(q.lesson_id)},${sqlStr(q.course)},${sqlStr(q.kind)},${sqlStr(q.role)},${sqlStr(JSON.stringify(q.key))}::jsonb,${sqlStr(q.explanation_md)},array[${q.skill_ids.map(sqlStr).join(",")}]::text[],${Number(q.points||1)},${Number(q.content_version||1)}) on conflict (question_id) do update set lesson_id=excluded.lesson_id,course=excluded.course,kind=excluded.kind,role=excluded.role,key=excluded.key,explanation_md=excluded.explanation_md,skill_ids=excluded.skill_ids,points=excluded.points,content_version=excluded.content_version,updated_at=now();`),
     "commit;",""].join("\n");
-  return {files,seed,catalog};
+  return {files,seed,catalog,mockSeed:mocks.seed,mockCount:mocks.pub.length};
 }
 
-const {files,seed,catalog}=build();
+const {files,seed,catalog,mockSeed,mockCount}=build();
 for(const [name,content] of Object.entries(files))if(/"(key|correct_choice_id|accepted|explanation_md|grading_private)"/.test(content))fail(`${name} contiene campos de clave privada`);
+if(/"(solution_md|rubric_md|correct|units|display|tol_abs|tol_rel)"/.test(files["mocks.json"]))fail("mocks.json contiene soluciones o claves");
 if(errors.length){console.error("CONTENIDO INVÁLIDO:\n- "+errors.join("\n- "));process.exit(1);}
 if(CHECK){
   const stale=[];
@@ -219,12 +295,14 @@ if(CHECK){
   const existing=existsSync(join(OUT,"lessons"))?readdirSync(join(OUT,"lessons")).map(f=>"lessons/"+f):[];
   for(const f of existing)if(!files[f])stale.push(f+" (sobrante)");
   if(!existsSync(SEED)||readFileSync(SEED,"utf8")!==seed)stale.push("supabase/seed/academy_question_keys.sql");
+  if(!existsSync(MOCK_SEED)||readFileSync(MOCK_SEED,"utf8")!==mockSeed)stale.push("supabase/seed/academy_mock_keys.sql");
   if(stale.length){console.error("Salidas desactualizadas; ejecuta node tools/academy/build.mjs:\n- "+stale.join("\n- "));process.exit(1);}
 }else{
   rmSync(join(OUT,"lessons"),{recursive:true,force:true});
   for(const [name,content] of Object.entries(files)){const p=join(OUT,name);mkdirSync(dirname(p),{recursive:true});writeFileSync(p,content);}
-  mkdirSync(dirname(SEED),{recursive:true});writeFileSync(SEED,seed);
+  mkdirSync(dirname(SEED),{recursive:true});writeFileSync(SEED,seed);writeFileSync(MOCK_SEED,mockSeed);
 }
 const s=catalog.stats;
 console.log(`OK · ${s.lessons_total} lecciones en catálogo · ${JSON.stringify(s.by_status)} · ${s.meets_standard} cumplen el estándar · ${s.questions_total} preguntas (${s.exit_questions} de salida, ${s.bank_questions} banco)`);
 for(const [c,v] of Object.entries(s.courses))console.log(`  ${c}: ${v.with_content}/${v.total} con contenido, ${v.meets_standard} al estándar`);
+console.log(`  simulacros originales: ${mockCount}`);

@@ -1,0 +1,299 @@
+{
+ "mock_id": "s1-comentario",
+ "course": "comentario",
+ "title": "Simulacro 1 · Comentario de texto",
+ "duration_minutes": 90,
+ "content_version": 1,
+ "intro_md": "Simulacro original con la estructura de los modelos 2024–2025. Lee el texto completo antes de responder.",
+ "text_md": "**Elogio del rato muerto**\n\nHubo un tiempo, no tan lejano, en que esperar era una actividad en sí misma. Se esperaba el autobús mirando la calle, se esperaba en la consulta del médico contando las baldosas, se esperaba a un amigo apoyado en una barandilla sin más compañía que los propios pensamientos. Aquellos minutos no servían para nada, y precisamente por eso servían para mucho.\n\nHoy el rato muerto casi ha desaparecido. En cuanto se abre un hueco de diez segundos, la mano busca el teléfono como quien busca el interruptor en una habitación a oscuras. Revisamos mensajes que ya habíamos leído, deslizamos el dedo por imágenes que olvidaremos al instante y respondemos a notificaciones que podían esperar. Llamamos a esto aprovechar el tiempo, aunque cuesta explicar qué ganamos exactamente.\n\nLos defensores de la conexión permanente tienen argumentos que no conviene despreciar. Gracias al móvil, una espera en la cola del banco puede convertirse en una pequeña lección de idiomas, y un trayecto en tren, en la lectura de un artículo interesante. Nadie añora la incomunicación de quien no podía avisar de que llegaba tarde. La tecnología, dicen, no nos roba nada: somos nosotros quienes decidimos cómo usarla.\n\nSin embargo, la cuestión no es solo qué hacemos con el teléfono, sino qué dejamos de hacer cuando no lo soltamos. Diversos estudios sobre la creatividad sugieren que la mente necesita periodos sin estímulos externos para relacionar ideas que parecían lejanas. Muchas soluciones aparecen en la ducha, durante un paseo o en la duermevela, es decir, en momentos en que no estamos buscando nada. El aburrimiento, ese estado incómodo que tratamos de evitar a toda costa, funciona como una sala de espera donde las ideas se encuentran.\n\nHay, además, una dimensión social. Quien levanta la vista del teléfono ve a las personas que le rodean: el vecino que necesita ayuda con una bolsa, la conversación que podría empezar con un comentario sobre el tiempo, el niño que hace una pregunta. La atención es un bien limitado, y cada vez que la entregamos a una pantalla la retiramos de algún otro lugar.\n\nNo se trata de demonizar la tecnología ni de proponer una vuelta romántica al pasado. Se trata de recuperar la capacidad de elegir. Dejar el teléfono en el bolsillo durante una espera no es perder el tiempo; es concederle a la mente la oportunidad de vagar sin rumbo. Tal vez el lujo del futuro no sea estar siempre conectados, sino poder permitirnos, de vez en cuando, no hacer absolutamente nada.\n\n*Texto original de RISE HUB Academia.*",
+ "sections": [
+  {
+   "id": "p1",
+   "label": "Parte 1 · Comprensión",
+   "instructions_md": "[6 puntos en total]",
+   "choose": null,
+   "groups": [
+    {
+     "id": "b1",
+     "label": "Bloque 1",
+     "points": 3,
+     "mode": "sum",
+     "floor0": true,
+     "items": [
+      {
+       "id": "q11",
+       "kind": "multiple_choice",
+       "points": 0.5,
+       "penalty": 0.16,
+       "prompt_md": "1.1. La tesis del texto es que:",
+       "choices": [
+        {
+         "id": "a",
+         "text": "los móviles deberían prohibirse en los espacios públicos."
+        },
+        {
+         "id": "b",
+         "text": "los ratos sin estímulos tienen un valor que estamos perdiendo."
+        },
+        {
+         "id": "c",
+         "text": "la tecnología permite aprovechar mejor las esperas."
+        },
+        {
+         "id": "d",
+         "text": "el aburrimiento es un estado que conviene evitar."
+        }
+       ],
+       "key": {
+        "correct": "b"
+       },
+       "solution_md": "El autor defiende el valor del «rato muerto» y lamenta su desaparición; la propuesta final confirma esa tesis."
+      },
+      {
+       "id": "q12",
+       "kind": "multiple_choice",
+       "points": 0.5,
+       "penalty": 0.16,
+       "prompt_md": "1.2. El tercer párrafo («Los defensores...») sirve para:",
+       "choices": [
+        {
+         "id": "a",
+         "text": "presentar la conclusión del autor."
+        },
+        {
+         "id": "b",
+         "text": "recoger argumentos contrarios a la postura del autor."
+        },
+        {
+         "id": "c",
+         "text": "narrar una experiencia personal."
+        },
+        {
+         "id": "d",
+         "text": "definir el concepto de rato muerto."
+        }
+       ],
+       "key": {
+        "correct": "b"
+       },
+       "solution_md": "Expone los argumentos de quienes defienden la conexión permanente, antes de rebatirlos."
+      },
+      {
+       "id": "q13",
+       "kind": "multiple_choice",
+       "points": 0.5,
+       "penalty": 0.16,
+       "prompt_md": "1.3. «Sin embargo», al inicio del cuarto párrafo, introduce:",
+       "choices": [
+        {
+         "id": "a",
+         "text": "una consecuencia."
+        },
+        {
+         "id": "b",
+         "text": "un ejemplo."
+        },
+        {
+         "id": "c",
+         "text": "una oposición a lo dicho antes."
+        },
+        {
+         "id": "d",
+         "text": "una enumeración."
+        }
+       ],
+       "key": {
+        "correct": "c"
+       },
+       "solution_md": "Es un conector adversativo: contrapone la postura del autor a la del párrafo anterior."
+      },
+      {
+       "id": "q14",
+       "kind": "multiple_choice",
+       "points": 0.5,
+       "penalty": 0.16,
+       "prompt_md": "1.4. En el texto, «duermevela» significa:",
+       "choices": [
+        {
+         "id": "a",
+         "text": "un sueño profundo y reparador."
+        },
+        {
+         "id": "b",
+         "text": "un estado entre el sueño y la vigilia."
+        },
+        {
+         "id": "c",
+         "text": "una pesadilla."
+        },
+        {
+         "id": "d",
+         "text": "la hora de acostarse."
+        }
+       ],
+       "key": {
+        "correct": "b"
+       },
+       "solution_md": "Duermevela: sueño ligero, entre dormido y despierto."
+      },
+      {
+       "id": "q15",
+       "kind": "multiple_choice",
+       "points": 0.5,
+       "penalty": 0.16,
+       "prompt_md": "1.5. La comparación «como quien busca el interruptor en una habitación a oscuras» sugiere que coger el móvil es:",
+       "choices": [
+        {
+         "id": "a",
+         "text": "reflexivo y planificado."
+        },
+        {
+         "id": "b",
+         "text": "automático y casi necesario."
+        },
+        {
+         "id": "c",
+         "text": "peligroso."
+        },
+        {
+         "id": "d",
+         "text": "poco frecuente."
+        }
+       ],
+       "key": {
+        "correct": "b"
+       },
+       "solution_md": "Buscar el interruptor a oscuras es un gesto reflejo, casi una necesidad."
+      },
+      {
+       "id": "q16",
+       "kind": "multiple_choice",
+       "points": 0.5,
+       "penalty": 0.16,
+       "prompt_md": "1.6. La solución que propone el autor es:",
+       "choices": [
+        {
+         "id": "a",
+         "text": "volver a la forma de vida anterior a los teléfonos."
+        },
+        {
+         "id": "b",
+         "text": "usar el móvil solo para aprender idiomas."
+        },
+        {
+         "id": "c",
+         "text": "recuperar la capacidad de decidir cuándo desconectar."
+        },
+        {
+         "id": "d",
+         "text": "aburrirse de manera obligatoria cada día."
+        }
+       ],
+       "key": {
+        "correct": "c"
+       },
+       "solution_md": "«Se trata de recuperar la capacidad de elegir»; rechaza explícitamente la vuelta romántica al pasado."
+      }
+     ],
+     "stem_md": "Elige la opción correcta. [0,5 por acierto; −0,16 por fallo; en blanco no resta; el bloque no baja de 0]"
+    },
+    {
+     "id": "b2",
+     "label": "Bloque 2",
+     "points": 3,
+     "mode": "sum",
+     "floor0": false,
+     "items": [
+      {
+       "id": "q21",
+       "kind": "open",
+       "points": 1,
+       "prompt_md": "2.1. ¿Qué relación establece el autor entre el aburrimiento y la creatividad?",
+       "solution_md": "La mente necesita momentos sin estímulos para conectar ideas lejanas; el aburrimiento ofrece ese espacio, y por eso muchas soluciones aparecen cuando no buscamos nada.",
+       "rubric_md": "1 si la idea es correcta, completa y con palabras propias · 0,5 si es parcial · 0 si copia el texto. −0,1 por cada error de lengua."
+      },
+      {
+       "id": "q22",
+       "kind": "open",
+       "points": 1,
+       "prompt_md": "2.2. Explica el argumento de la dimensión social del quinto párrafo.",
+       "solution_md": "La atención es limitada: si la damos a la pantalla, dejamos de ver a quienes nos rodean y perdemos ocasiones de ayudar o de conversar.",
+       "rubric_md": "1 si la idea es correcta, completa y con palabras propias · 0,5 si es parcial · 0 si copia el texto. −0,1 por cada error de lengua."
+      },
+      {
+       "id": "q23",
+       "kind": "open",
+       "points": 1,
+       "prompt_md": "2.3. ¿Por qué dice el autor que aquellos minutos «no servían para nada, y precisamente por eso servían para mucho»?",
+       "solution_md": "Es una paradoja: no tenían una utilidad práctica, pero al no estar ocupados dejaban la mente libre para pensar, observar y crear.",
+       "rubric_md": "1 si explica la paradoja con palabras propias · 0,5 si es parcial · 0 si copia el texto. −0,1 por cada error de lengua."
+      }
+     ],
+     "stem_md": "Responde con tus propias palabras, entre una y cinco líneas. [1 punto por cuestión; −0,1 por error de lengua]"
+    }
+   ]
+  },
+  {
+   "id": "p2",
+   "label": "Parte 2 · Redacción",
+   "instructions_md": "Elige **UNA** opción y escribe un texto argumentativo de **150 a 200 palabras**, con al menos dos argumentos. [4 puntos; −0,1 por error de lengua; −0,5 si queda fuera de 150–200 palabras, aplicado por el servidor]",
+   "choose": 1,
+   "groups": [
+    {
+     "id": "oa",
+     "label": "Opción A",
+     "points": 4,
+     "mode": "sum",
+     "floor0": false,
+     "items": [
+      {
+       "id": "ea",
+       "kind": "open",
+       "points": 4,
+       "prompt_md": "¿Deberían los centros de trabajo garantizar un «derecho a la desconexión» fuera del horario laboral?",
+       "solution_md": "Respuesta libre. Ejemplo de estructura: tesis clara; argumento 1 (salud y descanso); argumento 2 (productividad y conciliación); contraargumento (empleos con urgencias) y su respuesta; conclusión.",
+       "rubric_md": "Adecuación 1 (al menos dos argumentos válidos y distintos, 0,5 cada uno, y responde a la pregunta) · Coherencia 1,5 · Estilo 1,5. Resta 0,1 por cada error de lengua al puntuarte.",
+       "words": [
+        150,
+        200
+       ]
+      }
+     ]
+    },
+    {
+     "id": "ob",
+     "label": "Opción B",
+     "points": 4,
+     "mode": "sum",
+     "floor0": false,
+     "items": [
+      {
+       "id": "eb",
+       "kind": "open",
+       "points": 4,
+       "prompt_md": "¿Es el aburrimiento algo que deberíamos enseñar a tolerar desde la infancia?",
+       "solution_md": "Respuesta libre. Ejemplo de estructura: tesis; argumento 1 (creatividad y juego autónomo); argumento 2 (tolerancia a la frustración); contraargumento (estímulos educativos) y respuesta; conclusión.",
+       "rubric_md": "Adecuación 1 (al menos dos argumentos válidos y distintos, 0,5 cada uno, y responde a la pregunta) · Coherencia 1,5 · Estilo 1,5. Resta 0,1 por cada error de lengua al puntuarte.",
+       "words": [
+        150,
+        200
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "word_rules": {
+  "ea": {
+   "min": 150,
+   "max": 200,
+   "penalty": 0.5
+  },
+  "eb": {
+   "min": 150,
+   "max": 200,
+   "penalty": 0.5
+  }
+ }
+}

@@ -2,6 +2,7 @@
 import catalogJson from "@/content/academia/catalog.json";
 import bankJson from "@/content/academia/bank.json";
 import profilesJson from "@/content/academia/exam-profiles.json";
+import mocksJson from "@/content/academia/mocks.json";
 import type {Catalog,ExamProfile} from "./engine.mjs";
 
 export type PublicQuestion={id:string;lesson_id:string;course:string;kind:"multiple_choice"|"numeric"|"short_text"|"essay";difficulty:number;
@@ -13,6 +14,15 @@ export type LessonDoc={id:string;course:string;module:string;level:string;title:
 
 export const CATALOG=catalogJson as unknown as Catalog;
 export const BANK=(bankJson as unknown as {questions:PublicQuestion[]}).questions;
+export type MockItem={id:string;kind:"multiple_choice"|"numeric"|"short_text"|"open";points:number;penalty:number;prompt_md:string;
+  choices?:{id:string;text:string}[];unit_required?:boolean;unit_label?:string;words?:[number,number]};
+export type MockGroup={id:string;label:string;points:number;mode:"sum"|"deduct";floor0:boolean;stem_md:string;items:MockItem[]};
+export type MockSection={id:string;label:string;instructions_md:string;choose:number|null;groups:MockGroup[]};
+export type MockDef={mock_id:string;course:string;title:string;duration_minutes:number;content_version:number;intro_md:string;data_md:string;text_md:string;
+  sections:MockSection[];word_rules:Record<string,{min:number;max:number;penalty:number}>};
+export const MOCKS=(mocksJson as unknown as {mocks:MockDef[]}).mocks;
+/** Nota máxima de un simulacro: en las partes con elección, solo cuentan las cuestiones elegibles. */
+export const mockMax=(m:MockDef)=>m.sections.reduce((a,s)=>a+(s.choose?s.choose*(s.groups[0]?.points||0):s.groups.reduce((b,g)=>b+g.points,0)),0);
 export const PROFILES=(profilesJson as unknown as {profiles:ExamProfile[];global_notice:string;year:number});
 
 const loaders=import.meta.glob<LessonDoc>("../../content/academia/lessons/*.json",{import:"default"});

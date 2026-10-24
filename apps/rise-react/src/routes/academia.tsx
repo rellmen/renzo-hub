@@ -53,7 +53,7 @@ function Academia(){
   if(!allowed)return <EmptyState icon={<Lock className="h-5 w-5"/>} title="Academia en pruebas" text="Disponible en staging hasta que apruebes su paso a producción."/>;
   return <div className="space-y-6">
     {!search.leccion&&<PageHero image={img} eyebrow="ACADEMIA +25" title="De cero al examen." color="var(--learn)" priority
-      subtitle="Matemáticas, Economía de la Empresa, Lengua castellana, Comentario e Inglés. Progreso real, corrección en servidor y simulacros con exámenes oficiales enlazados.">
+      subtitle="Ruta Ingeniería: Matemáticas y Física, más Castellano, Comentario e Inglés. Progreso real, corrección en servidor y simulacros cronometrados.">
       <div className="flex flex-wrap gap-2">
         <span className="inline-flex items-center gap-2 rounded-full border border-learn/35 bg-ink/70 px-4 py-2 text-xs text-platinum/90"><CalendarClock className="h-4 w-4 text-learn"/>
           {general!==null&&general>=0?`Fase general en ${general} días · específica en ${especifica}`:"Fechas de 2027 por confirmar"}</span>
@@ -79,7 +79,7 @@ function Academia(){
       {view==="plan"&&<PlanView data={data} prefs={prefs} onOpen={id=>go({leccion:id})} onSaved={refresh} client={client} uid={uid}/>}
       {view==="cursos"&&<CoursesView data={data} curso={search.curso||"matematicas"} onCourse={c=>go({v:"cursos",curso:c})} onOpen={id=>go({leccion:id})}/>}
       {view==="practicar"&&<AcademyPractice client={data?client:null} elective={elective} onChanged={refresh}/>}
-      {view==="examenes"&&<AcademyExams client={data?client:null} uid={uid} exams={data?.exams||[]} elective={elective} onChanged={refresh}/>}
+      {view==="examenes"&&<AcademyExams client={data?client:null} uid={uid} exams={data?.exams||[]} elective={elective} onChanged={refresh} mocks={data?.mocks||[]} mocksAvailable={!!data?.mocksAvailable}/>}
       {view==="resultados"&&<ResultsView data={data}/>}
     </>}
   </div>;
@@ -118,10 +118,10 @@ function PlanView({data,prefs,onOpen,onSaved,client,uid}:{data:Data;prefs:Prefs|
         {data&&plan.blocked.length>0&&<ul className="mt-3 space-y-1 text-xs text-muted-foreground">{plan.blocked.map(b=><li key={b.course}>{courseTitle(b.course)}: {b.reason}</li>)}</ul>}
         <p className="mt-4 text-xs text-muted-foreground">Sin rachas ni castigos: si un turno te come la semana, el plan sigue donde lo dejaste.</p>
       </SectionCard>
-      <SectionCard eyebrow="Calendario oficial publicado" title="Prueba +25 · 2027" accent="var(--gold)">
+      <SectionCard eyebrow="Calendario de referencia (Generalitat)" title="Prueba +25 · 2027" accent="var(--gold)">
         <dl className="grid gap-3 sm:grid-cols-2">
           <div className="rounded-2xl border border-hairline p-3"><dt className="text-xs text-muted-foreground">Fase general (Castellano, Comentario, Inglés)</dt><dd className="font-display text-2xl">10 abril 2027</dd><dd className="text-xs">{daysUntil(CATALOG.exam_dates.general)} días</dd></div>
-          <div className="rounded-2xl border border-hairline p-3"><dt className="text-xs text-muted-foreground">Fase específica (Matemáticas + Economía)</dt><dd className="font-display text-2xl">17 abril 2027</dd><dd className="text-xs">{daysUntil(CATALOG.exam_dates.especifica)} días</dd></div>
+          <div className="rounded-2xl border border-hairline p-3"><dt className="text-xs text-muted-foreground">Fase específica (Matemáticas + Física)</dt><dd className="font-display text-2xl">17 abril 2027</dd><dd className="text-xs">{daysUntil(CATALOG.exam_dates.especifica)} días</dd></div>
         </dl>
         <p className="mt-3 text-xs text-muted-foreground">{CATALOG.exam_dates.note} <a className="underline" href={CATALOG.exam_dates.source} target="_blank" rel="noopener noreferrer">Fuente</a></p>
       </SectionCard>

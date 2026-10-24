@@ -42,3 +42,42 @@ test('Academia: migración pendiente, con rollback y nunca en supabase/migration
   assert.doesNotMatch(mig,/grant select on public\.academy_question_keys/);
   for(const fn of ['academy_grade','academy_finish_quiz'])assert.match(mig,new RegExp(`create function public\\.${fn}[\\s\\S]*?security definer set search_path=''`));
 });
+
+test('Academia simulacros: migración pendiente con rollback, claves solo en el seed y claves numéricas recalculadas',()=>{
+  const mig=read('supabase/pending/20261024200000_academy_mocks.sql');
+  read('supabase/pending/20261024200000_academy_mocks.rollback.sql');
+  assert.throws(()=>read('supabase/migrations/20261024200000_academy_mocks.sql'));
+  assert.match(mig,/revoke all on public\.academy_mock_items from public, anon, authenticated/);
+  assert.doesNotMatch(mig,/grant (select|insert|update)[^;]*academy_mock_(items|defs)/);
+  assert.doesNotMatch(mig,/grant (insert|update)[^;]*academy_mock_sessions/);
+  for(const fn of ['academy_mock_start','academy_mock_save','academy_mock_submit','academy_mock_self_score'])
+    assert.match(mig,new RegExp(`create function public\\.${fn}[\\s\\S]*?security definer set search_path=''`));
+  assert.match(read('supabase/seed/academy_mock_keys.sql'),/insert into public\.academy_mock_items/);
+  assert.doesNotMatch(read('apps/rise-react/src/content/academia/mocks.json'),/"(key|solution_md|rubric_md|correct|units)"/);
+  const items={};
+  for(const f of readdirSync(new URL('content/academia/mocks/',root))){
+    const m=JSON.parse(read('content/academia/mocks/'+f));
+    for(const s of m.sections)for(const g of s.groups)for(const it of g.items)items[m.mock_id+'/'+it.id]=it;
+  }
+  const v=id=>items[id].key.value;
+  const near=(a,b,rel=1e-3)=>Math.abs(a-b)<=Math.abs(b)*rel+1e-12;
+  // Matemáticas: sistema con a=5, límite, integral, problemas
+  const [x,y,z]=[v('s1-matematicas/c2x'),v('s1-matematicas/c2y'),v('s1-matematicas/c2z')];
+  assert.ok(x+y+z===1&&x+2*y+3*z===2&&2*x+3*y+5*z===4);
+  assert.ok(near(v('s1-matematicas/c5b'),2*(2+2)/(2+1)));
+  assert.equal(v('s1-matematicas/c6b'),2**3-2**2+2);
+  const [u,mo,e]=[v('s1-matematicas/p1u'),v('s1-matematicas/p1m'),v('s1-matematicas/p1e')];
+  assert.ok(u+mo+e===40&&300*u+450*mo+600*e===16500&&u===2*e);
+  assert.equal(v('s1-matematicas/p1c'),300*u+495*mo+600*e);
+  const Y=v('s1-matematicas/p2y'),X=v('s1-matematicas/p2x');
+  assert.ok(6*X+8*Y===2400&&400-8/3*Y===0&&v('s1-matematicas/p2c')===X*Y);
+  // Física
+  const G=6.67e-11,M=5.97e24,r=6.37e6+6e5,vo=Math.sqrt(G*M/r);
+  assert.ok(near(v('s1-fisica/c2a'),20**2/(2*50))&&near(v('s1-fisica/c2c'),1200*4));
+  assert.ok(near(v('s1-fisica/c3a'),vo,0.002)&&near(v('s1-fisica/c3b'),2*Math.PI*r/vo/60,0.005));
+  assert.ok(near(v('s1-fisica/c4t'),2*Math.PI/20)&&near(v('s1-fisica/c4f'),20/(2*Math.PI))&&near(v('s1-fisica/c4e'),0.5*200*0.01));
+  assert.ok(near(v('s1-fisica/c5a'),Math.asin(1/1.33)*180/Math.PI,0.002)&&near(v('s1-fisica/c5b'),Math.asin(1.33*0.5)*180/Math.PI,0.002));
+  const q=1.602e-19,mp=1.673e-27;
+  assert.ok(near(v('s1-fisica/p1f'),q*2e6*0.5)&&near(v('s1-fisica/p1r'),mp*2e6/(q*0.5))&&near(v('s1-fisica/p1t'),2*Math.PI*mp/(q*0.5)));
+  assert.ok(near(v('s1-fisica/p2f'),0.6*0.01)&&near(v('s1-fisica/p2e'),200*0.006/0.3)&&near(v('s1-fisica/p2q'),1*4*0.3));
+});
