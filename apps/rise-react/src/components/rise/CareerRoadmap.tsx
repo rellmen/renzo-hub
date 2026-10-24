@@ -114,7 +114,7 @@ export function CareerRoadmap(){
     <button type="button" disabled={selectedWeek===23} onClick={()=>{setSelectedWeek(w=>Math.min(23,w+1));mutation.reset();}} className="btn-ghost min-h-10 min-w-10 px-2" aria-label="Semana siguiente"><ChevronRight className="h-4 w-4"/></button>
    </div>}>
    <div className="mb-3 flex flex-wrap items-center justify-between gap-2 text-xs text-muted-foreground">
-    <span className="inline-flex items-center gap-2"><CalendarDays className="h-4 w-4"/>{readableDate(weekStart(selectedWeek))} – {readableDate(missions[missions.length-1].day)}</span>
+    <span className="inline-flex items-center gap-2"><CalendarDays className="h-4 w-4"/>{readableDate(weekStart(selectedWeek))} – {readableDate(missions[missions.length-1]?.day ?? weekStart(selectedWeek))}</span>
     <span className="font-medium text-gold">{missions.filter(m=>isChecked(rows,m.id)).length}/{missions.length} misiones</span>
    </div>
    <p className="text-xs text-muted-foreground">Plan semanal: Matemáticas 4 h, Economía 3 h, Castellano 2 h, Comentario 1,5 h, Inglés 1,5 h, más 30 min de revisión dominical. Viernes libre; prioriza descanso con turnos.</p>
