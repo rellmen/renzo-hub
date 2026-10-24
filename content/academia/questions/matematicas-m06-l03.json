@@ -1,0 +1,36 @@
+{
+  "lesson_id": "matematicas-m06-l03",
+  "questions": [
+    {
+      "id": "m06l03-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["determinants"],
+      "prompt_md": "Calcula $\\begin{vmatrix}3&-1\\\\4&2\\end{vmatrix}$.",
+      "key": {"value": 10, "tolerance": 0},
+      "explanation_md": "$3\\cdot2-(-1)\\cdot4=6+4=10$."
+    },
+    {
+      "id": "m06l03-x2", "kind": "numeric", "difficulty": 2, "skill_ids": ["determinants"],
+      "prompt_md": "Calcula $\\begin{vmatrix}2&0&1\\\\1&3&0\\\\0&1&4\\end{vmatrix}$.",
+      "key": {"value": 25, "tolerance": 0},
+      "explanation_md": "Por la primera fila: $2(12-0)-0+1(1-0)=25$."
+    },
+    {
+      "id": "m06l03-x3", "kind": "numeric", "difficulty": 2, "skill_ids": ["matrix_inverse"],
+      "prompt_md": "¿Para qué valor de $k$ la matriz $\\begin{pmatrix}k&6\\\\2&3\\end{pmatrix}$ **no** tiene inversa?",
+      "key": {"value": 4, "tolerance": 0},
+      "explanation_md": "$3k-12=0$ → $k=4$."
+    },
+    {
+      "id": "m06l03-x4", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["matrix_inverse"],
+      "prompt_md": "¿Cuál es la inversa de $\\begin{pmatrix}1&2\\\\0&1\\end{pmatrix}$?",
+      "choices": [{"id": "a", "text": "$\\begin{pmatrix}1&-2\\\\0&1\\end{pmatrix}$"}, {"id": "b", "text": "$\\begin{pmatrix}-1&2\\\\0&-1\\end{pmatrix}$"}, {"id": "c", "text": "$\\begin{pmatrix}1&0\\\\2&1\\end{pmatrix}$"}, {"id": "d", "text": "No tiene inversa"}],
+      "key": {"correct_choice_id": "a"},
+      "explanation_md": "$|A|=1$; se intercambia la diagonal (1 y 1) y se cambia el signo de $b$: $\\begin{pmatrix}1&-2\\\\0&1\\end{pmatrix}$."
+    },
+    {
+      "id": "m06l03-x5", "kind": "numeric", "difficulty": 3, "skill_ids": ["matrix_rank"],
+      "prompt_md": "Calcula el rango de $\\begin{pmatrix}1&2&1\\\\2&4&2\\\\0&1&1\\end{pmatrix}$.",
+      "key": {"value": 2, "tolerance": 0},
+      "explanation_md": "La fila 2 es el doble de la 1; el menor $\\begin{vmatrix}1&2\\\\0&1\\end{vmatrix}=1\\neq0$: rango 2."
+    }
+  ]
+}

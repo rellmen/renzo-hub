@@ -1,0 +1,37 @@
+{
+  "lesson_id": "matematicas-m07-l03",
+  "questions": [
+    {
+      "id": "m07l03-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["planes"],
+      "prompt_md": "El plano que pasa por $(1,2,3)$ con normal $(1,1,1)$ es $x+y+z+D=0$. ¿Cuánto vale $D$?",
+      "key": {"value": -6, "tolerance": 0},
+      "explanation_md": "$1+2+3+D=0$ → $D=-6$."
+    },
+    {
+      "id": "m07l03-x2", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["relative_positions"],
+      "prompt_md": "¿Qué posición tienen los planos $x+2y-z=1$ y $2x+4y-2z=3$?",
+      "choices": [{"id": "a", "text": "Coincidentes"}, {"id": "b", "text": "Paralelos"}, {"id": "c", "text": "Se cortan en una recta"}, {"id": "d", "text": "Perpendiculares"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Normales proporcionales $(1,2,-1)$ y $(2,4,-2)$, pero $\\dfrac{1}{3}\\neq\\dfrac12$: paralelos distintos."
+    },
+    {
+      "id": "m07l03-x3", "kind": "numeric", "difficulty": 2, "skill_ids": ["lines_3d", "planes"],
+      "prompt_md": "La recta $(x,y,z)=(1+t,\\ 2t,\\ 3-t)$ corta al plano $z=0$ en un punto. ¿Cuál es su coordenada $x$?",
+      "key": {"value": 4, "tolerance": 0},
+      "explanation_md": "$3-t=0$ → $t=3$ → $x=4$ (punto $(4,6,0)$)."
+    },
+    {
+      "id": "m07l03-x4", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["relative_positions"],
+      "prompt_md": "Una recta tiene director $(2,1,0)$ y un plano tiene normal $(1,-2,5)$. ¿Qué se puede afirmar?",
+      "choices": [{"id": "a", "text": "Se cortan en un único punto"}, {"id": "b", "text": "La recta es paralela al plano o está contenida en él"}, {"id": "c", "text": "La recta es perpendicular al plano"}, {"id": "d", "text": "No se puede decir nada"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "$\\vec v\\cdot\\vec n=2-2+0=0$: el director es perpendicular al normal."
+    },
+    {
+      "id": "m07l03-x5", "kind": "numeric", "difficulty": 1, "skill_ids": ["planes"],
+      "prompt_md": "Halla $k$ para que el punto $(2,1,1)$ pertenezca al plano $x+y+kz=6$.",
+      "key": {"value": 3, "tolerance": 0},
+      "explanation_md": "$2+1+k=6$ → $k=3$."
+    }
+  ]
+}

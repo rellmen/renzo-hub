@@ -667,54 +667,49 @@
       },
       {
        "id": "matematicas-m06-l02",
-       "title": "Matrices, productos y transpuesta",
+       "title": "Matrices, operaciones, producto y traspuesta",
        "topic_scope": "matrices, productos y transpuesta",
        "level": "N2",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
         "matematicas-m06-l01"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "matematicas-m06-l03",
-       "title": "Determinantes 2×2/3×3, inversa y rango",
+       "title": "Determinantes, matriz inversa y rango",
        "topic_scope": "determinantes 2×2/3×3, inversa y rango",
        "level": "N2",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
         "matematicas-m06-l02"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "matematicas-m06-l04",
-       "title": "Sistemas 3×3, escalonamiento Gauss, discusión con parámetro, interpretación geométrica",
+       "title": "Sistemas 3×3, método de Gauss y discusión con parámetro",
        "topic_scope": "sistemas 3×3, escalonamiento Gauss, discusión con parámetro, interpretación geométrica",
        "level": "N2",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
-        "matematicas-m06-l03"
+        "matematicas-m06-l03",
+        "matematicas-m02-l06"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     },
@@ -725,69 +720,68 @@
      "lessons": [
       {
        "id": "matematicas-m07-l01",
-       "title": "Distancias, punto medio, pendientes",
+       "title": "Distancia entre puntos, punto medio y pendiente",
        "topic_scope": "distancias, punto medio, pendientes",
        "level": "N2",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
-       "prerequisites": [],
-       "has_content": false,
+       "prerequisites": [
+        "matematicas-m06-l01",
+        "matematicas-m04-l01",
+        "matematicas-m05-l01"
+       ],
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "matematicas-m07-l02",
-       "title": "Rectas 2D, paralelismo y perpendicularidad",
+       "title": "Rectas en el plano: ecuaciones, paralelismo, perpendicularidad y distancias",
        "topic_scope": "rectas 2D, paralelismo y perpendicularidad",
        "level": "N2",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
-        "matematicas-m07-l01"
+        "matematicas-m07-l01",
+        "matematicas-m02-l06"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "matematicas-m07-l03",
-       "title": "Rectas y planos 3D, vectores normales, posiciones relativas",
+       "title": "Rectas y planos en el espacio y posiciones relativas",
        "topic_scope": "rectas y planos 3D, vectores normales, posiciones relativas",
        "level": "N2",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
-        "matematicas-m07-l02"
+        "matematicas-m07-l02",
+        "matematicas-m06-l04"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "matematicas-m07-l04",
-       "title": "Producto vectorial, ángulos y distancias",
+       "title": "Producto vectorial y mixto, ángulos y distancias en el espacio",
        "topic_scope": "producto vectorial, ángulos y distancias",
        "level": "N2",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
-        "matematicas-m07-l03"
+        "matematicas-m07-l03",
+        "matematicas-m06-l03"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     },
@@ -2378,22 +2372,22 @@
  ],
  "stats": {
   "by_status": {
-   "planned": 63,
-   "draft": 57,
+   "planned": 56,
+   "draft": 64,
    "reviewed": 0,
    "ready": 0,
    "published": 0
   },
   "lessons_total": 120,
-  "meets_standard": 57,
+  "meets_standard": 64,
   "courses": {
    "matematicas": {
     "total": 56,
-    "with_content": 39,
-    "meets_standard": 39,
+    "with_content": 46,
+    "meets_standard": 46,
     "by_status": {
-     "planned": 17,
-     "draft": 39,
+     "planned": 10,
+     "draft": 46,
      "reviewed": 0,
      "ready": 0,
      "published": 0
@@ -2460,8 +2454,8 @@
     }
    }
   },
-  "questions_total": 341,
-  "exit_questions": 285,
+  "questions_total": 376,
+  "exit_questions": 320,
   "bank_questions": 56
  }
 }

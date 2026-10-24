@@ -1,0 +1,38 @@
+{
+  "lesson_id": "matematicas-m06-l02",
+  "questions": [
+    {
+      "id": "m06l02-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["matrix_product"],
+      "prompt_md": "Con $A=\\begin{pmatrix}1&2\\\\3&4\\end{pmatrix}$ y $B=\\begin{pmatrix}2&0\\\\1&3\\end{pmatrix}$, calcula el elemento de la fila 1 y columna 2 de $AB$.",
+      "key": {"value": 6, "tolerance": 0},
+      "explanation_md": "Fila 1 de $A$ por columna 2 de $B$: $1\\cdot0+2\\cdot3=6$."
+    },
+    {
+      "id": "m06l02-x2", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["matrix_product"],
+      "prompt_md": "Si $A$ es $2\\times3$ y $B$ es $3\\times4$, ¿qué dimensión tiene $AB$?",
+      "choices": [{"id": "a", "text": "$3\\times3$"}, {"id": "b", "text": "$2\\times4$"}, {"id": "c", "text": "$4\\times2$"}, {"id": "d", "text": "No se puede multiplicar"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "$(2\\times3)(3\\times4)=2\\times4$."
+    },
+    {
+      "id": "m06l02-x3", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["matrix_ops"],
+      "prompt_md": "¿Cuál de estas afirmaciones es correcta para matrices cuadradas $A$ y $B$ del mismo orden?",
+      "choices": [{"id": "a", "text": "Siempre $AB=BA$"}, {"id": "b", "text": "En general $AB\\neq BA$"}, {"id": "c", "text": "Si $AB=O$, entonces $A=O$ o $B=O$"}, {"id": "d", "text": "$(AB)^t=A^tB^t$"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "El producto no es conmutativo. Además, $(AB)^t=B^tA^t$ y $AB=O$ puede darse con $A,B\\neq O$."
+    },
+    {
+      "id": "m06l02-x4", "kind": "numeric", "difficulty": 2, "skill_ids": ["matrix_product"],
+      "prompt_md": "Sea $A=\\begin{pmatrix}1&2\\\\0&3\\end{pmatrix}$. Calcula la suma de los elementos de la diagonal principal de $A^2$.",
+      "key": {"value": 10, "tolerance": 0},
+      "explanation_md": "$A^2=\\begin{pmatrix}1&8\\\\0&9\\end{pmatrix}$; $1+9=10$."
+    },
+    {
+      "id": "m06l02-x5", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["matrix_ops"],
+      "prompt_md": "¿Cuál es la traspuesta de $\\begin{pmatrix}1&2&3\\\\4&5&6\\end{pmatrix}$?",
+      "choices": [{"id": "a", "text": "$\\begin{pmatrix}1&4\\\\2&5\\\\3&6\\end{pmatrix}$"}, {"id": "b", "text": "$\\begin{pmatrix}6&5&4\\\\3&2&1\\end{pmatrix}$"}, {"id": "c", "text": "$\\begin{pmatrix}1&2\\\\3&4\\\\5&6\\end{pmatrix}$"}, {"id": "d", "text": "$\\begin{pmatrix}3&2&1\\\\6&5&4\\end{pmatrix}$"}],
+      "key": {"correct_choice_id": "a"},
+      "explanation_md": "Las filas pasan a ser columnas: la primera fila $(1,2,3)$ es la primera columna."
+    }
+  ]
+}

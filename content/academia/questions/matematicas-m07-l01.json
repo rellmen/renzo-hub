@@ -1,0 +1,36 @@
+{
+  "lesson_id": "matematicas-m07-l01",
+  "questions": [
+    {
+      "id": "m07l01-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["distance_midpoint"],
+      "prompt_md": "Calcula la distancia entre $(0,0)$ y $(6,8)$.",
+      "key": {"value": 10, "tolerance": 0},
+      "explanation_md": "$\\sqrt{36+64}=10$."
+    },
+    {
+      "id": "m07l01-x2", "kind": "numeric", "difficulty": 1, "skill_ids": ["distance_midpoint"],
+      "prompt_md": "¿Cuál es la coordenada $x$ del punto medio entre $(-3,5)$ y $(7,1)$?",
+      "key": {"value": 2, "tolerance": 0},
+      "explanation_md": "$\\dfrac{-3+7}{2}=2$."
+    },
+    {
+      "id": "m07l01-x3", "kind": "numeric", "difficulty": 1, "skill_ids": ["slope_alignment"],
+      "prompt_md": "Calcula la pendiente del segmento que une $(1,2)$ y $(4,11)$.",
+      "key": {"value": 3, "tolerance": 0},
+      "explanation_md": "$\\dfrac{11-2}{4-1}=3$."
+    },
+    {
+      "id": "m07l01-x4", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["slope_alignment"],
+      "prompt_md": "¿Están alineados los puntos $(0,1)$, $(2,5)$ y $(4,9)$?",
+      "choices": [{"id": "a", "text": "Sí, porque las pendientes entre ellos coinciden"}, {"id": "b", "text": "No, porque no pasan por el origen"}, {"id": "c", "text": "No, porque las distancias son distintas"}, {"id": "d", "text": "No se puede saber sin dibujarlos"}],
+      "key": {"correct_choice_id": "a"},
+      "explanation_md": "Pendientes $\\dfrac{4}{2}=2$ y $\\dfrac{8}{4}=2$: alineados (recta $y=2x+1$)."
+    },
+    {
+      "id": "m07l01-x5", "kind": "numeric", "difficulty": 2, "skill_ids": ["slope_alignment"],
+      "prompt_md": "Una recta tiene pendiente $\\sqrt3$. ¿Cuál es su ángulo de inclinación en grados?", "unit": "°",
+      "key": {"value": 60, "tolerance": 0.01},
+      "explanation_md": "$\\tan\\alpha=\\sqrt3$ → $\\alpha=60^\\circ$."
+    }
+  ]
+}
