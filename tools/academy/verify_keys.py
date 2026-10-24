@@ -429,6 +429,32 @@ NUMERIC.update({
 MC.update({
     "e06l03-x3": ("b", lambda: abs(F(1, 4) - F(3, 4) * F(33, 100)) < F(1, 100)),
 })
+# ---- Economía B01, B03, B04, B06–B09 ----
+P_ = sp.symbols("P")
+NUMERIC.update({
+    "b01l01-x2": lambda: 80000 - F(62500),
+    "b01l01-x4": lambda: F(25, 100) * 60000,
+    "b03l01-x1": lambda: 180000 - 120000,
+    "b03l01-x2": lambda: F(150000 - 60000, 100000),
+    "b03l01-x3": lambda: F(24000, 200000) * 100,
+    "b03l01-x5": lambda: (35 + 45) - 50,
+    "b04l01-x1": lambda: F(50000 - 5000, 9),
+    "b04l01-x2": lambda: 24000 - 4 * F(24000, 6),
+    "b04l01-x5": lambda: 40000 - F(15, 1000) * 40000 - 40000 * F(6, 100) * F(60, 360),
+    "b06l01-x2": lambda: F(5, 10) * 6 + F(3, 10) * 8 + F(2, 10) * 5,
+    "b07l01-x1": lambda: F(18000, 50 - 35),
+    "b07l01-x2": lambda: (25 - 15) * 1000 - 8000,
+    "b07l01-x4": lambda: sp.solve(sp.Eq(400, 6000 / (P_ - 20)), P_)[0],
+    "b08l01-x1": lambda: F(5, 2) + 2 + F(5, 4) + F(7, 4),
+    "b08l01-x2": lambda: 6 * F(1, 4) - 4 * F(15, 100),
+    "b08l01-x5": lambda: F(3750 - 3000, 3750) * 100,
+    "b09l01-x1": lambda: sp.solve(sp.Eq(90 - 3 * P_, 10 + 2 * P_), P_)[0],
+    "b09l01-x2": lambda: abs(F(-2, 5)),
+    "b09l01-x3": lambda: F(12) / F(3, 100),
+})
+MC.update({
+    "b08l01-x3": ("b", lambda: F(1, 4) * F(1, 4) - F(3, 4) * F(15, 100) < 0),
+})
 
 def as_float(v):
     if isinstance(v, F):

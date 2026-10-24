@@ -1,0 +1,37 @@
+{
+  "lesson_id": "economia-b04-l01",
+  "questions": [
+    {
+      "id": "b04l01-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["depreciation"],
+      "prompt_md": "Una máquina cuesta 50.000 €, tiene un valor residual de 5.000 € y una vida útil de 9 años. ¿Cuál es la cuota de amortización lineal anual (€)?", "unit": "€",
+      "key": {"value": 5000, "tolerance": 0},
+      "explanation_md": "$(50.000-5.000)/9=5.000$ €."
+    },
+    {
+      "id": "b04l01-x2", "kind": "numeric", "difficulty": 2, "skill_ids": ["depreciation"],
+      "prompt_md": "Un vehículo de 24.000 € se amortiza linealmente en 6 años sin valor residual. ¿Cuál es su valor neto contable (€) al final del año 4?", "unit": "€",
+      "key": {"value": 8000, "tolerance": 0},
+      "explanation_md": "Cuota $=4.000$ €; acumulada $=16.000$ €; VNC $=24.000-16.000=8.000$ €."
+    },
+    {
+      "id": "b04l01-x3", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["financial_products"],
+      "prompt_md": "¿Qué producto consiste en ceder las facturas de clientes a una entidad que adelanta el dinero y gestiona su cobro?",
+      "choices": [{"id": "a", "text": "Leasing"}, {"id": "b", "text": "Renting"}, {"id": "c", "text": "Factoring"}, {"id": "d", "text": "Empréstito"}],
+      "key": {"correct_choice_id": "c"},
+      "explanation_md": "El factoring es la cesión de créditos comerciales (facturas) a cambio de un anticipo y una comisión."
+    },
+    {
+      "id": "b04l01-x4", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["financing_sources"],
+      "prompt_md": "¿Cuál es una fuente de financiación **propia e interna**?",
+      "choices": [{"id": "a", "text": "Una ampliación de capital"}, {"id": "b", "text": "Las reservas (beneficios no repartidos)"}, {"id": "c", "text": "Un préstamo bancario"}, {"id": "d", "text": "El crédito de proveedores"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Las reservas proceden de la propia actividad y no se devuelven. La ampliación de capital es propia pero externa."
+    },
+    {
+      "id": "b04l01-x5", "kind": "numeric", "difficulty": 3, "skill_ids": ["financial_products"],
+      "prompt_md": "Se ceden facturas por 40.000 € a cobrar en 60 días. Comisión del 1,5 % e interés del 6 % anual (año de 360 días). ¿Cuánto recibe la empresa (€)?", "unit": "€",
+      "key": {"value": 39000, "tolerance": 0.01},
+      "explanation_md": "Comisión $=600$ €; interés $=40.000\\cdot0{,}06\\cdot60/360=400$ €; recibe $40.000-600-400=39.000$ €."
+    }
+  ]
+}

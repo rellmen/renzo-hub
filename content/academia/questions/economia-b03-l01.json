@@ -1,0 +1,36 @@
+{
+  "lesson_id": "economia-b03-l01",
+  "questions": [
+    {
+      "id": "b03l01-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["working_capital"],
+      "prompt_md": "Activo corriente 180.000 € y pasivo corriente 120.000 €. ¿Cuál es el fondo de maniobra (€)?", "unit": "€",
+      "key": {"value": 60000, "tolerance": 0},
+      "explanation_md": "$FM=AC-PC=180.000-120.000=60.000$ €."
+    },
+    {
+      "id": "b03l01-x2", "kind": "numeric", "difficulty": 2, "skill_ids": ["financial_ratios"],
+      "prompt_md": "Activo corriente 150.000 €, de los que 60.000 € son existencias; pasivo corriente 100.000 €. ¿Cuál es el ratio de tesorería (prueba ácida)? Da 2 decimales.",
+      "key": {"value": 0.9, "tolerance": 0.005},
+      "explanation_md": "$(150.000-60.000)/100.000=0{,}90$."
+    },
+    {
+      "id": "b03l01-x3", "kind": "numeric", "difficulty": 2, "skill_ids": ["profitability"],
+      "prompt_md": "Beneficio neto 24.000 € y patrimonio neto 200.000 €. ¿Cuál es la rentabilidad financiera (%)?", "unit": "%",
+      "key": {"value": 12, "tolerance": 0.01},
+      "explanation_md": "$RF=24.000/200.000\\cdot100=12\\,\\%$."
+    },
+    {
+      "id": "b03l01-x4", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["working_capital"],
+      "prompt_md": "Una empresa industrial tiene un fondo de maniobra negativo. ¿Qué indica?",
+      "choices": [{"id": "a", "text": "Que es muy rentable"}, {"id": "b", "text": "Que parte del activo no corriente se financia con deudas a corto plazo y hay riesgo de impago"}, {"id": "c", "text": "Que tiene demasiado dinero ocioso"}, {"id": "d", "text": "Que no tiene deudas"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "$AC<PC$: las deudas a corto superan lo que se convierte pronto en dinero."
+    },
+    {
+      "id": "b03l01-x5", "kind": "numeric", "difficulty": 3, "skill_ids": ["maturation_period"],
+      "prompt_md": "Una empresa comercial tarda 35 días en vender sus mercaderías, 45 días en cobrar a sus clientes y paga a sus proveedores a 50 días. ¿Cuál es su periodo medio de maduración financiero (días)?", "unit": "días",
+      "key": {"value": 30, "tolerance": 0},
+      "explanation_md": "Económico $=35+45=80$; financiero $=80-50=30$ días."
+    }
+  ]
+}

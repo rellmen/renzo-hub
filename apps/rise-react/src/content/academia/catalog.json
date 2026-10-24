@@ -1027,18 +1027,18 @@
      "lessons": [
       {
        "id": "economia-b01-l01",
-       "title": "Funciones, objetivos, grupos de interés, formas jurídicas, nociones de ingresos/gastos",
+       "title": "La empresa: funciones, objetivos, grupos de interés y formas jurídicas",
        "topic_scope": "funciones, objetivos, grupos de interés, formas jurídicas, nociones de ingresos/gastos",
        "level": "N1",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
-       "prerequisites": [],
-       "has_content": false,
+       "prerequisites": [
+        "economia-b00-l01"
+       ],
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     },
@@ -1072,18 +1072,19 @@
      "lessons": [
       {
        "id": "economia-b03-l01",
-       "title": "Fondo de maniobra, periodo medio de maduración, ratios liquidez/tesorería/solvencia/endeudamiento, rentabilidad económica/financiera",
+       "title": "Análisis de estados financieros: fondo de maniobra, periodo medio de maduración, ratios y rentabilidades",
        "topic_scope": "fondo de maniobra, periodo medio de maduración, ratios liquidez/tesorería/solvencia/endeudamiento, rentabilidad económica/financiera",
        "level": "N2",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
-       "prerequisites": [],
-       "has_content": false,
+       "prerequisites": [
+        "economia-b02-l01",
+        "economia-b00-l01"
+       ],
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     },
@@ -1094,18 +1095,19 @@
      "lessons": [
       {
        "id": "economia-b04-l01",
-       "title": "Recursos propios/ajenos, créditos, leasing, factoring, renting, amortizaciones",
+       "title": "Financiación de la empresa: recursos propios y ajenos, leasing, factoring, renting y amortizaciones",
        "topic_scope": "recursos propios/ajenos, créditos, leasing, factoring, renting, amortizaciones",
        "level": "N2",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
-       "prerequisites": [],
-       "has_content": false,
+       "prerequisites": [
+        "economia-b02-l01",
+        "economia-b03-l01"
+       ],
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     },
@@ -1139,18 +1141,18 @@
      "lessons": [
       {
        "id": "economia-b06-l01",
-       "title": "DAFO, cadena de valor, ventaja competitiva, localización, dimensiones, expansión nacional/internacional",
+       "title": "Estrategia empresarial: DAFO, cadena de valor, ventaja competitiva, localización, dimensión y crecimiento",
        "topic_scope": "DAFO, cadena de valor, ventaja competitiva, localización, dimensiones, expansión nacional/internacional",
        "level": "N2",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
-       "prerequisites": [],
-       "has_content": false,
+       "prerequisites": [
+        "economia-b01-l01"
+       ],
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     },
@@ -1161,18 +1163,19 @@
      "lessons": [
       {
        "id": "economia-b07-l01",
-       "title": "Plan de negocio, estudio de mercado, marketing mix, punto muerto, viabilidad técnica/legal/financiera/medioambiental",
+       "title": "Plan de negocio, estudio de mercado, marketing mix, punto muerto y viabilidad",
        "topic_scope": "plan de negocio, estudio de mercado, marketing mix, punto muerto, viabilidad técnica/legal/financiera/medioambiental",
        "level": "N2",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
-       "prerequisites": [],
-       "has_content": false,
+       "prerequisites": [
+        "economia-b01-l01",
+        "economia-b06-l01"
+       ],
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     },
@@ -1183,18 +1186,21 @@
      "lessons": [
       {
        "id": "economia-b08-l01",
-       "title": "4 de 5 ejercicios, 2,5 puntos, elegir correctamente, interpretar cifras y justificar decisiones",
+       "title": "El examen de Economía de la Empresa: elegir 4 de 5 ejercicios, interpretar cifras y justificar decisiones",
        "topic_scope": "4 de 5 ejercicios, 2,5 puntos, elegir correctamente, interpretar cifras y justificar decisiones",
        "level": "N3",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 60,
-       "prerequisites": [],
-       "has_content": false,
+       "prerequisites": [
+        "economia-b03-l01",
+        "economia-b04-l01",
+        "economia-b05-l01",
+        "economia-b07-l01"
+       ],
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     },
@@ -1205,18 +1211,19 @@
      "lessons": [
       {
        "id": "economia-b09-l01",
-       "title": "Microeconomía, finanzas cuantitativas, sistemas de información y estrategia de productos tecnológicos",
+       "title": "Puente universitario: microeconomía, finanzas cuantitativas, sistemas de información y estrategia de productos tecnológicos",
        "topic_scope": "microeconomía, finanzas cuantitativas, sistemas de información y estrategia de productos tecnológicos",
        "level": "N4",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
-       "prerequisites": [],
-       "has_content": false,
+       "prerequisites": [
+        "economia-b08-l01",
+        "matematicas-m08-l05"
+       ],
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     }
@@ -2362,14 +2369,14 @@
  ],
  "stats": {
   "by_status": {
-   "planned": 26,
-   "draft": 94,
+   "planned": 19,
+   "draft": 101,
    "reviewed": 0,
    "ready": 0,
    "published": 0
   },
   "lessons_total": 120,
-  "meets_standard": 94,
+  "meets_standard": 101,
   "courses": {
    "matematicas": {
     "total": 56,
@@ -2385,11 +2392,11 @@
    },
    "economia": {
     "total": 10,
-    "with_content": 3,
-    "meets_standard": 3,
+    "with_content": 10,
+    "meets_standard": 10,
     "by_status": {
-     "planned": 7,
-     "draft": 3,
+     "planned": 0,
+     "draft": 10,
      "reviewed": 0,
      "ready": 0,
      "published": 0
@@ -2444,8 +2451,8 @@
     }
    }
   },
-  "questions_total": 526,
-  "exit_questions": 470,
+  "questions_total": 561,
+  "exit_questions": 505,
   "bank_questions": 56
  }
 }

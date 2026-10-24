@@ -1,0 +1,37 @@
+{
+  "lesson_id": "economia-b08-l01",
+  "questions": [
+    {
+      "id": "b08l01-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["exam_format_economia"],
+      "prompt_md": "En el formato de referencia se resuelven 4 ejercicios de 2,5 puntos. Obtienes 2,5, 2,0, 1,25 y 1,75. ¿Qué nota sacas?",
+      "key": {"value": 7.5, "tolerance": 0.001},
+      "explanation_md": "$2{,}5+2{,}0+1{,}25+1{,}75=7{,}5$."
+    },
+    {
+      "id": "b08l01-x2", "kind": "numeric", "difficulty": 2, "skill_ids": ["exam_format_economia"],
+      "prompt_md": "En un test hipotético con preguntas de 0,25 puntos y −0,15 por fallo, aciertas 6 y fallas 4. ¿Cuántos puntos obtienes en el test?",
+      "key": {"value": 0.9, "tolerance": 0.001},
+      "explanation_md": "$6\\cdot0{,}25-4\\cdot0{,}15=1{,}5-0{,}6=0{,}9$."
+    },
+    {
+      "id": "b08l01-x3", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["exam_format_economia"],
+      "prompt_md": "Preguntas de 0,25 puntos, fallo −0,15 y cuatro opciones. No tienes ninguna pista. ¿Qué conviene de media?",
+      "choices": [{"id": "a", "text": "Responder: el valor esperado es positivo"}, {"id": "b", "text": "Dejarla en blanco: el valor esperado de adivinar es negativo"}, {"id": "c", "text": "Da igual: el valor esperado es exactamente 0"}, {"id": "d", "text": "Marcar dos opciones"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "$\\tfrac14\\cdot0{,}25-\\tfrac34\\cdot0{,}15=0{,}0625-0{,}1125=-0{,}05$."
+    },
+    {
+      "id": "b08l01-x4", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["interpretation"],
+      "prompt_md": "¿Cuál es la respuesta más completa a «calcula el fondo de maniobra e interprétalo» (AC = 50.000 €, PC = 70.000 €)?",
+      "choices": [{"id": "a", "text": "FM = −20.000 €."}, {"id": "b", "text": "La empresa está mal."}, {"id": "c", "text": "FM = AC − PC = 50.000 − 70.000 = −20.000 €. Es negativo: parte del activo no corriente se financia con deuda a corto y hay riesgo de no poder pagar; convendría convertir deuda a corto en deuda a largo o ampliar capital."}, {"id": "d", "text": "FM = 120.000 €, la empresa está equilibrada."}],
+      "key": {"correct_choice_id": "c"},
+      "explanation_md": "Incluye fórmula, sustitución, resultado con unidades, interpretación y recomendación."
+    },
+    {
+      "id": "b08l01-x5", "kind": "numeric", "difficulty": 3, "skill_ids": ["interpretation"],
+      "prompt_md": "Punto muerto 3.000 unidades; ventas previstas 3.750. ¿Cuál es el margen de seguridad sobre las ventas previstas (%)?", "unit": "%",
+      "key": {"value": 20, "tolerance": 0.01},
+      "explanation_md": "$(3.750-3.000)/3.750\\cdot100=20\\,\\%$."
+    }
+  ]
+}

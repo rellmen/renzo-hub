@@ -1,0 +1,39 @@
+{
+  "lesson_id": "economia-b06-l01",
+  "questions": [
+    {
+      "id": "b06l01-x1", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["swot"],
+      "prompt_md": "En un DAFO, «la llegada de un competidor internacional con precios bajos» es...",
+      "choices": [{"id": "a", "text": "Una debilidad"}, {"id": "b", "text": "Una amenaza"}, {"id": "c", "text": "Una fortaleza"}, {"id": "d", "text": "Una oportunidad"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Es un factor externo (no depende de la empresa) y negativo."
+    },
+    {
+      "id": "b06l01-x2", "kind": "numeric", "difficulty": 2, "skill_ids": ["location"],
+      "prompt_md": "Factores ponderados con pesos 0,5, 0,3 y 0,2. Una localización obtiene las puntuaciones 6, 8 y 5. ¿Cuál es su puntuación total? Da 1 decimal.",
+      "key": {"value": 6.4, "tolerance": 0.001},
+      "explanation_md": "$0{,}5\\cdot6+0{,}3\\cdot8+0{,}2\\cdot5=3+2{,}4+1=6{,}4$."
+    },
+    {
+      "id": "b06l01-x3", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["growth_strategies"],
+      "prompt_md": "Una bodega compra la empresa que le fabrica las botellas. ¿Qué tipo de crecimiento es?",
+      "choices": [{"id": "a", "text": "Integración vertical hacia delante, crecimiento interno"}, {"id": "b", "text": "Integración vertical hacia atrás, crecimiento externo"}, {"id": "c", "text": "Diversificación conglomerada"}, {"id": "d", "text": "Expansión por desarrollo de mercados"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Integra a un proveedor (hacia atrás) comprando otra empresa (externo)."
+    },
+    {
+      "id": "b06l01-x4", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["competitive_strategy"],
+      "prompt_md": "Una aerolínea elimina servicios a bordo, usa un solo modelo de avión y vende solo por internet para ofrecer billetes muy baratos. ¿Qué estrategia sigue?",
+      "choices": [{"id": "a", "text": "Diferenciación"}, {"id": "b", "text": "Liderazgo en costes"}, {"id": "c", "text": "Diversificación"}, {"id": "d", "text": "Integración vertical"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Todas las decisiones buscan reducir costes para competir en precio."
+    },
+    {
+      "id": "b06l01-x5", "kind": "multiple_choice", "difficulty": 3, "skill_ids": ["swot"],
+      "prompt_md": "Una empresa con un equipo técnico muy cualificado (fortaleza) detecta un aumento de la demanda de servicios digitales (oportunidad). ¿Qué tipo de estrategia CAME corresponde?",
+      "choices": [{"id": "a", "text": "Defensiva"}, {"id": "b", "text": "Ofensiva"}, {"id": "c", "text": "De supervivencia"}, {"id": "d", "text": "De reorientación"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Fortaleza + oportunidad → estrategia ofensiva: explotar lo que se hace bien en un mercado que crece."
+    }
+  ]
+}
