@@ -1,0 +1,163 @@
+---
+id: matematicas-m05-l01
+course: matematicas
+module: M05
+level: N2
+title: Ángulos en radianes, circunferencia unitaria y razones trigonométricas
+learning_objectives:
+  - Convertir ángulos entre grados y radianes y calcular longitudes de arco
+  - Definir seno, coseno y tangente en la circunferencia unitaria y conocer sus signos por cuadrantes
+  - Calcular razones de ángulos notables y de ángulos de otros cuadrantes por reducción, y usar la identidad fundamental
+prerequisites: [matematicas-m04-l01, matematicas-m02-l05]
+skill_ids: [radians, unit_circle, trig_ratios]
+exam_alignment: [trigonometria]
+estimated_minutes: 55
+source_kind: original
+source_urls:
+  - https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/
+content_version: 2
+editorial_status: draft
+---
+
+## 1. Qué aprenderás y para qué sirve
+
+La trigonometría mide ángulos y relaciona ángulos con distancias. Es imprescindible para resolver triángulos (M05-L02), para la geometría con vectores (ángulos entre vectores y planos), para el movimiento circular y las ondas en Física, y para los números complejos en forma polar (M02-L07). En esta lección aprenderás a medir ángulos en **radianes**, la unidad que usan el cálculo y la Física, y a definir seno, coseno y tangente para **cualquier** ángulo, no solo los de un triángulo rectángulo.
+
+## 2. Lo que necesitas saber antes
+
+- Coordenadas en el plano (M04-L01).
+- Raíces y racionalización (M02-L05): $\dfrac{1}{\sqrt2}=\dfrac{\sqrt2}{2}$.
+- Teorema de Pitágoras: en un triángulo rectángulo, $a^2+b^2=c^2$.
+
+## 3. Idea intuitiva
+
+Imagina una circunferencia de radio 1 centrada en el origen. Un punto empieza en $(1,0)$ y gira en sentido contrario a las agujas del reloj un ángulo $\alpha$. Su **coordenada horizontal** es el coseno de $\alpha$ y su **coordenada vertical**, el seno. Así, el seno y el coseno funcionan para cualquier ángulo: 30°, 150°, 300° o 1000°.
+
+Los **radianes** miden el ángulo por la longitud del arco recorrido sobre esa circunferencia de radio 1. Una vuelta completa recorre $2\pi\approx6{,}28$ unidades, así que 360° son $2\pi$ radianes. Es una medida «natural»: no depende de dividir la vuelta en 360 partes, una elección histórica.
+
+## 4. Definición precisa
+
+**Grados y radianes.** $360^\circ=2\pi$ rad, es decir, $180^\circ=\pi$ rad.
+- De grados a radianes: multiplicar por $\dfrac{\pi}{180}$. De radianes a grados: multiplicar por $\dfrac{180}{\pi}$.
+- Equivalencias útiles: $30^\circ=\dfrac\pi6$, $45^\circ=\dfrac\pi4$, $60^\circ=\dfrac\pi3$, $90^\circ=\dfrac\pi2$, $270^\circ=\dfrac{3\pi}2$.
+- **Longitud de arco**: en una circunferencia de radio $r$, un ángulo central $\theta$ (en radianes) abarca un arco $s=r\,\theta$.
+
+**Razones en la circunferencia unitaria.** Si el punto de la circunferencia de radio 1 correspondiente al ángulo $\alpha$ es $P=(x,y)$:
+$$\cos\alpha=x,\qquad \sin\alpha=y,\qquad \tan\alpha=\frac{\sin\alpha}{\cos\alpha}\ (\cos\alpha\neq0).$$
+En un triángulo rectángulo esto coincide con las definiciones clásicas: seno = cateto opuesto / hipotenusa; coseno = cateto contiguo / hipotenusa; tangente = opuesto / contiguo.
+
+**Identidad fundamental**: $\sin^2\alpha+\cos^2\alpha=1$ (es Pitágoras en la circunferencia unitaria). Consecuencias: $-1\le\sin\alpha\le1$ y $-1\le\cos\alpha\le1$; $1+\tan^2\alpha=\dfrac{1}{\cos^2\alpha}$.
+
+**Ángulos notables:**
+
+| | $0^\circ$ | $30^\circ$ | $45^\circ$ | $60^\circ$ | $90^\circ$ |
+|---|---|---|---|---|---|
+| sen | $0$ | $\tfrac12$ | $\tfrac{\sqrt2}2$ | $\tfrac{\sqrt3}2$ | $1$ |
+| cos | $1$ | $\tfrac{\sqrt3}2$ | $\tfrac{\sqrt2}2$ | $\tfrac12$ | $0$ |
+| tan | $0$ | $\tfrac{\sqrt3}3$ | $1$ | $\sqrt3$ | no existe |
+
+**Signos por cuadrantes.** I (0°–90°): todas positivas. II (90°–180°): solo el seno positivo. III (180°–270°): solo la tangente positiva. IV (270°–360°): solo el coseno positivo.
+
+**Reducción al primer cuadrante.** Un ángulo de otro cuadrante tiene las mismas razones, en valor absoluto, que su **ángulo de referencia** (el ángulo agudo que forma con el eje $X$); el signo lo da el cuadrante.
+- II: $\alpha=180^\circ-\beta$ → $\sin\alpha=\sin\beta$, $\cos\alpha=-\cos\beta$.
+- III: $\alpha=180^\circ+\beta$ → $\sin\alpha=-\sin\beta$, $\cos\alpha=-\cos\beta$.
+- IV: $\alpha=360^\circ-\beta$ → $\sin\alpha=-\sin\beta$, $\cos\alpha=\cos\beta$.
+- Ángulos mayores que 360° (o negativos): se suman o restan vueltas completas; las razones se repiten cada 360°.
+
+**Por qué el cálculo usa radianes.** Las derivadas de seno y coseno solo son tan simples ($(\sin x)'=\cos x$) si $x$ está en radianes. Además, para ángulos pequeños en radianes se cumple $\sin x\approx x$, una aproximación muy usada en Física (péndulos, ópticas). Por eso, a partir del cálculo, «ángulo» significa ángulo en radianes salvo que se indique lo contrario.
+
+**Por qué los valores notables.** En un cuadrado de lado 1, la diagonal mide $\sqrt2$ y forma 45°: $\sin45^\circ=\dfrac{1}{\sqrt2}=\dfrac{\sqrt2}{2}$. En un triángulo equilátero de lado 2 partido por la mitad, la altura mide $\sqrt3$: $\sin60^\circ=\dfrac{\sqrt3}{2}$ y $\sin30^\circ=\dfrac12$. Recordar estas dos figuras evita memorizar la tabla.
+
+## 5. Ejemplos resueltos
+
+:::ejemplo Ejemplo 1 · Conversión de unidades
+Expresa 150° en radianes y $\dfrac{3\pi}{4}$ rad en grados.
+
+$150\cdot\dfrac{\pi}{180}=\dfrac{5\pi}{6}$ rad. $\dfrac{3\pi}{4}\cdot\dfrac{180}{\pi}=135^\circ$.
+:::
+
+:::ejemplo Ejemplo 2 · Reducción al primer cuadrante
+Calcula $\sin150^\circ$ y $\cos210^\circ$.
+
+1. $150^\circ$ está en el II cuadrante con referencia $30^\circ$: $\sin150^\circ=\sin30^\circ=\dfrac12$.
+2. $210^\circ$ está en el III cuadrante con referencia $30^\circ$: $\cos210^\circ=-\cos30^\circ=-\dfrac{\sqrt3}{2}$.
+:::
+
+:::ejemplo Ejemplo 3 · Del seno a las demás razones
+Si $\sin\alpha=\dfrac35$ y $\alpha$ está en el II cuadrante, calcula $\cos\alpha$ y $\tan\alpha$.
+
+1. $\cos^2\alpha=1-\dfrac{9}{25}=\dfrac{16}{25}$ → $\cos\alpha=\pm\dfrac45$.
+2. En el II cuadrante el coseno es negativo: $\cos\alpha=-\dfrac45$.
+3. $\tan\alpha=\dfrac{3/5}{-4/5}=-\dfrac34$.
+:::
+
+:::error Error típico
+Usar la calculadora en modo grados con un ángulo en radianes (o al revés): $\sin(\pi/6)$ en modo grados no da 0,5. Otro error: olvidar el signo del cuadrante al usar la identidad fundamental y dar $\cos\alpha=+\dfrac45$ en el ejemplo 3.
+:::
+
+## 6. Ejercicio guiado
+
+Una cinta pasa por una polea de radio 0,2 m que gira 135°. ¿Cuántos metros de cinta se han desplazado?
+
+:::pista Primera pista
+Convierte el ángulo a radianes: $135^\circ=\dfrac{3\pi}{4}$.
+:::
+
+:::pista Segunda pista
+Usa $s=r\theta$ con $r=0{,}2$.
+:::
+
+:::solucion Solución guiada
+$s=0{,}2\cdot\dfrac{3\pi}{4}=0{,}15\pi\approx0{,}471$ m. Comprobación: media vuelta (180°) serían $0{,}2\pi\approx0{,}628$ m, y 135° es algo menos. ✔
+:::
+
+## 7. Práctica
+
+**Fáciles**
+
+1. Expresa 45° y 270° en radianes.
+2. Expresa $\dfrac\pi6$ y $\dfrac{5\pi}{3}$ en grados.
+3. ¿Qué signo tienen $\sin200^\circ$ y $\cos300^\circ$?
+
+**Medios**
+
+4. Si $\cos\alpha=-0{,}6$ y $\alpha$ está en el III cuadrante, calcula $\sin\alpha$ y $\tan\alpha$.
+5. Calcula los valores exactos de $\sin120^\circ$, $\cos135^\circ$ y $\tan330^\circ$.
+
+**Tipo examen / transferencia**
+
+6. Un punto gira sobre la circunferencia unitaria desde $(1,0)$ un ángulo de $\dfrac{4\pi}{3}$ rad. Calcula sus coordenadas exactas, indica el cuadrante y comprueba que cumplen $x^2+y^2=1$.
+
+:::solucion Soluciones paso a paso
+1. $\dfrac\pi4$; $\dfrac{3\pi}{2}$.
+2. $30^\circ$; $300^\circ$.
+3. $\sin200^\circ<0$ (III); $\cos300^\circ>0$ (IV).
+4. $\sin^2\alpha=1-0{,}36=0{,}64$ → $\sin\alpha=-0{,}8$ (III); $\tan\alpha=\dfrac{-0{,}8}{-0{,}6}=\dfrac43$.
+5. $\dfrac{\sqrt3}{2}$; $-\dfrac{\sqrt2}{2}$; $-\dfrac{\sqrt3}{3}$.
+6. $\dfrac{4\pi}{3}=240^\circ$ (III cuadrante, referencia 60°): $\left(-\dfrac12,-\dfrac{\sqrt3}{2}\right)$. Comprobación: $\dfrac14+\dfrac34=1$. ✔
+:::
+
+## 8. Cómo revisar tus errores
+
+- Comprueba que $\sin^2\alpha+\cos^2\alpha=1$ con tus valores.
+- Dibuja el ángulo en la circunferencia para ver el cuadrante y los signos.
+- Revisa el modo de la calculadora (DEG o RAD).
+- Seno y coseno nunca superan 1 en valor absoluto.
+
+## 9. Mini evaluación
+
+::evaluacion
+
+## 10. Resumen, vocabulario y repaso
+
+- $180^\circ=\pi$ rad; arco $s=r\theta$ con $\theta$ en radianes.
+- $\cos\alpha=x$, $\sin\alpha=y$ en la circunferencia unitaria; $\tan=\dfrac{\sin}{\cos}$.
+- $\sin^2+\cos^2=1$; signos por cuadrantes; reducción al primer cuadrante.
+
+**Vocabulario:** radián, circunferencia unitaria, seno, coseno, tangente, cuadrante, ángulo de referencia, identidad fundamental, longitud de arco.
+
+**Repaso:** a 1, 3, 7, 14 y 30 días. Cada vez, convierte dos ángulos, calcula las razones de un ángulo del II o III cuadrante y comprueba la identidad fundamental.
+
+## 11. Procedencia y nivel
+
+Contenido original de RISE HUB Academia. Nivel N2 (1.º Bachillerato). Alineado con el bloque de trigonometría del temario oficial de Matemáticas +25; base de la resolución de triángulos (M05-L02) y de las identidades (M05-L03).

@@ -582,69 +582,66 @@
      "lessons": [
       {
        "id": "matematicas-m05-l01",
-       "title": "Grados/radianes, circunferencia unitaria, seno/coseno/tangente",
+       "title": "Ángulos en radianes, circunferencia unitaria y razones trigonométricas",
        "topic_scope": "grados/radianes, circunferencia unitaria, seno/coseno/tangente",
        "level": "N2",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
-       "prerequisites": [],
-       "has_content": false,
+       "prerequisites": [
+        "matematicas-m04-l01",
+        "matematicas-m02-l05"
+       ],
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "matematicas-m05-l02",
-       "title": "Triángulos rectángulos y oblicuángulos, leyes seno/coseno",
+       "title": "Resolución de triángulos: rectángulos, teorema del seno y teorema del coseno",
        "topic_scope": "triángulos rectángulos y oblicuángulos, leyes seno/coseno",
        "level": "N2",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
         "matematicas-m05-l01"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "matematicas-m05-l03",
-       "title": "Identidades y ecuaciones básicas",
+       "title": "Identidades trigonométricas y ecuaciones trigonométricas",
        "topic_scope": "identidades y ecuaciones básicas",
        "level": "N2",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
-        "matematicas-m05-l02"
+        "matematicas-m05-l01",
+        "matematicas-m02-l04"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "matematicas-m05-l04",
-       "title": "Aplicaciones geométricas",
+       "title": "Aplicaciones de la trigonometría a la geometría",
        "topic_scope": "aplicaciones geométricas",
        "level": "N2",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
-        "matematicas-m05-l03"
+        "matematicas-m05-l02",
+        "matematicas-m05-l01"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     },
@@ -2381,22 +2378,22 @@
  ],
  "stats": {
   "by_status": {
-   "planned": 67,
-   "draft": 53,
+   "planned": 63,
+   "draft": 57,
    "reviewed": 0,
    "ready": 0,
    "published": 0
   },
   "lessons_total": 120,
-  "meets_standard": 53,
+  "meets_standard": 57,
   "courses": {
    "matematicas": {
     "total": 56,
-    "with_content": 35,
-    "meets_standard": 35,
+    "with_content": 39,
+    "meets_standard": 39,
     "by_status": {
-     "planned": 21,
-     "draft": 35,
+     "planned": 17,
+     "draft": 39,
      "reviewed": 0,
      "ready": 0,
      "published": 0
@@ -2463,8 +2460,8 @@
     }
    }
   },
-  "questions_total": 321,
-  "exit_questions": 265,
+  "questions_total": 341,
+  "exit_questions": 285,
   "bank_questions": 56
  }
 }

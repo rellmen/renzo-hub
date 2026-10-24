@@ -1,0 +1,37 @@
+{
+  "lesson_id": "matematicas-m05-l03",
+  "questions": [
+    {
+      "id": "m05l03-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["trig_identities"],
+      "prompt_md": "Si $\\sin\\alpha=0{,}6$ y $\\cos\\alpha=0{,}8$, calcula $\\sin2\\alpha$.",
+      "key": {"value": 0.96, "tolerance": 0.0001},
+      "explanation_md": "$2\\cdot0{,}6\\cdot0{,}8=0{,}96$."
+    },
+    {
+      "id": "m05l03-x2", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["trig_identities"],
+      "prompt_md": "¿Cuál es la fórmula correcta de $\\cos(a+b)$?",
+      "choices": [{"id": "a", "text": "$\\cos a+\\cos b$"}, {"id": "b", "text": "$\\cos a\\cos b+\\sin a\\sin b$"}, {"id": "c", "text": "$\\cos a\\cos b-\\sin a\\sin b$"}, {"id": "d", "text": "$\\sin a\\cos b+\\cos a\\sin b$"}],
+      "key": {"correct_choice_id": "c"},
+      "explanation_md": "En el coseno de una suma el signo central es negativo. (d) es $\\sin(a+b)$."
+    },
+    {
+      "id": "m05l03-x3", "kind": "numeric", "difficulty": 1, "skill_ids": ["trig_equations"],
+      "prompt_md": "¿Cuántas soluciones tiene $\\sin x=\\dfrac12$ en $[0^\\circ,360^\\circ)$?",
+      "key": {"value": 2, "tolerance": 0},
+      "explanation_md": "30° y 150°."
+    },
+    {
+      "id": "m05l03-x4", "kind": "numeric", "difficulty": 2, "skill_ids": ["trig_equations"],
+      "prompt_md": "¿Cuál es la menor solución positiva, en grados, de $2\\cos x-1=0$?", "unit": "°",
+      "key": {"value": 60, "tolerance": 0},
+      "explanation_md": "$\\cos x=\\dfrac12$ → $60^\\circ$ (y $300^\\circ$)."
+    },
+    {
+      "id": "m05l03-x5", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["trig_identities"],
+      "prompt_md": "¿Cuál de estas igualdades es una identidad (cierta para todo $x$ donde esté definida)?",
+      "choices": [{"id": "a", "text": "$1+\\tan^2x=\\dfrac{1}{\\cos^2x}$"}, {"id": "b", "text": "$\\sin2x=2\\sin x$"}, {"id": "c", "text": "$\\sin x+\\cos x=1$"}, {"id": "d", "text": "$\\cos2x=2\\cos x$"}],
+      "key": {"correct_choice_id": "a"},
+      "explanation_md": "Se obtiene dividiendo $\\sin^2x+\\cos^2x=1$ entre $\\cos^2x$. Las demás fallan con algún ángulo: (b) con $x=90^\\circ$, (c) con $x=45^\\circ$ y (d) con $x=0^\\circ$."
+    }
+  ]
+}
