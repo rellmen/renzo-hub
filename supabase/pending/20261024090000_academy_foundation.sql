@@ -1,4 +1,5 @@
 -- RISE HUB Academia +25 · fundación de datos (aditiva).
+-- Estado 24-10-2026: aplicada en staging y en producción (mgncykyrhavpepfggmng) con autorización de Renzo. No reaplicar.
 -- Autorizado por Renzo el 24-10-2026 SOLO para Supabase staging (zpueziugbezqxompwsol). NO aplicar en producción sin autorización aparte.
 -- Rollback: 20261024090000_academy_foundation.rollback.sql (elimina únicamente objetos academy_*).
 -- Contenido didáctico: en el repositorio (apps/rise-react/src/content/academia, sin claves).

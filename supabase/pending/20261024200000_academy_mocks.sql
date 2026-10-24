@@ -1,4 +1,5 @@
 -- RISE HUB Academia +25 · simulacros originales con cronómetro y corrección en servidor (aditiva).
+-- Estado 24-10-2026: aplicada en staging y en producción (mgncykyrhavpepfggmng) con autorización de Renzo. No reaplicar.
 -- Requiere 20261024090000_academy_foundation.sql. Aplicar primero en staging; producción solo con autorización expresa de Renzo.
 -- Rollback: 20261024200000_academy_mocks.rollback.sql (elimina solo objetos academy_mock_* y restaura el valor por defecto de elective).
 -- Claves, soluciones y rúbricas: public.academy_mock_items, sin acceso para anon/authenticated. Se devuelven solo tras entregar.

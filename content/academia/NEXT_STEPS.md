@@ -49,7 +49,7 @@ M10, C07, T06 y E06 usan el formato de referencia 2026 de `exam-profiles.json` (
 4. **Revisión humana** de las lecciones en staging (botones de revisión editorial).
 5. **QA con sesión real** (cuenta A y B) y en iPhone físico.
 6. Confirmar la convocatoria 2027 de la UOC cuando se publique.
-7. Producción: Renzo pidió (24-10) enviar a producción «cuando todo esté perfecto». Requiere: fusionar #158, aplicar en producción las migraciones `academy_foundation` y `academy_mocks` con sus semillas, y activar `VITE_ENABLE_ACADEMY` en el proyecto de producción. Pendiente de su confirmación expresa con los puntos 1, 4 y 5 abiertos.
+7. **Producción (24-10, autorizado por Renzo: «Subir ya, marcado en borrador»)**: migraciones `academy_foundation` y `academy_mocks` aplicadas en Supabase producción con claves idénticas a staging; prueba revertida en producción (simulacro 4,5/7,5 y corrección de lección OK, 0 filas residuales); `VITE_ENABLE_ACADEMY=true` en Production. Las lecciones se muestran como borrador hasta tu revisión.
 
 ## Cómo añadir una lección sin tocar código
 
