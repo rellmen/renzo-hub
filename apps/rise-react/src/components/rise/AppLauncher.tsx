@@ -2,6 +2,7 @@ import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { useNavigate, useRouterState } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { Clock, Search, Settings, Star, X } from "lucide-react";
+import { HUBS } from "@/lib/hubs";
 import { APP_BY_ID, CATEGORIES, appForPath, requireApp, searchApps, type AppCategory, type AppEntry } from "@/lib/apps";
 import { useNavPrefs } from "@/lib/nav-prefs";
 import { AppLink } from "./AppLink";
@@ -108,7 +109,7 @@ export function AppLauncher() {
               <Search className="h-4 w-4 shrink-0 text-muted-foreground" />
               <span className="sr-only">Buscar apps</span>
               <input
-                ref={inputRef} value={q} onChange={(e) => setQ(e.target.value)} type="search" placeholder="Buscar: gastos, dutch, piel…"
+                ref={inputRef} value={q} onChange={(e) => setQ(e.target.value)} type="search" placeholder="Buscar: nóminas, dutch, uoc…"
                  onKeyDown={(e) => {
                    const app = results[0];
                    if (e.key !== "Enter" || e.nativeEvent.isComposing || !app) return;
@@ -138,7 +139,22 @@ export function AppLauncher() {
               </>
             )}
             <div aria-live="polite" className="sr-only">{q ? `${results.length} resultados` : ""}</div>
-            {results.length ? (
+            {results.length && !q && cat === "todos" ? (
+              <div className="space-y-5">
+                {HUBS.map((h) => {
+                  const apps = results.filter((a) => a.category === h.id);
+                  if (!apps.length) return null;
+                  return (
+                    <section key={h.id} aria-label={h.label}>
+                      <h3 className="eyebrow mb-2 flex items-center gap-1.5"><h.icon className="h-3 w-3" style={{ color: h.accent }} />{h.label}</h3>
+                      <ul className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
+                        {apps.map((a) => <Tile key={a.id} app={a} current={a.id === currentId} onGo={close} />)}
+                      </ul>
+                    </section>
+                  );
+                })}
+              </div>
+            ) : results.length ? (
               <ul className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
                 {results.map((a) => <Tile key={a.id} app={a} current={a.id === currentId} onGo={close} />)}
               </ul>

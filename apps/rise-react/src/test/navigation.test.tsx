@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it } from 'vitest';
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { APPS, appForPath, searchApps } from '@/lib/apps';
 import { NAV } from '@/lib/nav';
+import { HUBS, HUB_OF_APP, hubOfApp } from '@/lib/hubs';
 import { DEFAULT_PREFS, NavPrefsProvider, pushRecent, sanitizePrefs, useNavPrefs } from '@/lib/nav-prefs';
 
 afterEach(() => { cleanup(); localStorage.clear(); });
@@ -29,8 +30,29 @@ describe('production app registry', () => {
  it('finds bilingual and accent-insensitive aliases and filters categories',()=>{
   expect(searchApps('NOMINA').some(a=>a.id==='nominas')).toBe(true);
   expect(searchApps('dutch').map(a=>a.id)).toContain('aprender');
-  expect(searchApps('', 'bienestar').every(a=>a.category==='bienestar')).toBe(true);
+  expect(searchApps('', 'body').every(a=>a.category==='body')).toBe(true);
+  expect(searchApps('uoc').map(a=>a.id)).toContain('academia');
+  expect(searchApps('power bi').map(a=>a.id)).toContain('career');
   expect(searchApps('does-not-exist')).toEqual([]);
+ });
+});
+describe('7 hubs (opción B, 24-10-2026)',()=>{
+ it('every app belongs to exactly one hub and every hub section is a real app',()=>{
+  expect(HUBS.map(h=>h.id)).toEqual(['inicio','academy','body','money','trabajo','ares','ajustes']);
+  const sections=HUBS.flatMap(h=>h.sections.map(s=>s.appId));
+  expect(new Set(sections).size).toBe(sections.length);
+  for(const a of APPS){expect(HUB_OF_APP[a.id]).toBe(a.category);}
+  for(const id of sections) expect(APPS.some(a=>a.id===id)).toBe(true);
+  expect(sections.length).toBe(APPS.length);
+ });
+ it('groups the sections Renzo asked for',()=>{
+  const ids=(h:string)=>HUBS.find(x=>x.id===h)!.sections.map(s=>s.appId);
+  expect(ids('academy')).toEqual(['academy','aprender','academia','career','news']);
+  expect(ids('money')).toEqual(['dinero','gastos','nominas','car']);
+  expect(ids('body')).toEqual(['gym','food','piel','body']);
+  expect(hubOfApp(appForPath('/nominas')?.id)?.id).toBe('money');
+  expect(hubOfApp(appForPath('/aprender')?.id)?.id).toBe('academy');
+  expect(appForPath('/academy')?.id).toBe('academy');
  });
 });
 describe('local navigation preferences',()=>{

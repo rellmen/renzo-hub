@@ -12,6 +12,16 @@
 | Producción | Sin cambios por esta consolidación; PR #150 sigue candidato hacia staging, no autorización de lanzamiento. |
 | Funciones nativas Work 23 oct | Car y AI Inbox (capturas/adjuntos/revisión CAS); guardia SelfLearn corregida y flags solo preview. 589 Node, 18 Vitest, build y TypeScript locales; QA real pendiente. Ver `docs/NOCTURNE-FUNCTIONAL-COMPLETION-2026-10-23.md`. |
 
+## Hubs (opción B) + Money · nóminas del mes · 24 octubre 2026 · PR hacia staging
+
+| Bloque | Estado |
+| --- | --- |
+| 7 hubs | `apps/rise-react/src/lib/hubs.ts` es la única fuente: Inicio (Hoy, XP y Quests) · Academy (Hoy, Idiomas, UOC +25, Data & Carrera, Biblioteca) · Body (Gym, Food, Skin, Medidas) · Money (Resumen, Gastos, Nóminas, Car) · Trabajo (Turnos, Proyectos, Notas) · Ares (Chat, Inbox, Agentes) · Ajustes (Preferencias, Datos y copias, Todas las apps). URLs sin cambios. |
+| Navegación | Pestañas de hub pintadas una vez en el AppShell (`HubSections`, sustituye a `FinanceSections`). Dock móvil: Inicio · Academy · Money · Apps · Ares · atajo. Menú lateral y lanzador agrupados por hub. |
+| Academy | Nueva ruta `/academy` (Hoy): repasos de Idiomas y UOC +25, siguiente lección y progreso. Lee las tablas de siempre; sin migraciones. Una fuente caída se muestra «—», nunca 0. |
+| Money · Resumen | Primer bloque: neto acumulado del mes de cobro miércoles a miércoles (`payrollMonthToDate`), semanas cobradas/faltantes/pendientes, vs mes anterior a la misma fecha y neto del año. Se refresca al subir la nómina (misma caché `payroll-overview`). |
+| Sin tocar | Supabase (ningún esquema ni dato), Classic, producción. |
+
 ## Reparación Nocturne Ares/SelfLearn · 22 octubre 2026 · publicado en producción con Ares habilitado
 
 | Bloque | Estado |
