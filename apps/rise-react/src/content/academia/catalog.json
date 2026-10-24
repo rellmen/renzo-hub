@@ -74,27 +74,19 @@
       },
       {
        "id": "matematicas-m00-l04",
-       "title": "Fracciones de cero a operaciones compuestas",
+       "title": "Operaciones con fracciones",
        "topic_scope": "suma/resta/multiplicación/división de fracciones",
        "level": "N0",
        "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
+        "matematicas-m00-l02",
         "matematicas-m00-l03"
        ],
        "has_content": true,
-       "pilot": true,
-       "meets_standard": false,
-       "gaps": [
-        "faltan secciones 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11",
-        "teoría 0 palabras (<600)",
-        "0 ejemplos resueltos (<2)",
-        "sin bloque de error típico",
-        "sin ejercicio guiado con pista y solución",
-        "0 prácticas sin soluciones (<6)",
-        "0 preguntas de salida (<5)",
-        "sin marcador ::evaluacion"
-       ]
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "matematicas-m00-l05",
@@ -171,27 +163,19 @@
       },
       {
        "id": "matematicas-m01-l02",
-       "title": "Qué significa una incógnita y cómo resolver ecuaciones",
+       "title": "Ecuaciones de primer grado con paréntesis y fracciones",
        "topic_scope": "ecuaciones de primer grado con paréntesis/fracciones",
        "level": "N1",
        "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
-        "matematicas-m01-l01"
+        "matematicas-m01-l01",
+        "matematicas-m00-l04"
        ],
        "has_content": true,
-       "pilot": true,
-       "meets_standard": false,
-       "gaps": [
-        "faltan secciones 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11",
-        "teoría 0 palabras (<600)",
-        "0 ejemplos resueltos (<2)",
-        "sin bloque de error típico",
-        "sin ejercicio guiado con pista y solución",
-        "0 prácticas sin soluciones (<6)",
-        "0 preguntas de salida (<5)",
-        "sin marcador ::evaluacion"
-       ]
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "matematicas-m01-l03",
@@ -287,25 +271,18 @@
      "lessons": [
       {
        "id": "matematicas-m02-l01",
-       "title": "Ecuación de segundo grado y factorización",
+       "title": "Identidades notables y factorización",
        "topic_scope": "identidades notables, productos notables, factorización",
        "level": "N1",
        "status": "draft",
        "estimated_minutes": 35,
-       "prerequisites": [],
+       "prerequisites": [
+        "matematicas-m01-l01"
+       ],
        "has_content": true,
-       "pilot": true,
-       "meets_standard": false,
-       "gaps": [
-        "faltan secciones 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11",
-        "teoría 0 palabras (<600)",
-        "0 ejemplos resueltos (<2)",
-        "sin bloque de error típico",
-        "sin ejercicio guiado con pista y solución",
-        "0 prácticas sin soluciones (<6)",
-        "0 preguntas de salida (<5)",
-        "sin marcador ::evaluacion"
-       ]
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "matematicas-m02-l02",
@@ -491,25 +468,19 @@
      "lessons": [
       {
        "id": "matematicas-m04-l01",
-       "title": "Funciones y dominios (modelo tipo examen +25)",
+       "title": "Plano cartesiano, funciones lineales y cuadráticas",
        "topic_scope": "plano cartesiano, gráficas lineales y cuadráticas",
        "level": "N2",
        "status": "draft",
        "estimated_minutes": 35,
-       "prerequisites": [],
+       "prerequisites": [
+        "matematicas-m01-l02",
+        "matematicas-m02-l01"
+       ],
        "has_content": true,
-       "pilot": true,
-       "meets_standard": false,
-       "gaps": [
-        "faltan secciones 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11",
-        "teoría 0 palabras (<600)",
-        "0 ejemplos resueltos (<2)",
-        "sin bloque de error típico",
-        "sin ejercicio guiado con pista y solución",
-        "0 prácticas sin soluciones (<6)",
-        "0 preguntas de salida (<5)",
-        "sin marcador ::evaluacion"
-       ]
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "matematicas-m04-l02",
@@ -712,25 +683,18 @@
      "lessons": [
       {
        "id": "matematicas-m06-l01",
-       "title": "Matrices y sistemas lineales desde cero",
+       "title": "Vectores en el plano y en el espacio, suma y producto escalar",
        "topic_scope": "vectores 2D/3D, suma y producto escalar",
        "level": "N2",
        "status": "draft",
        "estimated_minutes": 35,
-       "prerequisites": [],
+       "prerequisites": [
+        "matematicas-m04-l01"
+       ],
        "has_content": true,
-       "pilot": true,
-       "meets_standard": false,
-       "gaps": [
-        "faltan secciones 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11",
-        "teoría 0 palabras (<600)",
-        "0 ejemplos resueltos (<2)",
-        "sin bloque de error típico",
-        "sin ejercicio guiado con pista y solución",
-        "0 prácticas sin soluciones (<6)",
-        "0 preguntas de salida (<5)",
-        "sin marcador ::evaluacion"
-       ]
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "matematicas-m06-l02",
@@ -865,25 +829,19 @@
      "lessons": [
       {
        "id": "matematicas-m08-l01",
-       "title": "Derivadas, tangentes y el porqué de las reglas",
+       "title": "Límites intuitivos y continuidad",
        "topic_scope": "límites intuitivos y continuidad",
        "level": "N2",
        "status": "draft",
        "estimated_minutes": 35,
-       "prerequisites": [],
+       "prerequisites": [
+        "matematicas-m04-l01",
+        "matematicas-m02-l01"
+       ],
        "has_content": true,
-       "pilot": true,
-       "meets_standard": false,
-       "gaps": [
-        "faltan secciones 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11",
-        "teoría 0 palabras (<600)",
-        "0 ejemplos resueltos (<2)",
-        "sin bloque de error típico",
-        "sin ejercicio guiado con pista y solución",
-        "0 prácticas sin soluciones (<6)",
-        "0 preguntas de salida (<5)",
-        "sin marcador ::evaluacion"
-       ]
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "matematicas-m08-l02",
@@ -2067,25 +2025,18 @@
      "lessons": [
       {
        "id": "fisica-f01-l01",
-       "title": "Qué es medir: unidades, magnitudes y conversión",
+       "title": "Magnitudes, Sistema Internacional y prefijos",
        "topic_scope": "medidas, SI y prefijos",
        "level": "N1",
        "status": "draft",
        "estimated_minutes": 35,
-       "prerequisites": [],
+       "prerequisites": [
+        "fisica-f00-l01"
+       ],
        "has_content": true,
-       "pilot": true,
-       "meets_standard": false,
-       "gaps": [
-        "faltan secciones 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11",
-        "teoría 0 palabras (<600)",
-        "0 ejemplos resueltos (<2)",
-        "sin bloque de error típico",
-        "sin ejercicio guiado con pista y solución",
-        "0 prácticas sin soluciones (<6)",
-        "0 preguntas de salida (<5)",
-        "sin marcador ::evaluacion"
-       ]
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "fisica-f01-l02",
@@ -2147,25 +2098,18 @@
      "lessons": [
       {
        "id": "fisica-f02-l01",
-       "title": "Movimiento uniforme y acelerado",
+       "title": "Posición, desplazamiento, velocidad y aceleración",
        "topic_scope": "posición, desplazamiento, velocidad y aceleración",
        "level": "N1",
        "status": "draft",
        "estimated_minutes": 35,
-       "prerequisites": [],
+       "prerequisites": [
+        "fisica-f01-l01"
+       ],
        "has_content": true,
-       "pilot": true,
-       "meets_standard": false,
-       "gaps": [
-        "faltan secciones 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11",
-        "teoría 0 palabras (<600)",
-        "0 ejemplos resueltos (<2)",
-        "sin bloque de error típico",
-        "sin ejercicio guiado con pista y solución",
-        "0 prácticas sin soluciones (<6)",
-        "0 preguntas de salida (<5)",
-        "sin marcador ::evaluacion"
-       ]
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "fisica-f02-l02",
@@ -2244,25 +2188,19 @@
      "lessons": [
       {
        "id": "fisica-f03-l01",
-       "title": "Segunda ley de Newton: fuerzas y diagramas",
+       "title": "Las tres leyes de Newton",
        "topic_scope": "primera, segunda y tercera ley de Newton",
        "level": "N2",
        "status": "draft",
        "estimated_minutes": 35,
-       "prerequisites": [],
+       "prerequisites": [
+        "fisica-f02-l01",
+        "fisica-f01-l01"
+       ],
        "has_content": true,
-       "pilot": true,
-       "meets_standard": false,
-       "gaps": [
-        "faltan secciones 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11",
-        "teoría 0 palabras (<600)",
-        "0 ejemplos resueltos (<2)",
-        "sin bloque de error típico",
-        "sin ejercicio guiado con pista y solución",
-        "0 prácticas sin soluciones (<6)",
-        "0 preguntas de salida (<5)",
-        "sin marcador ::evaluacion"
-       ]
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "fisica-f03-l02",
@@ -2429,25 +2367,18 @@
      "lessons": [
       {
        "id": "fisica-f08-l01",
-       "title": "Ley de Ohm y circuitos sencillos",
+       "title": "Corriente eléctrica, ley de Ohm y circuitos",
        "topic_scope": "intensidad/voltaje/resistencia, Ohm, Joule, resistencias serie/paralelo, FEM, Kirchhoff, circuitos con esquemas",
        "level": "N2",
        "status": "draft",
        "estimated_minutes": 35,
-       "prerequisites": [],
+       "prerequisites": [
+        "fisica-f01-l01"
+       ],
        "has_content": true,
-       "pilot": true,
-       "meets_standard": false,
-       "gaps": [
-        "faltan secciones 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11",
-        "teoría 0 palabras (<600)",
-        "0 ejemplos resueltos (<2)",
-        "sin bloque de error típico",
-        "sin ejercicio guiado con pista y solución",
-        "0 prácticas sin soluciones (<6)",
-        "0 preguntas de salida (<5)",
-        "sin marcador ::evaluacion"
-       ]
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     },
@@ -2529,12 +2460,12 @@
    "published": 0
   },
   "lessons_total": 120,
-  "meets_standard": 10,
+  "meets_standard": 20,
   "courses": {
    "matematicas": {
     "total": 56,
     "with_content": 9,
-    "meets_standard": 3,
+    "meets_standard": 9,
     "by_status": {
      "planned": 47,
      "draft": 9,
@@ -2594,7 +2525,7 @@
    "fisica": {
     "total": 23,
     "with_content": 4,
-    "meets_standard": 0,
+    "meets_standard": 4,
     "by_status": {
      "planned": 19,
      "draft": 4,
@@ -2604,8 +2535,8 @@
     }
    }
   },
-  "questions_total": 106,
-  "exit_questions": 50,
+  "questions_total": 156,
+  "exit_questions": 100,
   "bank_questions": 56
  }
 }

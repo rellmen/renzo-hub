@@ -1,0 +1,38 @@
+{
+  "lesson_id": "fisica-f01-l01",
+  "questions": [
+    {
+      "id": "f01l01-x1", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["si_units"],
+      "prompt_md": "¿Cuál de estas es una magnitud **fundamental** del Sistema Internacional?",
+      "choices": [{"id": "a", "text": "La fuerza (N)"}, {"id": "b", "text": "La velocidad (m/s)"}, {"id": "c", "text": "La intensidad de corriente (A)"}, {"id": "d", "text": "La energía (J)"}],
+      "key": {"correct_choice_id": "c"},
+      "explanation_md": "El amperio es una de las unidades fundamentales; N, m/s y J son derivadas."
+    },
+    {
+      "id": "f01l01-x2", "kind": "numeric", "difficulty": 1, "skill_ids": ["unit_conversion"],
+      "prompt_md": "Convierte 72 km/h a m/s.", "unit": "m/s",
+      "key": {"value": 20, "tolerance": 0.01},
+      "explanation_md": "$72:3{,}6=20$ m/s."
+    },
+    {
+      "id": "f01l01-x3", "kind": "numeric", "difficulty": 2, "skill_ids": ["unit_conversion"],
+      "prompt_md": "¿Cuántos m² son 3500 cm²?", "unit": "m²",
+      "key": {"value": 0.35, "tolerance": 0.0001},
+      "explanation_md": "$1\\text{ cm}^2=10^{-4}\\text{ m}^2$ → $3500\\cdot10^{-4}=0{,}35$ m²."
+    },
+    {
+      "id": "f01l01-x4", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["si_units", "unit_conversion"],
+      "prompt_md": "Una longitud de onda de 650 nm expresada en metros es:",
+      "choices": [{"id": "a", "text": "$6{,}5\\cdot10^{-7}$ m"}, {"id": "b", "text": "$6{,}5\\cdot10^{-9}$ m"}, {"id": "c", "text": "$6{,}5\\cdot10^{-6}$ m"}, {"id": "d", "text": "$6{,}5\\cdot10^{-11}$ m"}],
+      "key": {"correct_choice_id": "a"},
+      "explanation_md": "$650\\cdot10^{-9}=6{,}5\\cdot10^{2}\\cdot10^{-9}=6{,}5\\cdot10^{-7}$ m."
+    },
+    {
+      "id": "f01l01-x5", "kind": "multiple_choice", "difficulty": 3, "skill_ids": ["dimensional_check"],
+      "prompt_md": "Si $v$ es una velocidad, $a$ una aceleración y $x$ una distancia, ¿qué expresión es dimensionalmente coherente?",
+      "choices": [{"id": "a", "text": "$v=a\\cdot x$"}, {"id": "b", "text": "$v^2=2a\\,x$"}, {"id": "c", "text": "$v=a^2\\,x$"}, {"id": "d", "text": "$v^2=a+x$"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "$v^2$: m²/s². $a\\,x$: (m/s²)·m = m²/s². Coinciden. En (d) se suman magnitudes distintas, lo que nunca es válido."
+    }
+  ]
+}

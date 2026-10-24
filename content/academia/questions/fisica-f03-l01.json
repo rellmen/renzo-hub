@@ -1,0 +1,38 @@
+{
+  "lesson_id": "fisica-f03-l01",
+  "questions": [
+    {
+      "id": "f03l01-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["net_force"],
+      "prompt_md": "Una fuerza neta de 36 N actúa sobre un cuerpo de 12 kg. ¿Cuál es su aceleración?", "unit": "m/s²",
+      "key": {"value": 3, "tolerance": 0.001},
+      "explanation_md": "$a=\\dfrac{F}{m}=\\dfrac{36}{12}=3$ m/s²."
+    },
+    {
+      "id": "f03l01-x2", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["newton_laws"],
+      "prompt_md": "Una caja se desliza por el suelo a velocidad constante. ¿Qué afirmación es correcta?",
+      "choices": [{"id": "a", "text": "La fuerza neta apunta en el sentido del movimiento"}, {"id": "b", "text": "La fuerza neta es cero"}, {"id": "c", "text": "No actúa ninguna fuerza"}, {"id": "d", "text": "La fuerza neta apunta en sentido contrario"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Velocidad constante ⇒ aceleración nula ⇒ fuerza neta nula. Sí actúan fuerzas, pero se compensan."
+    },
+    {
+      "id": "f03l01-x3", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["newton_laws"],
+      "prompt_md": "Un libro está en reposo sobre una mesa. ¿Cuál es la reacción (tercera ley) de su peso?",
+      "choices": [{"id": "a", "text": "La fuerza normal de la mesa sobre el libro"}, {"id": "b", "text": "La fuerza con que el libro atrae a la Tierra"}, {"id": "c", "text": "La fuerza con que el libro empuja la mesa"}, {"id": "d", "text": "El rozamiento entre el libro y la mesa"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "El peso es la Tierra atrayendo al libro; su reacción es el libro atrayendo a la Tierra. La normal actúa sobre el mismo cuerpo que el peso, así que no es su reacción."
+    },
+    {
+      "id": "f03l01-x4", "kind": "numeric", "difficulty": 2, "skill_ids": ["net_force"],
+      "prompt_md": "Un coche de 1200 kg pasa de 0 a 20 m/s en 8 s. ¿Qué fuerza neta media actúa sobre él?", "unit": "N",
+      "key": {"value": 3000, "tolerance": 1},
+      "explanation_md": "$a=\\dfrac{20}{8}=2{,}5$ m/s²; $F=1200\\cdot2{,}5=3000$ N."
+    },
+    {
+      "id": "f03l01-x5", "kind": "numeric", "difficulty": 3, "skill_ids": ["net_force", "newton_laws"],
+      "prompt_md": "Una persona de 80 kg está en un ascensor que **baja acelerando** a 2 m/s². ¿Qué fuerza normal le hace el suelo? Usa $g=9{,}8$ m/s².", "unit": "N",
+      "hint_md": "Eje positivo hacia arriba: la aceleración es $-2$ m/s².",
+      "key": {"value": 624, "tolerance": 0.5},
+      "explanation_md": "$N-mg=m(-2)$ → $N=80(9{,}8-2)=624$ N, menor que su peso (784 N)."
+    }
+  ]
+}

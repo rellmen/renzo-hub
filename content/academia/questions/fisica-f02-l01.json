@@ -1,0 +1,38 @@
+{
+  "lesson_id": "fisica-f02-l01",
+  "questions": [
+    {
+      "id": "f02l01-x1", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["kinematics_basic"],
+      "prompt_md": "Un repartidor sale de su furgoneta, camina 30 m hasta un portal y vuelve a la furgoneta. ¿Cuál es su desplazamiento total?",
+      "choices": [{"id": "a", "text": "60 m"}, {"id": "b", "text": "30 m"}, {"id": "c", "text": "0 m"}, {"id": "d", "text": "−30 m"}],
+      "key": {"correct_choice_id": "c"},
+      "explanation_md": "Termina donde empezó: $\\Delta x=0$. La distancia recorrida sí es 60 m."
+    },
+    {
+      "id": "f02l01-x2", "kind": "numeric", "difficulty": 1, "skill_ids": ["mrua"],
+      "prompt_md": "Una moto pasa de 4 m/s a 16 m/s en 3 s con aceleración constante. ¿Cuál es su aceleración?", "unit": "m/s²",
+      "key": {"value": 4, "tolerance": 0.001},
+      "explanation_md": "$a=\\dfrac{16-4}{3}=4$ m/s²."
+    },
+    {
+      "id": "f02l01-x3", "kind": "numeric", "difficulty": 2, "skill_ids": ["mrua"],
+      "prompt_md": "Un coche a 54 km/h frena con aceleración constante de módulo 3 m/s². ¿Qué distancia recorre hasta pararse?", "unit": "m",
+      "hint_md": "Pasa a m/s y usa $v^2=v_0^2+2a\\Delta x$.",
+      "key": {"value": 37.5, "tolerance": 0.05},
+      "explanation_md": "$v_0=15$ m/s; $0=225-6\\Delta x$ → $\\Delta x=37{,}5$ m."
+    },
+    {
+      "id": "f02l01-x4", "kind": "numeric", "difficulty": 2, "skill_ids": ["mru"],
+      "prompt_md": "Dos personas separadas 150 m caminan una hacia la otra a 1,2 m/s y 1,8 m/s. ¿Cuántos segundos tardan en encontrarse?", "unit": "s",
+      "key": {"value": 50, "tolerance": 0.01},
+      "explanation_md": "Se acercan a $1{,}2+1{,}8=3$ m/s: $t=\\dfrac{150}{3}=50$ s."
+    },
+    {
+      "id": "f02l01-x5", "kind": "multiple_choice", "difficulty": 3, "skill_ids": ["kinematics_basic"],
+      "prompt_md": "Un móvil tiene $v=-6$ m/s y $a=-2$ m/s² en un instante. ¿Qué está ocurriendo?",
+      "choices": [{"id": "a", "text": "Está frenando porque la aceleración es negativa"}, {"id": "b", "text": "Se mueve en sentido negativo y cada vez más rápido"}, {"id": "c", "text": "Está parado"}, {"id": "d", "text": "Se mueve en sentido positivo y frena"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "$v$ y $a$ tienen el mismo signo: la rapidez aumenta. El signo negativo de $v$ indica el sentido del movimiento."
+    }
+  ]
+}

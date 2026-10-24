@@ -1,0 +1,37 @@
+{
+  "lesson_id": "matematicas-m08-l01",
+  "questions": [
+    {
+      "id": "m08l01-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["limits"],
+      "prompt_md": "Calcula $\\lim_{x\\to-1}(2x^3+x-4)$.",
+      "key": {"value": -7, "tolerance": 0},
+      "explanation_md": "Sustitución directa: $2(-1)+(-1)-4=-7$."
+    },
+    {
+      "id": "m08l01-x2", "kind": "numeric", "difficulty": 2, "skill_ids": ["limits"],
+      "prompt_md": "Calcula $\\lim_{x\\to4}\\dfrac{x^2-16}{x-4}$.",
+      "hint_md": "Diferencia de cuadrados en el numerador.",
+      "key": {"value": 8, "tolerance": 0},
+      "explanation_md": "$\\dfrac{(x+4)(x-4)}{x-4}=x+4$ → $8$."
+    },
+    {
+      "id": "m08l01-x3", "kind": "numeric", "difficulty": 2, "skill_ids": ["limits"],
+      "prompt_md": "Calcula $\\lim_{x\\to\\infty}\\dfrac{6x^3-2x}{3x^3+x^2+1}$.",
+      "key": {"value": 2, "tolerance": 0},
+      "explanation_md": "Mismo grado (3): $\\dfrac{6}{3}=2$."
+    },
+    {
+      "id": "m08l01-x4", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["continuity"],
+      "prompt_md": "¿En qué puntos es discontinua $f(x)=\\dfrac{x+1}{x^2-5x+6}$?",
+      "choices": [{"id": "a", "text": "Solo en $x=-1$"}, {"id": "b", "text": "En $x=2$ y $x=3$"}, {"id": "c", "text": "En $x=-2$ y $x=-3$"}, {"id": "d", "text": "Es continua en todo $\\mathbb{R}$"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "El denominador $(x-2)(x-3)$ se anula en 2 y 3; en esos puntos $f$ no existe. En $x=-1$ solo vale 0."
+    },
+    {
+      "id": "m08l01-x5", "kind": "numeric", "difficulty": 3, "skill_ids": ["continuity", "limits"],
+      "prompt_md": "Halla $k$ para que $f(x)=\\begin{cases}2x+k & x<3\\\\ x^2-1 & x\\ge3\\end{cases}$ sea continua en $x=3$.",
+      "key": {"value": 2, "tolerance": 0},
+      "explanation_md": "$f(3)=9-1=8$; lateral izquierdo $6+k$. $6+k=8$ → $k=2$."
+    }
+  ]
+}
