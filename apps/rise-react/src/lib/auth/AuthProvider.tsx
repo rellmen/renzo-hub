@@ -1,6 +1,7 @@
 import {createContext,useCallback,useContext,useEffect,useMemo,useState,type FormEvent,type ReactNode} from 'react';
 import type {Session,SupabaseClient,User} from '@supabase/supabase-js';
 import {getReactSupabaseClient} from '../supabase-adapter.mjs';
+import {productionRedirectUrl} from '../nocturne-environment.mjs';
 import {backendEnvironmentForHost} from '../nocturne-environment.mjs';
 
 type AuthStatus='loading'|'signed-in'|'signed-out'|'error';
@@ -57,6 +58,11 @@ export function AuthProvider({children,onAccountChange}:{children:ReactNode;onAc
       }
       setState({status:session?'signed-in':'signed-out',client,session,user:session?.user??null,error:null});
     };
+    if(typeof window!=='undefined'){
+      const target=productionRedirectUrl({hostname:window.location.hostname,releaseTarget:import.meta.env?.['VITE_NOCTURNE_RELEASE_TARGET']||'',
+        pathname:window.location.pathname,search:window.location.search,hash:window.location.hash});
+      if(target){window.location.replace(target);return ()=>{mounted=false;};}
+    }
     (async()=>{
       try{
         const client=await getReactSupabaseClient();

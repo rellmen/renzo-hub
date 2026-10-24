@@ -48,3 +48,15 @@ export function officialSelfLearnAwardsEnabled(flag,{hostname="",releaseTarget="
  if(target&&hostEnvironment&&target!==hostEnvironment)return false;
  return !!target||!!hostEnvironment;
 }
+
+/** El dominio QA histórico también recibe las versiones de producción del proyecto `rise-hub-nocturne-qa`.
+ * Allí el bloqueo de aislamiento corta el acceso (dominio de staging + versión de producción), así que una
+ * versión de producción redirige al dominio público. No relaja el bloqueo: solo cambia de dirección. */
+export const PRODUCTION_PUBLIC_ORIGIN="https://renzo-hub.vercel.app";
+const QA_HOSTS_SERVED_BY_PRODUCTION=new Set(["rise-hub-nocturne-qa.vercel.app"]);
+export function productionRedirectUrl({hostname="",releaseTarget="",pathname="/",search="",hash=""}={}){
+ const host=String(hostname||"").toLowerCase().replace(/\.$/,"");
+ if(releaseTarget!=="production"||!QA_HOSTS_SERVED_BY_PRODUCTION.has(host))return null;
+ const path=String(pathname||"/").startsWith("/")?String(pathname||"/"):"/";
+ return PRODUCTION_PUBLIC_ORIGIN+path+String(search||"")+String(hash||"");
+}
