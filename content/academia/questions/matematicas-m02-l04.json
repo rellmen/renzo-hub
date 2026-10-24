@@ -1,0 +1,37 @@
+{
+  "lesson_id": "matematicas-m02-l04",
+  "questions": [
+    {
+      "id": "m02l04-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["quadratic_equation"],
+      "prompt_md": "¿Cuál es la **mayor** solución de $x^2-x-12=0$?",
+      "key": {"value": 4, "tolerance": 0},
+      "explanation_md": "$(x-4)(x+3)=0$ → $4$ y $-3$. La mayor es 4."
+    },
+    {
+      "id": "m02l04-x2", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["quadratic_discriminant"],
+      "prompt_md": "¿Cuántas soluciones reales tiene $3x^2-2x+1=0$?",
+      "choices": [{"id": "a", "text": "Dos"}, {"id": "b", "text": "Una doble"}, {"id": "c", "text": "Ninguna"}, {"id": "d", "text": "Infinitas"}],
+      "key": {"correct_choice_id": "c"},
+      "explanation_md": "$\\Delta=4-12=-8<0$."
+    },
+    {
+      "id": "m02l04-x3", "kind": "numeric", "difficulty": 2, "skill_ids": ["quadratic_discriminant"],
+      "prompt_md": "Halla $k$ para que $x^2-8x+k=0$ tenga una solución doble.",
+      "key": {"value": 16, "tolerance": 0},
+      "explanation_md": "$\\Delta=64-4k=0$ → $k=16$; $(x-4)^2=0$."
+    },
+    {
+      "id": "m02l04-x4", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["quadratic_equation"],
+      "prompt_md": "Resuelve $4x^2-9=0$.",
+      "choices": [{"id": "a", "text": "$x=\\pm\\dfrac{3}{2}$"}, {"id": "b", "text": "$x=\\dfrac94$"}, {"id": "c", "text": "$x=\\pm\\dfrac{9}{4}$"}, {"id": "d", "text": "No tiene solución"}],
+      "key": {"correct_choice_id": "a"},
+      "explanation_md": "$x^2=\\dfrac94$ → $x=\\pm\\dfrac32$."
+    },
+    {
+      "id": "m02l04-x5", "kind": "numeric", "difficulty": 3, "skill_ids": ["quadratic_equation"],
+      "prompt_md": "Sin resolverla, calcula el **producto** de las soluciones de $2x^2-6x-8=0$.",
+      "key": {"value": -4, "tolerance": 0},
+      "explanation_md": "$x_1x_2=\\dfrac ca=\\dfrac{-8}{2}=-4$ (raíces $4$ y $-1$)."
+    }
+  ]
+}

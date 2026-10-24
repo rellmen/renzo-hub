@@ -270,105 +270,99 @@
       },
       {
        "id": "matematicas-m02-l02",
-       "title": "Polinomios, división, raíces",
+       "title": "Polinomios, división, regla de Ruffini y raíces",
        "topic_scope": "polinomios, división, raíces",
        "level": "N1",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
         "matematicas-m02-l01"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "matematicas-m02-l03",
-       "title": "Fracciones algebraicas y restricciones",
+       "title": "Fracciones algebraicas y restricciones del dominio",
        "topic_scope": "fracciones algebraicas y restricciones",
        "level": "N1",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
-        "matematicas-m02-l02"
+        "matematicas-m02-l02",
+        "matematicas-m00-l04"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "matematicas-m02-l04",
-       "title": "Ecuación cuadrática/discriminante",
+       "title": "Ecuación de segundo grado y discriminante",
        "topic_scope": "ecuación cuadrática/discriminante",
        "level": "N1",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
-        "matematicas-m02-l03"
+        "matematicas-m02-l01",
+        "matematicas-m01-l07"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "matematicas-m02-l05",
-       "title": "Radicales y potencias racionales",
+       "title": "Radicales y potencias de exponente racional",
        "topic_scope": "radicales y potencias racionales",
        "level": "N1",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
+        "matematicas-m00-l06",
         "matematicas-m02-l04"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "matematicas-m02-l06",
-       "title": "Sistemas 2×2, ecuaciones racionales e irracionales, verificación de raíces",
+       "title": "Sistemas 2×2 y ecuaciones racionales e irracionales",
        "topic_scope": "sistemas 2×2, ecuaciones racionales e irracionales, verificación de raíces",
        "level": "N1",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
+        "matematicas-m02-l03",
+        "matematicas-m02-l04",
         "matematicas-m02-l05"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       },
       {
        "id": "matematicas-m02-l07",
-       "title": "Complejos (forma binómica/polar conceptual)",
+       "title": "Números complejos en forma binómica y polar",
        "topic_scope": "complejos (forma binómica/polar conceptual)",
        "level": "N1",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
-        "matematicas-m02-l06"
+        "matematicas-m02-l04",
+        "matematicas-m06-l01"
        ],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     },
@@ -2393,22 +2387,22 @@
  ],
  "stats": {
   "by_status": {
-   "planned": 84,
-   "draft": 36,
+   "planned": 78,
+   "draft": 42,
    "reviewed": 0,
    "ready": 0,
    "published": 0
   },
   "lessons_total": 120,
-  "meets_standard": 36,
+  "meets_standard": 42,
   "courses": {
    "matematicas": {
     "total": 56,
-    "with_content": 18,
-    "meets_standard": 18,
+    "with_content": 24,
+    "meets_standard": 24,
     "by_status": {
-     "planned": 38,
-     "draft": 18,
+     "planned": 32,
+     "draft": 24,
      "reviewed": 0,
      "ready": 0,
      "published": 0
@@ -2475,8 +2469,8 @@
     }
    }
   },
-  "questions_total": 236,
-  "exit_questions": 180,
+  "questions_total": 266,
+  "exit_questions": 210,
   "bank_questions": 56
  }
 }

@@ -1,0 +1,37 @@
+{
+  "lesson_id": "matematicas-m02-l06",
+  "questions": [
+    {
+      "id": "m02l06-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["linear_system"],
+      "prompt_md": "Resuelve $\\begin{cases}2x+y=7\\\\ x-y=2\\end{cases}$ e indica el valor de $y$.",
+      "key": {"value": 1, "tolerance": 0},
+      "explanation_md": "Sumando: $3x=9$ → $x=3$; $y=7-6=1$."
+    },
+    {
+      "id": "m02l06-x2", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["linear_system"],
+      "prompt_md": "El sistema $\\begin{cases}x-y=2\\\\ 3x-3y=6\\end{cases}$ es…",
+      "choices": [{"id": "a", "text": "compatible determinado"}, {"id": "b", "text": "compatible indeterminado"}, {"id": "c", "text": "incompatible"}, {"id": "d", "text": "no lineal"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "La segunda es el triple de la primera: la misma recta, infinitas soluciones."
+    },
+    {
+      "id": "m02l06-x3", "kind": "numeric", "difficulty": 3, "skill_ids": ["irrational_equations"],
+      "prompt_md": "Resuelve $\\sqrt{x+3}=x-3$. (Escribe la única solución válida.)",
+      "key": {"value": 6, "tolerance": 0},
+      "explanation_md": "$x+3=x^2-6x+9$ → $x^2-7x+6=0$ → $6$ o $1$. Con $x=1$: $\\sqrt4=2\\neq-2$ ✗. Solución $x=6$."
+    },
+    {
+      "id": "m02l06-x4", "kind": "numeric", "difficulty": 2, "skill_ids": ["rational_equations"],
+      "prompt_md": "Resuelve $\\dfrac{4}{x+2}=1$.",
+      "key": {"value": 2, "tolerance": 0},
+      "explanation_md": "Con $x\\neq-2$: $4=x+2$ → $x=2$."
+    },
+    {
+      "id": "m02l06-x5", "kind": "multiple_choice", "difficulty": 3, "skill_ids": ["rational_equations"],
+      "prompt_md": "¿Cuántas soluciones tiene $\\dfrac{x}{x-2}=\\dfrac{2}{x-2}$?",
+      "choices": [{"id": "a", "text": "Ninguna"}, {"id": "b", "text": "Una: $x=2$"}, {"id": "c", "text": "Infinitas"}, {"id": "d", "text": "Dos"}],
+      "key": {"correct_choice_id": "a"},
+      "explanation_md": "Multiplicando por $x-2$ sale $x=2$, pero $x=2$ anula el denominador: se descarta."
+    }
+  ]
+}
