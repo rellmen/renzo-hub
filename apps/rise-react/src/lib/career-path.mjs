@@ -82,7 +82,7 @@ export function pathMetrics(rows=[]){
  const weeks=Array.from({length:24},(_,w)=>{const items=tasksForWeek(w);return items.every(t=>completed.has(t.id));}).filter(Boolean).length;
  return {done:valid.length,total:full.length,percent:Math.round(valid.length*100/full.length),completeWeeks:weeks};
 }
-const UUID=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const UUID=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 function owner(uid){if(!UUID.test(uid||""))throw Error("Inicia sesión para guardar tu progreso.");return uid;}
 async function stableTaskId(uid,taskId){
  const bytes=new Uint8Array(await globalThis.crypto.subtle.digest("SHA-256",new TextEncoder().encode("rise-career-v1:"+uid+":"+taskId)));
