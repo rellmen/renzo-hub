@@ -22,4 +22,4 @@ export declare function studySlot(shift:string|undefined,sessionMinutes?:number|
 export type NextStep={kind:"uoc-review"|"vocab"|"uoc-lesson"|"done"|"idioma";title:string;detail:string;minutes:number|null;
   to:"/academia"|"/aprender";search:{leccion?:string;idioma?:"nl"|"en"};reason:string};
 export declare function nextStep(src?:{queue?:{items:QueueItem[]}|null;uocNext?:{course:string;courseTitle?:string;lesson:{id:string;title:string;estimated_minutes?:number};inProgress:boolean}[]|null;
-  slot?:Slot|null;weekly?:Weekly|null;uocOn?:boolean}):NextStep;
+  slot?:Slot|null;weekly?:Weekly|null;uocOn?:boolean;preferCourses?:string[]}):NextStep;

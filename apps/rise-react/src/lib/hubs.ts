@@ -22,8 +22,8 @@ export type Hub = {
 };
 
 export const HUBS: Hub[] = [
-  { id: "inicio", label: "Inicio", short: "Inicio", blurb: "Resumen del día y XP", icon: Home, accent: "var(--gold)",
-    sections: [{ appId: "inicio", label: "Hoy" }, { appId: "quests", label: "XP y Quests" }] },
+  { id: "inicio", label: "Inicio", short: "Inicio", blurb: "Resumen del día, roadmap y XP", icon: Home, accent: "var(--gold)",
+    sections: [{ appId: "inicio", label: "Hoy" }, { appId: "roadmap", label: "Roadmap" }, { appId: "quests", label: "XP y Quests" }] },
   { id: "academy", label: "Academy", short: "Academy", blurb: "Todo lo que estudias", icon: GraduationCap, accent: "var(--learn)",
     sections: [
       // Orden hasta el examen UOC (abril 2027): primero lo que más pesa en la prueba.

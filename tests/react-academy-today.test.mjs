@@ -96,3 +96,10 @@ test('Car vive en Gastos y /car redirige allí; Idiomas tiene las tres pestañas
  assert.match(src('routes/aprender.tsx'),/Inglés · examen UOC/);
  assert.match(src('routes/academia.tsx'),/search=\{\{idioma:"uoc"\}\}/);
 });
+
+test('Academy Hoy sigue la materia del roadmap para elegir la lección',()=>{
+ const next=[{course:'matematicas',lesson:{id:'m1',title:'Derivadas',estimated_minutes:20},inProgress:false},{course:'fisica',lesson:{id:'f1',title:'Vectores',estimated_minutes:20},inProgress:false}];
+ const s=nextStep({queue:{items:[]},uocNext:next,preferCourses:['fisica']});
+ assert.equal(s.search.leccion,'f1');assert.match(s.reason,/roadmap/);
+ assert.equal(nextStep({queue:{items:[]},uocNext:next,preferCourses:[]}).search.leccion,'m1');
+});

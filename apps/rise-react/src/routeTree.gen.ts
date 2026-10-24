@@ -32,6 +32,7 @@ import { Route as NotasRouteImport } from './routes/notas'
 import { Route as PielRouteImport } from './routes/piel'
 import { Route as ProyectosRouteImport } from './routes/proyectos'
 import { Route as QuestRouteImport } from './routes/quest'
+import { Route as RoadmapRouteImport } from './routes/roadmap'
 import { Route as TurnosRouteImport } from './routes/turnos'
 
 const IndexRoute = IndexRouteImport.update({
@@ -149,6 +150,11 @@ const QuestRoute = QuestRouteImport.update({
   path: '/quest',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RoadmapRoute = RoadmapRouteImport.update({
+  id: '/roadmap',
+  path: '/roadmap',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TurnosRoute = TurnosRouteImport.update({
   id: '/turnos',
   path: '/turnos',
@@ -179,6 +185,7 @@ export interface FileRoutesByFullPath {
   '/piel': typeof PielRoute
   '/proyectos': typeof ProyectosRoute
   '/quest': typeof QuestRoute
+  '/roadmap': typeof RoadmapRoute
   '/turnos': typeof TurnosRoute
 }
 export interface FileRoutesByTo {
@@ -205,6 +212,7 @@ export interface FileRoutesByTo {
   '/piel': typeof PielRoute
   '/proyectos': typeof ProyectosRoute
   '/quest': typeof QuestRoute
+  '/roadmap': typeof RoadmapRoute
   '/turnos': typeof TurnosRoute
 }
 export interface FileRoutesById {
@@ -232,6 +240,7 @@ export interface FileRoutesById {
   '/piel': typeof PielRoute
   '/proyectos': typeof ProyectosRoute
   '/quest': typeof QuestRoute
+  '/roadmap': typeof RoadmapRoute
   '/turnos': typeof TurnosRoute
 }
 export interface FileRouteTypes {
@@ -260,6 +269,7 @@ export interface FileRouteTypes {
     | '/piel'
     | '/proyectos'
     | '/quest'
+    | '/roadmap'
     | '/turnos'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -286,6 +296,7 @@ export interface FileRouteTypes {
     | '/piel'
     | '/proyectos'
     | '/quest'
+    | '/roadmap'
     | '/turnos'
   id:
     | '__root__'
@@ -312,6 +323,7 @@ export interface FileRouteTypes {
     | '/piel'
     | '/proyectos'
     | '/quest'
+    | '/roadmap'
     | '/turnos'
   fileRoutesById: FileRoutesById
 }
@@ -339,6 +351,7 @@ export interface RootRouteChildren {
   PielRoute: typeof PielRoute
   ProyectosRoute: typeof ProyectosRoute
   QuestRoute: typeof QuestRoute
+  RoadmapRoute: typeof RoadmapRoute
   TurnosRoute: typeof TurnosRoute
 }
 
@@ -505,6 +518,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof QuestRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/roadmap': {
+      id: '/roadmap'
+      path: '/roadmap'
+      fullPath: '/roadmap'
+      preLoaderRoute: typeof RoadmapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/turnos': {
       id: '/turnos'
       path: '/turnos'
@@ -539,6 +559,7 @@ const rootRouteChildren: RootRouteChildren = {
   PielRoute: PielRoute,
   ProyectosRoute: ProyectosRoute,
   QuestRoute: QuestRoute,
+  RoadmapRoute: RoadmapRoute,
   TurnosRoute: TurnosRoute,
 }
 export const routeTree = rootRouteImport

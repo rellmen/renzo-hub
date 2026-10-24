@@ -2,7 +2,7 @@ import type { NAV } from "./nav";
 import type { LucideIcon } from "lucide-react";
 import {
   Activity, Apple, BookOpen, Bot, GraduationCap, Briefcase, CalendarClock, Car, DatabaseBackup, Dumbbell, FileText, Flower2, Home,
-  Inbox, LayoutGrid, LineChart, Newspaper, NotebookPen, Receipt, Settings, Sparkles, Target, Wallet,
+  Inbox, LayoutGrid, LineChart, Map as MapIcon, Newspaper, NotebookPen, Receipt, Settings, Sparkles, Target, Wallet,
 } from "lucide-react";
 import { HUBS, HUB_OF_APP, type HubId } from "./hubs";
 
@@ -37,6 +37,7 @@ const hubFor = (id: string): AppCategory => {
 };
 const ENTRIES: Entry[] = [
   { id: "inicio", kind: "live", to: "/", label: "Centro de mando", short: "Inicio", blurb: "Resumen del día", icon: Home, accent: "var(--gold)", aliases: ["home", "dashboard", "inicio", "hoy"] },
+  { id: "roadmap", kind: "live", to: "/roadmap", label: "Roadmap 2026–2032", short: "Roadmap", blurb: "Tareas y subtareas hacia el puesto que quieres", icon: MapIcon, accent: "var(--gold)", aliases: ["roadmap", "plan", "ruta", "checklist", "tareas", "hitos", "carrera", "pau"] },
   { id: "quests", kind: "live", to: "/quest", label: "XP y Quests", short: "Quests", blurb: "Tu experiencia y progreso guardados", icon: Target, accent: "var(--gold)", aliases: ["misiones", "retos", "objetivos", "goals", "xp", "nivel"] },
   { id: "academy", kind: "live", to: "/academy", label: "Academy", short: "Academy", blurb: "Hoy: repasos y siguiente lección", icon: GraduationCap, accent: "var(--learn)", aliases: ["academia", "estudiar", "estudios", "study", "selflearn", "aprender"] },
   { id: "aprender", kind: "live", to: "/aprender", label: "Idiomas", short: "Idiomas", blurb: "Neerlandés B2 · Inglés C1", icon: BookOpen, accent: "var(--learn)", aliases: ["selflearn", "learn", "idiomas", "neerlandes", "dutch", "ingles", "english", "lecciones"] },

@@ -5,7 +5,7 @@ import {chromium,webkit,devices} from 'playwright';
 import assert from 'node:assert/strict';
 
 const origin=process.env.REACT_QA_BASE_URL||'http://127.0.0.1:4174';
-const routes=['/','/ares','/academy','/aprender','/gym','/dinero','/gastos','/piel','/proyectos','/notas','/body','/food','/ajustes','/nominas','/turnos','/migracion','/apps','/quest','/news','/agentes','/career','/car','/inbox','/academia','/academia?v=cursos','/academia?leccion=matematicas-m00-l01'];
+const routes=['/','/roadmap','/ares','/academy','/aprender','/gym','/dinero','/gastos','/piel','/proyectos','/notas','/body','/food','/ajustes','/nominas','/turnos','/migracion','/apps','/quest','/news','/agentes','/career','/car','/inbox','/academia','/academia?v=cursos','/academia?leccion=matematicas-m00-l01'];
 const uid='22222222-2222-4222-8222-222222222222';
 const email='qa-nocturne@example.invalid';
 const user={id:uid,aud:'authenticated',role:'authenticated',email,
@@ -144,6 +144,9 @@ for(const [label,engine,opts] of [
   assert.deepEqual((await academyTabs.getByRole('link').allInnerTexts()).map(t=>t.trim()),['Hoy','UOC +25','Idiomas','Data & Carrera','Biblioteca']);
   await page.getByRole('heading',{name:'Lo que toca estudiar'}).waitFor();
   await page.getByText('Siguiente paso',{exact:true}).waitFor();
+  // Inicio muestra el roadmap por defecto.
+  await page.goto(new URL('/',origin).href,{waitUntil:'domcontentloaded'});
+  await page.getByText(/^Roadmap · Fase \d\/6/).first().waitFor({timeout:15000});
   // /car lleva a Gastos → «Gastos fijos · Coche».
   await page.goto(new URL('/car',origin).href,{waitUntil:'domcontentloaded'});
   await page.waitForURL(/\/gastos#coche$/,{timeout:15000});
