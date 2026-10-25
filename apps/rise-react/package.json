@@ -12,7 +12,7 @@
     "format": "prettier --write .",
     "test": "vitest run",
     "test:watch": "vitest",
-    "prebuild": "node generate-pwa-icons.mjs && node copy-payroll-assets.mjs",
+    "prebuild": "node copy-payroll-assets.mjs",
     "predev": "node copy-payroll-assets.mjs"
   },
   "overrides": {
