@@ -1,4 +1,4 @@
-// RISE HUB Nocturne · Career / Data Lab: formación, skills y portfolio con evidencias privadas.
+// Rise Nocturne · Career / Data Lab: formación, skills y portfolio con evidencias privadas.
 // Registros hub_records(domain='work', record_type='career_item'); evidencias en el bucket privado
 // 'portfolio-files' dentro de la carpeta del propietario (política portfolio_files_owner ya existente).
 // Nada se crea sin acción explícita del usuario; no se borra: archivar conserva el registro.

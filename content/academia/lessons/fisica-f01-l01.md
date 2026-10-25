@@ -165,4 +165,4 @@ $4{,}2\cdot10^6\text{ m}^2=4\,200\,000\text{ m}^2$. Comprobación de orden de ma
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N1 (ESO – 1.º Bachillerato). Alineado con el bloque de magnitudes y medida del temario oficial de Física +25. Física figura como optativa en este plan: la elección definitiva de la segunda específica (Física o Economía de la Empresa) está pendiente de confirmar en la matrícula de 2027.
+Contenido original de Rise Academia. Nivel N1 (ESO – 1.º Bachillerato). Alineado con el bloque de magnitudes y medida del temario oficial de Física +25. Física figura como optativa en este plan: la elección definitiva de la segunda específica (Física o Economía de la Empresa) está pendiente de confirmar en la matrícula de 2027.

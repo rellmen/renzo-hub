@@ -167,4 +167,4 @@ Cuota anual $=600$ €. Acumulada al final del año 3 $=1.800$ €. Valor neto c
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2. Conceptos financieros habituales en el bachillerato español; las condiciones reales de cada producto dependen de la entidad. Alineado con el bloque de financiación del temario de Economía de la Empresa +25.
+Contenido original de Rise Academia. Nivel N2. Conceptos financieros habituales en el bachillerato español; las condiciones reales de cada producto dependen de la entidad. Alineado con el bloque de financiación del temario de Economía de la Empresa +25.

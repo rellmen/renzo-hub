@@ -152,4 +152,4 @@ Texto para todos los ejercicios:
 
 ## 11. Procedencia y nivel
 
-Contenido y textos originales de RISE HUB Academia. Nivel N1. Alineado con la parte de comprensión de Comentario de texto +25 y útil también para la expresión escrita de Lengua castellana.
+Contenido y textos originales de Rise Academia. Nivel N1. Alineado con la parte de comprensión de Comentario de texto +25 y útil también para la expresión escrita de Lengua castellana.

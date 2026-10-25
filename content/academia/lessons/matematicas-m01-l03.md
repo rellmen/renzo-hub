@@ -157,4 +157,4 @@ Comprobación con $m=2$, $v=3$, $g=10$, $h=1$: $E=9+20=29$; $\dfrac{58}{9+20}=2$
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N1 (ESO). Alineado con el bloque de álgebra del temario oficial de Matemáticas +25; herramienta transversal para Física y Economía de la Empresa.
+Contenido original de Rise Academia. Nivel N1 (ESO). Alineado con el bloque de álgebra del temario oficial de Matemáticas +25; herramienta transversal para Física y Economía de la Empresa.

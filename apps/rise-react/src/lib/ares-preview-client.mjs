@@ -1,4 +1,4 @@
-// RISE HUB React · Ares optional preview-only model transport.
+// Rise React · Ares optional preview-only model transport.
 // The backend alone decides availability/consent to share limited project data.
 // This frontend never includes API provider credentials or finance/notes payloads.
 function textOf(x,max){return typeof x==="string"?x.trim().slice(0,max):"";}

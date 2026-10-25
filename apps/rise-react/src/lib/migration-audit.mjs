@@ -1,4 +1,4 @@
-// RISE HUB Nocturne · owner-scoped migration preflight and compatible backup.
+// Rise Nocturne · owner-scoped migration preflight and compatible backup.
 // Never copies user records to staging, logs contents, or mutates any tables.
 export const MIGRATION_TABLES=Object.freeze({
  profiles:"user_id",user_settings:"user_id",system_preferences:"user_id",system_records:"user_id",

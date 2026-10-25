@@ -167,4 +167,4 @@ Lista de revisión de la redacción (dos minutos):
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N3 (preparación de examen). El formato y las penalizaciones proceden del perfil de referencia 2026 de la academia (`exam-profiles.json`); la duración oficial y los criterios detallados se consultan en la página oficial enlazada. No reproduce exámenes oficiales.
+Contenido original de Rise Academia. Nivel N3 (preparación de examen). El formato y las penalizaciones proceden del perfil de referencia 2026 de la academia (`exam-profiles.json`); la duración oficial y los criterios detallados se consultan en la página oficial enlazada. No reproduce exámenes oficiales.

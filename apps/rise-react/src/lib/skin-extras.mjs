@@ -1,4 +1,4 @@
-// RISE HUB Nocturne · Skin: compatibilidades, historial y fotos privadas.
+// Rise Nocturne · Skin: compatibilidades, historial y fotos privadas.
 // Las reglas de compatibilidad se derivan LITERALMENTE de las notas del catálogo original
 // (skin-catalog.mjs); no se añaden consejos dermatológicos nuevos.
 import {PRODUCTS,dateKeyLocal} from "./skin-catalog.mjs";

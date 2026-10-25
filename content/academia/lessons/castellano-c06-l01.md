@@ -167,4 +167,4 @@ Responde a partir del texto modelo.
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia, incluido el texto modelo. Nivel N2 (Bachillerato). Alineado con las partes de comprensión y expresión del temario oficial de Lengua castellana +25 (referencia de formato 2026 en catalán; formato de la modalidad UOC en castellano de 2027 pendiente de confirmar).
+Contenido original de Rise Academia, incluido el texto modelo. Nivel N2 (Bachillerato). Alineado con las partes de comprensión y expresión del temario oficial de Lengua castellana +25 (referencia de formato 2026 en catalán; formato de la modalidad UOC en castellano de 2027 pendiente de confirmar).

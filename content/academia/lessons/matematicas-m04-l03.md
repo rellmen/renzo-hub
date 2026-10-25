@@ -160,4 +160,4 @@ Raíces $-2$ y $3$; solución $(-2,3)$. Comprobación: $x=0$ da $-6<0$ ✔; $x=4
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2 (1.º Bachillerato). Alineado con el bloque de funciones del temario oficial de Matemáticas +25; herramienta para dominios con raíces, monotonía (M08-L05) y áreas (M09).
+Contenido original de Rise Academia. Nivel N2 (1.º Bachillerato). Alineado con el bloque de funciones del temario oficial de Matemáticas +25; herramienta para dominios con raíces, monotonía (M08-L05) y áreas (M09).

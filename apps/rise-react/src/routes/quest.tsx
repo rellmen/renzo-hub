@@ -21,7 +21,7 @@ function Quest(){
  const daily=useQuery({queryKey:["quest-daily",uid],enabled:!!client&&!!uid,
   queryFn:()=>loadDailyQuests(client!,uid),staleTime:30000,refetchOnWindowFocus:true});
  return <div className="space-y-6">
-  <PageHeader eyebrow="RISE HUB · EXPERIENCIA" title="Quest"
+  <PageHeader eyebrow="Rise · EXPERIENCIA" title="Quest"
    subtitle="Tu progreso se fundamenta en eventos guardados, sin misiones completadas de demostración."/>
   <SectionCard eyebrow="XP histórico confirmado" title={q.data?String(q.data.points)+" XP":"Calculando…"} accent="var(--gold)">
    <p className="text-sm text-platinum/75">Suma de eventos de XP únicos del sistema clásico. No incluye lecciones contabilizadas de otro modo hasta verificar que no haya duplicidad.</p>

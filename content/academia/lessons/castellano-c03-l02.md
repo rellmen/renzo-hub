@@ -162,4 +162,4 @@ Identifica el CD: *los extintores* (*los revisarán*). Será el sujeto paciente.
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2. Terminología escolar habitual; en el examen, justifica con pruebas. Alineado con la reflexión lingüística de Lengua castellana +25.
+Contenido original de Rise Academia. Nivel N2. Terminología escolar habitual; en el examen, justifica con pruebas. Alineado con la reflexión lingüística de Lengua castellana +25.

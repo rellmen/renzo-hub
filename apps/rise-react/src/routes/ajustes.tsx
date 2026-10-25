@@ -11,7 +11,7 @@ import {refreshVisiblePrivateData} from "@/lib/private-data-refresh";
 import {DataBackupPanel} from "@/components/rise/DataBackupPanel";
 
 export const Route=createFileRoute("/ajustes")({
-  head:()=>pageHead("Ajustes y privacidad","Tu sesión, privacidad y estado de la migración RISE HUB React."),
+  head:()=>pageHead("Ajustes y privacidad","Tu sesión, privacidad y estado de la migración Rise React."),
   component:Settings
 });
 const MODULES:{name:string;status:string;details:string}[]=[
@@ -54,7 +54,7 @@ function Settings(){
   }
   return <div className="space-y-6">
     <PageHeader eyebrow="SISTEMA · ACCESO PRIVADO" title="Ajustes y privacidad"
-      subtitle="Tu cuenta real de RISE HUB y el estado verificable de la transición a React."/>
+      subtitle="Tu cuenta real de Rise y el estado verificable de la transición a React."/>
     <div className="grid gap-6 lg:grid-cols-2">
       <DataBackupPanel/>
       <SectionCard eyebrow="Identidad" title="Cuenta conectada" accent="var(--gold)">

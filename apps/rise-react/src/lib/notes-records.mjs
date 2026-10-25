@@ -1,4 +1,4 @@
-// RISE HUB Nocturne · Notas: historial completo paginado, búsqueda y escrituras con CAS updated_at.
+// Rise Nocturne · Notas: historial completo paginado, búsqueda y escrituras con CAS updated_at.
 // Mismos registros que Classic (hub_records domain personal, type note).
 const COLS="id,owner_id,title,status,occurred_at,payload,created_at,updated_at";
 const own=uid=>{if(typeof uid!=="string"||!uid)throw Error("Inicia sesión.");return uid;};

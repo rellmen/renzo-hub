@@ -173,4 +173,4 @@ a) Externo: entidad financiera. b) Externo: sociedad o comunidad local. c) Exter
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N1. Datos legales orientativos sobre España, resumidos con fines didácticos (el capital mínimo de la SL se redujo con la Ley 18/2022 «Crea y Crece»); para decisiones reales, consulta la normativa vigente o a un asesor. Alineado con el bloque de la empresa del temario de Economía de la Empresa +25.
+Contenido original de Rise Academia. Nivel N1. Datos legales orientativos sobre España, resumidos con fines didácticos (el capital mínimo de la SL se redujo con la Ley 18/2022 «Crea y Crece»); para decisiones reales, consulta la normativa vigente o a un asesor. Alineado con el bloque de la empresa del temario de Economía de la Empresa +25.

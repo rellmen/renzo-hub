@@ -1,4 +1,4 @@
-// RISE HUB Nocturne · Daily Quests derivadas de actividad REAL (port de world.js dailyQuests, Classic).
+// Rise Nocturne · Daily Quests derivadas de actividad REAL (port de world.js dailyQuests, Classic).
 // Solo lectura: una misión está cumplida si existe un registro de esa cuenta en esa fecha.
 // No otorga XP ni crea eventos: Classic decía que suman XP, pero acreditarlo exige un evento
 // idempotente propio; hasta entonces se muestra el cumplimiento sin recompensa ficticia.

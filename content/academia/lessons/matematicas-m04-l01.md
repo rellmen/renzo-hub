@@ -151,4 +151,4 @@ Abre hacia abajo. $x_v=-\dfrac{2}{-2}=1$, $g(1)=-1+2+8=9$ → máximo $V(1,9)$. 
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2 (1.º Bachillerato). Alineado con el bloque de funciones del temario oficial de Matemáticas +25; preparación para dominio y recorrido (M04-L02), derivadas (M08) y áreas (M09).
+Contenido original de Rise Academia. Nivel N2 (1.º Bachillerato). Alineado con el bloque de funciones del temario oficial de Matemáticas +25; preparación para dominio y recorrido (M04-L02), derivadas (M08) y áreas (M09).

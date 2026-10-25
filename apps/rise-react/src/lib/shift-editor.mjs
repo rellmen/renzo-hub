@@ -1,4 +1,4 @@
-// RISE HUB Nocturne · Shift Tracker editor.
+// Rise Nocturne · Shift Tracker editor.
 // Port de microapps/payroll/shift-tracker.js + shift-extras.js (Classic, solo lectura) sobre los
 // mismos registros hub_records (shift_contract / shift_log / shift_leave_event) y el mismo motor
 // salarial (copias byte-idénticas en ./legacy-payroll). Mejoras Nocturne: edición y borrado con

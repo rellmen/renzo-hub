@@ -43,7 +43,7 @@ export function AcademyExams({client,uid,exams,elective,onChanged,mocks=[],mocks
   const mockActive=mocks.some(m=>m.status==="in_progress");
   return <div className="space-y-8">
     <section aria-labelledby="mocks-h" className="space-y-3">
-      <h2 id="mocks-h" className="font-display text-2xl text-foreground">Simulacros RISE HUB</h2>
+      <h2 id="mocks-h" className="font-display text-2xl text-foreground">Simulacros Rise</h2>
       <AcademyMocks client={client} mocks={mocks} available={mocksAvailable} elective={elective} onChanged={onChanged}/>
     </section>
     {!mockActive&&<section aria-labelledby="official-h" className="space-y-6">

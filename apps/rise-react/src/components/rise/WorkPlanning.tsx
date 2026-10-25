@@ -40,7 +40,7 @@ export function WorkPlanning({projects}:{projects:any[]}){
     </div>
     <label className={lab}>Bloqueo<input name="blocker" maxLength={180} defaultValue={s.blocker||""} className={field}/></label>
     <button type="submit" className="btn-gold min-h-11" disabled={run.isPending}><Target className="h-4 w-4"/>Guardar sprint</button>
-    {s.week&&<p className="text-xs text-muted-foreground">Semana del {s.week}. Se guarda junto a tu estado de RISE HUB con control de versión.</p>}
+    {s.week&&<p className="text-xs text-muted-foreground">Semana del {s.week}. Se guarda junto a tu estado de Rise con control de versión.</p>}
    </form>}
   </SectionCard>
   <SectionCard eyebrow="Idea Vault" title={`${list.length} ideas`} accent="var(--projects)">

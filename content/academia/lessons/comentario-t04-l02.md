@@ -153,4 +153,4 @@ Falacia post hoc (falsa causa): que los errores aumentaran después de instalar 
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Clasificación de falacias habitual en manuales de lógica informal; los nombres pueden variar. Nivel N2. Alineado con la comprensión y la redacción del examen de Comentario de texto +25.
+Contenido original de Rise Academia. Clasificación de falacias habitual en manuales de lógica informal; los nombres pueden variar. Nivel N2. Alineado con la comprensión y la redacción del examen de Comentario de texto +25.

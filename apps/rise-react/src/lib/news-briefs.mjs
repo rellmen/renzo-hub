@@ -1,4 +1,4 @@
-// RISE HUB Nocturne · News (port de news.js Classic): filtros por fuente, búsqueda y alta manual privada.
+// Rise Nocturne · News (port de news.js Classic): filtros por fuente, búsqueda y alta manual privada.
 export const NEWS_SOURCES=Object.freeze(["Claude","ChatGPT","Codex"]);
 export function safeUrl(value){
  try{if(!value)return null;const u=new URL(String(value));return u.protocol==="https:"?u.href:null;}catch{return null;}

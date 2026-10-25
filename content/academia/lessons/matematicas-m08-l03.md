@@ -162,4 +162,4 @@ $f'(x)=\dfrac{2x}{2\sqrt{x^2+9}}=\dfrac{x}{\sqrt{x^2+9}}$. $f'(4)=\dfrac{4}{\sqr
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2 (2.º Bachillerato). Alineado con el bloque de análisis del temario oficial de Matemáticas +25; base de M08-L04 a M08-L07.
+Contenido original de Rise Academia. Nivel N2 (2.º Bachillerato). Alineado con el bloque de análisis del temario oficial de Matemáticas +25; base de M08-L04 a M08-L07.

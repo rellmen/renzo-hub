@@ -156,4 +156,4 @@ $\text{Dom}(g)=(-\infty,-1)\cup(-1,3]$. Comprobación: $g(3)=0$ existe; $g(4)$ d
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2 (1.º Bachillerato). Alineado con el bloque de funciones del temario oficial de Matemáticas +25; primer paso de todo estudio de funciones (asíntotas M04-L07, derivadas M08).
+Contenido original de Rise Academia. Nivel N2 (1.º Bachillerato). Alineado con el bloque de funciones del temario oficial de Matemáticas +25; primer paso de todo estudio de funciones (asíntotas M04-L07, derivadas M08).

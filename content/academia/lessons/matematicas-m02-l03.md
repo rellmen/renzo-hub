@@ -154,4 +154,4 @@ Comprobación con $x=3$: $1-\dfrac45=\dfrac15$ y $\dfrac{1}{5}$. ✔
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N1–N2 (4.º ESO – 1.º Bachillerato). Alineado con el bloque de álgebra del temario oficial de Matemáticas +25; base de ecuaciones racionales (M02-L06), funciones racionales y asíntotas (M04-L07).
+Contenido original de Rise Academia. Nivel N1–N2 (4.º ESO – 1.º Bachillerato). Alineado con el bloque de álgebra del temario oficial de Matemáticas +25; base de ecuaciones racionales (M02-L06), funciones racionales y asíntotas (M04-L07).

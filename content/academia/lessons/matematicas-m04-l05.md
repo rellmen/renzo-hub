@@ -148,4 +148,4 @@ $F=\dfrac{9C}{5}+32$. Con $C=25$: $F=45+32=77$ °F. Comprobación: $\dfrac{5(77-
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2 (1.º Bachillerato). Alineado con el bloque de funciones del temario oficial de Matemáticas +25; prepara exponenciales y logaritmos (M04-L06) y la regla de la cadena (M08-L03).
+Contenido original de Rise Academia. Nivel N2 (1.º Bachillerato). Alineado con el bloque de funciones del temario oficial de Matemáticas +25; prepara exponenciales y logaritmos (M04-L06) y la regla de la cadena (M08-L03).

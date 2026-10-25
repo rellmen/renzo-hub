@@ -153,4 +153,4 @@ $\dfrac{19{,}6h+4{,}9h^2}{h}=19{,}6+4{,}9h$ → $s'(2)=19{,}6$ m/s. Comprobació
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2 (Bachillerato). Alineado con el bloque de análisis del temario oficial de Matemáticas +25; prepara las reglas de derivación (M08-L03).
+Contenido original de Rise Academia. Nivel N2 (Bachillerato). Alineado con el bloque de análisis del temario oficial de Matemáticas +25; prepara las reglas de derivación (M08-L03).

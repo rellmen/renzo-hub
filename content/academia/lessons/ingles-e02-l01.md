@@ -165,4 +165,4 @@ Pasa a estilo indirecto: *"We are moving the stock to the new warehouse," the ma
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N1 en la ruta de la academia (gramática de referencia B1 del Marco común europeo). Alineado con la lectura y las respuestas abiertas del examen de Inglés +25.
+Contenido original de Rise Academia. Nivel N1 en la ruta de la academia (gramática de referencia B1 del Marco común europeo). Alineado con la lectura y las respuestas abiertas del examen de Inglés +25.

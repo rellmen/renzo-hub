@@ -152,4 +152,4 @@ $x^2-16x+60=0$ → $(x-6)(x-10)=0$ → $x=6$ o $x=10$. Ambas dan el mismo rectá
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N1–N2 (4.º ESO – 1.º Bachillerato). Alineado con el bloque de álgebra del temario oficial de Matemáticas +25; imprescindible para funciones (M04), derivadas (M08) e integrales (M09).
+Contenido original de Rise Academia. Nivel N1–N2 (4.º ESO – 1.º Bachillerato). Alineado con el bloque de álgebra del temario oficial de Matemáticas +25; imprescindible para funciones (M04), derivadas (M08) e integrales (M09).

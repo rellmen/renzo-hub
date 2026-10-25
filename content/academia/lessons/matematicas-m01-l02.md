@@ -161,4 +161,4 @@ Comprobación: $\dfrac{-7}{5}-\dfrac{-3}{2}=-1{,}4+1{,}5=0{,}1=\dfrac{1}{10}$. �
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N1 (ESO). Base del bloque de álgebra del temario oficial de Matemáticas +25; lo necesitarás en sistemas (M02-L06), funciones (M04) y optimización (M08).
+Contenido original de Rise Academia. Nivel N1 (ESO). Base del bloque de álgebra del temario oficial de Matemáticas +25; lo necesitarás en sistemas (M02-L06), funciones (M04) y optimización (M08).

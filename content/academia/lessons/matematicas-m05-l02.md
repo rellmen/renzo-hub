@@ -163,4 +163,4 @@ $h=30\tan50^\circ\approx35{,}75$ m. Comprobación de sentido: como $50^\circ>45^
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2 (1.º Bachillerato). Alineado con el bloque de trigonometría del temario oficial de Matemáticas +25; se aplica en geometría (M07) y en la descomposición de fuerzas en Física (F01, F03).
+Contenido original de Rise Academia. Nivel N2 (1.º Bachillerato). Alineado con el bloque de trigonometría del temario oficial de Matemáticas +25; se aplica en geometría (M07) y en la descomposición de fuerzas en Física (F01, F03).

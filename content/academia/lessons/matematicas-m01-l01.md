@@ -158,4 +158,4 @@ Comprobación con la expresión original: $4-(2(-2)-3)+5(-2+1)=4-(-7)+5(-1)=4+7-
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N1 (ESO). Alineado con el bloque de álgebra del temario oficial de Matemáticas +25; prepara las ecuaciones de M01-L02 y los polinomios de M02.
+Contenido original de Rise Academia. Nivel N1 (ESO). Alineado con el bloque de álgebra del temario oficial de Matemáticas +25; prepara las ecuaciones de M01-L02 y los polinomios de M02.

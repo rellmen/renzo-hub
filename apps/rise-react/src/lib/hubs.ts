@@ -2,7 +2,7 @@ import type { LucideIcon } from "lucide-react";
 import { Activity, Briefcase, GraduationCap, Home, Settings, Sparkles, Wallet } from "lucide-react";
 
 /**
- * RISE HUB · 7 hubs (decisión de Renzo, 24-10-2026, opción B).
+ * Rise · 7 hubs (decisión de Renzo, 24-10-2026, opción B).
  * Cada microapp pertenece a UN hub y aparece como pestaña dentro de él.
  * Las rutas antiguas siguen siendo las mismas: solo cambia cómo se agrupan.
  */

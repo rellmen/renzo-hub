@@ -153,4 +153,4 @@ $\begin{vmatrix}1&0&0\\0&2&0\\1&1&3\end{vmatrix}=1\cdot(2\cdot3-0\cdot1)=6$. Vol
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2 (2.º Bachillerato). Alineado con el bloque de geometría del temario oficial de Matemáticas +25; cierra el módulo M07.
+Contenido original de Rise Academia. Nivel N2 (2.º Bachillerato). Alineado con el bloque de geometría del temario oficial de Matemáticas +25; cierra el módulo M07.

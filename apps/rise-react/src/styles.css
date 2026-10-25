@@ -5,7 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * RISE HUB — NOCTURNE design system.
+ * Rise design system.
  * Single dark theme. All colors oklch. Section accents exposed as tokens
  * (gym, learn, money, skin, projects, ares) for portable reuse.
  */
@@ -13,6 +13,7 @@
 @theme inline {
   --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Cormorant Garamond", "Playfair Display", Georgia, serif;
+  --font-brand: "Bodoni Moda", "Cormorant Garamond", Didot, Georgia, serif;
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -331,4 +332,32 @@
   animation-duration: 0.001ms !important;
   animation-iteration-count: 1 !important;
   transition-duration: 0.001ms !important;
+}
+/* Rise · wordmark (Bodoni Moda itálica, oro Nocturne con brillo) */
+.rise-wordmark {
+  display: inline-block;
+  font-family: var(--font-brand);
+  font-style: italic;
+  font-weight: 500;
+  font-optical-sizing: auto;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  /* la itálica sobresale: margen para que background-clip no la recorte */
+  padding: 0.04em 0.14em 0.08em 0.02em;
+  margin-right: -0.12em;
+  background: linear-gradient(110deg,
+    oklch(0.62 0.08 60) 0%, oklch(0.9 0.06 85) 22%, var(--gold) 42%,
+    oklch(0.97 0.03 90) 50%, var(--gold) 58%, oklch(0.55 0.08 55) 100%);
+  background-size: 250% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 0.35em color-mix(in oklab, var(--gold) 30%, transparent));
+  animation: rise-sheen 2.8s cubic-bezier(.22,.7,.2,1) 0.3s both;
+}
+.rise-wordmark:hover { animation: rise-sheen 1.6s cubic-bezier(.22,.7,.2,1) both; }
+@keyframes rise-sheen { from { background-position: 100% 0; } to { background-position: 0% 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .rise-wordmark, .rise-wordmark:hover { animation: none; background-position: 30% 0; }
 }

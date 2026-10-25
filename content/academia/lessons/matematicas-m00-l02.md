@@ -167,4 +167,4 @@ MCD $=2^2\cdot 3=12$. mcm $=2^3\cdot3^2\cdot5=360$. Comprobación: $12\cdot360=4
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N0. Base para fracciones (M00-L03/L04) y para polinomios (M02). Alineado con el bloque de números del temario oficial de Matemáticas +25.
+Contenido original de Rise Academia. Nivel N0. Base para fracciones (M00-L03/L04) y para polinomios (M02). Alineado con el bloque de números del temario oficial de Matemáticas +25.

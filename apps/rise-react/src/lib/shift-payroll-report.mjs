@@ -1,4 +1,4 @@
-// RISE HUB Nocturne: read-only salary estimation with the exact legacy DST/ORT engine.
+// Rise Nocturne: read-only salary estimation with the exact legacy DST/ORT engine.
 // Preserves original contractSnapshot of each shift and the owner's Supabase records.
 // No inferred premiums, no bank entries, no writes and no partial salary totals.
 import {calculateWeeklyPayroll} from "./legacy-payroll/weekly-pay.js";

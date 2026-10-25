@@ -78,7 +78,7 @@ function MigrationCenter(){
     subtitle="Conciliación de Nocturne con el sistema clásico. Este apartado no modifica tus registros ni migra datos a otra cuenta."/>
   <div className="grid gap-5 lg:grid-cols-2">
    <SectionCard eyebrow="Fase 1 · Inventario" title="Auditar mi cuenta" accent="var(--gold)">
-    <p className="text-sm text-platinum/80">Compara la presencia de las {Object.keys(MIGRATION_TABLES).length} tablas privadas de RISE HUB con la sesión autenticada, sin consultar ni mostrar datos de otras cuentas.</p>
+    <p className="text-sm text-platinum/80">Compara la presencia de las {Object.keys(MIGRATION_TABLES).length} tablas privadas de Rise con la sesión autenticada, sin consultar ni mostrar datos de otras cuentas.</p>
     <button type="button" disabled={!!busy||!client||!uid} onClick={()=>void runAudit()} className="btn-gold mt-4 min-h-11">
      <RefreshCw className="h-4 w-4"/> {busy==="audit"?"Analizando…":"Comprobar registros"}
     </button>

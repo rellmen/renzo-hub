@@ -161,4 +161,4 @@ Comprobación con $x=1$: $3+12+12=27$ y $3\cdot1\cdot9=27$. ✔
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N1–N2 (4.º ESO – 1.º Bachillerato). Alineado con el bloque de álgebra del temario oficial de Matemáticas +25; base de polinomios (M02-L02), fracciones algebraicas (M02-L03) y límites indeterminados (M08).
+Contenido original de Rise Academia. Nivel N1–N2 (4.º ESO – 1.º Bachillerato). Alineado con el bloque de álgebra del temario oficial de Matemáticas +25; base de polinomios (M02-L02), fracciones algebraicas (M02-L03) y límites indeterminados (M08).

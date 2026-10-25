@@ -153,4 +153,4 @@ $|x+3|=\begin{cases}-x-3 & x<-3\\ x+3 & x\ge-3\end{cases}$. Valores: $x=-5$ → 
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2 (1.º Bachillerato). Alineado con el bloque de funciones del temario oficial de Matemáticas +25; prepara la continuidad con parámetro (M08-L01) y la derivabilidad por tramos. Los tramos fiscales del ejercicio 6 son ficticios.
+Contenido original de Rise Academia. Nivel N2 (1.º Bachillerato). Alineado con el bloque de funciones del temario oficial de Matemáticas +25; prepara la continuidad con parámetro (M08-L01) y la derivabilidad por tramos. Los tramos fiscales del ejercicio 6 son ficticios.

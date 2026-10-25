@@ -164,4 +164,4 @@ $5(35-g)+8g=244$ → $175+3g=244$ → $g=23$, $p=12$. Comprobación: $12+23=35$ 
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N1–N2 (4.º ESO – 1.º Bachillerato). Alineado con el bloque de álgebra del temario oficial de Matemáticas +25; prepara los sistemas 3×3 y su discusión con parámetro (M06-L04).
+Contenido original de Rise Academia. Nivel N1–N2 (4.º ESO – 1.º Bachillerato). Alineado con el bloque de álgebra del temario oficial de Matemáticas +25; prepara los sistemas 3×3 y su discusión con parámetro (M06-L04).

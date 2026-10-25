@@ -158,4 +158,4 @@ Usa el texto B.
 
 ## 11. Procedencia y nivel
 
-Textos y preguntas originales de RISE HUB Academia. Nivel N2 (B1). Alineado con la parte objetiva y la respuesta abierta del examen de Inglés +25. Los modelos oficiales 2024–2026 se enlazan en la sección Exámenes, no se reproducen.
+Textos y preguntas originales de Rise Academia. Nivel N2 (B1). Alineado con la parte objetiva y la respuesta abierta del examen de Inglés +25. Los modelos oficiales 2024–2026 se enlazan en la sección Exámenes, no se reproducen.

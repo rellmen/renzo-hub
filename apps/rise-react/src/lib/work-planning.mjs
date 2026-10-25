@@ -1,4 +1,4 @@
-// RISE HUB Nocturne · Idea Vault + Weekly Sprint (port de world.js Classic).
+// Rise Nocturne · Idea Vault + Weekly Sprint (port de world.js Classic).
 // Mismos registros que Classic: hub_records renzo_idea / renzo_project / renzo_event (domain work/system)
 // y hub_user_state.state.sprint. Mejoras: CAS updated_at en cada cambio y promoción idempotente
 // (los IDs de proyecto y evento se reservan en la idea antes de crearlos; un reintento no duplica).

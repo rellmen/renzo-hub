@@ -153,4 +153,4 @@ $4-2k=0$ → $k=2$. Con $k=2$, la segunda fila $(2,4)$ es el doble de la primera
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2 (2.º Bachillerato). Alineado con el bloque de álgebra lineal del temario oficial de Matemáticas +25; imprescindible para la discusión de sistemas (M06-L04) y el producto vectorial (M07-L04).
+Contenido original de Rise Academia. Nivel N2 (2.º Bachillerato). Alineado con el bloque de álgebra lineal del temario oficial de Matemáticas +25; imprescindible para la discusión de sistemas (M06-L04) y el producto vectorial (M07-L04).

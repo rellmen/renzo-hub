@@ -156,4 +156,4 @@ $\dfrac{3}{4}=\dfrac{9}{12}$ y $\dfrac{5}{6}=\dfrac{10}{12}$. El martes ($\dfrac
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N0 (rescate, primaria–1.º ESO). Prerrequisito directo de las operaciones con fracciones (M00-L04) y de las fracciones algebraicas (M02-L03).
+Contenido original de Rise Academia. Nivel N0 (rescate, primaria–1.º ESO). Prerrequisito directo de las operaciones con fracciones (M00-L04) y de las fracciones algebraicas (M02-L03).

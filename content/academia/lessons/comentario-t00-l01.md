@@ -153,4 +153,4 @@ Texto para los ejercicios 1–5:
 
 ## 11. Procedencia y nivel
 
-Contenido y textos originales de RISE HUB Academia. Nivel N1. Alineado con la parte de comprensión (6 puntos) de Comentario de texto +25; continúa en T01 (inferencias) y T03 (resumen).
+Contenido y textos originales de Rise Academia. Nivel N1. Alineado con la parte de comprensión (6 puntos) de Comentario de texto +25; continúa en T01 (inferencias) y T03 (resumen).

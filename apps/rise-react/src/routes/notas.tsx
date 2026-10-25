@@ -9,7 +9,7 @@ import {createRecords,type HubNote} from "@/lib/legacy-records.mjs";
 import {loadAllNotes,removeNote,searchNotes,updateNote} from "@/lib/notes-records.mjs";
 
 export const Route=createFileRoute("/notas")({
-  head:()=>pageHead("Notas","Notas personales reales y privadas de RISE HUB."),
+  head:()=>pageHead("Notas","Notas personales reales y privadas de Rise."),
   component:Notes
 });
 type Input={title:string;body:string};
@@ -60,7 +60,7 @@ function Notes(){
     <PageHeader eyebrow="NOTAS · ÁREA PRIVADA" title="Ideas que permanecen."
       subtitle="Captura, consulta y organiza tus notas reales. Los registros se guardan en tu cuenta de Supabase."/>
     <p className="flex items-center gap-2 text-xs text-platinum/75">
-      <ShieldCheck className="h-4 w-4 text-gold"/> Las notas de esta pantalla están protegidas por la misma cuenta y las políticas de RLS de RISE HUB.
+      <ShieldCheck className="h-4 w-4 text-gold"/> Las notas de esta pantalla están protegidas por la misma cuenta y las políticas de RLS de Rise.
     </p>
     <div className="grid gap-6 lg:grid-cols-[1fr_1.5fr]">
       <SectionCard eyebrow={edit?"Modificar":"Nueva nota"} title={edit?"Editar nota existente":"Escribe algo importante"} accent="var(--projects)">

@@ -167,4 +167,4 @@ $2-(-4)=6$; $3\cdot 6=18$; $18\div 2=9$; $5-9=-4$. **Resultado: $-4$.**
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N0 (rescate de primaria/ESO). Alineado con el bloque de números y operaciones del temario oficial de Matemáticas de la prueba +25 (enlace en los metadatos). No reproduce enunciados oficiales.
+Contenido original de Rise Academia. Nivel N0 (rescate de primaria/ESO). Alineado con el bloque de números y operaciones del temario oficial de Matemáticas de la prueba +25 (enlace en los metadatos). No reproduce enunciados oficiales.

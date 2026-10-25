@@ -1,4 +1,4 @@
-// RISE HUB Academia +25 · lógica pura (sin red): plan del día, dominio por habilidad, repasos y simulacros.
+// Rise Academia +25 · lógica pura (sin red): plan del día, dominio por habilidad, repasos y simulacros.
 // Nunca inventa progreso: todo se deriva de filas reales devueltas por Supabase.
 
 export const BANDS=[{min:80,id:"dominio",label:"Dominio provisional"},{min:60,id:"practica",label:"Más práctica"},{min:0,id:"rescate",label:"Rescate de prerrequisitos"}];

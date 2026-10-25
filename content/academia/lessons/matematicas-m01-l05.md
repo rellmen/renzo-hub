@@ -168,4 +168,4 @@ $x\le225$ y $x\ge0$ → $[0,225]$ km. Comprobación: $30+0{,}2\cdot225=75$ ✔ (
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N1 (4.º ESO). Alineado con el bloque de álgebra del temario oficial de Matemáticas +25; base del dominio de funciones (M04-L02), del valor absoluto (M01-L06) y del estudio de la monotonía con derivadas (M08-L05).
+Contenido original de Rise Academia. Nivel N1 (4.º ESO). Alineado con el bloque de álgebra del temario oficial de Matemáticas +25; base del dominio de funciones (M04-L02), del valor absoluto (M01-L06) y del estudio de la monotonía con derivadas (M08-L05).

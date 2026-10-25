@@ -160,4 +160,4 @@ Aplica las seis preguntas de pensamiento crítico a esta afirmación de un anunc
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Fuentes y estudios de los ejemplos inventados con fines didácticos. Nivel N4 (puente universitario). No forma parte del temario de la prueba +25.
+Contenido original de Rise Academia. Fuentes y estudios de los ejemplos inventados con fines didácticos. Nivel N4 (puente universitario). No forma parte del temario de la prueba +25.

@@ -12,7 +12,7 @@ import {AresOperations} from '@/components/rise/AresOperations';
 import {AresDevelopmentSources} from "@/components/rise/AresDevelopmentSources";
 
 export const Route=createFileRoute("/ares")({
-  head:()=>pageHead("Ares Center","Consulta privada de actividad y tareas registradas en RISE HUB."),
+  head:()=>pageHead("Ares Center","Consulta privada de actividad y tareas registradas en Rise."),
   component:AresPage
 });
 type Msg={role:"user"|"ares";text:string;id:number;source?:string};
@@ -55,7 +55,7 @@ function AresPage(){
     try{
       const answer=externalConsent&&preview.data?.enabled
         ?await askAresPreview(q,session?.access_token||"")
-        :{text:answerAresFromRecords(q,data),source:"Registros privados de RISE HUB"};
+        :{text:answerAresFromRecords(q,data),source:"Registros privados de Rise"};
       if(userId.current!==owner)return;
       setMessages(old=>[...old,{id:++sequence.current,role:"ares",text:answer.text,source:answer.source}]);
     }catch(error){

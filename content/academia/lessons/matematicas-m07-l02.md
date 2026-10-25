@@ -166,4 +166,4 @@ $3x=6$ → $x=2$, $y=3$: punto $(2,3)$. $\cos\alpha=\dfrac{|2-1|}{\sqrt2\sqrt5}=
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2 (Bachillerato). Alineado con el bloque de geometría del temario oficial de Matemáticas +25; se generaliza al espacio en M07-L03.
+Contenido original de Rise Academia. Nivel N2 (Bachillerato). Alineado con el bloque de geometría del temario oficial de Matemáticas +25; se generaliza al espacio en M07-L03.

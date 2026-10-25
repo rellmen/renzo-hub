@@ -1,4 +1,4 @@
-// RISE HUB Academia +25 · acceso a datos (Supabase). Toda escritura de nota pasa por RPC en servidor.
+// Rise Academia +25 · acceso a datos (Supabase). Toda escritura de nota pasa por RPC en servidor.
 const own=uid=>{if(typeof uid!=="string"||!uid)throw Error("Inicia sesión.");return uid;};
 const MISSING=/(relation|function).*(does not exist)|Could not find the (table|function)|schema cache|PGRST20[02]|42P01|42883/i;
 export class AcademyBackendMissing extends Error{constructor(){super("El backend de Academia no está instalado en este entorno.");this.name="AcademyBackendMissing";}}

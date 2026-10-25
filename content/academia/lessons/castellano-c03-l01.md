@@ -157,4 +157,4 @@ Sujeto omitido: *nosotros*. CD: *el presupuesto* (*lo*). CI: *al cliente* (*le* 
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Terminología escolar habitual (puede variar ligeramente entre manuales; en el examen, justifica con pruebas). Nivel N1. Alineado con la reflexión lingüística de Lengua castellana +25; continúa en C03-L02 (transitividad, activa y pasiva).
+Contenido original de Rise Academia. Terminología escolar habitual (puede variar ligeramente entre manuales; en el examen, justifica con pruebas). Nivel N1. Alineado con la reflexión lingüística de Lengua castellana +25; continúa en C03-L02 (transitividad, activa y pasiva).

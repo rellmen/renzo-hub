@@ -1,6 +1,6 @@
 // Ares AI · read-only project-development status, staging and production.
 // GitHub repository data is public; access to this endpoint still requires a
-// valid RISE HUB session. No GitHub token, no Vercel token, no write API.
+// valid Rise session. No GitHub token, no Vercel token, no write API.
 const REPO="rellmen/renzo-hub";
 const GH="https://api.github.com/repos/"+REPO;
 const json=(res,code,data)=>{res.setHeader("Cache-Control","no-store, max-age=0");return res.status(code).json(data);};

@@ -168,4 +168,4 @@ Busca un queísmo, una confusión de homófonos, una mayúscula indebida y una f
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N3. La rúbrica es una herramienta de entrenamiento propia; las penalizaciones proceden del perfil de referencia 2026 (`exam-profiles.json`) y deben revalidarse con la convocatoria 2027.
+Contenido original de Rise Academia. Nivel N3. La rúbrica es una herramienta de entrenamiento propia; las penalizaciones proceden del perfil de referencia 2026 (`exam-profiles.json`) y deben revalidarse con la convocatoria 2027.

@@ -5,7 +5,7 @@ import { APP_BY_ID, appForPath, requireApp, type AppEntry } from "@/lib/apps";
 import { HUBS, hubOfApp, type Hub } from "@/lib/hubs";
 import { HubSections } from "./HubSections";
 import { NavPrefsProvider, useNavPrefs } from "@/lib/nav-prefs";
-import { Brand, BrandMark } from "./Brand";
+import { Brand, BrandMark, Wordmark } from "./Brand";
 import { AppLink } from "./AppLink";
 import { AppLauncher } from "./AppLauncher";
 import { toast } from "sonner";
@@ -161,7 +161,7 @@ function TopBar() {
   return (
     <header className="sticky top-0 z-20 border-b border-hairline bg-ink/80 backdrop-blur-xl">
       <div className="flex h-16 items-center gap-3 px-4 sm:px-6 lg:px-10">
-        <Link to="/" className="shrink-0 lg:hidden" aria-label="Inicio"><BrandMark size={30} /></Link>
+        <Link to="/" className="flex shrink-0 items-center gap-2 lg:hidden" aria-label="Rise · Inicio"><BrandMark size={28} /><Wordmark size="sm" /></Link>
         <button
           type="button" onClick={() => setLauncherOpen(true)} aria-haspopup="dialog"
           className="flex h-11 min-w-0 flex-1 items-center gap-3 rounded-full border border-input bg-obsidian px-4 text-left text-sm text-muted-foreground transition hover:border-gold/40 lg:max-w-xl"
@@ -171,7 +171,7 @@ function TopBar() {
           <kbd className="ml-auto hidden items-center gap-1 rounded-md border border-input px-1.5 py-0.5 text-[0.65rem] sm:inline-flex"><Command className="h-3 w-3" />K</kbd>
         </button>
         <div role="status" className="hidden items-center gap-2 rounded-full border border-gold/20 px-3 py-1.5 text-[0.7rem] text-gold md:flex">
-          <span className="h-1.5 w-1.5 rounded-full bg-gold" />RISE HUB · espacio privado
+          <span className="h-1.5 w-1.5 rounded-full bg-gold" />Rise · espacio privado
         </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -192,7 +192,7 @@ function TopBar() {
         </DropdownMenu>
       </div>
       <div role="status" className="border-t border-hairline px-4 py-1 text-center text-[0.62rem] tracking-wide text-gold/80 md:hidden">
-        RISE HUB · espacio privado
+        Rise · espacio privado
       </div>
     </header>
   );

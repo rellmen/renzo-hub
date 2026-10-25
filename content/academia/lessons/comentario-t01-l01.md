@@ -164,4 +164,4 @@ Tema: el abandono de los estudios por motivos laborales. Tesis: las administraci
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Textos de ejemplo escritos para la academia. Nivel N1. Alineado con la parte de comprensión del examen de Comentario de texto +25.
+Contenido original de Rise Academia. Textos de ejemplo escritos para la academia. Nivel N1. Alineado con la parte de comprensión del examen de Comentario de texto +25.

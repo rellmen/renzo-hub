@@ -1,5 +1,5 @@
 // Read-only, owner-scoped XP registry. Never award XP from a UI render.
-// Keep the classic RISE HUB level equation and rank names (phase1.js / xp-store.js).
+// Keep the classic Rise level equation and rank names (phase1.js / xp-store.js).
 const RANKS=[[30,"S"],[20,"A"],[15,"B"],[10,"C"],[5,"D"],[1,"E"]];
 export function verifiedLevelFor(points){
  const xp=Number(points);

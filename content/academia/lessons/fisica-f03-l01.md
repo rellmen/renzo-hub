@@ -150,4 +150,4 @@ Rozamiento $=90$ N. Nueva fuerza neta: $150-90=60$ N. $a=\dfrac{60}{120}=0{,}5$ 
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2 (Bachillerato). Alineado con el bloque de dinámica del temario oficial de Física +25; continúa con diagramas de cuerpo libre (F03-L02), rozamiento (F03-L03) y plano inclinado (F03-L04).
+Contenido original de Rise Academia. Nivel N2 (Bachillerato). Alineado con el bloque de dinámica del temario oficial de Física +25; continúa con diagramas de cuerpo libre (F03-L02), rozamiento (F03-L03) y plano inclinado (F03-L04).

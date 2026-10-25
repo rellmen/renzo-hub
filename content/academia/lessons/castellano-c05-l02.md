@@ -175,4 +175,4 @@ La segunda oración es la conclusión práctica de lo anterior.
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2. Alineado con la comprensión, la expresión y la reflexión lingüística de Lengua castellana +25. Nota: *anáfora* designa tanto una figura retórica (repetición) como un mecanismo de cohesión (referencia a algo anterior); el contexto de la pregunta indica cuál se pide.
+Contenido original de Rise Academia. Nivel N2. Alineado con la comprensión, la expresión y la reflexión lingüística de Lengua castellana +25. Nota: *anáfora* designa tanto una figura retórica (repetición) como un mecanismo de cohesión (referencia a algo anterior); el contexto de la pregunta indica cuál se pide.

@@ -149,4 +149,4 @@ $F_x\approx43{,}30$ N (la que mueve la caja) y $F_y=25$ N (la que tira hacia arr
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2 (1.º Bachillerato). Alineado con el bloque de trigonometría y geometría del temario oficial de Matemáticas +25; conecta con vectores (M06-L01) y con la dinámica de Física (F03).
+Contenido original de Rise Academia. Nivel N2 (1.º Bachillerato). Alineado con el bloque de trigonometría y geometría del temario oficial de Matemáticas +25; conecta con vectores (M06-L01) y con la dinámica de Física (F03).

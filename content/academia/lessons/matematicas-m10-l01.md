@@ -160,4 +160,4 @@ Nota: $5{,}0+2{,}5=7{,}5$. Porcentaje conseguido: cuestiones $\frac{5}{6}\approx
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N3 (preparación de examen). El formato procede del perfil de referencia 2026 de la academia, contrastado con la página oficial del temario; no reproduce exámenes oficiales, que se consultan en el enlace de procedencia.
+Contenido original de Rise Academia. Nivel N3 (preparación de examen). El formato procede del perfil de referencia 2026 de la academia, contrastado con la página oficial del temario; no reproduce exámenes oficiales, que se consultan en el enlace de procedencia.

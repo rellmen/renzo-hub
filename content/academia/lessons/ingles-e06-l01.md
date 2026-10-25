@@ -161,4 +161,4 @@ Porque el proceso para pedir las subvenciones es lento y complicado (*the applic
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Texto de práctica escrito para la academia, sin datos reales de ninguna ciudad concreta. Nivel N3. Formato de referencia 2026 (`exam-profiles.json`): texto de 250 a 300 palabras, 8 preguntas objetivas y 2 abiertas; revalidar con la convocatoria 2027.
+Contenido original de Rise Academia. Texto de práctica escrito para la academia, sin datos reales de ninguna ciudad concreta. Nivel N3. Formato de referencia 2026 (`exam-profiles.json`): texto de 250 a 300 palabras, 8 preguntas objetivas y 2 abiertas; revalidar con la convocatoria 2027.

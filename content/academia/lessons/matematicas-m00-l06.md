@@ -165,4 +165,4 @@ $5\sqrt2+3\sqrt2-2\sqrt2=6\sqrt2$. Comprobación decimal: $7{,}071+4{,}243-2{,}8
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N0 (rescate, 2.º–3.º ESO). Base de polinomios (M02), radicales y potencias racionales (M02-L05), exponenciales y logaritmos (M04-L06) y de la notación científica de Física (F01).
+Contenido original de Rise Academia. Nivel N0 (rescate, 2.º–3.º ESO). Base de polinomios (M02), radicales y potencias racionales (M02-L05), exponenciales y logaritmos (M04-L06) y de la notación científica de Física (F01).

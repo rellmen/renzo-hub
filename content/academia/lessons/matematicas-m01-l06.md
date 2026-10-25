@@ -155,4 +155,4 @@ $|p-250|\le4\iff p\in[246,254]$. $|245-250|=5>4$: rechazada. $|253{,}5-250|=3{,}
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N1 (4.º ESO – 1.º Bachillerato). Alineado con el bloque de álgebra del temario oficial de Matemáticas +25; base de funciones a trozos (M04-L04) y de la definición de límite (M08).
+Contenido original de Rise Academia. Nivel N1 (4.º ESO – 1.º Bachillerato). Alineado con el bloque de álgebra del temario oficial de Matemáticas +25; base de funciones a trozos (M04-L04) y de la definición de límite (M08).

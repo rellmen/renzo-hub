@@ -161,4 +161,4 @@ $\text{VE}=0{,}1-0{,}075=+0{,}025$ puntos: conviene responder, aunque la gananci
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N3. Formato y penalización del perfil de referencia 2026 de la academia (`exam-profiles.json`); el número y el valor de las preguntas del test, la duración y los criterios detallados se consultan en la página oficial enlazada. Los valores del test en los ejemplos son hipotéticos.
+Contenido original de Rise Academia. Nivel N3. Formato y penalización del perfil de referencia 2026 de la academia (`exam-profiles.json`); el número y el valor de las preguntas del test, la duración y los criterios detallados se consultan en la página oficial enlazada. Los valores del test en los ejemplos son hipotéticos.

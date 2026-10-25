@@ -152,4 +152,4 @@ Tesis: *La escuela debería ofrecer obligatoriamente una segunda lengua extranje
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. El modelo TREC es una herramienta didáctica de la academia, no una exigencia oficial. Nivel N2. Alineado con la redacción del examen de Comentario de texto +25.
+Contenido original de Rise Academia. El modelo TREC es una herramienta didáctica de la academia, no una exigencia oficial. Nivel N2. Alineado con la redacción del examen de Comentario de texto +25.

@@ -3,6 +3,7 @@ import type {Session,SupabaseClient,User} from '@supabase/supabase-js';
 import {getReactSupabaseClient} from '../supabase-adapter.mjs';
 import {productionRedirectUrl} from '../nocturne-environment.mjs';
 import {backendEnvironmentForHost} from '../nocturne-environment.mjs';
+import {Wordmark} from '@/components/rise/Brand';
 
 type AuthStatus='loading'|'signed-in'|'signed-out'|'error';
 type AuthState={status:AuthStatus;client:SupabaseClient|null;session:Session|null;user:User|null;error:string|null};
@@ -27,7 +28,7 @@ export function loginErrorMessage(error:unknown,env:'production'|'staging'='stag
   const message=typeof detail.message==='string'?detail.message.toLowerCase():'';
   if(code==='invalid_credentials'||message.includes('invalid login credentials'))
     return env==='production'
-      ? 'Correo o contraseña no válidos para tu cuenta de RISE HUB.'
+      ? 'Correo o contraseña no válidos para tu cuenta de Rise.'
       : 'Correo o contraseña no válidos para este entorno de pruebas. Comprueba tus credenciales de staging.';
   if(code==='email_not_confirmed'||message.includes('email not confirmed'))
     return 'Confirma el correo de esta cuenta de pruebas antes de entrar.';
@@ -36,7 +37,7 @@ export function loginErrorMessage(error:unknown,env:'production'|'staging'='stag
   if(message.includes('failed to fetch')||message.includes('network')||message.includes('timeout')||message.includes('fetch failed'))
     return 'No se pudo contactar con el servicio de acceso. Comprueba la conexión e inténtalo de nuevo.';
   return env==='production'
-    ? 'No se pudo iniciar sesión en RISE HUB. Inténtalo de nuevo.'
+    ? 'No se pudo iniciar sesión en Rise. Inténtalo de nuevo.'
     : 'No se pudo iniciar sesión en staging. Inténtalo de nuevo o comunica el error al equipo.';
 }
 const AuthContext=createContext<AuthContextValue|null>(null);
@@ -122,7 +123,7 @@ export function AuthGate({children}:{children:ReactNode}){
   if(auth.status==='loading')return <div role="status" className="grid min-h-screen place-items-center bg-background text-platinum">Preparando acceso seguro…</div>;
   if(auth.status==='error')return <main className="grid min-h-screen place-items-center bg-background p-6"><div className="surface max-w-md space-y-4 p-8"><h1 className="font-display text-3xl">No se pudo preparar el acceso</h1><p role="alert">{auth.error}</p><button className="btn-gold" onClick={auth.retry}>Reintentar</button></div></main>;
   if(auth.status==='signed-in')return <>{children}</>;
-  return <main className="grid min-h-screen place-items-center bg-background p-6"><form onSubmit={submit} className="surface w-full max-w-md space-y-5 p-8"><p className="eyebrow">RISE HUB · NOCTURNE</p><h1 className="font-display text-4xl">Tu espacio privado.</h1><p className="text-sm text-muted-foreground">{isProduction
-     ? 'Accede con tu cuenta de RISE HUB. El entorno de producción utiliza sus propios datos privados.'
+  return <main className="grid min-h-screen place-items-center bg-background p-6"><form onSubmit={submit} className="surface w-full max-w-md space-y-5 p-8"><div className="text-center"><Wordmark size="lg" /><p className="eyebrow mt-2">Disciplina crea libertad</p></div><h1 className="font-display text-4xl">Tu espacio privado.</h1><p className="text-sm text-muted-foreground">{isProduction
+     ? 'Accede con tu cuenta de Rise. El entorno de producción utiliza sus propios datos privados.'
      : 'Accede con una cuenta habilitada en staging. Este entorno no utiliza la base de datos de producción.'}</p><label className="block space-y-2 text-sm">Correo electrónico<input type="email" autoComplete="username" required value={email} onChange={e=>setEmail(e.target.value)} className="h-12 w-full rounded-xl border border-input bg-raised px-4 text-foreground"/></label><label className="block space-y-2 text-sm">Contraseña<input type="password" autoComplete="current-password" required value={password} onChange={e=>setPassword(e.target.value)} className="h-12 w-full rounded-xl border border-input bg-raised px-4 text-foreground"/></label>{formError&&<p role="alert" className="text-sm text-destructive">{formError}</p>}<button disabled={busy} type="submit" className="btn-gold w-full">{busy?'Comprobando…':'Entrar'}</button></form></main>;
 }

@@ -74,7 +74,7 @@ Si no sabes terminar un apartado, escribe lo que harías («para hallar el míni
 
 Este reparto es una herramienta de entrenamiento de la academia, no la rúbrica oficial; el principio que sí recoge el formato de referencia es que se valoran el razonamiento y los pasos parciales. Al corregir un simulacro, anota **el tipo de error**: de concepto, de cálculo, de lectura o de tiempo. Cada tipo se trata distinto: los de concepto se repasan con la lección; los de cálculo, con comprobaciones; los de lectura, subrayando lo que se pide; los de tiempo, con más simulacros.
 
-**El registro de errores.** Lleva una lista con cada error que cometes en simulacros, su tipo y la lección que lo explica. En RISE HUB, la práctica y el repaso espaciado se apoyan en ese historial. Repasar tus propios errores es más eficaz que repetir ejercicios que ya dominas.
+**El registro de errores.** Lleva una lista con cada error que cometes en simulacros, su tipo y la lección que lo explica. En Rise, la práctica y el repaso espaciado se apoyan en ese historial. Repasar tus propios errores es más eficaz que repetir ejercicios que ya dominas.
 
 ## 5. Ejemplos resueltos
 
@@ -164,4 +164,4 @@ Cada cuestión: $48/4=12$ min. Problema: $0{,}4\cdot80=32$ min. Comprobación: $
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N3 (preparación de examen). La rúbrica es una herramienta de entrenamiento propia; los criterios y la duración oficiales se consultan en la página oficial enlazada.
+Contenido original de Rise Academia. Nivel N3 (preparación de examen). La rúbrica es una herramienta de entrenamiento propia; los criterios y la duración oficiales se consultan en la página oficial enlazada.

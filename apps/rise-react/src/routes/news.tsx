@@ -26,7 +26,7 @@ function News(){
  const rows=q.data?filterBriefs(q.data,{source,text}):[];
  return <div className="space-y-6">
   <PageHeader eyebrow="INFORMACIÓN · HISTORIAL PRIVADO" title="News"
-   subtitle="Resumen de noticias registrado en tu cuenta de RISE HUB. No se muestran titulares ni acontecimientos inventados."/>
+   subtitle="Resumen de noticias registrado en tu cuenta de Rise. No se muestran titulares ni acontecimientos inventados."/>
   <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-platinum/75">
    <span><ShieldCheck className="mr-2 inline h-4 w-4 text-gold"/>Datos guardados en Supabase</span>
    <div className="flex gap-2">

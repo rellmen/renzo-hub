@@ -17,7 +17,7 @@ import {
 } from "@/lib/work-records.mjs";
 
 export const Route=createFileRoute("/proyectos")({
-  head:()=>pageHead("Proyectos","Tus proyectos y tareas reales, sincronizados con tu espacio privado de RISE HUB."),
+  head:()=>pageHead("Proyectos","Tus proyectos y tareas reales, sincronizados con tu espacio privado de Rise."),
   component:Projects
 });
 
@@ -152,7 +152,7 @@ function Projects(){
       <DialogContent className="border-hairline bg-raised">
         <DialogHeader><DialogTitle className="font-display text-3xl">Nueva tarea</DialogTitle>
           {records.data&&<WorkPlanning projects={projects}/>}
-    <DialogDescription>Se guardará en tus tareas reales de RISE HUB.</DialogDescription></DialogHeader>
+    <DialogDescription>Se guardará en tus tareas reales de Rise.</DialogDescription></DialogHeader>
         <form onSubmit={submit} className="space-y-4">
           <label className="block space-y-2 text-sm">Título
             <input required maxLength={180} autoFocus value={form.title}

@@ -169,4 +169,4 @@ Clasifica: aguda en *-j*; llana en *-z*; aguda en *-n*; esdrújula; hiato con *i
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia basado en la norma académica vigente (consulta el DPD de la RAE para casos particulares). Nivel N1. Alineado con la parte de norma y reflexión lingüística de Lengua castellana +25 y con la penalización ortográfica de Comentario de texto.
+Contenido original de Rise Academia basado en la norma académica vigente (consulta el DPD de la RAE para casos particulares). Nivel N1. Alineado con la parte de norma y reflexión lingüística de Lengua castellana +25 y con la penalización ortográfica de Comentario de texto.

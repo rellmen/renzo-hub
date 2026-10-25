@@ -1,4 +1,4 @@
-// RISE HUB React · cliente del contrato de herramientas de Ares. El servidor decide;
+// Rise React · cliente del contrato de herramientas de Ares. El servidor decide;
 // el navegador solo muestra el estado y envía el ID de una operación aprobada.
 export async function aresToolContract({fetcher=globalThis.fetch}={}){
   if(typeof fetcher!=="function")return {enabled:false,tools:[]};
