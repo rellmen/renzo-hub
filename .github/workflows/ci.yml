@@ -2,14 +2,14 @@ name: CI
 
 on:
   pull_request:
-    branches: [main, staging]
+    branches: [main, staging, production]
   push:
     branches: [staging, "feature/**"]
 
 permissions:
   contents: read
 
-jobs, production:
+jobs:
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 15
