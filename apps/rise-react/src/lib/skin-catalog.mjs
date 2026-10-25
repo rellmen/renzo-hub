@@ -26,6 +26,15 @@ export function stepsFor(date,session,barrierFirst=true){
     return [title,product];
   });
 }
+/** Hora local a la que empieza el "día" de la rutina de piel: lo marcado de madrugada
+ * (antes de las 05:00) cuenta para la noche anterior. */
+export const SKIN_DAY_START_HOUR=5;
+/** Mediodía local del día de rutina al que pertenece `at` (estable para getDay()). */
+export function skinRoutineDay(at=new Date(),startHour=SKIN_DAY_START_HOUR){
+  if(!(at instanceof Date)||Number.isNaN(at.valueOf()))throw Error("Fecha inválida");
+  const shifted=new Date(at.getFullYear(),at.getMonth(),at.getDate(),at.getHours()-startHour,at.getMinutes());
+  return new Date(shifted.getFullYear(),shifted.getMonth(),shifted.getDate(),12);
+}
 export function dateKeyLocal(date){
   if(!(date instanceof Date)||Number.isNaN(date.valueOf()))throw Error("Fecha inválida");
   return [date.getFullYear(),String(date.getMonth()+1).padStart(2,"0"),String(date.getDate()).padStart(2,"0")].join("-");

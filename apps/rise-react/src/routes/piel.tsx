@@ -9,7 +9,7 @@ import {PageHero} from "@/components/rise/PageHero";
 import {SectionCard,EmptyState} from "@/components/rise/primitives";
 import {ProgressRing} from "@/components/rise/ProgressRing";
 import {useAuth} from "@/lib/auth/AuthProvider";
-import {PRODUCTS,stepsFor,dateKeyLocal} from "@/lib/skin-catalog.mjs";
+import {PRODUCTS,stepsFor,dateKeyLocal,skinRoutineDay} from "@/lib/skin-catalog.mjs";
 import {loadSkinState,setSkinSteps,setSkinNote,setSkinInventoryStatus,weekSkinProgress,type SkinSession} from "@/lib/skin-records.mjs";
 
 export const Route=createFileRoute("/piel")({
@@ -22,6 +22,24 @@ const STATUS:Record<string,string>={
 };
 function errText(e:unknown){return e instanceof Error?e.message:"Error de conexión";}
 
+/** Día de rutina vivo: se recalcula al volver a la app (iPhone la deja abierta en
+ * segundo plano toda la noche) y cada minuto, para que el checklist se vacíe solo. */
+function useSkinDay(){
+  const [day,setDay]=useState(()=>dateKeyLocal(skinRoutineDay()));
+  useEffect(()=>{
+    const check=()=>setDay(prev=>{const next=dateKeyLocal(skinRoutineDay());return next===prev?prev:next;});
+    const onVisible=()=>{if(document.visibilityState==="visible")check();};
+    const timer=window.setInterval(check,60_000);
+    document.addEventListener("visibilitychange",onVisible);
+    window.addEventListener("focus",check);
+    window.addEventListener("pageshow",check);
+    return ()=>{window.clearInterval(timer);document.removeEventListener("visibilitychange",onVisible);
+      window.removeEventListener("focus",check);window.removeEventListener("pageshow",check);};
+  },[]);
+  const [y=1970,m=1,d=1]=day.split("-").map(Number);
+  return {today:day,dayDate:new Date(y,m-1,d,12)};
+}
+
 function Skin(){
   const {client,user}=useAuth();
   const uid=user?.id||"";
@@ -29,17 +47,17 @@ function Skin(){
   const [mode,setMode]=useState<SkinSession>("pm");
   const [showAll,setShowAll]=useState(false);
   const [note,setNote]=useState("");
-  const today=dateKeyLocal(new Date());
+  const {today,dayDate}=useSkinDay();
   const key=["skin-real",uid,today];
   const state=useQuery({
     queryKey:key,enabled:!!client&&!!uid,
-    queryFn:()=>loadSkinState(client!,uid),
+    queryFn:()=>loadSkinState(client!,uid,dayDate),
     staleTime:15000,refetchOnWindowFocus:true
   });
   const routine=useMutation({
     mutationFn:({session,index}:{session:SkinSession;index:number})=>{
-      const steps=stepsFor(new Date(),session,state.data?.barrierFirst??true);
-      const done=state.data?.current[session]||[];
+      const steps=stepsFor(dayDate,session,state.data?.barrierFirst??true);
+      const done=state.data?.today===today?state.data.current[session]:[];
       const next=done.includes(index)?done.filter(x=>x!==index):[...done,index];
       return setSkinSteps(client!,uid,today,session,next,steps.length);
     },
@@ -54,10 +72,10 @@ function Skin(){
     onSuccess:()=>qc.invalidateQueries({queryKey:key}),
   });
   useEffect(()=>{if(state.data)setNote(state.data.note);},[state.data?.note,state.data?.today]);
-  const steps=stepsFor(new Date(),mode,state.data?.barrierFirst??true);
-  const completed=state.data?.current[mode]||[];
+  const steps=stepsFor(dayDate,mode,state.data?.barrierFirst??true);
+  const completed=state.data?.today===today?state.data.current[mode]:[];
   const percent=steps.length&&state.data?Math.round(completed.length/steps.length*100):0;
-  const week=weekSkinProgress(state.data?.logs||[],new Date(),state.data?.barrierFirst??true);
+  const week=weekSkinProgress(state.data?.logs||[],dayDate,state.data?.barrierFirst??true);
   return <div className="space-y-6">
     <PageHero image={img} eyebrow="SKIN ROUTINE · PRIVADO"
       title="Tu ritual, cada día."

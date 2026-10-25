@@ -12,6 +12,7 @@
 | Producción | Sin cambios por esta consolidación; PR #150 sigue candidato hacia staging, no autorización de lanzamiento. |
 | Funciones nativas Work 23 oct | Car y AI Inbox (capturas/adjuntos/revisión CAS); guardia SelfLearn corregida y flags solo preview. 589 Node, 18 Vitest, build y TypeScript locales; QA real pendiente. Ver `docs/NOCTURNE-FUNCTIONAL-COMPLETION-2026-10-23.md`. |
 | Iconos iPhone 25 oct | Logo dorado RISE HUB (montañas + arco) en `apps/rise-react/public/`: `apple-touch-icon.png` 180, `icon-192/512.png`, `favicon.png`. Retirados `icon.svg` y `generate-pwa-icons.mjs` (generaban la «R» en cada build). Head con `apple-mobile-web-app-title` = RISE HUB. |
+| Skin día vivo 25 oct | El checklist de `/piel` recalcula el día al volver a la app y cada minuto (antes se quedaba con la fecha de cuando se abrió). Corte del día a las 05:00 (`SKIN_DAY_START_HOUR`): lo marcado de madrugada cuenta para la noche anterior. Sin migraciones. |
 
 ## Hubs (opción B) + Money · nóminas del mes · 24 octubre 2026 · PR hacia staging
 
