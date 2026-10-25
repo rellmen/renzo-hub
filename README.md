@@ -7,3 +7,5 @@ Consulta primero [AGENTS.md](AGENTS.md) y [RENZO-HUB-CURRENT.md](RENZO-HUB-CURRE
 - Estado y comparación del release: `./scripts/renzo-hub status`
 
 La aplicación usa variables Vercel y proyectos Supabase separados por entorno. No pongas secretos en el frontend.
+
+<!-- prueba separación staging/production 25-10-2026 -->
