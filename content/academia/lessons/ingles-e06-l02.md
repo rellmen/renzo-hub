@@ -171,4 +171,4 @@ a) False: el texto dice que **deben** reservar (*must book*), lo contrario de la
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N3. Formato de referencia 2026 (`exam-profiles.json`): 8 objetivas y 2 abiertas de 40 a 60 palabras, 1 punto cada una; revalidar con la convocatoria 2027.
+Contenido original de Rise Academia. Nivel N3. Formato de referencia 2026 (`exam-profiles.json`): 8 objetivas y 2 abiertas de 40 a 60 palabras, 1 punto cada una; revalidar con la convocatoria 2027.

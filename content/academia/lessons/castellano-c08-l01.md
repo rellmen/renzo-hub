@@ -162,4 +162,4 @@ Matiza con verbos prudentes y deja indicado que hace falta una fuente.
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N4 (puente universitario). No forma parte del temario de la prueba +25. El formato de citas es orientativo; cada universidad publica la guía de estilo que exige.
+Contenido original de Rise Academia. Nivel N4 (puente universitario). No forma parte del temario de la prueba +25. El formato de citas es orientativo; cada universidad publica la guía de estilo que exige.

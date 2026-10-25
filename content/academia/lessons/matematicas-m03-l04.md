@@ -163,4 +163,4 @@ $n=\dfrac{\log2}{\log1{,}05}\approx14{,}2$. Hacen falta **15 años completos**. 
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2 (1.º Bachillerato). Alineado con el bloque de sucesiones y aplicaciones del temario oficial de Matemáticas +25; conecta con la financiación y la inversión de Economía de la Empresa (B04, B05). Ningún ejemplo es una recomendación financiera.
+Contenido original de Rise Academia. Nivel N2 (1.º Bachillerato). Alineado con el bloque de sucesiones y aplicaciones del temario oficial de Matemáticas +25; conecta con la financiación y la inversión de Economía de la Empresa (B04, B05). Ningún ejemplo es una recomendación financiera.

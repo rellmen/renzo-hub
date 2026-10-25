@@ -178,4 +178,4 @@ Es una pregunta sin interrogativo: se introduce con *si*.
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2. Terminología escolar habitual: algunos manuales clasifican de otra forma las adverbiales «impropias»; en el examen, explica tu criterio. Alineado con la reflexión lingüística de Lengua castellana +25.
+Contenido original de Rise Academia. Nivel N2. Terminología escolar habitual: algunos manuales clasifican de otra forma las adverbiales «impropias»; en el examen, explica tu criterio. Alineado con la reflexión lingüística de Lengua castellana +25.

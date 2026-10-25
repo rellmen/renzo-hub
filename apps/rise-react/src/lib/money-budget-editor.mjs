@@ -1,4 +1,4 @@
-// RISE HUB Nocturne: weekly budget compatible with the classic Wednesday-Tuesday cycle.
+// Rise Nocturne: weekly budget compatible with the classic Wednesday-Tuesday cycle.
 // Only edits money_budget; never mutates bank imports or records income from estimates.
 import {CATEGORIES} from "./legacy-money/gastos/categories.js";
 import {FIXED_HINT} from "./legacy-money/finance/insights.js";

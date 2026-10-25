@@ -23,7 +23,7 @@ export function WeeklyBudgetEditor(){
    qc.invalidateQueries({queryKey:["money-real",uid]})
   ]);}});
  return <SectionCard eyebrow="MY FINANCE · PRESUPUESTO" title="Límites por semana" accent="var(--money)">
-  <p className="text-sm text-platinum/75">Mismo registro original de RISE HUB, semana de miércoles a martes. Los límites no se cuentan como gastos y nunca crean movimientos bancarios.</p>
+  <p className="text-sm text-platinum/75">Mismo registro original de Rise, semana de miércoles a martes. Los límites no se cuentan como gastos y nunca crean movimientos bancarios.</p>
   {q.error&&<p role="alert" className="mt-3 text-sm text-gym">{q.error instanceof Error?q.error.message:"No se pudo comprobar el presupuesto."}</p>}
   {q.isLoading&&<p role="status" className="mt-3 text-sm">Consultando presupuesto…</p>}
   {!editing&&q.isSuccess&&<>

@@ -171,4 +171,4 @@ Modelo (36 palabras): «Desde 2020, el teletrabajo ha pasado de ser una excepci�
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia, incluida la redacción modelo. Nivel N2 (Bachillerato). Alineado con la parte de redacción del temario oficial de Comentario de texto +25 (referencia de formato 2026 en catalán; formato de la modalidad UOC en castellano de 2027 pendiente de confirmar). La autocorrección y el tutor ofrecen orientación, no una nota oficial.
+Contenido original de Rise Academia, incluida la redacción modelo. Nivel N2 (Bachillerato). Alineado con la parte de redacción del temario oficial de Comentario de texto +25 (referencia de formato 2026 en catalán; formato de la modalidad UOC en castellano de 2027 pendiente de confirmar). La autocorrección y el tutor ofrecen orientación, no una nota oficial.

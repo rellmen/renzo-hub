@@ -148,4 +148,4 @@ Suma $6+3+2=11$. $k=\dfrac{900}{11}\approx81{,}82$. Partes: $\dfrac{5400}{11}\ap
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N1 (ESO). Alineado con el bloque de álgebra y funciones del temario oficial de Matemáticas +25; conecta con funciones (M04) y con leyes físicas proporcionales.
+Contenido original de Rise Academia. Nivel N1 (ESO). Alineado con el bloque de álgebra y funciones del temario oficial de Matemáticas +25; conecta con funciones (M04) y con leyes físicas proporcionales.

@@ -147,4 +147,4 @@ Si $a=2k$, entonces $4k^2=2b^2$ → $b^2=2k^2$: $b$ también es par. Pero entonc
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N4 (puente universitario). No forma parte del temario oficial de la prueba +25; se ofrece para preparar la transición a primer curso.
+Contenido original de Rise Academia. Nivel N4 (puente universitario). No forma parte del temario oficial de la prueba +25; se ofrece para preparar la transición a primer curso.

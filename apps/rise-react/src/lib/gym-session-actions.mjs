@@ -1,4 +1,4 @@
-// RISE HUB React / Gym draft actions.
+// Rise React / Gym draft actions.
 // Reuse the original gym_sessions schema. Never delete completed workouts.
 // The application must remain in staging until tested with authenticated accounts.
 function logged(uid){if(typeof uid!=="string"||!uid.trim())throw Error("Debes iniciar sesión.");return uid;}

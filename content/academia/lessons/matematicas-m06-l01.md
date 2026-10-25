@@ -154,4 +154,4 @@ Comprobación con Pitágoras: $|\vec{AB}|^2=5$, $|\vec{AC}|^2=14$, $|\vec{BC}|^2
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2 (Bachillerato). Alineado con los bloques de geometría y álgebra lineal del temario oficial de Matemáticas +25; base de matrices (M06-L02), rectas y planos (M07) y producto vectorial (M07-L04).
+Contenido original de Rise Academia. Nivel N2 (Bachillerato). Alineado con los bloques de geometría y álgebra lineal del temario oficial de Matemáticas +25; base de matrices (M06-L02), rectas y planos (M07) y producto vectorial (M07-L04).

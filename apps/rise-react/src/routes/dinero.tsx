@@ -74,7 +74,7 @@ function Money(){
       {payroll.data&&month&&<SalaryReconciliation moneyData={data} payrollData={payroll.data} month={month}/>}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <p className="flex items-center gap-2 text-xs text-muted-foreground">
-          <ShieldCheck className="h-4 w-4 text-money"/> Origen: extractos y registros privados de RISE HUB
+          <ShieldCheck className="h-4 w-4 text-money"/> Origen: extractos y registros privados de Rise
         </p>
         <button type="button" className="btn-ghost" disabled={state.isFetching}
           onClick={()=>void state.refetch()}><RefreshCw className={"h-4 w-4 "+(state.isFetching?"animate-spin":"")}/> Actualizar datos</button>
@@ -87,7 +87,7 @@ function Money(){
       </p>}
       {!data.txCount&&<SectionCard eyebrow="Sin movimientos importados" title="Tu dinero, sin estimaciones">
         <EmptyState icon={<Wallet className="h-5 w-5"/>} title="No hay movimientos bancarios"
-          text="Cuando importes movimientos desde las herramientas de RISE HUB, aquí aparecerá tu historial real. No se crearán transacciones de ejemplo."/>
+          text="Cuando importes movimientos desde las herramientas de Rise, aquí aparecerá tu historial real. No se crearán transacciones de ejemplo."/>
       </SectionCard>}
       {data.txCount>0&&<>
         <div className="grid gap-6 lg:grid-cols-[1.7fr_1fr]">

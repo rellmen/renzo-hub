@@ -182,4 +182,4 @@ FM $=30.000$ € (positivo). Liquidez $=90/60=1{,}5$ (en el límite inferior de 
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2. Fórmulas habituales en el bachillerato español; las referencias numéricas son orientativas y algunos manuales usan variantes. Alineado con el bloque de análisis financiero del temario de Economía de la Empresa +25.
+Contenido original de Rise Academia. Nivel N2. Fórmulas habituales en el bachillerato español; las referencias numéricas son orientativas y algunos manuales usan variantes. Alineado con el bloque de análisis financiero del temario de Economía de la Empresa +25.

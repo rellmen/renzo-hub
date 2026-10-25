@@ -1,4 +1,4 @@
-// RISE HUB React shift editor. The source of truth remains legacy
+// Rise React shift editor. The source of truth remains legacy
 // hub_user_state.state; optimistic version checks prevent silent overwrite.
 export const SHIFT_MODES=Object.freeze(["Morning Shift","Evening Shift","Vacation"]);
 function dateOK(value){

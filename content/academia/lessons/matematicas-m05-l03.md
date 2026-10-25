@@ -160,4 +160,4 @@ $\cos x=1$ → $x=0^\circ$. $\cos x=-\tfrac12$ → referencia 60°, cuadrantes I
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2 (1.º Bachillerato). Alineado con el bloque de trigonometría del temario oficial de Matemáticas +25; base de los números complejos en forma polar (M02-L07) y de las funciones periódicas.
+Contenido original de Rise Academia. Nivel N2 (1.º Bachillerato). Alineado con el bloque de trigonometría del temario oficial de Matemáticas +25; base de los números complejos en forma polar (M02-L07) y de las funciones periódicas.

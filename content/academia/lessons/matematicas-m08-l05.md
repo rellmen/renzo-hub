@@ -168,4 +168,4 @@ Crece en $(-\infty,1)$ y decrece en $(1,+\infty)$. Máximo relativo (y absoluto)
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2 (2.º Bachillerato). Alineado con el bloque de análisis del temario oficial de Matemáticas +25.
+Contenido original de Rise Academia. Nivel N2 (2.º Bachillerato). Alineado con el bloque de análisis del temario oficial de Matemáticas +25.

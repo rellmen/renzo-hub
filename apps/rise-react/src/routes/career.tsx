@@ -38,7 +38,7 @@ function Career(){
    const settings=(s.data?.settings as {personalContext?:Record<string,SettingFact>}|null)?.personalContext||{};
    const context=Object.entries(settings)
     .filter(([key,f])=>key in KEY_LABELS&&f?.confirmed===true&&typeof f.value==="string"&&f.value.trim())
-    .map(([key,f])=>({label:KEY_LABELS[key],value:f.value,asOf:f.confirmedAt||"",provenance:f.source||"Confirmado en RISE HUB"}));
+    .map(([key,f])=>({label:KEY_LABELS[key],value:f.value,asOf:f.confirmedAt||"",provenance:f.source||"Confirmado en Rise"}));
    return{facts,context};
   },staleTime:60000,refetchOnWindowFocus:true});
  return <div className="space-y-6">

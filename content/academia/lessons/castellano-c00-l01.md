@@ -154,4 +154,4 @@ Hay nombres propios de persona, de lugar y de una institución. Y hay un conecto
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N0 (base). Normas de puntuación y mayúsculas según las recomendaciones académicas generales del español. Alineado con la comprensión y la expresión de Lengua castellana +25.
+Contenido original de Rise Academia. Nivel N0 (base). Normas de puntuación y mayúsculas según las recomendaciones académicas generales del español. Alineado con la comprensión y la expresión de Lengua castellana +25.

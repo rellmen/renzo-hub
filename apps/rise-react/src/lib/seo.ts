@@ -1,5 +1,5 @@
 export function pageHead(title: string, description: string) {
-  const full = `${title} · RISE HUB Nocturne`;
+  const full = `${title} · Rise`;
   return {
     meta: [
       { title: full },

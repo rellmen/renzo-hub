@@ -166,4 +166,4 @@ Completa: *Last night I ___ (not / sleep) well because my neighbours ___ (have) 
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia; ejemplos en inglés escritos para esta lección. Nivel N1 (A2 del MCER). Alineado con la competencia gramatical necesaria para la prueba de Lengua extranjera (Inglés) +25; continúa en E02 (B1).
+Contenido original de Rise Academia; ejemplos en inglés escritos para esta lección. Nivel N1 (A2 del MCER). Alineado con la competencia gramatical necesaria para la prueba de Lengua extranjera (Inglés) +25; continúa en E02 (B1).

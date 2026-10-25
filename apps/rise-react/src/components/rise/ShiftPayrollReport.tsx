@@ -13,7 +13,7 @@ export function ShiftPayrollReport(){
    queryFn:async()=>buildContractualReport(await loadSavedShifts(client!,uid)),
    staleTime:30000,refetchOnWindowFocus:true,retry:false});
  return <SectionCard eyebrow="TURNOS · CÁLCULO CONTRACTUAL" title="Horas y bruto por semana" accent="var(--money)">
-  <p className="text-sm text-platinum/80">Motor salarial original de RISE HUB: franjas ORT, descansos, umbral semanal y cambios de horario de Países Bajos. Solo usa turnos y contratos que hayas guardado.</p>
+  <p className="text-sm text-platinum/80">Motor salarial original de Rise: franjas ORT, descansos, umbral semanal y cambios de horario de Países Bajos. Solo usa turnos y contratos que hayas guardado.</p>
   <button type="button" className="btn-ghost mt-3 min-h-11" disabled={query.isFetching} onClick={()=>void query.refetch()}>
     <RefreshCw className={"h-4 w-4 "+(query.isFetching?"animate-spin":"")}/>Actualizar cálculo
   </button>

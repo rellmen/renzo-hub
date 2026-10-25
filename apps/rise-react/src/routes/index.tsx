@@ -19,7 +19,7 @@ import {loadLearningSnapshot} from "@/lib/selflearn-snapshot.mjs";
 import {RoadmapToday} from "@/components/rise/roadmap/RoadmapToday";
 
 export const Route=createFileRoute("/")({
-  head:()=>pageHead("Centro de mando","Tu próxima evolución: tus datos reales y las disciplinas de RISE HUB."),
+  head:()=>pageHead("Centro de mando","Tu próxima evolución: tus datos reales y las disciplinas de Rise."),
   component:Home
 });
 
@@ -47,7 +47,7 @@ function Home(){
   const percent=total?Math.round(100*done/total):0;
   const stats=[
     {label:"Proyectos abiertos",value:ares.data?String(ares.data.projects.length):"—",caption:"Registros actuales",icon:Briefcase,color:"var(--projects)"},
-    {label:"Tareas abiertas",value:ares.data?String(ares.data.tasks.length):"—",caption:"En RISE HUB",icon:ClipboardList,color:"var(--learn)"},
+    {label:"Tareas abiertas",value:ares.data?String(ares.data.tasks.length):"—",caption:"En Rise",icon:ClipboardList,color:"var(--learn)"},
     {label:"Tareas completadas",value:work.data?String(done):"—",caption:work.data?done+" de "+total:"Sin consultar",icon:CheckCircle2,color:"var(--gym)"},
     {label:"Revisiones",value:ares.data?String(ares.data.approvals.length):"—",caption:"Pendientes de aprobación",icon:ShieldCheck,color:"var(--gold)"},
     {label:"SelfLearn",value:learn.data?String(learn.data.completed.nl.length+learn.data.completed.en.length):"—",caption:learn.data?"NL "+learn.data.completed.nl.length+" · EN "+learn.data.completed.en.length:"Unidades verificadas",icon:Activity,color:"var(--learn)"}

@@ -1,4 +1,4 @@
-// RISE HUB Nocturne · Body: perfil corporal, objetivos e historial de peso editable.
+// Rise Nocturne · Body: perfil corporal, objetivos e historial de peso editable.
 // Mismo almacenamiento que Classic: user_settings.settings.bodyProfile (profile.js),
 // auth user_metadata.gym_goals (gym.js) y hub_records body_weight. Mejoras: CAS en ajustes
 // y en cada corrección de peso; las correcciones conservan el valor previo en el payload.

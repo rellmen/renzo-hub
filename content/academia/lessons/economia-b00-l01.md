@@ -156,4 +156,4 @@ $250\cdot0{,}88=220$ €; $220\cdot1{,}21=266{,}20$ €. **Precio final: 266,20 
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N0. Base de cálculo para los bloques de contabilidad, análisis, financiación e inversión de Economía de la Empresa +25 (enlace al temario oficial en los metadatos).
+Contenido original de Rise Academia. Nivel N0. Base de cálculo para los bloques de contabilidad, análisis, financiación e inversión de Economía de la Empresa +25 (enlace al temario oficial en los metadatos).

@@ -156,4 +156,4 @@ $y-2=-1\cdot(x-2)$ → $y=-x+4$. Comprobación: el punto $(2,2)$ cumple $2=-2+4$
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2 (2.º Bachillerato). Alineado con el bloque de análisis del temario oficial de Matemáticas +25.
+Contenido original de Rise Academia. Nivel N2 (2.º Bachillerato). Alineado con el bloque de análisis del temario oficial de Matemáticas +25.

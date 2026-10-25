@@ -156,4 +156,4 @@ Comprobación numérica: con $x=-2{,}01$, el numerador vale $-0{,}0099$ y el den
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2 (Bachillerato). Alineado con el bloque de análisis del temario oficial de Matemáticas +25; prepara la derivada como límite (M08-L02) y el estudio de asíntotas (M04-L07).
+Contenido original de Rise Academia. Nivel N2 (Bachillerato). Alineado con el bloque de análisis del temario oficial de Matemáticas +25; prepara la derivada como límite (M08-L02) y el estudio de asíntotas (M04-L07).

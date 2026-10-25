@@ -149,4 +149,4 @@ $r^4=16$ y, como los términos son positivos, $r=2$.
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2 (1.º Bachillerato). Alineado con el bloque de sucesiones del temario oficial de Matemáticas +25; base de las sumas de progresiones (M03-L03) y del interés compuesto (M03-L04).
+Contenido original de Rise Academia. Nivel N2 (1.º Bachillerato). Alineado con el bloque de sucesiones del temario oficial de Matemáticas +25; base de las sumas de progresiones (M03-L03) y del interés compuesto (M03-L04).

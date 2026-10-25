@@ -1,5 +1,5 @@
 import {verifyNocturneBackendIsolation} from './nocturne-environment.mjs';
-// RISE HUB · React migration: same-origin Supabase bootstrap.
+// Rise · React migration: same-origin Supabase bootstrap.
 // All data must remain in the existing environment under existing RLS policies.
 // No client/keys are ever copied from Lovable or hardcoded into this bundle.
 let clientPromise=null;

@@ -155,4 +155,4 @@ Estiramiento vertical de factor 3, traslación 2 a la izquierda y 1 hacia abajo.
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2 (Bachillerato). Alineado con los bloques de funciones y análisis del temario oficial de Matemáticas +25; se apoya en los límites de M08-L01 y se usa en la representación de funciones con derivadas (M08).
+Contenido original de Rise Academia. Nivel N2 (Bachillerato). Alineado con los bloques de funciones y análisis del temario oficial de Matemáticas +25; se apoya en los límites de M08-L01 y se usa en la representación de funciones con derivadas (M08).

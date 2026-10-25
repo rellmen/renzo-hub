@@ -165,4 +165,4 @@ Pregunta: *Does my manager have a meeting every Friday?* Negativa: *My manager d
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N0 (A1). Alineado con la gramática en contexto que evalúa la prueba de Inglés +25; continúa en E01 (presente continuo, pasado y modales).
+Contenido original de Rise Academia. Nivel N0 (A1). Alineado con la gramática en contexto que evalúa la prueba de Inglés +25; continúa en E01 (presente continuo, pasado y modales).

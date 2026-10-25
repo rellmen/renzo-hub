@@ -1,4 +1,4 @@
-// RISE HUB / SelfLearn · small pure adapter around the ORIGINAL language engine.
+// Rise / SelfLearn · small pure adapter around the ORIGINAL language engine.
 // Graded answers, repeat scheduling and progress remain in the legacy engine.
 // Completion here is PRACTICE ONLY until atomic XP/FSRS finalization is migrated.
 import {buildLesson,currentStep,answer,advance,isComplete,progressPct,normalize,checkTyped,checkBuild,score,validRun}

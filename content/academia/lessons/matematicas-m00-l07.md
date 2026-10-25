@@ -147,4 +147,4 @@ $6{,}4\cdot250=1600$ cm $=16$ m. Comprobación de sentido: un pasillo de 16 m en
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N0 (rescate, 1.º–2.º ESO). Base de la proporcionalidad algebraica (M01-L04), de la lectura de problemas (M01-L07) y del cálculo de errores en Física (F01-L04).
+Contenido original de Rise Academia. Nivel N0 (rescate, 1.º–2.º ESO). Base de la proporcionalidad algebraica (M01-L04), de la lectura de problemas (M01-L07) y del cálculo de errores en Física (F01-L04).

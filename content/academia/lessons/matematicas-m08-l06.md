@@ -159,4 +159,4 @@ $f''>0$ en $(-\infty,-1)$ y $(1,+\infty)$ ($\cup$); $f''<0$ en $(-1,1)$ ($\cap$)
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2 (2.º Bachillerato). Alineado con el bloque de análisis del temario oficial de Matemáticas +25.
+Contenido original de Rise Academia. Nivel N2 (2.º Bachillerato). Alineado con el bloque de análisis del temario oficial de Matemáticas +25.

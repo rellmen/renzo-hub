@@ -169,4 +169,4 @@ $n=\dfrac{\log2}{\log1{,}05}\approx\dfrac{0{,}30103}{0{,}02119}\approx14{,}21$ a
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2 (1.º Bachillerato). Alineado con el bloque de funciones del temario oficial de Matemáticas +25; base de modelos de crecimiento y de la derivada de $e^x$ y $\ln x$.
+Contenido original de Rise Academia. Nivel N2 (1.º Bachillerato). Alineado con el bloque de funciones del temario oficial de Matemáticas +25; base de modelos de crecimiento y de la derivada de $e^x$ y $\ln x$.

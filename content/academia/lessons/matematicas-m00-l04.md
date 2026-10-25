@@ -159,4 +159,4 @@ Comprobación decimal: $0{,}5833:0{,}7778\approx0{,}75$. ✔
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N0 (rescate, primaria–1.º ESO). Prerrequisito directo de ecuaciones con denominadores (M01-L02), fracciones algebraicas (M02-L03) y de cualquier problema del examen de Matemáticas +25.
+Contenido original de Rise Academia. Nivel N0 (rescate, primaria–1.º ESO). Prerrequisito directo de ecuaciones con denominadores (M01-L02), fracciones algebraicas (M02-L03) y de cualquier problema del examen de Matemáticas +25.

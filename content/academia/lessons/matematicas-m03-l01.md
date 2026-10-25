@@ -150,4 +150,4 @@ $a_{n+1}-a_n=\dfrac{n+1}{n+2}-\dfrac{n}{n+1}=\dfrac{(n+1)^2-n(n+2)}{(n+1)(n+2)}=
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2 (1.º Bachillerato). Alineado con el bloque de sucesiones del temario oficial de Matemáticas +25; prepara las progresiones (M03-L02) y el interés compuesto (M03-L04).
+Contenido original de Rise Academia. Nivel N2 (1.º Bachillerato). Alineado con el bloque de sucesiones del temario oficial de Matemáticas +25; prepara las progresiones (M03-L02) y el interés compuesto (M03-L04).

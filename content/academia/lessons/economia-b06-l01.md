@@ -173,4 +173,4 @@ a) Fortaleza. b) Amenaza. c) Debilidad. d) Oportunidad. Estrategia posible (D + 
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2. Marcos estratégicos clásicos (Porter, DAFO) tal como se enseñan en el bachillerato español. Alineado con el bloque de estrategia y desarrollo de la empresa del temario de Economía de la Empresa +25.
+Contenido original de Rise Academia. Nivel N2. Marcos estratégicos clásicos (Porter, DAFO) tal como se enseñan en el bachillerato español. Alineado con el bloque de estrategia y desarrollo de la empresa del temario de Economía de la Empresa +25.

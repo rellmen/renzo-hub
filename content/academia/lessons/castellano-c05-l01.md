@@ -157,4 +157,4 @@ Hiperónimo: *fruta*. Cohipónimos: *pera, naranja, plátano*. Antónimo de *pre
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2. La frontera entre polisemia y homonimia se discute en algunos casos; en el examen, basta con justificar la relación de significado. Alineado con la reflexión lingüística de Lengua castellana +25.
+Contenido original de Rise Academia. Nivel N2. La frontera entre polisemia y homonimia se discute en algunos casos; en el examen, basta con justificar la relación de significado. Alineado con la reflexión lingüística de Lengua castellana +25.

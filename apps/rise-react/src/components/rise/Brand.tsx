@@ -19,14 +19,21 @@ export function BrandMark({ size = 40 }: { size?: number }) {
   );
 }
 
+const WORDMARK_SIZE = { sm: "text-[1.7rem]", md: "text-[2.6rem]", lg: "text-[4.4rem] sm:text-[5.2rem]" } as const;
+
+/** Logotipo de texto "Rise": Bodoni Moda itálica con oro Nocturne y brillo al cargar. */
+export function Wordmark({ size = "md", className = "" }: { size?: keyof typeof WORDMARK_SIZE; className?: string }) {
+  return <span className={`rise-wordmark ${WORDMARK_SIZE[size]} ${className}`}>Rise</span>;
+}
+
 export function Brand({ compact = false }: { compact?: boolean }) {
   return (
     <div className="flex items-center gap-3">
       <BrandMark size={compact ? 32 : 42} />
-      <div className="leading-none">
-        <div className="font-display text-xl font-semibold tracking-[0.28em] text-gold-gradient">RISE HUB</div>
+      <div className="leading-none" aria-label="Rise">
+        <Wordmark size={compact ? "sm" : "md"} />
         {!compact && (
-          <div className="mt-1.5 text-[0.6rem] font-semibold tracking-[0.24em] text-muted-foreground">
+          <div className="mt-1 whitespace-nowrap text-[0.56rem] font-semibold tracking-[0.2em] text-muted-foreground">
             DISCIPLINA CREA LIBERTAD
           </div>
         )}

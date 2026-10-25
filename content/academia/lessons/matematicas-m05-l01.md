@@ -160,4 +160,4 @@ $s=0{,}2\cdot\dfrac{3\pi}{4}=0{,}15\pi\approx0{,}471$ m. Comprobación: media vu
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2 (1.º Bachillerato). Alineado con el bloque de trigonometría del temario oficial de Matemáticas +25; base de la resolución de triángulos (M05-L02) y de las identidades (M05-L03).
+Contenido original de Rise Academia. Nivel N2 (1.º Bachillerato). Alineado con el bloque de trigonometría del temario oficial de Matemáticas +25; base de la resolución de triángulos (M05-L02) y de las identidades (M05-L03).

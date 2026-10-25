@@ -163,4 +163,4 @@ Antes de actualizar el firmware, hay que desconectar el dispositivo. La actualiz
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N4 (puente universitario). Datos de los ejemplos inventados. No forma parte del temario de la prueba +25.
+Contenido original de Rise Academia. Nivel N4 (puente universitario). Datos de los ejemplos inventados. No forma parte del temario de la prueba +25.

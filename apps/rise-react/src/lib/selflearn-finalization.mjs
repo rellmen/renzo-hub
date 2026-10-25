@@ -18,7 +18,7 @@ function dateKey(d){return [d.getFullYear(),String(d.getMonth()+1).padStart(2,"0
 function check(r){if(!r||r.error)throw Error(r?.error?.message||"Supabase no confirmó la finalización.");return r.data;}
 export async function stableRecordId(key){
   if(!globalThis.crypto?.subtle)throw Error("Este navegador no admite identificadores criptográficos seguros.");
-  const bytes=new Uint8Array(await globalThis.crypto.subtle.digest("SHA-256",new TextEncoder().encode("RISE HUB SelfLearn v1:"+key)));
+  const bytes=new Uint8Array(await globalThis.crypto.subtle.digest("SHA-256",new TextEncoder().encode("Rise SelfLearn v1:"+key)));
   const n=bytes.slice(0,16);
   // RFC 4122 layout, version 8 = custom hash-derived UUID.
   n[6]=(n[6]&0x0f)|0x80;n[8]=(n[8]&0x3f)|0x80;

@@ -7,7 +7,7 @@ import {HUBS} from "@/lib/hubs";
 import {requireApp,normalize} from "@/lib/apps";
 
 export const Route=createFileRoute("/apps")({
- head:()=>pageHead("Todas las apps","Los 7 hubs de RISE HUB y sus apartados."),
+ head:()=>pageHead("Todas las apps","Los 7 hubs de Rise y sus apartados."),
  component:AllApps
 });
 
@@ -19,7 +19,7 @@ function AllApps(){
  const shown=HUBS.map(h=>({hub:h,apps:h.sections.map(s=>({...s,app:requireApp(s.appId)}))
   .filter(x=>match(h.label,x.label,x.app.label,x.app.blurb,...x.app.aliases))})).filter(x=>x.apps.length);
  return <div className="space-y-6">
-  <PageHeader eyebrow="RISE HUB · 7 HUBS" title="Todas tus apps"
+  <PageHeader eyebrow="Rise · 7 HUBS" title="Todas tus apps"
    subtitle="Cada apartado vive dentro de un hub. Las pestañas de arriba te mueven dentro del hub sin volver al menú."/>
   <label className="surface flex min-h-14 items-center gap-3 px-4">
    <span className="sr-only">Buscar</span>

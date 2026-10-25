@@ -15,7 +15,7 @@ import {GymProgressPhotos} from "@/components/rise/GymProgressPhotos";
 import {bestE1rm,isRecord,lastSets,sessionSummary,suggestSets} from "@/lib/legacy-gym/progression.js";
 
 export const Route=createFileRoute("/gym")({
-  head:()=>pageHead("Gym","Tus entrenamientos reales y tu plan privado, conservando el historial de RISE HUB."),
+  head:()=>pageHead("Gym","Tus entrenamientos reales y tu plan privado, conservando el historial de Rise."),
   component:Gym
 });
 function number(n:number){return new Intl.NumberFormat("es-ES",{maximumFractionDigits:1}).format(n);}
@@ -160,7 +160,7 @@ function Gym(){
       </SectionCard>
       <div className="grid gap-6 lg:grid-cols-[1.6fr_1fr]">
         <SectionCard eyebrow={<span className="text-gym">Sesión real</span>} title={d.current?"Entrenamiento en curso":"Último entrenamiento terminado"} accent="var(--gym)">
-          {!(d.current||d.lastCompleted)&&<EmptyState icon={<Dumbbell className="h-5 w-5"/>} title="Sin entrenamientos registrados" text="Tu primera sesión aparecerá al guardarla en RISE HUB."/>}
+          {!(d.current||d.lastCompleted)&&<EmptyState icon={<Dumbbell className="h-5 w-5"/>} title="Sin entrenamientos registrados" text="Tu primera sesión aparecerá al guardarla en Rise."/>}
           {(d.current||d.lastCompleted)&&(()=>{
             const s=d.current||d.lastCompleted!;
             const exercises=Array.isArray(s.exercises)?s.exercises:[];

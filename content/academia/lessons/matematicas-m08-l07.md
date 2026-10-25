@@ -153,4 +153,4 @@ $P'(x)=30-2x=0$ → $x=15$, $y=15$. $P''=-2<0$: máximo. Producto máximo $225$.
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2 (2.º Bachillerato). Alineado con el bloque de análisis del temario oficial de Matemáticas +25; cierra el módulo M08.
+Contenido original de Rise Academia. Nivel N2 (2.º Bachillerato). Alineado con el bloque de análisis del temario oficial de Matemáticas +25; cierra el módulo M08.

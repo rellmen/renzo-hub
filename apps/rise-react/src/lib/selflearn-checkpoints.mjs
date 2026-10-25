@@ -1,4 +1,4 @@
-// RISE HUB / SelfLearn React · immutable checkpoints for loss-resistant lessons.
+// Rise / SelfLearn React · immutable checkpoints for loss-resistant lessons.
 // Stores each answered step as an append-only hub_records row under RLS; it never
 // overwrites hub_user_state.state or another microapp's preferences.
 // The lesson player/XP/FSRS finalization remains gated until its atomic contract

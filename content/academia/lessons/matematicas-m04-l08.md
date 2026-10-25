@@ -148,4 +148,4 @@ $\text{TVM}=\dfrac{500-250}{20-10}=25$ €/unidad. Cada una de esas 10 unidades 
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2 (1.º Bachillerato). Alineado con los bloques de funciones y análisis del temario oficial de Matemáticas +25; puente directo hacia la derivada (M08-L02).
+Contenido original de Rise Academia. Nivel N2 (1.º Bachillerato). Alineado con los bloques de funciones y análisis del temario oficial de Matemáticas +25; puente directo hacia la derivada (M08-L02).

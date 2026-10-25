@@ -152,4 +152,4 @@ $0{,}88\cdot1{,}12=0{,}9856$. Ventas finales: $48.000\cdot0{,}9856=47.308{,}80$ 
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N0 (rescate, 1.º–2.º ESO). Base del interés simple y compuesto (M03-L04) y de la aritmética aplicada de Economía de la Empresa (B00).
+Contenido original de Rise Academia. Nivel N0 (rescate, 1.º–2.º ESO). Base del interés simple y compuesto (M03-L04) y de la aritmética aplicada de Economía de la Empresa (B00).

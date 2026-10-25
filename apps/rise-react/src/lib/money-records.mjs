@@ -1,4 +1,4 @@
-// RISE HUB React: real, read-only Money adapter.
+// Rise React: real, read-only Money adapter.
 // Reuses byte-identical legacy categorisation and bank computations.
 // Never derive bank balances from fictional transactions or unreviewed AI inbox items.
 import {loadFinance} from "./legacy-money/finance/data.js";

@@ -1,4 +1,4 @@
-// RISE HUB React / Work bridge — preserves the legacy world.js hub_records contract.
+// Rise React / Work bridge — preserves the legacy world.js hub_records contract.
 // Never use mock values or localStorage for authenticated task/project data.
 export const WORK_STATUSES=Object.freeze(["Today","This Week","Blocked","Waiting","Backlog","Completed"]);
 export const WORK_PRIORITIES=Object.freeze(["Normal","High","Strategic"]);

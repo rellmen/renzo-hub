@@ -154,4 +154,4 @@ $30-2(n-1)=2$ → $n=15$ filas. $S_{15}=\dfrac{15\,(30+2)}{2}=240$ cajas.
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2 (1.º Bachillerato). Alineado con el bloque de sucesiones del temario oficial de Matemáticas +25; base de la capitalización y amortización (M03-L04) y de la idea de integral como suma (M09).
+Contenido original de Rise Academia. Nivel N2 (1.º Bachillerato). Alineado con el bloque de sucesiones del temario oficial de Matemáticas +25; base de la capitalización y amortización (M03-L04) y de la idea de integral como suma (M09).

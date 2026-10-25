@@ -154,4 +154,4 @@ VAN $=-30.000+11.320{,}75+10.679{,}96+10.075{,}43=2.076{,}14$ €. Positivo: **s
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2 (2.º Bachillerato). Alineado con el bloque de inversión del temario oficial de Economía de la Empresa +25. La inclusión de esta materia en la modalidad UOC en castellano de 2027 está pendiente de confirmar en la matrícula.
+Contenido original de Rise Academia. Nivel N2 (2.º Bachillerato). Alineado con el bloque de inversión del temario oficial de Economía de la Empresa +25. La inclusión de esta materia en la modalidad UOC en castellano de 2027 está pendiente de confirmar en la matrícula.

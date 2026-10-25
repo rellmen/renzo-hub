@@ -158,4 +158,4 @@ $\dfrac{5\sqrt2}{\sqrt2}=5$. Comprobación: $\dfrac{4{,}243+2{,}828}{1{,}414}\ap
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N1–N2 (4.º ESO – 1.º Bachillerato). Alineado con el bloque de álgebra del temario oficial de Matemáticas +25; base de ecuaciones irracionales (M02-L06) y de la derivación de potencias (M08-L03).
+Contenido original de Rise Academia. Nivel N1–N2 (4.º ESO – 1.º Bachillerato). Alineado con el bloque de álgebra del temario oficial de Matemáticas +25; base de ecuaciones irracionales (M02-L06) y de la derivación de potencias (M08-L03).

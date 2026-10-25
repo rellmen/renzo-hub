@@ -153,4 +153,4 @@ $4k+12=0$ → $k=-3$. $x^3-3x^2-4x+12=x^2(x-3)-4(x-3)=(x-3)(x^2-4)=(x-3)(x-2)(x+
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N1–N2 (4.º ESO – 1.º Bachillerato). Alineado con el bloque de álgebra del temario oficial de Matemáticas +25; base de fracciones algebraicas (M02-L03), ecuaciones de grado superior y límites (M08).
+Contenido original de Rise Academia. Nivel N1–N2 (4.º ESO – 1.º Bachillerato). Alineado con el bloque de álgebra del temario oficial de Matemáticas +25; base de fracciones algebraicas (M02-L03), ecuaciones de grado superior y límites (M08).

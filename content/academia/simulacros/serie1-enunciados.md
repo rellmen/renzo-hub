@@ -1,6 +1,6 @@
 # Simulacros originales · Acceso +25 · Serie 1
 
-RISE HUB Academia · 24 octubre 2026 · Ruta Ingeniería (Matemáticas + Física)
+Rise Academia · 24 octubre 2026 · Ruta Ingeniería (Matemáticas + Física)
 
 **Cómo usarlos**
 - Son ejercicios **originales**, con la misma estructura, puntuación y nivel que los modelos oficiales 2024 y 2025. No copian ningún enunciado oficial.
@@ -128,7 +128,7 @@ Hay, además, una dimensión social. Quien levanta la vista del teléfono ve a l
 
 No se trata de demonizar la tecnología ni de proponer una vuelta romántica al pasado. Se trata de recuperar la capacidad de elegir. Dejar el teléfono en el bolsillo durante una espera no es perder el tiempo; es concederle a la mente la oportunidad de vagar sin rumbo. Tal vez el lujo del futuro no sea estar siempre conectados, sino poder permitirnos, de vez en cuando, no hacer absolutamente nada.
 
-*Texto original de RISE HUB Academia para este simulacro.*
+*Texto original de Rise Academia para este simulacro.*
 
 ### Parte 1 [6 puntos]
 
@@ -200,7 +200,7 @@ Se sentó junto a la mujer de la maleta. Ella le preguntó si sabía cuánto tar
 
 Cuando el autobús apareció al fondo de la calle, el chico de la mochila se despertó de golpe. Los tres subieron en silencio. Matías eligió un asiento junto a la ventanilla y, mientras el vehículo arrancaba, pensó que también él tenía una llamada pendiente. Sacó el teléfono, buscó el nombre de su padre y, por primera vez en mucho tiempo, no tuvo miedo de que nadie contestara.
 
-*Texto original de RISE HUB Academia para este simulacro.*
+*Texto original de Rise Academia para este simulacro.*
 
 ### 1. Comprensión lectora [3 puntos: 0,5 por respuesta correcta; −0,16 por cada respuesta incorrecta en las de opción múltiple]
 
@@ -270,7 +270,7 @@ Not everyone is convinced. Some companies warn that opening devices can be dange
 
 Still, the movement keeps growing. For many people, fixing something with their own hands brings a satisfaction that buying a new product cannot offer. As one volunteer put it, "When you repair an object, you also repair a little bit of your relationship with it."
 
-*Original text written by RISE HUB Academia for this practice exam.*
+*Original text written by Rise Academia for this practice exam.*
 
 Choose the correct answer (1-8).
 

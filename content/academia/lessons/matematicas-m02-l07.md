@@ -153,4 +153,4 @@ $i^{27}=1^6\cdot i^3=-i$.
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2 (1.º Bachillerato), introductorio según el catálogo. Alineado con el bloque de álgebra del temario oficial de Matemáticas +25; su peso en la convocatoria debe confirmarse con el temario vigente. Utiliza nociones de trigonometría que se desarrollan en M05.
+Contenido original de Rise Academia. Nivel N2 (1.º Bachillerato), introductorio según el catálogo. Alineado con el bloque de álgebra del temario oficial de Matemáticas +25; su peso en la convocatoria debe confirmarse con el temario vigente. Utiliza nociones de trigonometría que se desarrollan en M05.

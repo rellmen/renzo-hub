@@ -163,4 +163,4 @@ Model (46 words): *So far, the city council has only agreed to examine the group
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia, incluido el texto modelo y las respuestas. Nivel N2 (B1–B2 del MCER). Alineado con la parte de respuesta abierta de la prueba de Lengua extranjera (Inglés) +25 (referencia de formato 2026; formato de la modalidad UOC en castellano de 2027 pendiente de confirmar). La corrección automática o del tutor es orientativa, no una nota oficial.
+Contenido original de Rise Academia, incluido el texto modelo y las respuestas. Nivel N2 (B1–B2 del MCER). Alineado con la parte de respuesta abierta de la prueba de Lengua extranjera (Inglés) +25 (referencia de formato 2026; formato de la modalidad UOC en castellano de 2027 pendiente de confirmar). La corrección automática o del tutor es orientativa, no una nota oficial.

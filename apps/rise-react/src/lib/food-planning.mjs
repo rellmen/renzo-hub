@@ -1,4 +1,4 @@
-// RISE HUB Nocturne · Food: compra mensual base (lista y textos de index.html Classic) y edición de comidas.
+// Rise Nocturne · Food: compra mensual base (lista y textos de index.html Classic) y edición de comidas.
 // Casillas "comprado": por dispositivo y mes, como Classic (localStorage), con clave por cuenta.
 export const SHOPPING_BASE=Object.freeze([
  ["Pollo / pavo","5–6 kg"],["Carne magra","1 kg"],["Pescado","1 kg"],["Huevos","30–40 unidades"],["Quark / skyr","8–10 kg"],

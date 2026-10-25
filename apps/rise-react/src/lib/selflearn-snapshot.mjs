@@ -1,5 +1,5 @@
 import {completedUnitIds} from "./legacy-selflearn/engine.js";
-// RISE HUB React · SelfLearn snapshot reader.
+// Rise React · SelfLearn snapshot reader.
 // Preserve the legacy state/FSRS contracts, never seed fake lessons or overwrite progress.
 // Read-only: the actual lesson player, merge and save logic must be ported before enabling editing.
 const TYPES=["renzo_event","renzo_vocabulary"];

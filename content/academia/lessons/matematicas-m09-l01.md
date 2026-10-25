@@ -160,4 +160,4 @@ $\big[\ln(x^2+1)\big]_0^1=\ln2-\ln1=\ln2\approx0{,}693$.
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2 (2.º Bachillerato). Alineado con el bloque de análisis (cálculo integral) del temario oficial de Matemáticas +25.
+Contenido original de Rise Academia. Nivel N2 (2.º Bachillerato). Alineado con el bloque de análisis (cálculo integral) del temario oficial de Matemáticas +25.

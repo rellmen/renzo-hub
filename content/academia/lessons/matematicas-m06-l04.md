@@ -162,4 +162,4 @@ $x+z=1$ y $2x-z=2$. Sumando: $3x=3$ → $x=1$, $z=0$. Solución $(1,1,0)$. Compr
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2 (2.º Bachillerato). Alineado con el bloque de álgebra lineal del temario oficial de Matemáticas +25; conecta con la posición relativa de planos (M07-L03).
+Contenido original de Rise Academia. Nivel N2 (2.º Bachillerato). Alineado con el bloque de álgebra lineal del temario oficial de Matemáticas +25; conecta con la posición relativa de planos (M07-L03).

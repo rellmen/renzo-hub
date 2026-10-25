@@ -165,4 +165,4 @@ $Q^*=100$ reparaciones. Con 130: $B=45\cdot130-4.500=1.350$ €.
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2. Alineado con los bloques de producción, marketing y proyecto empresarial del temario de Economía de la Empresa +25.
+Contenido original de Rise Academia. Nivel N2. Alineado con los bloques de producción, marketing y proyecto empresarial del temario de Economía de la Empresa +25.

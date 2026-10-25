@@ -161,4 +161,4 @@ Comprobación con la velocidad media: $\dfrac{0+1{,}8}{2}\cdot3=2{,}7$ m. ✔
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N1–N2 (4.º ESO – 1.º Bachillerato). Alineado con el bloque de cinemática del temario oficial de Física +25; continúa con gráficas $x$–$t$ y $v$–$t$ (F02-L03) y tiro parabólico (F02-L04).
+Contenido original de Rise Academia. Nivel N1–N2 (4.º ESO – 1.º Bachillerato). Alineado con el bloque de cinemática del temario oficial de Física +25; continúa con gráficas $x$–$t$ y $v$–$t$ (F02-L03) y tiro parabólico (F02-L04).

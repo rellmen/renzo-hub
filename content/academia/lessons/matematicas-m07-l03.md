@@ -153,4 +153,4 @@ $\vec n_1\times\vec n_2=(1\cdot0-1\cdot(-1),\ 1\cdot1-1\cdot0,\ 1\cdot(-1)-1\cdo
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2 (2.º Bachillerato). Alineado con el bloque de geometría del temario oficial de Matemáticas +25; se completa con ángulos y distancias en M07-L04.
+Contenido original de Rise Academia. Nivel N2 (2.º Bachillerato). Alineado con el bloque de geometría del temario oficial de Matemáticas +25; se completa con ángulos y distancias en M07-L04.

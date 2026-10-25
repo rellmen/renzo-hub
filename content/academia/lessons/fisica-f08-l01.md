@@ -147,4 +147,4 @@ $I=\dfrac{9}{4{,}5}=2$ A. $V=9-2\cdot0{,}5=8$ V (comprobación: $2\cdot4=8$ V �
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2 (Bachillerato). Alineado con el bloque de corriente eléctrica del temario oficial de Física +25; enlaza con electrostática (F07) y magnetismo (F09).
+Contenido original de Rise Academia. Nivel N2 (Bachillerato). Alineado con el bloque de corriente eléctrica del temario oficial de Física +25; enlaza con electrostática (F07) y magnetismo (F09).

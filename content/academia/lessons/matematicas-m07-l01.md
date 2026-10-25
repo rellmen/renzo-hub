@@ -150,4 +150,4 @@ $P_1=(3,2)$ y $P_2=(5,3)$. Comprobación: $d(A,P_1)=d(P_1,P_2)=d(P_2,B)=\sqrt5$.
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2 (Bachillerato). Alineado con el bloque de geometría del temario oficial de Matemáticas +25; base de las rectas en el plano (M07-L02) y en el espacio (M07-L03).
+Contenido original de Rise Academia. Nivel N2 (Bachillerato). Alineado con el bloque de geometría del temario oficial de Matemáticas +25; base de las rectas en el plano (M07-L02) y en el espacio (M07-L03).

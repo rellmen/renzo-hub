@@ -164,4 +164,4 @@ Aumentan las existencias (+4.000 €, activo corriente) y aumentan los proveedor
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N1–N2 (Bachillerato). Alineado con el bloque de información contable del temario oficial de Economía de la Empresa +25. La inclusión de Economía de la Empresa en la modalidad UOC en castellano de 2027 está pendiente de confirmar en la matrícula.
+Contenido original de Rise Academia. Nivel N1–N2 (Bachillerato). Alineado con el bloque de información contable del temario oficial de Economía de la Empresa +25. La inclusión de Economía de la Empresa en la modalidad UOC en castellano de 2027 está pendiente de confirmar en la matrícula.

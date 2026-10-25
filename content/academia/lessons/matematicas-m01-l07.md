@@ -160,4 +160,4 @@ $140t=210$ → $t=1{,}5$ h (1 h 30 min). La primera recorre $80\cdot1{,}5=120$ k
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N1 (ESO). Alineado con la resolución de problemas del temario oficial de Matemáticas +25; prepara los sistemas (M02-L06) y la optimización (M08-L07).
+Contenido original de Rise Academia. Nivel N1 (ESO). Alineado con la resolución de problemas del temario oficial de Matemáticas +25; prepara los sistemas (M02-L06) y la optimización (M08-L07).

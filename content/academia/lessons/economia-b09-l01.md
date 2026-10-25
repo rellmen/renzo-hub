@@ -154,4 +154,4 @@ $P=20$, $Q=60$. Con $P=25$: $Q_d=45$ y $Q_s=80$: exceso de oferta de 35 unidades
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N4 (puente universitario). Las fórmulas de métricas son aproximaciones didácticas habituales; las referencias del sector son orientativas. No forma parte del temario de la prueba +25.
+Contenido original de Rise Academia. Nivel N4 (puente universitario). Las fórmulas de métricas son aproximaciones didácticas habituales; las referencias del sector son orientativas. No forma parte del temario de la prueba +25.

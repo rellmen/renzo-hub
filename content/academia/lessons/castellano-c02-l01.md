@@ -158,4 +158,4 @@ Prefijo *des-* (derivativo, significa «acción contraria»), lexema *carg-*, vo
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N1 (ESO). Alineado con la parte de reflexión lingüística del temario oficial de Lengua castellana +25; prepara la sintaxis de la oración simple (C03-L01).
+Contenido original de Rise Academia. Nivel N1 (ESO). Alineado con la parte de reflexión lingüística del temario oficial de Lengua castellana +25; prepara la sintaxis de la oración simple (C03-L01).

@@ -1,4 +1,4 @@
-/* RISE HUB Nocturne — safe PWA cache. Never cache private documents or APIs.
+/* Rise Nocturne — safe PWA cache. Never cache private documents or APIs.
  * Retire obsolete classic worker caches after takeover. This does NOT touch localStorage/IndexedDB. */
 const NAME = "rise-nocturne-static-v2";
 const STATIC_ASSET_PREFIX = "/assets/";

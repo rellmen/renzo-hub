@@ -151,4 +151,4 @@ $Wp=\begin{pmatrix}30+10+40\\12+24+30\end{pmatrix}=\begin{pmatrix}80\\66\end{pma
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2 (2.º Bachillerato). Alineado con el bloque de álgebra lineal del temario oficial de Matemáticas +25; base de determinantes e inversa (M06-L03) y de los sistemas con matrices (M06-L04).
+Contenido original de Rise Academia. Nivel N2 (2.º Bachillerato). Alineado con el bloque de álgebra lineal del temario oficial de Matemáticas +25; base de determinantes e inversa (M06-L03) y de los sistemas con matrices (M06-L04).

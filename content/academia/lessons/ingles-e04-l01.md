@@ -170,4 +170,4 @@ No es seguro: *is believed to* indica que se cree o se rumorea, no que esté con
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N2 (gramática de referencia B1+ y B2 del Marco común europeo). Alineado con la lectura y las respuestas abiertas del examen de Inglés +25.
+Contenido original de Rise Academia. Nivel N2 (gramática de referencia B1+ y B2 del Marco común europeo). Alineado con la lectura y las respuestas abiertas del examen de Inglés +25.

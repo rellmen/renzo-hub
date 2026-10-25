@@ -168,7 +168,7 @@ function Skin(){
         {PRODUCTS.length>6&&<button type="button" className="btn-ghost mt-5" onClick={()=>setShowAll(x=>!x)}>{showAll?"Mostrar menos":"Ver todos los productos"} ({PRODUCTS.length})</button>}
         {inventoryEdit.error&&<p role="alert" className="mt-3 text-sm text-gym">{errText(inventoryEdit.error)}</p>}
         {inventoryEdit.isPending&&<p role="status" className="mt-3 text-sm text-muted-foreground">Guardando inventario en Supabase…</p>}
-        <p className="mt-3 text-xs text-muted-foreground">Cambios privados guardados en los ajustes originales de RISE HUB. Si otro dispositivo editó el inventario, actualiza antes de reintentar.</p>
+        <p className="mt-3 text-xs text-muted-foreground">Cambios privados guardados en los ajustes originales de Rise. Si otro dispositivo editó el inventario, actualiza antes de reintentar.</p>
       </SectionCard>
       <SkinCompatibility inventory={state.data.inventory as Record<string,string>} barrierFirst={state.data.barrierFirst}/>
       <SkinHistoryAndPhotos/>

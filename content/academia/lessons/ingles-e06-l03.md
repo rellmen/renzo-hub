@@ -159,4 +159,4 @@ $5-2\cdot0{,}33=5-0{,}66=4{,}34$ puntos.
 
 ## 11. Procedencia y nivel
 
-Contenido original de RISE HUB Academia. Nivel N3. Penalizaciones del perfil de referencia 2026 (`exam-profiles.json`); la duración y las instrucciones exactas se consultan en la página oficial enlazada.
+Contenido original de Rise Academia. Nivel N3. Penalizaciones del perfil de referencia 2026 (`exam-profiles.json`); la duración y las instrucciones exactas se consultan en la página oficial enlazada.
