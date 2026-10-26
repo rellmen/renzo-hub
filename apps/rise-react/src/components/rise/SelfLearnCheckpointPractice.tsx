@@ -76,7 +76,7 @@ function StepEditor({step,course,value,setValue,match,setMatch}:{step:PracticeSt
    {kind==="dialogue"&&<div className="space-y-1">{(step.lines||[]).map((line,i)=>
      <p key={i} className="text-xs text-muted-foreground">{line.who}: {i===(step.lines?.length||1)-1?"________":line.t}</p>)}</div>}
    {kind==="listen"&&<><AudioButton text={step.audio||""} course={course}/>
-     <p className="text-xs text-muted-foreground">Escucha y elige el significado. Si no se oye, sube el volumen o quita el modo silencio.</p></>}
+     <p className="text-xs text-muted-foreground">Escucha y elige el significado. Si no se oye, sube el volumen.</p></>}
    {CHOICE.has(kind)?<div className="grid gap-2 sm:grid-cols-2">
      {(step.options||[]).map((option,i)=><button type="button" key={i} aria-pressed={value===option}
        className={"min-h-12 rounded-xl border px-4 text-left text-sm "+(value===option?"border-learn bg-learn/15 text-foreground":"border-hairline bg-raised text-platinum/85")}
