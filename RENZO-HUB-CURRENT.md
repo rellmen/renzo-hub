@@ -16,9 +16,9 @@
 | Marca Rise 25 oct | Nombre visible «RISE HUB» → «Rise» en Nocturne (UI, títulos, manifest, nombre en iPhone, Ares, Academia; fuentes `content/academia` regeneradas). Logotipo de texto `Wordmark` (Bodoni Moda itálica, oro con brillo) en barra lateral, cabecera móvil y login. Sin tocar identificadores técnicos (`rise-hub`, claves de almacenamiento), Classic ni copias legacy. |
 | RISE PRIORITY 27 oct (PR #172 integrado; #173 producción f447c55) | Panel «Mis prioridades» en Inicio sobre las tareas Work (`hub_records`/`renzo_task`), sin migraciones. Validación estricta, motivo obligatorio, plazo externo con evidencia comprobada, «hoy» en Europe/Amsterdam, CAS con conflicto que conserva el borrador, importación JSON revisada una a una con UUID estable y reintento sin duplicar, offline sin cola silenciosa. RLS/CAS probados en Supabase staging con rollback. Pendiente: QA con sesión real de staging e iPhone físico. Ver `docs/RISE-PRIORITY-PROTOCOL.md` y `docs/RISE-PRIORITY-F1-QA-2026-10-27.md`. Integrado en staging por #172 (64af6d2) y production por #173 (f447c55), comprobado en GitHub el 27-10-2026. |
 
-## Auditoría RISE PRIORITY · 27 octubre 2026 · candidata hacia staging
+## Auditoría RISE PRIORITY · 27 octubre 2026 · en producción
 
-Rama `feature/rise-priority-chatgpt-20261027`, base `64af6d2`. Cambios: reinvalidar comprobación al editar plazos/evidencia y recalcular duplicados durante revisión. 14 archivos / 126 tests, TypeScript y build locales OK. Comparación y límites en `docs/RISE-PRIORITY-CHATGPT-AUDIT-2026-10-27.md`. Preparado sin aplicar; sin Classic, migraciones ni publicación.
+PR #174 → `staging` y #175 → `production` (`de73537`). Cambios: reinvalidar comprobación al editar plazos/evidencia y recalcular duplicados durante revisión. 14 archivos / 126 tests, TypeScript y build OK; CI 6/6 con E2E Chromium y WebKit. Dominio `renzo-hub.vercel.app` → `dpl_3egwxMKPBJV8Dcd2kmiqE7y9Zx2A`; rollback `dpl_5FEu2nobRgwou2c6vLQvYp8kHu6A`. Comparación y límites en `docs/RISE-PRIORITY-CHATGPT-AUDIT-2026-10-27.md`. Sin Classic ni migraciones. Pendiente: QA con sesión real e iPhone físico.
 
 ## Hubs (opción B) + Money · nóminas del mes · 24 octubre 2026 · PR hacia staging
 
