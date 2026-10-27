@@ -26,6 +26,15 @@
       ]
     },
     {
+      "source": "/audio/selflearn/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
       "source": "/api/supabase-config",
       "headers": [
         {
