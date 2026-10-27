@@ -171,12 +171,14 @@ function Board(){
  const [importing,setImporting]=useState(false);
  const importLock=useRef(false);
  const invalidate=()=>qc.invalidateQueries({queryKey:key});
- const write=useMutation({mutationFn:async ({task,changes}:{task:PriorityTask;changes:Partial<PriorityInput>&{status?:string}})=>{
+ // networkMode "always": offline, TanStack would otherwise PAUSE the write silently and replay it later
+ // without the user confirming again. Here it fails visibly and the draft stays for an explicit retry.
+ const write=useMutation({networkMode:"always",mutationFn:async ({task,changes}:{task:PriorityTask;changes:Partial<PriorityInput>&{status?:string}})=>{
     if(!canWrite)throw Error("Inicia sesión para guardar cambios.");
     ensureOnline();return patchPriorityTask(client,uid,task,changes);},
    onSuccess:async(_saved,{task})=>{setConflicts(c=>{const n={...c};delete n[task.id];return n;});setEditing(null);await invalidate();},
    onError:async(e,{task})=>{if(e instanceof PriorityConflictError){setConflicts(c=>({...c,[task.id]:e.remote}));await invalidate();}}});
- const add=useMutation({mutationFn:(input:PriorityInput)=>{if(!canWrite)throw Error("Inicia sesión para guardar cambios.");
+ const add=useMutation({networkMode:"always",mutationFn:(input:PriorityInput)=>{if(!canWrite)throw Error("Inicia sesión para guardar cambios.");
     ensureOnline();return createPriorityTask(client,uid,input);},
    onSuccess:async()=>{setAdding(false);await invalidate();}});
  const tasks=(records.data?.tasks||[]) as PriorityTask[];
