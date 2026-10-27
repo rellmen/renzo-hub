@@ -6,3 +6,6 @@
 node_modules/
 *.log
 node_modules
+
+# Modelos de voz Piper para regenerar audios de SelfLearn (no se versionan)
+.piper-voices/

@@ -17,6 +17,7 @@ import {loadAresRecords} from "@/lib/ares-records.mjs";
 import {loadWorkRecords,WORK_STATUSES} from "@/lib/work-records.mjs";
 import {loadLearningSnapshot} from "@/lib/selflearn-snapshot.mjs";
 import {RoadmapToday} from "@/components/rise/roadmap/RoadmapToday";
+import {PriorityBoard} from "@/components/rise/PriorityBoard";
 
 export const Route=createFileRoute("/")({
   head:()=>pageHead("Centro de mando","Tu próxima evolución: tus datos reales y las disciplinas de Rise."),
@@ -73,6 +74,7 @@ function Home(){
       </div>
     </section>
 
+    <PriorityBoard/>
     <RoadmapToday compact/>
 
     {(ares.error||work.error||learn.error)&&<p role="alert" className="surface border border-gym/40 p-4 text-sm text-gym">
