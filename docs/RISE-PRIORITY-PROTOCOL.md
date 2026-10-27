@@ -1,7 +1,9 @@
 # RISE PRIORITY · checklist y propuestas desde asistentes
 
 ## Estado del cambio (27 octubre 2026)
-- Fase 1 integrada en `staging` por PR #172 (`64af6d2`) y en `production` por PR #173 (`f447c55`) el 27-10-2026. Esta auditoría prepara mejoras en `feature/rise-priority-chatgpt-20261027`, con PR borrador hacia `staging`; no las publica ni aplica migraciones.
+- **En producción** desde el 27-10-2026: Fase 1 por PR #172 → `staging` y #173 → `production` (`f447c55`); mejoras de la auditoría ChatGPT (comprobación vigente de plazos y duplicados revalidados) por PR #174 → `staging` y #175 → `production` (`de73537`). Sin migraciones.
+- Producción verificada el 27-10: `renzo-hub.vercel.app` → `dpl_3egwxMKPBJV8Dcd2kmiqE7y9Zx2A` (`de73537`), Supabase de producción; E2E de prioridades en CI con Chromium y WebKit iPhone 13; smoke sin cuentas contra producción OK. Rollback: reasignar el dominio a `dpl_5FEu2nobRgwou2c6vLQvYp8kHu6A` (`f447c55`) o, sin RISE PRIORITY, a `dpl_SmGfxrb88KyuKLADP7LtZc59N9s7` (`6bb5ae1`).
+- Pendiente: QA con sesión real (Inicio ↔ `/proyectos`), iPhone físico y lector de pantalla, y dos dispositivos reales.
 - No editar Classic, no añadir bases paralelas ni conectores capaces de acceder a todas las conversaciones.
 - Reutiliza `public.hub_records`, `domain=work`, `record_type=renzo_task` con RLS existente: misma fuente y misma caché React Query (`['work-records', uid]`) que `/proyectos`.
 - Home `/`: prioridades P0 (emergencia), P1 (alta), P2 (media), P3 (baja), fecha, tipo de plazo, motivo, procedencia declarada, checkbox para completar y reabrir, edición, «Actualizar» y «Ver todas, incluidas completadas». **No hay historial de auditoría de cambios**: «Ver todas» solo muestra también las completadas.
