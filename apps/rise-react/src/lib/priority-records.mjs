@@ -53,7 +53,7 @@ export async function patchPriorityTask(client,uid,task,changes={}){
  if(["title","urgency","dueDate","deadlineType","why","origin"].some(k=>Object.prototype.hasOwnProperty.call(changes,k))){
   const validated=validatePriorityInput({...payload,...changes});
   Object.assign(payload,validated);
-  payload.priority=validated.urgency==="P0"||validated.urgency==="P1"?"High":"Normal";
+  // Preserve Work priority classification independently of RISE urgency.
  }
  payload.updatedAt=new Date().toISOString();
  const update={title:field(payload.title,180),status:payload.status,payload};
