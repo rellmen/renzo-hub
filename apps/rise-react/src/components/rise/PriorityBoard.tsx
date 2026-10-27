@@ -146,7 +146,7 @@ export function PriorityBoard(){
       </li>;
     })}
    </ul>
-   {all.length>5&&<button type="button" className="btn-ghost" onClick={()=>setShowAll(x=>!x)}>
+   {(completed>0||active.length>5)&&<button type="button" className="btn-ghost" onClick={()=>setShowAll(x=>!x)}>
     <ChevronDown className="h-4 w-4"/>{showAll?"Mostrar solo pendientes principales":"Ver todas, incluidas completadas"}</button>}
    <div className="flex flex-wrap gap-2">
      <button type="button" className="btn-gold" disabled={busy} onClick={()=>setAdding(v=>!v)}><Plus className="h-4 w-4"/> Nueva tarea</button>
