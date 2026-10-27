@@ -34,4 +34,4 @@ export declare function patchPriorityTask(client:any,uid:string,task:PriorityTas
 export declare function parsePriorityProposal(raw:string):ValidPriority[];
 export declare function uniquePriorityProposals(proposals:ValidPriority[],current:PriorityTask[]):ValidPriority[];
 export declare function reviewPriorityProposals(raw:string,current:PriorityTask[]):ProposalReview[];
-export declare function proposalBlockers(item:Pick<ProposalReview,"input"|"noDateConfirmed">):string[];
+export declare function proposalBlockers(item:Pick<ProposalReview,"input"|"noDateConfirmed">&{id?:string},context?:{current?:PriorityTask[];proposals?:ProposalReview[]}):string[];

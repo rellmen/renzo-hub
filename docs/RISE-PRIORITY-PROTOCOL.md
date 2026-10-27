@@ -1,7 +1,7 @@
 # RISE PRIORITY · checklist y propuestas desde asistentes
 
 ## Estado del cambio (27 octubre 2026)
-- Fase 1 **solo en la rama feature Nocturne** `feature/rise-priority-checklist-20261027`, PR #172 en borrador hacia `staging`. No publicada en producción, sin migraciones.
+- Fase 1 integrada en `staging` por PR #172 (`64af6d2`) y en `production` por PR #173 (`f447c55`) el 27-10-2026. Esta auditoría prepara mejoras en `feature/rise-priority-chatgpt-20261027`, con PR borrador hacia `staging`; no las publica ni aplica migraciones.
 - No editar Classic, no añadir bases paralelas ni conectores capaces de acceder a todas las conversaciones.
 - Reutiliza `public.hub_records`, `domain=work`, `record_type=renzo_task` con RLS existente: misma fuente y misma caché React Query (`['work-records', uid]`) que `/proyectos`.
 - Home `/`: prioridades P0 (emergencia), P1 (alta), P2 (media), P3 (baja), fecha, tipo de plazo, motivo, procedencia declarada, checkbox para completar y reabrir, edición, «Actualizar» y «Ver todas, incluidas completadas». **No hay historial de auditoría de cambios**: «Ver todas» solo muestra también las completadas.
@@ -51,10 +51,11 @@ Al hablar de una tarea, la IA puede preparar (sin persistencia directa) un bloqu
 ### Revisión antes de guardar
 1. Pegar y pulsar «Revisar propuestas» **no escribe nada**.
 2. Cada propuesta muestra todos los campos que se guardarán, avisos y bloqueos. Se puede seleccionar, editar o descartar una a una.
-3. Bloqueos: falta de motivo; sin fecha sin marcar «Guardar sin fecha»; plazo externo sin evidencia comprobada (se puede «Convertir en objetivo interno»).
-4. Una coincidencia con una tarea existente (título normalizado + fecha) se marca como posible duplicado, no se selecciona y **nunca modifica** la existente; se ofrece abrirla para editarla a mano. La importación no reabre completadas.
-5. Cada propuesta tiene un UUID estable durante toda la operación. Si falla una, las confirmadas se quedan guardadas y «Reintentar pendientes» solo reintenta las que faltan; antes de reinsertar una que pudo llegar al servidor, consulta su UUID.
-6. Limitación explícita: la deduplicación por título y fecha **no es** idempotencia global entre dispositivos. Dos dispositivos que importen el mismo JSON por separado generan UUID distintos.
+3. Al editar fecha, tipo de plazo, referencia o evidencia, se desmarca la comprobación anterior. Un plazo externo requiere volver a comprobar los datos finales antes de guardarlo.
+4. Bloqueos: falta de motivo; sin fecha sin marcar «Guardar sin fecha»; plazo externo sin evidencia comprobada (se puede «Convertir en objetivo interno»).
+5. Una coincidencia con una tarea existente (título normalizado + fecha) se marca como posible duplicado, no se selecciona y **nunca modifica** la existente; se ofrece abrirla para editarla a mano. La importación no reabre completadas. Los bloqueos se recalculan al editar una propuesta o refrescar las tareas: una coincidencia con tareas cargadas o con otra propuesta seleccionada impide aprobarla hasta editarla o desmarcarla. El UUID propio se excluye para permitir recuperar respuestas perdidas.
+6. Cada propuesta tiene un UUID estable durante toda la operación. Si falla una, las confirmadas se quedan guardadas y «Reintentar pendientes» solo reintenta las que faltan; antes de reinsertar una que pudo llegar al servidor, consulta su UUID.
+7. Limitación explícita: la deduplicación por título y fecha **no es** idempotencia global entre dispositivos. Dos dispositivos que importen el mismo JSON por separado generan UUID distintos. No garantiza detectar tareas fuera de las 300 cargadas ni escrituras remotas posteriores al último refresco.
 
 ## Conflictos y escrituras
 - Toda escritura filtra por `id`, `owner_id`, `domain`, `record_type` y el `updated_at` leído (compare-and-swap). El trigger `hub_records_set_updated_at` lo renueva en cada `UPDATE`.
