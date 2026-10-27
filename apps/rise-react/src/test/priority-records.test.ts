@@ -1,11 +1,11 @@
 import {describe,it,expect,vi} from "vitest";
 import {
  normalizePriority,sortPriorityTasks,validatePriorityInput,parsePriorityProposal,uniquePriorityProposals,
- createPriorityTask,patchPriorityTask
+ createPriorityTask,patchPriorityTask,type Urgency
 } from "../lib/priority-records.mjs";
 
 const uid="22222222-2222-4222-8222-222222222222";
-const item=(title:string,urgency:string,dueDate:string,status="Backlog")=>({id:title,title,urgency,dueDate,status,_cloudUpdatedAt:"2026-10-27T00:00:00Z"});
+const item=(title:string,urgency:Urgency,dueDate:string,status="Backlog")=>({id:title,title,urgency,dueDate,status,_cloudUpdatedAt:"2026-10-27T00:00:00Z"});
 describe("RISE PRIORITY · orden y plazos",()=>{
  it("prioriza P0 y vencidas, mantiene completadas al final",()=>{
    const tasks=[item("media","P2","2026-10-27"),item("emergencia","P0","2026-10-28"),
@@ -30,7 +30,7 @@ describe("Importación revisada de asistentes",()=>{
  });
  it("un JSON importado no guarda registros por sí solo",()=>{
    const p=parsePriorityProposal(JSON.stringify({tasks:[{title:"Revisar CV"}]}));
-   expect(p[0].title).toBe("Revisar CV");
+   expect(p[0]!.title).toBe("Revisar CV");
  });
 });
 describe("Supabase: restricciones al actualizar",()=>{
