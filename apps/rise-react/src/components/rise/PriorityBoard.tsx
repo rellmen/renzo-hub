@@ -87,7 +87,8 @@ export function PriorityBoard(){
  },onSuccess:async()=>{await invalidate();setSuggestions(null);setProposal("");setShowImport(false);},onError:()=>void invalidate()});
  const all=sortPriorityTasks((records.data?.tasks||[]) as PriorityTask[]);
  const active=all.filter(t=>t.status!=="Completed"),completed=all.length-active.length;
- const today=new Date().toLocaleDateString("en-CA");
+ const now=new Date();
+ const today=[now.getFullYear(),String(now.getMonth()+1).padStart(2,"0"),String(now.getDate()).padStart(2,"0")].join("-");
  const overdue=active.filter(t=>normalizePriority(t).dueDate&&normalizePriority(t).dueDate<today);
  const shown=showAll?all:active.slice(0,5);
  const busy=write.isPending||add.isPending||accept.isPending;
