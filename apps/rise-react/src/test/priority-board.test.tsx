@@ -205,3 +205,61 @@ describe("RISE PRIORITY · importación revisada",()=>{
    expect(mocks.persist).toHaveBeenCalledTimes(1);
  });
 });
+
+
+describe("Revisión vigente en el formulario",()=>{
+ it.each(["Fecha límite","Qué lo demuestra","Referencia (texto o enlace https, opcional)"])(
+  "exige comprobar de nuevo al cambiar %s",async field=>{
+   tasks=[task({deadlineType:"real",dueDate:"2026-10-31",proposalEvidence:{sourceRef:"Fuente",evidenceSummary:"Confirmación",
+    evidenceCheckedAt:"2026-10-27T10:00:00Z"}})];
+   mount();
+   fireEvent.click(await screen.findByRole("button",{name:"Editar"}));
+   const check=screen.getByRole("checkbox",{name:/He comprobado/});
+   expect(check).toBeChecked();
+   fireEvent.change(screen.getByLabelText(field),{target:{value:field==="Fecha límite"?"2026-11-01":"Nueva evidencia"}});
+   expect(check).not.toBeChecked();
+   fireEvent.click(screen.getByRole("button",{name:"Guardar"}));
+   expect(await screen.findByText(/Un plazo externo necesita/)).toBeInTheDocument();
+   expect(mocks.patch).not.toHaveBeenCalled();
+   fireEvent.click(check);
+   fireEvent.click(screen.getByRole("button",{name:"Guardar"}));
+   await waitFor(()=>expect(mocks.patch).toHaveBeenCalledTimes(1));
+ });
+ it("bloquea un duplicado creado al editar una propuesta y permite corregirlo",async()=>{
+   tasks=[task({title:"Existente",dueDate:"2026-11-08",status:"Completed"})];
+   mount();
+   await openImport({tasks:[proposal("Nueva")]});
+   const card=(await screen.findByText("Nueva")).closest("li")!;
+   fireEvent.click(within(card).getByRole("button",{name:"Editar"}));
+   fireEvent.change(within(card).getByLabelText("Tarea"),{target:{value:"existente"}});
+   fireEvent.click(within(card).getByRole("button",{name:"Aplicar a la propuesta"}));
+   expect(screen.getByRole("button",{name:"Aprobar y guardar 1"})).toBeDisabled();
+   expect(within(card).getByText(/duplicad/i)).toBeInTheDocument();
+   expect(writes()).toBe(0);
+   fireEvent.click(within(card).getByRole("button",{name:"Editar"}));
+   fireEvent.change(within(card).getByLabelText("Tarea"),{target:{value:"Distinta"}});
+   fireEvent.click(within(card).getByRole("button",{name:"Aplicar a la propuesta"}));
+   expect(screen.getByRole("button",{name:"Aprobar y guardar 1"})).toBeEnabled();
+ });
+});
+
+
+describe("Duplicados que cambian durante la revisión",()=>{
+ it("revalida una coincidencia que llega al actualizar Work",async()=>{
+   mount();
+   await openImport({tasks:[proposal("Nueva")]});
+   expect(await screen.findByRole("button",{name:"Aprobar y guardar 1"})).toBeEnabled();
+   tasks=[task({title:"Nueva",dueDate:"2026-11-08"})];
+   fireEvent.click(screen.getByRole("button",{name:"Actualizar prioridades"}));
+   await waitFor(()=>expect(screen.getByRole("button",{name:"Aprobar y guardar 1"})).toBeDisabled());
+   expect(writes()).toBe(0);
+ });
+ it("no permite seleccionar dos coincidencias del lote; desmarcar una desbloquea",async()=>{
+   mount();
+   await openImport({tasks:[proposal("Repetida"),proposal("repetida")]});
+   fireEvent.click(await screen.findByLabelText("Incluir propuesta: repetida"));
+   expect(screen.getByRole("button",{name:"Aprobar y guardar 2"})).toBeDisabled();
+   fireEvent.click(screen.getByLabelText("Incluir propuesta: repetida"));
+   expect(screen.getByRole("button",{name:"Aprobar y guardar 1"})).toBeEnabled();
+ });
+});

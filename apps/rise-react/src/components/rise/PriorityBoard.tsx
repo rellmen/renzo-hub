@@ -41,7 +41,8 @@ function Editor({initial,onSave,onCancel,busy,submitLabel="Guardar",conflict,onD
  conflict?:PriorityTask|null;onDiscardDraft?:()=>void}){
  const [form,setForm]=useState<PriorityInput>({...fresh(),...initial});
  const [problem,setProblem]=useState("");
- const change=<K extends keyof PriorityInput>(key:K,value:PriorityInput[K])=>{setProblem("");setForm(v=>({...v,[key]:value}));};
+ const change=<K extends keyof PriorityInput>(key:K,value:PriorityInput[K])=>{setProblem("");setForm(v=>({...v,[key]:value,
+  ...(["dueDate","deadlineType","sourceRef","evidenceSummary"].includes(key)&&value!==v[key]?{evidenceCheckedAt:""}:{})}));};
  const submit=(event:FormEvent)=>{
   event.preventDefault();
   try{validatePriorityInput(form);}catch(e){setProblem(errorText(e));return;}
@@ -104,10 +105,10 @@ function Editor({initial,onSave,onCancel,busy,submitLabel="Guardar",conflict,onD
  </form>;
 }
 
-function ProposalCard({item,today,busy,onChange,onDiscard,onOpenExisting}:{item:ProposalReview;today:string;busy:boolean;
+function ProposalCard({item,today,busy,blockers,onChange,onDiscard,onOpenExisting}:{item:ProposalReview;today:string;busy:boolean;blockers:string[];
  onChange:(next:ProposalReview)=>void;onDiscard:()=>void;onOpenExisting:(id:string)=>void}){
  const [editing,setEditing]=useState(false);
- const v=item.input,level=levelOf(v.urgency),blockers=proposalBlockers(item),saved=item.state==="saved";
+ const v=item.input,level=levelOf(v.urgency),saved=item.state==="saved";
  const locked=busy||saved;
  return <li className="space-y-2 rounded-xl border border-hairline p-3 text-xs">
    <div className="flex items-start gap-2">
@@ -195,14 +196,15 @@ function Board(){
   }catch(e){setReview(null);setProposalError(errorText(e));}};
  const updateItem=(id:string,next:ProposalReview)=>setReview(r=>r&&r.map(x=>x.id===id?next:x));
  const pending=(review||[]).filter(x=>x.selected&&x.state!=="saved");
- const blocked=pending.filter(x=>proposalBlockers(x).length>0);
+ const blockersFor=(item:ProposalReview)=>proposalBlockers(item,{current:tasks,proposals:review||[]});
+ const blocked=pending.filter(x=>blockersFor(x).length>0);
  const saveSelected=async()=>{
   // One run at a time (double click / double tap); each proposal keeps its UUID across retries.
   if(importLock.current||!canWrite||!review)return;
   importLock.current=true;setImporting(true);
   try{
    ensureOnline();
-   for(const item of review.filter(x=>x.selected&&x.state!=="saved"&&proposalBlockers(x).length===0)){
+   for(const item of review.filter(x=>x.selected&&x.state!=="saved"&&blockersFor(x).length===0)){
     const attempted=item.attempted;
     setReview(r=>r&&r.map(x=>x.id===item.id?{...x,attempted:true,state:"saving",error:""}:x));
     try{
@@ -297,7 +299,7 @@ function Board(){
      {proposalError&&<p role="alert" className="text-xs text-amber-300">{proposalError}</p>}
      {review&&review.length>0&&<div className="space-y-3">
        <p className="text-xs text-platinum/75">{review.length} propuestas · {pending.length} seleccionadas pendientes · {savedCount} guardadas</p>
-       <ul className="space-y-2">{review.map(item=><ProposalCard key={item.id} item={item} today={today} busy={busy}
+       <ul className="space-y-2">{review.map(item=><ProposalCard key={item.id} item={item} today={today} busy={busy} blockers={blockersFor(item)}
           onChange={next=>updateItem(item.id,next)} onDiscard={()=>setReview(r=>r&&r.filter(x=>x.id!==item.id))}
           onOpenExisting={openExisting}/>)}</ul>
        {blocked.length>0&&<p role="alert" className="text-xs text-red-300">Resuelve los avisos marcados con ✕ o desmarca esas propuestas para continuar.</p>}

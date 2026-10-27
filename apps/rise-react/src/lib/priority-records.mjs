@@ -167,7 +167,12 @@ export async function patchPriorityTask(client,uid,task,changes={}){
  if(["title","urgency","dueDate","deadlineType","why","origin","sourceRef","evidenceSummary","evidenceCheckedAt"]
    .some(k=>Object.prototype.hasOwnProperty.call(changes,k))){
   const current={title:payload.title,...normalizePriority(payload)};
-  const v=validatePriorityInput({...current,...changes});
+  const merged={...current,...changes};
+  // A previous check attests to the previous date/source, not to newly edited evidence.
+  const evidenceChanged=["dueDate","deadlineType","sourceRef","evidenceSummary"]
+   .some(k=>Object.prototype.hasOwnProperty.call(changes,k)&&changes[k]!==current[k]);
+  if(evidenceChanged&&!Object.prototype.hasOwnProperty.call(changes,"evidenceCheckedAt"))merged.evidenceCheckedAt="";
+  const v=validatePriorityInput(merged);
   // RISE urgency is independent from Work's priority (Normal/High/Strategic), which is kept untouched.
   Object.assign(payload,{title:v.title,urgency:v.urgency,dueDate:v.dueDate,deadlineType:v.deadlineType,why:v.why,origin:v.origin});
   const evidence=evidencePayload(v);
@@ -227,8 +232,14 @@ export function reviewPriorityProposals(raw,current=[]){
  });
 }
 /** Reasons a reviewed proposal cannot be saved yet. Empty array = ready. */
-export function proposalBlockers(item){
+export function proposalBlockers(item,{current=[],proposals=[]}={}){
  const v=item.input,out=[];
+ // Recompute against edited drafts and refreshed Work rows; the preview's duplicateOf is only a snapshot.
+ // A matching UUID is our own uncertain write, which persistProposal must be allowed to recover.
+ if(!uniquePriorityProposals([v],current.filter(t=>t.id!==item.id)).length)
+  out.push("Posible duplicado de una tarea existente. Edita la propuesta o desmárcala; la existente no se modifica.");
+ if(!uniquePriorityProposals([v],proposals.filter(p=>p.id!==item.id&&(p.selected||p.state==="saved")).map(p=>p.input)).length)
+  out.push("Propuesta repetida en la selección. Edita o desmarca una de las coincidencias.");
  if(!String(v.why||"").trim())out.push("Falta el motivo.");
  if(!v.dueDate&&!item.noDateConfirmed)out.push("Elige una fecha o confirma que la dejas sin fecha.");
  if(v.deadlineType==="real"&&(!v.dueDate||!v.evidenceSummary||!v.evidenceCheckedAt))

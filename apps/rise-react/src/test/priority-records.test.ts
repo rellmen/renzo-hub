@@ -249,3 +249,34 @@ describe("Límite de carga compartido con Work",()=>{
    expect(limits[0]).toBe(WORK_LOAD_LIMIT);
  });
 });
+
+
+describe("Revisión que sigue vigente al editar",()=>{
+ const verified={...item("Plazo","P2","2026-10-31"),why:"Motivo",deadlineType:"real" as const,
+  proposalEvidence:{sourceRef:"Fuente",evidenceSummary:"Confirmación",evidenceCheckedAt:"2026-10-27T10:00:00Z"}};
+ it.each([{dueDate:"2026-11-01"},{sourceRef:"Otra fuente"},{evidenceSummary:"Otra confirmación"}])(
+  "no hereda comprobación al cambiar el plazo o su evidencia: %j",async changes=>{
+   const {client,calls}=fakeClient([{data:row(),error:null}]);
+   await expect(patchPriorityTask(client,uid,verified,changes)).rejects.toThrow(/comprobación|compruébalo/i);
+   expect(calls.filter(c=>c[0]==="update")).toHaveLength(0);
+ });
+ it("conserva la comprobación al editar solo el motivo",async()=>{
+   const {client,calls}=fakeClient([{data:row(),error:null}]);
+   await patchPriorityTask(client,uid,verified,{why:"Motivo actualizado"});
+   expect((calls.find(c=>c[0]==="update")![1] as {payload:PriorityTask}).payload.proposalEvidence?.evidenceCheckedAt)
+    .toBe("2026-10-27T10:00:00Z");
+ });
+ it("admite fecha cambiada con comprobación explícita y mantiene el control CAS",async()=>{
+   const {client,calls}=fakeClient([{data:row(),error:null}]);
+   await patchPriorityTask(client,uid,verified,{dueDate:"2026-11-01",evidenceCheckedAt:"2026-10-27T11:00:00Z"});
+   expect(calls).toContainEqual(["eq","updated_at",stamp]);
+ });
+ it("revalida duplicados con el contenido editado sin bloquear recuperar el UUID propio",()=>{
+   const [draft]=reviewPriorityProposals(JSON.stringify({tasks:[{title:"Nueva",why:"Motivo",dueDate:"2026-11-01"}]}),[]);
+   const current=[item("Existente","P2","2026-11-01","Completed")];
+   const edited={...draft!,input:{...draft!.input,title:" existente "}};
+   expect(proposalBlockers(edited,{current}).join(" ")).toMatch(/duplicad/i);
+   expect(proposalBlockers(edited,{current:[{...current[0]!,id:edited.id}]})).toEqual([]);
+   expect(proposalBlockers(edited,{proposals:[edited,{...draft!,id:"otra",input:edited.input}]}).join(" ")).toMatch(/repetid/i);
+ });
+});
