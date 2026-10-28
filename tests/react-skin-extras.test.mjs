@@ -31,3 +31,12 @@ test('Skin photos stay in the owner skin folder with signed URLs',async()=>{
  await assert.rejects(sx.deleteSkinPhoto(client,U,`${U}/gym/33333333-3333-4333-8333-333333333333.jpg`),/Ruta privada/);
  await assert.rejects(sx.uploadSkinPhoto(client,U,new File(['x'],'a.gif',{type:'image/gif'})),/JPEG/);
 });
+test('Numbuzin duplicates are informational and preserve availability filtering',()=>{
+ const available={p19:'available',p4:'available',p6:'available',p7:'available',p9:'available'};
+ const warnings=sx.skinCompatibility(available,false);
+ assert.equal(warnings.length,5);
+ assert.equal(warnings.filter(w=>w.products.includes(19)).length,4);
+ assert(warnings.filter(w=>w.products.includes(19)).every(w=>w.level==='info'));
+ assert.equal(sx.skinCompatibility({p19:'available'},true).length,1);
+ assert.equal(sx.skinCompatibility({p19:'paused',p7:'available'},false).length,0);
+});
