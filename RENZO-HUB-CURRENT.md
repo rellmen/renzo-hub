@@ -1,5 +1,9 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## Skin · 28 octubre 2026
+
+PR #178 integrado en staging (`69060e9`), CI completo verde. Calendario semanal y compatibilidad de Numbuzin completados en Nocturne; 19 IDs previos conservados, p19 añadido. Release React 2.55.1; Classic intacto. Sin migraciones; publicación y datos personales se verifican por separado.
+
 ## Decisión vigente · 23 octubre 2026 · staging Nocturne / Classic de lectura
 
 | Área | Estado |

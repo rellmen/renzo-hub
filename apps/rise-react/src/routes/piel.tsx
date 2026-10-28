@@ -147,6 +147,16 @@ function Skin(){
           </SectionCard>
         </div>
       </div>
+      <SectionCard eyebrow="Plan semanal · manchas y apariencia" title="Constancia con pocos activos" accent="var(--skin)">
+        <p className="text-sm text-muted-foreground">Primeras dos semanas: Numbuzin lunes, miércoles y sábado. Después, cada mañana si lo toleras. Retinal solo el viernes, tras comprobar tolerancia al sérum; no introducir ambos a la vez.</p>
+        <div className="mt-4 overflow-x-auto"><table className="w-full text-left text-sm"><caption className="sr-only">Calendario inicial de siete días</caption><thead><tr><th className="p-2">Día</th><th className="p-2">AM · terminar siempre con SPF</th><th className="p-2">PM · terminar con ILLIYOON</th></tr></thead><tbody>
+          {["Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Domingo"].map((day,i)=><tr key={day} className="border-t border-hairline"><th className="p-2 font-medium">{day}</th><td className="p-2">{[0,2,5].includes(i)?"Limpieza suave → Numbuzin → hidratación opcional":"Limpieza suave → hidratación opcional"}</td><td className="p-2">{i===4?"Limpieza suave → Celimax, solo si ya tolerado":"Limpieza suave → COSRX o Isntree opcional"}</td></tr>)}
+        </tbody></table></div>
+        <p className="mt-4 text-sm">Retinoides: elige Celimax o Differin indicado por tu profesional, nunca ambos. Mantén BHA y limpiador Eucerin exfoliante en pausa al introducir el plan. Tras 2–4 semanas tolerando una noche de retinal, puedes valorar una segunda noche separada; no es obligatoria.</p>
+        <p className="mt-3 text-sm">Ojeras: AXIS-Y Eye Serum según etiqueta, lejos de pestañas; hidratación, sueño regular, gafas de sol y evitar frotar. El pigmento, los vasos y los surcos requieren enfoques distintos; ningún sérum garantiza eliminarlas. Cejas: cepillado suave y evitar sobredepilar. El ricino acondiciona, sin crecimiento demostrado; evitar ojos.</p>
+        <p className="mt-3 text-sm">SPF: cantidad generosa y reaplicar cada 2 h al aire libre y tras sudar o bañarte. Si aparece ardor persistente, rojez o descamación, pausa Numbuzin y retinoides: limpieza suave, crema y SPF. Evitar retinoides en embarazo o búsqueda de embarazo. Revisar evolución en 8–12 semanas; consultar dermatología si persiste o empeora.</p>
+        <p className="mt-3 text-xs text-muted-foreground">El historial conserva las posiciones que marcaste; no acredita qué fórmula utilizaste. Los productos alternativos permanecen en el inventario y no es necesario usarlos todos.</p>
+      </SectionCard>
       <SectionCard eyebrow="Tu inventario" title="Productos ya identificados" accent="var(--skin)">
         {PRODUCTS.length?<div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {PRODUCTS.slice(0,showAll?PRODUCTS.length:6).map(([name,kind,precaution],i)=>{
