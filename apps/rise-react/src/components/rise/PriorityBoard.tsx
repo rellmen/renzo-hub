@@ -257,7 +257,7 @@ function Board(){
      <div className="flex flex-wrap items-start justify-between gap-3">
        <div className="min-w-0 flex-1">
          <p className="eyebrow mb-2 text-gold">Tu siguiente acción</p>
-         <p className="break-words font-display text-xl text-foreground sm:text-2xl">{focus.title}</p>
+         <p className="break-words font-display text-xl text-foreground sm:text-2xl">{"Empieza por: "+focus.title}</p>
          {focusPriority.why&&<p className="mt-2 max-w-2xl text-sm leading-relaxed text-platinum/75">{focusPriority.why}</p>}
        </div>
        <div className="shrink-0 space-y-2 text-right">
