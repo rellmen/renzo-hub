@@ -189,6 +189,9 @@ function Board(){
  const active=all.filter(t=>t.status!=="Completed"),completed=all.length-active.length;
  const overdue=active.filter(t=>{const d=normalizePriority(t).dueDate;return d&&d<today;});
  const shown=showAll?all:active.slice(0,5);
+ const progressPercent=all.length?Math.round(completed/all.length*100):0;
+ const focus=active[0]||null;
+ const focusPriority=focus?normalizePriority(focus):null;
  const busy=write.isPending||add.isPending||importing;
  const preview=()=>{try{
     const items=reviewPriorityProposals(proposal,all);
