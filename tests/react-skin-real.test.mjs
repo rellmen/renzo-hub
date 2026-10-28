@@ -21,8 +21,10 @@ function clientFactory({logs=[],note="",settings={skinPhase:"recovery",skinInven
  }};
  return {client,queries};
 }
-test('Original 19 skincare products and numbered AM/PM steps retain historical order',()=>{
- assert.equal(PRODUCTS.length,19);
+test('Numbuzin is appended while all 19 original product IDs and step counts remain stable',()=>{
+ assert.equal(PRODUCTS.length,20);
+ assert.deepEqual(PRODUCTS.slice(0,19).map(p=>p[0]),["Arencia Fresh Green Rice Mochi Cleanser","CeraVe Foaming Cleanser","Eucerin DermoPure Clinical Correcting Cleanser 2%","COSRX Advanced Snail 96 Mucin Power Essence","SKIN1004 Madagascar Centella Tone Brightening Capsule Ampoule","Paula’s Choice Skin Perfecting 2% BHA Liquid","Dr. Althea Vitamin C Boosting Serum","Anua Niacinamide 10% + TXA 4%","ILLIYOON Ceramide Ato Concentrate Cream","AXIS-Y Dark Spot Correcting Glow Serum","Heliocare 360 Pigment Solution Fluid SPF50+","Avène Sunsimed Pigment","celimax Retinal Shot Tightening Booster","NUXE Zinc Power","Isntree Hyaluronic Acid Toner Plus","AXIS-Y Vegan Collagen Eye Serum","Ondo Beauty 36.5 Dark Spot Treatment","Differin 0.1% (adapaleno)","Aceite de ricino Deliplus"]);
+ assert.equal(PRODUCTS[19][0],"Numbuzin No.5+ Glutathione Vitamin Concentrated Serum");
  assert.match(PRODUCTS[0][0],/Arencia/);
  assert.match(PRODUCTS[10][0],/Heliocare/);
  assert.match(PRODUCTS[12][0],/celimax/);
@@ -69,4 +71,13 @@ test('Weekly progress comes solely from recorded numeric indexes',()=>{
  const withLog=weekSkinProgress([{routine_date:"2026-10-22",session:"am",completed_steps:[0,1]}],new Date(2026,9,22,12));
  assert.equal(withLog[6].done,2);
  assert.equal(withLog[6].total,AM.length+PM[4].length);
+});
+
+test("Barrier phase pauses Numbuzin throughout the week and keeps SPF",()=>{
+ for(let d=0;d<7;d++){
+  const date=new Date(2026,10,1+d,12);
+  assert.match(stepsFor(date,"am",false)[1][1],/Numbuzin/);
+  assert.equal(stepsFor(date,"am",true)[1][0],"Pausar este activo");
+  assert.match(stepsFor(date,"am",true)[4][1],/SPF50/);
+ }
 });
