@@ -189,6 +189,9 @@ function Board(){
  const active=all.filter(t=>t.status!=="Completed"),completed=all.length-active.length;
  const overdue=active.filter(t=>{const d=normalizePriority(t).dueDate;return d&&d<today;});
  const shown=showAll?all:active.slice(0,5);
+ const progressPercent=all.length?Math.round(completed/all.length*100):0;
+ const focus=active[0]||null;
+ const focusPriority=focus?normalizePriority(focus):null;
  const busy=write.isPending||add.isPending||importing;
  const preview=()=>{try{
     const items=reviewPriorityProposals(proposal,all);
@@ -220,19 +223,53 @@ function Board(){
  const openExisting=(id:string)=>{setShowAll(true);setEditing(id);};
  const savedCount=(review||[]).filter(x=>x.state==="saved").length;
  const retrying=(review||[]).some(x=>x.state==="failed");
- return <section aria-label="RISE PRIORITY · tareas prioritarias" className="surface rim space-y-4 p-4 sm:p-6">
-   <header className="flex flex-wrap items-start justify-between gap-3">
-    <div><div className="eyebrow mb-1">RISE PRIORITY · EJECUCIÓN</div>
-      <h2 className="font-display text-3xl text-foreground">Mis prioridades</h2>
-      <p className="mt-1 text-sm text-platinum/75">Una lista. Fechas claras. Progreso guardado en tu cuenta.</p>
-    </div>
-    <button type="button" className="btn-ghost" aria-label="Actualizar prioridades"
-      disabled={records.isFetching||!canWrite} onClick={()=>void records.refetch()}><RefreshCw className={"h-4 w-4 "+(records.isFetching?"animate-spin":"")}/> Actualizar</button>
+ return <section aria-label="RISE PRIORITY · tareas prioritarias" className="surface rim relative space-y-5 overflow-hidden p-4 sm:p-6">
+   <div aria-hidden="true" className="pointer-events-none absolute -right-16 -top-20 h-48 w-64 rounded-full bg-gold/[0.055] blur-3xl"/>
+   <header className="relative flex flex-wrap items-start justify-between gap-3">
+     <div className="min-w-0">
+       <p className="eyebrow mb-2 flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-gold"/>RISE PRIORITY · TU ENFOQUE</p>
+       <h2 className="font-display text-3xl font-medium tracking-tight text-foreground sm:text-4xl">Mis prioridades<span className="text-gold">.</span></h2>
+       <p className="mt-2 max-w-xl text-sm leading-relaxed text-platinum/75">Lo importante primero. Cada tarea completada te acerca a un objetivo.</p>
+     </div>
+     <button type="button" className="btn-ghost min-h-11" aria-label="Actualizar prioridades"
+       disabled={records.isFetching||!canWrite} onClick={()=>void records.refetch()}><RefreshCw className={"h-4 w-4 "+(records.isFetching?"animate-spin":"")}/> Actualizar</button>
    </header>
-   {records.data&&<div className="flex flex-wrap gap-2 text-xs">
-     <span className="rounded-xl border border-hairline bg-raised px-3 py-2">{active.length} pendientes</span>
-     <span className="rounded-xl border border-hairline bg-raised px-3 py-2">{completed} completadas</span>
-     {overdue.length>0&&<span className="flex items-center gap-1 rounded-xl border border-red-500/40 px-3 py-2 text-red-300"><AlertTriangle className="h-3.5 w-3.5"/>{overdue.length} vencidas</span>}
+   {records.data&&<div className="relative rounded-2xl border border-hairline bg-raised/60 p-4 sm:p-5" aria-label="Resumen de progreso de tareas">
+     <div className="flex flex-wrap items-end justify-between gap-3">
+       <div>
+         <p className="eyebrow mb-1">Tu progreso</p>
+         <p className="font-display text-3xl tabular-nums text-foreground">{completed}<span className="px-1 text-xl text-muted-foreground">/</span>{all.length}<span className="ml-2 text-sm font-sans font-normal text-muted-foreground">completadas</span></p>
+       </div>
+       <p className="font-display text-3xl tabular-nums text-gold" aria-label={progressPercent+" por ciento completado"}>{progressPercent}%</p>
+     </div>
+     <div className="mt-3 h-2.5 overflow-hidden rounded-full bg-foreground/10" role="progressbar" aria-label="Progreso de prioridades"
+       aria-valuemin={0} aria-valuemax={100} aria-valuenow={progressPercent}>
+       <div className="h-full rounded-full bg-gradient-to-r from-gold/60 to-gold transition-[width] duration-300" style={{width:progressPercent+"%"}}/>
+     </div>
+     <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
+       <span>{active.length} pendientes</span>
+       <span>{completed} completadas</span>
+       {overdue.length>0&&<span className="inline-flex items-center gap-1 font-medium text-red-300"><AlertTriangle className="h-3.5 w-3.5"/>{overdue.length} vencidas</span>}
+     </div>
+   </div>}
+   {records.data&&focus&&focusPriority&&<div className="relative overflow-hidden rounded-2xl border border-gold/25 bg-gradient-to-br from-gold/[0.085] via-raised/65 to-transparent p-4 sm:p-5">
+     <div aria-hidden="true" className="absolute inset-y-0 left-0 w-1 bg-gold/70"/>
+     <div className="flex flex-wrap items-start justify-between gap-3">
+       <div className="min-w-0 flex-1">
+         <p className="eyebrow mb-2 text-gold">Tu siguiente acción</p>
+         <p className="break-words font-display text-xl text-foreground sm:text-2xl">{"Empieza por: "+focus.title}</p>
+         {focusPriority.why&&<p className="mt-2 max-w-2xl text-sm leading-relaxed text-platinum/75">{focusPriority.why}</p>}
+       </div>
+       <div className="shrink-0 space-y-2 text-right">
+         <span className={"inline-block rounded-lg border px-2.5 py-1 text-xs font-semibold "+levelOf(focusPriority.urgency).className}>
+           {focusPriority.urgency} · {levelOf(focusPriority.urgency).label}
+         </span>
+         <p className={"flex items-center justify-end gap-1 text-xs "+(focusPriority.dueDate&&focusPriority.dueDate<today?"text-red-300":"text-muted-foreground")}>
+           <Clock3 className="h-3.5 w-3.5"/>{dateCaption(focusPriority.dueDate,today)}
+         </p>
+       </div>
+     </div>
+     <p className="mt-4 text-[11px] text-muted-foreground">Primera de la lista según prioridad y vencimiento. Márcala abajo cuando realmente la termines.</p>
    </div>}
    {truncated&&<p role="note" className="rounded-xl border border-amber-500/40 p-3 text-xs text-amber-200">
      Se muestran las {WORK_LOAD_LIMIT} tareas modificadas más recientemente. Los contadores se refieren solo a ellas; las más antiguas siguen en Work.</p>}
@@ -242,20 +279,25 @@ function Board(){
    {write.error&&!(write.error instanceof PriorityConflictError&&editing)&&<p role="alert" className="text-sm text-red-300">{errorText(write.error)}</p>}
    {records.data&&active.length===0&&<p className="rounded-xl border border-dashed border-hairline p-4 text-sm text-muted-foreground">
      No hay tareas pendientes. Añade una o usa las que ya tienes en Proyectos.</p>}
+   {records.data&&active.length>0&&<div className="flex flex-wrap items-center justify-between gap-2 pt-1">
+     <div><p className="eyebrow mb-1">ORDEN DE EJECUCIÓN</p><h3 className="text-sm font-semibold text-foreground">Tu checklist</h3></div>
+     <span className="text-xs text-muted-foreground">Mostrando {shown.length} de {all.length}</span>
+   </div>}
    <ul className="space-y-2">
     {shown.map(t=>{
       const p=normalizePriority(t),level=levelOf(p.urgency);
       const isDone=t.status==="Completed";
-      return <li key={t.id} className="rounded-2xl border border-hairline bg-raised/50 p-3 sm:p-4">
+      return <li key={t.id} className={"group relative overflow-hidden rounded-2xl border border-hairline bg-raised/45 p-3 transition-colors hover:border-gold/30 sm:p-4 "+(isDone?"opacity-70":"")}>
+        <span aria-hidden="true" className={"absolute inset-y-0 left-0 w-[3px] "+(isDone?"bg-emerald-400/60":p.urgency==="P0"?"bg-red-400":p.urgency==="P1"?"bg-amber-400":p.urgency==="P2"?"bg-sky-400":"bg-muted-foreground/50")}/>
         <div className="flex items-start gap-3">
           <input type="checkbox" aria-label={(isDone?"Reabrir: ":"Completar: ")+t.title} checked={isDone}
             disabled={busy||!canWrite} onChange={e=>write.mutate({task:t,changes:{status:e.target.checked?"Completed":reopenStatusFor(t)}})}
             className="mt-1 h-6 w-6 shrink-0 accent-emerald-500"/>
           <div className="min-w-0 flex-1">
-            <div className="mb-1.5 flex flex-wrap gap-2">
+            <div className="mb-2 flex flex-wrap items-center gap-2">
               <span className={"rounded-lg border px-2 py-0.5 text-[11px] font-bold "+level.className}>{p.urgency} · {level.label}</span>
-              {p.dueDate&&<span className={"inline-flex items-center gap-1 text-xs "+(p.dueDate<today&&!isDone?"text-red-300":"text-muted-foreground")}>
-                <Clock3 className="h-3 w-3"/>{dateCaption(p.dueDate,today)} · {p.deadlineType==="real"?"externa":"interna"}</span>}
+              <span className={"inline-flex items-center gap-1 text-xs "+(p.dueDate&&p.dueDate<today&&!isDone?"text-red-300":"text-muted-foreground")}>
+                <Clock3 className="h-3 w-3"/>{dateCaption(p.dueDate,today)}{p.dueDate?" · "+(p.deadlineType==="real"?"externa":"interna"):""}</span>
               {!isDone&&<span className="text-xs text-muted-foreground">{STATUS_LABEL[t.status]||t.status}</span>}
             </div>
             <p className={"break-words text-sm font-semibold "+(isDone?"line-through text-muted-foreground":"text-foreground")}>{t.title}</p>
@@ -267,7 +309,7 @@ function Board(){
             {isDone&&<p className="mt-1 text-[11px] text-muted-foreground">Al reabrirla vuelve a «{STATUS_LABEL[reopenStatusFor(t)]}».</p>}
           </div>
           <button type="button" disabled={busy||!canWrite} onClick={()=>setEditing(editing===t.id?null:t.id)}
-           className="rounded-xl border border-hairline px-3 py-2 text-xs text-platinum/80">Editar</button>
+           className="min-h-11 shrink-0 rounded-xl border border-hairline px-3 py-2 text-xs text-platinum/80 hover:border-gold/40 hover:text-foreground">Editar</button>
         </div>
         {editing===t.id&&<Editor key={t.id} busy={busy} conflict={conflicts[t.id]||null}
           initial={{title:t.title,...p}}
