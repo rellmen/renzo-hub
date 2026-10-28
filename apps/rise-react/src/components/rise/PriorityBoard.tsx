@@ -279,20 +279,25 @@ function Board(){
    {write.error&&!(write.error instanceof PriorityConflictError&&editing)&&<p role="alert" className="text-sm text-red-300">{errorText(write.error)}</p>}
    {records.data&&active.length===0&&<p className="rounded-xl border border-dashed border-hairline p-4 text-sm text-muted-foreground">
      No hay tareas pendientes. Añade una o usa las que ya tienes en Proyectos.</p>}
+   {records.data&&active.length>0&&<div className="flex flex-wrap items-center justify-between gap-2 pt-1">
+     <div><p className="eyebrow mb-1">ORDEN DE EJECUCIÓN</p><h3 className="text-sm font-semibold text-foreground">Tu checklist</h3></div>
+     <span className="text-xs text-muted-foreground">Mostrando {shown.length} de {all.length}</span>
+   </div>}
    <ul className="space-y-2">
     {shown.map(t=>{
       const p=normalizePriority(t),level=levelOf(p.urgency);
       const isDone=t.status==="Completed";
-      return <li key={t.id} className="rounded-2xl border border-hairline bg-raised/50 p-3 sm:p-4">
+      return <li key={t.id} className={"group relative overflow-hidden rounded-2xl border border-hairline bg-raised/45 p-3 transition-colors hover:border-gold/30 sm:p-4 "+(isDone?"opacity-70":"")}>
+        <span aria-hidden="true" className={"absolute inset-y-0 left-0 w-[3px] "+(isDone?"bg-emerald-400/60":p.urgency==="P0"?"bg-red-400":p.urgency==="P1"?"bg-amber-400":p.urgency==="P2"?"bg-sky-400":"bg-muted-foreground/50")}/>
         <div className="flex items-start gap-3">
           <input type="checkbox" aria-label={(isDone?"Reabrir: ":"Completar: ")+t.title} checked={isDone}
             disabled={busy||!canWrite} onChange={e=>write.mutate({task:t,changes:{status:e.target.checked?"Completed":reopenStatusFor(t)}})}
             className="mt-1 h-6 w-6 shrink-0 accent-emerald-500"/>
           <div className="min-w-0 flex-1">
-            <div className="mb-1.5 flex flex-wrap gap-2">
+            <div className="mb-2 flex flex-wrap items-center gap-2">
               <span className={"rounded-lg border px-2 py-0.5 text-[11px] font-bold "+level.className}>{p.urgency} · {level.label}</span>
-              {p.dueDate&&<span className={"inline-flex items-center gap-1 text-xs "+(p.dueDate<today&&!isDone?"text-red-300":"text-muted-foreground")}>
-                <Clock3 className="h-3 w-3"/>{dateCaption(p.dueDate,today)} · {p.deadlineType==="real"?"externa":"interna"}</span>}
+              <span className={"inline-flex items-center gap-1 text-xs "+(p.dueDate&&p.dueDate<today&&!isDone?"text-red-300":"text-muted-foreground")}>
+                <Clock3 className="h-3 w-3"/>{dateCaption(p.dueDate,today)}{p.dueDate?" · "+(p.deadlineType==="real"?"externa":"interna"):""}</span>
               {!isDone&&<span className="text-xs text-muted-foreground">{STATUS_LABEL[t.status]||t.status}</span>}
             </div>
             <p className={"break-words text-sm font-semibold "+(isDone?"line-through text-muted-foreground":"text-foreground")}>{t.title}</p>
@@ -304,7 +309,7 @@ function Board(){
             {isDone&&<p className="mt-1 text-[11px] text-muted-foreground">Al reabrirla vuelve a «{STATUS_LABEL[reopenStatusFor(t)]}».</p>}
           </div>
           <button type="button" disabled={busy||!canWrite} onClick={()=>setEditing(editing===t.id?null:t.id)}
-           className="rounded-xl border border-hairline px-3 py-2 text-xs text-platinum/80">Editar</button>
+           className="min-h-11 shrink-0 rounded-xl border border-hairline px-3 py-2 text-xs text-platinum/80 hover:border-gold/40 hover:text-foreground">Editar</button>
         </div>
         {editing===t.id&&<Editor key={t.id} busy={busy} conflict={conflicts[t.id]||null}
           initial={{title:t.title,...p}}
