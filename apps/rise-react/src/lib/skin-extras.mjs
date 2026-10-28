@@ -4,8 +4,11 @@
 import {PRODUCTS,dateKeyLocal} from "./skin-catalog.mjs";
 import {skinPhotoFolder,skinPhotoPath,validateSkinPhoto} from "./legacy-skin/photos.js";
 const name=i=>PRODUCTS[i]?.[0]||"Producto "+i;
-const BARRIER_PAUSE=[2,5,6,7,12,13];
+const BARRIER_PAUSE=[2,5,6,7,12,13,19];
 const PAIRS=[
+ ...[4,6,7,9].map(i=>({a:19,b:i,level:"info",text:()=>`${name(19)} y ${name(i)}: elegir un sérum de tono por sesión; evitar capas duplicadas al introducirlo.`})),
+ {a:2,b:12,level:"caution",text:()=>`${name(2)}: pausar al introducir ${name(12)}.`},
+ {a:2,b:17,level:"caution",text:()=>`${name(2)}: pausar al introducir ${name(17)}.`},
  {a:12,b:17,level:"conflict",text:()=>`${name(17)}: no combinar con ${name(12)}.`},
  {a:5,b:12,level:"conflict",text:()=>`${name(5)}: no usar en noches de retinal (${name(12)}).`},
  {a:5,b:17,level:"conflict",text:()=>`${name(5)}: no usar en noches de retinoide (${name(17)}).`},
