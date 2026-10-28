@@ -1,5 +1,9 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## Skin · 28 octubre 2026 · candidata 2.55.1
+
+Numbuzin añadido como p19, conservando productos, IDs e historial. Calendario semanal AM/PM y cuidado de ojeras/cejas, SPF y compatibilidades en Nocturne. PR #178 integrado; cierre en #179. Promoción limitada a Skin: no incluye cambios ajenos de Priority en staging. Sin migraciones; Classic intacto. Compilación, TypeScript y 127 tests React locales pasan; 13 pruebas Skin pasan.
+
 ## Decisión vigente · 23 octubre 2026 · staging Nocturne / Classic de lectura
 
 | Área | Estado |
