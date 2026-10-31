@@ -1,5 +1,17 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## Fase A · 31 octubre 2026 · PR hacia staging
+
+Release React 2.55.2. Sin migraciones, sin Classic, sin datos personales.
+
+| Cambio | Estado |
+| --- | --- |
+| CSP en Nocturne | `apps/rise-react/vercel.json` añade Content-Security-Policy (hallazgo de la validación de fin de mes: producción tenía HSTS, nosniff y DENY pero no CSP). Probada inyectándola en un navegador local sobre producción: 18 rutas, escritorio e iPhone, 0 violaciones; control negativo (`default-src 'self'`) sí detecta 8. `script-src` necesita `'unsafe-inline'` por la hidratación SSR de TanStack; sin `unsafe-eval` (pdf.js usa `isEvalSupported:false`). Regresión: `tests/nocturne-security-headers.test.mjs`. |
+| Smoke Nocturne | `tests/e2e/nocturne-smoke.mjs` sustituye al smoke Classic en `verify --smoke` (el antiguo buscaba `#authScreen` y daba 9/15 falsos). Contra producción actual: 13/15, solo falla la CSP que corrige este PR. |
+| release-check | `verify` lee `apps/rise-react/public/release.json`; `preflight` exige subir la versión de Nocturne cuando cambia `apps/rise-react` y acepta `staging → production`. |
+| Aviso de nóminas | `payroll-outliers.mjs`: si una nómina queda por debajo del 70 % de la mediana de las 8 revisadas anteriores (mínimo 4) se avisa en `/nominas`, con la pregunta según horas (vacaciones/baja) o deducciones. Solo lectura. Pruebas: 6 unitarias + visual con datos ficticios en CI. |
+| Entornos | `AGENTS.md` corregido: el dominio lo sirve `rise-hub-nocturne-qa` desde la rama `production`; `main` es solo Classic de respaldo. |
+
 ## Skin · 28 octubre 2026
 
 PR #178 integrado en staging (`69060e9`), CI completo verde. Calendario semanal y compatibilidad de Numbuzin completados en Nocturne; 19 IDs previos conservados, p19 añadido. Release React 2.55.1; Classic intacto. Sin migraciones; publicación y datos personales se verifican por separado.

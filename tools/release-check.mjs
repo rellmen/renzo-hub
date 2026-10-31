@@ -8,11 +8,14 @@
 // Staging está protegido por Vercel: define VERCEL_PROTECTION_BYPASS en tu shell (nunca en el repo)
 // para poder verificarlo. Sale con código 1 si alguna comprobación FALLA.
 import { execFileSync, spawnSync } from "node:child_process";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 
 const ROOT = new URL("..", import.meta.url).pathname;
 const REPO = "rellmen/renzo-hub";
-const release = JSON.parse(readFileSync(new URL("../release.json", import.meta.url), "utf8"));
+// Desde el 24-10-2026 el dominio sirve Nocturne (apps/rise-react); Classic (raíz) queda congelado.
+const NOCTURNE_RELEASE = "apps/rise-react/public/release.json";
+const release = JSON.parse(readFileSync(new URL(existsSync(new URL(`../${NOCTURNE_RELEASE}`, import.meta.url))
+  ? `../${NOCTURNE_RELEASE}` : "../release.json", import.meta.url), "utf8"));
 
 const results = [];
 const ok = (msg) => results.push(["OK", msg]);
@@ -33,7 +36,7 @@ const gh = (path) => JSON.parse(execFileSync("gh", ["api", path], { encoding: "u
 const ghAll = (path) => JSON.parse(execFileSync("gh", ["api", "--paginate", "--slurp", path], { encoding: "utf8", maxBuffer: 64 << 20 })).flat();
 
 // Archivos de la app: si cambian, tiene que cambiar release.json y la caché de sw.js.
-const isAppFile = (f) => !/^(docs|supabase|scripts|integrations|os-core|tests|tools|\.github)\//.test(f)
+const isAppFile = (f) => !/^(apps|content|docs|supabase|scripts|integrations|os-core|tests|tools|\.github)\//.test(f)
   && !/\.md$/.test(f) && !/^(package(-lock)?\.json|\.vercelignore|\.gitignore)$/.test(f);
 const SECRET = /(sb_secret_[A-Za-z0-9_-]{10,}|eyJhbGciOi[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}|service_role["']?\s*[:=]\s*["'][^"']{20,}|ghp_[A-Za-z0-9]{30,}|sk-ant-[A-Za-z0-9_-]{20,}|-----BEGIN [A-Z ]*PRIVATE KEY-----)/;
 
@@ -50,7 +53,7 @@ function preflight(arg) {
 
   // 1. Destino
   if (pr.base.ref === "staging") ok(`destino: ${pr.head.ref} → staging`);
-  else if (pr.base.ref === "main" && pr.head.ref === "staging") warn("destino: staging → main (PRODUCCIÓN). Solo con OK explícito de Renzo");
+  else if (["main", "production"].includes(pr.base.ref) && pr.head.ref === "staging") warn(`destino: staging → ${pr.base.ref} (PRODUCCIÓN). Solo con OK explícito de Renzo`);
   else fail(`destino inesperado: ${pr.head.ref} → ${pr.base.ref}`);
 
   // 2. Estado
@@ -80,6 +83,10 @@ function preflight(arg) {
     const sw = files.find((f) => f.filename === "sw.js");
     sw && /^[-+]const CACHE=/m.test(sw.patch || "") ? ok("caché de sw.js renombrada") : fail("cambia la app pero no la caché de sw.js");
   } else info("no cambia la app publicada: no hace falta subir versión ni caché");
+  // Nocturne: los assets llevan hash, así que basta con subir su release.json (sw.js no hace falta).
+  const nocturneChanged = names.filter((f) => /^apps\/rise-react\/(src|public|server|api)\//.test(f) && !/\.test\.|release\.json$/.test(f));
+  if (nocturneChanged.length || names.includes("apps/rise-react/vercel.json"))
+    names.includes(NOCTURNE_RELEASE) ? ok("release de Nocturne incrementado") : fail(`cambia Nocturne pero no ${NOCTURNE_RELEASE}`);
   names.includes("RENZO-HUB-CURRENT.md") ? ok("RENZO-HUB-CURRENT.md actualizado") : warn("RENZO-HUB-CURRENT.md sin cambios");
 
   // 5. Migraciones
@@ -140,7 +147,7 @@ async function verify(target, expected, smoke) {
   up ? info(`/api/payroll-upload responde ${up.status}`) : warn("/api/payroll-upload no responde");
 
   if (smoke) {
-    const run = spawnSync("node", ["tests/e2e/smoke.mjs"], { cwd: ROOT, encoding: "utf8", env: { ...process.env, BASE_URL: base } });
+    const run = spawnSync("node", ["tests/e2e/nocturne-smoke.mjs"], { cwd: ROOT, encoding: "utf8", env: { ...process.env, BASE_URL: base } });
     const last = (run.stdout || run.stderr || "").trim().split("\n").pop();
     run.status === 0 ? ok(`smoke: ${last}`) : fail(`smoke: ${last}`);
   } else info("smoke sin ejecutar (añade --smoke)");
