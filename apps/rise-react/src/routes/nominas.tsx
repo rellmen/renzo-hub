@@ -11,6 +11,7 @@ import {backendEnvironmentForHost} from "@/lib/nocturne-environment.mjs";
 import {PayrollUpload} from "@/components/rise/PayrollUpload";
 import {PayrollReview} from "@/components/rise/PayrollReview";
 import {PayrollMonthly} from "@/components/rise/PayrollMonthly";
+import {payrollOutliers} from "@/lib/payroll-outliers.mjs";
 
 export const Route=createFileRoute("/nominas")({
  head:()=>pageHead("Nóminas","Documentos salariales reales, validaciones y auditoría privada."),
@@ -26,6 +27,8 @@ function Payroll(){
  const query=useQuery({queryKey:["payroll-overview",uid],enabled:!!client&&!!uid,
   queryFn:()=>loadPayrollOverview(client!,uid),staleTime:30000,refetchOnWindowFocus:true});
  const data=query.data;
+ const outliers=new Map((data?payrollOutliers(data.rows):[]).map(x=>[x.id,x.outlier]));
+ const pendingOutliers=data?data.rows.filter(r=>outliers.has(r.id)&&r.review_status!=="approved"&&r.review_status!=="reviewed"):[];
  const historical=useQuery({queryKey:["payroll-contracts-shifts",uid],enabled:!!client&&!!uid,
   queryFn:()=>loadPayrollRecords(client!,uid),staleTime:30000,refetchOnWindowFocus:true});
  async function download(doc:PayrollDocument){
@@ -64,6 +67,10 @@ function Payroll(){
      <p className="text-xs text-muted-foreground">Comprobaciones no superadas registradas históricamente</p>
     </SectionCard>
    </div>
+   {pendingOutliers.length>0&&<div role="status" className="surface border border-gym/40 p-4 text-sm">
+    <p className="font-semibold text-gym"><AlertTriangle className="mr-2 inline h-4 w-4"/>{pendingOutliers.length===1?"1 nómina pendiente sale":`${pendingOutliers.length} nóminas pendientes salen`} muy por debajo de lo habitual</p>
+    <p className="mt-1 text-xs text-platinum/75">Antes de aprobar: {pendingOutliers.map(r=>r.period_label||r.period_end).join(", ")}. Es un aviso automático; no cambia ningún dato.</p>
+   </div>}
    <PayrollMonthly rows={data.rows}/>
    <SectionCard eyebrow="Historial privado" title="Documentos y periodos" accent="var(--gold)">
     {!data.rows.length?<p className="text-sm text-muted-foreground">No hay nóminas vinculadas a tu cuenta.</p>:
@@ -72,6 +79,9 @@ function Payroll(){
        <p className="text-sm font-semibold">{p.period_label||p.period_end||"Periodo sin identificar"}</p>
        <p className="text-xs text-muted-foreground">Bruto: {money(p.gross_salary)} · Neto: {money(p.net_payment??p.net_salary)}</p>
        <p className="text-xs text-muted-foreground">Horas: {p.worked_hours??"—"} · Estado: {p.review_status||"Sin revisión"}</p>
+       {outliers.has(p.id)&&(()=>{const o=outliers.get(p.id)!;return <p className="text-xs text-gym" data-testid="payroll-outlier">
+        <AlertTriangle className="mr-1 inline h-3 w-3"/>Neto {money(o.net)}: {Math.round(o.ratio*100)} % de lo habitual ({money(o.usualNet)}, mediana de {o.references} nóminas revisadas). {o.question}
+       </p>;})()}
        {(p.unresolved>0||p.failedValidations>0)&&<p className="text-xs text-gym">
         <AlertTriangle className="mr-1 inline h-3 w-3"/>{p.unresolved} anomalías pendientes · {p.failedValidations} reglas fallidas
        </p>}
