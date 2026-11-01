@@ -1,6 +1,6 @@
 {
-  "release": "2.58.0",
-  "name": "Rise · Fase C: cierre del mes en Money",
+  "release": "2.59.0",
+  "name": "Rise · Tickets de compra en Gastos",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",

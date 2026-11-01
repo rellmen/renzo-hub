@@ -1,5 +1,19 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## Tickets de compra · 1 noviembre 2026 · PR hacia staging
+
+Release React 2.59.0. Sin migraciones: los tickets son registros `money/money_receipt` en `hub_records` y la foto va a `hub-private/<uid>/receipts/<id>/`. **Decisión de Renzo (01-11-2026): opción C+A.**
+
+| Cambio | Estado |
+| --- | --- |
+| Lectura en el móvil | En `/gastos` → "Añadir ticket": foto, compresión a JPEG de 1600 px y lectura en el navegador con tesseract.js 7 (neerlandés), servido desde `/vendor/tesseract` (sin CDN). Propone tienda, fecha y total; todo editable. La foto no sale del móvil en este paso. |
+| Enlace con el banco | Busca el cargo del mismo importe entre 1 día antes y 5 después; preselecciona solo si no hay duda (único o mismo comercio). No modifica el movimiento: el ticket guarda `bank_tx_id`. |
+| Leer productos (IA) | Bajo demanda y con casilla de consentimiento por ticket: `/api/receipt-items` envía la foto a OpenRouter (`openrouter/free`, misma clave que Ares). Primero exige proveedores que no guardan datos; si no hay, pide un segundo consentimiento. Comparte el límite diario de IA (12). **Apagado** salvo `RECEIPT_AI_ENABLED=true` (preview); en producción además `RECEIPT_AI_ALLOW_PRODUCTION=true`. |
+| Revisión humana | Nada se guarda hasta "Guardar ticket". La suma de productos se compara con el total. |
+| CSP | `script-src` añade `'wasm-unsafe-eval'` (solo WebAssembly del lector; sigue sin `'unsafe-eval'`). Prueba en `tests/nocturne-security-headers.test.mjs`. |
+| Pruebas | `tests/react-receipts.test.mjs` (9), `tests/receipt-items-server.test.mjs` (7), visual en CI con lectura real en navegador y CSP de producción en el worker (`tests/e2e/receipts-visual-mock.mjs`). |
+| Pendiente | Probar con tickets reales en iPhone; tickets en español (añadir `spa`); notificaciones push. |
+
 ## Fase C · cierre del mes en Money · 1 noviembre 2026 · PR hacia staging (después de #186)
 
 Release React 2.58.0. Sin migraciones ni cambios de datos.
@@ -8,7 +22,7 @@ Release React 2.58.0. Sin migraciones ni cambios de datos.
 | --- | --- |
 | Cierre del mes | Panel en `/dinero` que comprueba el mes anterior: extracto de ING y de Revolut hasta fin de mes, gastos sin categoría y nóminas cobradas en el mes sin revisar (con el aviso de neto anómalo). Cada paso pendiente enlaza a donde se resuelve (importador, `/gastos`, `/nominas`). Solo lectura. Lógica pura en `month-close.mjs` (6 pruebas) y prueba visual en CI con el caso real del 31-10-2026. |
 | Ya existía | Importación de extractos ING/Revolut (CSV y PDF desde el móvil), reglas de categorías, gastos fijos, presupuesto semanal, objetivos y copia de seguridad: no se han duplicado. |
-| Pendiente | Notificaciones push (necesitan claves VAPID y un servidor), fotos de tickets. |
+| Pendiente | Notificaciones push (necesitan claves VAPID y un servidor). Tickets: ver arriba. |
 
 
 ## Academia · catalán y simulacro de Economía · 1 noviembre 2026 · PR hacia staging
