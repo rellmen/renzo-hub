@@ -1,8 +1,8 @@
 {
-  "release": "2.59.0",
-  "name": "Rise · Tickets de compra en Gastos",
+  "release": "2.60.0",
+  "name": "Rise · Notificaciones push",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",
-  "updated": "2026-11-01"
+  "updated": "2026-11-02"
 }

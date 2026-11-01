@@ -1,0 +1,11 @@
+export type PushSupport={supported:boolean;ios:boolean;standalone:boolean;needsInstall:boolean;permission:string};
+export type PushDevice={id:string;endpoint:string;label:string;created_at:string;last_ok_at:string|null};
+export declare function pushSupport(nav?:any,win?:any):PushSupport;
+export declare function b64uToBytes(s:string):Uint8Array;
+export declare function deviceLabel(ua?:string):string;
+export declare function subscriptionRow(sub:any,label:string):{endpoint:string;p256dh:string;auth:string;label:string};
+export declare function enablePush(client:any):Promise<{endpoint:string;label:string}>;
+export declare function disablePush(client:any):Promise<void>;
+export declare function currentEndpoint():Promise<string|null>;
+export declare function listDevices(client:any):Promise<PushDevice[]>;
+export declare function sendTest(client:any):Promise<{ok:boolean;devices:number;delivered:number}>;
