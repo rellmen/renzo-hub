@@ -45,14 +45,14 @@ function Academy(){
     progress:uoc.data?.progress??null,lessonMinutes,goal:uoc.data?.prefs?.weekly_minutes??null});
   const shift=shifts.data?shiftPreview(shifts.data,localDay()):undefined;
   const slot=studySlot(shift,uoc.data?.prefs?.session_minutes??null);
-  const ROADMAP_COURSE:Record<string,string>={math:"matematicas",physics:"fisica",spanish:"castellano",comment:"comentario",english:"ingles"};
+  const ROADMAP_COURSE:Record<string,string>={math:"matematicas",physics:"fisica",economy:"economia",spanish:"castellano",comment:"comentario",english:"ingles"};
   const preferCourses=tasksForDay(localDay()).map(t=>ROADMAP_COURSE[t.source]).filter((c):c is string=>!!c);
   const step=nextStep({preferCourses,queue,uocNext:plan?plan.next.map(n=>({...n,courseTitle:courseTitle(n.course)})):null,slot,weekly,uocOn:uocAllowed});
   const loading=learning.isLoading||(uocAllowed&&uoc.isLoading);
 
   return <div className="space-y-6">
     <PageHeader eyebrow="ACADEMY · HOY" title="Lo que toca estudiar"
-      subtitle="UOC +25 primero hasta el examen de abril; idiomas, data y lecturas alrededor. Cada curso guarda su progreso donde siempre."/>
+      subtitle="PAU +25 primero hasta los exámenes de abril; idiomas, data y lecturas alrededor. Cada curso guarda su progreso donde siempre."/>
 
     <SectionCard eyebrow="Siguiente paso" title={loading?"Preparando tu día…":step.title} accent="var(--learn)">
       {!loading&&<>
@@ -104,7 +104,7 @@ function Academy(){
 
     <SectionCard eyebrow="Apartados" title="Todo lo que estudias" accent="var(--learn)">
       <ul className="grid gap-2 sm:grid-cols-2">
-        <Shortcut to="/academia" icon={<GraduationCap className="h-5 w-5 text-learn"/>} title="UOC +25" text="Matemáticas, Física, Lengua, Comentario, Inglés"/>
+        <Shortcut to="/academia" icon={<GraduationCap className="h-5 w-5 text-learn"/>} title="UOC +25" text="Matemáticas, Economía, Lenguas, Comentario, Inglés"/>
         <Shortcut to="/aprender" icon={<Languages className="h-5 w-5 text-learn"/>} title="Idiomas" text="Neerlandés B2 · Inglés C1 · Inglés del examen UOC"/>
         <Shortcut to="/career" icon={<LineChart className="h-5 w-5 text-learn"/>} title="Data & Carrera" text="Power BI, SQL, Python y certificados"/>
         <Shortcut to="/news" icon={<Newspaper className="h-5 w-5 text-learn"/>} title="Biblioteca" text="News y lecturas guardadas"/>

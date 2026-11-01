@@ -2,7 +2,11 @@
 
 Actualizado: 24 octubre 2026 (noche, 4.ª tanda: simulacros en la app) · Rama `feature/academia-uoc25` · **No terminado.** Ninguna lección está publicada.
 
-## Decisión de ruta (24-10-2026, verificada en la web oficial de la UOC, convocatoria 2026)
+## Decisión vigente (01-11-2026, Renzo, opción 2)
+
+**Prueba +25 común de Cataluña** (Generalitat, presencial, fase general 10-04-2027 y específica 17-04-2027), opción E Ingeniería y Arquitectura con **Matemáticas + Economía de la Empresa**; la fase general incluye **Llengua catalana** (sin lecciones todavía). Física pasa a complementaria. Fuente: https://universitats.gencat.cat/ca/proves-majors/25-anys/ . Pendiente: lecciones de catalán y simulacro de Economía.
+
+## Decisión anterior (24-10-2026, sustituida)
 
 **Ruta: Ingeniería (Informática) → específicas Matemáticas + Física.** En la prueba de la UOC en castellano, Ingeniería y Arquitectura elige entre Física, Matemáticas y Química; **Economía de la Empresa no figura en ninguna opción**. Las 10 lecciones de Economía quedan como material **complementario** (no cuentan para el examen). Datos UOC 2026: examen virtual (Google Meet); Comentario 90 min; Castellano + Inglés 105 min; fase específica 180 min para las dos materias; nota final = media de fases, cada fase ≥ 4, aprobado ≥ 5; sin catalán. Fuente: https://www.uoc.edu/es/estudios/acceso-mayores/acceso-universidad-mayores-25 . Revalidar con la convocatoria 2027.
 

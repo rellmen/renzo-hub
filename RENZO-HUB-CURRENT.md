@@ -1,5 +1,16 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## Fase B · ruta PAU +25 · 1 noviembre 2026 · PR hacia staging
+
+Release React 2.56.0. Sin migraciones ni cambios de datos. **Decisión de Renzo (01-11-2026, opción 2):** prueba +25 común de Cataluña (Generalitat, presencial, 10 y 17 abr 2027), opción E con **Matemáticas + Economía de la Empresa**; la fase general incluye **Llengua catalana**. Motivo comprobado: la prueba en español de la UOC solo admite Física, Matemáticas o Química en Ingeniería.
+
+| Cambio | Estado |
+| --- | --- |
+| Roadmap | Desde la semana 2 (2 nov): 13 h = Matemáticas 3 h 30, Economía 3 h, Catalán, Castellano, Comentario e Inglés 1 h 30, test 30 min. La semana 1 conserva el plan con Física (IDs `w01-*` intactos, nada marcado se pierde). Temas de Economía alineados con B00–B09; temas de catalán sin lecciones. Hitos nuevos: viaje (31 ene) y matrícula en el Portal d'Accés (15 feb). |
+| Academy | Economía pasa a específica y Física a complementaria (catálogo regenerado, mismas lecciones y claves). Objetivo por defecto 780 min. Si las preferencias guardadas siguen en Física, `/academia` lo avisa: Renzo debe elegir Economía y guardar (no se tocan sus datos). |
+| Pendiente | Lecciones de catalán; simulacro de Economía en la app; revisar horarios 2027 cuando se publiquen. |
+
+
 ## Fase A · 31 octubre 2026 · PR hacia staging
 
 Release React 2.55.2. Sin migraciones, sin Classic, sin datos personales.
