@@ -6,6 +6,7 @@ import {pageHead} from "@/lib/seo";
 import {useAuth} from "@/lib/auth/AuthProvider";
 import {PageHeader,SectionCard} from "@/components/rise/primitives";
 import {CarPanel} from "@/components/rise/money/CarPanel";
+import {ReceiptsPanel} from "@/components/rise/money/ReceiptsPanel";
 import {loadGastos,saveGastosCategory,saveMerchantRule,deleteMerchantRule,GASTOS_CATEGORIES,type MoneyRule} from "@/lib/gastos-editor.mjs";
 
 export const Route=createFileRoute("/gastos")({
@@ -67,6 +68,7 @@ function Expenses(){
    </SectionCard>
   </>}
   <CarPanel month={month}/>
+  {query.data&&<ReceiptsPanel items={query.data.items} month={month}/>}
   {query.data&&<>
    <SectionCard eyebrow="Categorías" title="Movimientos bancarios" accent="var(--gold)">
     {!items.length&&<p className="text-sm text-muted-foreground">No hay movimientos para este periodo.</p>}

@@ -8,6 +8,8 @@ import aresDispatchHandler from "../server/ares-dispatch.mjs";
 import tutorHandler from "../server/selflearn-tutor.mjs";
 // @ts-expect-error Reused server-only PDF handler with JWT verification and private Storage.
 import payrollUploadHandler from "../server/payroll-upload.mjs";
+// @ts-expect-error Tickets: lectura de productos bajo demanda (OpenRouter), apagada salvo RECEIPT_AI_ENABLED.
+import receiptItemsHandler from "../server/receipt-items.mjs";
 // @ts-expect-error Shared metadata handler is plain JavaScript, server-side only.
 import deploymentInfoHandler from "../api/deployment-info.js";
 import {serveNodeHandler} from "./lib/server/node-handler.mjs";
@@ -65,6 +67,7 @@ export default {
       if(new URL(request.url).pathname==="/api/ares-dispatch")return await serveNodeHandler(request,aresDispatchHandler);
       if(new URL(request.url).pathname==="/api/selflearn-tutor")return await serveNodeHandler(request,tutorHandler);
       if(new URL(request.url).pathname==="/api/payroll-upload")return await serveNodeHandler(request,payrollUploadHandler,{maxBodyBytes:Math.ceil(3*1024*1024/3)*4+65536});
+      if(new URL(request.url).pathname==="/api/receipt-items")return await serveNodeHandler(request,receiptItemsHandler,{maxBodyBytes:3*1024*1024});
       if(new URL(request.url).pathname==="/api/deployment-info")return await serveNodeHandler(request,deploymentInfoHandler);
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);

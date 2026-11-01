@@ -25,6 +25,12 @@ test('CSP: sin orígenes de script externos, sin eval, sin iframes ni plugins',(
   assert.ok(csp.includes(d),d);
 });
 
+test('CSP: WebAssembly solo con wasm-unsafe-eval (lector de tickets en el móvil), nunca eval de JavaScript',()=>{
+ const script=directive('script-src');
+ assert.equal(script,"script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'");
+ assert.ok(!/(^|\s)'unsafe-eval'/.test(script));
+});
+
 test('CSP: red solo hacia la app y Supabase; fuentes solo Google Fonts',()=>{
  assert.equal(directive('connect-src'),"connect-src 'self' https://*.supabase.co wss://*.supabase.co");
  assert.ok(directive('font-src').includes('https://fonts.gstatic.com'));
