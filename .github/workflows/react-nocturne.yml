@@ -10,6 +10,7 @@ on:
       - "tests/e2e/payroll-outlier-visual-mock.mjs"
       - "tests/e2e/month-close-visual-mock.mjs"
       - "tests/e2e/receipts-visual-mock.mjs"
+      - "tests/e2e/notifications-visual-mock.mjs"
       - ".github/workflows/react-nocturne.yml"
   workflow_dispatch:
 
@@ -84,6 +85,7 @@ jobs:
           REACT_QA_BASE_URL=http://127.0.0.1:4174 SHOTS=/tmp/payroll-shots node ../../tests/e2e/payroll-outlier-visual-mock.mjs || { cat /tmp/rise-react-preview.log; exit 1; }
           REACT_QA_BASE_URL=http://127.0.0.1:4174 SHOTS=/tmp/money-shots node ../../tests/e2e/month-close-visual-mock.mjs || { cat /tmp/rise-react-preview.log; exit 1; }
           REACT_QA_BASE_URL=http://127.0.0.1:4174 SHOTS=/tmp/receipts-shots node ../../tests/e2e/receipts-visual-mock.mjs || { cat /tmp/rise-react-preview.log; exit 1; }
+          REACT_QA_BASE_URL=http://127.0.0.1:4174 SHOTS=/tmp/notifications-shots node ../../tests/e2e/notifications-visual-mock.mjs || { cat /tmp/rise-react-preview.log; exit 1; }
       - name: React release blocker report (informational)
         run: node tools/react-cutover-audit.mjs
 

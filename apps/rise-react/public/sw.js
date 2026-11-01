@@ -26,3 +26,25 @@ self.addEventListener("fetch", (event) => {
     return response;
   })());
 });
+
+/* Notificaciones push de Rise (02-11-2026). El servidor solo envía título, texto, enlace interno y etiqueta. */
+self.addEventListener("push", (event) => {
+  let d = {};
+  try { d = event.data ? event.data.json() : {}; } catch { d = { body: event.data ? event.data.text() : "" }; }
+  const url = typeof d.url === "string" && d.url.startsWith("/") && !d.url.startsWith("//") ? d.url : "/";
+  event.waitUntil(self.registration.showNotification(String(d.title || "Rise").slice(0, 80), {
+    body: String(d.body || "").slice(0, 200), tag: String(d.tag || "rise").slice(0, 80),
+    data: { url }, icon: "/icon-192.png", badge: "/icon-192.png"
+  }));
+});
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  const url = new URL(event.notification.data?.url || "/", self.location.origin).href;
+  event.waitUntil((async () => {
+    const open = await self.clients.matchAll({ type: "window", includeUncontrolled: true });
+    for (const c of open) {
+      if (c.url.startsWith(self.location.origin)) { await c.focus(); if ("navigate" in c) await c.navigate(url); return; }
+    }
+    await self.clients.openWindow(url);
+  })());
+});
