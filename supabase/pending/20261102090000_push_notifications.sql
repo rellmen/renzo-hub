@@ -62,7 +62,7 @@ begin
  return query select v.public_key, v.private_key from push_private.vapid v where v.id=1;
 end $$;
 create or replace function public.push_srv_sent(p_owner uuid, p_keys text[]) returns text[] language sql stable security definer set search_path='' as $$
- select coalesce(array_agg(key),'{}') from push_private.sent where owner_id=p_owner and key = any(p_keys) $$;
+ select coalesce(array_agg(key order by key),'{}') from push_private.sent where owner_id=p_owner and key = any(p_keys) $$;
 create or replace function public.push_srv_mark(p_owner uuid, p_keys text[]) returns void language sql security definer set search_path='' as $$
  insert into push_private.sent(owner_id,key) select p_owner, k from unnest(p_keys) k where k is not null on conflict do nothing $$;
 do $g$ declare f text; begin
