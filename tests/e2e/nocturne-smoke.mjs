@@ -12,6 +12,9 @@ const base = (process.env.BASE_URL || "https://renzo-hub.vercel.app").replace(/\
 const expectedEnv = process.env.EXPECT_ENV || (new URL(base).hostname === "renzo-hub.vercel.app" ? "production" : "preview");
 const secret = process.env.VERCEL_PROTECTION_BYPASS;
 const extra = secret ? { "x-vercel-protection-bypass": secret, "x-vercel-set-bypass-cookie": "true" } : {};
+// Alternativa sin secreto: enlace temporal de Vercel (`?_vercel_share=…`, caduca en 23 h). Nunca al repo.
+const share = process.env.VERCEL_SHARE_URL;
+const unlock = async (ctx) => { if (share) { const p = await ctx.newPage(); await p.goto(share, { waitUntil: "domcontentloaded" }); await p.close(); } };
 const ROUTES = ["/", "/ajustes", "/aprender", "/gym", "/dinero", "/gastos", "/piel", "/proyectos", "/notas", "/body", "/food",
   "/ares", "/nominas", "/turnos", "/apps", "/quest", "/news", "/agentes"];
 const INTERNAL = ["/AGENTS.md", "/CLAUDE.md", "/RENZO-HUB-CURRENT.md", "/package.json", "/.env", "/scripts/renzo-hub",
@@ -25,9 +28,12 @@ const browser = await chromium.launch();
 
 for (const [label, opts] of [["móvil", { ...devices["iPhone 13"], defaultBrowserType: undefined }], ["escritorio", { viewport: { width: 1440, height: 900 } }]]) {
   const ctx = await browser.newContext({ ...opts, extraHTTPHeaders: extra });
+  await unlock(ctx);
   const page = await ctx.newPage();
   const errors = [];
-  page.on("console", (m) => { if (m.type() === "error") errors.push(m.text().slice(0, 160)); });
+  // Vercel inyecta su barra de comentarios (vercel.live) solo en despliegues preview; la CSP la bloquea a propósito.
+  const toolbar = (t) => expectedEnv === "preview" && t.includes("https://vercel.live/");
+  page.on("console", (m) => { if (m.type() === "error" && !toolbar(m.text())) errors.push(m.text().slice(0, 160)); });
   page.on("pageerror", (e) => errors.push(String(e).slice(0, 160)));
   await page.addInitScript(() => document.addEventListener("securitypolicyviolation", (e) => console.error(`CSP: ${e.violatedDirective} ${e.blockedURI}`)));
   const resp = await page.goto(base + "/", { waitUntil: "networkidle", timeout: 45000 });
@@ -59,12 +65,13 @@ for (const [label, opts] of [["móvil", { ...devices["iPhone 13"], defaultBrowse
       await page.getByRole("heading", { name: "Tu espacio privado." }).waitFor({ timeout: 20000 }).catch(() => { throw new Error(`${p}: no pide sesión`); });
     }
   });
-  await check(`[${label}] sin errores de consola ni violaciones CSP`, async () => assert.deepEqual(errors, []));
+  await check(`[${label}] sin errores de consola ni violaciones CSP`, async () => assert.deepEqual(errors, [], errors.join(" | ")));
   await page.screenshot({ path: `/tmp/rise-nocturne-smoke-${label === "móvil" ? "mobile" : "desktop"}.png` });
   await ctx.close();
 }
 
 const ctx = await browser.newContext({ extraHTTPHeaders: extra });
+await unlock(ctx);
 await check(`entorno ${expectedEnv} en /api/deployment-info`, async () => {
   const r = await ctx.request.get(base + "/api/deployment-info");
   assert.equal(r.status(), 200);
