@@ -21,6 +21,8 @@ export const BANDS:Band[];
 export const REVIEW_DAYS:number[];
 export const SESSION_OPTIONS:number[];
 export const WEEKLY_SPLIT:Record<string,number>;
+export const DEFAULT_ELECTIVE:"economia";
+export const DEFAULT_WEEKLY_MINUTES:number;
 export function bandFor(pct:number|null|undefined):Band|null;
 export function daysUntil(iso:string,now?:Date):number|null;
 export function flattenLessons(c:Catalog):FlatLesson[];

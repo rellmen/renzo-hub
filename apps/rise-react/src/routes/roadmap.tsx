@@ -6,7 +6,7 @@ import {PageHeader,SectionCard,Bar} from "@/components/rise/primitives";
 import {RoadmapToday} from "@/components/rise/roadmap/RoadmapToday";
 import {RoadmapItem} from "@/components/rise/roadmap/RoadmapItem";
 import {useRoadmap} from "@/components/rise/roadmap/useRoadmap";
-import {BOSSES,CHAPTERS,DIRECTION,FUTURE_STAGES,MILESTONES,PATH_VERSION,autoSteps,itemState,tasksForWeek,weekStart,type PathItem} from "@/lib/career-path.mjs";
+import {BOSSES,CHAPTERS,DIRECTION,FUTURE_STAGES,MILESTONES,PATH_VERSION,ROUTE_SWITCH_WEEK,autoSteps,itemState,tasksForWeek,weekStart,type PathItem} from "@/lib/career-path.mjs";
 
 export const Route=createFileRoute("/roadmap")({
   head:()=>pageHead("Roadmap","Roadmap 2026–2032 en tareas y subtareas: de operaciones a datos e IA."),
@@ -43,7 +43,7 @@ function Roadmap(){
         </div>}>
         <p className="flex flex-wrap items-center justify-between gap-2 text-xs text-muted-foreground"><span className="inline-flex items-center gap-2"><CalendarDays className="h-4 w-4"/>{fmt(weekStart(week))} a {fmt(days[days.length-1]!)}</span>
           <span className="text-gold">{missions.filter(t=>t.done).length}/{missions.length} tareas</span></p>
-        <p className="mt-2 text-xs text-muted-foreground">12 h: Matemáticas 4 h · Física 3 h · Castellano 2 h · Comentario 1,5 h · Inglés 1,5 h, más 30 min de test el domingo. Viernes libre.</p>
+        <p className="mt-2 text-xs text-muted-foreground">{week<ROUTE_SWITCH_WEEK?"12 h: Matemáticas 4 h · Física 3 h · Castellano 2 h · Comentario 1,5 h · Inglés 1,5 h, más 30 min de test el domingo. Viernes libre.":"13 h: Matemáticas 3 h 30 · Economía 3 h · Catalán, Castellano, Comentario e Inglés 1 h 30 cada uno, más 30 min de test el domingo. Viernes libre."}</p>
         <div className="mt-3 space-y-2">{days.map(d=><div key={d} className="rounded-xl border border-hairline px-3">
           <h3 className="border-b border-hairline py-2.5 text-xs font-semibold capitalize text-platinum/80">{fmt(d)}{d===r.view.today?" · hoy":""}</h3>
           <ul className="divide-y divide-hairline">{missions.filter(t=>t.day===d).map(t=>item(t))}</ul>
@@ -88,6 +88,6 @@ function Roadmap(){
     </SectionCard>
 
     <p className="flex items-start gap-2 text-xs text-muted-foreground"><Info className="mt-0.5 h-4 w-4 shrink-0"/>
-      El roadmap v1.0 dice Matemáticas + Economía, pero la opción Ingeniería y Arquitectura de la UOC solo admite Física, Matemáticas y Química. Aquí va Física con las mismas 3 h; Economía sigue en Academia como complementaria.</p>
+      Ruta desde el 1 de noviembre de 2026: PAU +25 común de Cataluña, presencial, opción Ingeniería y Arquitectura con Matemáticas + Economía de la Empresa; la fase general incluye catalán. La prueba en español de la UOC no admite Economía para Ingeniería. La semana del 26 de octubre conserva el plan anterior con Física.</p>
   </div>;
 }
