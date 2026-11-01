@@ -20,7 +20,7 @@ const VIEWS:{id:View;label:string}[]=[{id:"plan",label:"Mi plan"},{id:"cursos",l
 type Search={v?:View|undefined;leccion?:string|undefined;curso?:string|undefined};
 
 export const Route=createFileRoute("/academia")({
-  head:()=>pageHead("Academia +25","Preparación privada para la prueba de acceso +25 (UOC, castellano): plan, lecciones, práctica y simulacros."),
+  head:()=>pageHead("Academia +25","Preparación privada para la prueba de acceso +25 de Cataluña: plan, lecciones, práctica y simulacros."),
   validateSearch:(s:Record<string,unknown>):Search=>({
     v:VIEWS.some(x=>x.id===s["v"])?s["v"] as View:undefined,
     leccion:typeof s["leccion"]==="string"&&/^[a-z0-9-]{3,64}$/.test(s["leccion"])?s["leccion"]:undefined,
@@ -53,7 +53,7 @@ function Academia(){
   if(!allowed)return <EmptyState icon={<Lock className="h-5 w-5"/>} title="Academia en pruebas" text="Disponible en staging hasta que apruebes su paso a producción."/>;
   return <div className="space-y-6">
     {!search.leccion&&<PageHero image={img} eyebrow="ACADEMIA +25" title="De cero al examen." color="var(--learn)" priority
-      subtitle="Ruta Ingeniería: Matemáticas y Física, más Castellano, Comentario e Inglés. Progreso real, corrección en servidor y simulacros cronometrados.">
+      subtitle="Ruta Ingeniería: Matemáticas y Economía, más Comentario, Catalán, Castellano e Inglés. Progreso real, corrección en servidor y simulacros cronometrados.">
       <div className="flex flex-wrap gap-2">
         <span className="inline-flex items-center gap-2 rounded-full border border-learn/35 bg-ink/70 px-4 py-2 text-xs text-platinum/90"><CalendarClock className="h-4 w-4 text-learn"/>
           {general!==null&&general>=0?`Fase general en ${general} días · específica en ${especifica}`:"Fechas de 2027 por confirmar"}</span>
@@ -139,7 +139,7 @@ function PlanView({data,prefs,onOpen,onSaved,client,uid}:{data:Data;prefs:Prefs|
         {prefs?.elective==="fisica"&&<p role="note" className="mt-2 text-xs text-gold">Tu plan guardado sigue con Física. Desde el 1 de noviembre la ruta es Matemáticas + Economía: elige Economía y pulsa Guardar.</p>}</fieldset>
       <label className="mt-3 flex min-h-11 items-center gap-3 text-sm"><input type="checkbox" className="h-5 w-5" checked={draft.show_drafts} onChange={e=>setDraft(d=>({...d,show_drafts:e.target.checked}))}/> Mostrar lecciones en borrador (modo revisión)</label>
       <ul className="mt-4 space-y-2 text-sm">{weekly.map(w=><li key={w.id} className="flex justify-between gap-2"><span>{w.label}</span><span className="text-muted-foreground">{w.minutes} min</span></li>)}</ul>
-      <p className="mt-2 text-xs text-muted-foreground">Reparto de referencia del roadmap (13 h por semana); ajústalo a tus turnos. Catalán aún no tiene lecciones: sus sesiones están en Roadmap.</p>
+      <p className="mt-2 text-xs text-muted-foreground">Reparto de referencia del roadmap (13 h por semana); ajústalo a tus turnos.</p>
       <button type="button" className="btn-gold mt-4" disabled={!data} onClick={()=>void save()}>Guardar</button>
       {msg&&<p role="status" className="mt-2 text-sm">{msg}</p>}
     </SectionCard>

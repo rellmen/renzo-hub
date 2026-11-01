@@ -21,7 +21,7 @@ export function AcademyMocks({client,mocks,available,elective,onChanged}:{client
   const [open,setOpen]=useState<string|null>(null);
   const [busy,setBusy]=useState<string|null>(null);
   const [error,setError]=useState<string|null>(null);
-  const order=["matematicas",elective,"castellano","comentario","ingles"];
+  const order=["matematicas",elective,"catalan","castellano","comentario","ingles"];
   const defs=[...MOCKS].sort((a,b)=>order.indexOf(a.course)-order.indexOf(b.course));
   const openSession=mocks.find(s=>s.id===open)||null;
   async function begin(def:MockDef){

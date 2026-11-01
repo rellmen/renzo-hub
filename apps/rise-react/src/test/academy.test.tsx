@@ -19,10 +19,13 @@ describe("Academia · contenido público",()=>{
       expect(t,f).not.toMatch(/"(key|correct_choice_id|accepted|explanation_md|grading_private|correct_value)"/);
     }
   });
-  it("informa estados editoriales reales: nada publicado y 120 lecciones del temario",()=>{
-    expect(CATALOG.stats.lessons_total).toBe(120);
+  it("informa estados editoriales reales: nada publicado y 131 lecciones del temario (con Llengua catalana)",()=>{
+    expect(CATALOG.stats.lessons_total).toBe(131);
     expect(CATALOG.stats.by_status["published"]).toBe(0);
-    expect(CATALOG.stats.by_status["planned"]!+CATALOG.stats.by_status["draft"]!).toBe(120);
+    expect(CATALOG.stats.by_status["planned"]!+CATALOG.stats.by_status["draft"]!).toBe(131);
+    const cat=CATALOG.courses.find(c=>c.slug==="catalan")!;
+    expect(cat.role).toBe("general");
+    expect(cat.modules.flatMap(m=>m.lessons).every(l=>l.has_content&&l.meets_standard)).toBe(true);
     expect(CATALOG.stats.meets_standard).toBeGreaterThanOrEqual(10);
     expect(BANK.length).toBe(56);
     expect(CATALOG.elective.chosen).toBe("economia"); // opción 2, 01-11-2026
@@ -53,7 +56,7 @@ describe("Academia · motor",()=>{
   it("el plan del día pone primero los repasos vencidos y nunca oculta una materia obligatoria",()=>{
     const p=todayPlan(CATALOG,{reviews:[{lesson_id:"castellano-c01-l01",step:0,due_on:"2026-10-23"}],prefs:null,now:new Date(2026,9,24)});
     expect(p.due.map(d=>d.lesson_id)).toEqual(["castellano-c01-l01"]);
-    expect([...p.next.map(n=>n.course),...p.blocked.map(b=>b.course)].sort()).toEqual(["castellano","comentario","economia","ingles","matematicas"]);
+    expect([...p.next.map(n=>n.course),...p.blocked.map(b=>b.course)].sort()).toEqual(["castellano","catalan","comentario","economia","ingles","matematicas"]);
     const legacy=todayPlan(CATALOG,{prefs:{elective:"fisica"} as never,now:new Date(2026,9,24)});
     expect([...legacy.next.map(n=>n.course),...legacy.blocked.map(b=>b.course)]).toContain("fisica");
     expect(dueReviews([{lesson_id:"x",step:0,due_on:"2026-10-25"}],new Date(2026,9,24))).toEqual([]);
@@ -123,7 +126,8 @@ describe("Academia · simulacros",()=>{
     expect(t).not.toMatch(/"(key|solution_md|rubric_md|correct|units|display|tol_abs|tol_rel|accepted)"/);
   });
   it("hay un simulacro por materia de la ruta y cada uno vale 10 puntos",()=>{
-    expect(MOCKS.map(m=>m.course).sort()).toEqual(["castellano","comentario","fisica","ingles","matematicas"]);
+    expect(MOCKS.map(m=>m.course).sort()).toEqual(["castellano","comentario","economia","fisica","ingles","matematicas"]);
+    expect(MOCKS.find(m=>m.course==="economia")!.sections[0]!.choose).toBe(4);
     for(const m of MOCKS)expect(mockMax(m),m.mock_id).toBe(10);
     expect(MOCKS.find(m=>m.course==="fisica")!.sections.flatMap(s=>s.groups.flatMap(g=>g.items)).filter(i=>i.kind==="numeric").every(i=>i.unit_required)).toBe(true);
   });

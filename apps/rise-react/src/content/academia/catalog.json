@@ -1231,6 +1231,244 @@
    ]
   },
   {
+   "slug": "catalan",
+   "title": "Llengua catalana",
+   "role": "general",
+   "role_label": "Fase general · prova catalana",
+   "exam_profile": "catalan_2026_cat_ref",
+   "models_url": "https://universitats.gencat.cat/ca/proves-majors/25-anys/models-examen/",
+   "official_syllabus_url": "https://universitats.gencat.cat/ca/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacatalana/index.html",
+   "modules": [
+    {
+     "id": "K00",
+     "title": "Diagnòstic i format",
+     "level": "N0",
+     "lessons": [
+      {
+       "id": "catalan-k00-l01",
+       "title": "Diagnòstic: comprensió lectora i format de la prova",
+       "topic_scope": "estructura de la prova, comprensió lectora, tipus de preguntes i penalitzacions",
+       "level": "N0",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "K01",
+     "title": "Ortografia",
+     "level": "N1",
+     "lessons": [
+      {
+       "id": "catalan-k01-l01",
+       "title": "Accentuació i dièresi",
+       "topic_scope": "síl·laba tònica, agudes, planes, esdrúixoles, accent obert i tancat, accent diacrític, dièresi",
+       "level": "N1",
+       "status": "draft",
+       "estimated_minutes": 45,
+       "prerequisites": [
+        "catalan-k00-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "catalan-k01-l02",
+       "title": "Apòstrof, contraccions i guionet",
+       "topic_scope": "apostrofació d'articles i preposició de, contraccions al, del, pel, can, guionet en numerals i pronoms",
+       "level": "N1",
+       "status": "draft",
+       "estimated_minutes": 40,
+       "prerequisites": [
+        "catalan-k00-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "K02",
+     "title": "Grafies",
+     "level": "N1",
+     "lessons": [
+      {
+       "id": "catalan-k02-l01",
+       "title": "Grafies: s/ss/c/ç/z, b/v, g/j, h, l·l i ny",
+       "topic_scope": "sibilants, labials, palatals, h muda, ela geminada",
+       "level": "N1",
+       "status": "draft",
+       "estimated_minutes": 45,
+       "prerequisites": [
+        "catalan-k01-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "K03",
+     "title": "Morfologia nominal",
+     "level": "N1",
+     "lessons": [
+      {
+       "id": "catalan-k03-l01",
+       "title": "Gènere, nombre, articles i determinants",
+       "topic_scope": "femení i plural, articles, possessius, demostratius, quantitatius",
+       "level": "N1",
+       "status": "draft",
+       "estimated_minutes": 40,
+       "prerequisites": [
+        "catalan-k01-l02"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "K04",
+     "title": "Pronoms febles",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "catalan-k04-l01",
+       "title": "Pronoms febles (I): formes i funcions",
+       "topic_scope": "CD, CI, atribut, en, hi, ho, formes plenes, reforçades, elidides i reduïdes",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 50,
+       "prerequisites": [
+        "catalan-k03-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "catalan-k04-l02",
+       "title": "Pronoms febles (II): combinacions",
+       "topic_scope": "combinacions de dos pronoms, ordre, li + CD, en i hi combinats",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 50,
+       "prerequisites": [
+        "catalan-k04-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "K05",
+     "title": "Morfologia verbal",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "catalan-k05-l01",
+       "title": "Verbs: present, passat perifràstic, subjuntiu i imperatiu",
+       "topic_scope": "verbs regulars i irregulars freqüents, incoatius, passat perifràstic, subjuntiu, imperatiu",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 50,
+       "prerequisites": [
+        "catalan-k03-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "K06",
+     "title": "Sintaxi i norma",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "catalan-k06-l01",
+       "title": "Preposicions, haver-hi, relatius i concordança",
+       "topic_scope": "a/en/amb, per/per a, caiguda de preposicions, haver-hi, que/què/qual, concordança",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 45,
+       "prerequisites": [
+        "catalan-k04-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "K07",
+     "title": "Lèxic",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "catalan-k07-l01",
+       "title": "Lèxic: barbarismes, sinònims i registre",
+       "topic_scope": "barbarismes i castellanismes freqüents, sinonímia, antonímia, hiperonímia, registre",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 40,
+       "prerequisites": [
+        "catalan-k00-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "K08",
+     "title": "Expressió escrita i examen",
+     "level": "N3",
+     "lessons": [
+      {
+       "id": "catalan-k08-l01",
+       "title": "Expressió escrita i estratègia d'examen",
+       "topic_scope": "resposta breu, redacció de 50 a 80 paraules, coherència, connectors, gestió del temps",
+       "level": "N3",
+       "status": "draft",
+       "estimated_minutes": 45,
+       "prerequisites": [
+        "catalan-k06-l01",
+        "catalan-k07-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    }
+   ]
+  },
+  {
    "slug": "castellano",
    "title": "Lengua castellana",
    "role": "general",
@@ -2371,13 +2609,13 @@
  "stats": {
   "by_status": {
    "planned": 19,
-   "draft": 101,
+   "draft": 112,
    "reviewed": 0,
    "ready": 0,
    "published": 0
   },
-  "lessons_total": 120,
-  "meets_standard": 101,
+  "lessons_total": 131,
+  "meets_standard": 112,
   "courses": {
    "matematicas": {
     "total": 56,
@@ -2398,6 +2636,18 @@
     "by_status": {
      "planned": 0,
      "draft": 10,
+     "reviewed": 0,
+     "ready": 0,
+     "published": 0
+    }
+   },
+   "catalan": {
+    "total": 11,
+    "with_content": 11,
+    "meets_standard": 11,
+    "by_status": {
+     "planned": 0,
+     "draft": 11,
      "reviewed": 0,
      "ready": 0,
      "published": 0
@@ -2452,8 +2702,8 @@
     }
    }
   },
-  "questions_total": 561,
-  "exit_questions": 505,
+  "questions_total": 616,
+  "exit_questions": 560,
   "bank_questions": 56
  }
 }

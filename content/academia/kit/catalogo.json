@@ -1,1916 +1,2130 @@
 {
-  "schema_version": "1.0",
-  "updated": "2026-10-24",
-  "note": "El listado de temas es completo; los estados planned/draft son reales y no suponen que el contenido esté terminado",
-  "courses": [
+ "schema_version": "1.0",
+ "updated": "2026-10-24",
+ "note": "El listado de temas es completo; los estados planned/draft son reales y no suponen que el contenido esté terminado",
+ "courses": [
+  {
+   "slug": "matematicas",
+   "title": "Matemáticas",
+   "language": "es",
+   "published": false,
+   "official_syllabus_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/",
+   "modules": [
     {
-      "slug": "matematicas",
-      "title": "Matemáticas",
-      "language": "es",
-      "published": false,
-      "official_syllabus_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/",
-      "modules": [
-        {
-          "id": "M00",
-          "title": "Aritmética cero",
-          "level": "N0",
-          "lessons": [
-            {
-              "id": "matematicas-m00-l01",
-              "title": "Los",
-              "topic_scope": "números naturales/enteros, signos, orden, jerarquía de operaciones",
-              "level": "N0",
-              "editorial_status": "draft",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m00-l02",
-              "title": "Fracciones",
-              "topic_scope": "divisibilidad, MCD/mcm",
-              "level": "N0",
-              "editorial_status": "draft",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m00-l01"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m00-l03",
-              "title": "Fracciones equivalentes",
-              "topic_scope": "fracciones equivalentes",
-              "level": "N0",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m00-l02"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m00-l04",
-              "title": "Suma/resta/multiplicación/división de fracciones",
-              "topic_scope": "suma/resta/multiplicación/división de fracciones",
-              "level": "N0",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m00-l03"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m00-l05",
-              "title": "Decimales y porcentajes",
-              "topic_scope": "decimales y porcentajes",
-              "level": "N0",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m00-l04"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m00-l06",
-              "title": "Potencias, raíces, notación científica",
-              "topic_scope": "potencias, raíces, notación científica",
-              "level": "N0",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m00-l05"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m00-l07",
-              "title": "Razones, proporcionalidad, unidades y errores",
-              "topic_scope": "razones, proporcionalidad, unidades y errores",
-              "level": "N0",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m00-l06"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            }
-          ]
-        },
-        {
-          "id": "M01",
-          "title": "Preálgebra",
-          "level": "N1",
-          "lessons": [
-            {
-              "id": "matematicas-m01-l01",
-              "title": "Qué",
-              "topic_scope": "lenguaje algebraico, variables, paréntesis, distributiva, reducción de términos",
-              "level": "N1",
-              "editorial_status": "draft",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m01-l02",
-              "title": "Ecuaciones de primer grado con paréntesis/fracciones",
-              "topic_scope": "ecuaciones de primer grado con paréntesis/fracciones",
-              "level": "N1",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m01-l01"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m01-l03",
-              "title": "Despeje de fórmulas",
-              "topic_scope": "despeje de fórmulas",
-              "level": "N1",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m01-l02"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m01-l04",
-              "title": "Proporcionalidad",
-              "topic_scope": "proporcionalidad",
-              "level": "N1",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m01-l03"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m01-l05",
-              "title": "Desigualdades, intervalos y recta real",
-              "topic_scope": "desigualdades, intervalos y recta real",
-              "level": "N1",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m01-l04"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m01-l06",
-              "title": "Valor absoluto",
-              "topic_scope": "valor absoluto",
-              "level": "N1",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m01-l05"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m01-l07",
-              "title": "Lectura de problemas",
-              "topic_scope": "lectura de problemas",
-              "level": "N1",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m01-l06"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            }
-          ]
-        },
-        {
-          "id": "M02",
-          "title": "Álgebra intermedia",
-          "level": "N1",
-          "lessons": [
-            {
-              "id": "matematicas-m02-l01",
-              "title": "Ecuación",
-              "topic_scope": "identidades notables, productos notables, factorización",
-              "level": "N1",
-              "editorial_status": "draft",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m02-l02",
-              "title": "Polinomios, división, raíces",
-              "topic_scope": "polinomios, división, raíces",
-              "level": "N1",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m02-l01"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m02-l03",
-              "title": "Fracciones algebraicas y restricciones",
-              "topic_scope": "fracciones algebraicas y restricciones",
-              "level": "N1",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m02-l02"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m02-l04",
-              "title": "Ecuación cuadrática/discriminante",
-              "topic_scope": "ecuación cuadrática/discriminante",
-              "level": "N1",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m02-l03"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m02-l05",
-              "title": "Radicales y potencias racionales",
-              "topic_scope": "radicales y potencias racionales",
-              "level": "N1",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m02-l04"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m02-l06",
-              "title": "Sistemas 2×2, ecuaciones racionales e irracionales, verificación de raíces",
-              "topic_scope": "sistemas 2×2, ecuaciones racionales e irracionales, verificación de raíces",
-              "level": "N1",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m02-l05"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m02-l07",
-              "title": "Complejos (forma binómica/polar conceptual)",
-              "topic_scope": "complejos (forma binómica/polar conceptual)",
-              "level": "N1",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m02-l06"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            }
-          ]
-        },
-        {
-          "id": "M03",
-          "title": "Sucesiones e interés",
-          "level": "N2",
-          "lessons": [
-            {
-              "id": "matematicas-m03-l01",
-              "title": "Patrones, término general y recurrencias",
-              "topic_scope": "patrones, término general y recurrencias",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m03-l02",
-              "title": "Progresiones aritméticas y geométricas",
-              "topic_scope": "progresiones aritméticas y geométricas",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m03-l01"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m03-l03",
-              "title": "Sumas finitas",
-              "topic_scope": "sumas finitas",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m03-l02"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m03-l04",
-              "title": "Interés simple y compuesto, crecimiento porcentual y amortización conceptual",
-              "topic_scope": "interés simple y compuesto, crecimiento porcentual y amortización conceptual",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m03-l03"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            }
-          ]
-        },
-        {
-          "id": "M04",
-          "title": "Funciones y gráficos",
-          "level": "N2",
-          "lessons": [
-            {
-              "id": "matematicas-m04-l01",
-              "title": "Funciones",
-              "topic_scope": "plano cartesiano, gráficas lineales y cuadráticas",
-              "level": "N2",
-              "editorial_status": "draft",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m04-l02",
-              "title": "Dominio/recorrido",
-              "topic_scope": "dominio/recorrido",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m04-l01"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m04-l03",
-              "title": "Ceros y signos",
-              "topic_scope": "ceros y signos",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m04-l02"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m04-l04",
-              "title": "Funciones a trozos",
-              "topic_scope": "funciones a trozos",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m04-l03"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m04-l05",
-              "title": "Composición/inversa",
-              "topic_scope": "composición/inversa",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m04-l04"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m04-l06",
-              "title": "Exponenciales y logaritmos",
-              "topic_scope": "exponenciales y logaritmos",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m04-l05"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m04-l07",
-              "title": "Transformaciones y asintotas",
-              "topic_scope": "transformaciones y asintotas",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m04-l06"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m04-l08",
-              "title": "Tasas de variación",
-              "topic_scope": "tasas de variación",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m04-l07"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            }
-          ]
-        },
-        {
-          "id": "M05",
-          "title": "Trigonometría",
-          "level": "N2",
-          "lessons": [
-            {
-              "id": "matematicas-m05-l01",
-              "title": "Grados/radianes, circunferencia unitaria, seno/coseno/tangente",
-              "topic_scope": "grados/radianes, circunferencia unitaria, seno/coseno/tangente",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m05-l02",
-              "title": "Triángulos rectángulos y oblicuángulos, leyes seno/coseno",
-              "topic_scope": "triángulos rectángulos y oblicuángulos, leyes seno/coseno",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m05-l01"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m05-l03",
-              "title": "Identidades y ecuaciones básicas",
-              "topic_scope": "identidades y ecuaciones básicas",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m05-l02"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m05-l04",
-              "title": "Aplicaciones geométricas",
-              "topic_scope": "aplicaciones geométricas",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m05-l03"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            }
-          ]
-        },
-        {
-          "id": "M06",
-          "title": "Álgebra lineal",
-          "level": "N2",
-          "lessons": [
-            {
-              "id": "matematicas-m06-l01",
-              "title": "Matrices",
-              "topic_scope": "vectores 2D/3D, suma y producto escalar",
-              "level": "N2",
-              "editorial_status": "draft",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m06-l02",
-              "title": "Matrices, productos y transpuesta",
-              "topic_scope": "matrices, productos y transpuesta",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m06-l01"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m06-l03",
-              "title": "Determinantes 2×2/3×3, inversa y rango",
-              "topic_scope": "determinantes 2×2/3×3, inversa y rango",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m06-l02"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m06-l04",
-              "title": "Sistemas 3×3, escalonamiento Gauss, discusión con parámetro, interpretación geométrica",
-              "topic_scope": "sistemas 3×3, escalonamiento Gauss, discusión con parámetro, interpretación geométrica",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m06-l03"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            }
-          ]
-        },
-        {
-          "id": "M07",
-          "title": "Geometría analítica",
-          "level": "N2",
-          "lessons": [
-            {
-              "id": "matematicas-m07-l01",
-              "title": "Distancias, punto medio, pendientes",
-              "topic_scope": "distancias, punto medio, pendientes",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m07-l02",
-              "title": "Rectas 2D, paralelismo y perpendicularidad",
-              "topic_scope": "rectas 2D, paralelismo y perpendicularidad",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m07-l01"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m07-l03",
-              "title": "Rectas y planos 3D, vectores normales, posiciones relativas",
-              "topic_scope": "rectas y planos 3D, vectores normales, posiciones relativas",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m07-l02"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m07-l04",
-              "title": "Producto vectorial, ángulos y distancias",
-              "topic_scope": "producto vectorial, ángulos y distancias",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m07-l03"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            }
-          ]
-        },
-        {
-          "id": "M08",
-          "title": "Cálculo diferencial",
-          "level": "N2",
-          "lessons": [
-            {
-              "id": "matematicas-m08-l01",
-              "title": "Derivadas,",
-              "topic_scope": "límites intuitivos y continuidad",
-              "level": "N2",
-              "editorial_status": "draft",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m08-l02",
-              "title": "Derivada como tasa de cambio",
-              "topic_scope": "derivada como tasa de cambio",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m08-l01"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m08-l03",
-              "title": "Derivación de potencias/polinomios, producto/cociente/cadena",
-              "topic_scope": "derivación de potencias/polinomios, producto/cociente/cadena",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m08-l02"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m08-l04",
-              "title": "Recta tangente",
-              "topic_scope": "recta tangente",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m08-l03"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m08-l05",
-              "title": "Crecimiento/decrecimiento, máximos/mínimos",
-              "topic_scope": "crecimiento/decrecimiento, máximos/mínimos",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m08-l04"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m08-l06",
-              "title": "Concavidad/inflexión",
-              "topic_scope": "concavidad/inflexión",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m08-l05"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m08-l07",
-              "title": "Optimización",
-              "topic_scope": "optimización",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "matematicas-m08-l06"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            }
-          ]
-        },
-        {
-          "id": "M09",
-          "title": "Cálculo integral",
-          "level": "N2",
-          "lessons": [
-            {
-              "id": "matematicas-m09-l01",
-              "title": "Antiderivadas inmediatas, linealidad, sustitución sencilla, integración por partes, integral definida, áreas y relación derivada-integral",
-              "topic_scope": "antiderivadas inmediatas, linealidad, sustitución sencilla, integración por partes, integral definida, áreas y relación derivada-integral",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            }
-          ]
-        },
-        {
-          "id": "M10",
-          "title": "Entrenamiento examen",
-          "level": "N3",
-          "lessons": [
-            {
-              "id": "matematicas-m10-l01",
-              "title": "4/6 preguntas y 1/2 problemas",
-              "topic_scope": "4/6 preguntas y 1/2 problemas",
-              "level": "N3",
-              "editorial_status": "planned",
-              "estimated_minutes": 60,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            },
-            {
-              "id": "matematicas-m10-l02",
-              "title": "Selección estratégica, procedimientos escritos, estimación y comprobación, simulacros cronometrados, rúbrica parcial",
-              "topic_scope": "selección estratégica, procedimientos escritos, estimación y comprobación, simulacros cronometrados, rúbrica parcial",
-              "level": "N3",
-              "editorial_status": "planned",
-              "estimated_minutes": 60,
-              "prerequisites": [
-                "matematicas-m10-l01"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            }
-          ]
-        },
-        {
-          "id": "M11",
-          "title": "Puente universitario (aplazado hasta tras fase específica)",
-          "level": "N4",
-          "lessons": [
-            {
-              "id": "matematicas-m11-l01",
-              "title": "Lógica, conjuntos, demostración elemental, combinatoria, probabilidad, estadística, álgebra lineal computacional, cálculo multivariable inicial",
-              "topic_scope": "lógica, conjuntos, demostración elemental, combinatoria, probabilidad, estadística, álgebra lineal computacional, cálculo multivariable inicial",
-              "level": "N4",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
-            }
-          ]
-        }
-      ]
+     "id": "M00",
+     "title": "Aritmética cero",
+     "level": "N0",
+     "lessons": [
+      {
+       "id": "matematicas-m00-l01",
+       "title": "Los",
+       "topic_scope": "números naturales/enteros, signos, orden, jerarquía de operaciones",
+       "level": "N0",
+       "editorial_status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m00-l02",
+       "title": "Fracciones",
+       "topic_scope": "divisibilidad, MCD/mcm",
+       "level": "N0",
+       "editorial_status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m00-l01"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m00-l03",
+       "title": "Fracciones equivalentes",
+       "topic_scope": "fracciones equivalentes",
+       "level": "N0",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m00-l02"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m00-l04",
+       "title": "Suma/resta/multiplicación/división de fracciones",
+       "topic_scope": "suma/resta/multiplicación/división de fracciones",
+       "level": "N0",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m00-l03"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m00-l05",
+       "title": "Decimales y porcentajes",
+       "topic_scope": "decimales y porcentajes",
+       "level": "N0",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m00-l04"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m00-l06",
+       "title": "Potencias, raíces, notación científica",
+       "topic_scope": "potencias, raíces, notación científica",
+       "level": "N0",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m00-l05"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m00-l07",
+       "title": "Razones, proporcionalidad, unidades y errores",
+       "topic_scope": "razones, proporcionalidad, unidades y errores",
+       "level": "N0",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m00-l06"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      }
+     ]
     },
     {
-      "slug": "fisica",
-      "title": "Física",
-      "language": "es",
-      "published": false,
-      "official_syllabus_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/",
-      "modules": [
-        {
-          "id": "F00",
-          "title": "Rescate",
-          "level": "N0",
-          "lessons": [
-            {
-              "id": "fisica-f00-l01",
-              "title": "Operaciones y álgebra usadas en física, potencia de diez, despeje, tablas y gráficas, notación científica",
-              "topic_scope": "operaciones y álgebra usadas en física, potencia de diez, despeje, tablas y gráficas, notación científica",
-              "level": "N0",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
-            }
-          ]
-        },
-        {
-          "id": "F01",
-          "title": "Magnitudes",
-          "level": "N1",
-          "lessons": [
-            {
-              "id": "fisica-f01-l01",
-              "title": "Qué",
-              "topic_scope": "medidas, SI y prefijos",
-              "level": "N1",
-              "editorial_status": "draft",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
-            },
-            {
-              "id": "fisica-f01-l02",
-              "title": "Escalar/vector, componentes y módulo",
-              "topic_scope": "escalar/vector, componentes y módulo",
-              "level": "N1",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "fisica-f01-l01"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
-            },
-            {
-              "id": "fisica-f01-l03",
-              "title": "Producto escalar y vectorial",
-              "topic_scope": "producto escalar y vectorial",
-              "level": "N1",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "fisica-f01-l02"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
-            },
-            {
-              "id": "fisica-f01-l04",
-              "title": "Cifras significativas, errores absolutos/relativos, dimensionalidad",
-              "topic_scope": "cifras significativas, errores absolutos/relativos, dimensionalidad",
-              "level": "N1",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "fisica-f01-l03"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
-            }
-          ]
-        },
-        {
-          "id": "F02",
-          "title": "Cinemática",
-          "level": "N1",
-          "lessons": [
-            {
-              "id": "fisica-f02-l01",
-              "title": "Movimiento",
-              "topic_scope": "posición, desplazamiento, velocidad y aceleración",
-              "level": "N1",
-              "editorial_status": "draft",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
-            },
-            {
-              "id": "fisica-f02-l02",
-              "title": "MRU/MRUA",
-              "topic_scope": "MRU/MRUA",
-              "level": "N1",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "fisica-f02-l01"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
-            },
-            {
-              "id": "fisica-f02-l03",
-              "title": "Gráficos x–t/v–t",
-              "topic_scope": "gráficos x–t/v–t",
-              "level": "N1",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "fisica-f02-l02"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
-            },
-            {
-              "id": "fisica-f02-l04",
-              "title": "Tiro parabólico, movimiento circular, angular",
-              "topic_scope": "tiro parabólico, movimiento circular, angular",
-              "level": "N1",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "fisica-f02-l03"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
-            },
-            {
-              "id": "fisica-f02-l05",
-              "title": "Movimiento armónico simple",
-              "topic_scope": "movimiento armónico simple",
-              "level": "N1",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "fisica-f02-l04"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
-            }
-          ]
-        },
-        {
-          "id": "F03",
-          "title": "Dinámica",
-          "level": "N2",
-          "lessons": [
-            {
-              "id": "fisica-f03-l01",
-              "title": "Segunda",
-              "topic_scope": "primera, segunda y tercera ley de Newton",
-              "level": "N2",
-              "editorial_status": "draft",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
-            },
-            {
-              "id": "fisica-f03-l02",
-              "title": "Diagramas de cuerpo libre",
-              "topic_scope": "diagramas de cuerpo libre",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "fisica-f03-l01"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
-            },
-            {
-              "id": "fisica-f03-l03",
-              "title": "Peso/normal/tensión/fricción",
-              "topic_scope": "peso/normal/tensión/fricción",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "fisica-f03-l02"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
-            },
-            {
-              "id": "fisica-f03-l04",
-              "title": "Plano inclinado",
-              "topic_scope": "plano inclinado",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "fisica-f03-l03"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
-            },
-            {
-              "id": "fisica-f03-l05",
-              "title": "Fuerza centrípeta y ley de Hooke",
-              "topic_scope": "fuerza centrípeta y ley de Hooke",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "fisica-f03-l04"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
-            }
-          ]
-        },
-        {
-          "id": "F04",
-          "title": "Energía y momento",
-          "level": "N2",
-          "lessons": [
-            {
-              "id": "fisica-f04-l01",
-              "title": "Trabajo y potencia, energía cinética/potencial, fuerzas conservativas, conservación de energía, cantidad de movimiento, impulsos, choques",
-              "topic_scope": "trabajo y potencia, energía cinética/potencial, fuerzas conservativas, conservación de energía, cantidad de movimiento, impulsos, choques",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
-            }
-          ]
-        },
-        {
-          "id": "F05",
-          "title": "Gravitación",
-          "level": "N2",
-          "lessons": [
-            {
-              "id": "fisica-f05-l01",
-              "title": "Newton universal, intensidad/campo terrestre, órbitas circulares, energía gravitacional",
-              "topic_scope": "Newton universal, intensidad/campo terrestre, órbitas circulares, energía gravitacional",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
-            }
-          ]
-        },
-        {
-          "id": "F06",
-          "title": "Ondas",
-          "level": "N2",
-          "lessons": [
-            {
-              "id": "fisica-f06-l01",
-              "title": "Frecuencia, período, longitud de onda, velocidad, ondas armónicas, reflexión/refracción, interferencia, difracción, Doppler",
-              "topic_scope": "frecuencia, período, longitud de onda, velocidad, ondas armónicas, reflexión/refracción, interferencia, difracción, Doppler",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
-            }
-          ]
-        },
-        {
-          "id": "F07",
-          "title": "Electrostática",
-          "level": "N2",
-          "lessons": [
-            {
-              "id": "fisica-f07-l01",
-              "title": "Carga y campo, Coulomb, potencial, energía, condensadores y serie/paralelo",
-              "topic_scope": "carga y campo, Coulomb, potencial, energía, condensadores y serie/paralelo",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
-            }
-          ]
-        },
-        {
-          "id": "F08",
-          "title": "Electricidad",
-          "level": "N2",
-          "lessons": [
-            {
-              "id": "fisica-f08-l01",
-              "title": "Ley",
-              "topic_scope": "intensidad/voltaje/resistencia, Ohm, Joule, resistencias serie/paralelo, FEM, Kirchhoff, circuitos con esquemas",
-              "level": "N2",
-              "editorial_status": "draft",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
-            }
-          ]
-        },
-        {
-          "id": "F09",
-          "title": "Magnetismo",
-          "level": "N2",
-          "lessons": [
-            {
-              "id": "fisica-f09-l01",
-              "title": "Campos magnéticos, cargas/corrientes en B, inducción, Faraday–Lenz, espectro EM, corriente alterna",
-              "topic_scope": "campos magnéticos, cargas/corrientes en B, inducción, Faraday–Lenz, espectro EM, corriente alterna",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
-            }
-          ]
-        },
-        {
-          "id": "F10",
-          "title": "Entrenamiento examen",
-          "level": "N3",
-          "lessons": [
-            {
-              "id": "fisica-f10-l01",
-              "title": "Magnitudes correctas, unidades, dibujos, elección entre 6+2, resultados numéricos con unidades, comprobaciones dimensionales",
-              "topic_scope": "magnitudes correctas, unidades, dibujos, elección entre 6+2, resultados numéricos con unidades, comprobaciones dimensionales",
-              "level": "N3",
-              "editorial_status": "planned",
-              "estimated_minutes": 60,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
-            }
-          ]
-        },
-        {
-          "id": "F11",
-          "title": "Puente universitario",
-          "level": "N4",
-          "lessons": [
-            {
-              "id": "fisica-f11-l01",
-              "title": "Cálculo vectorial básico, mecánica con cálculo diferencial, modelado físico y simulación (posterior a +25)",
-              "topic_scope": "cálculo vectorial básico, mecánica con cálculo diferencial, modelado físico y simulación (posterior a +25)",
-              "level": "N4",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
-            }
-          ]
-        }
-      ]
+     "id": "M01",
+     "title": "Preálgebra",
+     "level": "N1",
+     "lessons": [
+      {
+       "id": "matematicas-m01-l01",
+       "title": "Qué",
+       "topic_scope": "lenguaje algebraico, variables, paréntesis, distributiva, reducción de términos",
+       "level": "N1",
+       "editorial_status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m01-l02",
+       "title": "Ecuaciones de primer grado con paréntesis/fracciones",
+       "topic_scope": "ecuaciones de primer grado con paréntesis/fracciones",
+       "level": "N1",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m01-l01"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m01-l03",
+       "title": "Despeje de fórmulas",
+       "topic_scope": "despeje de fórmulas",
+       "level": "N1",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m01-l02"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m01-l04",
+       "title": "Proporcionalidad",
+       "topic_scope": "proporcionalidad",
+       "level": "N1",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m01-l03"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m01-l05",
+       "title": "Desigualdades, intervalos y recta real",
+       "topic_scope": "desigualdades, intervalos y recta real",
+       "level": "N1",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m01-l04"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m01-l06",
+       "title": "Valor absoluto",
+       "topic_scope": "valor absoluto",
+       "level": "N1",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m01-l05"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m01-l07",
+       "title": "Lectura de problemas",
+       "topic_scope": "lectura de problemas",
+       "level": "N1",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m01-l06"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      }
+     ]
     },
     {
-      "slug": "castellano",
-      "title": "Lengua Castellana",
-      "language": "es",
-      "published": false,
-      "official_syllabus_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacastellana/",
-      "modules": [
-        {
-          "id": "C00",
-          "title": "Lectoescritura funcional",
-          "level": "N0",
-          "lessons": [
-            {
-              "id": "castellano-c00-l01",
-              "title": "Oración y párrafo, puntuación básica, ortografía fundamental, idea principal y secundaria, vocabulario contextual",
-              "topic_scope": "oración y párrafo, puntuación básica, ortografía fundamental, idea principal y secundaria, vocabulario contextual",
-              "level": "N0",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacastellana/"
-            }
-          ]
-        },
-        {
-          "id": "C01",
-          "title": "Ortografía y norma",
-          "level": "N1",
-          "lessons": [
-            {
-              "id": "castellano-c01-l01",
-              "title": "Acentos:",
-              "topic_scope": "reglas de acentuación, hiatos/diptongos, interrogativos, signos de puntuación, mayúsculas, grafías problemáticas, concordancia, preposiciones",
-              "level": "N1",
-              "editorial_status": "draft",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacastellana/"
-            }
-          ]
-        },
-        {
-          "id": "C02",
-          "title": "Morfología",
-          "level": "N1",
-          "lessons": [
-            {
-              "id": "castellano-c02-l01",
-              "title": "Las",
-              "topic_scope": "sustantivos/adjetivos/determinantes/pronombres, flexión verbal, personas/tiempos/modos, formación de palabras: derivación/composición",
-              "level": "N1",
-              "editorial_status": "draft",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacastellana/"
-            }
-          ]
-        },
-        {
-          "id": "C03",
-          "title": "Sintaxis simple",
-          "level": "N2",
-          "lessons": [
-            {
-              "id": "castellano-c03-l01",
-              "title": "Sujeto,",
-              "topic_scope": "sujeto y predicado, núcleo, CD/CI/atributo/complementos",
-              "level": "N2",
-              "editorial_status": "draft",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacastellana/"
-            },
-            {
-              "id": "castellano-c03-l02",
-              "title": "Transitividad, pasiva/activa, concordancia",
-              "topic_scope": "transitividad, pasiva/activa, concordancia",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "castellano-c03-l01"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacastellana/"
-            }
-          ]
-        },
-        {
-          "id": "C04",
-          "title": "Sintaxis compuesta",
-          "level": "N2",
-          "lessons": [
-            {
-              "id": "castellano-c04-l01",
-              "title": "Coordinación, subordinación sustantiva/adjetiva/adverbial, nexos, estilo directo/indirecto, transformaciones",
-              "topic_scope": "coordinación, subordinación sustantiva/adjetiva/adverbial, nexos, estilo directo/indirecto, transformaciones",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacastellana/"
-            }
-          ]
-        },
-        {
-          "id": "C05",
-          "title": "Semántica y discurso",
-          "level": "N2",
-          "lessons": [
-            {
-              "id": "castellano-c05-l01",
-              "title": "Sinónimos, antónimos, polisemia/homonimia, hiperónimos/hipónimos",
-              "topic_scope": "sinónimos, antónimos, polisemia/homonimia, hiperónimos/hipónimos",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacastellana/"
-            },
-            {
-              "id": "castellano-c05-l02",
-              "title": "Registros, recursos retóricos, anáfora, cohesión, conectores, coherencia",
-              "topic_scope": "registros, recursos retóricos, anáfora, cohesión, conectores, coherencia",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "castellano-c05-l01"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacastellana/"
-            }
-          ]
-        },
-        {
-          "id": "C06",
-          "title": "Lectura y producción",
-          "level": "N2",
-          "lessons": [
-            {
-              "id": "castellano-c06-l01",
-              "title": "Redacción",
-              "topic_scope": "propósito del autor, inferencias, textos de 250 palabras, paráfrasis, reescritura, 50–80 palabras, revisión lingüística",
-              "level": "N2",
-              "editorial_status": "draft",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacastellana/"
-            }
-          ]
-        },
-        {
-          "id": "C07",
-          "title": "Examen",
-          "level": "N3",
-          "lessons": [
-            {
-              "id": "castellano-c07-l01",
-              "title": "Formatos de comprensión 3 puntos, expresión 4 y reflexión 3, penalizaciones, administración del tiempo",
-              "topic_scope": "formatos de comprensión 3 puntos, expresión 4 y reflexión 3, penalizaciones, administración del tiempo",
-              "level": "N3",
-              "editorial_status": "planned",
-              "estimated_minutes": 60,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacastellana/"
-            }
-          ]
-        },
-        {
-          "id": "C08",
-          "title": "Puente universitario",
-          "level": "N4",
-          "lessons": [
-            {
-              "id": "castellano-c08-l01",
-              "title": "Redacción académica, citas y fuentes, textos científicos, razonamiento y argumentación rigurosa",
-              "topic_scope": "redacción académica, citas y fuentes, textos científicos, razonamiento y argumentación rigurosa",
-              "level": "N4",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacastellana/"
-            }
-          ]
-        }
-      ]
+     "id": "M02",
+     "title": "Álgebra intermedia",
+     "level": "N1",
+     "lessons": [
+      {
+       "id": "matematicas-m02-l01",
+       "title": "Ecuación",
+       "topic_scope": "identidades notables, productos notables, factorización",
+       "level": "N1",
+       "editorial_status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m02-l02",
+       "title": "Polinomios, división, raíces",
+       "topic_scope": "polinomios, división, raíces",
+       "level": "N1",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m02-l01"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m02-l03",
+       "title": "Fracciones algebraicas y restricciones",
+       "topic_scope": "fracciones algebraicas y restricciones",
+       "level": "N1",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m02-l02"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m02-l04",
+       "title": "Ecuación cuadrática/discriminante",
+       "topic_scope": "ecuación cuadrática/discriminante",
+       "level": "N1",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m02-l03"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m02-l05",
+       "title": "Radicales y potencias racionales",
+       "topic_scope": "radicales y potencias racionales",
+       "level": "N1",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m02-l04"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m02-l06",
+       "title": "Sistemas 2×2, ecuaciones racionales e irracionales, verificación de raíces",
+       "topic_scope": "sistemas 2×2, ecuaciones racionales e irracionales, verificación de raíces",
+       "level": "N1",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m02-l05"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m02-l07",
+       "title": "Complejos (forma binómica/polar conceptual)",
+       "topic_scope": "complejos (forma binómica/polar conceptual)",
+       "level": "N1",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m02-l06"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      }
+     ]
     },
     {
-      "slug": "comentario",
-      "title": "Comentario de Texto",
-      "language": "es",
-      "published": false,
-      "official_syllabus_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/comentari_text/",
-      "modules": [
-        {
-          "id": "T00",
-          "title": "Comprender literalmente",
-          "level": "N0",
-          "lessons": [
-            {
-              "id": "comentario-t00-l01",
-              "title": "Diferencia",
-              "topic_scope": "tema vs asunto, vocabulario en contexto, autor/narrador, proposiciones explícitas",
-              "level": "N0",
-              "editorial_status": "draft",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/comentari_text/"
-            }
-          ]
-        },
-        {
-          "id": "T01",
-          "title": "Comprender inferencialmente",
-          "level": "N1",
-          "lessons": [
-            {
-              "id": "comentario-t01-l01",
-              "title": "Tesis, presuposiciones, intención comunicativa, postura y matices, argumentos y evidencias",
-              "topic_scope": "tesis, presuposiciones, intención comunicativa, postura y matices, argumentos y evidencias",
-              "level": "N1",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/comentari_text/"
-            }
-          ]
-        },
-        {
-          "id": "T02",
-          "title": "Estructura",
-          "level": "N1",
-          "lessons": [
-            {
-              "id": "comentario-t02-l01",
-              "title": "Párrafos, introducción/desarrollo/conclusión, progresión temática, relaciones causales, ejemplo y contraejemplo",
-              "topic_scope": "párrafos, introducción/desarrollo/conclusión, progresión temática, relaciones causales, ejemplo y contraejemplo",
-              "level": "N1",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/comentari_text/"
-            }
-          ]
-        },
-        {
-          "id": "T03",
-          "title": "Síntesis",
-          "level": "N2",
-          "lessons": [
-            {
-              "id": "comentario-t03-l01",
-              "title": "Resumir",
-              "topic_scope": "titular y justificación, resumen objetivo, paráfrasis sin copiar, explicación de expresiones",
-              "level": "N2",
-              "editorial_status": "draft",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/comentari_text/"
-            }
-          ]
-        },
-        {
-          "id": "T04",
-          "title": "Argumentación",
-          "level": "N2",
-          "lessons": [
-            {
-              "id": "comentario-t04-l01",
-              "title": "Tesis propia, razones, evidencias, contraargumentos, cierre",
-              "topic_scope": "tesis propia, razones, evidencias, contraargumentos, cierre",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/comentari_text/"
-            },
-            {
-              "id": "comentario-t04-l02",
-              "title": "Detectar falacias, lenguaje adecuado",
-              "topic_scope": "detectar falacias, lenguaje adecuado",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [
-                "comentario-t04-l01"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/comentari_text/"
-            }
-          ]
-        },
-        {
-          "id": "T05",
-          "title": "Escritura 150–200",
-          "level": "N2",
-          "lessons": [
-            {
-              "id": "comentario-t05-l01",
-              "title": "Construir",
-              "topic_scope": "esquema previo, cohesión, conectores, revisión ortográfica, cronometraje y rúbrica 4 puntos",
-              "level": "N2",
-              "editorial_status": "draft",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/comentari_text/"
-            }
-          ]
-        },
-        {
-          "id": "T06",
-          "title": "Examen",
-          "level": "N3",
-          "lessons": [
-            {
-              "id": "comentario-t06-l01",
-              "title": "Primera parte 6 puntos, segunda 4",
-              "topic_scope": "primera parte 6 puntos, segunda 4",
-              "level": "N3",
-              "editorial_status": "planned",
-              "estimated_minutes": 60,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/comentari_text/"
-            },
-            {
-              "id": "comentario-t06-l02",
-              "title": "Errores que penalizan, simulacros y reescritura con feedback",
-              "topic_scope": "errores que penalizan, simulacros y reescritura con feedback",
-              "level": "N3",
-              "editorial_status": "planned",
-              "estimated_minutes": 60,
-              "prerequisites": [
-                "comentario-t06-l01"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/comentari_text/"
-            }
-          ]
-        },
-        {
-          "id": "T07",
-          "title": "Puente universitario",
-          "level": "N4",
-          "lessons": [
-            {
-              "id": "comentario-t07-l01",
-              "title": "Pensamiento crítico, lectura de papers, síntesis de fuentes y escritura académica",
-              "topic_scope": "pensamiento crítico, lectura de papers, síntesis de fuentes y escritura académica",
-              "level": "N4",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/comentari_text/"
-            }
-          ]
-        }
-      ]
+     "id": "M03",
+     "title": "Sucesiones e interés",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "matematicas-m03-l01",
+       "title": "Patrones, término general y recurrencias",
+       "topic_scope": "patrones, término general y recurrencias",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m03-l02",
+       "title": "Progresiones aritméticas y geométricas",
+       "topic_scope": "progresiones aritméticas y geométricas",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m03-l01"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m03-l03",
+       "title": "Sumas finitas",
+       "topic_scope": "sumas finitas",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m03-l02"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m03-l04",
+       "title": "Interés simple y compuesto, crecimiento porcentual y amortización conceptual",
+       "topic_scope": "interés simple y compuesto, crecimiento porcentual y amortización conceptual",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m03-l03"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      }
+     ]
     },
     {
-      "slug": "ingles",
-      "title": "Inglés",
-      "language": "es",
-      "published": false,
-      "official_syllabus_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguaestrangera/",
-      "modules": [
-        {
-          "id": "E00",
-          "title": "A1 rescate",
-          "level": "N0",
-          "lessons": [
-            {
-              "id": "ingles-e00-l01",
-              "title": "Sentence",
-              "topic_scope": "pronombres, verbo be/have, artículos, plurales, there is/are, preguntas/negaciones, vocabulario de vida diaria",
-              "level": "N0",
-              "editorial_status": "draft",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguaestrangera/"
-            }
-          ]
-        },
-        {
-          "id": "E01",
-          "title": "A2 base",
-          "level": "N1",
-          "lessons": [
-            {
-              "id": "ingles-e01-l01",
-              "title": "Present",
-              "topic_scope": "present simple/continuous, past simple, futuro básico, modales, comparativos, preposiciones, conectores",
-              "level": "N1",
-              "editorial_status": "draft",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguaestrangera/"
-            }
-          ]
-        },
-        {
-          "id": "E02",
-          "title": "B1",
-          "level": "N1",
-          "lessons": [
-            {
-              "id": "ingles-e02-l01",
-              "title": "Present perfect vs past, past continuous, futuro y condicionales 0/1/2, voz pasiva introductoria, relative clauses, reported speech, phrasal verbs frecuentes",
-              "topic_scope": "present perfect vs past, past continuous, futuro y condicionales 0/1/2, voz pasiva introductoria, relative clauses, reported speech, phrasal verbs frecuentes",
-              "level": "N1",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguaestrangera/"
-            }
-          ]
-        },
-        {
-          "id": "E03",
-          "title": "Lectura B1–B2",
-          "level": "N2",
-          "lessons": [
-            {
-              "id": "ingles-e03-l01",
-              "title": "Reading",
-              "topic_scope": "idea global, scanning, inferencia, referentes, significado en contexto, distractores, títulos y resúmenes",
-              "level": "N2",
-              "editorial_status": "draft",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguaestrangera/"
-            }
-          ]
-        },
-        {
-          "id": "E04",
-          "title": "B2 gramática",
-          "level": "N2",
-          "lessons": [
-            {
-              "id": "ingles-e04-l01",
-              "title": "Pasivas, condicional 3/mixtos conceptuales, modales de deducción, participios, conectores de contraste/causa, reformulación",
-              "topic_scope": "pasivas, condicional 3/mixtos conceptuales, modales de deducción, participios, conectores de contraste/causa, reformulación",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguaestrangera/"
-            }
-          ]
-        },
-        {
-          "id": "E05",
-          "title": "Respuesta abierta",
-          "level": "N2",
-          "lessons": [
-            {
-              "id": "ingles-e05-l01",
-              "title": "Writing",
-              "topic_scope": "desarrollar 40–60 palabras con tesis, justificación y evidencia del texto, evitar traducción literal, revisar concordancia/tiempos",
-              "level": "N2",
-              "editorial_status": "draft",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguaestrangera/"
-            }
-          ]
-        },
-        {
-          "id": "E06",
-          "title": "Examen",
-          "level": "N3",
-          "lessons": [
-            {
-              "id": "ingles-e06-l01",
-              "title": "Texto 250–300",
-              "topic_scope": "texto 250–300",
-              "level": "N3",
-              "editorial_status": "planned",
-              "estimated_minutes": 60,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguaestrangera/"
-            },
-            {
-              "id": "ingles-e06-l02",
-              "title": "8 objetivas y 2 abiertas",
-              "topic_scope": "8 objetivas y 2 abiertas",
-              "level": "N3",
-              "editorial_status": "planned",
-              "estimated_minutes": 60,
-              "prerequisites": [
-                "ingles-e06-l01"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguaestrangera/"
-            },
-            {
-              "id": "ingles-e06-l03",
-              "title": "Entrenamiento con penalización real",
-              "topic_scope": "entrenamiento con penalización real",
-              "level": "N3",
-              "editorial_status": "planned",
-              "estimated_minutes": 60,
-              "prerequisites": [
-                "ingles-e06-l02"
-              ],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguaestrangera/"
-            }
-          ]
-        },
-        {
-          "id": "E07",
-          "title": "Puente universitario C1",
-          "level": "N4",
-          "lessons": [
-            {
-              "id": "ingles-e07-l01",
-              "title": "Comprensión lectora de documentación técnica, resúmenes, vocabulario académico, escritura de informes y presentaciones",
-              "topic_scope": "comprensión lectora de documentación técnica, resúmenes, vocabulario académico, escritura de informes y presentaciones",
-              "level": "N4",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguaestrangera/"
-            }
-          ]
-        }
-      ]
+     "id": "M04",
+     "title": "Funciones y gráficos",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "matematicas-m04-l01",
+       "title": "Funciones",
+       "topic_scope": "plano cartesiano, gráficas lineales y cuadráticas",
+       "level": "N2",
+       "editorial_status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m04-l02",
+       "title": "Dominio/recorrido",
+       "topic_scope": "dominio/recorrido",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m04-l01"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m04-l03",
+       "title": "Ceros y signos",
+       "topic_scope": "ceros y signos",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m04-l02"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m04-l04",
+       "title": "Funciones a trozos",
+       "topic_scope": "funciones a trozos",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m04-l03"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m04-l05",
+       "title": "Composición/inversa",
+       "topic_scope": "composición/inversa",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m04-l04"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m04-l06",
+       "title": "Exponenciales y logaritmos",
+       "topic_scope": "exponenciales y logaritmos",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m04-l05"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m04-l07",
+       "title": "Transformaciones y asintotas",
+       "topic_scope": "transformaciones y asintotas",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m04-l06"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m04-l08",
+       "title": "Tasas de variación",
+       "topic_scope": "tasas de variación",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m04-l07"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      }
+     ]
     },
     {
-      "slug": "economia",
-      "title": "Economía de la Empresa",
-      "language": "es",
-      "published": false,
-      "official_syllabus_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/economia_empresa/",
-      "modules": [
-        {
-          "id": "B00",
-          "title": "Aritmética aplicada",
-          "level": "N0",
-          "lessons": [
-            {
-              "id": "economia-b00-l01",
-              "title": "Porcentajes",
-              "topic_scope": "porcentajes, regla de tres, fracciones, tasas, descuento, lectura de tablas y gráficas",
-              "level": "N0",
-              "editorial_status": "draft",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/economia_empresa/"
-            }
-          ]
-        },
-        {
-          "id": "B01",
-          "title": "Empresa básica",
-          "level": "N1",
-          "lessons": [
-            {
-              "id": "economia-b01-l01",
-              "title": "Funciones, objetivos, grupos de interés, formas jurídicas, nociones de ingresos/gastos",
-              "topic_scope": "funciones, objetivos, grupos de interés, formas jurídicas, nociones de ingresos/gastos",
-              "level": "N1",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/economia_empresa/"
-            }
-          ]
-        },
-        {
-          "id": "B02",
-          "title": "Contabilidad",
-          "level": "N1",
-          "lessons": [
-            {
-              "id": "economia-b02-l01",
-              "title": "Balance:",
-              "topic_scope": "activos, pasivos, patrimonio neto, partida doble, ciclo contable, balance, PyG, masas patrimoniales",
-              "level": "N1",
-              "editorial_status": "draft",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/economia_empresa/"
-            }
-          ]
-        },
-        {
-          "id": "B03",
-          "title": "Análisis",
-          "level": "N2",
-          "lessons": [
-            {
-              "id": "economia-b03-l01",
-              "title": "Fondo de maniobra, periodo medio de maduración, ratios liquidez/tesorería/solvencia/endeudamiento, rentabilidad económica/financiera",
-              "topic_scope": "fondo de maniobra, periodo medio de maduración, ratios liquidez/tesorería/solvencia/endeudamiento, rentabilidad económica/financiera",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/economia_empresa/"
-            }
-          ]
-        },
-        {
-          "id": "B04",
-          "title": "Financiación",
-          "level": "N2",
-          "lessons": [
-            {
-              "id": "economia-b04-l01",
-              "title": "Recursos propios/ajenos, créditos, leasing, factoring, renting, amortizaciones",
-              "topic_scope": "recursos propios/ajenos, créditos, leasing, factoring, renting, amortizaciones",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/economia_empresa/"
-            }
-          ]
-        },
-        {
-          "id": "B05",
-          "title": "Inversión",
-          "level": "N2",
-          "lessons": [
-            {
-              "id": "economia-b05-l01",
-              "title": "VAN:",
-              "topic_scope": "cashflows, payback, VAN, TIR e interpretación",
-              "level": "N2",
-              "editorial_status": "draft",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/economia_empresa/"
-            }
-          ]
-        },
-        {
-          "id": "B06",
-          "title": "Estrategia y crecimiento",
-          "level": "N2",
-          "lessons": [
-            {
-              "id": "economia-b06-l01",
-              "title": "DAFO, cadena de valor, ventaja competitiva, localización, dimensiones, expansión nacional/internacional",
-              "topic_scope": "DAFO, cadena de valor, ventaja competitiva, localización, dimensiones, expansión nacional/internacional",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/economia_empresa/"
-            }
-          ]
-        },
-        {
-          "id": "B07",
-          "title": "Proyecto empresarial",
-          "level": "N2",
-          "lessons": [
-            {
-              "id": "economia-b07-l01",
-              "title": "Plan de negocio, estudio de mercado, marketing mix, punto muerto, viabilidad técnica/legal/financiera/medioambiental",
-              "topic_scope": "plan de negocio, estudio de mercado, marketing mix, punto muerto, viabilidad técnica/legal/financiera/medioambiental",
-              "level": "N2",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/economia_empresa/"
-            }
-          ]
-        },
-        {
-          "id": "B08",
-          "title": "Examen",
-          "level": "N3",
-          "lessons": [
-            {
-              "id": "economia-b08-l01",
-              "title": "4 de 5 ejercicios, 2,5 puntos, elegir correctamente, interpretar cifras y justificar decisiones",
-              "topic_scope": "4 de 5 ejercicios, 2,5 puntos, elegir correctamente, interpretar cifras y justificar decisiones",
-              "level": "N3",
-              "editorial_status": "planned",
-              "estimated_minutes": 60,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/economia_empresa/"
-            }
-          ]
-        },
-        {
-          "id": "B09",
-          "title": "Puente universitario",
-          "level": "N4",
-          "lessons": [
-            {
-              "id": "economia-b09-l01",
-              "title": "Microeconomía, finanzas cuantitativas, sistemas de información y estrategia de productos tecnológicos",
-              "topic_scope": "microeconomía, finanzas cuantitativas, sistemas de información y estrategia de productos tecnológicos",
-              "level": "N4",
-              "editorial_status": "planned",
-              "estimated_minutes": 35,
-              "prerequisites": [],
-              "source_kind": "original",
-              "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/economia_empresa/"
-            }
-          ]
-        }
-      ]
+     "id": "M05",
+     "title": "Trigonometría",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "matematicas-m05-l01",
+       "title": "Grados/radianes, circunferencia unitaria, seno/coseno/tangente",
+       "topic_scope": "grados/radianes, circunferencia unitaria, seno/coseno/tangente",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m05-l02",
+       "title": "Triángulos rectángulos y oblicuángulos, leyes seno/coseno",
+       "topic_scope": "triángulos rectángulos y oblicuángulos, leyes seno/coseno",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m05-l01"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m05-l03",
+       "title": "Identidades y ecuaciones básicas",
+       "topic_scope": "identidades y ecuaciones básicas",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m05-l02"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m05-l04",
+       "title": "Aplicaciones geométricas",
+       "topic_scope": "aplicaciones geométricas",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m05-l03"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      }
+     ]
+    },
+    {
+     "id": "M06",
+     "title": "Álgebra lineal",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "matematicas-m06-l01",
+       "title": "Matrices",
+       "topic_scope": "vectores 2D/3D, suma y producto escalar",
+       "level": "N2",
+       "editorial_status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m06-l02",
+       "title": "Matrices, productos y transpuesta",
+       "topic_scope": "matrices, productos y transpuesta",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m06-l01"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m06-l03",
+       "title": "Determinantes 2×2/3×3, inversa y rango",
+       "topic_scope": "determinantes 2×2/3×3, inversa y rango",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m06-l02"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m06-l04",
+       "title": "Sistemas 3×3, escalonamiento Gauss, discusión con parámetro, interpretación geométrica",
+       "topic_scope": "sistemas 3×3, escalonamiento Gauss, discusión con parámetro, interpretación geométrica",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m06-l03"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      }
+     ]
+    },
+    {
+     "id": "M07",
+     "title": "Geometría analítica",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "matematicas-m07-l01",
+       "title": "Distancias, punto medio, pendientes",
+       "topic_scope": "distancias, punto medio, pendientes",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m07-l02",
+       "title": "Rectas 2D, paralelismo y perpendicularidad",
+       "topic_scope": "rectas 2D, paralelismo y perpendicularidad",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m07-l01"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m07-l03",
+       "title": "Rectas y planos 3D, vectores normales, posiciones relativas",
+       "topic_scope": "rectas y planos 3D, vectores normales, posiciones relativas",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m07-l02"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m07-l04",
+       "title": "Producto vectorial, ángulos y distancias",
+       "topic_scope": "producto vectorial, ángulos y distancias",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m07-l03"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      }
+     ]
+    },
+    {
+     "id": "M08",
+     "title": "Cálculo diferencial",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "matematicas-m08-l01",
+       "title": "Derivadas,",
+       "topic_scope": "límites intuitivos y continuidad",
+       "level": "N2",
+       "editorial_status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m08-l02",
+       "title": "Derivada como tasa de cambio",
+       "topic_scope": "derivada como tasa de cambio",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m08-l01"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m08-l03",
+       "title": "Derivación de potencias/polinomios, producto/cociente/cadena",
+       "topic_scope": "derivación de potencias/polinomios, producto/cociente/cadena",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m08-l02"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m08-l04",
+       "title": "Recta tangente",
+       "topic_scope": "recta tangente",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m08-l03"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m08-l05",
+       "title": "Crecimiento/decrecimiento, máximos/mínimos",
+       "topic_scope": "crecimiento/decrecimiento, máximos/mínimos",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m08-l04"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m08-l06",
+       "title": "Concavidad/inflexión",
+       "topic_scope": "concavidad/inflexión",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m08-l05"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m08-l07",
+       "title": "Optimización",
+       "topic_scope": "optimización",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "matematicas-m08-l06"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      }
+     ]
+    },
+    {
+     "id": "M09",
+     "title": "Cálculo integral",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "matematicas-m09-l01",
+       "title": "Antiderivadas inmediatas, linealidad, sustitución sencilla, integración por partes, integral definida, áreas y relación derivada-integral",
+       "topic_scope": "antiderivadas inmediatas, linealidad, sustitución sencilla, integración por partes, integral definida, áreas y relación derivada-integral",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      }
+     ]
+    },
+    {
+     "id": "M10",
+     "title": "Entrenamiento examen",
+     "level": "N3",
+     "lessons": [
+      {
+       "id": "matematicas-m10-l01",
+       "title": "4/6 preguntas y 1/2 problemas",
+       "topic_scope": "4/6 preguntas y 1/2 problemas",
+       "level": "N3",
+       "editorial_status": "planned",
+       "estimated_minutes": 60,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      },
+      {
+       "id": "matematicas-m10-l02",
+       "title": "Selección estratégica, procedimientos escritos, estimación y comprobación, simulacros cronometrados, rúbrica parcial",
+       "topic_scope": "selección estratégica, procedimientos escritos, estimación y comprobación, simulacros cronometrados, rúbrica parcial",
+       "level": "N3",
+       "editorial_status": "planned",
+       "estimated_minutes": 60,
+       "prerequisites": [
+        "matematicas-m10-l01"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      }
+     ]
+    },
+    {
+     "id": "M11",
+     "title": "Puente universitario (aplazado hasta tras fase específica)",
+     "level": "N4",
+     "lessons": [
+      {
+       "id": "matematicas-m11-l01",
+       "title": "Lógica, conjuntos, demostración elemental, combinatoria, probabilidad, estadística, álgebra lineal computacional, cálculo multivariable inicial",
+       "topic_scope": "lógica, conjuntos, demostración elemental, combinatoria, probabilidad, estadística, álgebra lineal computacional, cálculo multivariable inicial",
+       "level": "N4",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/"
+      }
+     ]
     }
-  ]
+   ]
+  },
+  {
+   "slug": "fisica",
+   "title": "Física",
+   "language": "es",
+   "published": false,
+   "official_syllabus_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/",
+   "modules": [
+    {
+     "id": "F00",
+     "title": "Rescate",
+     "level": "N0",
+     "lessons": [
+      {
+       "id": "fisica-f00-l01",
+       "title": "Operaciones y álgebra usadas en física, potencia de diez, despeje, tablas y gráficas, notación científica",
+       "topic_scope": "operaciones y álgebra usadas en física, potencia de diez, despeje, tablas y gráficas, notación científica",
+       "level": "N0",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
+      }
+     ]
+    },
+    {
+     "id": "F01",
+     "title": "Magnitudes",
+     "level": "N1",
+     "lessons": [
+      {
+       "id": "fisica-f01-l01",
+       "title": "Qué",
+       "topic_scope": "medidas, SI y prefijos",
+       "level": "N1",
+       "editorial_status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
+      },
+      {
+       "id": "fisica-f01-l02",
+       "title": "Escalar/vector, componentes y módulo",
+       "topic_scope": "escalar/vector, componentes y módulo",
+       "level": "N1",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "fisica-f01-l01"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
+      },
+      {
+       "id": "fisica-f01-l03",
+       "title": "Producto escalar y vectorial",
+       "topic_scope": "producto escalar y vectorial",
+       "level": "N1",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "fisica-f01-l02"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
+      },
+      {
+       "id": "fisica-f01-l04",
+       "title": "Cifras significativas, errores absolutos/relativos, dimensionalidad",
+       "topic_scope": "cifras significativas, errores absolutos/relativos, dimensionalidad",
+       "level": "N1",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "fisica-f01-l03"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
+      }
+     ]
+    },
+    {
+     "id": "F02",
+     "title": "Cinemática",
+     "level": "N1",
+     "lessons": [
+      {
+       "id": "fisica-f02-l01",
+       "title": "Movimiento",
+       "topic_scope": "posición, desplazamiento, velocidad y aceleración",
+       "level": "N1",
+       "editorial_status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
+      },
+      {
+       "id": "fisica-f02-l02",
+       "title": "MRU/MRUA",
+       "topic_scope": "MRU/MRUA",
+       "level": "N1",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "fisica-f02-l01"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
+      },
+      {
+       "id": "fisica-f02-l03",
+       "title": "Gráficos x–t/v–t",
+       "topic_scope": "gráficos x–t/v–t",
+       "level": "N1",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "fisica-f02-l02"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
+      },
+      {
+       "id": "fisica-f02-l04",
+       "title": "Tiro parabólico, movimiento circular, angular",
+       "topic_scope": "tiro parabólico, movimiento circular, angular",
+       "level": "N1",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "fisica-f02-l03"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
+      },
+      {
+       "id": "fisica-f02-l05",
+       "title": "Movimiento armónico simple",
+       "topic_scope": "movimiento armónico simple",
+       "level": "N1",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "fisica-f02-l04"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
+      }
+     ]
+    },
+    {
+     "id": "F03",
+     "title": "Dinámica",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "fisica-f03-l01",
+       "title": "Segunda",
+       "topic_scope": "primera, segunda y tercera ley de Newton",
+       "level": "N2",
+       "editorial_status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
+      },
+      {
+       "id": "fisica-f03-l02",
+       "title": "Diagramas de cuerpo libre",
+       "topic_scope": "diagramas de cuerpo libre",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "fisica-f03-l01"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
+      },
+      {
+       "id": "fisica-f03-l03",
+       "title": "Peso/normal/tensión/fricción",
+       "topic_scope": "peso/normal/tensión/fricción",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "fisica-f03-l02"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
+      },
+      {
+       "id": "fisica-f03-l04",
+       "title": "Plano inclinado",
+       "topic_scope": "plano inclinado",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "fisica-f03-l03"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
+      },
+      {
+       "id": "fisica-f03-l05",
+       "title": "Fuerza centrípeta y ley de Hooke",
+       "topic_scope": "fuerza centrípeta y ley de Hooke",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "fisica-f03-l04"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
+      }
+     ]
+    },
+    {
+     "id": "F04",
+     "title": "Energía y momento",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "fisica-f04-l01",
+       "title": "Trabajo y potencia, energía cinética/potencial, fuerzas conservativas, conservación de energía, cantidad de movimiento, impulsos, choques",
+       "topic_scope": "trabajo y potencia, energía cinética/potencial, fuerzas conservativas, conservación de energía, cantidad de movimiento, impulsos, choques",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
+      }
+     ]
+    },
+    {
+     "id": "F05",
+     "title": "Gravitación",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "fisica-f05-l01",
+       "title": "Newton universal, intensidad/campo terrestre, órbitas circulares, energía gravitacional",
+       "topic_scope": "Newton universal, intensidad/campo terrestre, órbitas circulares, energía gravitacional",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
+      }
+     ]
+    },
+    {
+     "id": "F06",
+     "title": "Ondas",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "fisica-f06-l01",
+       "title": "Frecuencia, período, longitud de onda, velocidad, ondas armónicas, reflexión/refracción, interferencia, difracción, Doppler",
+       "topic_scope": "frecuencia, período, longitud de onda, velocidad, ondas armónicas, reflexión/refracción, interferencia, difracción, Doppler",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
+      }
+     ]
+    },
+    {
+     "id": "F07",
+     "title": "Electrostática",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "fisica-f07-l01",
+       "title": "Carga y campo, Coulomb, potencial, energía, condensadores y serie/paralelo",
+       "topic_scope": "carga y campo, Coulomb, potencial, energía, condensadores y serie/paralelo",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
+      }
+     ]
+    },
+    {
+     "id": "F08",
+     "title": "Electricidad",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "fisica-f08-l01",
+       "title": "Ley",
+       "topic_scope": "intensidad/voltaje/resistencia, Ohm, Joule, resistencias serie/paralelo, FEM, Kirchhoff, circuitos con esquemas",
+       "level": "N2",
+       "editorial_status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
+      }
+     ]
+    },
+    {
+     "id": "F09",
+     "title": "Magnetismo",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "fisica-f09-l01",
+       "title": "Campos magnéticos, cargas/corrientes en B, inducción, Faraday–Lenz, espectro EM, corriente alterna",
+       "topic_scope": "campos magnéticos, cargas/corrientes en B, inducción, Faraday–Lenz, espectro EM, corriente alterna",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
+      }
+     ]
+    },
+    {
+     "id": "F10",
+     "title": "Entrenamiento examen",
+     "level": "N3",
+     "lessons": [
+      {
+       "id": "fisica-f10-l01",
+       "title": "Magnitudes correctas, unidades, dibujos, elección entre 6+2, resultados numéricos con unidades, comprobaciones dimensionales",
+       "topic_scope": "magnitudes correctas, unidades, dibujos, elección entre 6+2, resultados numéricos con unidades, comprobaciones dimensionales",
+       "level": "N3",
+       "editorial_status": "planned",
+       "estimated_minutes": 60,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
+      }
+     ]
+    },
+    {
+     "id": "F11",
+     "title": "Puente universitario",
+     "level": "N4",
+     "lessons": [
+      {
+       "id": "fisica-f11-l01",
+       "title": "Cálculo vectorial básico, mecánica con cálculo diferencial, modelado físico y simulación (posterior a +25)",
+       "topic_scope": "cálculo vectorial básico, mecánica con cálculo diferencial, modelado físico y simulación (posterior a +25)",
+       "level": "N4",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "slug": "castellano",
+   "title": "Lengua Castellana",
+   "language": "es",
+   "published": false,
+   "official_syllabus_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacastellana/",
+   "modules": [
+    {
+     "id": "C00",
+     "title": "Lectoescritura funcional",
+     "level": "N0",
+     "lessons": [
+      {
+       "id": "castellano-c00-l01",
+       "title": "Oración y párrafo, puntuación básica, ortografía fundamental, idea principal y secundaria, vocabulario contextual",
+       "topic_scope": "oración y párrafo, puntuación básica, ortografía fundamental, idea principal y secundaria, vocabulario contextual",
+       "level": "N0",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacastellana/"
+      }
+     ]
+    },
+    {
+     "id": "C01",
+     "title": "Ortografía y norma",
+     "level": "N1",
+     "lessons": [
+      {
+       "id": "castellano-c01-l01",
+       "title": "Acentos:",
+       "topic_scope": "reglas de acentuación, hiatos/diptongos, interrogativos, signos de puntuación, mayúsculas, grafías problemáticas, concordancia, preposiciones",
+       "level": "N1",
+       "editorial_status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacastellana/"
+      }
+     ]
+    },
+    {
+     "id": "C02",
+     "title": "Morfología",
+     "level": "N1",
+     "lessons": [
+      {
+       "id": "castellano-c02-l01",
+       "title": "Las",
+       "topic_scope": "sustantivos/adjetivos/determinantes/pronombres, flexión verbal, personas/tiempos/modos, formación de palabras: derivación/composición",
+       "level": "N1",
+       "editorial_status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacastellana/"
+      }
+     ]
+    },
+    {
+     "id": "C03",
+     "title": "Sintaxis simple",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "castellano-c03-l01",
+       "title": "Sujeto,",
+       "topic_scope": "sujeto y predicado, núcleo, CD/CI/atributo/complementos",
+       "level": "N2",
+       "editorial_status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacastellana/"
+      },
+      {
+       "id": "castellano-c03-l02",
+       "title": "Transitividad, pasiva/activa, concordancia",
+       "topic_scope": "transitividad, pasiva/activa, concordancia",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "castellano-c03-l01"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacastellana/"
+      }
+     ]
+    },
+    {
+     "id": "C04",
+     "title": "Sintaxis compuesta",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "castellano-c04-l01",
+       "title": "Coordinación, subordinación sustantiva/adjetiva/adverbial, nexos, estilo directo/indirecto, transformaciones",
+       "topic_scope": "coordinación, subordinación sustantiva/adjetiva/adverbial, nexos, estilo directo/indirecto, transformaciones",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacastellana/"
+      }
+     ]
+    },
+    {
+     "id": "C05",
+     "title": "Semántica y discurso",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "castellano-c05-l01",
+       "title": "Sinónimos, antónimos, polisemia/homonimia, hiperónimos/hipónimos",
+       "topic_scope": "sinónimos, antónimos, polisemia/homonimia, hiperónimos/hipónimos",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacastellana/"
+      },
+      {
+       "id": "castellano-c05-l02",
+       "title": "Registros, recursos retóricos, anáfora, cohesión, conectores, coherencia",
+       "topic_scope": "registros, recursos retóricos, anáfora, cohesión, conectores, coherencia",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "castellano-c05-l01"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacastellana/"
+      }
+     ]
+    },
+    {
+     "id": "C06",
+     "title": "Lectura y producción",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "castellano-c06-l01",
+       "title": "Redacción",
+       "topic_scope": "propósito del autor, inferencias, textos de 250 palabras, paráfrasis, reescritura, 50–80 palabras, revisión lingüística",
+       "level": "N2",
+       "editorial_status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacastellana/"
+      }
+     ]
+    },
+    {
+     "id": "C07",
+     "title": "Examen",
+     "level": "N3",
+     "lessons": [
+      {
+       "id": "castellano-c07-l01",
+       "title": "Formatos de comprensión 3 puntos, expresión 4 y reflexión 3, penalizaciones, administración del tiempo",
+       "topic_scope": "formatos de comprensión 3 puntos, expresión 4 y reflexión 3, penalizaciones, administración del tiempo",
+       "level": "N3",
+       "editorial_status": "planned",
+       "estimated_minutes": 60,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacastellana/"
+      }
+     ]
+    },
+    {
+     "id": "C08",
+     "title": "Puente universitario",
+     "level": "N4",
+     "lessons": [
+      {
+       "id": "castellano-c08-l01",
+       "title": "Redacción académica, citas y fuentes, textos científicos, razonamiento y argumentación rigurosa",
+       "topic_scope": "redacción académica, citas y fuentes, textos científicos, razonamiento y argumentación rigurosa",
+       "level": "N4",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacastellana/"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "slug": "comentario",
+   "title": "Comentario de Texto",
+   "language": "es",
+   "published": false,
+   "official_syllabus_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/comentari_text/",
+   "modules": [
+    {
+     "id": "T00",
+     "title": "Comprender literalmente",
+     "level": "N0",
+     "lessons": [
+      {
+       "id": "comentario-t00-l01",
+       "title": "Diferencia",
+       "topic_scope": "tema vs asunto, vocabulario en contexto, autor/narrador, proposiciones explícitas",
+       "level": "N0",
+       "editorial_status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/comentari_text/"
+      }
+     ]
+    },
+    {
+     "id": "T01",
+     "title": "Comprender inferencialmente",
+     "level": "N1",
+     "lessons": [
+      {
+       "id": "comentario-t01-l01",
+       "title": "Tesis, presuposiciones, intención comunicativa, postura y matices, argumentos y evidencias",
+       "topic_scope": "tesis, presuposiciones, intención comunicativa, postura y matices, argumentos y evidencias",
+       "level": "N1",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/comentari_text/"
+      }
+     ]
+    },
+    {
+     "id": "T02",
+     "title": "Estructura",
+     "level": "N1",
+     "lessons": [
+      {
+       "id": "comentario-t02-l01",
+       "title": "Párrafos, introducción/desarrollo/conclusión, progresión temática, relaciones causales, ejemplo y contraejemplo",
+       "topic_scope": "párrafos, introducción/desarrollo/conclusión, progresión temática, relaciones causales, ejemplo y contraejemplo",
+       "level": "N1",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/comentari_text/"
+      }
+     ]
+    },
+    {
+     "id": "T03",
+     "title": "Síntesis",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "comentario-t03-l01",
+       "title": "Resumir",
+       "topic_scope": "titular y justificación, resumen objetivo, paráfrasis sin copiar, explicación de expresiones",
+       "level": "N2",
+       "editorial_status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/comentari_text/"
+      }
+     ]
+    },
+    {
+     "id": "T04",
+     "title": "Argumentación",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "comentario-t04-l01",
+       "title": "Tesis propia, razones, evidencias, contraargumentos, cierre",
+       "topic_scope": "tesis propia, razones, evidencias, contraargumentos, cierre",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/comentari_text/"
+      },
+      {
+       "id": "comentario-t04-l02",
+       "title": "Detectar falacias, lenguaje adecuado",
+       "topic_scope": "detectar falacias, lenguaje adecuado",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "comentario-t04-l01"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/comentari_text/"
+      }
+     ]
+    },
+    {
+     "id": "T05",
+     "title": "Escritura 150–200",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "comentario-t05-l01",
+       "title": "Construir",
+       "topic_scope": "esquema previo, cohesión, conectores, revisión ortográfica, cronometraje y rúbrica 4 puntos",
+       "level": "N2",
+       "editorial_status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/comentari_text/"
+      }
+     ]
+    },
+    {
+     "id": "T06",
+     "title": "Examen",
+     "level": "N3",
+     "lessons": [
+      {
+       "id": "comentario-t06-l01",
+       "title": "Primera parte 6 puntos, segunda 4",
+       "topic_scope": "primera parte 6 puntos, segunda 4",
+       "level": "N3",
+       "editorial_status": "planned",
+       "estimated_minutes": 60,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/comentari_text/"
+      },
+      {
+       "id": "comentario-t06-l02",
+       "title": "Errores que penalizan, simulacros y reescritura con feedback",
+       "topic_scope": "errores que penalizan, simulacros y reescritura con feedback",
+       "level": "N3",
+       "editorial_status": "planned",
+       "estimated_minutes": 60,
+       "prerequisites": [
+        "comentario-t06-l01"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/comentari_text/"
+      }
+     ]
+    },
+    {
+     "id": "T07",
+     "title": "Puente universitario",
+     "level": "N4",
+     "lessons": [
+      {
+       "id": "comentario-t07-l01",
+       "title": "Pensamiento crítico, lectura de papers, síntesis de fuentes y escritura académica",
+       "topic_scope": "pensamiento crítico, lectura de papers, síntesis de fuentes y escritura académica",
+       "level": "N4",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/comentari_text/"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "slug": "ingles",
+   "title": "Inglés",
+   "language": "es",
+   "published": false,
+   "official_syllabus_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguaestrangera/",
+   "modules": [
+    {
+     "id": "E00",
+     "title": "A1 rescate",
+     "level": "N0",
+     "lessons": [
+      {
+       "id": "ingles-e00-l01",
+       "title": "Sentence",
+       "topic_scope": "pronombres, verbo be/have, artículos, plurales, there is/are, preguntas/negaciones, vocabulario de vida diaria",
+       "level": "N0",
+       "editorial_status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguaestrangera/"
+      }
+     ]
+    },
+    {
+     "id": "E01",
+     "title": "A2 base",
+     "level": "N1",
+     "lessons": [
+      {
+       "id": "ingles-e01-l01",
+       "title": "Present",
+       "topic_scope": "present simple/continuous, past simple, futuro básico, modales, comparativos, preposiciones, conectores",
+       "level": "N1",
+       "editorial_status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguaestrangera/"
+      }
+     ]
+    },
+    {
+     "id": "E02",
+     "title": "B1",
+     "level": "N1",
+     "lessons": [
+      {
+       "id": "ingles-e02-l01",
+       "title": "Present perfect vs past, past continuous, futuro y condicionales 0/1/2, voz pasiva introductoria, relative clauses, reported speech, phrasal verbs frecuentes",
+       "topic_scope": "present perfect vs past, past continuous, futuro y condicionales 0/1/2, voz pasiva introductoria, relative clauses, reported speech, phrasal verbs frecuentes",
+       "level": "N1",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguaestrangera/"
+      }
+     ]
+    },
+    {
+     "id": "E03",
+     "title": "Lectura B1–B2",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "ingles-e03-l01",
+       "title": "Reading",
+       "topic_scope": "idea global, scanning, inferencia, referentes, significado en contexto, distractores, títulos y resúmenes",
+       "level": "N2",
+       "editorial_status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguaestrangera/"
+      }
+     ]
+    },
+    {
+     "id": "E04",
+     "title": "B2 gramática",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "ingles-e04-l01",
+       "title": "Pasivas, condicional 3/mixtos conceptuales, modales de deducción, participios, conectores de contraste/causa, reformulación",
+       "topic_scope": "pasivas, condicional 3/mixtos conceptuales, modales de deducción, participios, conectores de contraste/causa, reformulación",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguaestrangera/"
+      }
+     ]
+    },
+    {
+     "id": "E05",
+     "title": "Respuesta abierta",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "ingles-e05-l01",
+       "title": "Writing",
+       "topic_scope": "desarrollar 40–60 palabras con tesis, justificación y evidencia del texto, evitar traducción literal, revisar concordancia/tiempos",
+       "level": "N2",
+       "editorial_status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguaestrangera/"
+      }
+     ]
+    },
+    {
+     "id": "E06",
+     "title": "Examen",
+     "level": "N3",
+     "lessons": [
+      {
+       "id": "ingles-e06-l01",
+       "title": "Texto 250–300",
+       "topic_scope": "texto 250–300",
+       "level": "N3",
+       "editorial_status": "planned",
+       "estimated_minutes": 60,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguaestrangera/"
+      },
+      {
+       "id": "ingles-e06-l02",
+       "title": "8 objetivas y 2 abiertas",
+       "topic_scope": "8 objetivas y 2 abiertas",
+       "level": "N3",
+       "editorial_status": "planned",
+       "estimated_minutes": 60,
+       "prerequisites": [
+        "ingles-e06-l01"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguaestrangera/"
+      },
+      {
+       "id": "ingles-e06-l03",
+       "title": "Entrenamiento con penalización real",
+       "topic_scope": "entrenamiento con penalización real",
+       "level": "N3",
+       "editorial_status": "planned",
+       "estimated_minutes": 60,
+       "prerequisites": [
+        "ingles-e06-l02"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguaestrangera/"
+      }
+     ]
+    },
+    {
+     "id": "E07",
+     "title": "Puente universitario C1",
+     "level": "N4",
+     "lessons": [
+      {
+       "id": "ingles-e07-l01",
+       "title": "Comprensión lectora de documentación técnica, resúmenes, vocabulario académico, escritura de informes y presentaciones",
+       "topic_scope": "comprensión lectora de documentación técnica, resúmenes, vocabulario académico, escritura de informes y presentaciones",
+       "level": "N4",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguaestrangera/"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "slug": "economia",
+   "title": "Economía de la Empresa",
+   "language": "es",
+   "published": false,
+   "official_syllabus_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/economia_empresa/",
+   "modules": [
+    {
+     "id": "B00",
+     "title": "Aritmética aplicada",
+     "level": "N0",
+     "lessons": [
+      {
+       "id": "economia-b00-l01",
+       "title": "Porcentajes",
+       "topic_scope": "porcentajes, regla de tres, fracciones, tasas, descuento, lectura de tablas y gráficas",
+       "level": "N0",
+       "editorial_status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/economia_empresa/"
+      }
+     ]
+    },
+    {
+     "id": "B01",
+     "title": "Empresa básica",
+     "level": "N1",
+     "lessons": [
+      {
+       "id": "economia-b01-l01",
+       "title": "Funciones, objetivos, grupos de interés, formas jurídicas, nociones de ingresos/gastos",
+       "topic_scope": "funciones, objetivos, grupos de interés, formas jurídicas, nociones de ingresos/gastos",
+       "level": "N1",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/economia_empresa/"
+      }
+     ]
+    },
+    {
+     "id": "B02",
+     "title": "Contabilidad",
+     "level": "N1",
+     "lessons": [
+      {
+       "id": "economia-b02-l01",
+       "title": "Balance:",
+       "topic_scope": "activos, pasivos, patrimonio neto, partida doble, ciclo contable, balance, PyG, masas patrimoniales",
+       "level": "N1",
+       "editorial_status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/economia_empresa/"
+      }
+     ]
+    },
+    {
+     "id": "B03",
+     "title": "Análisis",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "economia-b03-l01",
+       "title": "Fondo de maniobra, periodo medio de maduración, ratios liquidez/tesorería/solvencia/endeudamiento, rentabilidad económica/financiera",
+       "topic_scope": "fondo de maniobra, periodo medio de maduración, ratios liquidez/tesorería/solvencia/endeudamiento, rentabilidad económica/financiera",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/economia_empresa/"
+      }
+     ]
+    },
+    {
+     "id": "B04",
+     "title": "Financiación",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "economia-b04-l01",
+       "title": "Recursos propios/ajenos, créditos, leasing, factoring, renting, amortizaciones",
+       "topic_scope": "recursos propios/ajenos, créditos, leasing, factoring, renting, amortizaciones",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/economia_empresa/"
+      }
+     ]
+    },
+    {
+     "id": "B05",
+     "title": "Inversión",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "economia-b05-l01",
+       "title": "VAN:",
+       "topic_scope": "cashflows, payback, VAN, TIR e interpretación",
+       "level": "N2",
+       "editorial_status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/economia_empresa/"
+      }
+     ]
+    },
+    {
+     "id": "B06",
+     "title": "Estrategia y crecimiento",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "economia-b06-l01",
+       "title": "DAFO, cadena de valor, ventaja competitiva, localización, dimensiones, expansión nacional/internacional",
+       "topic_scope": "DAFO, cadena de valor, ventaja competitiva, localización, dimensiones, expansión nacional/internacional",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/economia_empresa/"
+      }
+     ]
+    },
+    {
+     "id": "B07",
+     "title": "Proyecto empresarial",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "economia-b07-l01",
+       "title": "Plan de negocio, estudio de mercado, marketing mix, punto muerto, viabilidad técnica/legal/financiera/medioambiental",
+       "topic_scope": "plan de negocio, estudio de mercado, marketing mix, punto muerto, viabilidad técnica/legal/financiera/medioambiental",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/economia_empresa/"
+      }
+     ]
+    },
+    {
+     "id": "B08",
+     "title": "Examen",
+     "level": "N3",
+     "lessons": [
+      {
+       "id": "economia-b08-l01",
+       "title": "4 de 5 ejercicios, 2,5 puntos, elegir correctamente, interpretar cifras y justificar decisiones",
+       "topic_scope": "4 de 5 ejercicios, 2,5 puntos, elegir correctamente, interpretar cifras y justificar decisiones",
+       "level": "N3",
+       "editorial_status": "planned",
+       "estimated_minutes": 60,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/economia_empresa/"
+      }
+     ]
+    },
+    {
+     "id": "B09",
+     "title": "Puente universitario",
+     "level": "N4",
+     "lessons": [
+      {
+       "id": "economia-b09-l01",
+       "title": "Microeconomía, finanzas cuantitativas, sistemas de información y estrategia de productos tecnológicos",
+       "topic_scope": "microeconomía, finanzas cuantitativas, sistemas de información y estrategia de productos tecnológicos",
+       "level": "N4",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/economia_empresa/"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "slug": "catalan",
+   "title": "Llengua Catalana",
+   "language": "ca",
+   "published": false,
+   "official_syllabus_url": "https://universitats.gencat.cat/ca/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacatalana/index.html",
+   "modules": [
+    {
+     "id": "K00",
+     "title": "Diagnòstic i format",
+     "level": "N0",
+     "lessons": [
+      {
+       "id": "catalan-k00-l01",
+       "title": "Diagnòstic: comprensió lectora i format de la prova",
+       "topic_scope": "estructura de la prova, comprensió lectora, tipus de preguntes i penalitzacions",
+       "level": "N0",
+       "editorial_status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/ca/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacatalana/index.html"
+      }
+     ]
+    },
+    {
+     "id": "K01",
+     "title": "Ortografia",
+     "level": "N1",
+     "lessons": [
+      {
+       "id": "catalan-k01-l01",
+       "title": "Accentuació i dièresi",
+       "topic_scope": "síl·laba tònica, agudes, planes, esdrúixoles, accent obert i tancat, accent diacrític, dièresi",
+       "level": "N1",
+       "editorial_status": "planned",
+       "estimated_minutes": 45,
+       "prerequisites": [
+        "catalan-k00-l01"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/ca/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacatalana/index.html"
+      },
+      {
+       "id": "catalan-k01-l02",
+       "title": "Apòstrof, contraccions i guionet",
+       "topic_scope": "apostrofació d'articles i preposició de, contraccions al, del, pel, can, guionet en numerals i pronoms",
+       "level": "N1",
+       "editorial_status": "planned",
+       "estimated_minutes": 40,
+       "prerequisites": [
+        "catalan-k00-l01"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/ca/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacatalana/index.html"
+      }
+     ]
+    },
+    {
+     "id": "K02",
+     "title": "Grafies",
+     "level": "N1",
+     "lessons": [
+      {
+       "id": "catalan-k02-l01",
+       "title": "Grafies: s/ss/c/ç/z, b/v, g/j, h, l·l i ny",
+       "topic_scope": "sibilants, labials, palatals, h muda, ela geminada",
+       "level": "N1",
+       "editorial_status": "planned",
+       "estimated_minutes": 45,
+       "prerequisites": [
+        "catalan-k01-l01"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/ca/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacatalana/index.html"
+      }
+     ]
+    },
+    {
+     "id": "K03",
+     "title": "Morfologia nominal",
+     "level": "N1",
+     "lessons": [
+      {
+       "id": "catalan-k03-l01",
+       "title": "Gènere, nombre, articles i determinants",
+       "topic_scope": "femení i plural, articles, possessius, demostratius, quantitatius",
+       "level": "N1",
+       "editorial_status": "planned",
+       "estimated_minutes": 40,
+       "prerequisites": [
+        "catalan-k01-l02"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/ca/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacatalana/index.html"
+      }
+     ]
+    },
+    {
+     "id": "K04",
+     "title": "Pronoms febles",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "catalan-k04-l01",
+       "title": "Pronoms febles (I): formes i funcions",
+       "topic_scope": "CD, CI, atribut, en, hi, ho, formes plenes, reforçades, elidides i reduïdes",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 50,
+       "prerequisites": [
+        "catalan-k03-l01"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/ca/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacatalana/index.html"
+      },
+      {
+       "id": "catalan-k04-l02",
+       "title": "Pronoms febles (II): combinacions",
+       "topic_scope": "combinacions de dos pronoms, ordre, li + CD, en i hi combinats",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 50,
+       "prerequisites": [
+        "catalan-k04-l01"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/ca/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacatalana/index.html"
+      }
+     ]
+    },
+    {
+     "id": "K05",
+     "title": "Morfologia verbal",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "catalan-k05-l01",
+       "title": "Verbs: present, passat perifràstic, subjuntiu i imperatiu",
+       "topic_scope": "verbs regulars i irregulars freqüents, incoatius, passat perifràstic, subjuntiu, imperatiu",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 50,
+       "prerequisites": [
+        "catalan-k03-l01"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/ca/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacatalana/index.html"
+      }
+     ]
+    },
+    {
+     "id": "K06",
+     "title": "Sintaxi i norma",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "catalan-k06-l01",
+       "title": "Preposicions, haver-hi, relatius i concordança",
+       "topic_scope": "a/en/amb, per/per a, caiguda de preposicions, haver-hi, que/què/qual, concordança",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 45,
+       "prerequisites": [
+        "catalan-k04-l01"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/ca/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacatalana/index.html"
+      }
+     ]
+    },
+    {
+     "id": "K07",
+     "title": "Lèxic",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "catalan-k07-l01",
+       "title": "Lèxic: barbarismes, sinònims i registre",
+       "topic_scope": "barbarismes i castellanismes freqüents, sinonímia, antonímia, hiperonímia, registre",
+       "level": "N2",
+       "editorial_status": "planned",
+       "estimated_minutes": 40,
+       "prerequisites": [
+        "catalan-k00-l01"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/ca/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacatalana/index.html"
+      }
+     ]
+    },
+    {
+     "id": "K08",
+     "title": "Expressió escrita i examen",
+     "level": "N3",
+     "lessons": [
+      {
+       "id": "catalan-k08-l01",
+       "title": "Expressió escrita i estratègia d'examen",
+       "topic_scope": "resposta breu, redacció de 50 a 80 paraules, coherència, connectors, gestió del temps",
+       "level": "N3",
+       "editorial_status": "planned",
+       "estimated_minutes": 45,
+       "prerequisites": [
+        "catalan-k06-l01",
+        "catalan-k07-l01"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/ca/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacatalana/index.html"
+      }
+     ]
+    }
+   ]
+  }
+ ]
 }

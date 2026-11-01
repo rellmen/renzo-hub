@@ -1,0 +1,154 @@
+---
+id: catalan-k00-l01
+course: catalan
+module: K00
+level: N0
+title: Diagnòstic: comprensió lectora i format de la prova
+learning_objectives:
+  - Conocer las tres partes del examen de Llengua catalana +25 y cuánto vale cada una
+  - Aplicar un método de lectura para responder preguntas de comprensión con seguridad
+  - Decidir cuándo conviene responder y cuándo dejar en blanco una pregunta con penalización
+prerequisites: []
+skill_ids: [ca_exam_format, ca_reading_main_idea, ca_reading_inference]
+exam_alignment: [catalan-comprensio-lectora]
+estimated_minutes: 35
+source_kind: original
+source_urls:
+  - https://universitats.gencat.cat/ca/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacatalana/index.html
+content_version: 1
+editorial_status: draft
+---
+
+## 1. Qué aprenderás y para qué sirve
+
+Esta lección es el punto de partida del catalán. Vas a conocer cómo es exactamente el examen de **Llengua catalana** de la prueba +25 de Cataluña y vas a practicar la parte que más puntos da sin necesidad de saber gramática: la **comprensión lectora**. Al final sabrás qué se te pide en cada parte, cómo leer el texto para no perder tiempo y cómo responder las preguntas de opción múltiple sin regalar puntos por las penalizaciones.
+
+Es importante empezar por aquí porque el catalán y el castellano se parecen mucho: entenderás casi todo lo que leas desde el primer día. Eso es una ventaja enorme, pero también una trampa, porque las preguntas suelen jugar justo con los matices: una palabra que cambia el sentido, una idea que el texto sugiere pero no afirma, o un falso amigo que parece decir lo mismo que en castellano.
+
+## 2. Lo que necesitas saber antes
+
+No necesitas saber catalán formal todavía. Basta con que puedas leer un texto sencillo y reconocer las palabras más frecuentes. Si al leer dudas con alguna palabra, sigue adelante: el contexto suele aclararla. Estas son algunas que verás constantemente y que confunden al principio:
+
+- **però** = pero; **perquè** = porque / para que; **per què** = por qué (pregunta).
+- **encara** = todavía; **ja** = ya; **sinó** = sino; **doncs** = pues, así que.
+- **avui** = hoy; **ahir** = ayer; **demà** = mañana; **aviat** = pronto.
+- **gairebé** = casi; **només** = solo; **potser** = quizás; **tanmateix** = sin embargo.
+
+## 3. Idea intuitiva
+
+Piensa en el examen como en tres cajones con la misma cantidad de puntos o casi. El primero comprueba si **entiendes** un texto; el segundo, si sabes **escribir** en catalán con orden; el tercero, si conoces la **norma** (ortografía, pronombres, verbos, léxico). Un 5 en el examen no exige dominar los tres: puedes compensar. Por eso la estrategia más rentable es asegurar primero la comprensión, que depende sobre todo de leer con método, y después ir sumando norma semana a semana.
+
+Leer con método significa leer **dos veces con objetivos distintos**. La primera lectura es rápida: buscas el tema y la intención del autor (¿informa, opina, convence, critica?). La segunda es lenta y la haces con las preguntas delante: cada respuesta debe poder **señalarse con el dedo** en una línea concreta del texto.
+
+## 4. Definición precisa
+
+Según la información oficial de la Generalitat, el examen de Llengua catalana parte de un texto y tiene tres partes:
+
+1. **Comprensió lectora (3 punts).** Preguntas sobre el texto inicial: idea principal, intención, significado de palabras en contexto, relación entre ideas. Las preguntas objetivas valen 0,5 puntos cada una.
+2. **Expressió escrita (4 punts).** Un primer ejercicio breve (1 punto), por ejemplo resumir, parafrasear o comentar algo del texto, y una **redacció de 50 a 80 paraules** (3 puntos), que se valora por coherencia (1), riqueza léxica y de expresión (1) y madurez sintáctica y discursiva (1).
+3. **Reflexió lingüística (3 punts).** Seis preguntas objetivas, siempre independientes del texto inicial: opción múltiple, rellenar huecos o proponer equivalencias sobre ortografía, morfología, sintaxis y léxico.
+
+**Penalización:** en las preguntas de opción múltiple con cuatro opciones, una respuesta errónea resta **0,16 puntos**; una pregunta en blanco no resta nada. Como cada acierto vale 0,5, responder al azar entre cuatro opciones tiene un valor esperado ligeramente positivo (0,25 × 0,5 − 0,75 × 0,16 = +0,005), prácticamente cero. Conclusión práctica: **responde si puedes descartar al menos una opción**; si no puedes descartar ninguna, dejar en blanco cuesta lo mismo que arriesgar.
+
+Las fechas, la duración exacta y los modelos de 2027 se publican en el web de la Generalitat: compruébalos antes del examen.
+
+## 5. Ejemplos resueltos
+
+Texto de práctica (original):
+
+> *Cada matí, abans que obri el magatzem, l'equip de control d'estocs revisa les incidències de la nit. Gairebé sempre són petites: una caixa mal etiquetada, una ubicació buida que el sistema dona per plena. Tanmateix, aquests errors petits s'acumulen. Si ningú no els corregeix, al cap d'un mes el recompte físic ja no coincideix amb el que diu l'ordinador i les comandes comencen a fallar. Per això l'empresa ha decidit que cada incidència es resolgui el mateix dia que es detecta, encara que això obligui a reorganitzar els torns.*
+
+:::ejemplo Ejemplo 1 · Idea principal
+Pregunta: *Quina és la idea principal del text?*
+a) Les caixes mal etiquetades són el problema més greu del magatzem.
+b) Corregir cada dia els errors petits evita problemes grans més endavant.
+c) L'empresa ha reduït els torns de l'equip d'estocs.
+d) Els ordinadors del magatzem no funcionen bé.
+
+Razonamiento: (a) exagera, el texto dice que los errores son «petites». (c) es falso: el texto habla de *reorganitzar* los turnos, no de reducirlos. (d) no se afirma: el problema es que el sistema y el recuento dejan de coincidir. La respuesta es **(b)**: la secuencia «errors petits → s'acumulen → les comandes fallen → per això es resolen el mateix dia» es la columna del texto.
+:::
+
+:::ejemplo Ejemplo 2 · Palabra en contexto
+Pregunta: *En el text, «tanmateix» es podria substituir per…*
+a) per tant  b) no obstant això  c) a més  d) per exemple
+
+*Tanmateix* introduce un contraste: los errores son pequeños, **sin embargo** se acumulan. *Per tant* indica consecuencia, *a més* añade y *per exemple* ilustra. Respuesta: **(b) no obstant això**.
+:::
+
+:::error Error típico
+Elegir la opción que «suena» a algo dicho en el texto aunque cambie un detalle. En el ejemplo 1, la opción (c) usa la palabra *torns*, que aparece en el texto, pero cambia *reorganitzar* por *reduir*. Las opciones trampa casi siempre reutilizan palabras del texto: desconfía de la que copia palabras y comprueba el **verbo** y los **cuantificadores** (*sempre, mai, només, gairebé*).
+:::
+
+## 6. Ejercicio guiado
+
+Con el mismo texto: *Per què l'empresa vol resoldre les incidències el mateix dia?*
+
+:::pista Primera pista
+Busca el conector que introduce la decisión de la empresa. Está al principio de la última frase.
+:::
+
+:::pista Segunda pista
+*Per això* remite a lo que se ha dicho justo antes. ¿Qué ocurre «al cap d'un mes» si nadie corrige los errores?
+:::
+
+:::solucion Solución guiada
+*Per això* («por eso») conecta la decisión con la frase anterior: si los errores no se corrigen, el recuento físico deja de coincidir con el ordenador y los pedidos fallan. Respuesta modelo: *Perquè, si no es corregeixen, els errors petits s'acumulen i, al cap d'un mes, l'estoc real no coincideix amb el del sistema i les comandes fallen.*
+:::
+
+## 7. Práctica
+
+Texto (original):
+
+> *La biblioteca del barri obrirà també els diumenges a partir del gener. L'Ajuntament ho ha decidit després que una enquesta mostrés que molts veïns, sobretot els que treballen a torns, no hi podien anar entre setmana. L'horari serà reduït, de deu a dues, i no hi haurà servei de préstec interbibliotecari. Alguns treballadors de la biblioteca s'han queixat perquè no se'ls ha consultat, però l'Ajuntament assegura que els torns de diumenge seran voluntaris i es pagaran com a hores extres.*
+
+**Fáciles**
+
+1. ¿Desde cuándo abrirá la biblioteca los domingos?
+2. ¿Qué servicio no habrá los domingos?
+3. ¿Qué significa *veïns* en este texto?
+
+**Medios**
+
+4. ¿Por qué decidió el Ayuntamiento abrir los domingos? Responde con una frase en catalán.
+5. ¿Cuál es la queja de algunos trabajadores y qué responde el Ayuntamiento?
+
+**Tipo examen**
+
+6. Elige la idea principal y justifica por qué descartas las otras: a) Els treballadors de la biblioteca rebutgen obrir els diumenges. b) La biblioteca obrirà els diumenges amb un horari limitat per atendre els veïns que no hi poden anar entre setmana. c) El préstec interbibliotecari desapareixerà. d) L'Ajuntament pagarà més a tots els treballadors.
+
+:::solucion Soluciones paso a paso
+1. A partir de enero (*a partir del gener*).
+2. El préstamo interbibliotecario (*préstec interbibliotecari*).
+3. *Veïns* = vecinos, los habitantes del barrio.
+4. *Perquè una enquesta va mostrar que molts veïns, sobretot els que treballen a torns, no hi podien anar entre setmana.*
+5. Se quejan de que no se les ha consultado. El Ayuntamiento responde que los turnos del domingo serán voluntarios y se pagarán como horas extra.
+6. **(b)**. (a) exagera: solo *alguns* trabajadores se quejan, y no de abrir sino de no haber sido consultados. (c) cambia el sentido: el servicio no existirá *els diumenges*, no desaparece. (d) es falsa: solo se pagan como horas extra los turnos de domingo, que son voluntarios.
+:::
+
+## 8. Cómo revisar tus errores
+
+Cuando falles una pregunta de comprensión, clasifica el fallo en una de estas cuatro cajas y apúntalo en tu registro de errores del Roadmap:
+
+- **Vocabulario:** no conocías una palabra clave. Anótala con su traducción y una frase de ejemplo.
+- **Matiz:** entendiste el tema pero no viste un cuantificador (*només, alguns, tots, gairebé*) o un verbo cambiado. Subraya esas palabras en la próxima lectura.
+- **Inferencia:** elegiste algo que el texto no dice, aunque sea razonable. Repite la regla: si no puedes señalarlo en una línea, no es la respuesta.
+- **Tiempo:** leíste demasiado deprisa. Aplica siempre las dos lecturas.
+
+## 9. Mini evaluación
+
+::evaluacion
+
+## 10. Resumen, vocabulario y repaso
+
+- Examen: comprensión (3), expresión escrita (1 + 3 con redacción de 50 a 80 palabras) y reflexión lingüística (3).
+- Opción múltiple: +0,5 por acierto, −0,16 por error, 0 en blanco. Responde si puedes descartar al menos una opción.
+- Lee dos veces: primero tema e intención; después, cada pregunta con su línea del texto.
+- Desconfía de las opciones que copian palabras del texto pero cambian un verbo o un cuantificador.
+
+**Vocabulario:** però, perquè, per què, encara, tanmateix, per això, gairebé, només, potser, veí, torn, magatzem, enquesta.
+
+**Repaso:** a 1, 3, 7, 14 y 30 días. En cada repaso, lee una noticia breve en catalán (por ejemplo en un diario digital) y escribe su idea principal en una frase.
+
+## 11. Procedencia y nivel
+
+Contenido original de Rise Academia. Estructura y puntuación del examen tomadas de la página oficial de Llengua catalana de la prueba +25 de la Generalitat; revalidar con los modelos 2024 y 2025 y con la convocatoria 2027. Nivel N0. Continúa en K01 (ortografía).

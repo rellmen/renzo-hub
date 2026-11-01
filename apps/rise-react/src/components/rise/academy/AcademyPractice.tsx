@@ -13,7 +13,7 @@ function readLocal(id:string){try{return localStorage.getItem(KEY+id)||"";}catch
 function writeLocal(id:string,v:string){try{localStorage.setItem(KEY+id,v);}catch{/* almacenamiento no disponible */}}
 
 export function AcademyPractice({client,elective,onChanged}:{client:SupabaseClient|null;elective:string;onChanged:()=>void}){
-  const order=["matematicas",elective,"castellano","comentario","ingles",elective==="fisica"?"economia":"fisica"];
+  const order=["matematicas",elective,"catalan","castellano","comentario","ingles",elective==="fisica"?"economia":"fisica"];
   const [course,setCourse]=useState(order[0]!);
   const [run,setRun]=useState<{id:string;mode:"practice"|"diagnostic";qs:PublicQuestion[]}|null>(null);
   const pool=useMemo(()=>BANK.filter(q=>q.course===course),[course]);

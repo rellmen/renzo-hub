@@ -23,9 +23,11 @@ create function auth.uid() returns uuid language sql stable as \$\$select nullif
 grant usage on schema auth to anon,authenticated;grant execute on function auth.uid() to anon,authenticated;grant usage on schema public to anon,authenticated;
 insert into auth.users values('$A'),('$B');"
 MIG="$ROOT/supabase/pending/20261024090000_academy_foundation.sql"
+# Las claves de catalán requieren 20261101100000_academy_catalan.sql (probada en academy_catalan_test.sh): aquí se excluyen.
+KEYS_SQL="$WORK/keys_sin_catalan.sql"; grep -v "'catalan'" "$ROOT/supabase/seed/academy_question_keys.sql" > "$KEYS_SQL"
 RB="$ROOT/supabase/pending/20261024090000_academy_foundation.rollback.sql"
-"${PSQL[@]}" -f "$MIG"; "${PSQL[@]}" -f "$ROOT/supabase/seed/academy_question_keys.sql"
-"${PSQL[@]}" -f "$ROOT/supabase/seed/academy_question_keys.sql"
+"${PSQL[@]}" -f "$MIG"; "${PSQL[@]}" -f "$KEYS_SQL"
+"${PSQL[@]}" -f "$KEYS_SQL"
 N=$(q "select count(*) from academy_question_keys"); [ "$N" -gt 90 ] && ok "seed idempotente: $N claves" || die "claves $N"
 
 expect_err "begin;$AS_A select count(*) from academy_question_keys;commit;" "permission denied"
@@ -95,6 +97,6 @@ ok "simulacro: sesión única por id de cliente, entregado e inmutable"
 "${PSQL[@]}" -f "$RB"
 [ "$(q "select count(*) from pg_class where relname like 'academy%'")$(q "select count(*) from pg_proc where proname like 'academy%'")" = "00" ] || die "rollback incompleto"
 [ "$(q "select count(*) from auth.users")" = 2 ] || die "rollback tocó otras tablas"
-"${PSQL[@]}" -f "$MIG" && "${PSQL[@]}" -f "$ROOT/supabase/seed/academy_question_keys.sql"
+"${PSQL[@]}" -f "$MIG" && "${PSQL[@]}" -f "$KEYS_SQL"
 ok "rollback elimina solo objetos academy_* y la migración se puede reaplicar"
 echo "TEST_OK Academia: RLS, claves ocultas, idempotencia, cierre de evaluación, CAS, simulacros y rollback"

@@ -29,8 +29,8 @@ MIG="$ROOT/supabase/pending/20261024200000_academy_mocks.sql"
 RB="$ROOT/supabase/pending/20261024200000_academy_mocks.rollback.sql"
 SEED="$ROOT/supabase/seed/academy_mock_keys.sql"
 "${PSQL[@]}" -f "$F"; "${PSQL[@]}" -f "$MIG"; "${PSQL[@]}" -f "$SEED"; "${PSQL[@]}" -f "$SEED"
-[ "$(q "select count(*) from academy_mock_defs")" = 5 ] || die "defs"
-N=$(q "select count(*) from academy_mock_items"); [ "$N" -gt 100 ] && ok "seed idempotente: 5 simulacros, $N preguntas" || die "items $N"
+[ "$(q "select count(*) from academy_mock_defs")" = 6 ] || die "defs"
+N=$(q "select count(*) from academy_mock_items"); [ "$N" -gt 100 ] && ok "seed idempotente: 6 simulacros, $N preguntas" || die "items $N"
 [ "$(q "select column_default from information_schema.columns where table_name='academy_preferences' and column_name='elective'")" = "'fisica'::text" ] || die "elective por defecto"
 ok "la segunda específica por defecto pasa a Física"
 
@@ -129,6 +129,19 @@ R=$(asA "select academy_mock_submit('$S6','{\"e1\":{\"choice\":\"a\"},\"e2\":{\"
 grep -q '"auto_score": 0.34' <<<"$R" || die "inglés: $R"
 ok "Inglés: −0,33 por fallo (1 − 0,66 = 0,34)"
 
+# --- Economía (01-11-2026): 4 de 5 ejercicios, miles con punto, tolerancias y test con −0,15 y suelo 0 ---
+S7=$(asA "select academy_mock_start(gen_random_uuid(),'s1-economia')->>'id'")
+EC='{"e1a":{"value":"30.000"},"e1b":{"value":"1,75"},"e1c":{"value":"1"},"e2a":{"value":"3252,69"},"e2b":{"value":"2,55"},
+ "e3a":{"value":"4000"},"e3b":{"value":"15000"},"e3c":{"value":"27,3"},"e4a":{"text":"no elegido"},
+ "t1":{"choice":"a"},"t2":{"choice":"b"},"t3":{"choice":"a"},"t4":{"choice":"b"}}'
+expect_err "begin;$AS_A select academy_mock_save('$S7',1,'{}','{\"p1\":[\"e1\",\"e2\",\"e3\",\"e4\",\"e5\"]}');commit;" "solo puedes elegir 4"
+R=$(asA "select academy_mock_submit('$S7','$EC','{\"p1\":[\"e1\",\"e2\",\"e3\",\"e5\"]}')::text")
+grep -q '"auto_score": 6.1' <<<"$R" || die "economía: $R"
+[ "$(asA "select result->'items'->'t3'->>'score'||':'||(result->'items'->'e4a'->>'status') from academy_mock_sessions where id='$S7'")" = "-0.15:not_chosen" ] || die "economía detalle: $(asA "select result->'items'->'t3' from academy_mock_sessions where id='$S7'")"
+S8=$(asA "select academy_mock_start(gen_random_uuid(),'s1-economia')->>'id'")
+R=$(asA "select academy_mock_submit('$S8','{\"t1\":{\"choice\":\"b\"},\"t2\":{\"choice\":\"a\"}}','{\"p1\":[\"e5\"]}')::text")
+grep -q '"auto_score": 0' <<<"$R" || die "economía suelo 0: $R"
+ok "Economía: 4 de 5, 30.000 y tolerancias aceptados, test −0,15 → 6,1 automáticos; el test no baja de 0"
 "${PSQL[@]}" -f "$RB"
 [ "$(q "select count(*) from pg_class where relname like 'academy_mock%'")$(q "select count(*) from pg_proc where proname in ('academy_parse_sci','academy_norm_unit','academy_word_count') or proname like 'academy_mock%'")" = "00" ] || die "rollback incompleto"
 [ "$(q "select count(*) from pg_class where relname='academy_question_keys'")" = 1 ] || die "rollback tocó la fundación"

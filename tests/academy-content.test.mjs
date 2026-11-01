@@ -8,7 +8,8 @@ const read=p=>readFileSync(new URL(p,root),'utf8');
 
 test('Academia: contenido válido y salidas generadas al día (build --check)',()=>{
   const out=execFileSync(process.execPath,['tools/academy/build.mjs','--check'],{cwd:root,encoding:'utf8'});
-  assert.match(out,/^OK · 120 lecciones/);
+  assert.match(out,/^OK · 131 lecciones/);
+  assert.match(out,/catalan: 11\/11 con contenido, 11 al estándar/);
 });
 
 test('Academia: las claves solo viven en el seed SQL, nunca en el bundle público',()=>{

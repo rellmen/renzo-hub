@@ -8,7 +8,7 @@ import {saveExam,startExam,type ExamRow,type MockSession} from "@/lib/academy/re
 import {AcademyMocks} from "./AcademyMocks";
 
 // UOC 2026: específica 180 min para dos materias; Castellano + Inglés 105 min en total (reparto orientativo 60/45).
-const DEFAULT_MIN:Record<string,number>={matematicas:90,fisica:90,economia:90,castellano:60,comentario:90,ingles:45};
+const DEFAULT_MIN:Record<string,number>={matematicas:90,fisica:90,economia:90,catalan:60,castellano:60,comentario:90,ingles:45};
 
 const PENALTY_LABEL:Record<string,string>={test_wrong_points:"fallo en test",wrong_four_option_mc_points:"fallo en test de 4 opciones",missing_units_points:"sin unidades",
   writing_error_points:"error de lengua",language_error_points:"error de lengua",essay_outside_150_200_words:"redacción fuera de 150–200 palabras"};
@@ -26,7 +26,7 @@ function sectionText(p:ExamProfile){
 
 export function AcademyExams({client,uid,exams,elective,onChanged,mocks=[],mocksAvailable=false}:{client:SupabaseClient|null;uid:string;exams:ExamRow[];elective:string;onChanged:()=>void;mocks?:MockSession[];mocksAvailable?:boolean}){
   const active=exams.find(e=>e.status==="in_progress");
-  const order=["matematicas",elective,"castellano","comentario","ingles",elective==="fisica"?"economia":"fisica"];
+  const order=["matematicas",elective,"catalan","castellano","comentario","ingles",elective==="fisica"?"economia":"fisica"];
   const profiles=[...PROFILES.profiles].sort((a,b)=>order.indexOf(a.course)-order.indexOf(b.course));
   const [error,setError]=useState<string|null>(null);
   const [busy,setBusy]=useState<string|null>(null);

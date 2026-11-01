@@ -1,0 +1,160 @@
+{
+ "lesson_id": "catalan-k01-l02",
+ "questions": [
+  {
+   "id": "k01l02-x1",
+   "kind": "multiple_choice",
+   "difficulty": 1,
+   "skill_ids": [
+    "ca_contractions"
+   ],
+   "prompt_md": "Quina opció és correcta?",
+   "choices": [
+    {
+     "id": "a",
+     "text": "Anem al hospital."
+    },
+    {
+     "id": "b",
+     "text": "Anem a l'hospital."
+    },
+    {
+     "id": "c",
+     "text": "Anem a el hospital."
+    },
+    {
+     "id": "d",
+     "text": "Anem a la hospital."
+    }
+   ],
+   "key": {
+    "correct_choice_id": "b"
+   },
+   "explanation_md": "*Hospital* comença per *h* + vocal: l'article s'apostrofa (*l'hospital*) i, com que està apostrofat, no hi ha contracció."
+  },
+  {
+   "id": "k01l02-x2",
+   "kind": "multiple_choice",
+   "difficulty": 1,
+   "skill_ids": [
+    "ca_apostrophe"
+   ],
+   "prompt_md": "Quina opció és correcta?",
+   "choices": [
+    {
+     "id": "a",
+     "text": "l'universitat"
+    },
+    {
+     "id": "b",
+     "text": "la universitat"
+    },
+    {
+     "id": "c",
+     "text": "l'universitat de l'Iolanda"
+    },
+    {
+     "id": "d",
+     "text": "la'universitat"
+    }
+   ],
+   "key": {
+    "correct_choice_id": "b"
+   },
+   "explanation_md": "*La* no s'apostrofa davant de *u* àtona: *la universitat*."
+  },
+  {
+   "id": "k01l02-x3",
+   "kind": "multiple_choice",
+   "difficulty": 1,
+   "skill_ids": [
+    "ca_contractions"
+   ],
+   "prompt_md": "Completa: «Els treballadors ___ torn de nit cobren un plus.»",
+   "choices": [
+    {
+     "id": "a",
+     "text": "de el"
+    },
+    {
+     "id": "b",
+     "text": "del"
+    },
+    {
+     "id": "c",
+     "text": "de l'"
+    },
+    {
+     "id": "d",
+     "text": "dels"
+    }
+   ],
+   "key": {
+    "correct_choice_id": "b"
+   },
+   "explanation_md": "*De* + *el* davant de consonant fa *del*: *del torn*."
+  },
+  {
+   "id": "k01l02-x4",
+   "kind": "multiple_choice",
+   "difficulty": 2,
+   "skill_ids": [
+    "ca_hyphen_numbers"
+   ],
+   "prompt_md": "Com s'escriu 248?",
+   "choices": [
+    {
+     "id": "a",
+     "text": "dos-cents quaranta-vuit"
+    },
+    {
+     "id": "b",
+     "text": "dos cents quaranta vuit"
+    },
+    {
+     "id": "c",
+     "text": "dos-cents-quaranta-vuit"
+    },
+    {
+     "id": "d",
+     "text": "doscents quarantavuit"
+    }
+   ],
+   "key": {
+    "correct_choice_id": "a"
+   },
+   "explanation_md": "Guionet entre unitats i centenes (*dos-cents*) i entre desenes i unitats (*quaranta-vuit*); no entre centenes i desenes."
+  },
+  {
+   "id": "k01l02-x5",
+   "kind": "multiple_choice",
+   "difficulty": 2,
+   "skill_ids": [
+    "ca_apostrophe"
+   ],
+   "prompt_md": "Quina forma és correcta?",
+   "choices": [
+    {
+     "id": "a",
+     "text": "l'iogurt"
+    },
+    {
+     "id": "b",
+     "text": "el iogurt"
+    },
+    {
+     "id": "c",
+     "text": "d'iogurt"
+    },
+    {
+     "id": "d",
+     "text": "l' iogurt"
+    }
+   ],
+   "key": {
+    "correct_choice_id": "b"
+   },
+   "explanation_md": "La *i* de *iogurt* és semivocal: no s'apostrofa l'article (*el iogurt*) ni la preposició (*de iogurt*)."
+  }
+ ]
+}
