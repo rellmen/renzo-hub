@@ -64,11 +64,15 @@ export function dueReviews(reviews,now=new Date()){
   }).sort((a,b)=>String(a.due_on).localeCompare(String(b.due_on)));
 }
 
-/** Reparto semanal de referencia del PLAN_24_SEMANAS (10 h): matemáticas 4, específica 2, castellano 1,5, comentario 1, inglés 1, repaso 0,5. */
-export const WEEKLY_SPLIT={matematicas:0.40,especifica:0.20,castellano:0.15,comentario:0.10,ingles:0.10,repaso:0.05};
-export function weeklyPlan(weeklyMinutes,elective="fisica"){
-  const total=Math.max(30,Math.min(4000,Math.round(Number(weeklyMinutes)||600)));
+/** Reparto semanal de la opción 2 (PAU +25 de Cataluña, 01-11-2026), igual que el roadmap: 13 h = Matemáticas 3 h 30,
+ * Economía 3 h, Catalán, Castellano, Comentario e Inglés 1 h 30 cada uno y 30 min de repaso. */
+export const DEFAULT_ELECTIVE="economia";
+export const DEFAULT_WEEKLY_MINUTES=780;
+export const WEEKLY_SPLIT={matematicas:0.27,especifica:0.23,catalan:0.115,castellano:0.115,comentario:0.115,ingles:0.115,repaso:0.04};
+export function weeklyPlan(weeklyMinutes,elective=DEFAULT_ELECTIVE){
+  const total=Math.max(30,Math.min(4000,Math.round(Number(weeklyMinutes)||DEFAULT_WEEKLY_MINUTES)));
   const rows=[["matematicas","Matemáticas",WEEKLY_SPLIT.matematicas],[elective,elective==="fisica"?"Física":"Economía de la Empresa",WEEKLY_SPLIT.especifica],
+    ["catalan","Lengua catalana (sin lecciones en Academia)",WEEKLY_SPLIT.catalan],
     ["castellano","Lengua castellana",WEEKLY_SPLIT.castellano],["comentario","Comentario de texto",WEEKLY_SPLIT.comentario],
     ["ingles","Inglés",WEEKLY_SPLIT.ingles],["repaso","Repaso espaciado",WEEKLY_SPLIT.repaso]];
   return rows.map(([id,label,share])=>({id,label,minutes:Math.round(total*share/5)*5}));
@@ -86,7 +90,7 @@ export function priorityScore({examWeight=1,mastery=null,unlocks=0,dueOverdueDay
 export function todayPlan(catalog,{progressRows=[],reviews=[],attempts=[],prefs=null,now=new Date()}={}){
   const progress=progressMap(progressRows);
   const showDrafts=prefs?.show_drafts!==false;
-  const elective=prefs?.elective==="economia"?"economia":"fisica";
+  const elective=prefs?.elective==="fisica"?"fisica":DEFAULT_ELECTIVE;
   const courses=["matematicas",elective,"castellano","comentario","ingles"];
   const weights={matematicas:1.2,[elective]:1.0,castellano:1.0,comentario:1.0,ingles:1.0};
   const skills=skillMastery(attempts);

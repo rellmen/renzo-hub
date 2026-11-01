@@ -5,13 +5,13 @@
   "general": "2027-04-10",
   "especifica": "2027-04-17",
   "source": "https://universitats.gencat.cat/es/proves-majors/25-anys/",
-  "note": "Fechas de la Generalitat para 2027 (consulta 24-10-2026). La UOC fija las suyas: en 2026 fueron el 11 y 12 de abril, en línea. Confirmar la convocatoria UOC 2027."
+  "note": "Fechas de la Generalitat para 2027 (comprobadas el 01-11-2026); horarios pendientes de publicar."
  },
  "elective": {
-  "chosen": "fisica",
-  "alternative": "economia",
+  "chosen": "economia",
+  "alternative": "fisica",
   "confirmed": true,
-  "note": "Ingeniería (UOC 2026): específicas entre Física, Matemáticas y Química. Economía de la Empresa no es opción para Ingeniería: queda como complementaria."
+  "note": "Decisión de Renzo 01-11-2026: PAU +25 común de Cataluña (presencial, con Llengua catalana), opción E con Matemáticas + Economía de la Empresa. La prueba en español de la UOC no admite Economía en Ingeniería; Física queda como complementaria."
  },
  "courses": [
   {
@@ -993,392 +993,71 @@
    ]
   },
   {
-   "slug": "fisica",
-   "title": "Física",
+   "slug": "economia",
+   "title": "Economía de la Empresa",
    "role": "especifica",
-   "role_label": "Específica 2 · Ingeniería (Matemáticas + Física)",
-   "exam_profile": "physics_2026_cat_ref",
-   "models_url": "https://universitats.gencat.cat/ca/proves-majors/25-anys/models-examen/fisica/",
-   "official_syllabus_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/",
+   "role_label": "Específica 2 · opción E de la prueba catalana (Matemáticas + Economía)",
+   "exam_profile": "economia_2026_cat_ref",
+   "models_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/models-examen/",
+   "official_syllabus_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/economia_empresa/",
    "modules": [
     {
-     "id": "F00",
-     "title": "Rescate",
+     "id": "B00",
+     "title": "Aritmética aplicada",
      "level": "N0",
      "lessons": [
       {
-       "id": "fisica-f00-l01",
-       "title": "Operaciones y álgebra usadas en física, potencia de diez, despeje, tablas y gráficas, notación científica",
-       "topic_scope": "operaciones y álgebra usadas en física, potencia de diez, despeje, tablas y gráficas, notación científica",
+       "id": "economia-b00-l01",
+       "title": "Porcentajes, variaciones y regla de tres para Economía de la Empresa",
+       "topic_scope": "porcentajes, regla de tres, fracciones, tasas, descuento, lectura de tablas y gráficas",
        "level": "N0",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [],
-       "has_content": false,
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     },
     {
-     "id": "F01",
-     "title": "Magnitudes",
+     "id": "B01",
+     "title": "Empresa básica",
      "level": "N1",
      "lessons": [
       {
-       "id": "fisica-f01-l01",
-       "title": "Magnitudes, Sistema Internacional y prefijos",
-       "topic_scope": "medidas, SI y prefijos",
+       "id": "economia-b01-l01",
+       "title": "La empresa: funciones, objetivos, grupos de interés y formas jurídicas",
+       "topic_scope": "funciones, objetivos, grupos de interés, formas jurídicas, nociones de ingresos/gastos",
        "level": "N1",
        "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
-        "fisica-f00-l01"
+        "economia-b00-l01"
        ],
        "has_content": true,
        "pilot": false,
        "meets_standard": true,
        "gaps": []
-      },
-      {
-       "id": "fisica-f01-l02",
-       "title": "Escalar/vector, componentes y módulo",
-       "topic_scope": "escalar/vector, componentes y módulo",
-       "level": "N1",
-       "status": "planned",
-       "estimated_minutes": 35,
-       "prerequisites": [
-        "fisica-f01-l01"
-       ],
-       "has_content": false,
-       "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
-      },
-      {
-       "id": "fisica-f01-l03",
-       "title": "Producto escalar y vectorial",
-       "topic_scope": "producto escalar y vectorial",
-       "level": "N1",
-       "status": "planned",
-       "estimated_minutes": 35,
-       "prerequisites": [
-        "fisica-f01-l02"
-       ],
-       "has_content": false,
-       "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
-      },
-      {
-       "id": "fisica-f01-l04",
-       "title": "Cifras significativas, errores absolutos/relativos, dimensionalidad",
-       "topic_scope": "cifras significativas, errores absolutos/relativos, dimensionalidad",
-       "level": "N1",
-       "status": "planned",
-       "estimated_minutes": 35,
-       "prerequisites": [
-        "fisica-f01-l03"
-       ],
-       "has_content": false,
-       "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
       }
      ]
     },
     {
-     "id": "F02",
-     "title": "Cinemática",
+     "id": "B02",
+     "title": "Contabilidad",
      "level": "N1",
      "lessons": [
       {
-       "id": "fisica-f02-l01",
-       "title": "Posición, desplazamiento, velocidad y aceleración",
-       "topic_scope": "posición, desplazamiento, velocidad y aceleración",
+       "id": "economia-b02-l01",
+       "title": "Patrimonio, balance y cuenta de pérdidas y ganancias",
+       "topic_scope": "activos, pasivos, patrimonio neto, partida doble, ciclo contable, balance, PyG, masas patrimoniales",
        "level": "N1",
        "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
-        "fisica-f01-l01"
-       ],
-       "has_content": true,
-       "pilot": false,
-       "meets_standard": true,
-       "gaps": []
-      },
-      {
-       "id": "fisica-f02-l02",
-       "title": "MRU/MRUA",
-       "topic_scope": "MRU/MRUA",
-       "level": "N1",
-       "status": "planned",
-       "estimated_minutes": 35,
-       "prerequisites": [
-        "fisica-f02-l01"
-       ],
-       "has_content": false,
-       "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
-      },
-      {
-       "id": "fisica-f02-l03",
-       "title": "Gráficos x–t/v–t",
-       "topic_scope": "gráficos x–t/v–t",
-       "level": "N1",
-       "status": "planned",
-       "estimated_minutes": 35,
-       "prerequisites": [
-        "fisica-f02-l02"
-       ],
-       "has_content": false,
-       "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
-      },
-      {
-       "id": "fisica-f02-l04",
-       "title": "Tiro parabólico, movimiento circular, angular",
-       "topic_scope": "tiro parabólico, movimiento circular, angular",
-       "level": "N1",
-       "status": "planned",
-       "estimated_minutes": 35,
-       "prerequisites": [
-        "fisica-f02-l03"
-       ],
-       "has_content": false,
-       "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
-      },
-      {
-       "id": "fisica-f02-l05",
-       "title": "Movimiento armónico simple",
-       "topic_scope": "movimiento armónico simple",
-       "level": "N1",
-       "status": "planned",
-       "estimated_minutes": 35,
-       "prerequisites": [
-        "fisica-f02-l04"
-       ],
-       "has_content": false,
-       "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
-      }
-     ]
-    },
-    {
-     "id": "F03",
-     "title": "Dinámica",
-     "level": "N2",
-     "lessons": [
-      {
-       "id": "fisica-f03-l01",
-       "title": "Las tres leyes de Newton",
-       "topic_scope": "primera, segunda y tercera ley de Newton",
-       "level": "N2",
-       "status": "draft",
-       "estimated_minutes": 35,
-       "prerequisites": [
-        "fisica-f02-l01",
-        "fisica-f01-l01"
-       ],
-       "has_content": true,
-       "pilot": false,
-       "meets_standard": true,
-       "gaps": []
-      },
-      {
-       "id": "fisica-f03-l02",
-       "title": "Diagramas de cuerpo libre",
-       "topic_scope": "diagramas de cuerpo libre",
-       "level": "N2",
-       "status": "planned",
-       "estimated_minutes": 35,
-       "prerequisites": [
-        "fisica-f03-l01"
-       ],
-       "has_content": false,
-       "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
-      },
-      {
-       "id": "fisica-f03-l03",
-       "title": "Peso/normal/tensión/fricción",
-       "topic_scope": "peso/normal/tensión/fricción",
-       "level": "N2",
-       "status": "planned",
-       "estimated_minutes": 35,
-       "prerequisites": [
-        "fisica-f03-l02"
-       ],
-       "has_content": false,
-       "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
-      },
-      {
-       "id": "fisica-f03-l04",
-       "title": "Plano inclinado",
-       "topic_scope": "plano inclinado",
-       "level": "N2",
-       "status": "planned",
-       "estimated_minutes": 35,
-       "prerequisites": [
-        "fisica-f03-l03"
-       ],
-       "has_content": false,
-       "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
-      },
-      {
-       "id": "fisica-f03-l05",
-       "title": "Fuerza centrípeta y ley de Hooke",
-       "topic_scope": "fuerza centrípeta y ley de Hooke",
-       "level": "N2",
-       "status": "planned",
-       "estimated_minutes": 35,
-       "prerequisites": [
-        "fisica-f03-l04"
-       ],
-       "has_content": false,
-       "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
-      }
-     ]
-    },
-    {
-     "id": "F04",
-     "title": "Energía y momento",
-     "level": "N2",
-     "lessons": [
-      {
-       "id": "fisica-f04-l01",
-       "title": "Trabajo y potencia, energía cinética/potencial, fuerzas conservativas, conservación de energía, cantidad de movimiento, impulsos, choques",
-       "topic_scope": "trabajo y potencia, energía cinética/potencial, fuerzas conservativas, conservación de energía, cantidad de movimiento, impulsos, choques",
-       "level": "N2",
-       "status": "planned",
-       "estimated_minutes": 35,
-       "prerequisites": [],
-       "has_content": false,
-       "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
-      }
-     ]
-    },
-    {
-     "id": "F05",
-     "title": "Gravitación",
-     "level": "N2",
-     "lessons": [
-      {
-       "id": "fisica-f05-l01",
-       "title": "Newton universal, intensidad/campo terrestre, órbitas circulares, energía gravitacional",
-       "topic_scope": "Newton universal, intensidad/campo terrestre, órbitas circulares, energía gravitacional",
-       "level": "N2",
-       "status": "planned",
-       "estimated_minutes": 35,
-       "prerequisites": [],
-       "has_content": false,
-       "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
-      }
-     ]
-    },
-    {
-     "id": "F06",
-     "title": "Ondas",
-     "level": "N2",
-     "lessons": [
-      {
-       "id": "fisica-f06-l01",
-       "title": "Frecuencia, período, longitud de onda, velocidad, ondas armónicas, reflexión/refracción, interferencia, difracción, Doppler",
-       "topic_scope": "frecuencia, período, longitud de onda, velocidad, ondas armónicas, reflexión/refracción, interferencia, difracción, Doppler",
-       "level": "N2",
-       "status": "planned",
-       "estimated_minutes": 35,
-       "prerequisites": [],
-       "has_content": false,
-       "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
-      }
-     ]
-    },
-    {
-     "id": "F07",
-     "title": "Electrostática",
-     "level": "N2",
-     "lessons": [
-      {
-       "id": "fisica-f07-l01",
-       "title": "Carga y campo, Coulomb, potencial, energía, condensadores y serie/paralelo",
-       "topic_scope": "carga y campo, Coulomb, potencial, energía, condensadores y serie/paralelo",
-       "level": "N2",
-       "status": "planned",
-       "estimated_minutes": 35,
-       "prerequisites": [],
-       "has_content": false,
-       "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
-      }
-     ]
-    },
-    {
-     "id": "F08",
-     "title": "Electricidad",
-     "level": "N2",
-     "lessons": [
-      {
-       "id": "fisica-f08-l01",
-       "title": "Corriente eléctrica, ley de Ohm y circuitos",
-       "topic_scope": "intensidad/voltaje/resistencia, Ohm, Joule, resistencias serie/paralelo, FEM, Kirchhoff, circuitos con esquemas",
-       "level": "N2",
-       "status": "draft",
-       "estimated_minutes": 35,
-       "prerequisites": [
-        "fisica-f01-l01"
+        "economia-b01-l01",
+        "economia-b00-l01"
        ],
        "has_content": true,
        "pilot": false,
@@ -1388,68 +1067,164 @@
      ]
     },
     {
-     "id": "F09",
-     "title": "Magnetismo",
+     "id": "B03",
+     "title": "Análisis",
      "level": "N2",
      "lessons": [
       {
-       "id": "fisica-f09-l01",
-       "title": "Campos magnéticos, cargas/corrientes en B, inducción, Faraday–Lenz, espectro EM, corriente alterna",
-       "topic_scope": "campos magnéticos, cargas/corrientes en B, inducción, Faraday–Lenz, espectro EM, corriente alterna",
+       "id": "economia-b03-l01",
+       "title": "Análisis de estados financieros: fondo de maniobra, periodo medio de maduración, ratios y rentabilidades",
+       "topic_scope": "fondo de maniobra, periodo medio de maduración, ratios liquidez/tesorería/solvencia/endeudamiento, rentabilidad económica/financiera",
        "level": "N2",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
-       "prerequisites": [],
-       "has_content": false,
+       "prerequisites": [
+        "economia-b02-l01",
+        "economia-b00-l01"
+       ],
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     },
     {
-     "id": "F10",
-     "title": "Entrenamiento examen",
+     "id": "B04",
+     "title": "Financiación",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "economia-b04-l01",
+       "title": "Financiación de la empresa: recursos propios y ajenos, leasing, factoring, renting y amortizaciones",
+       "topic_scope": "recursos propios/ajenos, créditos, leasing, factoring, renting, amortizaciones",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "economia-b02-l01",
+        "economia-b03-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "B05",
+     "title": "Inversión",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "economia-b05-l01",
+       "title": "Selección de inversiones: flujos de caja, payback, VAN y TIR",
+       "topic_scope": "cashflows, payback, VAN, TIR e interpretación",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "economia-b00-l01",
+        "matematicas-m03-l04"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "B06",
+     "title": "Estrategia y crecimiento",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "economia-b06-l01",
+       "title": "Estrategia empresarial: DAFO, cadena de valor, ventaja competitiva, localización, dimensión y crecimiento",
+       "topic_scope": "DAFO, cadena de valor, ventaja competitiva, localización, dimensiones, expansión nacional/internacional",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "economia-b01-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "B07",
+     "title": "Proyecto empresarial",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "economia-b07-l01",
+       "title": "Plan de negocio, estudio de mercado, marketing mix, punto muerto y viabilidad",
+       "topic_scope": "plan de negocio, estudio de mercado, marketing mix, punto muerto, viabilidad técnica/legal/financiera/medioambiental",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "economia-b01-l01",
+        "economia-b06-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "B08",
+     "title": "Examen",
      "level": "N3",
      "lessons": [
       {
-       "id": "fisica-f10-l01",
-       "title": "Magnitudes correctas, unidades, dibujos, elección entre 6+2, resultados numéricos con unidades, comprobaciones dimensionales",
-       "topic_scope": "magnitudes correctas, unidades, dibujos, elección entre 6+2, resultados numéricos con unidades, comprobaciones dimensionales",
+       "id": "economia-b08-l01",
+       "title": "El examen de Economía de la Empresa: elegir 4 de 5 ejercicios, interpretar cifras y justificar decisiones",
+       "topic_scope": "4 de 5 ejercicios, 2,5 puntos, elegir correctamente, interpretar cifras y justificar decisiones",
        "level": "N3",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 60,
-       "prerequisites": [],
-       "has_content": false,
+       "prerequisites": [
+        "economia-b03-l01",
+        "economia-b04-l01",
+        "economia-b05-l01",
+        "economia-b07-l01"
+       ],
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     },
     {
-     "id": "F11",
+     "id": "B09",
      "title": "Puente universitario",
      "level": "N4",
      "lessons": [
       {
-       "id": "fisica-f11-l01",
-       "title": "Cálculo vectorial básico, mecánica con cálculo diferencial, modelado físico y simulación (posterior a +25)",
-       "topic_scope": "cálculo vectorial básico, mecánica con cálculo diferencial, modelado físico y simulación (posterior a +25)",
+       "id": "economia-b09-l01",
+       "title": "Puente universitario: microeconomía, finanzas cuantitativas, sistemas de información y estrategia de productos tecnológicos",
+       "topic_scope": "microeconomía, finanzas cuantitativas, sistemas de información y estrategia de productos tecnológicos",
        "level": "N4",
-       "status": "planned",
+       "status": "draft",
        "estimated_minutes": 35,
-       "prerequisites": [],
-       "has_content": false,
+       "prerequisites": [
+        "economia-b08-l01",
+        "matematicas-m08-l05"
+       ],
+       "has_content": true,
        "pilot": false,
-       "meets_standard": false,
-       "gaps": [
-        "sin redactar"
-       ]
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     }
@@ -2130,117 +1905,392 @@
    ]
   },
   {
-   "slug": "economia",
-   "title": "Economía de la Empresa",
+   "slug": "fisica",
+   "title": "Física",
    "role": "complementaria",
-   "role_label": "Complementaria · no cuenta para Ingeniería en la UOC",
-   "exam_profile": "economia_2026_cat_ref",
-   "models_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/models-examen/",
-   "official_syllabus_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/economia_empresa/",
+   "role_label": "Complementaria · ruta anterior (prueba UOC en español)",
+   "exam_profile": "physics_2026_cat_ref",
+   "models_url": "https://universitats.gencat.cat/ca/proves-majors/25-anys/models-examen/fisica/",
+   "official_syllabus_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/",
    "modules": [
     {
-     "id": "B00",
-     "title": "Aritmética aplicada",
+     "id": "F00",
+     "title": "Rescate",
      "level": "N0",
      "lessons": [
       {
-       "id": "economia-b00-l01",
-       "title": "Porcentajes, variaciones y regla de tres para Economía de la Empresa",
-       "topic_scope": "porcentajes, regla de tres, fracciones, tasas, descuento, lectura de tablas y gráficas",
+       "id": "fisica-f00-l01",
+       "title": "Operaciones y álgebra usadas en física, potencia de diez, despeje, tablas y gráficas, notación científica",
+       "topic_scope": "operaciones y álgebra usadas en física, potencia de diez, despeje, tablas y gráficas, notación científica",
        "level": "N0",
-       "status": "draft",
+       "status": "planned",
        "estimated_minutes": 35,
        "prerequisites": [],
-       "has_content": true,
+       "has_content": false,
        "pilot": false,
-       "meets_standard": true,
-       "gaps": []
+       "meets_standard": false,
+       "gaps": [
+        "sin redactar"
+       ]
       }
      ]
     },
     {
-     "id": "B01",
-     "title": "Empresa básica",
+     "id": "F01",
+     "title": "Magnitudes",
      "level": "N1",
      "lessons": [
       {
-       "id": "economia-b01-l01",
-       "title": "La empresa: funciones, objetivos, grupos de interés y formas jurídicas",
-       "topic_scope": "funciones, objetivos, grupos de interés, formas jurídicas, nociones de ingresos/gastos",
+       "id": "fisica-f01-l01",
+       "title": "Magnitudes, Sistema Internacional y prefijos",
+       "topic_scope": "medidas, SI y prefijos",
        "level": "N1",
        "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
-        "economia-b00-l01"
+        "fisica-f00-l01"
        ],
        "has_content": true,
        "pilot": false,
        "meets_standard": true,
        "gaps": []
+      },
+      {
+       "id": "fisica-f01-l02",
+       "title": "Escalar/vector, componentes y módulo",
+       "topic_scope": "escalar/vector, componentes y módulo",
+       "level": "N1",
+       "status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "fisica-f01-l01"
+       ],
+       "has_content": false,
+       "pilot": false,
+       "meets_standard": false,
+       "gaps": [
+        "sin redactar"
+       ]
+      },
+      {
+       "id": "fisica-f01-l03",
+       "title": "Producto escalar y vectorial",
+       "topic_scope": "producto escalar y vectorial",
+       "level": "N1",
+       "status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "fisica-f01-l02"
+       ],
+       "has_content": false,
+       "pilot": false,
+       "meets_standard": false,
+       "gaps": [
+        "sin redactar"
+       ]
+      },
+      {
+       "id": "fisica-f01-l04",
+       "title": "Cifras significativas, errores absolutos/relativos, dimensionalidad",
+       "topic_scope": "cifras significativas, errores absolutos/relativos, dimensionalidad",
+       "level": "N1",
+       "status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "fisica-f01-l03"
+       ],
+       "has_content": false,
+       "pilot": false,
+       "meets_standard": false,
+       "gaps": [
+        "sin redactar"
+       ]
       }
      ]
     },
     {
-     "id": "B02",
-     "title": "Contabilidad",
+     "id": "F02",
+     "title": "Cinemática",
      "level": "N1",
      "lessons": [
       {
-       "id": "economia-b02-l01",
-       "title": "Patrimonio, balance y cuenta de pérdidas y ganancias",
-       "topic_scope": "activos, pasivos, patrimonio neto, partida doble, ciclo contable, balance, PyG, masas patrimoniales",
+       "id": "fisica-f02-l01",
+       "title": "Posición, desplazamiento, velocidad y aceleración",
+       "topic_scope": "posición, desplazamiento, velocidad y aceleración",
        "level": "N1",
        "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
-        "economia-b01-l01",
-        "economia-b00-l01"
+        "fisica-f01-l01"
        ],
        "has_content": true,
        "pilot": false,
        "meets_standard": true,
        "gaps": []
+      },
+      {
+       "id": "fisica-f02-l02",
+       "title": "MRU/MRUA",
+       "topic_scope": "MRU/MRUA",
+       "level": "N1",
+       "status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "fisica-f02-l01"
+       ],
+       "has_content": false,
+       "pilot": false,
+       "meets_standard": false,
+       "gaps": [
+        "sin redactar"
+       ]
+      },
+      {
+       "id": "fisica-f02-l03",
+       "title": "Gráficos x–t/v–t",
+       "topic_scope": "gráficos x–t/v–t",
+       "level": "N1",
+       "status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "fisica-f02-l02"
+       ],
+       "has_content": false,
+       "pilot": false,
+       "meets_standard": false,
+       "gaps": [
+        "sin redactar"
+       ]
+      },
+      {
+       "id": "fisica-f02-l04",
+       "title": "Tiro parabólico, movimiento circular, angular",
+       "topic_scope": "tiro parabólico, movimiento circular, angular",
+       "level": "N1",
+       "status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "fisica-f02-l03"
+       ],
+       "has_content": false,
+       "pilot": false,
+       "meets_standard": false,
+       "gaps": [
+        "sin redactar"
+       ]
+      },
+      {
+       "id": "fisica-f02-l05",
+       "title": "Movimiento armónico simple",
+       "topic_scope": "movimiento armónico simple",
+       "level": "N1",
+       "status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "fisica-f02-l04"
+       ],
+       "has_content": false,
+       "pilot": false,
+       "meets_standard": false,
+       "gaps": [
+        "sin redactar"
+       ]
       }
      ]
     },
     {
-     "id": "B03",
-     "title": "Análisis",
+     "id": "F03",
+     "title": "Dinámica",
      "level": "N2",
      "lessons": [
       {
-       "id": "economia-b03-l01",
-       "title": "Análisis de estados financieros: fondo de maniobra, periodo medio de maduración, ratios y rentabilidades",
-       "topic_scope": "fondo de maniobra, periodo medio de maduración, ratios liquidez/tesorería/solvencia/endeudamiento, rentabilidad económica/financiera",
+       "id": "fisica-f03-l01",
+       "title": "Las tres leyes de Newton",
+       "topic_scope": "primera, segunda y tercera ley de Newton",
        "level": "N2",
        "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
-        "economia-b02-l01",
-        "economia-b00-l01"
+        "fisica-f02-l01",
+        "fisica-f01-l01"
        ],
        "has_content": true,
        "pilot": false,
        "meets_standard": true,
        "gaps": []
+      },
+      {
+       "id": "fisica-f03-l02",
+       "title": "Diagramas de cuerpo libre",
+       "topic_scope": "diagramas de cuerpo libre",
+       "level": "N2",
+       "status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "fisica-f03-l01"
+       ],
+       "has_content": false,
+       "pilot": false,
+       "meets_standard": false,
+       "gaps": [
+        "sin redactar"
+       ]
+      },
+      {
+       "id": "fisica-f03-l03",
+       "title": "Peso/normal/tensión/fricción",
+       "topic_scope": "peso/normal/tensión/fricción",
+       "level": "N2",
+       "status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "fisica-f03-l02"
+       ],
+       "has_content": false,
+       "pilot": false,
+       "meets_standard": false,
+       "gaps": [
+        "sin redactar"
+       ]
+      },
+      {
+       "id": "fisica-f03-l04",
+       "title": "Plano inclinado",
+       "topic_scope": "plano inclinado",
+       "level": "N2",
+       "status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "fisica-f03-l03"
+       ],
+       "has_content": false,
+       "pilot": false,
+       "meets_standard": false,
+       "gaps": [
+        "sin redactar"
+       ]
+      },
+      {
+       "id": "fisica-f03-l05",
+       "title": "Fuerza centrípeta y ley de Hooke",
+       "topic_scope": "fuerza centrípeta y ley de Hooke",
+       "level": "N2",
+       "status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [
+        "fisica-f03-l04"
+       ],
+       "has_content": false,
+       "pilot": false,
+       "meets_standard": false,
+       "gaps": [
+        "sin redactar"
+       ]
       }
      ]
     },
     {
-     "id": "B04",
-     "title": "Financiación",
+     "id": "F04",
+     "title": "Energía y momento",
      "level": "N2",
      "lessons": [
       {
-       "id": "economia-b04-l01",
-       "title": "Financiación de la empresa: recursos propios y ajenos, leasing, factoring, renting y amortizaciones",
-       "topic_scope": "recursos propios/ajenos, créditos, leasing, factoring, renting, amortizaciones",
+       "id": "fisica-f04-l01",
+       "title": "Trabajo y potencia, energía cinética/potencial, fuerzas conservativas, conservación de energía, cantidad de movimiento, impulsos, choques",
+       "topic_scope": "trabajo y potencia, energía cinética/potencial, fuerzas conservativas, conservación de energía, cantidad de movimiento, impulsos, choques",
+       "level": "N2",
+       "status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "has_content": false,
+       "pilot": false,
+       "meets_standard": false,
+       "gaps": [
+        "sin redactar"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "F05",
+     "title": "Gravitación",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "fisica-f05-l01",
+       "title": "Newton universal, intensidad/campo terrestre, órbitas circulares, energía gravitacional",
+       "topic_scope": "Newton universal, intensidad/campo terrestre, órbitas circulares, energía gravitacional",
+       "level": "N2",
+       "status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "has_content": false,
+       "pilot": false,
+       "meets_standard": false,
+       "gaps": [
+        "sin redactar"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "F06",
+     "title": "Ondas",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "fisica-f06-l01",
+       "title": "Frecuencia, período, longitud de onda, velocidad, ondas armónicas, reflexión/refracción, interferencia, difracción, Doppler",
+       "topic_scope": "frecuencia, período, longitud de onda, velocidad, ondas armónicas, reflexión/refracción, interferencia, difracción, Doppler",
+       "level": "N2",
+       "status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "has_content": false,
+       "pilot": false,
+       "meets_standard": false,
+       "gaps": [
+        "sin redactar"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "F07",
+     "title": "Electrostática",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "fisica-f07-l01",
+       "title": "Carga y campo, Coulomb, potencial, energía, condensadores y serie/paralelo",
+       "topic_scope": "carga y campo, Coulomb, potencial, energía, condensadores y serie/paralelo",
+       "level": "N2",
+       "status": "planned",
+       "estimated_minutes": 35,
+       "prerequisites": [],
+       "has_content": false,
+       "pilot": false,
+       "meets_standard": false,
+       "gaps": [
+        "sin redactar"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "F08",
+     "title": "Electricidad",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "fisica-f08-l01",
+       "title": "Corriente eléctrica, ley de Ohm y circuitos",
+       "topic_scope": "intensidad/voltaje/resistencia, Ohm, Joule, resistencias serie/paralelo, FEM, Kirchhoff, circuitos con esquemas",
        "level": "N2",
        "status": "draft",
        "estimated_minutes": 35,
        "prerequisites": [
-        "economia-b02-l01",
-        "economia-b03-l01"
+        "fisica-f01-l01"
        ],
        "has_content": true,
        "pilot": false,
@@ -2250,118 +2300,68 @@
      ]
     },
     {
-     "id": "B05",
-     "title": "Inversión",
+     "id": "F09",
+     "title": "Magnetismo",
      "level": "N2",
      "lessons": [
       {
-       "id": "economia-b05-l01",
-       "title": "Selección de inversiones: flujos de caja, payback, VAN y TIR",
-       "topic_scope": "cashflows, payback, VAN, TIR e interpretación",
+       "id": "fisica-f09-l01",
+       "title": "Campos magnéticos, cargas/corrientes en B, inducción, Faraday–Lenz, espectro EM, corriente alterna",
+       "topic_scope": "campos magnéticos, cargas/corrientes en B, inducción, Faraday–Lenz, espectro EM, corriente alterna",
        "level": "N2",
-       "status": "draft",
+       "status": "planned",
        "estimated_minutes": 35,
-       "prerequisites": [
-        "economia-b00-l01",
-        "matematicas-m03-l04"
-       ],
-       "has_content": true,
+       "prerequisites": [],
+       "has_content": false,
        "pilot": false,
-       "meets_standard": true,
-       "gaps": []
+       "meets_standard": false,
+       "gaps": [
+        "sin redactar"
+       ]
       }
      ]
     },
     {
-     "id": "B06",
-     "title": "Estrategia y crecimiento",
-     "level": "N2",
-     "lessons": [
-      {
-       "id": "economia-b06-l01",
-       "title": "Estrategia empresarial: DAFO, cadena de valor, ventaja competitiva, localización, dimensión y crecimiento",
-       "topic_scope": "DAFO, cadena de valor, ventaja competitiva, localización, dimensiones, expansión nacional/internacional",
-       "level": "N2",
-       "status": "draft",
-       "estimated_minutes": 35,
-       "prerequisites": [
-        "economia-b01-l01"
-       ],
-       "has_content": true,
-       "pilot": false,
-       "meets_standard": true,
-       "gaps": []
-      }
-     ]
-    },
-    {
-     "id": "B07",
-     "title": "Proyecto empresarial",
-     "level": "N2",
-     "lessons": [
-      {
-       "id": "economia-b07-l01",
-       "title": "Plan de negocio, estudio de mercado, marketing mix, punto muerto y viabilidad",
-       "topic_scope": "plan de negocio, estudio de mercado, marketing mix, punto muerto, viabilidad técnica/legal/financiera/medioambiental",
-       "level": "N2",
-       "status": "draft",
-       "estimated_minutes": 35,
-       "prerequisites": [
-        "economia-b01-l01",
-        "economia-b06-l01"
-       ],
-       "has_content": true,
-       "pilot": false,
-       "meets_standard": true,
-       "gaps": []
-      }
-     ]
-    },
-    {
-     "id": "B08",
-     "title": "Examen",
+     "id": "F10",
+     "title": "Entrenamiento examen",
      "level": "N3",
      "lessons": [
       {
-       "id": "economia-b08-l01",
-       "title": "El examen de Economía de la Empresa: elegir 4 de 5 ejercicios, interpretar cifras y justificar decisiones",
-       "topic_scope": "4 de 5 ejercicios, 2,5 puntos, elegir correctamente, interpretar cifras y justificar decisiones",
+       "id": "fisica-f10-l01",
+       "title": "Magnitudes correctas, unidades, dibujos, elección entre 6+2, resultados numéricos con unidades, comprobaciones dimensionales",
+       "topic_scope": "magnitudes correctas, unidades, dibujos, elección entre 6+2, resultados numéricos con unidades, comprobaciones dimensionales",
        "level": "N3",
-       "status": "draft",
+       "status": "planned",
        "estimated_minutes": 60,
-       "prerequisites": [
-        "economia-b03-l01",
-        "economia-b04-l01",
-        "economia-b05-l01",
-        "economia-b07-l01"
-       ],
-       "has_content": true,
+       "prerequisites": [],
+       "has_content": false,
        "pilot": false,
-       "meets_standard": true,
-       "gaps": []
+       "meets_standard": false,
+       "gaps": [
+        "sin redactar"
+       ]
       }
      ]
     },
     {
-     "id": "B09",
+     "id": "F11",
      "title": "Puente universitario",
      "level": "N4",
      "lessons": [
       {
-       "id": "economia-b09-l01",
-       "title": "Puente universitario: microeconomía, finanzas cuantitativas, sistemas de información y estrategia de productos tecnológicos",
-       "topic_scope": "microeconomía, finanzas cuantitativas, sistemas de información y estrategia de productos tecnológicos",
+       "id": "fisica-f11-l01",
+       "title": "Cálculo vectorial básico, mecánica con cálculo diferencial, modelado físico y simulación (posterior a +25)",
+       "topic_scope": "cálculo vectorial básico, mecánica con cálculo diferencial, modelado físico y simulación (posterior a +25)",
        "level": "N4",
-       "status": "draft",
+       "status": "planned",
        "estimated_minutes": 35,
-       "prerequisites": [
-        "economia-b08-l01",
-        "matematicas-m08-l05"
-       ],
-       "has_content": true,
+       "prerequisites": [],
+       "has_content": false,
        "pilot": false,
-       "meets_standard": true,
-       "gaps": []
+       "meets_standard": false,
+       "gaps": [
+        "sin redactar"
+       ]
       }
      ]
     }
@@ -2391,13 +2391,13 @@
      "published": 0
     }
    },
-   "fisica": {
-    "total": 23,
-    "with_content": 4,
-    "meets_standard": 4,
+   "economia": {
+    "total": 10,
+    "with_content": 10,
+    "meets_standard": 10,
     "by_status": {
-     "planned": 19,
-     "draft": 4,
+     "planned": 0,
+     "draft": 10,
      "reviewed": 0,
      "ready": 0,
      "published": 0
@@ -2439,13 +2439,13 @@
      "published": 0
     }
    },
-   "economia": {
-    "total": 10,
-    "with_content": 10,
-    "meets_standard": 10,
+   "fisica": {
+    "total": 23,
+    "with_content": 4,
+    "meets_standard": 4,
     "by_status": {
-     "planned": 0,
-     "draft": 10,
+     "planned": 19,
+     "draft": 4,
      "reviewed": 0,
      "ready": 0,
      "published": 0

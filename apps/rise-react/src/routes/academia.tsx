@@ -12,7 +12,7 @@ import {AcademyLessonReader} from "@/components/rise/academy/AcademyLessonReader
 import {AcademyExams} from "@/components/rise/academy/AcademyExams";
 import {AcademyPractice} from "@/components/rise/academy/AcademyPractice";
 import {CATALOG,courseTitle,lessonMeta} from "@/lib/academy/content";
-import {academyEnvironmentAllowed,courseProgress,daysUntil,progressMap,skillMastery,todayPlan,weeklyPlan,SESSION_OPTIONS,type Prefs} from "@/lib/academy/engine.mjs";
+import {academyEnvironmentAllowed,courseProgress,daysUntil,progressMap,skillMastery,todayPlan,weeklyPlan,SESSION_OPTIONS,DEFAULT_ELECTIVE,DEFAULT_WEEKLY_MINUTES,type Prefs} from "@/lib/academy/engine.mjs";
 import {AcademyBackendMissing,loadAcademyState,savePreferences} from "@/lib/academy/records.mjs";
 
 type View="plan"|"cursos"|"practicar"|"examenes"|"resultados";
@@ -47,7 +47,7 @@ function Academia(){
   const go=(s:Search)=>void navigate({search:s});
   const data=state.data;
   const prefs=data?.prefs||null;
-  const elective=prefs?.elective||"fisica";
+  const elective=prefs?.elective||DEFAULT_ELECTIVE;
   const general=daysUntil(CATALOG.exam_dates.general);const especifica=daysUntil(CATALOG.exam_dates.especifica);
 
   if(!allowed)return <EmptyState icon={<Lock className="h-5 w-5"/>} title="Academia en pruebas" text="Disponible en staging hasta que apruebes su paso a producción."/>;
@@ -89,7 +89,7 @@ type Data=Awaited<ReturnType<typeof loadAcademyState>>|undefined;
 
 function PlanView({data,prefs,onOpen,onSaved,client,uid}:{data:Data;prefs:Prefs|null;onOpen:(id:string)=>void;onSaved:()=>void;client:ReturnType<typeof useAuth>["client"];uid:string}){
   const plan=useMemo(()=>todayPlan(CATALOG,{progressRows:data?.progress,reviews:data?.reviews,attempts:data?.attempts,prefs}),[data,prefs]);
-  const [draft,setDraft]=useState<Omit<Prefs,"revision">>({weekly_minutes:prefs?.weekly_minutes??600,session_minutes:prefs?.session_minutes??25,elective:prefs?.elective??"fisica",show_drafts:prefs?.show_drafts??true});
+  const [draft,setDraft]=useState<Omit<Prefs,"revision">>({weekly_minutes:prefs?.weekly_minutes??DEFAULT_WEEKLY_MINUTES,session_minutes:prefs?.session_minutes??25,elective:prefs?.elective??DEFAULT_ELECTIVE,show_drafts:prefs?.show_drafts??true});
   const [msg,setMsg]=useState<string|null>(null);
   const weekly=weeklyPlan(draft.weekly_minutes,draft.elective);
   async function save(){
@@ -120,10 +120,10 @@ function PlanView({data,prefs,onOpen,onSaved,client,uid}:{data:Data;prefs:Prefs|
       </SectionCard>
       <SectionCard eyebrow="Calendario de referencia (Generalitat)" title="Prueba +25 · 2027" accent="var(--gold)">
         <dl className="grid gap-3 sm:grid-cols-2">
-          <div className="rounded-2xl border border-hairline p-3"><dt className="text-xs text-muted-foreground">Fase general (Castellano, Comentario, Inglés)</dt><dd className="font-display text-2xl">10 abril 2027</dd><dd className="text-xs">{daysUntil(CATALOG.exam_dates.general)} días</dd></div>
-          <div className="rounded-2xl border border-hairline p-3"><dt className="text-xs text-muted-foreground">Fase específica (Matemáticas + Física)</dt><dd className="font-display text-2xl">17 abril 2027</dd><dd className="text-xs">{daysUntil(CATALOG.exam_dates.especifica)} días</dd></div>
+          <div className="rounded-2xl border border-hairline p-3"><dt className="text-xs text-muted-foreground">Fase general (Comentario, Catalán, Castellano, Inglés)</dt><dd className="font-display text-2xl">10 abril 2027</dd><dd className="text-xs">{daysUntil(CATALOG.exam_dates.general)} días</dd></div>
+          <div className="rounded-2xl border border-hairline p-3"><dt className="text-xs text-muted-foreground">Fase específica (Matemáticas + Economía)</dt><dd className="font-display text-2xl">17 abril 2027</dd><dd className="text-xs">{daysUntil(CATALOG.exam_dates.especifica)} días</dd></div>
         </dl>
-        <p className="mt-3 text-xs text-muted-foreground">{CATALOG.exam_dates.note} <a className="underline" href={CATALOG.exam_dates.source} target="_blank" rel="noopener noreferrer">Fuente</a></p>
+        <p className="mt-3 text-xs text-muted-foreground">Prueba común de Cataluña, presencial: la sede sale en el resguardo de matrícula (febrero). {CATALOG.exam_dates.note} <a className="underline" href={CATALOG.exam_dates.source} target="_blank" rel="noopener noreferrer">Fuente</a></p>
       </SectionCard>
     </div>
     <SectionCard eyebrow="Tu semana" title="Ritmo y preferencias" accent="var(--learn)">
@@ -133,12 +133,13 @@ function PlanView({data,prefs,onOpen,onSaved,client,uid}:{data:Data;prefs:Prefs|
       <fieldset className="mt-3"><legend className="text-sm">Duración de sesión</legend><div className="mt-1 flex flex-wrap gap-2">
         {SESSION_OPTIONS.map(m=><button key={m} type="button" aria-pressed={draft.session_minutes===m} onClick={()=>setDraft(d=>({...d,session_minutes:m}))}
           className={"min-h-11 rounded-full border px-4 text-sm "+(draft.session_minutes===m?"border-learn bg-learn/15":"border-hairline")}>{m} min</button>)}</div></fieldset>
-      <fieldset className="mt-3"><legend className="text-sm">Segunda específica · Ingeniería: Física (Economía solo como material complementario)</legend><div className="mt-1 flex flex-wrap gap-2">
+      <fieldset className="mt-3"><legend className="text-sm">Segunda específica · opción E de la prueba catalana: Economía de la Empresa (Física queda como complementaria)</legend><div className="mt-1 flex flex-wrap gap-2">
         {(["fisica","economia"] as const).map(c=><button key={c} type="button" aria-pressed={draft.elective===c} onClick={()=>setDraft(d=>({...d,elective:c}))}
-          className={"min-h-11 rounded-full border px-4 text-sm "+(draft.elective===c?"border-learn bg-learn/15":"border-hairline")}>{courseTitle(c)}{c==="economia"?" (complementaria)":""}</button>)}</div></fieldset>
+          className={"min-h-11 rounded-full border px-4 text-sm "+(draft.elective===c?"border-learn bg-learn/15":"border-hairline")}>{courseTitle(c)}{c==="fisica"?" (complementaria)":""}</button>)}</div>
+        {prefs?.elective==="fisica"&&<p role="note" className="mt-2 text-xs text-gold">Tu plan guardado sigue con Física. Desde el 1 de noviembre la ruta es Matemáticas + Economía: elige Economía y pulsa Guardar.</p>}</fieldset>
       <label className="mt-3 flex min-h-11 items-center gap-3 text-sm"><input type="checkbox" className="h-5 w-5" checked={draft.show_drafts} onChange={e=>setDraft(d=>({...d,show_drafts:e.target.checked}))}/> Mostrar lecciones en borrador (modo revisión)</label>
       <ul className="mt-4 space-y-2 text-sm">{weekly.map(w=><li key={w.id} className="flex justify-between gap-2"><span>{w.label}</span><span className="text-muted-foreground">{w.minutes} min</span></li>)}</ul>
-      <p className="mt-2 text-xs text-muted-foreground">Reparto de referencia del plan de 24 semanas; ajústalo a tus turnos.</p>
+      <p className="mt-2 text-xs text-muted-foreground">Reparto de referencia del roadmap (13 h por semana); ajústalo a tus turnos. Catalán aún no tiene lecciones: sus sesiones están en Roadmap.</p>
       <button type="button" className="btn-gold mt-4" disabled={!data} onClick={()=>void save()}>Guardar</button>
       {msg&&<p role="status" className="mt-2 text-sm">{msg}</p>}
     </SectionCard>

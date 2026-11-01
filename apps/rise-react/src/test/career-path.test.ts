@@ -1,6 +1,6 @@
 import {describe,it,expect,vi} from "vitest";
 import {START_DAY,CHAPTERS,FUTURE_STAGES,BOSSES,MILESTONES,allTasks,dayOffset,pathMetrics,tasksForWeek,tasksForDay,weekForDate,weekStart,
-  setPathTask,saveItemSteps,loadPathProgress,itemState,autoSteps,todayView,studyWindow,findItem} from "../lib/career-path.mjs";
+  setPathTask,saveItemSteps,loadPathProgress,itemState,autoSteps,todayView,studyWindow,findItem,ROUTE_SWITCH_WEEK,SPECIFIC_SUBJECTS} from "../lib/career-path.mjs";
 
 const uid="22222222-2222-4222-8222-222222222222";
 const row=(taskId:string,steps:string[],status="open")=>({id:"r-"+taskId,owner_id:uid,status,updated_at:"2026-10-26T00:00:00Z",payload:{taskId,steps}});
@@ -17,20 +17,38 @@ describe("Roadmap 2026–2032 · estructura",()=>{
  });
  it("264 sesiones + 2 exámenes con IDs únicos y cada tarea con subtareas",()=>{
   const items=allTasks();
-  expect(items).toHaveLength(266);
-  expect(new Set(items.map(t=>t.id)).size).toBe(266);
+  // Semana 1 con la ruta anterior (11 sesiones) + 23 semanas de la opción 2 (14 sesiones) + 2 exámenes.
+  expect(items).toHaveLength(11+23*14+2);
+  expect(new Set(items.map(t=>t.id)).size).toBe(items.length);
   expect(items.every(t=>t.steps.length>=2)).toBe(true);
   expect(new Set(MILESTONES.map(m=>m.id)).size).toBe(MILESTONES.length);
   expect(MILESTONES.every(m=>m.steps.length>=2&&/^\d{4}-\d{2}-\d{2}$/.test(m.due))).toBe(true);
  });
- it("semana de 12 h + 30 min con Física en lugar de Economía y viernes libre",()=>{
+ it("la semana del 26 oct conserva la ruta anterior (12 h 30 con Física): lo ya marcado no se pierde",()=>{
   const tasks=tasksForWeek(0);
   expect(tasks.reduce((s,t)=>s+t.minutes,0)).toBe(750);
   const totals=Object.fromEntries(["Matemáticas","Física","Castellano","Comentario de texto","Inglés","Revisión semanal"].map(x=>[x,tasks.filter(t=>t.subject===x).reduce((s,t)=>s+t.minutes,0)]));
   expect(totals).toEqual({"Matemáticas":240,"Física":180,"Castellano":120,"Comentario de texto":90,"Inglés":90,"Revisión semanal":30});
-  expect(allTasks().some(t=>t.subject==="Economía")).toBe(false);
-  expect(tasks.some(t=>t.weekday===4)).toBe(false);
-  expect(BOSSES[1]!.title).toMatch(/Física/);
+  expect(tasks.map(t=>t.id)).toContain("w01-physics_a");
+ });
+ it("opción 2 desde el 2 nov: 13 h con Matemáticas + Economía y catalán en la general, viernes libre",()=>{
+  expect(ROUTE_SWITCH_WEEK).toBe(1);
+  expect(weekStart(ROUTE_SWITCH_WEEK)).toBe("2026-11-02");
+  expect(SPECIFIC_SUBJECTS).toEqual(["Matemáticas","Economía de la Empresa"]);
+  for(const w of [1,12,23]){
+   const tasks=tasksForWeek(w);
+   expect(tasks.reduce((s,t)=>s+t.minutes,0)).toBe(780);
+   const totals=Object.fromEntries(["Matemáticas","Economía de la Empresa","Lengua catalana","Castellano","Comentario de texto","Inglés","Revisión semanal"].map(x=>[x,tasks.filter(t=>t.subject===x).reduce((s,t)=>s+t.minutes,0)]));
+   expect(totals).toEqual({"Matemáticas":210,"Economía de la Empresa":180,"Lengua catalana":90,"Castellano":90,"Comentario de texto":90,"Inglés":90,"Revisión semanal":30});
+   expect(tasks.some(t=>t.subject==="Física")).toBe(false);
+   expect(tasks.some(t=>t.weekday===4)).toBe(false);
+   expect(tasks.every(t=>t.detail&&t.detail!=="—")).toBe(true);
+  }
+  expect(tasksForWeek(1).find(t=>t.source==="economy")!.steps[0]!.auto).toBe("economia");
+  expect(BOSSES[0]!.detail).toMatch(/Catalán/);
+  expect(BOSSES[1]!.title).toMatch(/Matemáticas y Economía/);
+  expect(MILESTONES.find(m=>m.id==="h-viaje")!.due).toBe("2027-01-31");
+  expect(MILESTONES.find(m=>m.id==="h-inscripcion")!.due).toBe("2027-02-15");
  });
 });
 
