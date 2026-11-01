@@ -9,6 +9,7 @@ import {PageHeader,SectionCard} from "@/components/rise/primitives";
 import {useAuth} from "@/lib/auth/AuthProvider";
 import {refreshVisiblePrivateData} from "@/lib/private-data-refresh";
 import {DataBackupPanel} from "@/components/rise/DataBackupPanel";
+import {NotificationsPanel} from "@/components/rise/NotificationsPanel";
 
 export const Route=createFileRoute("/ajustes")({
   head:()=>pageHead("Ajustes y privacidad","Tu sesión, privacidad y estado de la migración Rise React."),
@@ -69,6 +70,7 @@ function Settings(){
           <LogOut className="h-4 w-4"/> {busy?"Cerrando sesión…":"Cerrar sesión"}
         </button>
       </SectionCard>
+      <NotificationsPanel/>
       <SectionCard eyebrow="Protección" title="Privacidad y datos" accent="var(--gold)">
         <div className="flex items-start gap-3 rounded-2xl border border-gold/25 bg-gold/[0.06] p-4">
           <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-gold"/>
