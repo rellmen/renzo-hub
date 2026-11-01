@@ -1,5 +1,16 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## Fase C · cierre del mes en Money · 1 noviembre 2026 · PR hacia staging (después de #186)
+
+Release React 2.58.0. Sin migraciones ni cambios de datos.
+
+| Cambio | Estado |
+| --- | --- |
+| Cierre del mes | Panel en `/dinero` que comprueba el mes anterior: extracto de ING y de Revolut hasta fin de mes, gastos sin categoría y nóminas cobradas en el mes sin revisar (con el aviso de neto anómalo). Cada paso pendiente enlaza a donde se resuelve (importador, `/gastos`, `/nominas`). Solo lectura. Lógica pura en `month-close.mjs` (6 pruebas) y prueba visual en CI con el caso real del 31-10-2026. |
+| Ya existía | Importación de extractos ING/Revolut (CSV y PDF desde el móvil), reglas de categorías, gastos fijos, presupuesto semanal, objetivos y copia de seguridad: no se han duplicado. |
+| Pendiente | Notificaciones push (necesitan claves VAPID y un servidor), fotos de tickets. |
+
+
 ## Academia · catalán y simulacro de Economía · 1 noviembre 2026 · PR hacia staging
 
 Release React 2.57.0. **Requiere una migración y dos cargas de datos antes de publicar en producción (ver abajo).**

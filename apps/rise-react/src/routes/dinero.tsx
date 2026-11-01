@@ -16,6 +16,7 @@ import {PayrollMonthToDate} from "@/components/rise/PayrollMonthToDate";
 import {FinancialGoals} from "@/components/rise/FinancialGoals";
 import {SalaryReconciliation} from "@/components/rise/SalaryReconciliation";
 import {RecurringExpenses} from "@/components/rise/RecurringExpenses";
+import {MonthClosePanel} from "@/components/rise/MonthClosePanel";
 
 export const Route=createFileRoute("/dinero")({
   head:()=>pageHead("Money","Ingresos, gastos y patrimonio conocidos a partir de tus registros financieros privados."),
@@ -71,6 +72,7 @@ function Money(){
     {state.isLoading&&<p role="status" className="surface p-5">Cargando información financiera privada…</p>}
 
     {data&&<>
+      <MonthClosePanel data={data} payrollRows={payroll.error?null:payroll.data?.rows??[]}/>
       {payroll.data&&month&&<SalaryReconciliation moneyData={data} payrollData={payroll.data} month={month}/>}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <p className="flex items-center gap-2 text-xs text-muted-foreground">
@@ -149,7 +151,7 @@ function Money(){
       </p>
     </>}
     <AssetValuationEditor/>
-    <BankStatementImport/>
+    <div id="importar-extracto" className="scroll-mt-24"><BankStatementImport/></div>
     <WeeklyBudgetEditor/>
   </div>;
 }
