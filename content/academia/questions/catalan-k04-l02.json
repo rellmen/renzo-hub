@@ -1,0 +1,160 @@
+{
+ "lesson_id": "catalan-k04-l02",
+ "questions": [
+  {
+   "id": "k04l02-x1",
+   "kind": "multiple_choice",
+   "difficulty": 2,
+   "skill_ids": [
+    "ca_pronoms_li"
+   ],
+   "prompt_md": "Substitueix els dos complements: «He donat **el paquet** **a la Núria**.»",
+   "choices": [
+    {
+     "id": "a",
+     "text": "Li l'he donat."
+    },
+    {
+     "id": "b",
+     "text": "L'hi he donat."
+    },
+    {
+     "id": "c",
+     "text": "Se l'he donat."
+    },
+    {
+     "id": "d",
+     "text": "La hi he donat."
+    }
+   ],
+   "key": {
+    "correct_choice_id": "b"
+   },
+   "explanation_md": "*Li* + *el* = *l'hi*."
+  },
+  {
+   "id": "k04l02-x2",
+   "kind": "multiple_choice",
+   "difficulty": 1,
+   "skill_ids": [
+    "ca_pronoms_li"
+   ],
+   "prompt_md": "Substitueix: «Dic **això** **a la Marta**.»",
+   "choices": [
+    {
+     "id": "a",
+     "text": "L'hi dic."
+    },
+    {
+     "id": "b",
+     "text": "Li ho dic."
+    },
+    {
+     "id": "c",
+     "text": "Se ho dic."
+    },
+    {
+     "id": "d",
+     "text": "La hi dic."
+    }
+   ],
+   "key": {
+    "correct_choice_id": "b"
+   },
+   "explanation_md": "CD neutre *ho* + CI *li*: *li ho*."
+  },
+  {
+   "id": "k04l02-x3",
+   "kind": "multiple_choice",
+   "difficulty": 2,
+   "skill_ids": [
+    "ca_pronoms_combinacions"
+   ],
+   "prompt_md": "Quina frase és correcta si només substituïm el CI plural *als treballadors*?",
+   "choices": [
+    {
+     "id": "a",
+     "text": "Els hi he enviat un correu."
+    },
+    {
+     "id": "b",
+     "text": "Els he enviat un correu."
+    },
+    {
+     "id": "c",
+     "text": "Les he enviat un correu."
+    },
+    {
+     "id": "d",
+     "text": "Li he enviat un correu."
+    }
+   ],
+   "key": {
+    "correct_choice_id": "b"
+   },
+   "explanation_md": "CI plural sol: *els*. *Els hi* només és correcte com a *li* + *els* (CD)."
+  },
+  {
+   "id": "k04l02-x4",
+   "kind": "multiple_choice",
+   "difficulty": 2,
+   "skill_ids": [
+    "ca_pronoms_li"
+   ],
+   "prompt_md": "Substitueix: «Dono **tres caixes** **al transportista**.»",
+   "choices": [
+    {
+     "id": "a",
+     "text": "Li'n dono tres."
+    },
+    {
+     "id": "b",
+     "text": "Les hi dono tres."
+    },
+    {
+     "id": "c",
+     "text": "N'hi dono tres."
+    },
+    {
+     "id": "d",
+     "text": "L'hi dono tres."
+    }
+   ],
+   "key": {
+    "correct_choice_id": "a"
+   },
+   "explanation_md": "CD indeterminat *en* + CI *li*: *li'n*."
+  },
+  {
+   "id": "k04l02-x5",
+   "kind": "multiple_choice",
+   "difficulty": 1,
+   "skill_ids": [
+    "ca_pronoms_es_en"
+   ],
+   "prompt_md": "Completa: «Quan acaba la feina, ___ va a casa.» (anar-se'n)",
+   "choices": [
+    {
+     "id": "a",
+     "text": "se'n"
+    },
+    {
+     "id": "b",
+     "text": "s'en"
+    },
+    {
+     "id": "c",
+     "text": "se en"
+    },
+    {
+     "id": "d",
+     "text": "s'hi"
+    }
+   ],
+   "key": {
+    "correct_choice_id": "a"
+   },
+   "explanation_md": "*Es* + *en* = *se'n*."
+  }
+ ]
+}

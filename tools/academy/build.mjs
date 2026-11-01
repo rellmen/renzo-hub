@@ -21,9 +21,10 @@ const COURSE_META={
   castellano:{title:"Lengua castellana",role:"general",role_label:"Fase general",exam_profile:"castellano_2026_cat_ref",models_url:"https://universitats.gencat.cat/ca/proves-majors/25-anys/models-examen/llengua-castellana/"},
   comentario:{title:"Comentario de texto",role:"general",role_label:"Fase general",exam_profile:"comment_2026_cat_ref",models_url:"https://universitats.gencat.cat/ca/proves-majors/25-anys/models-examen/comentari-de-text/"},
   ingles:{title:"Inglés",role:"general",role_label:"Fase general",exam_profile:"english_2026_cat_ref",models_url:"https://universitats.gencat.cat/ca/proves-majors/25-anys/models-examen/angles/"},
+  catalan:{title:"Llengua catalana",role:"general",role_label:"Fase general · prova catalana",exam_profile:"catalan_2026_cat_ref",models_url:"https://universitats.gencat.cat/ca/proves-majors/25-anys/models-examen/"},
   fisica:{title:"Física",role:"complementaria",role_label:"Complementaria · ruta anterior (prueba UOC en español)",exam_profile:"physics_2026_cat_ref",models_url:"https://universitats.gencat.cat/ca/proves-majors/25-anys/models-examen/fisica/"},
 };
-const COURSE_ORDER=["matematicas","economia","castellano","comentario","ingles","fisica"];
+const COURSE_ORDER=["matematicas","economia","catalan","castellano","comentario","ingles","fisica"];
 const STATUSES=["planned","draft","reviewed","ready","published"];
 const KINDS=["multiple_choice","numeric","short_text","essay"];
 const ID_RE=/^[a-z0-9-]{3,64}$/;

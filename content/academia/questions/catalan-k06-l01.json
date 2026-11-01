@@ -1,0 +1,160 @@
+{
+ "lesson_id": "catalan-k06-l01",
+ "questions": [
+  {
+   "id": "k06l01-x1",
+   "kind": "multiple_choice",
+   "difficulty": 1,
+   "skill_ids": [
+    "ca_preposicions"
+   ],
+   "prompt_md": "Quina frase és correcta?",
+   "choices": [
+    {
+     "id": "a",
+     "text": "Treballo en Eindhoven."
+    },
+    {
+     "id": "b",
+     "text": "Treballo a Eindhoven."
+    },
+    {
+     "id": "c",
+     "text": "Treballo per Eindhoven."
+    },
+    {
+     "id": "d",
+     "text": "Treballo de Eindhoven."
+    }
+   ],
+   "key": {
+    "correct_choice_id": "b"
+   },
+   "explanation_md": "Davant de nom propi de lloc: *a*."
+  },
+  {
+   "id": "k06l01-x2",
+   "kind": "multiple_choice",
+   "difficulty": 1,
+   "skill_ids": [
+    "ca_per_per_a"
+   ],
+   "prompt_md": "Completa: «Aquest regal és ___ la meva germana.»",
+   "choices": [
+    {
+     "id": "a",
+     "text": "per"
+    },
+    {
+     "id": "b",
+     "text": "per a"
+    },
+    {
+     "id": "c",
+     "text": "pera"
+    },
+    {
+     "id": "d",
+     "text": "a per"
+    }
+   ],
+   "key": {
+    "correct_choice_id": "b"
+   },
+   "explanation_md": "Destinatari d'una cosa: *per a*."
+  },
+  {
+   "id": "k06l01-x3",
+   "kind": "multiple_choice",
+   "difficulty": 2,
+   "skill_ids": [
+    "ca_preposicions"
+   ],
+   "prompt_md": "Quina frase és correcta?",
+   "choices": [
+    {
+     "id": "a",
+     "text": "Estic segur de que vindrà."
+    },
+    {
+     "id": "b",
+     "text": "Estic segur que vindrà."
+    },
+    {
+     "id": "c",
+     "text": "Estic segur en que vindrà."
+    },
+    {
+     "id": "d",
+     "text": "Estic segur de què vindrà."
+    }
+   ],
+   "key": {
+    "correct_choice_id": "b"
+   },
+   "explanation_md": "La preposició cau davant de la conjunció *que*."
+  },
+  {
+   "id": "k06l01-x4",
+   "kind": "multiple_choice",
+   "difficulty": 2,
+   "skill_ids": [
+    "ca_haver_hi"
+   ],
+   "prompt_md": "Quina frase és correcta en registre formal?",
+   "choices": [
+    {
+     "id": "a",
+     "text": "Hi havien molts errors."
+    },
+    {
+     "id": "b",
+     "text": "Hi havia molts errors."
+    },
+    {
+     "id": "c",
+     "text": "Havien molts errors."
+    },
+    {
+     "id": "d",
+     "text": "N'havien molts errors."
+    }
+   ],
+   "key": {
+    "correct_choice_id": "b"
+   },
+   "explanation_md": "*Haver-hi* es manté en singular en registre formal."
+  },
+  {
+   "id": "k06l01-x5",
+   "kind": "multiple_choice",
+   "difficulty": 2,
+   "skill_ids": [
+    "ca_castellanismes_sintaxi"
+   ],
+   "prompt_md": "Quina frase NO conté cap castellanisme?",
+   "choices": [
+    {
+     "id": "a",
+     "text": "Lo millor és començar aviat."
+    },
+    {
+     "id": "b",
+     "text": "No vinc, doncs estic malalt."
+    },
+    {
+     "id": "c",
+     "text": "És el tema de què t'he parlat."
+    },
+    {
+     "id": "d",
+     "text": "És el tema que t'he parlat."
+    }
+   ],
+   "key": {
+    "correct_choice_id": "c"
+   },
+   "explanation_md": "*De què*: el verb *parlar* regeix *de*. Les altres tenen *lo* neutre, *doncs* causal o pèrdua de preposició."
+  }
+ ]
+}

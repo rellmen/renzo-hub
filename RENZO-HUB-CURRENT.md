@@ -1,5 +1,29 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## Fase C · cierre del mes en Money · 1 noviembre 2026 · PR hacia staging (después de #186)
+
+Release React 2.58.0. Sin migraciones ni cambios de datos.
+
+| Cambio | Estado |
+| --- | --- |
+| Cierre del mes | Panel en `/dinero` que comprueba el mes anterior: extracto de ING y de Revolut hasta fin de mes, gastos sin categoría y nóminas cobradas en el mes sin revisar (con el aviso de neto anómalo). Cada paso pendiente enlaza a donde se resuelve (importador, `/gastos`, `/nominas`). Solo lectura. Lógica pura en `month-close.mjs` (6 pruebas) y prueba visual en CI con el caso real del 31-10-2026. |
+| Ya existía | Importación de extractos ING/Revolut (CSV y PDF desde el móvil), reglas de categorías, gastos fijos, presupuesto semanal, objetivos y copia de seguridad: no se han duplicado. |
+| Pendiente | Notificaciones push (necesitan claves VAPID y un servidor), fotos de tickets. |
+
+
+## Academia · catalán y simulacro de Economía · 1 noviembre 2026 · PR hacia staging
+
+Release React 2.57.0. **Requiere una migración y dos cargas de datos antes de publicar en producción (ver abajo).**
+
+| Cambio | Estado |
+| --- | --- |
+| Llengua catalana | 11 lecciones originales (K00–K08: formato del examen, acentuación y diéresis, apóstrofo y contracciones, grafías, morfología nominal, pronombres débiles I y II, verbos, sintaxis y norma, léxico, expresión escrita) con 55 preguntas de salida. 11/11 al estándar automático, todas en `draft` (sin revisión humana). Formato del examen según la página oficial de la Generalitat; diacríticos según la lista del IEC (2016). |
+| Simulacro de Economía | `s1-economia`: elegir 4 de 5 ejercicios de 2,5 (análisis financiero, inversiones, punto muerto, empresa y DAFO, test de 10 con −0,15 y suelo 0). Claves calculadas por script; corrección real probada en la réplica: 6,1 automáticos en el caso de prueba. |
+| Migración | `supabase/pending/20261101100000_academy_catalan.sql` (+ rollback): admite el curso `catalan` en claves, simulacros y exámenes y pone Economía por defecto. **Sin aplicar.** Probada en réplica PostgreSQL (`tools/db-replica/academy_catalan_test.sh`, en CI). |
+| Datos | Cargar `supabase/seed/academy_question_keys.sql` (55 claves nuevas de catalán; después de la migración) y `supabase/seed/academy_mock_keys.sql` (simulacro de Economía; no necesita migración). Idempotentes. |
+| App | Catalán en el plan del día, práctica, exámenes, simulacros y enlace automático desde el Roadmap. Portada de Academia con la ruta nueva. |
+
+
 ## Fase B · ruta PAU +25 · 1 noviembre 2026 · PR hacia staging
 
 Release React 2.56.0. Sin migraciones ni cambios de datos. **Decisión de Renzo (01-11-2026, opción 2):** prueba +25 común de Cataluña (Generalitat, presencial, 10 y 17 abr 2027), opción E con **Matemáticas + Economía de la Empresa**; la fase general incluye **Llengua catalana**. Motivo comprobado: la prueba en español de la UOC solo admite Física, Matemáticas o Química en Ingeniería.

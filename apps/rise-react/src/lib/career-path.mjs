@@ -24,7 +24,7 @@ const STEPS=Object.freeze({
  math:[{id:"leccion",label:"Lección de Matemáticas en Academia",auto:"matematicas"},{id:"practica",label:"Ejercicios sin mirar la solución"},{id:"errores",label:RULE_ERRORS}],
  physics:[{id:"leccion",label:"Lección de Física en Academia",auto:"fisica"},{id:"practica",label:"Problemas con unidades y dibujo"},{id:"errores",label:RULE_ERRORS}],
  economy:[{id:"leccion",label:"Lección de Economía en Academia",auto:"economia"},{id:"practica",label:"Ejercicios con cifras, sin mirar la solución"},{id:"errores",label:RULE_ERRORS}],
- catalan:[{id:"estudiar",label:"Estudiar el tema de catalán"},{id:"practica",label:"Ejercicios o texto corregido"},{id:"errores",label:"Anotar errores de catalán"}],
+ catalan:[{id:"estudiar",label:"Lección de Catalán en Academia",auto:"catalan"},{id:"practica",label:"Ejercicios o texto corregido"},{id:"errores",label:"Anotar errores de catalán"}],
  spanish:[{id:"leccion",label:"Lección de Castellano en Academia",auto:"castellano"},{id:"practica",label:"Ejercicios corregidos"},{id:"errores",label:"Anotar errores de lengua"}],
  comment:[{id:"leer",label:"Leer el texto y marcar tema y tesis"},{id:"redactar",label:"Redactar el comentario"},{id:"corregir",label:"Corregir con la rúbrica"}],
  english:[{id:"vocab",label:"Vocabulario y gramática"},{id:"practica",label:"Reading o writing"},{id:"corregir",label:"Autocorregir y anotar fallos"}],
@@ -81,7 +81,7 @@ const ECONOMY=["—","B00 Porcentajes y regla de tres","B01 La empresa y formas 
  "B05 VAN y TIR","B06 DAFO, cadena de valor y ventaja competitiva","B06 Localización, dimensión y crecimiento","B07 Estudio de mercado y marketing mix",
  "B07 Punto muerto y viabilidad","B08 Examen tipo: elegir 4 de 5","Simulacro de Economía cronometrado","Repaso de errores: análisis financiero",
  "Simulacro de Economía cronometrado","Repaso de errores: inversiones y punto muerto","Simulacro final de Economía"];
-// Catalán: bloques habituales de la prueba de lengua (sin lecciones en Academia todavía).
+// Catalán: bloques de la prueba de lengua, alineados con las lecciones K00–K08 de Academia.
 const CATALAN=["—","Diagnòstic: comprensió lectora","Ortografia: accentuació i dièresi","Ortografia: s/ss/c/ç/z","Ortografia: b/v, g/j, h",
  "Morfologia: articles, contraccions i apòstrof","Pronoms febles (I)","Pronoms febles (II)","Morfologia verbal: present i passat",
  "Morfologia verbal: subjuntiu i imperatiu","Sintaxi: concordança i preposicions","Lèxic: barbarismes i castellanismes","Comprensió lectora: idea principal",
