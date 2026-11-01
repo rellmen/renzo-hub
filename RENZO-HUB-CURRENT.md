@@ -1,6 +1,44 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
-## Fase B · ruta PAU +25 · 1 noviembre 2026 · solo Fase B hacia production
+## Tickets de compra · 1 noviembre 2026 · PR hacia staging
+
+Release React 2.59.0. Sin migraciones: los tickets son registros `money/money_receipt` en `hub_records` y la foto va a `hub-private/<uid>/receipts/<id>/`. **Decisión de Renzo (01-11-2026): opción C+A.**
+
+| Cambio | Estado |
+| --- | --- |
+| Lectura en el móvil | En `/gastos` → "Añadir ticket": foto, compresión a JPEG de 1600 px y lectura en el navegador con tesseract.js 7 (neerlandés), servido desde `/vendor/tesseract` (sin CDN). Propone tienda, fecha y total; todo editable. La foto no sale del móvil en este paso. |
+| Enlace con el banco | Busca el cargo del mismo importe entre 1 día antes y 5 después; preselecciona solo si no hay duda (único o mismo comercio). No modifica el movimiento: el ticket guarda `bank_tx_id`. |
+| Leer productos (IA) | Bajo demanda y con casilla de consentimiento por ticket: `/api/receipt-items` envía la foto a OpenRouter (`openrouter/free`, misma clave que Ares). Primero exige proveedores que no guardan datos; si no hay, pide un segundo consentimiento. Comparte el límite diario de IA (12). **Apagado** salvo `RECEIPT_AI_ENABLED=true` (preview); en producción además `RECEIPT_AI_ALLOW_PRODUCTION=true`. |
+| Revisión humana | Nada se guarda hasta "Guardar ticket". La suma de productos se compara con el total. |
+| CSP | `script-src` añade `'wasm-unsafe-eval'` (solo WebAssembly del lector; sigue sin `'unsafe-eval'`). Prueba en `tests/nocturne-security-headers.test.mjs`. |
+| Pruebas | `tests/react-receipts.test.mjs` (9), `tests/receipt-items-server.test.mjs` (7), visual en CI con lectura real en navegador y CSP de producción en el worker (`tests/e2e/receipts-visual-mock.mjs`). |
+| Pendiente | Probar con tickets reales en iPhone; tickets en español (añadir `spa`); notificaciones push. |
+
+## Fase C · cierre del mes en Money · 1 noviembre 2026 · PR hacia staging (después de #186)
+
+Release React 2.58.0. Sin migraciones ni cambios de datos.
+
+| Cambio | Estado |
+| --- | --- |
+| Cierre del mes | Panel en `/dinero` que comprueba el mes anterior: extracto de ING y de Revolut hasta fin de mes, gastos sin categoría y nóminas cobradas en el mes sin revisar (con el aviso de neto anómalo). Cada paso pendiente enlaza a donde se resuelve (importador, `/gastos`, `/nominas`). Solo lectura. Lógica pura en `month-close.mjs` (6 pruebas) y prueba visual en CI con el caso real del 31-10-2026. |
+| Ya existía | Importación de extractos ING/Revolut (CSV y PDF desde el móvil), reglas de categorías, gastos fijos, presupuesto semanal, objetivos y copia de seguridad: no se han duplicado. |
+| Pendiente | Notificaciones push (necesitan claves VAPID y un servidor). Tickets: ver arriba. |
+
+
+## Academia · catalán y simulacro de Economía · 1 noviembre 2026 · PR hacia staging
+
+Release React 2.57.0. **Requiere una migración y dos cargas de datos antes de publicar en producción (ver abajo).**
+
+| Cambio | Estado |
+| --- | --- |
+| Llengua catalana | 11 lecciones originales (K00–K08: formato del examen, acentuación y diéresis, apóstrofo y contracciones, grafías, morfología nominal, pronombres débiles I y II, verbos, sintaxis y norma, léxico, expresión escrita) con 55 preguntas de salida. 11/11 al estándar automático, todas en `draft` (sin revisión humana). Formato del examen según la página oficial de la Generalitat; diacríticos según la lista del IEC (2016). |
+| Simulacro de Economía | `s1-economia`: elegir 4 de 5 ejercicios de 2,5 (análisis financiero, inversiones, punto muerto, empresa y DAFO, test de 10 con −0,15 y suelo 0). Claves calculadas por script; corrección real probada en la réplica: 6,1 automáticos en el caso de prueba. |
+| Migración | `supabase/pending/20261101100000_academy_catalan.sql` (+ rollback): admite el curso `catalan` en claves, simulacros y exámenes y pone Economía por defecto. **Sin aplicar.** Probada en réplica PostgreSQL (`tools/db-replica/academy_catalan_test.sh`, en CI). |
+| Datos | Cargar `supabase/seed/academy_question_keys.sql` (55 claves nuevas de catalán; después de la migración) y `supabase/seed/academy_mock_keys.sql` (simulacro de Economía; no necesita migración). Idempotentes. |
+| App | Catalán en el plan del día, práctica, exámenes, simulacros y enlace automático desde el Roadmap. Portada de Academia con la ruta nueva. |
+
+
+## Fase B · ruta PAU +25 · 1 noviembre 2026 · PR hacia staging
 
 Release React 2.56.0. Sin migraciones ni cambios de datos. **Decisión de Renzo (01-11-2026, opción 2):** prueba +25 común de Cataluña (Generalitat, presencial, 10 y 17 abr 2027), opción E con **Matemáticas + Economía de la Empresa**; la fase general incluye **Llengua catalana**. Motivo comprobado: la prueba en español de la UOC solo admite Física, Matemáticas o Química en Ingeniería.
 
@@ -11,7 +49,7 @@ Release React 2.56.0. Sin migraciones ni cambios de datos. **Decisión de Renzo 
 | Pendiente | Lecciones de catalán; simulacro de Economía en la app; revisar horarios 2027 cuando se publiquen. |
 
 
-## Fase A · 31 octubre 2026 · solo Fase A hacia production
+## Fase A · 31 octubre 2026 · PR hacia staging
 
 Release React 2.55.2. Sin migraciones, sin Classic, sin datos personales.
 
@@ -23,9 +61,9 @@ Release React 2.55.2. Sin migraciones, sin Classic, sin datos personales.
 | Aviso de nóminas | `payroll-outliers.mjs`: si una nómina queda por debajo del 70 % de la mediana de las 8 revisadas anteriores (mínimo 4) se avisa en `/nominas`, con la pregunta según horas (vacaciones/baja) o deducciones. Solo lectura. Pruebas: 6 unitarias + visual con datos ficticios en CI. |
 | Entornos | `AGENTS.md` corregido: el dominio lo sirve `rise-hub-nocturne-qa` desde la rama `production`; `main` es solo Classic de respaldo. |
 
-## Skin · 28 octubre 2026 · candidata 2.55.1
+## Skin · 28 octubre 2026
 
-Numbuzin añadido como p19, conservando productos, IDs e historial. Calendario semanal AM/PM y cuidado de ojeras/cejas, SPF y compatibilidades en Nocturne. PR #178 integrado; cierre en #179. Promoción limitada a Skin: no incluye cambios ajenos de Priority en staging. Sin migraciones; Classic intacto. Compilación, TypeScript y 127 tests React locales pasan; 13 pruebas Skin pasan.
+PR #178 integrado en staging (`69060e9`), CI completo verde. Calendario semanal y compatibilidad de Numbuzin completados en Nocturne; 19 IDs previos conservados, p19 añadido. Release React 2.55.1; Classic intacto. Sin migraciones; publicación y datos personales se verifican por separado.
 
 ## Decisión vigente · 23 octubre 2026 · staging Nocturne / Classic de lectura
 
@@ -43,9 +81,9 @@ Numbuzin añadido como p19, conservando productos, IDs e historial. Calendario s
 | Marca Rise 25 oct | Nombre visible «RISE HUB» → «Rise» en Nocturne (UI, títulos, manifest, nombre en iPhone, Ares, Academia; fuentes `content/academia` regeneradas). Logotipo de texto `Wordmark` (Bodoni Moda itálica, oro con brillo) en barra lateral, cabecera móvil y login. Sin tocar identificadores técnicos (`rise-hub`, claves de almacenamiento), Classic ni copias legacy. |
 | RISE PRIORITY 27 oct (PR #172 integrado; #173 producción f447c55) | Panel «Mis prioridades» en Inicio sobre las tareas Work (`hub_records`/`renzo_task`), sin migraciones. Validación estricta, motivo obligatorio, plazo externo con evidencia comprobada, «hoy» en Europe/Amsterdam, CAS con conflicto que conserva el borrador, importación JSON revisada una a una con UUID estable y reintento sin duplicar, offline sin cola silenciosa. RLS/CAS probados en Supabase staging con rollback. Pendiente: QA con sesión real de staging e iPhone físico. Ver `docs/RISE-PRIORITY-PROTOCOL.md` y `docs/RISE-PRIORITY-F1-QA-2026-10-27.md`. Integrado en staging por #172 (64af6d2) y production por #173 (f447c55), comprobado en GitHub el 27-10-2026. |
 
-## Auditoría RISE PRIORITY · 27 octubre 2026 · candidata hacia staging
+## Auditoría RISE PRIORITY · 27 octubre 2026 · en producción
 
-Rama `feature/rise-priority-chatgpt-20261027`, base `64af6d2`. Cambios: reinvalidar comprobación al editar plazos/evidencia y recalcular duplicados durante revisión. 14 archivos / 126 tests, TypeScript y build locales OK. Comparación y límites en `docs/RISE-PRIORITY-CHATGPT-AUDIT-2026-10-27.md`. Preparado sin aplicar; sin Classic, migraciones ni publicación.
+PR #174 → `staging` y #175 → `production` (`de73537`). Cambios: reinvalidar comprobación al editar plazos/evidencia y recalcular duplicados durante revisión. 14 archivos / 126 tests, TypeScript y build OK; CI 6/6 con E2E Chromium y WebKit. Dominio `renzo-hub.vercel.app` → `dpl_3egwxMKPBJV8Dcd2kmiqE7y9Zx2A`; rollback `dpl_5FEu2nobRgwou2c6vLQvYp8kHu6A`. Comparación y límites en `docs/RISE-PRIORITY-CHATGPT-AUDIT-2026-10-27.md`. Sin Classic ni migraciones. Pendiente: QA con sesión real e iPhone físico.
 
 ## Hubs (opción B) + Money · nóminas del mes · 24 octubre 2026 · PR hacia staging
 

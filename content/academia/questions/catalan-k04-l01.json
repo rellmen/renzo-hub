@@ -1,0 +1,160 @@
+{
+ "lesson_id": "catalan-k04-l01",
+ "questions": [
+  {
+   "id": "k04l01-x1",
+   "kind": "multiple_choice",
+   "difficulty": 1,
+   "skill_ids": [
+    "ca_pronoms_cd_ci"
+   ],
+   "prompt_md": "Substitueix el complement: «Escric **a la directora**.»",
+   "choices": [
+    {
+     "id": "a",
+     "text": "Le escric."
+    },
+    {
+     "id": "b",
+     "text": "Li escric."
+    },
+    {
+     "id": "c",
+     "text": "La escric."
+    },
+    {
+     "id": "d",
+     "text": "Els escric."
+    }
+   ],
+   "key": {
+    "correct_choice_id": "b"
+   },
+   "explanation_md": "CI singular: *li*. En català no existeix *le*."
+  },
+  {
+   "id": "k04l01-x2",
+   "kind": "multiple_choice",
+   "difficulty": 1,
+   "skill_ids": [
+    "ca_pronom_en"
+   ],
+   "prompt_md": "Substitueix el complement: «Tinc **tres caixes**.»",
+   "choices": [
+    {
+     "id": "a",
+     "text": "Les tinc tres."
+    },
+    {
+     "id": "b",
+     "text": "Ho tinc tres."
+    },
+    {
+     "id": "c",
+     "text": "En tinc tres."
+    },
+    {
+     "id": "d",
+     "text": "Hi tinc tres."
+    }
+   ],
+   "key": {
+    "correct_choice_id": "c"
+   },
+   "explanation_md": "CD indeterminat (amb numeral): *en*."
+  },
+  {
+   "id": "k04l01-x3",
+   "kind": "multiple_choice",
+   "difficulty": 2,
+   "skill_ids": [
+    "ca_pronom_hi"
+   ],
+   "prompt_md": "Substitueix el complement: «Penso **en les vacances**.»",
+   "choices": [
+    {
+     "id": "a",
+     "text": "En penso."
+    },
+    {
+     "id": "b",
+     "text": "Hi penso."
+    },
+    {
+     "id": "c",
+     "text": "Les penso."
+    },
+    {
+     "id": "d",
+     "text": "Ho penso."
+    }
+   ],
+   "key": {
+    "correct_choice_id": "b"
+   },
+   "explanation_md": "Complement amb preposició *en*: *hi*."
+  },
+  {
+   "id": "k04l01-x4",
+   "kind": "multiple_choice",
+   "difficulty": 2,
+   "skill_ids": [
+    "ca_pronoms_formes"
+   ],
+   "prompt_md": "Quina forma és correcta? «Porta **el paquet**.»",
+   "choices": [
+    {
+     "id": "a",
+     "text": "Porta-lo."
+    },
+    {
+     "id": "b",
+     "text": "Porta'l."
+    },
+    {
+     "id": "c",
+     "text": "Porta-el."
+    },
+    {
+     "id": "d",
+     "text": "Porta'lo."
+    }
+   ],
+   "key": {
+    "correct_choice_id": "b"
+   },
+   "explanation_md": "Darrere de verb acabat en vocal, *el* pren la forma reduïda *'l*."
+  },
+  {
+   "id": "k04l01-x5",
+   "kind": "multiple_choice",
+   "difficulty": 2,
+   "skill_ids": [
+    "ca_pronoms_cd_ci"
+   ],
+   "prompt_md": "Substitueix el complement: «Dona les factures **als clients**.»",
+   "choices": [
+    {
+     "id": "a",
+     "text": "Dona-les les factures."
+    },
+    {
+     "id": "b",
+     "text": "Dona'ls les factures."
+    },
+    {
+     "id": "c",
+     "text": "Dona'ls-hi les factures."
+    },
+    {
+     "id": "d",
+     "text": "Dona-li les factures."
+    }
+   ],
+   "key": {
+    "correct_choice_id": "b"
+   },
+   "explanation_md": "CI plural: *els*; darrere de vocal, *'ls*. *Els hi* és incorrecte quan només hi ha un complement."
+  }
+ ]
+}

@@ -1,0 +1,10 @@
+export type CloseStep={id:string;done:boolean;action:"import"|"categorize"|"payroll";title:string;detail:string};
+export type BankCloseStatus={bank:string;status:"complete"|"partial"|"missing"|"never";lastDate:string|null};
+export type MonthCloseResult={month:string;start:string;end:string;steps:CloseStep[];done:number;total:number;complete:boolean;
+ banks:BankCloseStatus[];uncategorized:number;payrollPending:number;payrollFlagged:number;transactions:number};
+export declare const CLOSE_BANKS:readonly string[];
+export declare function shortDate(d:string):string;
+export declare function previousMonth(today:string):string;
+export declare function lastDayOf(month:string):string;
+export declare function bankStatus(bank:string,month:string,lastDate:string|null):BankCloseStatus;
+export declare function monthClose(input:{items?:Array<Record<string,any>>;bankUpdatedThrough?:Record<string,string|undefined>;payrollRows?:Array<Record<string,any>>;today:string}):MonthCloseResult;

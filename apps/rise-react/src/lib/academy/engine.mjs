@@ -72,7 +72,7 @@ export const WEEKLY_SPLIT={matematicas:0.27,especifica:0.23,catalan:0.115,castel
 export function weeklyPlan(weeklyMinutes,elective=DEFAULT_ELECTIVE){
   const total=Math.max(30,Math.min(4000,Math.round(Number(weeklyMinutes)||DEFAULT_WEEKLY_MINUTES)));
   const rows=[["matematicas","Matemáticas",WEEKLY_SPLIT.matematicas],[elective,elective==="fisica"?"Física":"Economía de la Empresa",WEEKLY_SPLIT.especifica],
-    ["catalan","Lengua catalana (sin lecciones en Academia)",WEEKLY_SPLIT.catalan],
+    ["catalan","Lengua catalana",WEEKLY_SPLIT.catalan],
     ["castellano","Lengua castellana",WEEKLY_SPLIT.castellano],["comentario","Comentario de texto",WEEKLY_SPLIT.comentario],
     ["ingles","Inglés",WEEKLY_SPLIT.ingles],["repaso","Repaso espaciado",WEEKLY_SPLIT.repaso]];
   return rows.map(([id,label,share])=>({id,label,minutes:Math.round(total*share/5)*5}));
@@ -91,8 +91,8 @@ export function todayPlan(catalog,{progressRows=[],reviews=[],attempts=[],prefs=
   const progress=progressMap(progressRows);
   const showDrafts=prefs?.show_drafts!==false;
   const elective=prefs?.elective==="fisica"?"fisica":DEFAULT_ELECTIVE;
-  const courses=["matematicas",elective,"castellano","comentario","ingles"];
-  const weights={matematicas:1.2,[elective]:1.0,castellano:1.0,comentario:1.0,ingles:1.0};
+  const courses=["matematicas",elective,"catalan","castellano","comentario","ingles"];
+  const weights={matematicas:1.2,[elective]:1.0,catalan:1.0,castellano:1.0,comentario:1.0,ingles:1.0};
   const skills=skillMastery(attempts);
   const due=dueReviews(reviews,now).map(r=>({type:"review",lesson_id:r.lesson_id,due_on:r.due_on,step:r.step}));
   const next=[];const blocked=[];

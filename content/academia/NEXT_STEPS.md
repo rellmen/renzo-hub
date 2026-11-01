@@ -4,7 +4,7 @@ Actualizado: 24 octubre 2026 (noche, 4.ª tanda: simulacros en la app) · Rama `
 
 ## Decisión vigente (01-11-2026, Renzo, opción 2)
 
-**Prueba +25 común de Cataluña** (Generalitat, presencial, fase general 10-04-2027 y específica 17-04-2027), opción E Ingeniería y Arquitectura con **Matemáticas + Economía de la Empresa**; la fase general incluye **Llengua catalana** (sin lecciones todavía). Física pasa a complementaria. Fuente: https://universitats.gencat.cat/ca/proves-majors/25-anys/ . Pendiente: lecciones de catalán y simulacro de Economía.
+**Prueba +25 común de Cataluña** (Generalitat, presencial, fase general 10-04-2027 y específica 17-04-2027), opción E Ingeniería y Arquitectura con **Matemáticas + Economía de la Empresa**; la fase general incluye **Llengua catalana** (sin lecciones todavía). Física pasa a complementaria. Fuente: https://universitats.gencat.cat/ca/proves-majors/25-anys/ . Catalán: 11 lecciones K00–K08 redactadas (draft, al estándar automático, 55 preguntas). Simulacro `s1-economia` creado. Pendiente: aplicar la migración `20261101100000_academy_catalan` y cargar claves (staging y producción, con autorización de Renzo), revisión humana del catalán y simulacro de Catalán.
 
 ## Decisión anterior (24-10-2026, sustituida)
 

@@ -1,0 +1,500 @@
+{
+ "mock_id": "s1-economia",
+ "course": "economia",
+ "title": "Simulacro 1 · Economía de la Empresa",
+ "duration_minutes": 90,
+ "content_version": 1,
+ "intro_md": "Simulacro original con el formato de referencia de Economía de la Empresa (+25 Cataluña): se ofrecen **5 ejercicios** y se resuelven **4**, de 2,5 puntos cada uno. En el test, cada respuesta incorrecta **resta 0,15** y en blanco no resta; el test no puede bajar de 0. Puede usar calculadora. Escriba los números con coma decimal (2,5) y sin símbolo de miles si lo prefiere (30000). Formato y duración a revalidar con la convocatoria 2027.",
+ "sections": [
+  {
+   "id": "p1",
+   "label": "Ejercicios (elija 4 de 5)",
+   "choose": 4,
+   "instructions_md": "Elija exactamente cuatro ejercicios. Solo se puntúan los elegidos.",
+   "groups": [
+    {
+     "id": "e1",
+     "label": "Ejercicio 1 · Análisis financiero",
+     "points": 2.5,
+     "mode": "sum",
+     "floor0": false,
+     "stem_md": "Balance de una empresa (en euros): activo no corriente 120.000; existencias 30.000; clientes (realizable) 25.000; tesorería (disponible) 15.000; patrimonio neto 90.000; pasivo no corriente 60.000; pasivo corriente 40.000.",
+     "items": [
+      {
+       "id": "e1a",
+       "kind": "numeric",
+       "points": 0.75,
+       "prompt_md": "a) Calcule el **fondo de maniobra**.",
+       "key": {
+        "value": 30000,
+        "display": "30.000 €",
+        "tol_abs": 1
+       },
+       "solution_md": "$FM=AC-PC=(30.000+25.000+15.000)-40.000=30.000$ €.",
+       "unit_label": "€"
+      },
+      {
+       "id": "e1b",
+       "kind": "numeric",
+       "points": 0.5,
+       "prompt_md": "b) Calcule la **ratio de liquidez** (activo corriente / pasivo corriente).",
+       "key": {
+        "value": 1.75,
+        "display": "1,75",
+        "tol_abs": 0.01
+       },
+       "solution_md": "$70.000/40.000=1{,}75$."
+      },
+      {
+       "id": "e1c",
+       "kind": "numeric",
+       "points": 0.5,
+       "prompt_md": "c) Calcule la **ratio de tesorería** ((realizable + disponible) / pasivo corriente).",
+       "key": {
+        "value": 1.0,
+        "display": "1,00",
+        "tol_abs": 0.01
+       },
+       "solution_md": "$(25.000+15.000)/40.000=1{,}00$."
+      },
+      {
+       "id": "e1d",
+       "kind": "open",
+       "points": 0.75,
+       "prompt_md": "d) Interprete la situación financiera a corto plazo de la empresa con los tres resultados anteriores.",
+       "solution_md": "El fondo de maniobra es positivo (30.000 €): los recursos permanentes financian todo el activo no corriente y parte del corriente, hay equilibrio financiero. La liquidez de 1,75 indica que el activo corriente cubre holgadamente las deudas a corto plazo. La tesorería de 1,00 muestra que, incluso sin vender existencias, la empresa puede atender sus pagos a corto plazo, aunque sin mucho margen.",
+       "rubric_md": "0,25 por interpretar correctamente cada uno de los tres resultados (signo y significado del FM, liquidez > 1, tesorería ≈ 1). Sin interpretación o solo cifras: 0."
+      }
+     ]
+    },
+    {
+     "id": "e2",
+     "label": "Ejercicio 2 · Selección de inversiones",
+     "points": 2.5,
+     "mode": "sum",
+     "floor0": false,
+     "stem_md": "Un proyecto requiere una inversión inicial de 50.000 € y genera flujos de caja de 18.000 € el primer año, 20.000 € el segundo y 22.000 € el tercero.",
+     "items": [
+      {
+       "id": "e2a",
+       "kind": "numeric",
+       "points": 1.0,
+       "prompt_md": "a) Calcule el **VAN** del proyecto con una rentabilidad exigida del 6 %.",
+       "key": {
+        "value": 3252.69,
+        "display": "3.252,69 €",
+        "tol_abs": 5
+       },
+       "solution_md": "$VAN=-50.000+\\dfrac{18.000}{1{,}06}+\\dfrac{20.000}{1{,}06^2}+\\dfrac{22.000}{1{,}06^3}=-50.000+16.981{,}13+17.799{,}93+18.471{,}63=3.252{,}69$ €.",
+       "unit_label": "€"
+      },
+      {
+       "id": "e2b",
+       "kind": "numeric",
+       "points": 0.75,
+       "prompt_md": "b) Calcule el **plazo de recuperación** (payback) en años, con dos decimales.",
+       "key": {
+        "value": 2.55,
+        "display": "2,55 años (≈ 2 años y 6,5 meses)",
+        "tol_abs": 0.02
+       },
+       "solution_md": "Acumulado: 18.000 (año 1), 38.000 (año 2). Faltan 12.000 de los 22.000 del año 3: $2+12.000/22.000=2{,}55$ años.",
+       "unit_label": "años"
+      },
+      {
+       "id": "e2c",
+       "kind": "open",
+       "points": 0.75,
+       "prompt_md": "c) ¿Recomendaría el proyecto? Justifíquelo con los dos criterios y cite una limitación del payback.",
+       "solution_md": "Sí: el VAN es positivo (3.252,69 €), así que el proyecto supera la rentabilidad exigida del 6 % y aporta valor. Además, la inversión se recupera en unos 2,55 años, antes del final de la vida del proyecto. Limitación del payback: no tiene en cuenta el valor del dinero en el tiempo ni los flujos posteriores a la recuperación.",
+       "rubric_md": "0,25 decisión coherente con el VAN · 0,25 uso del payback como segundo criterio · 0,25 limitación correcta del payback."
+      }
+     ]
+    },
+    {
+     "id": "e3",
+     "label": "Ejercicio 3 · Punto muerto",
+     "points": 2.5,
+     "mode": "sum",
+     "floor0": false,
+     "stem_md": "Una empresa vende cada unidad a 25 €, con un coste variable unitario de 15 € y unos costes fijos anuales de 40.000 €. Prevé vender 5.500 unidades.",
+     "items": [
+      {
+       "id": "e3a",
+       "kind": "numeric",
+       "points": 0.75,
+       "prompt_md": "a) Calcule el **punto muerto** en unidades.",
+       "key": {
+        "value": 4000,
+        "display": "4.000 unidades",
+        "tol_abs": 0.5
+       },
+       "solution_md": "$Q^*=\\dfrac{CF}{p-cv}=\\dfrac{40.000}{25-15}=4.000$ unidades.",
+       "unit_label": "unidades"
+      },
+      {
+       "id": "e3b",
+       "kind": "numeric",
+       "points": 0.75,
+       "prompt_md": "b) Calcule el **beneficio** si vende 5.500 unidades.",
+       "key": {
+        "value": 15000,
+        "display": "15.000 €",
+        "tol_abs": 1
+       },
+       "solution_md": "$B=(p-cv)\\cdot Q-CF=10\\cdot5.500-40.000=15.000$ €.",
+       "unit_label": "€"
+      },
+      {
+       "id": "e3c",
+       "kind": "numeric",
+       "points": 0.5,
+       "prompt_md": "c) Calcule el **margen de seguridad** en porcentaje sobre las ventas previstas.",
+       "key": {
+        "value": 27.27,
+        "display": "27,27 %",
+        "tol_abs": 0.05
+       },
+       "solution_md": "$(5.500-4.000)/5.500=0{,}2727=27{,}27$ %.",
+       "unit_label": "%"
+      },
+      {
+       "id": "e3d",
+       "kind": "open",
+       "points": 0.5,
+       "prompt_md": "d) ¿Qué pasaría con el punto muerto si los costes fijos aumentaran a 50.000 €? Razónelo sin necesidad de repetir todo el cálculo.",
+       "solution_md": "Subiría a 50.000/10 = 5.000 unidades: con los mismos precio y coste variable, hacen falta más ventas para cubrir unos costes fijos mayores, y el margen de seguridad con 5.500 unidades bajaría a 9,1 %.",
+       "rubric_md": "0,25 por indicar que el punto muerto aumenta (con 5.000 u.) · 0,25 por razonarlo con el margen de contribución unitario."
+      }
+     ]
+    },
+    {
+     "id": "e4",
+     "label": "Ejercicio 4 · Empresa y estrategia",
+     "points": 2.5,
+     "mode": "sum",
+     "floor0": false,
+     "stem_md": "Responda a los dos apartados con argumentos.",
+     "items": [
+      {
+       "id": "e4a",
+       "kind": "open",
+       "points": 1.25,
+       "prompt_md": "a) Compare la **sociedad limitada (SL)** y la **sociedad anónima (SA)** en tres aspectos: responsabilidad de los socios, capital mínimo y transmisión de la propiedad.",
+       "solution_md": "Responsabilidad: en ambas, limitada al capital aportado. Capital mínimo: la SA exige 60.000 €; la SL, una cantidad mucho menor (comprueba la normativa vigente). Transmisión: las acciones de la SA se transmiten libremente; las participaciones de la SL tienen restricciones (derecho de adquisición preferente de los socios).",
+       "rubric_md": "0,4 por cada aspecto bien comparado (máx. 1,2) + 0,05 por presentación clara. Admitir cifras de capital de la SL según la normativa vigente."
+      },
+      {
+       "id": "e4b",
+       "kind": "open",
+       "points": 1.25,
+       "prompt_md": "b) Una pequeña empresa de logística de Weert quiere expandirse a Bélgica. Proponga un **análisis DAFO** con un elemento en cada cuadrante y una estrategia que combine dos de ellos.",
+       "solution_md": "Ejemplo: Fortaleza: personal con experiencia en control de inventario. Debilidad: poca capacidad de financiación. Oportunidad: crecimiento del comercio electrónico en el Benelux. Amenaza: competencia de grandes operadores. Estrategia ofensiva (F+O): ofrecer servicio especializado de inventario a tiendas online belgas.",
+       "rubric_md": "0,25 por cada cuadrante correcto (interno: F/D; externo: O/A) · 0,25 por una estrategia que combine dos elementos de forma coherente."
+      }
+     ]
+    },
+    {
+     "id": "e5",
+     "label": "Ejercicio 5 · Test",
+     "points": 2.5,
+     "mode": "sum",
+     "floor0": true,
+     "stem_md": "10 preguntas de 0,25 puntos. Cada respuesta incorrecta resta 0,15; en blanco, 0.",
+     "items": [
+      {
+       "id": "t1",
+       "kind": "multiple_choice",
+       "points": 0.25,
+       "penalty": 0.15,
+       "prompt_md": "El fondo de maniobra se calcula como:",
+       "choices": [
+        {
+         "id": "a",
+         "text": "Activo corriente − pasivo corriente"
+        },
+        {
+         "id": "b",
+         "text": "Activo total − pasivo total"
+        },
+        {
+         "id": "c",
+         "text": "Patrimonio neto − activo no corriente"
+        },
+        {
+         "id": "d",
+         "text": "Pasivo corriente − activo corriente"
+        }
+       ],
+       "key": {
+        "correct": "a"
+       },
+       "solution_md": "FM = AC − PC (también PN + PNC − ANC)."
+      },
+      {
+       "id": "t2",
+       "kind": "multiple_choice",
+       "points": 0.25,
+       "penalty": 0.15,
+       "prompt_md": "Un VAN negativo indica que el proyecto:",
+       "choices": [
+        {
+         "id": "a",
+         "text": "Se recupera en menos de un año"
+        },
+        {
+         "id": "b",
+         "text": "No alcanza la rentabilidad exigida"
+        },
+        {
+         "id": "c",
+         "text": "Tiene una TIR superior a la exigida"
+        },
+        {
+         "id": "d",
+         "text": "No tiene riesgo"
+        }
+       ],
+       "key": {
+        "correct": "b"
+       },
+       "solution_md": "VAN < 0: no alcanza la rentabilidad mínima exigida."
+      },
+      {
+       "id": "t3",
+       "kind": "multiple_choice",
+       "points": 0.25,
+       "penalty": 0.15,
+       "prompt_md": "En una sociedad limitada, la responsabilidad de los socios es:",
+       "choices": [
+        {
+         "id": "a",
+         "text": "Ilimitada y solidaria"
+        },
+        {
+         "id": "b",
+         "text": "Limitada al capital aportado"
+        },
+        {
+         "id": "c",
+         "text": "Ilimitada solo para el administrador"
+        },
+        {
+         "id": "d",
+         "text": "Inexistente"
+        }
+       ],
+       "key": {
+        "correct": "b"
+       },
+       "solution_md": "Responsabilidad limitada al capital aportado."
+      },
+      {
+       "id": "t4",
+       "kind": "multiple_choice",
+       "points": 0.25,
+       "penalty": 0.15,
+       "prompt_md": "La amortización del inmovilizado refleja:",
+       "choices": [
+        {
+         "id": "a",
+         "text": "La devolución de un préstamo"
+        },
+        {
+         "id": "b",
+         "text": "La pérdida de valor por uso o paso del tiempo"
+        },
+        {
+         "id": "c",
+         "text": "Un aumento del patrimonio neto"
+        },
+        {
+         "id": "d",
+         "text": "Un ingreso extraordinario"
+        }
+       ],
+       "key": {
+        "correct": "b"
+       },
+       "solution_md": "Depreciación sistemática del inmovilizado."
+      },
+      {
+       "id": "t5",
+       "kind": "multiple_choice",
+       "points": 0.25,
+       "penalty": 0.15,
+       "prompt_md": "El leasing es:",
+       "choices": [
+        {
+         "id": "a",
+         "text": "Una cesión de facturas de clientes"
+        },
+        {
+         "id": "b",
+         "text": "Un arrendamiento financiero con opción de compra"
+        },
+        {
+         "id": "c",
+         "text": "Una ampliación de capital"
+        },
+        {
+         "id": "d",
+         "text": "Un préstamo sin intereses"
+        }
+       ],
+       "key": {
+        "correct": "b"
+       },
+       "solution_md": "Arrendamiento financiero con opción de compra al final."
+      },
+      {
+       "id": "t6",
+       "kind": "multiple_choice",
+       "points": 0.25,
+       "penalty": 0.15,
+       "prompt_md": "El factoring consiste en:",
+       "choices": [
+        {
+         "id": "a",
+         "text": "Alquilar maquinaria sin opción de compra"
+        },
+        {
+         "id": "b",
+         "text": "Ceder los derechos de cobro de clientes a una entidad"
+        },
+        {
+         "id": "c",
+         "text": "Emitir obligaciones"
+        },
+        {
+         "id": "d",
+         "text": "Pagar a proveedores por adelantado"
+        }
+       ],
+       "key": {
+        "correct": "b"
+       },
+       "solution_md": "La empresa cede sus cobros pendientes a cambio de liquidez inmediata."
+      },
+      {
+       "id": "t7",
+       "kind": "multiple_choice",
+       "points": 0.25,
+       "penalty": 0.15,
+       "prompt_md": "El punto muerto es la cantidad en la que:",
+       "choices": [
+        {
+         "id": "a",
+         "text": "Los ingresos igualan a los costes totales"
+        },
+        {
+         "id": "b",
+         "text": "Los costes fijos son cero"
+        },
+        {
+         "id": "c",
+         "text": "El beneficio es máximo"
+        },
+        {
+         "id": "d",
+         "text": "Las ventas igualan a la producción"
+        }
+       ],
+       "key": {
+        "correct": "a"
+       },
+       "solution_md": "Ingresos = costes totales; beneficio cero."
+      },
+      {
+       "id": "t8",
+       "kind": "multiple_choice",
+       "points": 0.25,
+       "penalty": 0.15,
+       "prompt_md": "En un análisis DAFO, una amenaza es:",
+       "choices": [
+        {
+         "id": "a",
+         "text": "Un factor interno negativo"
+        },
+        {
+         "id": "b",
+         "text": "Un factor externo negativo"
+        },
+        {
+         "id": "c",
+         "text": "Un factor interno positivo"
+        },
+        {
+         "id": "d",
+         "text": "Un factor externo positivo"
+        }
+       ],
+       "key": {
+        "correct": "b"
+       },
+       "solution_md": "Amenazas: externas y negativas."
+      },
+      {
+       "id": "t9",
+       "kind": "multiple_choice",
+       "points": 0.25,
+       "penalty": 0.15,
+       "prompt_md": "La rentabilidad económica (ROA) se calcula como:",
+       "choices": [
+        {
+         "id": "a",
+         "text": "Beneficio neto / patrimonio neto"
+        },
+        {
+         "id": "b",
+         "text": "BAII / activo total"
+        },
+        {
+         "id": "c",
+         "text": "Ventas / activo total"
+        },
+        {
+         "id": "d",
+         "text": "Pasivo / patrimonio neto"
+        }
+       ],
+       "key": {
+        "correct": "b"
+       },
+       "solution_md": "ROA = BAII / activo total."
+      },
+      {
+       "id": "t10",
+       "kind": "multiple_choice",
+       "points": 0.25,
+       "penalty": 0.15,
+       "prompt_md": "¿Cuál NO forma parte del marketing mix (4P)?",
+       "choices": [
+        {
+         "id": "a",
+         "text": "Producto"
+        },
+        {
+         "id": "b",
+         "text": "Precio"
+        },
+        {
+         "id": "c",
+         "text": "Producción"
+        },
+        {
+         "id": "d",
+         "text": "Promoción"
+        }
+       ],
+       "key": {
+        "correct": "c"
+       },
+       "solution_md": "Las 4P: producto, precio, distribución (place) y promoción."
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
