@@ -1,5 +1,18 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## Notificaciones push · 2 noviembre 2026
+
+Release React 2.60.0. **Decisión de Renzo (02-11-2026):** aviso al momento de cada cosa nueva y un resumen diario de lo pendiente, a cualquier hora; claves creadas por Claude sin mostrarlas.
+
+| Pieza | Estado |
+| --- | --- |
+| Migración | `supabase/pending/20261102090000_push_notifications.sql` (+ rollback): `public.push_subscriptions` (RLS por dueño), esquema `push_private` (claves VAPID y registro de avisos, sin acceso de usuarios), funciones `push_srv_*` solo para el servidor. Réplica: `tools/db-replica/push_notifications_test.sh` (en CI). |
+| Función `push-notify` | `supabase/functions/push-notify/` (verify_jwt=false, autentica ella misma). Genera las claves VAPID la primera vez dentro de la BD. Modos: GET clave pública, POST prueba (sesión), POST `new`/`digest` (secreto del programador). |
+| Programador | `supabase/pending/push_notifications_setup.sql` por entorno: pg_cron cada 10 min (nuevo) y 08:00 UTC (resumen). Secreto generado en Vault, nadie lo ve. |
+| Qué avisa | Nuevo: capturas de la bandeja pendientes y nóminas pendientes (agrupa si son más de 3). Resumen: bandeja, nóminas sin revisar y, los días 1 a 10, extractos de ING/Revolut del mes anterior. Sin importes de cuentas. |
+| App | Ajustes → Notificaciones: activar en este dispositivo, enviar prueba, desactivar, lista de dispositivos. Service worker muestra el aviso y abre solo rutas internas. |
+| iPhone | iOS 16.4+ y Rise añadido a la pantalla de inicio (requisito de Apple). |
+
 ## Tickets de compra · 1 noviembre 2026 · PR hacia staging
 
 Release React 2.59.0. Sin migraciones: los tickets son registros `money/money_receipt` en `hub_records` y la foto va a `hub-private/<uid>/receipts/<id>/`. **Decisión de Renzo (01-11-2026): opción C+A.**

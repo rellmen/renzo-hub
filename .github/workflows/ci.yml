@@ -90,3 +90,4 @@ jobs:
           sudo -E bash tools/db-replica/academy_test.sh
           sudo -E bash tools/db-replica/academy_mocks_test.sh
           sudo -E bash tools/db-replica/academy_catalan_test.sh
+          sudo -E bash tools/db-replica/push_notifications_test.sh
