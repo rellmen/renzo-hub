@@ -59,7 +59,7 @@ q "begin;$SRV select * from push_srv_vapid('$(printf 'Z%.0s' $(seq 1 87))','$PRI
 ok "claves VAPID: se crean una sola vez y solo la pública es legible"
 
 q "begin;$SRV select push_srv_mark('$A',array['inbox:1','inbox:1','digest:2026-11-02']);commit;" >/dev/null
-[ "$(q "begin;$SRV select array_to_string(push_srv_sent('$A',array['inbox:1','inbox:2','digest:2026-11-02']),',');commit;")" = "inbox:1,digest:2026-11-02" ] || die "sent"
+[ "$(q "begin;$SRV select array_to_string(push_srv_sent('$A',array['inbox:1','inbox:2','digest:2026-11-02']),',');commit;")" = "digest:2026-11-02,inbox:1" ] || die "sent"
 [ "$(q "begin;$SRV select cardinality(push_srv_sent('$B',array['inbox:1']));commit;")" = 0 ] || die "sent por usuario"
 ok "registro de avisos idempotente y por usuario"
 
