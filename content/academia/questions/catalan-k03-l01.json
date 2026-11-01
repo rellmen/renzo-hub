@@ -1,0 +1,160 @@
+{
+ "lesson_id": "catalan-k03-l01",
+ "questions": [
+  {
+   "id": "k03l01-x1",
+   "kind": "multiple_choice",
+   "difficulty": 1,
+   "skill_ids": [
+    "ca_plural"
+   ],
+   "prompt_md": "Quin és el plural de *cançó*?",
+   "choices": [
+    {
+     "id": "a",
+     "text": "cançós"
+    },
+    {
+     "id": "b",
+     "text": "cançons"
+    },
+    {
+     "id": "c",
+     "text": "cançóns"
+    },
+    {
+     "id": "d",
+     "text": "cançones"
+    }
+   ],
+   "key": {
+    "correct_choice_id": "b"
+   },
+   "explanation_md": "Aguda acabada en vocal: plural en *-ns* i perd l'accent."
+  },
+  {
+   "id": "k03l01-x2",
+   "kind": "multiple_choice",
+   "difficulty": 2,
+   "skill_ids": [
+    "ca_plural"
+   ],
+   "prompt_md": "Quin és el plural de *despatx*?",
+   "choices": [
+    {
+     "id": "a",
+     "text": "despatxs"
+    },
+    {
+     "id": "b",
+     "text": "despatxes"
+    },
+    {
+     "id": "c",
+     "text": "despatxos"
+    },
+    {
+     "id": "d",
+     "text": "despatx"
+    }
+   ],
+   "key": {
+    "correct_choice_id": "c"
+   },
+   "explanation_md": "Masculí acabat en so sibilant: plural en *-os*."
+  },
+  {
+   "id": "k03l01-x3",
+   "kind": "multiple_choice",
+   "difficulty": 1,
+   "skill_ids": [
+    "ca_gender"
+   ],
+   "prompt_md": "Quina opció és correcta?",
+   "choices": [
+    {
+     "id": "a",
+     "text": "Tinc una dubte."
+    },
+    {
+     "id": "b",
+     "text": "Tinc un dubte."
+    },
+    {
+     "id": "c",
+     "text": "Tinc uns dubte."
+    },
+    {
+     "id": "d",
+     "text": "Tinc la dubte."
+    }
+   ],
+   "key": {
+    "correct_choice_id": "b"
+   },
+   "explanation_md": "*Dubte* és masculí en català."
+  },
+  {
+   "id": "k03l01-x4",
+   "kind": "multiple_choice",
+   "difficulty": 2,
+   "skill_ids": [
+    "ca_determiners"
+   ],
+   "prompt_md": "Quina frase és correcta?",
+   "choices": [
+    {
+     "id": "a",
+     "text": "Hi havia gaire gent."
+    },
+    {
+     "id": "b",
+     "text": "No hi havia gaire gent."
+    },
+    {
+     "id": "c",
+     "text": "Gaire gent hi havia."
+    },
+    {
+     "id": "d",
+     "text": "Hi ha gaire feina."
+    }
+   ],
+   "key": {
+    "correct_choice_id": "b"
+   },
+   "explanation_md": "*Gaire* només s'usa en frases negatives o interrogatives."
+  },
+  {
+   "id": "k03l01-x5",
+   "kind": "multiple_choice",
+   "difficulty": 1,
+   "skill_ids": [
+    "ca_determiners"
+   ],
+   "prompt_md": "Quina opció és correcta en registre estàndard?",
+   "choices": [
+    {
+     "id": "a",
+     "text": "Meva germana treballa aquí."
+    },
+    {
+     "id": "b",
+     "text": "La meva germana treballa aquí."
+    },
+    {
+     "id": "c",
+     "text": "La mia germana treballa aquí."
+    },
+    {
+     "id": "d",
+     "text": "Mi germana treballa aquí."
+    }
+   ],
+   "key": {
+    "correct_choice_id": "b"
+   },
+   "explanation_md": "El possessiu va amb article: *la meva*."
+  }
+ ]
+}

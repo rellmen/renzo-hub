@@ -1,0 +1,160 @@
+{
+ "lesson_id": "catalan-k00-l01",
+ "questions": [
+  {
+   "id": "k00l01-x1",
+   "kind": "multiple_choice",
+   "difficulty": 1,
+   "skill_ids": [
+    "ca_exam_format"
+   ],
+   "prompt_md": "En l'examen de Llengua catalana +25, quant resta una resposta errònia en una pregunta d'opció múltiple de quatre opcions?",
+   "choices": [
+    {
+     "id": "a",
+     "text": "0 punts"
+    },
+    {
+     "id": "b",
+     "text": "0,16 punts"
+    },
+    {
+     "id": "c",
+     "text": "0,25 punts"
+    },
+    {
+     "id": "d",
+     "text": "0,5 punts"
+    }
+   ],
+   "key": {
+    "correct_choice_id": "b"
+   },
+   "explanation_md": "Segons la informació oficial, cada error en opció múltiple de quatre opcions descompta 0,16; en blanc no descompta."
+  },
+  {
+   "id": "k00l01-x2",
+   "kind": "multiple_choice",
+   "difficulty": 1,
+   "skill_ids": [
+    "ca_exam_format"
+   ],
+   "prompt_md": "Quina extensió ha de tenir la redacció de l'expressió escrita?",
+   "choices": [
+    {
+     "id": "a",
+     "text": "Entre 20 i 40 paraules"
+    },
+    {
+     "id": "b",
+     "text": "Entre 50 i 80 paraules"
+    },
+    {
+     "id": "c",
+     "text": "Entre 150 i 200 paraules"
+    },
+    {
+     "id": "d",
+     "text": "No té límit"
+    }
+   ],
+   "key": {
+    "correct_choice_id": "b"
+   },
+   "explanation_md": "La redacció de l'expressió escrita és de 50 a 80 paraules i val 3 punts."
+  },
+  {
+   "id": "k00l01-x3",
+   "kind": "multiple_choice",
+   "difficulty": 1,
+   "skill_ids": [
+    "ca_reading_inference"
+   ],
+   "prompt_md": "«Els errors són petits; *tanmateix*, s'acumulen.» Quin connector té el mateix valor que *tanmateix*?",
+   "choices": [
+    {
+     "id": "a",
+     "text": "per tant"
+    },
+    {
+     "id": "b",
+     "text": "a més"
+    },
+    {
+     "id": "c",
+     "text": "no obstant això"
+    },
+    {
+     "id": "d",
+     "text": "per exemple"
+    }
+   ],
+   "key": {
+    "correct_choice_id": "c"
+   },
+   "explanation_md": "*Tanmateix* introdueix un contrast, com *no obstant això*. *Per tant* és conseqüència."
+  },
+  {
+   "id": "k00l01-x4",
+   "kind": "multiple_choice",
+   "difficulty": 2,
+   "skill_ids": [
+    "ca_reading_main_idea"
+   ],
+   "prompt_md": "Text: «Alguns treballadors s'han queixat perquè no se'ls ha consultat.» Què afirma el text?",
+   "choices": [
+    {
+     "id": "a",
+     "text": "Tots els treballadors rebutgen el canvi."
+    },
+    {
+     "id": "b",
+     "text": "Alguns treballadors es queixen de no haver estat consultats."
+    },
+    {
+     "id": "c",
+     "text": "Els treballadors volen cobrar més."
+    },
+    {
+     "id": "d",
+     "text": "Ningú no s'ha queixat."
+    }
+   ],
+   "key": {
+    "correct_choice_id": "b"
+   },
+   "explanation_md": "Fixa't en el quantificador *alguns* i en el motiu: *no se'ls ha consultat*."
+  },
+  {
+   "id": "k00l01-x5",
+   "kind": "multiple_choice",
+   "difficulty": 1,
+   "skill_ids": [
+    "ca_reading_inference"
+   ],
+   "prompt_md": "Quina d'aquestes paraules significa «casi»?",
+   "choices": [
+    {
+     "id": "a",
+     "text": "gairebé"
+    },
+    {
+     "id": "b",
+     "text": "encara"
+    },
+    {
+     "id": "c",
+     "text": "potser"
+    },
+    {
+     "id": "d",
+     "text": "només"
+    }
+   ],
+   "key": {
+    "correct_choice_id": "a"
+   },
+   "explanation_md": "*Gairebé* = casi; *encara* = todavía; *potser* = quizás; *només* = solo."
+  }
+ ]
+}

@@ -1,6 +1,6 @@
 {
-  "release": "2.56.0",
-  "name": "Rise · Fase B: ruta PAU +25 catalana (Matemáticas + Economía, catalán)",
+  "release": "2.57.0",
+  "name": "Rise · Academia: Llengua catalana (11 lecciones) y simulacro de Economía",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",

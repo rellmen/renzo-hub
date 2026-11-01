@@ -1,0 +1,160 @@
+{
+ "lesson_id": "catalan-k07-l01",
+ "questions": [
+  {
+   "id": "k07l01-x1",
+   "kind": "multiple_choice",
+   "difficulty": 1,
+   "skill_ids": [
+    "ca_barbarismes"
+   ],
+   "prompt_md": "Quina és la forma normativa de «tenir que treballar»?",
+   "choices": [
+    {
+     "id": "a",
+     "text": "tindre que treballar"
+    },
+    {
+     "id": "b",
+     "text": "haver de treballar"
+    },
+    {
+     "id": "c",
+     "text": "tenir de treballar"
+    },
+    {
+     "id": "d",
+     "text": "tenir a treballar"
+    }
+   ],
+   "key": {
+    "correct_choice_id": "b"
+   },
+   "explanation_md": "L'obligació s'expressa amb *haver de* + infinitiu."
+  },
+  {
+   "id": "k07l01-x2",
+   "kind": "multiple_choice",
+   "difficulty": 1,
+   "skill_ids": [
+    "ca_barbarismes"
+   ],
+   "prompt_md": "Quina paraula substitueix correctament el barbarisme *\\*entonces*?",
+   "choices": [
+    {
+     "id": "a",
+     "text": "llavons"
+    },
+    {
+     "id": "b",
+     "text": "aleshores"
+    },
+    {
+     "id": "c",
+     "text": "entonses"
+    },
+    {
+     "id": "d",
+     "text": "doncs que"
+    }
+   ],
+   "key": {
+    "correct_choice_id": "b"
+   },
+   "explanation_md": "*Aleshores* o *llavors*."
+  },
+  {
+   "id": "k07l01-x3",
+   "kind": "multiple_choice",
+   "difficulty": 2,
+   "skill_ids": [
+    "ca_relacions_lexiques"
+   ],
+   "prompt_md": "En el text, «assolir l'objectiu» vol dir…",
+   "choices": [
+    {
+     "id": "a",
+     "text": "arrasar l'objectiu"
+    },
+    {
+     "id": "b",
+     "text": "aconseguir l'objectiu"
+    },
+    {
+     "id": "c",
+     "text": "assumir l'objectiu"
+    },
+    {
+     "id": "d",
+     "text": "assaltar l'objectiu"
+    }
+   ],
+   "key": {
+    "correct_choice_id": "b"
+   },
+   "explanation_md": "*Assolir* = aconseguir. *Assolar* vol dir arrasar."
+  },
+  {
+   "id": "k07l01-x4",
+   "kind": "multiple_choice",
+   "difficulty": 1,
+   "skill_ids": [
+    "ca_relacions_lexiques"
+   ],
+   "prompt_md": "Quin és l'hiperònim de *cotxe, camió, furgoneta*?",
+   "choices": [
+    {
+     "id": "a",
+     "text": "moble"
+    },
+    {
+     "id": "b",
+     "text": "vehicle"
+    },
+    {
+     "id": "c",
+     "text": "eina"
+    },
+    {
+     "id": "d",
+     "text": "màquina"
+    }
+   ],
+   "key": {
+    "correct_choice_id": "b"
+   },
+   "explanation_md": "*Vehicle* és el terme general que inclou els altres."
+  },
+  {
+   "id": "k07l01-x5",
+   "kind": "multiple_choice",
+   "difficulty": 2,
+   "skill_ids": [
+    "ca_registre"
+   ],
+   "prompt_md": "Quina frase té un registre formal adequat i sense barbarismes?",
+   "choices": [
+    {
+     "id": "a",
+     "text": "Vale, ho acabo hasta les cinc."
+    },
+    {
+     "id": "b",
+     "text": "D'acord, ho enllestiré abans de les cinc."
+    },
+    {
+     "id": "c",
+     "text": "Bueno, ho acabo fins les cinc."
+    },
+    {
+     "id": "d",
+     "text": "Ho acabo desde les cinc."
+    }
+   ],
+   "key": {
+    "correct_choice_id": "b"
+   },
+   "explanation_md": "*D'acord* i *enllestir* són normatius i adequats al registre formal."
+  }
+ ]
+}

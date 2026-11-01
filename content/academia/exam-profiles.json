@@ -1,174 +1,204 @@
 {
-  "schema_version": "1.0",
-  "year": 2026,
-  "purpose": "Referencias de formato contrastadas; NO usar como rúbricas 2027 sin revalidación",
-  "profiles": [
+ "schema_version": "1.0",
+ "year": 2026,
+ "purpose": "Referencias de formato contrastadas; NO usar como rúbricas 2027 sin revalidación",
+ "profiles": [
+  {
+   "id": "math_2026_cat_ref",
+   "course": "matematicas",
+   "scale": 10,
+   "sections": [
     {
-      "id": "math_2026_cat_ref",
-      "course": "matematicas",
-      "scale": 10,
-      "sections": [
-        {
-          "label": "cuestiones",
-          "available": 6,
-          "choose": 4,
-          "points_each": 1.5
-        },
-        {
-          "label": "problemas",
-          "available": 2,
-          "choose": 1,
-          "points_each": 4
-        }
-      ],
-      "grading": "Puntuar razonamiento y pasos parciales. Alguna cuestión es de test (3 ítems de 0,5): −0,25 por fallo, sin descuento si no se responde. Calculadora científica no programable. Verificado en los modelos 2024 y 2025 (ordinaria e incidencias).",
-      "official_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/",
-      "penalties": {
-        "test_wrong_points": -0.25
-      }
+     "label": "cuestiones",
+     "available": 6,
+     "choose": 4,
+     "points_each": 1.5
     },
     {
-      "id": "physics_2026_cat_ref",
-      "course": "fisica",
-      "scale": 10,
-      "sections": [
-        {
-          "label": "cuestiones",
-          "available": 6,
-          "choose": 4,
-          "points_each": 1.5
-        },
-        {
-          "label": "problemas",
-          "available": 2,
-          "choose": 1,
-          "points_each": 4
-        }
-      ],
-      "grading": "Comprobar magnitudes, diagramas, fórmulas y despeje. Unidades obligatorias: los criterios restan 0,5 o anulan el apartado si falta la unidad o no se indica SI. Verificado en los modelos 2024 y 2025 (ordinaria e incidencias).",
-      "official_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/",
-      "penalties": {
-        "missing_units_points": -0.5
-      }
-    },
-    {
-      "id": "castellano_2026_cat_ref",
-      "course": "castellano",
-      "scale": 10,
-      "sections": [
-        {
-          "label": "comprensión",
-          "points": 3,
-          "items": 6
-        },
-        {
-          "label": "expresión",
-          "points": 4,
-          "tasks": [
-            "respuesta breve",
-            "redacción de 50 a 80 palabras"
-          ]
-        },
-        {
-          "label": "reflexión lingüística",
-          "points": 3,
-          "items": 6
-        }
-      ],
-      "penalties": {
-        "wrong_four_option_mc_points": -0.16,
-        "writing_error_points": -0.1
-      },
-      "official_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacastellana/",
-      "grading": "Expresión: 2.1 respuesta breve de 2 o 3 líneas (1 p.) y 2.2 redacción de 50 a 80 palabras (3 p.: adecuación, coherencia, cohesión y riqueza). Reflexión lingüística con descuentos propios por ítem. Verificado en los modelos 2024 y 2025 (ordinaria e incidencias)."
-    },
-    {
-      "id": "comment_2026_cat_ref",
-      "course": "comentario",
-      "scale": 10,
-      "sections": [
-        {
-          "label": "comprensión",
-          "points": 6,
-          "blocks": [
-            {
-              "count": 6,
-              "points": 3
-            },
-            {
-              "count": 3,
-              "points": 3
-            }
-          ]
-        },
-        {
-          "label": "redacción",
-          "points": 4,
-          "words": [
-            150,
-            200
-          ],
-          "options": 2,
-          "choose": 1
-        }
-      ],
-      "penalties": {
-        "wrong_four_option_mc_points": -0.16,
-        "language_error_points": -0.1,
-        "essay_outside_150_200_words": -0.5
-      },
-      "official_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/comentari_text/",
-      "grading": "Bloque 1: 6 de test a 0,5 (−0,16 por fallo, mínimo 0). Bloque 2: 3 respuestas de 1 a 5 líneas a 1 p. Redacción: elegir 1 de 2 opciones, al menos dos argumentos; adecuación 1, coherencia 1,5, estilo 1,5. Texto bilingüe catalán y castellano. Verificado en los modelos 2024 y 2025 (ordinaria e incidencias)."
-    },
-    {
-      "id": "english_2026_cat_ref",
-      "course": "ingles",
-      "scale": 10,
-      "sections": [
-        {
-          "label": "objetivas",
-          "count": 8,
-          "points_each": 1
-        },
-        {
-          "label": "respuesta abierta",
-          "count": 2,
-          "points_each": 1,
-          "words_each": [
-            40,
-            60
-          ]
-        }
-      ],
-      "reading_words": [
-        250,
-        300
-      ],
-      "penalties": {
-        "wrong_four_option_mc_points": -0.33,
-        "language_error_points": -0.05
-      },
-      "official_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguaestrangera/",
-      "grading": "10 cuestiones de 1 punto. La suma de las de opción múltiple no puede bajar de 0. Verificado en los modelos 2024 y 2025 (ordinaria e incidencias)."
-    },
-    {
-      "id": "economia_2026_cat_ref",
-      "course": "economia",
-      "scale": 10,
-      "sections": [
-        {
-          "label": "ejercicios",
-          "available": 5,
-          "choose": 4,
-          "points_each": 2.5
-        }
-      ],
-      "note": "Complementaria: no es materia específica de Ingeniería en la UOC. Cuatro ejercicios por bloques + quinto test; se eligen 4 de 5.",
-      "penalties": {
-        "test_wrong_points": -0.15
-      },
-      "official_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/economia_empresa/"
+     "label": "problemas",
+     "available": 2,
+     "choose": 1,
+     "points_each": 4
     }
-  ],
-  "global_notice": "Modelos de la Generalitat como referencia de nivel. En la UOC 2026: fase específica de 180 min para las dos materias, Comentario 90 min, Castellano e Inglés 105 min en total. Confirmar con la convocatoria UOC 2027."
+   ],
+   "grading": "Puntuar razonamiento y pasos parciales. Alguna cuestión es de test (3 ítems de 0,5): −0,25 por fallo, sin descuento si no se responde. Calculadora científica no programable. Verificado en los modelos 2024 y 2025 (ordinaria e incidencias).",
+   "official_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/matematiques/",
+   "penalties": {
+    "test_wrong_points": -0.25
+   }
+  },
+  {
+   "id": "physics_2026_cat_ref",
+   "course": "fisica",
+   "scale": 10,
+   "sections": [
+    {
+     "label": "cuestiones",
+     "available": 6,
+     "choose": 4,
+     "points_each": 1.5
+    },
+    {
+     "label": "problemas",
+     "available": 2,
+     "choose": 1,
+     "points_each": 4
+    }
+   ],
+   "grading": "Comprobar magnitudes, diagramas, fórmulas y despeje. Unidades obligatorias: los criterios restan 0,5 o anulan el apartado si falta la unidad o no se indica SI. Verificado en los modelos 2024 y 2025 (ordinaria e incidencias).",
+   "official_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/fisica/",
+   "penalties": {
+    "missing_units_points": -0.5
+   }
+  },
+  {
+   "id": "castellano_2026_cat_ref",
+   "course": "castellano",
+   "scale": 10,
+   "sections": [
+    {
+     "label": "comprensión",
+     "points": 3,
+     "items": 6
+    },
+    {
+     "label": "expresión",
+     "points": 4,
+     "tasks": [
+      "respuesta breve",
+      "redacción de 50 a 80 palabras"
+     ]
+    },
+    {
+     "label": "reflexión lingüística",
+     "points": 3,
+     "items": 6
+    }
+   ],
+   "penalties": {
+    "wrong_four_option_mc_points": -0.16,
+    "writing_error_points": -0.1
+   },
+   "official_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacastellana/",
+   "grading": "Expresión: 2.1 respuesta breve de 2 o 3 líneas (1 p.) y 2.2 redacción de 50 a 80 palabras (3 p.: adecuación, coherencia, cohesión y riqueza). Reflexión lingüística con descuentos propios por ítem. Verificado en los modelos 2024 y 2025 (ordinaria e incidencias)."
+  },
+  {
+   "id": "comment_2026_cat_ref",
+   "course": "comentario",
+   "scale": 10,
+   "sections": [
+    {
+     "label": "comprensión",
+     "points": 6,
+     "blocks": [
+      {
+       "count": 6,
+       "points": 3
+      },
+      {
+       "count": 3,
+       "points": 3
+      }
+     ]
+    },
+    {
+     "label": "redacción",
+     "points": 4,
+     "words": [
+      150,
+      200
+     ],
+     "options": 2,
+     "choose": 1
+    }
+   ],
+   "penalties": {
+    "wrong_four_option_mc_points": -0.16,
+    "language_error_points": -0.1,
+    "essay_outside_150_200_words": -0.5
+   },
+   "official_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/comentari_text/",
+   "grading": "Bloque 1: 6 de test a 0,5 (−0,16 por fallo, mínimo 0). Bloque 2: 3 respuestas de 1 a 5 líneas a 1 p. Redacción: elegir 1 de 2 opciones, al menos dos argumentos; adecuación 1, coherencia 1,5, estilo 1,5. Texto bilingüe catalán y castellano. Verificado en los modelos 2024 y 2025 (ordinaria e incidencias)."
+  },
+  {
+   "id": "english_2026_cat_ref",
+   "course": "ingles",
+   "scale": 10,
+   "sections": [
+    {
+     "label": "objetivas",
+     "count": 8,
+     "points_each": 1
+    },
+    {
+     "label": "respuesta abierta",
+     "count": 2,
+     "points_each": 1,
+     "words_each": [
+      40,
+      60
+     ]
+    }
+   ],
+   "reading_words": [
+    250,
+    300
+   ],
+   "penalties": {
+    "wrong_four_option_mc_points": -0.33,
+    "language_error_points": -0.05
+   },
+   "official_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/Fase-general/llenguaestrangera/",
+   "grading": "10 cuestiones de 1 punto. La suma de las de opción múltiple no puede bajar de 0. Verificado en los modelos 2024 y 2025 (ordinaria e incidencias)."
+  },
+  {
+   "id": "economia_2026_cat_ref",
+   "course": "economia",
+   "scale": 10,
+   "sections": [
+    {
+     "label": "ejercicios",
+     "available": 5,
+     "choose": 4,
+     "points_each": 2.5
+    }
+   ],
+   "note": "Segunda específica de la opción E en la prueba catalana (ruta de Renzo desde el 01-11-2026). Cuatro ejercicios por bloques + quinto test; se eligen 4 de 5.",
+   "penalties": {
+    "test_wrong_points": -0.15
+   },
+   "official_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/economia_empresa/"
+  },
+  {
+   "id": "catalan_2026_cat_ref",
+   "course": "catalan",
+   "scale": 10,
+   "sections": [
+    {
+     "label": "comprensió lectora",
+     "points": 3,
+     "items": 6
+    },
+    {
+     "label": "expressió escrita",
+     "points": 4,
+     "tasks": [
+      "resposta breu (1 p.)",
+      "redacció de 50 a 80 paraules (3 p.)"
+     ]
+    },
+    {
+     "label": "reflexió lingüística",
+     "points": 3,
+     "items": 6
+    }
+   ],
+   "penalties": {
+    "wrong_four_option_mc_points": -0.16
+   },
+   "official_url": "https://universitats.gencat.cat/ca/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacatalana/index.html",
+   "grading": "Estructura de la Generalitat: comprensió lectora (3 p.), expressió escrita (1 p. resposta breu + 3 p. redacció de 50 a 80 paraules: coherència 1, riquesa lèxica 1, maduresa sintàctica 1) i reflexió lingüística (6 preguntes objectives, 3 p.). Opció múltiple de quatre opcions: −0,16 per error, sense descompte si no es respon. Revalidar amb els models 2024 i 2025 i la convocatòria 2027."
+  }
+ ],
+ "global_notice": "Modelos de la Generalitat como referencia de nivel. En la UOC 2026: fase específica de 180 min para las dos materias, Comentario 90 min, Castellano e Inglés 105 min en total. Confirmar con la convocatoria UOC 2027."
 }

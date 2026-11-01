@@ -1,0 +1,160 @@
+{
+ "lesson_id": "catalan-k01-l01",
+ "questions": [
+  {
+   "id": "k01l01-x1",
+   "kind": "multiple_choice",
+   "difficulty": 1,
+   "skill_ids": [
+    "ca_accent_rules"
+   ],
+   "prompt_md": "Quina paraula està ben accentuada?",
+   "choices": [
+    {
+     "id": "a",
+     "text": "exàmen"
+    },
+    {
+     "id": "b",
+     "text": "origén"
+    },
+    {
+     "id": "c",
+     "text": "càrrec"
+    },
+    {
+     "id": "d",
+     "text": "jóves"
+    }
+   ],
+   "key": {
+    "correct_choice_id": "c"
+   },
+   "explanation_md": "*Càrrec* és plana acabada en *-c* (no és terminació clau): porta accent. *Examen, origen, joves* són planes acabades en *-en* o vocal + *s*: sense accent."
+  },
+  {
+   "id": "k01l01-x2",
+   "kind": "multiple_choice",
+   "difficulty": 2,
+   "skill_ids": [
+    "ca_accent_open_closed"
+   ],
+   "prompt_md": "Quina paraula porta accent obert?",
+   "choices": [
+    {
+     "id": "a",
+     "text": "també"
+    },
+    {
+     "id": "b",
+     "text": "cançó"
+    },
+    {
+     "id": "c",
+     "text": "cafè"
+    },
+    {
+     "id": "d",
+     "text": "accés"
+    }
+   ],
+   "key": {
+    "correct_choice_id": "c"
+   },
+   "explanation_md": "*Cafè* té la *e* oberta (accent greu). *També* i *accés* tenen la *e* tancada; *cançó*, la *o* tancada."
+  },
+  {
+   "id": "k01l01-x3",
+   "kind": "multiple_choice",
+   "difficulty": 2,
+   "skill_ids": [
+    "ca_diacritics"
+   ],
+   "prompt_md": "Segons la norma vigent (IEC 2016), quina forma és correcta?",
+   "choices": [
+    {
+     "id": "a",
+     "text": "La Maria dóna classes."
+    },
+    {
+     "id": "b",
+     "text": "Jo sóc d'aquí."
+    },
+    {
+     "id": "c",
+     "text": "Ell és el cap de torn."
+    },
+    {
+     "id": "d",
+     "text": "Vull mès pa."
+    }
+   ],
+   "key": {
+    "correct_choice_id": "c"
+   },
+   "explanation_md": "*És* (verb ser) és un dels 15 diacrítics que es mantenen. *Dona* i *soc* ja no porten accent; *més* porta accent tancat."
+  },
+  {
+   "id": "k01l01-x4",
+   "kind": "multiple_choice",
+   "difficulty": 2,
+   "skill_ids": [
+    "ca_dieresis"
+   ],
+   "prompt_md": "Quina paraula està mal escrita?",
+   "choices": [
+    {
+     "id": "a",
+     "text": "països"
+    },
+    {
+     "id": "b",
+     "text": "lluïa"
+    },
+    {
+     "id": "c",
+     "text": "egoïsme"
+    },
+    {
+     "id": "d",
+     "text": "pingüí"
+    }
+   ],
+   "key": {
+    "correct_choice_id": "c"
+   },
+   "explanation_md": "Amb el sufix *-isme* no es posa dièresi: *egoisme*."
+  },
+  {
+   "id": "k01l01-x5",
+   "kind": "multiple_choice",
+   "difficulty": 1,
+   "skill_ids": [
+    "ca_diacritics"
+   ],
+   "prompt_md": "Quina d'aquestes paraules NO porta accent diacrític?",
+   "choices": [
+    {
+     "id": "a",
+     "text": "sí (afirmació)"
+    },
+    {
+     "id": "b",
+     "text": "més (quantitat)"
+    },
+    {
+     "id": "c",
+     "text": "mes (de l'any)"
+    },
+    {
+     "id": "d",
+     "text": "què (pronom interrogatiu)"
+    }
+   ],
+   "key": {
+    "correct_choice_id": "c"
+   },
+   "explanation_md": "*Mes* (de l'any) s'escriu sense accent; *més* (quantitat) sí que en porta."
+  }
+ ]
+}

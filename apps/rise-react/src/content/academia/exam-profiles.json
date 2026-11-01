@@ -163,11 +163,41 @@
      "points_each": 2.5
     }
    ],
-   "note": "Complementaria: no es materia específica de Ingeniería en la UOC. Cuatro ejercicios por bloques + quinto test; se eligen 4 de 5.",
+   "note": "Segunda específica de la opción E en la prueba catalana (ruta de Renzo desde el 01-11-2026). Cuatro ejercicios por bloques + quinto test; se eligen 4 de 5.",
    "penalties": {
     "test_wrong_points": -0.15
    },
    "official_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/economia_empresa/"
+  },
+  {
+   "id": "catalan_2026_cat_ref",
+   "course": "catalan",
+   "scale": 10,
+   "sections": [
+    {
+     "label": "comprensió lectora",
+     "points": 3,
+     "items": 6
+    },
+    {
+     "label": "expressió escrita",
+     "points": 4,
+     "tasks": [
+      "resposta breu (1 p.)",
+      "redacció de 50 a 80 paraules (3 p.)"
+     ]
+    },
+    {
+     "label": "reflexió lingüística",
+     "points": 3,
+     "items": 6
+    }
+   ],
+   "penalties": {
+    "wrong_four_option_mc_points": -0.16
+   },
+   "official_url": "https://universitats.gencat.cat/ca/proves-majors/25-anys/temaris-estructura/Fase-general/llenguacatalana/index.html",
+   "grading": "Estructura de la Generalitat: comprensió lectora (3 p.), expressió escrita (1 p. resposta breu + 3 p. redacció de 50 a 80 paraules: coherència 1, riquesa lèxica 1, maduresa sintàctica 1) i reflexió lingüística (6 preguntes objectives, 3 p.). Opció múltiple de quatre opcions: −0,16 per error, sense descompte si no es respon. Revalidar amb els models 2024 i 2025 i la convocatòria 2027."
   }
  ],
  "global_notice": "Modelos de la Generalitat como referencia de nivel. En la UOC 2026: fase específica de 180 min para las dos materias, Comentario 90 min, Castellano e Inglés 105 min en total. Confirmar con la convocatoria UOC 2027."
