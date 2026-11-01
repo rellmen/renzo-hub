@@ -8,15 +8,23 @@ export const START_DAY="2026-10-26";
 export const LAST_WEEK=23;
 export const DIRECTION=Object.freeze(["DHL/ASML (operaciones)","Logistics Data Analyst","Data Engineer","AI Systems Engineer","Nodalys (SaaS B2B)"]);
 
-// Materias de la fase específica: el roadmap v1.0 dice Matemáticas + Economía, pero la opción
-// Ingeniería y Arquitectura de la UOC solo admite Física, Matemáticas y Química (verificado 24-10-2026),
-// y Renzo eligió Matemáticas + Física. Economía queda como complementaria en Academia.
-export const SPECIFIC_SUBJECTS=Object.freeze(["Matemáticas","Física"]);
+// Ruta decidida por Renzo el 01-11-2026 (opción 2): prueba +25 común de Cataluña (Generalitat, presencial),
+// opción E Ingeniería y Arquitectura con Matemáticas + Economía de la Empresa, y Llengua catalana en la
+// fase general. La prueba en español de la UOC no admite Economía en Ingeniería (solo Física, Matemáticas,
+// Química). Física queda como complementaria. La semana 1 (26 oct–1 nov) conserva el plan anterior.
+export const EXAM_ROUTE=Object.freeze({id:"cat-pau25-2027",label:"PAU +25 de Cataluña (presencial)",decidedOn:"2026-11-01",
+ source:"https://universitats.gencat.cat/ca/proves-majors/25-anys/"});
+export const SPECIFIC_SUBJECTS=Object.freeze(["Matemáticas","Economía de la Empresa"]);
+export const GENERAL_SUBJECTS=Object.freeze(["Comentario de texto","Lengua catalana","Lengua castellana","Inglés"]);
+/** Primera semana (índice) con el plan de la opción 2. */
+export const ROUTE_SWITCH_WEEK=1;
 
 const RULE_ERRORS="Anotar errores: concepto, cálculo, lectura o tiempo";
 const STEPS=Object.freeze({
  math:[{id:"leccion",label:"Lección de Matemáticas en Academia",auto:"matematicas"},{id:"practica",label:"Ejercicios sin mirar la solución"},{id:"errores",label:RULE_ERRORS}],
  physics:[{id:"leccion",label:"Lección de Física en Academia",auto:"fisica"},{id:"practica",label:"Problemas con unidades y dibujo"},{id:"errores",label:RULE_ERRORS}],
+ economy:[{id:"leccion",label:"Lección de Economía en Academia",auto:"economia"},{id:"practica",label:"Ejercicios con cifras, sin mirar la solución"},{id:"errores",label:RULE_ERRORS}],
+ catalan:[{id:"estudiar",label:"Estudiar el tema de catalán"},{id:"practica",label:"Ejercicios o texto corregido"},{id:"errores",label:"Anotar errores de catalán"}],
  spanish:[{id:"leccion",label:"Lección de Castellano en Academia",auto:"castellano"},{id:"practica",label:"Ejercicios corregidos"},{id:"errores",label:"Anotar errores de lengua"}],
  comment:[{id:"leer",label:"Leer el texto y marcar tema y tesis"},{id:"redactar",label:"Redactar el comentario"},{id:"corregir",label:"Corregir con la rúbrica"}],
  english:[{id:"vocab",label:"Vocabulario y gramática"},{id:"practica",label:"Reading o writing"},{id:"corregir",label:"Autocorregir y anotar fallos"}],
@@ -25,13 +33,13 @@ const STEPS=Object.freeze({
 });
 
 export const BOSSES=Object.freeze([
- {id:"boss-general-2027",kind:"exam",day:"2027-04-10",weekday:5,subject:"Fase general UOC +25",source:"boss",minutes:0,title:"Examen de la fase general",detail:"Comentario de texto, Castellano e Inglés. Marcar solo después de presentarte.",chapter:5,week:23,steps:STEPS.boss},
- {id:"boss-specific-2027",kind:"exam",day:"2027-04-17",weekday:5,subject:"Fase específica UOC +25",source:"boss",minutes:0,title:"Examen de Matemáticas y Física",detail:"Registra tus resultados cuando sean oficiales, sin dar por hecho el aprobado.",chapter:5,week:23,steps:STEPS.boss}
+ {id:"boss-general-2027",kind:"exam",day:"2027-04-10",weekday:5,subject:"Fase general PAU +25",source:"boss",minutes:0,title:"Examen de la fase general",detail:"Comentario de texto, Catalán, Castellano e Inglés, presencial en Cataluña. Marcar solo después de presentarte.",chapter:5,week:23,steps:STEPS.boss},
+ {id:"boss-specific-2027",kind:"exam",day:"2027-04-17",weekday:5,subject:"Fase específica PAU +25",source:"boss",minutes:0,title:"Examen de Matemáticas y Economía de la Empresa",detail:"Registra tus resultados cuando sean oficiales, sin dar por hecho el aprobado.",chapter:5,week:23,steps:STEPS.boss}
 ]);
 export const CHAPTERS=Object.freeze([
- {name:"Diagnóstico",subtitle:"26 oct – 22 nov 2026",detail:"Diagnóstico en las 5 materias, aritmética y álgebra desde cero, magnitudes y vectores, comprensión."},
- {name:"Fundamentos",subtitle:"23 nov – 20 dic 2026",detail:"Funciones, ecuaciones, porcentajes; cinemática y dinámica."},
- {name:"Consolidar",subtitle:"21 dic – 17 ene 2027",detail:"Problemas, energía y gravitación, 1 texto por semana."},
+ {name:"Diagnóstico",subtitle:"26 oct – 22 nov 2026",detail:"Diagnóstico en las 6 materias, aritmética y álgebra desde cero, empresa y porcentajes, ortografía catalana, comprensión."},
+ {name:"Fundamentos",subtitle:"23 nov – 20 dic 2026",detail:"Funciones, ecuaciones, porcentajes; balance, PyG y análisis financiero; pronombres y verbos en catalán."},
+ {name:"Consolidar",subtitle:"21 dic – 17 ene 2027",detail:"Problemas, financiación e inversiones (VAN, TIR), 1 texto por semana."},
  {name:"Temario completo",subtitle:"18 ene – 14 feb 2027",detail:"Completar temarios y ejercicios tipo examen; corregir errores."},
  {name:"Simulacros",subtitle:"15 feb – 14 mar 2027",detail:"Simulacros semanales y gestión del tiempo."},
  {name:"Rendimiento",subtitle:"15 mar – 17 abr 2027",detail:"2 simulacros por semana. General el 10/04, repaso 12–16/04, específica el 17/04."}
@@ -48,12 +56,13 @@ export const FUTURE_STAGES=Object.freeze([
 // Hitos con fecha límite. Se pueden marcar en cualquier momento (son plazos, no sesiones).
 export const MILESTONES=Object.freeze([
  {id:"h-tablero",group:"Próximos 90 días",due:"2026-11-24",title:"Tablero de estudio y registro de errores",detail:"Días 1–30.",steps:[{id:"tablero",label:"Usar este roadmap como tablero"},{id:"registro",label:"Crear el registro de errores (concepto, cálculo, lectura, tiempo)"}]},
- {id:"h-examenes",group:"Próximos 90 días",due:"2026-11-24",title:"Recopilar exámenes oficiales",detail:"2024 y 2025 con corrección; los de 2026 no se abren hasta el simulacro final.",steps:[{id:"mat",label:"Matemáticas"},{id:"fis",label:"Física"},{id:"gen",label:"Comentario, Castellano e Inglés"}]},
+ {id:"h-examenes",group:"Próximos 90 días",due:"2026-11-24",title:"Recopilar exámenes oficiales",detail:"2024 y 2025 con corrección; los de 2026 no se abren hasta el simulacro final.",steps:[{id:"mat",label:"Matemáticas"},{id:"eco",label:"Economía de la Empresa"},{id:"cat",label:"Llengua catalana"},{id:"gen",label:"Comentario, Castellano e Inglés"}]},
  {id:"h-sql10",group:"Próximos 90 días",due:"2026-12-24",title:"10 consultas SQL con datos ficticios",detail:"Hasta 2 h por semana solo si queda energía tras la PAU.",steps:[{id:"q1",label:"Consultas 1–3: SELECT, WHERE, GROUP BY"},{id:"q2",label:"Consultas 4–7: JOIN"},{id:"q3",label:"Consultas 8–10: CTE y ventanas"}]},
  {id:"h-asml",group:"Trabajo",due:"2026-12-31",title:"Confirmación escrita del scope ASML",detail:"No dar por garantizados salario ni contratación.",steps:[{id:"pedir",label:"Pedir la confirmación por escrito"},{id:"datos",label:"Contrato, salario, funciones, horario y fecha"},{id:"guardar",label:"Guardar la respuesta"}]},
  {id:"h-dia90",group:"Próximos 90 días",due:"2027-01-22",title:"Revisión del día 90",detail:"KPI: ≥80 % de sesiones, ≥2 simulacros, resultado ASML documentado, SQL demostrado.",steps:[{id:"simulacros",label:"Primer simulacro de cada fase"},{id:"debilidades",label:"Identificar 3 debilidades"},{id:"laboral",label:"Decidir estrategia laboral según ASML"},{id:"medir",label:"Medir avance frente al KPI"}]},
  {id:"h-busqueda",group:"Trabajo",due:"2027-01-31",title:"Plan B laboral si ASML no confirma",detail:"Buscar sin renunciar: Inventory Analyst, Logistics Reporting, Stock/Master Data, Junior Logistics Data Analyst. No dejar ingresos sin contrato y colchón.",steps:[{id:"cv",label:"CV con Excel, SQL, Power BI y SAP"},{id:"lista",label:"Lista de 10 ofertas objetivo"},{id:"aplicar",label:"Primeras candidaturas"}]},
- {id:"h-inscripcion",group:"Universidad",due:"2027-03-01",title:"Inscripción PAU +25 UOC",detail:"Comprobar inscripción, elegibilidad, sede y calendario oficial 2027 antes de actuar.",steps:[{id:"convocatoria",label:"Leer la convocatoria 2027"},{id:"materias",label:"Confirmar opción Ingeniería: Matemáticas + Física"},{id:"inscribir",label:"Inscribirme y guardar el justificante"}]},
+ {id:"h-viaje",group:"Universidad",due:"2027-01-31",title:"Reservar el viaje a Cataluña para los exámenes",detail:"La prueba es presencial: sábados 10 y 17 de abril de 2027. Decidir dos viajes o una semana allí; la sede exacta sale en el resguardo de matrícula.",steps:[{id:"plan",label:"Elegir dos viajes o una estancia"},{id:"vacaciones",label:"Pedir los días libres en el trabajo"},{id:"reservar",label:"Reservar transporte y alojamiento"}]},
+ {id:"h-inscripcion",group:"Universidad",due:"2027-02-15",title:"Matrícula PAU +25 en el Portal d'Accés",detail:"Plazo en febrero (en 2026 fue del 19 al 26). Confirmar fechas 2027 antes de actuar; tasas 2026: 41,30 € + 68,70 €.",steps:[{id:"convocatoria",label:"Leer la convocatoria 2027"},{id:"materias",label:"Opción E: Matemáticas + Economía de la Empresa; inglés como lengua extranjera"},{id:"inscribir",label:"Matricularme, pagar y guardar el resguardo con la sede"}]},
  {id:"h-ict",group:"Portfolio",due:"2027-06-30",title:"Inventory Control Tower",detail:"SQL + Power BI: exactitud, stock negativo, antigüedad, discrepancias, rotación. Solo datos ficticios.",steps:[{id:"sql",label:"Consultas SQL verificables"},{id:"dashboard",label:"Dashboard Power BI"},{id:"readme",label:"README en inglés con 3 conclusiones"},{id:"publicar",label:"Publicar en GitHub con capturas"}]},
  {id:"h-matricula",group:"Universidad",due:"2027-10-15",title:"Matrícula universitaria",detail:"Si apruebas: UOC Ingeniería Informática (1–2 asignaturas al empezar). Si no: Open University R88. Reconfirmar condiciones antes de pagar.",steps:[{id:"resultado",label:"Resultado oficial de la PAU"},{id:"programa",label:"Confirmar programa y tasas"},{id:"matricula",label:"Matricularme"}]},
  {id:"h-detector",group:"Portfolio",due:"2027-10-31",title:"Exception Detector",detail:"Python + PostgreSQL + CSV/ETL: ubicaciones anómalas, duplicados, movimientos incoherentes.",steps:[{id:"etl",label:"ETL de CSV a PostgreSQL"},{id:"reglas",label:"Reglas de detección con tests"},{id:"alertas",label:"Registro de errores y alertas"},{id:"readme",label:"README en inglés y demo"}]},
@@ -65,10 +74,23 @@ const PHYSICS=["F00 Unidades y notación científica","F01 Magnitudes y vectores
 const SPANISH=["Ortografía y acentuación","Categorías gramaticales","Sujeto y predicado","Concordancia","Clases de oraciones","Complementos verbales","Ortografía aplicada","Análisis sintáctico básico","Sintaxis: oración simple","Subordinación básica","Puntuación","Análisis lingüístico","Gramática de examen","Ortografía de examen","Sintaxis de examen","Prueba de lengua","Corrección de castellano","Revisión de errores","Lengua y ortografía","Prueba de castellano","Ortografía y sintaxis","Ejercicios incorrectos","Prioridad: 3 fallos","Últimos errores"];
 const COMMENT=["Identificar tema y tesis","Identificar argumentos","Estructura del texto","Primer comentario corregido","Tema, tesis y síntesis","Argumentos y contraargumentos","Coherencia y cohesión","Comentario cronometrado","Análisis de tesis","Argumentación","Comentario semanal","Comentario con rúbrica","Tesis y estructura","Comentario corregido","Comparar dos tesis","Comentario cronometrado","Comentario con rúbrica","Comentario con tiempo","Tesis sin ayuda","Comentario semanal","Comentario bajo tiempo","Argumentación","Estructura final","Síntesis y tesis"];
 const ENGLISH=["Reading: idea general","Presente y pasado","Vocabulario de trabajo","Writing breve","Reading y conectores","Tiempos verbales","Vocabulario técnico","Writing con corrección","Comprensión de textos","Uso correcto de tiempos","Transformación de frases","Simulacro corto de inglés","Reading cronometrado","Writing estructurado","Errores frecuentes de inglés","Prueba de inglés","Reading + writing","Gramática aplicada","Comprensión de examen","Writing de examen","Reading de examen","Correcciones de inglés","Writing final","Repaso y examen general"];
-const TOPICS=Object.freeze({math:MATH,physics:PHYSICS,spanish:SPANISH,comment:COMMENT,english:ENGLISH});
+// Economía: sigue las lecciones B00–B09 de Academia; semanas finales, exámenes tipo y simulacros.
+const ECONOMY=["—","B00 Porcentajes y regla de tres","B01 La empresa y formas jurídicas","B01 Grupos de interés y objetivos","B02 Patrimonio y balance",
+ "B02 Cuenta de pérdidas y ganancias","B02 Balance y PyG: ejercicios","B03 Fondo de maniobra y periodo de maduración","B03 Ratios y rentabilidades",
+ "B03 Análisis completo de estados","B04 Recursos propios y ajenos","B04 Leasing, factoring, renting y amortizaciones","B05 Flujos de caja y payback",
+ "B05 VAN y TIR","B06 DAFO, cadena de valor y ventaja competitiva","B06 Localización, dimensión y crecimiento","B07 Estudio de mercado y marketing mix",
+ "B07 Punto muerto y viabilidad","B08 Examen tipo: elegir 4 de 5","Simulacro de Economía cronometrado","Repaso de errores: análisis financiero",
+ "Simulacro de Economía cronometrado","Repaso de errores: inversiones y punto muerto","Simulacro final de Economía"];
+// Catalán: bloques habituales de la prueba de lengua (sin lecciones en Academia todavía).
+const CATALAN=["—","Diagnòstic: comprensió lectora","Ortografia: accentuació i dièresi","Ortografia: s/ss/c/ç/z","Ortografia: b/v, g/j, h",
+ "Morfologia: articles, contraccions i apòstrof","Pronoms febles (I)","Pronoms febles (II)","Morfologia verbal: present i passat",
+ "Morfologia verbal: subjuntiu i imperatiu","Sintaxi: concordança i preposicions","Lèxic: barbarismes i castellanismes","Comprensió lectora: idea principal",
+ "Expressió escrita: text breu","Pronoms febles (repàs)","Connectors i cohesió","Expressió escrita amb correcció","Comprensió i vocabulari",
+ "Model d'examen 2024","Model d'examen 2025","Repàs d'errors d'ortografia","Model d'examen cronometrat","Repàs de pronoms i verbs","Simulacre final de català"];
+const TOPICS=Object.freeze({math:MATH,physics:PHYSICS,economy:ECONOMY,catalan:CATALAN,spanish:SPANISH,comment:COMMENT,english:ENGLISH});
 
-// Semana tipo (12 h + 30 min): lunes=0 … domingo=6. Viernes libre.
-const PATTERN=Object.freeze([
+// Semana tipo de la ruta anterior (12 h + 30 min), solo para la semana 1: lunes=0 … domingo=6. Viernes libre.
+const PATTERN_V1=Object.freeze([
  {day:0,key:"math_a",subject:"Matemáticas",minutes:90,source:"math",action:"Estudiar y resolver ejercicios"},
  {day:1,key:"physics_a",subject:"Física",minutes:90,source:"physics",action:"Estudiar y resolver problemas"},
  {day:2,key:"math_b",subject:"Matemáticas",minutes:90,source:"math",action:"Practicar sin mirar soluciones"},
@@ -81,6 +103,25 @@ const PATTERN=Object.freeze([
  {day:6,key:"english_b",subject:"Inglés",minutes:60,source:"english",action:"Leer, escribir y autocorregir"},
  {day:6,key:"review",subject:"Revisión semanal",minutes:30,source:"review",action:"Mini test y registro de errores"}
 ]);
+// Semana tipo de la opción 2 (13 h): pesos por nota. Las específicas valen la mitad de la nota final
+// (Matemáticas 3 h 30, Economía 3 h); cada examen de la general vale 1/8 (1 h 30 cada uno). Viernes libre.
+const PATTERN_V2=Object.freeze([
+ {day:0,key:"math_a",subject:"Matemáticas",minutes:90,source:"math",action:"Estudiar y resolver ejercicios"},
+ {day:1,key:"economy_a",subject:"Economía de la Empresa",minutes:90,source:"economy",action:"Estudiar y resolver ejercicios"},
+ {day:2,key:"math_b",subject:"Matemáticas",minutes:60,source:"math",action:"Practicar sin mirar soluciones"},
+ {day:2,key:"catalan_a",subject:"Lengua catalana",minutes:30,source:"catalan",action:"Estudiar el tema y hacer ejercicios"},
+ {day:3,key:"spanish_a",subject:"Castellano",minutes:60,source:"spanish",action:"Estudiar y corregir ejercicios"},
+ {day:3,key:"catalan_b",subject:"Lengua catalana",minutes:30,source:"catalan",action:"Practicar y corregir"},
+ {day:5,key:"economy_b",subject:"Economía de la Empresa",minutes:90,source:"economy",action:"Ejercicios tipo examen"},
+ {day:5,key:"commentary",subject:"Comentario de texto",minutes:90,source:"comment",action:"Redactar y corregir un comentario"},
+ {day:5,key:"english_a",subject:"Inglés",minutes:30,source:"english",action:"Repasar vocabulario y gramática"},
+ {day:6,key:"math_c",subject:"Matemáticas",minutes:60,source:"math",action:"Resolver problemas y explicar errores"},
+ {day:6,key:"spanish_b",subject:"Castellano",minutes:30,source:"spanish",action:"Repasar errores de lengua"},
+ {day:6,key:"catalan_c",subject:"Lengua catalana",minutes:30,source:"catalan",action:"Repasar errores de catalán"},
+ {day:6,key:"english_b",subject:"Inglés",minutes:60,source:"english",action:"Leer, escribir y autocorregir"},
+ {day:6,key:"review",subject:"Revisión semanal",minutes:30,source:"review",action:"Mini test y registro de errores"}
+]);
+export const patternForWeek=(week)=>week<ROUTE_SWITCH_WEEK?PATTERN_V1:PATTERN_V2;
 
 export function dayOffset(day,n){if(!/^\d{4}-\d{2}-\d{2}$/.test(day))throw Error("Fecha inválida");const d=new Date(day+"T12:00:00Z");if(Number.isNaN(d.getTime()))throw Error("Fecha inválida");d.setUTCDate(d.getUTCDate()+n);return d.toISOString().slice(0,10);}
 export function localDate(d=new Date()){return [d.getFullYear(),String(d.getMonth()+1).padStart(2,"0"),String(d.getDate()).padStart(2,"0")].join("-");}
@@ -88,7 +129,7 @@ export function weekForDate(day){const t=Date.parse(day+"T12:00:00Z");if(!Number
 export function weekStart(week){if(!Number.isInteger(week)||week<0||week>LAST_WEEK)throw Error("Semana inválida");return dayOffset(START_DAY,week*7);}
 export function tasksForWeek(week){
  const start=weekStart(week),chapter=Math.floor(week/4);
- return PATTERN.map(p=>({id:"w"+String(week+1).padStart(2,"0")+"-"+p.key,kind:"session",day:dayOffset(start,p.day),weekday:p.day,subject:p.subject,source:p.source,minutes:p.minutes,
+ return patternForWeek(week).map(p=>({id:"w"+String(week+1).padStart(2,"0")+"-"+p.key,kind:"session",day:dayOffset(start,p.day),weekday:p.day,subject:p.subject,source:p.source,minutes:p.minutes,
   title:p.action,detail:p.source==="review"?"Nota, tiempo, aciertos y tres errores prioritarios":TOPICS[p.source][week],chapter,week,steps:STEPS[p.source]}));
 }
 let ALL=null;

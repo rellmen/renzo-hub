@@ -1,8 +1,8 @@
 {
-  "release": "2.55.2",
-  "name": "Rise · Fase A: CSP en producción, smoke Nocturne y aviso de nóminas anómalas",
+  "release": "2.56.0",
+  "name": "Rise · Fase B: ruta PAU +25 catalana (Matemáticas + Economía, catalán)",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",
-  "updated": "2026-10-31"
+  "updated": "2026-11-01"
 }

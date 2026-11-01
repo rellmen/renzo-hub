@@ -17,13 +17,13 @@ const CHECK=process.argv.includes("--check");
 
 const COURSE_META={
   matematicas:{title:"Matemáticas",role:"especifica",role_label:"Específica 1 · troncal",exam_profile:"math_2026_cat_ref",models_url:"https://universitats.gencat.cat/ca/proves-majors/25-anys/models-examen/matematiques/"},
-  economia:{title:"Economía de la Empresa",role:"complementaria",role_label:"Complementaria · no cuenta para Ingeniería en la UOC",exam_profile:"economia_2026_cat_ref",models_url:"https://universitats.gencat.cat/es/proves-majors/25-anys/models-examen/"},
+  economia:{title:"Economía de la Empresa",role:"especifica",role_label:"Específica 2 · opción E de la prueba catalana (Matemáticas + Economía)",exam_profile:"economia_2026_cat_ref",models_url:"https://universitats.gencat.cat/es/proves-majors/25-anys/models-examen/"},
   castellano:{title:"Lengua castellana",role:"general",role_label:"Fase general",exam_profile:"castellano_2026_cat_ref",models_url:"https://universitats.gencat.cat/ca/proves-majors/25-anys/models-examen/llengua-castellana/"},
   comentario:{title:"Comentario de texto",role:"general",role_label:"Fase general",exam_profile:"comment_2026_cat_ref",models_url:"https://universitats.gencat.cat/ca/proves-majors/25-anys/models-examen/comentari-de-text/"},
   ingles:{title:"Inglés",role:"general",role_label:"Fase general",exam_profile:"english_2026_cat_ref",models_url:"https://universitats.gencat.cat/ca/proves-majors/25-anys/models-examen/angles/"},
-  fisica:{title:"Física",role:"especifica",role_label:"Específica 2 · Ingeniería (Matemáticas + Física)",exam_profile:"physics_2026_cat_ref",models_url:"https://universitats.gencat.cat/ca/proves-majors/25-anys/models-examen/fisica/"},
+  fisica:{title:"Física",role:"complementaria",role_label:"Complementaria · ruta anterior (prueba UOC en español)",exam_profile:"physics_2026_cat_ref",models_url:"https://universitats.gencat.cat/ca/proves-majors/25-anys/models-examen/fisica/"},
 };
-const COURSE_ORDER=["matematicas","fisica","castellano","comentario","ingles","economia"];
+const COURSE_ORDER=["matematicas","economia","castellano","comentario","ingles","fisica"];
 const STATUSES=["planned","draft","reviewed","ready","published"];
 const KINDS=["multiple_choice","numeric","short_text","essay"];
 const ID_RE=/^[a-z0-9-]{3,64}$/;
@@ -266,8 +266,8 @@ export function build(){
     if(!allIds.has(q.lesson_id))fail(`${q.id}: lección ${q.lesson_id} inexistente`);}
   const catalog={schema_version:"academia-1",generated_from:"content/academia",exam_dates:{
       general:"2027-04-10",especifica:"2027-04-17",source:"https://universitats.gencat.cat/es/proves-majors/25-anys/",
-      note:"Fechas de la Generalitat para 2027 (consulta 24-10-2026). La UOC fija las suyas: en 2026 fueron el 11 y 12 de abril, en línea. Confirmar la convocatoria UOC 2027."},
-    elective:{chosen:"fisica",alternative:"economia",confirmed:true,note:"Ingeniería (UOC 2026): específicas entre Física, Matemáticas y Química. Economía de la Empresa no es opción para Ingeniería: queda como complementaria."},
+      note:"Fechas de la Generalitat para 2027 (comprobadas el 01-11-2026); horarios pendientes de publicar."},
+    elective:{chosen:"economia",alternative:"fisica",confirmed:true,note:"Decisión de Renzo 01-11-2026: PAU +25 común de Cataluña (presencial, con Llengua catalana), opción E con Matemáticas + Economía de la Empresa. La prueba en español de la UOC no admite Economía en Ingeniería; Física queda como complementaria."},
     courses,stats:{...stats,questions_total:all.length,exit_questions:Object.values(exitQs).flat().length,bank_questions:bank.length}};
   const files={};
   files["catalog.json"]=JSON.stringify(catalog,null,1)+"\n";

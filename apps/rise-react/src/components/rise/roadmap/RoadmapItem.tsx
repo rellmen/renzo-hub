@@ -5,7 +5,7 @@ import {localDate,type StepState} from "@/lib/career-path.mjs";
 
 type Item={id:string;kind?:"session"|"exam"|undefined;source?:string|undefined;day?:string|undefined;due?:string|undefined;subject?:string|undefined;minutes?:number|undefined;title:string;detail:string;steps:StepState[];done:boolean;doneSteps:number;totalSteps:number};
 const fmtDay=(d:string)=>new Date(d+"T12:00:00Z").toLocaleDateString("es-ES",{timeZone:"UTC",weekday:"short",day:"numeric",month:"short"});
-const ACADEMY_COURSE:Record<string,string>={math:"matematicas",physics:"fisica",spanish:"castellano",comment:"comentario",english:"ingles"};
+const ACADEMY_COURSE:Record<string,string>={math:"matematicas",physics:"fisica",economy:"economia",spanish:"castellano",comment:"comentario",english:"ingles"};
 
 /** Tarea (o hito) con sus subtareas marcables. */
 export function RoadmapItem({item,busy,disabled,onStep,onAll,open:openDefault=false,showDay=false}:{item:Item;busy:boolean;disabled:boolean;
