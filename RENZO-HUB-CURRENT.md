@@ -1,5 +1,15 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## Gastos ordenado e importación clara · 4 noviembre 2026
+
+Release React 2.61.0. Petición de Renzo (04-11-2026): no podía subir los extractos mensuales de ING y Revolut y la lista de Gastos era interminable.
+
+- **Diagnóstico:** el lector funciona con CSV de ING y PDF/CSV de Revolut (probado en Chromium con la CSP de producción y los ficheros ficticios). Fallaba con otros formatos: el PDF mensual de ING se trataba como Revolut ("No parece un extracto de Revolut" o "ya importado" con 0 movimientos) y el Excel de Revolut no se podía ni elegir.
+- **Importador:** detecta PDF de ING, Excel, PDF escaneado o sin movimientos y explica qué archivo descargar; ayuda plegable por banco. Sin cambios de datos.
+- **Gastos:** apartados en pestañas (Categorías, Coche, Tickets, Reglas, Importar; `#coche` sigue funcionando desde /car). Movimientos agrupados por categoría y plegables, con total y número; "Sin categoría" abierta primero. El selector de categoría aparece solo al tocar un movimiento. Se quita el límite de 200 filas.
+- Pruebas: `tests/react-bank-import-native.test.mjs` 5/5, vitest 127/127, tsc OK, build OK; captura iPhone 13 (WebKit no instalado aquí: Chromium con emulación).
+- No verificado: con los extractos reales de octubre de Renzo.
+
 ## Notificaciones push · 2 noviembre 2026
 
 Release React 2.60.0. **Decisión de Renzo (02-11-2026):** aviso al momento de cada cosa nueva y un resumen diario de lo pendiente, a cualquier hora; claves creadas por Claude sin mostrarlas.
