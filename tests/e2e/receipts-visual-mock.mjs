@@ -90,7 +90,7 @@ try{
   await page.getByLabel('Contraseña').fill('qa-mock-only-password');
   await page.getByRole('button',{name:'Entrar'}).click();
   await page.getByRole('heading',{name:'Tu espacio privado.'}).waitFor({state:'hidden',timeout:20000});
-  await page.goto(origin+'/gastos',{waitUntil:'domcontentloaded'});
+  await page.goto(origin+'/gastos#tickets',{waitUntil:'domcontentloaded'});
   const panel=page.getByTestId('receipts');await panel.waitFor({timeout:30000});
   await page.getByLabel('Foto del ticket').setInputFiles({name:'ticket.png',mimeType:'image/png',buffer:photo});
   // Lectura real en el navegador.
