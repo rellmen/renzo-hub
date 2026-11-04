@@ -1,5 +1,14 @@
 # Checklist de release · Renzo HUB
 
+> **Flujo vigente de Nocturne (verificado 27-10-2026; prevalece sobre el resto de este archivo, que describe Classic):**
+> 1. `feature/*` → PR a `staging` (preview en `renzo-hub-2-1-staging`, Supabase staging).
+> 2. Con OK explícito de Renzo: PR `staging` → `production`, solo con CI en verde en el último commit.
+> 3. Vercel `rise-hub-nocturne-qa` construye la rama `production` (target production, Supabase producción). Los merges a `staging` ya **no** publican producción.
+> 4. El dominio `renzo-hub.vercel.app` **no se mueve solo**: comprobar en el despliegue nuevo `/api/deployment-info` (SHA) y `/api/supabase-config` (producción) a través de `rise-hub-nocturne-qa.vercel.app`, y después asignar el alias. Anotar el despliegue anterior como rollback.
+> 5. Tras mover el dominio: `/api/deployment-info` en `renzo-hub.vercel.app` y smoke sin cuentas (`tests/e2e/react-auth-smoke.mjs`).
+> 6. Una sola IA publica cada vez: antes de mover el alias, comprobar qué sirve producción para no pisar otra publicación.
+> `main` y el proyecto `rise-hub` quedan solo para Classic de respaldo.
+
 Flujo único: `feature/*` → PR a `staging` → validar → PR `staging` → `main` → producción (Vercel publica `main` automáticamente).
 Nada se publica por CLI. Renzo fusiona los PR; Claude prepara y verifica.
 
