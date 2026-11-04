@@ -32,3 +32,24 @@ test("Money UI keeps bank importer behind explicit confirmation and refreshes re
  assert.match(src,/saveBankStatement\(client,uid,preview\)/);
  assert.match(money,/<BankStatementImport\/>/);
 });
+test("Import explains wrong formats instead of failing silently (ING PDF, Excel, empty)",async()=>{
+ const {bankFileKind,looksLikeIngPdf,ING_PDF_HELP,EXCEL_HELP}=await import("../apps/rise-react/src/lib/bank-import-client.mjs");
+ const db={from:()=>({select:()=>({eq:()=>({in:async()=>({data:[],error:null})})})})};
+ assert.equal(bankFileKind({name:"Statement.XLSX",type:""}),"excel");
+ assert.equal(bankFileKind({name:"afschrift.pdf",type:""}),"pdf");
+ assert.equal(bankFileKind({name:"NL04INGB.csv",type:""}),"csv");
+ assert.equal(bankFileKind({name:"x.heic",type:"image/heic"}),"unknown");
+ await assert.rejects(previewBankStatement(db,UID,{name:"revolut.xlsx",size:10,type:""}),e=>e.message===EXCEL_HELP);
+ const row=s=>({items:[{s,x:10}]});
+ assert.equal(looksLikeIngPdf([row("ING Bank N.V."),row("Rekeningoverzicht oktober"),row("Revolut**1591* Dublin")]),true);
+ assert.equal(looksLikeIngPdf([row("Revolut Bank UAB (Netherlands Branch)"),row("IBAN: NL93INGB0116834846")]),false);
+ assert.match(ING_PDF_HELP,/CSV/);
+ const empty='Date;Name / Description;Account;Debit/credit;Amount (EUR)\n';
+ await assert.rejects(previewBankStatement(db,UID,{name:"ing.csv",size:empty.length,type:"text/csv",text:async()=>empty}),/movimiento/);
+});
+test("Gastos: categories collapse, tabs keep #coche and the importer is reachable",()=>{
+ const src=readFileSync(new URL("../apps/rise-react/src/routes/gastos.tsx",import.meta.url),"utf8");
+ assert.match(src,/<details key=\{g\.id\+month\} open=\{g\.id==="sin_categoria"\}/);
+ assert.match(src,/id:"coche"/);assert.match(src,/<BankStatementImport\/>/);
+ assert.doesNotMatch(src,/slice\(0,200\)/);
+});

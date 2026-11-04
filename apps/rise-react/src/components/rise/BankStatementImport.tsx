@@ -44,7 +44,7 @@ export function BankStatementImport(){
   <div className="mt-4 space-y-4">
    <label className="flex min-h-14 cursor-pointer items-center gap-3 rounded-xl border border-dashed border-money/40 bg-raised px-4 py-3 text-sm">
     <FileUp className="h-5 w-5 text-money"/><span>{phase==="reading"?"Leyendo extracto…":"Seleccionar extracto CSV/PDF (máximo 5 MB)"}</span>
-    <input type="file" accept=".csv,.pdf,text/csv,application/pdf" className="sr-only" disabled={!uid||phase==="reading"||phase==="saving"}
+    <input type="file" accept=".csv,.txt,.pdf,.xlsx,.xls,text/csv,text/comma-separated-values,application/pdf" className="sr-only" disabled={!uid||phase==="reading"||phase==="saving"}
      onChange={e=>{void inspect(e.currentTarget.files?.[0]);e.currentTarget.value="";}}/>
    </label>
    {preview&&<div className="space-y-3 rounded-xl border border-hairline p-4">
@@ -68,8 +68,16 @@ export function BankStatementImport(){
       onClick={()=>{setPreview(null);setPhase("idle");setError("");}}>Cancelar</button>
     </div>
    </div>}
-   {error&&<p role="alert" className="text-sm text-gym">{error}</p>}
+   {error&&<p role="alert" className="flex gap-2 rounded-xl border border-gym/40 p-3 text-sm text-gym"><AlertTriangle className="mt-0.5 h-4 w-4 shrink-0"/><span>{error}</span></p>}
    {notice&&<p role="status" className="flex gap-2 text-sm text-money"><CheckCircle2 className="h-4 w-4 shrink-0"/>{notice}</p>}
+   <details className="rounded-xl border border-hairline p-3 text-xs text-platinum/80">
+    <summary className="cursor-pointer font-semibold text-foreground">Qué archivo descargar de cada banco</summary>
+    <ul className="mt-2 list-disc space-y-1 pl-4">
+     <li><strong>ING:</strong> el PDF mensual (afschrift) no sirve. En Mijn ING o en la app: cuenta → «Af- en bijschrijvingen downloaden» → mes → formato CSV.</li>
+     <li><strong>Revolut:</strong> Cuenta → Extractos → periodo del mes → formato <strong>PDF</strong> (Excel no sirve).</li>
+     <li>Importar el mismo mes dos veces no duplica nada.</li>
+    </ul>
+   </details>
    <p className="text-xs text-muted-foreground">Los registros se deduplican por identificador estable. Las referencias a nómina no implican que el cobro esté conciliado.</p>
   </div>
  </SectionCard>;
