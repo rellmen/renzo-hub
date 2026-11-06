@@ -1,8 +1,8 @@
 {
-  "release": "2.60.0",
-  "name": "Rise · Notificaciones push",
+  "release": "2.61.0",
+  "name": "Rise · Gastos ordenado e importación clara",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",
-  "updated": "2026-11-02"
+  "updated": "2026-11-04"
 }
