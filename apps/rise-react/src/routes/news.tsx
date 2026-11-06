@@ -25,8 +25,8 @@ function News(){
  const submit=(e:FormEvent<HTMLFormElement>)=>{e.preventDefault();save.mutate(Object.fromEntries(new FormData(e.currentTarget)) as Record<string,string>);};
  const rows=q.data?filterBriefs(q.data,{source,text}):[];
  return <div className="space-y-6">
-  <PageHeader eyebrow="ACADEMY · BIBLIOTECA" title="News"
-   subtitle="Resumen de noticias registrado en tu cuenta de Rise. No se muestran titulares ni acontecimientos inventados."/>
+  <PageHeader eyebrow="ACADEMY · BIBLIOTECA" title="Biblioteca"
+   subtitle="Tus resúmenes de noticias y lecturas."/>
   <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-platinum/75">
    <span><ShieldCheck className="mr-2 inline h-4 w-4 text-gold"/>Datos guardados en Supabase</span>
    <div className="flex gap-2">

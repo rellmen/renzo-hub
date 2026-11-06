@@ -5,6 +5,7 @@ import {Pause,Play,RefreshCw,RotateCcw,Timer,Dumbbell,Plus,Minus,TrendingUp,Trop
 import img from "@/assets/gym.jpg";
 import {pageHead} from "@/lib/seo";
 import {PageHero} from "@/components/rise/PageHero";
+import {SubTabs,useSubTab} from "@/components/rise/SubTabs";
 import {SectionCard,EmptyState} from "@/components/rise/primitives";
 import {ProgressRing} from "@/components/rise/ProgressRing";
 import {fmt,useCountdown} from "@/components/rise/FocusTimer";
@@ -20,7 +21,11 @@ export const Route=createFileRoute("/gym")({
 });
 function number(n:number){return new Intl.NumberFormat("es-ES",{maximumFractionDigits:1}).format(n);}
 function errorText(e:unknown){return e instanceof Error?e.message:"No se pudo cargar el historial.";}
+/** Gym en tres pestañas (6-11-2026): Entrenar (sesión y descanso), Plan y Progreso (cifras, historial y fotos). */
+const TABS=[{id:"entrenar",label:"Entrenar"},{id:"plan",label:"Plan"},{id:"progreso",label:"Progreso"}] as const;
+
 function Gym(){
+  const [tab,go]=useSubTab(TABS,"entrenar");
   const {client,user}=useAuth();
   const rest=useCountdown(90);
   const qc=useQueryClient();
@@ -66,18 +71,18 @@ function Gym(){
   return <div className="space-y-6">
     <PageHero image={img} eyebrow="BODY · GYM"
       title="Más fuerte cada día."
-      subtitle="Entrenamientos y progreso registrados en tu cuenta real, sin repeticiones ni cargas inventadas."
+      subtitle="Entrena, registra y supérate."
       color="var(--gym)" priority />
-    {records.error&&<p role="alert" className="surface border border-gym/40 p-5 text-sm text-gym">{errorText(records.error)}. No se muestran datos simulados.</p>}
+    {records.error&&<p role="alert" className="surface border border-gym/40 p-5 text-sm text-gym">{errorText(records.error)}.</p>}
     {records.isLoading&&<p role="status" className="surface p-6">Cargando tu historial de entrenamiento…</p>}
     {d&&<>
-      <div className="flex items-center justify-between gap-3">
-        <p className="text-xs text-muted-foreground">Sesiones reales guardadas en Supabase. Una sesión activa a la vez.</p>
-        <button type="button" className="btn-ghost" onClick={()=>void records.refetch()} disabled={records.isFetching}>
-          <RefreshCw className={"h-4 w-4 "+(records.isFetching?"animate-spin":"")}/>Actualizar
+      <div className="flex items-center gap-2">
+        <div className="min-w-0 flex-1"><SubTabs tabs={TABS} value={tab} onChange={go} label="Apartados de Gym" accent="var(--gym)"/></div>
+        <button type="button" className="btn-ghost shrink-0" aria-label="Actualizar entrenamientos" onClick={()=>void records.refetch()} disabled={records.isFetching}>
+          <RefreshCw className={"h-4 w-4 "+(records.isFetching?"animate-spin":"")}/>
         </button>
       </div>
-      <section className="grid grid-cols-2 gap-3 lg:grid-cols-4" aria-label="Estadísticas reales de entrenamiento">
+      {tab==="progreso"&&<section className="grid grid-cols-2 gap-3 lg:grid-cols-4" aria-label="Estadísticas de entrenamiento">
         {[
           {label:"Sesiones completadas",value:String(d.completedCount)},
           {label:"Sesiones esta semana",value:String(d.weekCount)},
@@ -87,8 +92,9 @@ function Gym(){
           <p className="text-xs text-muted-foreground">{k.label}</p>
           <p className="mt-3 font-display text-3xl text-foreground">{k.value}</p>
         </div>)}
-      </section>
-      <SectionCard eyebrow="Registro de entrenamiento" title={current?"Tu sesión en curso":"Iniciar una sesión real"} accent="var(--gym)">
+      </section>}
+      {tab==="entrenar"&&<>
+      <SectionCard eyebrow="Registro de entrenamiento" title={current?"Tu sesión en curso":"Iniciar una sesión"} accent="var(--gym)">
         {!current&&d.plan.length>0&&<div className="flex flex-col gap-4 sm:flex-row sm:items-end">
           <label className="flex-1 space-y-2 text-sm">Día de tu plan
             <select className="min-h-12 w-full rounded-xl border border-hairline bg-obsidian px-3 text-foreground"
@@ -159,7 +165,7 @@ function Gym(){
         </p>}
       </SectionCard>
       <div className="grid gap-6 lg:grid-cols-[1.6fr_1fr]">
-        <SectionCard eyebrow={<span className="text-gym">Sesión real</span>} title={d.current?"Entrenamiento en curso":"Último entrenamiento terminado"} accent="var(--gym)">
+        <SectionCard eyebrow={<span className="text-gym">Sesión</span>} title={d.current?"Entrenamiento en curso":"Último entrenamiento terminado"} accent="var(--gym)">
           {!(d.current||d.lastCompleted)&&<EmptyState icon={<Dumbbell className="h-5 w-5"/>} title="Sin entrenamientos registrados" text="Tu primera sesión aparecerá al guardarla en Rise."/>}
           {(d.current||d.lastCompleted)&&(()=>{
             const s=d.current||d.lastCompleted!;
@@ -209,11 +215,10 @@ function Gym(){
               </button>
             </div>
           </div>
-          <p className="text-center text-xs text-muted-foreground">Temporizador local; no modifica ninguna sesión.</p>
         </SectionCard>
       </div>
-      <div className="grid gap-6 lg:grid-cols-2">
-        <SectionCard eyebrow="Programa de entrenamiento" title="Tu plan almacenado" accent="var(--gym)">
+      </>}
+      {tab==="plan"&&<SectionCard eyebrow="Programa de entrenamiento" title="Tu plan almacenado" accent="var(--gym)">
           {d.plan.length===0&&<EmptyState icon={<Dumbbell className="h-5 w-5"/>}
             title="Sin plan guardado" text="El plan existente aparecerá cuando esté disponible en Gym."/>}
           {d.plan.length>0&&<ul className="space-y-3">
@@ -223,8 +228,8 @@ function Gym(){
               <p className="mt-1 text-xs text-muted-foreground">{Array.isArray(day[2])?day[2].length:0} ejercicios · Cardio {day[1]||"no definido"}</p>
             </li>)}
           </ul>}
-          <p className="mt-4 text-xs text-muted-foreground">Puedes iniciar y guardar sesiones desde esta versión React. La edición avanzada del plan y la sincronización simultánea entre dispositivos siguen pendientes de validación.</p>
-        </SectionCard>
+        </SectionCard>}
+      {tab==="progreso"&&<div className="grid gap-6 lg:grid-cols-2">
         <SectionCard eyebrow="Historial" title="Sesiones recientes" accent="var(--gym)">
           {recent.length===0&&<p className="text-sm text-muted-foreground">No existen sesiones completadas en los registros consultados.</p>}
           <ol className="divide-y divide-hairline">
@@ -234,8 +239,8 @@ function Gym(){
             </li>)}
           </ol>
         </SectionCard>
-      </div>
-      <GymProgressPhotos/>
+        <GymProgressPhotos/>
+      </div>}
     </>}
   </div>;
 }

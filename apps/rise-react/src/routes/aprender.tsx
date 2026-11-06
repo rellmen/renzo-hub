@@ -2,7 +2,8 @@ import {createFileRoute,useNavigate} from "@tanstack/react-router";
 import {useQuery} from "@tanstack/react-query";
 import {useState} from "react";
 import {UocEnglishPanel} from "@/components/rise/UocEnglishPanel";
-import {BookOpen,Check,LockKeyhole,RefreshCw,ShieldCheck} from "lucide-react";
+import {BookOpen,Check,ChevronDown,LockKeyhole,RefreshCw} from "lucide-react";
+import {SubTabs,useSubTab} from "@/components/rise/SubTabs";
 import img from "@/assets/learn.jpg";
 import {pageHead} from "@/lib/seo";
 import {useAuth} from "@/lib/auth/AuthProvider";
@@ -20,12 +21,14 @@ import {COURSES,completedUnitIds,levelProgress,nextUnit} from "@/lib/legacy-self
 type CourseId="nl"|"en";
 /** Idiomas = un solo apartado: Neerlandés B2 · Inglés C1 (SelfLearn) · Inglés del examen UOC (Academia). Solo UI. */
 type Tab=CourseId|"uoc";
-const TABS:{id:Tab;label:string}[]=[{id:"nl",label:"Neerlandés · B2"},{id:"en",label:"Inglés · C1"},{id:"uoc",label:"Inglés · examen UOC"}];
+const TABS:readonly {id:Tab;label:string}[]=[{id:"nl",label:"Neerlandés · B2"},{id:"en",label:"Inglés · C1"},{id:"uoc",label:"Inglés · examen UOC"}];
 export const Route=createFileRoute("/aprender")({
   head:()=>pageHead("Idiomas","Neerlandés B2, inglés C1 e inglés del examen UOC +25 en un solo apartado."),
   validateSearch:(s:Record<string,unknown>):{idioma?:Tab|undefined}=>({idioma:TABS.some(t=>t.id===s["idioma"])?s["idioma"] as Tab:undefined}),
   component:SelfLearn,
 });
+/** Dentro de cada idioma (6-11-2026): practicar primero; tutor y ruta del curso en su propia pestaña. */
+const MODES=[{id:"practicar",label:"Practicar"},{id:"tutor",label:"Tutor"},{id:"ruta",label:"Ruta y progreso"}] as const;
 const err=(e:unknown)=>e instanceof Error?e.message:"No se pudo recuperar tu progreso.";
 function SelfLearn(){
   const {client,user}=useAuth();
@@ -33,6 +36,7 @@ function SelfLearn(){
   const navigate=useNavigate({from:"/aprender"});
   const course:CourseId=tab==="uoc"?"en":tab;
   const [showAll,setShowAll]=useState(false);
+  const [mode,setMode]=useSubTab(MODES,"practicar");
   const uid=user?.id||"";
   const backendReady=useSelfLearnCapabilities(client,uid);
   const awardsAvailable=officialSelfLearnAwardsEnabled(import.meta.env["VITE_ENABLE_SELFLEARN_AWARDS"]==="true",{
@@ -53,41 +57,30 @@ function SelfLearn(){
   return <div className="space-y-6">
     <PageHero image={img} eyebrow="IDIOMAS"
       title="Aprende sin límites."
-      subtitle="Neerlandés B2, inglés C1 e inglés del examen UOC +25 en un solo apartado. Cada curso conserva su progreso donde siempre. Sin ejercicios inventados."
-      color="var(--learn)" priority>
-      <div className="flex flex-wrap gap-2">
-        <span className="inline-flex items-center gap-2 rounded-full border border-learn/35 bg-ink/70 px-4 py-2 text-xs text-platinum/90">
-          <ShieldCheck className="h-4 w-4 text-learn"/> Progreso privado
-        </span>
-        <span className="rounded-full border border-hairline bg-ink/60 px-4 py-2 text-xs text-platinum/75">
-          {awardsAvailable?"XP y FSRS en pruebas en staging; validación multidispositivo pendiente":"Prácticas guardables disponibles; XP y FSRS continúan en versión clásica"}
-        </span>
-      </div>
-    </PageHero>
+      subtitle="Neerlandés B2, inglés C1 e inglés del examen UOC +25."
+      color="var(--learn)" priority/>
     {tab!=="uoc"&&snapshot.error&&<p role="alert" className="surface border border-gym/40 p-4 text-sm text-gym">
       {err(snapshot.error)}.
     </p>}
     {tab!=="uoc"&&snapshot.isLoading&&<p role="status" className="surface p-5">Cargando tu historial de idiomas…</p>}
-    <div className="flex flex-wrap items-center justify-between gap-3">
-      <div role="tablist" aria-label="Idioma" className="flex max-w-full flex-wrap gap-1 rounded-3xl border border-hairline bg-obsidian p-1 sm:rounded-full">
-        {TABS.map(t=><button key={t.id} type="button" role="tab" aria-selected={tab===t.id}
-          className={"min-h-11 rounded-full px-4 text-sm font-semibold "+(tab===t.id?"bg-learn/20 text-foreground ring-1 ring-learn/50":"text-muted-foreground")}
-          onClick={()=>{void navigate({search:{idioma:t.id},replace:true});setShowAll(false);}}>
-          {t.label}
-        </button>)}
-      </div>
-      {tab!=="uoc"&&<button type="button" className="btn-ghost" onClick={()=>void snapshot.refetch()} disabled={snapshot.isFetching}>
-        <RefreshCw className={"h-4 w-4 "+(snapshot.isFetching?"animate-spin":"")}/> Actualizar
+    <div className="flex items-center gap-2">
+      <div className="min-w-0 flex-1"><SubTabs tabs={TABS} value={tab} label="Idioma" accent="var(--learn)"
+        onChange={t=>{void navigate({search:{idioma:t},replace:true});setShowAll(false);}}/></div>
+      {tab!=="uoc"&&<button type="button" className="btn-ghost shrink-0" aria-label="Actualizar progreso" onClick={()=>void snapshot.refetch()} disabled={snapshot.isFetching}>
+        <RefreshCw className={"h-4 w-4 "+(snapshot.isFetching?"animate-spin":"")}/>
       </button>}
     </div>
     {tab==="uoc"&&<UocEnglishPanel/>}
-    {data&&tab!=="uoc"&&<>
+    {data&&tab!=="uoc"&&<SubTabs tabs={MODES} value={mode} onChange={setMode} label="Apartados del curso" accent="var(--learn)"/>}
+    {data&&tab!=="uoc"&&mode==="practicar"&&<>
       {data&&<SelfLearnVocabularyReview key={uid+course} client={client} uid={uid} course={course}
         cards={data.vocabulary} legacyActive={!!data.learningRuns[course]}/>}
       <SelfLearnCheckpointPractice key={uid+course} client={client} uid={uid} course={course}
         nextUnitId={next?.id||null}
         legacyRun={data.learningRuns[course]}/>
-      <SelfLearnTutor key={uid+"-"+course} course={course}/>
+    </>}
+    {data&&tab!=="uoc"&&mode==="tutor"&&<SelfLearnTutor key={uid+"-"+course} course={course}/>}
+    {data&&tab!=="uoc"&&mode==="ruta"&&<>
       <div className="grid gap-6 lg:grid-cols-[1.65fr_1fr]">
         <SectionCard eyebrow={selected.name+" · nivel objetivo "+data.goals[course]}
           title="Ruta de aprendizaje" accent="var(--learn)">
@@ -95,7 +88,7 @@ function SelfLearn(){
           {next&&<div className="mb-5 flex items-start gap-4 rounded-2xl border border-learn/40 bg-learn/[0.08] p-4">
             <div className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-learn/20 text-learn"><BookOpen className="h-5 w-5"/></div>
             <div className="min-w-0 flex-1">
-              <p className="eyebrow text-learn">Siguiente unidad del curso real</p>
+              <p className="eyebrow text-learn">Siguiente unidad</p>
               <p className="mt-1 font-display text-xl">{next.title}</p>
               <p className="mt-1 text-xs text-muted-foreground">{next.level} · {next.topic}</p>
               <p className="mt-2 text-xs text-muted-foreground">{awardsAvailable?"Puedes guardar checkpoints y solicitar la acreditación tras completar una lección. Función de pruebas: se confirmará únicamente con Supabase.":"Ahora puedes practicar ejercicios reales y guardar checkpoints; el progreso oficial continúa en el reproductor clásico."}</p>
@@ -142,7 +135,10 @@ function SelfLearn(){
               </div>)}
             </div>
           </SectionCard>
-          <SectionCard eyebrow="Sincronización" title="Últimos registros" accent="var(--learn)">
+          <details className="surface rim group p-5 sm:p-6">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-semibold [&::-webkit-details-marker]:hidden">Registros guardados
+              <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform group-open:rotate-180"/></summary>
+            <div className="mt-4">
             <dl className="space-y-4">
               <div className="flex justify-between gap-2"><dt className="text-xs text-muted-foreground">Eventos registrados</dt><dd className="text-sm font-semibold">{data.entries.length}</dd></div>
               <div className="flex justify-between gap-2"><dt className="text-xs text-muted-foreground">Fichas de vocabulario</dt><dd className="text-sm font-semibold">{data.vocabulary.length}</dd></div>
@@ -152,7 +148,8 @@ function SelfLearn(){
               Existe una sesión interrumpida guardada en la nube. Su reanudación permanecerá en el reproductor original hasta portar las reglas de fusión.
             </p>}
             <p className="mt-3 text-xs text-muted-foreground">{data.note}</p>
-          </SectionCard>
+            </div>
+          </details>
         </div>
       </div>
     </>}

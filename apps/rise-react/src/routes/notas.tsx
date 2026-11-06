@@ -58,7 +58,7 @@ function Notes(){
   function submit(e:FormEvent<HTMLFormElement>){e.preventDefault();save.mutate();}
   return <div className="space-y-6">
     <PageHeader eyebrow="TRABAJO · NOTAS" title="Ideas que permanecen."
-      subtitle="Captura, consulta y organiza tus notas reales. Los registros se guardan en tu cuenta de Supabase."/>
+      />
     <p className="flex items-center gap-2 text-xs text-platinum/75">
       <ShieldCheck className="h-4 w-4 text-gold"/> Las notas de esta pantalla están protegidas por la misma cuenta y las políticas de RLS de Rise.
     </p>
