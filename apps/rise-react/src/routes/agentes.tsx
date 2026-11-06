@@ -22,8 +22,8 @@ function Agents(){
  const agents=[...new Set(all.map(agentOf))].sort(),statuses=[...new Set(all.map(x=>x.status||"Sin estado"))].sort();
  const events=all.filter(x=>(agent==="all"||agentOf(x)===agent)&&(status==="all"||(x.status||"Sin estado")===status));
  return <div className="space-y-6">
-  <PageHeader eyebrow="ARES CENTER · SEGUIMIENTO" title="Agent Monitor"
-   subtitle="Consulta ejecuciones registradas y revisiones. No se supone que un agente está activo si no consta evidencia."/>
+  <PageHeader eyebrow="ARES · AGENTES" title="Agentes"
+   subtitle="Ejecuciones registradas y aprobaciones."/>
   <SectionCard eyebrow="Actividad" title={data?String(events.length)+(events.length!==all.length?" de "+all.length:"")+" eventos":"Cargando eventos…"} accent="var(--ares)">
    <button type="button" className="btn-ghost min-h-11" disabled={q.isFetching} onClick={()=>void q.refetch()}>
     <RefreshCw className={"h-4 w-4 "+(q.isFetching?"animate-spin":"")}/>Actualizar historial</button>

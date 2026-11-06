@@ -74,10 +74,10 @@ function MigrationCenter(){
  }
  const total=audit?Object.values(audit.counts).reduce((n,v)=>n+v,0):null;
  return <div className="space-y-6">
-  <PageHeader eyebrow="SISTEMA · MIGRACIÓN SEGURA" title="Tus datos, bajo control"
-    subtitle="Conciliación de Nocturne con el sistema clásico. Este apartado no modifica tus registros ni migra datos a otra cuenta."/>
+  <PageHeader eyebrow="AJUSTES · DATOS Y COPIAS" title="Tus datos, bajo control"
+    subtitle="Revisa, exporta y compara copias. Nada de lo que hagas aquí modifica tus registros."/>
   <div className="grid gap-5 lg:grid-cols-2">
-   <SectionCard eyebrow="Fase 1 · Inventario" title="Auditar mi cuenta" accent="var(--gold)">
+   <SectionCard eyebrow="Inventario" title="Auditar mi cuenta" accent="var(--gold)">
     <p className="text-sm text-platinum/80">Compara la presencia de las {Object.keys(MIGRATION_TABLES).length} tablas privadas de Rise con la sesión autenticada, sin consultar ni mostrar datos de otras cuentas.</p>
     <button type="button" disabled={!!busy||!client||!uid} onClick={()=>void runAudit()} className="btn-gold mt-4 min-h-11">
      <RefreshCw className="h-4 w-4"/> {busy==="audit"?"Analizando…":"Comprobar registros"}
@@ -92,7 +92,7 @@ function MigrationCenter(){
      {audit.errors.map(r=><p key={r.table} role="alert" className="text-xs text-gym">{r.table}: no accesible</p>)}
     </div>}
    </SectionCard>
-   <SectionCard eyebrow="Fase 1 · Respaldo" title="Exportación compatible" accent="var(--money)">
+   <SectionCard eyebrow="Respaldo" title="Exportación compatible" accent="var(--money)">
     <p className="text-sm text-platinum/80">Exporta tus tablas y los cuatro almacenes privados (<strong>{MIGRATION_BUCKETS.join(", ")}</strong>) en un JSON compatible con el formato de recuperación clásico.</p>
     <p className="mt-2 text-xs text-muted-foreground">El archivo puede contener nóminas, información bancaria y fotografías. La descarga se inicia solo al pulsar; máximo 60 MB de archivos privados. Utiliza preferentemente un ordenador.</p>
     <button type="button" disabled={!!busy||!client||!uid} onClick={()=>void backup()} className="btn-gold mt-4 min-h-11">
@@ -100,7 +100,7 @@ function MigrationCenter(){
     </button>
     {exported&&<p role="status" className="mt-3 text-sm text-platinum/80">{exported}</p>}
    </SectionCard>
-   <SectionCard eyebrow="Fase 1 · Navegador" title="Datos clásicos locales" accent="var(--learn)">
+   <SectionCard eyebrow="Navegador" title="Datos clásicos locales" accent="var(--learn)">
     <p className="text-sm text-platinum/80">Inspecciona únicamente si hay una copia local del mundo clásico en este mismo dominio, su fecha y el número de elementos. No lee contraseñas ni migra automáticamente datos.</p>
     <button type="button" disabled={!!busy||!uid} onClick={inspectLocal} className="btn-ghost mt-4 min-h-11">
      <Search className="h-4 w-4"/> Revisar este dispositivo
@@ -112,7 +112,7 @@ function MigrationCenter(){
      </li>)}</ul>}
     <p className="mt-3 text-xs text-muted-foreground">Si utilizaste otro dominio antes, su localStorage no se puede leer desde aquí. Importa una copia descargada de esa versión para comparar.</p>
    </SectionCard>
-   <SectionCard eyebrow="Fase 1 · Conciliación" title="Comparar una copia" accent="var(--skin)">
+   <SectionCard eyebrow="Conciliación" title="Comparar una copia" accent="var(--skin)">
     <p className="text-sm text-platinum/80">Selecciona un JSON exportado desde la aplicación clásica. Verificamos identificadores, contenido de las filas y archivos privados mediante SHA-256 en este navegador, sin subir el archivo ni restaurar datos.</p>
     <label className="btn-ghost mt-4 flex min-h-11 w-fit cursor-pointer items-center gap-2">
      <UploadCloud className="h-4 w-4"/> {busy==="compare"?"Comparando…":"Seleccionar archivo JSON"}

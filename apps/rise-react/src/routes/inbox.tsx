@@ -39,7 +39,7 @@ function InboxAccount(){
  const busy=save.isPending||action.isPending;
  const rows=(q.data||[]).filter(r=>filter==='all'||captureStatus(r)===filter);
  return <div className="space-y-6">
-  <PageHeader eyebrow="ARES · CAPTURE TO HUB" title="Tu AI Inbox" subtitle="Captura ideas, notas y documentos. Cada entrada conserva su origen y requiere tu revisión; no ejecuta agentes ni añade importes a tus cuentas."/>
+  <PageHeader eyebrow="ARES · INBOX" title="Tu AI Inbox" subtitle="Captura ideas, notas y documentos para revisarlos después."/>
   <SectionCard eyebrow="Nueva captura" title="Guárdalo para revisar" accent="var(--ares)">
    <form className="space-y-4" onSubmit={e=>{e.preventDefault();setFeedback('');save.mutate();}}>
     <fieldset disabled={busy} className="space-y-4">
