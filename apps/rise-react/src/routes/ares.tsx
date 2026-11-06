@@ -1,7 +1,8 @@
 import {createFileRoute,Link} from "@tanstack/react-router";
 import {useQuery} from "@tanstack/react-query";
 import {useEffect,useRef,useState,type FormEvent} from "react";
-import {CalendarCheck,Dumbbell,GraduationCap,RefreshCw,ShieldCheck,Sparkles,Wallet,Inbox,MessageCircle} from "lucide-react";
+import {CalendarCheck,ChevronDown,Dumbbell,GraduationCap,RefreshCw,Sparkles,Wallet,Inbox,MessageCircle} from "lucide-react";
+import {SubTabs,useSubTab} from "@/components/rise/SubTabs";
 import orb from "@/assets/ares.jpg";
 import {pageHead} from "@/lib/seo";
 import {SectionCard,EmptyState} from "@/components/rise/primitives";
@@ -23,7 +24,11 @@ const SUGGESTIONS=[
   {text:"¿Qué agentes tienen actividad registrada?",icon:Wallet}
 ];
 
+/** Ares (6-11-2026): Chat limpio; cifras, fuentes y operaciones en «Actividad». */
+const TABS=[{id:"chat",label:"Chat"},{id:"actividad",label:"Actividad"}] as const;
+
 function AresPage(){
+  const [tab,go]=useSubTab(TABS,"chat");
   const {client,user,session}=useAuth();
   const [messages,setMessages]=useState<Msg[]>([]);
   const [input,setInput]=useState("");
@@ -72,20 +77,17 @@ function AresPage(){
     <section className="surface rim relative overflow-hidden" style={{background:"var(--ink)"}}>
       <img src={orb} alt="" width={1600} height={912} className="absolute inset-0 h-full w-full object-cover object-center opacity-80 sm:object-[70%_center]"/>
       <div className="absolute inset-0 bg-hero-side"/>
-      <div className="relative p-6 sm:p-10 lg:p-12">
+      <div className="relative p-5 sm:p-8">
         <div className="eyebrow mb-3 text-ares">Ares · Chat</div>
-        <h1 className="max-w-lg font-display text-5xl font-medium leading-[0.95] sm:text-6xl">Piensa contigo, <em className="text-gold-gradient">no por ti.</em></h1>
+        <h1 className="max-w-lg font-display text-4xl font-medium leading-[0.95] sm:text-5xl">Piensa contigo, <em className="text-gold-gradient">no por ti.</em></h1>
         <p className="mt-4 max-w-md text-sm text-platinum/80">Pregunta por tus proyectos, tareas y revisiones.</p>
-        <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-hairline bg-ink/50 px-3 py-1.5 text-xs text-platinum/80 backdrop-blur">
-          <ShieldCheck className="h-3.5 w-3.5 text-gold"/> Consultas de datos reales · sin acciones automáticas
-        </div>
       </div>
     </section>
 
     {error&&<p role="alert" className="surface border border-gym/40 p-4 text-sm text-gym">{message(error)}.</p>}
 
-    <div className="grid gap-6 lg:grid-cols-[1.7fr_1fr]">
-      <SectionCard eyebrow={<span className="text-ares">Conversación</span>} title="Consultar Ares" accent="var(--ares)"
+    <SubTabs tabs={TABS} value={tab} onChange={go} label="Apartados de Ares" accent="var(--ares)"/>
+    {tab==="chat"&&<SectionCard eyebrow={<span className="text-ares">Conversación</span>} title="Consultar Ares" accent="var(--ares)"
         action={<button className="btn-ghost min-h-9 px-3 text-xs" type="button" disabled={isFetching}
           onClick={()=>void refetch()}><RefreshCw className={"h-4 w-4 "+(isFetching?"animate-spin":"")}/> Actualizar</button>}>
         <div className="grid gap-2 sm:grid-cols-2">
@@ -99,7 +101,7 @@ function AresPage(){
         <div aria-live="polite" className="my-5 max-h-[440px] min-h-[210px] space-y-4 overflow-y-auto rounded-xl border border-hairline bg-ink/40 p-4">
           {!data&&!error&&<p role="status" className="text-sm text-muted-foreground">Cargando…</p>}
           {messages.length===0&&data&&<EmptyState icon={<MessageCircle className="h-5 w-5"/>}
-            title="Empieza una consulta" text="Por defecto, las respuestas usan solo tus registros privados; el proveedor externo es opcional."/>}
+            title="Empieza una consulta" text="Elige una sugerencia o escribe tu pregunta."/>}
           {messages.map(m=><div key={m.id} className={m.role==="user"?"ml-8 rounded-2xl bg-wine-gradient p-4 text-sm":"mr-5 rounded-2xl border border-hairline bg-raised p-4 text-sm"}>
             <span className="mb-2 block text-[10px] font-bold uppercase tracking-[.14em] text-ares">{m.role==="user"?"Tú":m.source||"Ares · registros verificados"}</span>
             <p className="whitespace-pre-wrap break-words leading-relaxed">{m.text}</p>
@@ -112,8 +114,11 @@ function AresPage(){
             placeholder="Pregunta sobre tareas o proyectos…" disabled={!data||sending}/>
           <button type="submit" className="btn-gold" disabled={!data||sending||!input.trim()}>{sending?"Consultando…":"Enviar"}</button>
         </form>
-        <div className="mt-4 rounded-xl border border-hairline bg-raised p-4">
-          <label className="flex items-start gap-3 text-xs text-platinum/85">
+        <details className="group mt-4 rounded-xl border border-hairline bg-raised p-4">
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-xs font-semibold [&::-webkit-details-marker]:hidden">
+            Modelo externo (opcional){externalConsent?" · activado":""}
+            <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform group-open:rotate-180"/></summary>
+          <label className="mt-3 flex items-start gap-3 text-xs text-platinum/85">
             <input type="checkbox" className="mt-0.5 h-5 w-5 shrink-0 accent-[var(--ares)]"
               checked={externalConsent} disabled={!preview.data?.enabled||sending}
               onChange={e=>setExternalConsent(e.target.checked)}/>
@@ -126,11 +131,11 @@ function AresPage(){
               ?externalConsent?"Modelo gratuito activo para la siguiente consulta. No ejecuta acciones.":"Modelo externo disponible, pero desactivado hasta que autorices."
               :preview.data?.reason||"Solo disponible en la vista previa autorizada."}
           </p>
-        </div>
-        <p className="mt-3 text-xs text-muted-foreground">El modo privado funciona por defecto y no envía preguntas a un modelo externo. Las respuestas no crean tareas ni ejecutan agentes.</p>
-      </SectionCard>
+          <p className="mt-2 text-xs text-muted-foreground">Sin activarlo, Ares responde solo con tus registros y no envía nada fuera.</p>
+        </details>
+      </SectionCard>}
 
-      <div className="space-y-6">
+      {tab==="actividad"&&<div className="grid gap-6 lg:grid-cols-2">
         <SectionCard eyebrow="Actividad" title="Datos disponibles" accent="var(--ares)">
           {data?<dl className="grid grid-cols-2 gap-3">
             {[["Proyectos",data.projects.length],["Tareas abiertas",data.tasks.length],["Revisiones",data.approvals.length],["Eventos",data.agents.length]].map(([label,value])=>
@@ -141,8 +146,7 @@ function AresPage(){
           <Link to="/proyectos" className="btn-ghost mt-4 inline-flex">Abrir proyectos <Sparkles className="h-4 w-4"/></Link>
         </SectionCard>
         <AresDevelopmentSources/>
-      </div>
-    </div>
-    {data&&<AresOperations approvals={data.approvals} agents={data.agents} handoffs={data.handoffs}/>}
+      </div>}
+    {tab==="actividad"&&data&&<AresOperations approvals={data.approvals} agents={data.agents} handoffs={data.handoffs}/>}
   </div>;
 }

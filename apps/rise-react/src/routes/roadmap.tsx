@@ -4,6 +4,7 @@ import {CalendarDays,CheckCircle2,ChevronLeft,ChevronRight,Info} from "lucide-re
 import {pageHead} from "@/lib/seo";
 import {PageHeader,SectionCard,Bar} from "@/components/rise/primitives";
 import {RoadmapToday} from "@/components/rise/roadmap/RoadmapToday";
+import {SubTabs,useSubTab} from "@/components/rise/SubTabs";
 import {RoadmapItem} from "@/components/rise/roadmap/RoadmapItem";
 import {useRoadmap} from "@/components/rise/roadmap/useRoadmap";
 import {BOSSES,CHAPTERS,DIRECTION,FUTURE_STAGES,MILESTONES,PATH_VERSION,ROUTE_SWITCH_WEEK,autoSteps,itemState,tasksForWeek,weekStart,type PathItem} from "@/lib/career-path.mjs";
@@ -14,7 +15,11 @@ export const Route=createFileRoute("/roadmap")({
 });
 const fmt=(d:string)=>new Date(d+"T12:00:00Z").toLocaleDateString("es-ES",{timeZone:"UTC",weekday:"long",day:"numeric",month:"short"});
 
+/** Roadmap en cinco pestañas (6-11-2026): antes eran ~8500 px seguidos en el móvil. #hitos sigue abriendo los hitos. */
+const TABS=[{id:"hoy",label:"Hoy"},{id:"semana",label:"Semana"},{id:"plan",label:"Plan +25"},{id:"hitos",label:"Hitos"},{id:"etapas",label:"2026–2032"}] as const;
+
 function Roadmap(){
+  const [tab,go]=useSubTab(TABS,"hoy");
   const r=useRoadmap();
   const [week,setWeek]=useState(r.view.week);
   const withState=<T extends PathItem>(t:T)=>({...t,...itemState(t,r.by.get(t.id),autoSteps(t,r.academyProgress))});
@@ -27,16 +32,12 @@ function Roadmap(){
   const m=r.metrics;
 
   return <div className="space-y-6">
-    <PageHeader eyebrow="ROADMAP 2026–2032" title="Tu camino al puesto que quieres"
-      subtitle="El roadmap maestro dividido en etapas, fases, semanas, tareas y subtareas. Solo cuenta lo que marcas tú o lo que Academia ya registró."/>
-    <ol aria-label="Dirección única" className="flex flex-wrap items-center gap-2 text-xs">
-      {DIRECTION.map((d,i)=><li key={d} className="flex items-center gap-2"><span className={"rounded-full border px-3 py-1.5 "+(i===0?"border-gold/50 bg-gold/10 text-gold":"border-hairline text-platinum/80")}>{d}</span>{i<DIRECTION.length-1&&<ChevronRight className="h-3.5 w-3.5 text-muted-foreground"/>}</li>)}
-    </ol>
+    <PageHeader eyebrow="INICIO · ROADMAP" title="Tu camino al puesto que quieres"
+      subtitle="De operaciones a datos e IA, en semanas, tareas y subtareas."/>
+    <SubTabs tabs={TABS} value={tab} onChange={go} label="Apartados del roadmap" accent="var(--gold)"/>
+    {tab==="hoy"&&<RoadmapToday/>}
 
-    <RoadmapToday/>
-
-    <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
-      <SectionCard eyebrow={`Semana ${week+1} de 24 · Fase ${Math.floor(week/4)+1}`} title={CHAPTERS[Math.floor(week/4)]!.name} accent="var(--learn)"
+    {tab==="semana"&&<SectionCard eyebrow={`Semana ${week+1} de 24 · Fase ${Math.floor(week/4)+1}`} title={CHAPTERS[Math.floor(week/4)]!.name} accent="var(--learn)"
         action={<div className="flex gap-1">
           <button type="button" disabled={week===0} onClick={()=>setWeek(w=>Math.max(0,w-1))} className="btn-ghost min-h-11 min-w-11 px-2" aria-label="Semana anterior"><ChevronLeft className="h-4 w-4"/></button>
           <button type="button" disabled={week===23} onClick={()=>setWeek(w=>Math.min(23,w+1))} className="btn-ghost min-h-11 min-w-11 px-2" aria-label="Semana siguiente"><ChevronRight className="h-4 w-4"/></button>
@@ -48,9 +49,9 @@ function Roadmap(){
           <h3 className="border-b border-hairline py-2.5 text-xs font-semibold capitalize text-platinum/80">{fmt(d)}{d===r.view.today?" · hoy":""}</h3>
           <ul className="divide-y divide-hairline">{missions.filter(t=>t.day===d).map(t=>item(t))}</ul>
         </div>)}</div>
-      </SectionCard>
+      </SectionCard>}
 
-      <div className="space-y-6">
+    {tab==="plan"&&<div className="grid gap-6 lg:grid-cols-2">
         <SectionCard eyebrow="Preparación PAU +25 · 24 semanas" title={`${m.percent}% del plan`} accent="var(--gold)">
           <Bar value={m.percent} color="var(--gold)"/>
           <p className="mt-2 text-xs text-muted-foreground">{m.done}/{m.total} tareas · {m.completeWeeks}/24 semanas completas · sesiones cumplidas {m.sessionRate===null?"—":m.sessionRate+"%"} (objetivo ≥80 %)</p>
@@ -65,18 +66,21 @@ function Roadmap(){
           <p className="text-xs text-muted-foreground">Se marcan solo después de presentarte. No significan aprobado.</p>
           <ul className="divide-y divide-hairline">{BOSSES.map(b=>item(withState(b),{showDay:true}))}</ul>
         </SectionCard>
-      </div>
-    </div>
+    </div>}
 
-    <section id="hitos" className="scroll-mt-24">
+    {tab==="hitos"&&<section className="scroll-mt-24">
       <SectionCard eyebrow="Hitos con fecha límite" title={`${m.milestonesDone}/${m.milestonesTotal} hitos cumplidos`} accent="var(--projects)">
         <div className="grid gap-4 lg:grid-cols-2">{groups.map(g=><div key={g}>
           <h3 className="text-xs font-semibold uppercase tracking-[.12em] text-muted-foreground">{g}</h3>
           <ul className="divide-y divide-hairline">{MILESTONES.filter(x=>x.group===g).map(x=>item(withState(x)))}</ul>
         </div>)}</div>
       </SectionCard>
-    </section>
+    </section>}
 
+    {tab==="etapas"&&<>
+    <ol aria-label="Dirección única" className="flex flex-wrap items-center gap-2 text-xs">
+      {DIRECTION.map((d,i)=><li key={d} className="flex items-center gap-2"><span className={"rounded-full border px-3 py-1.5 "+(i===0?"border-gold/50 bg-gold/10 text-gold":"border-hairline text-platinum/80")}>{d}</span>{i<DIRECTION.length-1&&<ChevronRight className="h-3.5 w-3.5 text-muted-foreground"/>}</li>)}
+    </ol>
     <SectionCard eyebrow="Escalera 2026–2032" title="Etapas y entregables" accent="var(--projects)">
       <ol>{FUTURE_STAGES.map((s,i)=><li key={s.year} className="relative flex gap-4 pb-5 last:pb-0">
         {i<FUTURE_STAGES.length-1&&<div aria-hidden className="absolute bottom-0 left-4 top-8 w-px bg-hairline"/>}
@@ -89,5 +93,6 @@ function Roadmap(){
 
     <p className="flex items-start gap-2 text-xs text-muted-foreground"><Info className="mt-0.5 h-4 w-4 shrink-0"/>
       Ruta desde el 1 de noviembre de 2026: PAU +25 común de Cataluña, presencial, opción Ingeniería y Arquitectura con Matemáticas + Economía de la Empresa; la fase general incluye catalán. La prueba en español de la UOC no admite Economía para Ingeniería. La semana del 26 de octubre conserva el plan anterior con Física.</p>
+    </>}
   </div>;
 }
