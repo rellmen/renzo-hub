@@ -1,0 +1,37 @@
+{
+  "lesson_id": "economia-b05-l02",
+  "questions": [
+    {
+      "id": "b05l02-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["npv_irr"],
+      "prompt_md": "Desembolso 2.000 € y un único flujo de 2.200 € al cabo de un año, con $k=4\\,\\%$. ¿VAN en euros (dos decimales)?", "unit": "€",
+      "key": {"value": 115.38, "tolerance": 0.05},
+      "explanation_md": "$-2.000+\\dfrac{2.200}{1{,}04}=-2.000+2.115{,}38=115{,}38$ €."
+    },
+    {
+      "id": "b05l02-x2", "kind": "numeric", "difficulty": 2, "skill_ids": ["npv_irr"],
+      "prompt_md": "Desembolso 1.000 €; ningún flujo el año 1 y 1.102,50 € el año 2. ¿TIR en %?", "unit": "%",
+      "key": {"value": 5, "tolerance": 0.01},
+      "explanation_md": "$(1+r)^2=1{,}1025\\Rightarrow1+r=1{,}05\\Rightarrow r=5\\,\\%$."
+    },
+    {
+      "id": "b05l02-x3", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["npv_irr"],
+      "prompt_md": "En un proyecto con desembolso inicial y flujos positivos, ¿qué ocurre con el VAN si sube el tipo de descuento?",
+      "choices": [{"id": "a", "text": "Aumenta"}, {"id": "b", "text": "Disminuye"}, {"id": "c", "text": "No cambia"}, {"id": "d", "text": "Pasa a ser igual a la TIR"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Los flujos futuros se dividen por $(1+k)^t$, que crece con $k$: valen menos hoy y el VAN baja."
+    },
+    {
+      "id": "b05l02-x4", "kind": "numeric", "difficulty": 2, "skill_ids": ["residual_value"],
+      "prompt_md": "Desembolso 10.000 €; flujos 6.000 € el año 1 y 4.000 € el año 2, más un valor residual de 1.000 € al final del año 2; $k=5\\,\\%$. ¿VAN en euros?", "unit": "€",
+      "key": {"value": 249.43, "tolerance": 0.05},
+      "explanation_md": "$-10.000+\\dfrac{6.000}{1{,}05}+\\dfrac{5.000}{1{,}1025}=-10.000+5.714{,}29+4.535{,}15\\approx249{,}43$ €."
+    },
+    {
+      "id": "b05l02-x5", "kind": "numeric", "difficulty": 3, "skill_ids": ["npv_irr"],
+      "prompt_md": "Desembolso 10.000 €; flujos 5.000 € y 6.600 €. ¿TIR en %?", "unit": "%",
+      "hint_md": "Con $x=\\frac{1}{1+r}$: $6.600x^2+5.000x-10.000=0$; divide entre 200.",
+      "key": {"value": 10, "tolerance": 0.01},
+      "explanation_md": "$33x^2+25x-50=0\\Rightarrow x=\\dfrac{-25+85}{66}=0{,}9091\\Rightarrow r=10\\,\\%$."
+    }
+  ]
+}

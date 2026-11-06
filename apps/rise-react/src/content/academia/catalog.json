@@ -1063,6 +1063,22 @@
        "pilot": false,
        "meets_standard": true,
        "gaps": []
+      },
+      {
+       "id": "economia-b02-l02",
+       "title": "La cuenta de pérdidas y ganancias paso a paso: BAII, resultado financiero, BAI y beneficio neto",
+       "topic_scope": "BAII, resultado financiero, BAI, impuesto, beneficio neto, amortización; gasto, pago e inversión",
+       "level": "N1",
+       "status": "draft",
+       "estimated_minutes": 45,
+       "prerequisites": [
+        "economia-b02-l01",
+        "economia-b00-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     },
@@ -1081,6 +1097,22 @@
        "prerequisites": [
         "economia-b02-l01",
         "economia-b00-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "economia-b03-l02",
+       "title": "Rentabilidad económica, rentabilidad financiera y apalancamiento financiero",
+       "topic_scope": "rentabilidad económica y financiera, margen y rotación, apalancamiento financiero",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 45,
+       "prerequisites": [
+        "economia-b02-l02",
+        "economia-b03-l01"
        ],
        "has_content": true,
        "pilot": false,
@@ -1132,6 +1164,21 @@
        "pilot": false,
        "meets_standard": true,
        "gaps": []
+      },
+      {
+       "id": "economia-b05-l02",
+       "title": "Inversiones tipo examen: valor residual, TIR a mano y sensibilidad del VAN",
+       "topic_scope": "valor residual, TIR de dos periodos, VAN frente al tipo de descuento, payback frente a VAN",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 50,
+       "prerequisites": [
+        "economia-b05-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
       }
      ]
     },
@@ -1172,6 +1219,96 @@
        "prerequisites": [
         "economia-b01-l01",
         "economia-b06-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "economia-b07-l02",
+       "title": "Marketing: mercado, cuota, segmentación, ciclo de vida y fijación de precios",
+       "topic_scope": "mercado, cuota de mercado, segmentación, ciclo de vida del producto, fijación de precios, canales",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 45,
+       "prerequisites": [
+        "economia-b07-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "B10",
+     "title": "Producción",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "economia-b10-l01",
+       "title": "Productividad y eficiencia",
+       "topic_scope": "productividad del trabajo y global, tasa de variación, eficiencia técnica y económica",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 40,
+       "prerequisites": [
+        "economia-b00-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "economia-b10-l02",
+       "title": "Costes, umbral de rentabilidad y decisión de fabricar o comprar",
+       "topic_scope": "costes fijos, variables, totales y medios; punto muerto; fabricar o comprar",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 45,
+       "prerequisites": [
+        "economia-b10-l01",
+        "economia-b07-l01"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      },
+      {
+       "id": "economia-b10-l03",
+       "title": "Gestión de inventarios: stock de seguridad, punto de pedido, rotación, ABC y modelo de Wilson",
+       "topic_scope": "tipos y costes de existencias, stock de seguridad, punto de pedido, stock medio, rotación, ABC, modelo de Wilson",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 45,
+       "prerequisites": [
+        "economia-b10-l02"
+       ],
+       "has_content": true,
+       "pilot": false,
+       "meets_standard": true,
+       "gaps": []
+      }
+     ]
+    },
+    {
+     "id": "B11",
+     "title": "Organización y recursos humanos",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "economia-b11-l01",
+       "title": "Dirección, estructura organizativa y recursos humanos",
+       "topic_scope": "funciones directivas, principios de organización, estructuras, organigrama, reclutamiento, selección, motivación y nómina",
+       "level": "N2",
+       "status": "draft",
+       "estimated_minutes": 45,
+       "prerequisites": [
+        "economia-b01-l01"
        ],
        "has_content": true,
        "pilot": false,
@@ -2609,13 +2746,13 @@
  "stats": {
   "by_status": {
    "planned": 19,
-   "draft": 112,
+   "draft": 120,
    "reviewed": 0,
    "ready": 0,
    "published": 0
   },
-  "lessons_total": 131,
-  "meets_standard": 112,
+  "lessons_total": 139,
+  "meets_standard": 120,
   "courses": {
    "matematicas": {
     "total": 56,
@@ -2630,12 +2767,12 @@
     }
    },
    "economia": {
-    "total": 10,
-    "with_content": 10,
-    "meets_standard": 10,
+    "total": 18,
+    "with_content": 18,
+    "meets_standard": 18,
     "by_status": {
      "planned": 0,
-     "draft": 10,
+     "draft": 18,
      "reviewed": 0,
      "ready": 0,
      "published": 0
@@ -2702,8 +2839,8 @@
     }
    }
   },
-  "questions_total": 616,
-  "exit_questions": 560,
+  "questions_total": 656,
+  "exit_questions": 600,
   "bank_questions": 56
  }
 }

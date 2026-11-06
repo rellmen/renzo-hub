@@ -1,0 +1,36 @@
+{
+  "lesson_id": "economia-b10-l01",
+  "questions": [
+    {
+      "id": "b10l01-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["labour_productivity"],
+      "prompt_md": "Un operario prepara 120 pedidos en un turno de 8 horas. ¿Productividad en pedidos por hora?", "unit": "pedidos/h",
+      "key": {"value": 15, "tolerance": 0.01},
+      "explanation_md": "$\\dfrac{120}{8}=15$ pedidos/h."
+    },
+    {
+      "id": "b10l01-x2", "kind": "numeric", "difficulty": 1, "skill_ids": ["labour_productivity"],
+      "prompt_md": "La productividad sube de 20 a 23 unidades por hora. ¿Tasa de variación en %?", "unit": "%",
+      "key": {"value": 15, "tolerance": 0.01},
+      "explanation_md": "$\\dfrac{23-20}{20}\\cdot100=15\\,\\%$."
+    },
+    {
+      "id": "b10l01-x3", "kind": "numeric", "difficulty": 2, "skill_ids": ["total_productivity"],
+      "prompt_md": "El valor de la producción es 60.000 € y el coste de todos los factores 48.000 €. ¿Productividad global?",
+      "key": {"value": 1.25, "tolerance": 0.001},
+      "explanation_md": "$\\dfrac{60.000}{48.000}=1{,}25$ € de producción por euro de factores."
+    },
+    {
+      "id": "b10l01-x4", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["efficiency"],
+      "prompt_md": "Una empresa produce un 10 % más contratando un 10 % más de horas. ¿Qué le ha pasado a la productividad del trabajo?",
+      "choices": [{"id": "a", "text": "Ha subido un 10 %"}, {"id": "b", "text": "No ha cambiado"}, {"id": "c", "text": "Ha bajado un 10 %"}, {"id": "d", "text": "Ha subido un 20 %"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "$\\dfrac{1{,}1\\cdot Q}{1{,}1\\cdot H}=\\dfrac{Q}{H}$: más producción con los mismos recursos por unidad; la productividad es la misma."
+    },
+    {
+      "id": "b10l01-x5", "kind": "numeric", "difficulty": 2, "skill_ids": ["labour_productivity"],
+      "prompt_md": "Hay que producir 4.800 unidades con una productividad de 16 unidades/h. ¿Cuántas horas de trabajo hacen falta?", "unit": "h",
+      "key": {"value": 300, "tolerance": 0.01},
+      "explanation_md": "$\\dfrac{4.800}{16}=300$ h."
+    }
+  ]
+}

@@ -19,10 +19,10 @@ describe("Academia · contenido público",()=>{
       expect(t,f).not.toMatch(/"(key|correct_choice_id|accepted|explanation_md|grading_private|correct_value)"/);
     }
   });
-  it("informa estados editoriales reales: nada publicado y 131 lecciones del temario (con Llengua catalana)",()=>{
-    expect(CATALOG.stats.lessons_total).toBe(131);
+  it("informa estados editoriales reales: nada publicado y 139 lecciones del temario (con Llengua catalana y Economía ampliada)",()=>{
+    expect(CATALOG.stats.lessons_total).toBe(139);
     expect(CATALOG.stats.by_status["published"]).toBe(0);
-    expect(CATALOG.stats.by_status["planned"]!+CATALOG.stats.by_status["draft"]!).toBe(131);
+    expect(CATALOG.stats.by_status["planned"]!+CATALOG.stats.by_status["draft"]!).toBe(139);
     const cat=CATALOG.courses.find(c=>c.slug==="catalan")!;
     expect(cat.role).toBe("general");
     expect(cat.modules.flatMap(m=>m.lessons).every(l=>l.has_content&&l.meets_standard)).toBe(true);
