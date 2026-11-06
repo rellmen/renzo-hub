@@ -1,6 +1,6 @@
 {
-  "release": "2.62.0",
-  "name": "Rise · Orden y estructura limpia",
+  "release": "2.62.1",
+  "name": "Rise · Rediseño de Mis prioridades",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",

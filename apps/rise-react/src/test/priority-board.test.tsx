@@ -263,3 +263,19 @@ describe("Duplicados que cambian durante la revisión",()=>{
    expect(screen.getByRole("button",{name:"Aprobar y guardar 1"})).toBeEnabled();
  });
 });
+
+describe("RISE PRIORITY · presentación del foco y progreso",()=>{
+ it("resalta el primer pendiente y cuenta solo las tareas realmente completadas",async()=>{
+   tasks=[
+     task({id:"88888888-8888-4888-8888-888888888888",title:"Entrega urgente",urgency:"P0",dueDate:"2026-10-29"}),
+     task({id:"99999999-9999-4999-8999-999999999999",title:"Completada",urgency:"P1",status:"Completed"})
+   ];
+   mount();
+   const progress=await screen.findByRole("progressbar",{name:"Progreso de prioridades"});
+   expect(progress).toHaveAttribute("aria-valuenow","50");
+   expect(screen.getByText("Empieza por: Entrega urgente")).toBeInTheDocument();
+   expect(screen.getByRole("checkbox",{name:"Completar: Entrega urgente"})).not.toBeChecked();
+   expect(screen.getByText("ORDEN DE EJECUCIÓN")).toBeInTheDocument();
+   expect(writes()).toBe(0);
+ });
+});

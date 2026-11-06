@@ -67,7 +67,9 @@ No verificado de nuevo: RLS real, ida y vuelta Home→Work con sesión real, con
 
 ## Entrega y propuestas
 
-Preparado sin aplicar: rama feature/rise-priority-chatgpt-20261027 y PR borrador a staging. SHA/URL se entregan en el informe del chat para no introducir referencias autorreferenciales en el commit.
+Preparado sin aplicar (estado al cerrar la auditoría): rama feature/rise-priority-chatgpt-20261027 y PR borrador a staging.
+
+**Actualización 27-10-2026 (cierre):** Renzo integró la candidata como PR #174 → `staging` (`5c8583b`) y #175 → `production` (`de73537`). CI de ambos 6/6, incluido el E2E de navegador (`PASS Chromium desktop` y `PASS WebKit iPhone 13`), que aquí figuraba como pendiente. Dominio `renzo-hub.vercel.app` → `dpl_3egwxMKPBJV8Dcd2kmiqE7y9Zx2A`; el bundle servido contiene los nuevos bloqueos; smoke sin cuentas contra producción OK (19 rutas privadas protegidas). Rollback: dominio a `dpl_5FEu2nobRgwou2c6vLQvYp8kHu6A` (`f447c55`).
 
 Pendiente de Renzo: revisar el PR y ejecutar QA real antes de decidir integración. Ninguna autorización adicional necesaria para esta preparación. Producción y migraciones quedan fuera.
 

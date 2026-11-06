@@ -1,5 +1,9 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## Rediseño de Mis prioridades en producción · 6 noviembre 2026
+
+Release React 2.62.1. **Renzo aprueba el rediseño #177 (06-11-2026: «Lo apruebo, el rediseño»).** Se publica solo `PriorityBoard` (progreso con barra, «Tu siguiente acción») y su test; sin cambios de datos. La Economía ampliada (#198) sigue solo en staging hasta cargar sus claves en producción.
+
 ## Orden y estructura limpia · 6 noviembre 2026 · PR hacia staging
 
 Release React 2.62.0. **Decisión de Renzo (06-11-2026): opción C** de la auditoría `renzo-hub/audits/RISE-AUDITORIA-ESTRUCTURA-UI-2026-11-06.md` (bóveda), **manteniendo la interfaz Nocturne** (colores, tipografía, tarjetas, fotos). Solo cambia orden, estructura y cantidad de información. Sin migraciones ni cambios de datos; no se ha quitado ninguna función, solo se ha movido.
