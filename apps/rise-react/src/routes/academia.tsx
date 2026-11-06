@@ -1,7 +1,7 @@
 import {createFileRoute,Link,useNavigate} from "@tanstack/react-router";
 import {useQuery,useQueryClient} from "@tanstack/react-query";
 import {useMemo,useState} from "react";
-import {BookOpen,CalendarClock,ChevronRight,Lock,RefreshCw,Repeat,ShieldCheck} from "lucide-react";
+import {BookOpen,CalendarClock,ChevronRight,Lock,RefreshCw,Repeat} from "lucide-react";
 import img from "@/assets/learn.jpg";
 import {pageHead} from "@/lib/seo";
 import {useAuth} from "@/lib/auth/AuthProvider";
@@ -52,16 +52,15 @@ function Academia(){
 
   if(!allowed)return <EmptyState icon={<Lock className="h-5 w-5"/>} title="Academia en pruebas" text="Disponible en staging hasta que apruebes su paso a producción."/>;
   return <div className="space-y-6">
-    {!search.leccion&&<PageHero image={img} eyebrow="ACADEMIA +25" title="De cero al examen." color="var(--learn)" priority
-      subtitle="Ruta Ingeniería: Matemáticas y Economía, más Comentario, Catalán, Castellano e Inglés. Progreso real, corrección en servidor y simulacros cronometrados.">
+    {!search.leccion&&<PageHero image={img} eyebrow="ACADEMY · UOC +25" title="De cero al examen." color="var(--learn)" priority
+      subtitle="Matemáticas y Economía, más Comentario, Catalán, Castellano e Inglés.">
       <div className="flex flex-wrap gap-2">
         <span className="inline-flex items-center gap-2 rounded-full border border-learn/35 bg-ink/70 px-4 py-2 text-xs text-platinum/90"><CalendarClock className="h-4 w-4 text-learn"/>
           {general!==null&&general>=0?`Fase general en ${general} días · específica en ${especifica}`:"Fechas de 2027 por confirmar"}</span>
-        <span className="inline-flex items-center gap-2 rounded-full border border-hairline bg-ink/60 px-4 py-2 text-xs text-platinum/75"><ShieldCheck className="h-4 w-4 text-learn"/> Contenido en borrador: {CATALOG.stats.meets_standard} de {CATALOG.stats.lessons_total} lecciones al estándar</span>
       </div>
     </PageHero>}
     {state.error instanceof AcademyBackendMissing&&<p role="alert" className="surface border border-gold/40 p-4 text-sm">El backend de Academia no está instalado en este entorno. Puedes leer el catálogo, pero no se guardará progreso.</p>}
-    {state.error&&!(state.error instanceof AcademyBackendMissing)&&<p role="alert" className="surface border border-gym/40 p-4 text-sm text-gym">{state.error instanceof Error?state.error.message:"Error"}. No mostraré progreso ficticio.</p>}
+    {state.error&&!(state.error instanceof AcademyBackendMissing)&&<p role="alert" className="surface border border-gym/40 p-4 text-sm text-gym">{state.error instanceof Error?state.error.message:"Error"}.</p>}
     {search.leccion?(
       state.isLoading?<p role="status" className="surface p-5">Cargando tu progreso…</p>:
       <AcademyLessonReader key={search.leccion} client={data?client:null} uid={uid} lessonId={search.leccion}
@@ -126,7 +125,12 @@ function PlanView({data,prefs,onOpen,onSaved,client,uid}:{data:Data;prefs:Prefs|
         <p className="mt-3 text-xs text-muted-foreground">Prueba común de Cataluña, presencial: la sede sale en el resguardo de matrícula (febrero). {CATALOG.exam_dates.note} <a className="underline" href={CATALOG.exam_dates.source} target="_blank" rel="noopener noreferrer">Fuente</a></p>
       </SectionCard>
     </div>
-    <SectionCard eyebrow="Tu semana" title="Ritmo y preferencias" accent="var(--learn)">
+    <details className="surface rim group h-fit p-5 sm:p-6">
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-3 [&::-webkit-details-marker]:hidden">
+        <span><span className="eyebrow block">Tu semana</span><span className="text-base font-semibold">Ritmo y preferencias</span></span>
+        <ChevronRight className="h-4 w-4 text-muted-foreground transition-transform group-open:rotate-90"/>
+      </summary>
+      <div className="mt-4">
       <label className="block text-sm">Minutos por semana
         <input type="number" min={30} max={4000} step={15} className="mt-1 min-h-11 w-full rounded-xl border border-hairline bg-obsidian px-3 text-base" value={draft.weekly_minutes}
           onChange={e=>setDraft(d=>({...d,weekly_minutes:Number(e.target.value)||0}))}/></label>
@@ -142,7 +146,8 @@ function PlanView({data,prefs,onOpen,onSaved,client,uid}:{data:Data;prefs:Prefs|
       <p className="mt-2 text-xs text-muted-foreground">Reparto de referencia del roadmap (13 h por semana); ajústalo a tus turnos.</p>
       <button type="button" className="btn-gold mt-4" disabled={!data} onClick={()=>void save()}>Guardar</button>
       {msg&&<p role="status" className="mt-2 text-sm">{msg}</p>}
-    </SectionCard>
+      </div>
+    </details>
   </div>;
 }
 
@@ -157,7 +162,7 @@ function CoursesView({data,curso,onCourse,onOpen}:{data:Data;curso:string;onCour
     </div>
     <SectionCard eyebrow={course.role_label} title={course.title} accent="var(--learn)"
       action={<a className="text-xs underline" href={course.official_syllabus_url} target="_blank" rel="noopener noreferrer">Temario oficial</a>}>
-      <p className="text-xs text-muted-foreground">Estados editoriales reales: «Sin redactar» = solo título del temario; «Borrador» = redactada sin revisión humana. Nada se presenta como curso terminado.</p>
+      <p className="text-xs text-muted-foreground">«Sin redactar»: solo título. «Borrador»: redactada, sin revisión humana.</p>
       {course.slug==="ingles"&&<p className="mt-2 text-xs"><Link to="/aprender" search={{idioma:"uoc"}} className="text-learn underline">También en Idiomas</Link>, junto a Neerlandés B2 e Inglés C1.</p>}
       <div className="mt-4 space-y-5">{course.modules.map(m=><div key={m.id}>
         <p className="eyebrow">{m.id} · {m.level} · {m.title}</p>
@@ -193,14 +198,20 @@ function ResultsView({data}:{data:Data}){
         <span className={k.pct>=80?"text-learn":k.pct>=60?"text-gold":"text-gym"}>{k.pct} % <span className="text-xs text-muted-foreground">({k.correct}/{k.n})</span></span></li>)}</ul>}
       {data?.attemptsPartial&&<p className="mt-2 text-xs text-muted-foreground">Se muestran los 1 500 intentos más recientes.</p>}
     </SectionCard>
-    <SectionCard eyebrow="Cobertura real del contenido" title={`${s.meets_standard} de ${s.lessons_total} lecciones al estándar`} accent="var(--gold)" className="lg:col-span-2">
+    <details className="surface rim group p-5 sm:p-6 lg:col-span-2">
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-sm [&::-webkit-details-marker]:hidden">
+        <span><span className="eyebrow block">Estado del contenido</span><span className="font-semibold">{s.meets_standard} de {s.lessons_total} lecciones al estándar</span></span>
+        <ChevronRight className="h-4 w-4 text-muted-foreground transition-transform group-open:rotate-90"/>
+      </summary>
+      <div className="mt-4">
       <div className="overflow-x-auto"><table className="w-full min-w-[520px] text-left text-sm">
         <thead><tr className="text-xs text-muted-foreground"><th className="py-2">Materia</th><th>Lecciones</th><th>Con texto</th><th>Al estándar</th><th>Sin redactar</th><th>Borrador</th><th>Publicadas</th></tr></thead>
         <tbody>{CATALOG.courses.map(c=>{const x=s.courses[c.slug]!;return <tr key={c.slug} className="border-t border-hairline">
           <td className="py-2">{c.title}</td><td>{x.total}</td><td>{x.with_content}</td><td>{x.meets_standard}</td><td>{x.by_status["planned"]}</td><td>{x.by_status["draft"]}</td><td>{x.by_status["published"]}</td></tr>;})}</tbody>
       </table></div>
       <p className="mt-2 text-xs text-muted-foreground">{s.questions_total} preguntas ({s.exit_questions} de salida con clave en servidor, {s.bank_questions} del banco inicial). Ninguna lección está publicada: todas requieren revisión humana.</p>
-    </SectionCard>
+      </div>
+    </details>
   </div>;
 }
 

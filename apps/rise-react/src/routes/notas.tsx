@@ -57,7 +57,7 @@ function Notes(){
   }
   function submit(e:FormEvent<HTMLFormElement>){e.preventDefault();save.mutate();}
   return <div className="space-y-6">
-    <PageHeader eyebrow="NOTAS · ÁREA PRIVADA" title="Ideas que permanecen."
+    <PageHeader eyebrow="TRABAJO · NOTAS" title="Ideas que permanecen."
       subtitle="Captura, consulta y organiza tus notas reales. Los registros se guardan en tu cuenta de Supabase."/>
     <p className="flex items-center gap-2 text-xs text-platinum/75">
       <ShieldCheck className="h-4 w-4 text-gold"/> Las notas de esta pantalla están protegidas por la misma cuenta y las políticas de RLS de Rise.
@@ -100,7 +100,7 @@ function Notes(){
           <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"/>
           <input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Buscar en título o contenido" className="min-h-11 w-full rounded-xl border border-hairline bg-obsidian pl-9 pr-3 text-sm text-foreground"/></label>}
         {notes.data?.rows.length===0&&<EmptyState icon={<BookOpen className="h-5 w-5"/>}
-          title="Todavía no hay notas" text="Las notas privadas aparecerán aquí cuando las guardes."/>}
+          title="Todavía no hay notas" text="Tus notas aparecerán aquí cuando las guardes."/>}
         {notes.data&&notes.data.rows.length>0&&<ul className="space-y-3">
           {searchNotes(notes.data.rows,query).map(n=><li key={n.id} className="rounded-2xl border border-hairline bg-raised p-4">
             <div className="flex items-center justify-between gap-2">

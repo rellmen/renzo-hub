@@ -1,7 +1,7 @@
 import {createFileRoute,Link} from "@tanstack/react-router";
 import {useQuery} from "@tanstack/react-query";
 import {useEffect,useState} from "react";
-import {ArrowDownLeft,ArrowUpRight,Landmark,PiggyBank,RefreshCw,ShieldCheck,Wallet} from "lucide-react";
+import {Landmark,RefreshCw,Wallet} from "lucide-react";
 import img from "@/assets/money.jpg";
 import {pageHead} from "@/lib/seo";
 import {PageHero} from "@/components/rise/PageHero";
@@ -10,7 +10,7 @@ import {useAuth} from "@/lib/auth/AuthProvider";
 import {loadRealMoney,moneyMonthView,type MoneySummary} from "@/lib/money-records.mjs";
 import {WeeklyBudgetEditor} from "@/components/rise/WeeklyBudgetEditor";
 import {loadPayrollOverview} from "@/lib/payroll-overview.mjs";
-import {BankStatementImport} from "@/components/rise/BankStatementImport";
+import {SubTabs,useSubTab} from "@/components/rise/SubTabs";
 import {AssetValuationEditor} from "@/components/rise/AssetValuationEditor";
 import {PayrollMonthToDate} from "@/components/rise/PayrollMonthToDate";
 import {FinancialGoals} from "@/components/rise/FinancialGoals";
@@ -22,6 +22,8 @@ export const Route=createFileRoute("/dinero")({
   head:()=>pageHead("Money","Ingresos, gastos y patrimonio conocidos a partir de tus registros financieros privados."),
   component:Money,
 });
+/** Una idea por pestaña (6-11-2026): Mes para leer, Cierre para conciliar, Patrimonio y Presupuesto para editar. */
+const TABS=[{id:"mes",label:"Mes"},{id:"cierre",label:"Cierre"},{id:"patrimonio",label:"Patrimonio"},{id:"presupuesto",label:"Presupuesto"}] as const;
 const eur=new Intl.NumberFormat("es-ES",{style:"currency",currency:"EUR"});
 const euro=(v:number|null|undefined)=>v==null?"Sin datos":eur.format(v);
 function displayMonth(month:string){
@@ -30,19 +32,19 @@ function displayMonth(month:string){
 }
 function BankSummary({data}:{data:MoneySummary}){
   if(data.worth.total===null)return <div className="space-y-2">
-    <p className="font-display text-4xl text-gold-gradient">Sin saldo confirmado</p>
-    <p className="text-sm text-platinum/80">Importa un extracto que incluya saldo de cierre o registra tus valoraciones para ver patrimonio conocido.</p>
+    <p className="font-display text-3xl text-gold-gradient">Sin saldo confirmado</p>
+    <p className="text-sm text-platinum/80">Añade saldos en la pestaña Patrimonio.</p>
   </div>;
   return <div className="space-y-2">
-    <p className="text-xs text-platinum/75">Patrimonio conocido · no equivale al saldo disponible</p>
+    <p className="text-xs text-platinum/75">Patrimonio conocido</p>
     <p className="font-display text-5xl text-gold-gradient">{euro(data.worth.total)}</p>
-    <p className="text-xs text-platinum/75">Valor registrado de cuentas e inversiones menos deudas declaradas; puede estar incompleto.</p>
   </div>;
 }
 function Money(){
   const {client,user}=useAuth();
   const uid=user?.id||"";
   const [month,setMonth]=useState("");
+  const [tab,go]=useSubTab(TABS,"mes");
   const key=["money-real",uid];
   const state=useQuery({queryKey:key,enabled:!!client&&!!uid,
     queryFn:()=>loadRealMoney(client!,uid),staleTime:60_000,refetchOnWindowFocus:true});
@@ -53,43 +55,36 @@ function Money(){
   const view=data&&month?moneyMonthView(data,month):data?.monthSummary;
   const categories=(view?.categories||[]).slice(0,6);
   const largest=Math.max(1,...categories.map(c=>c.total));
-  return <div className="space-y-6">
-    
-    {payroll.isLoading&&<p role="status" className="surface p-4 text-sm text-muted-foreground">Consultando nóminas del mes…</p>}
-    {payroll.error&&<p role="alert" className="surface border border-gym/40 p-4 text-sm text-gym">No se pudo consultar el historial de nóminas; no se muestra un acumulado parcial.</p>}
-    {payroll.data&&<PayrollMonthToDate rows={payroll.data.rows} anomalies={payroll.data.unresolvedAnomalies}/>}
-
-    <PageHero image={img} eyebrow="MY FINANCE · PRIVADO"
+  return <div className="space-y-5">
+    <PageHero image={img} eyebrow="MONEY · RESUMEN"
       title="Capital con intención."
-      subtitle="Solo movimientos bancarios importados y valoraciones que has registrado. Sin cifras de demostración."
       color="var(--money)" priority>
-      {data?<BankSummary data={data}/>:<p className="text-sm text-platinum/75">Consultando datos privados…</p>}
+      {data?<BankSummary data={data}/>:<p className="text-sm text-platinum/75">Consultando…</p>}
     </PageHero>
 
-    {state.error&&<p role="alert" className="surface border border-gym/40 p-4 text-sm text-gym">
-      No se pudieron cargar los movimientos bancarios: {state.error instanceof Error?state.error.message:"Error desconocido"}. No mostraremos balances ficticios.
-    </p>}
-    {state.isLoading&&<p role="status" className="surface p-5">Cargando información financiera privada…</p>}
+    <div className="flex items-center gap-2">
+      <div className="min-w-0 flex-1"><SubTabs tabs={TABS} value={tab} onChange={go} label="Apartados de Money" accent="var(--money)"/></div>
+      <button type="button" className="btn-ghost shrink-0" disabled={state.isFetching} aria-label="Actualizar datos"
+        onClick={()=>void state.refetch()}><RefreshCw className={"h-4 w-4 "+(state.isFetching?"animate-spin":"")}/></button>
+    </div>
 
-    {data&&<>
-      <MonthClosePanel data={data} payrollRows={payroll.error?null:payroll.data?.rows??[]}/>
-      {payroll.data&&month&&<SalaryReconciliation moneyData={data} payrollData={payroll.data} month={month}/>}
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <p className="flex items-center gap-2 text-xs text-muted-foreground">
-          <ShieldCheck className="h-4 w-4 text-money"/> Origen: extractos y registros privados de Rise
-        </p>
-        <button type="button" className="btn-ghost" disabled={state.isFetching}
-          onClick={()=>void state.refetch()}><RefreshCw className={"h-4 w-4 "+(state.isFetching?"animate-spin":"")}/> Actualizar datos</button>
-      </div>
-      {data.noRevolutStatement&&<p className="rounded-2xl border border-money/30 bg-money/[0.08] p-4 text-sm text-platinum/85">
-        No consta un extracto Revolut en estos registros. Si has operado con esa cuenta, los gastos y balances podrían estar incompletos.
-      </p>}
-      {data.worth.stale>0&&<p className="rounded-2xl border border-money/25 p-4 text-sm text-platinum/75">
-        Hay {data.worth.stale} saldo(s) o valoración(es) con más de 45 días de antigüedad. Verifica antes de tomar decisiones financieras.
-      </p>}
-      {!data.txCount&&<SectionCard eyebrow="Sin movimientos importados" title="Tu dinero, sin estimaciones">
+    {state.error&&<p role="alert" className="surface border border-gym/40 p-4 text-sm text-gym">
+      No se pudieron cargar los movimientos: {state.error instanceof Error?state.error.message:"Error desconocido"}.
+    </p>}
+    {state.isLoading&&<p role="status" className="surface p-5">Cargando…</p>}
+
+    {tab==="mes"&&<>
+      {payroll.isLoading&&<p role="status" className="surface p-4 text-sm text-muted-foreground">Consultando nóminas del mes…</p>}
+      {payroll.error&&<p role="alert" className="surface border border-gym/40 p-4 text-sm text-gym">No se pudo consultar el historial de nóminas; no se muestra un acumulado parcial.</p>}
+      {payroll.data&&<PayrollMonthToDate rows={payroll.data.rows} anomalies={payroll.data.unresolvedAnomalies}/>}
+      {data&&<>
+        {(data.noRevolutStatement||data.worth.stale>0)&&<p className="rounded-2xl border border-money/30 bg-money/[0.06] p-3 text-xs text-platinum/85">
+          {data.noRevolutStatement?"Falta un extracto de Revolut: los gastos pueden estar incompletos. ":""}
+          {data.worth.stale>0?data.worth.stale+" saldo(s) con más de 45 días: revísalos en Patrimonio.":""}
+        </p>}
+      {!data.txCount&&<SectionCard eyebrow="Movimientos" title="Aún no hay movimientos">
         <EmptyState icon={<Wallet className="h-5 w-5"/>} title="No hay movimientos bancarios"
-          text="Cuando importes movimientos desde las herramientas de Rise, aquí aparecerá tu historial real. No se crearán transacciones de ejemplo."/>
+          text="Importa un extracto en Gastos › Importar y aquí verás tu mes."/>
       </SectionCard>}
       {data.txCount>0&&<>
         <div className="grid gap-6 lg:grid-cols-[1.7fr_1fr]">
@@ -130,8 +125,18 @@ function Money(){
           </SectionCard>
         </div>
       </>}
-      <RecurringExpenses data={data}/>
-      <div className="grid gap-6 lg:grid-cols-2">
+        <RecurringExpenses data={data}/>
+        <p className="text-xs text-muted-foreground">¿Algo mal categorizado? <Link to="/gastos" className="text-gold underline">Corrígelo en Gastos</Link>. Para importar extractos: <Link to="/gastos" hash="importar" className="text-gold underline">Gastos › Importar</Link>.</p>
+      </>}
+    </>}
+
+    {tab==="cierre"&&data&&<>
+      <MonthClosePanel data={data} payrollRows={payroll.error?null:payroll.data?.rows??[]}/>
+      {payroll.data&&month&&<SalaryReconciliation moneyData={data} payrollData={payroll.data} month={month}/>}
+    </>}
+
+    {tab==="patrimonio"&&<>
+      {data&&<div className="grid gap-5 lg:grid-cols-2">
         <SectionCard eyebrow="Patrimonio" title="Activos y deudas conocidos" accent="var(--money)">
           <dl className="space-y-4">
             {([
@@ -145,13 +150,10 @@ function Money(){
           <p className="mt-3 text-xs text-muted-foreground">No incluye automáticamente deuda, patrimonio ni cuentas que no hayas registrado.</p>
         </SectionCard>
         <FinancialGoals data={data}/>
-      </div>
-      <p className="flex items-start gap-2 text-xs text-muted-foreground">
-        <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0"/> El resumen utiliza transacciones bancarias importadas. <Link to="/gastos" className="text-gold underline">Editar categorías de gastos</Link>. Las importaciones se revisan y confirman manualmente.
-      </p>
+      </div>}
+      <AssetValuationEditor/>
     </>}
-    <AssetValuationEditor/>
-    <div id="importar-extracto" className="scroll-mt-24"><BankStatementImport/></div>
-    <WeeklyBudgetEditor/>
+
+    {tab==="presupuesto"&&<WeeklyBudgetEditor/>}
   </div>;
 }

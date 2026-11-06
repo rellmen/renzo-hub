@@ -1,7 +1,7 @@
 import {useRef,useState,type FormEvent} from "react";
 import {Link} from "@tanstack/react-router";
 import {useMutation,useQuery,useQueryClient} from "@tanstack/react-query";
-import {AlertTriangle,Check,CheckCircle2,ChevronDown,Clock3,Plus,RefreshCw,Upload,X} from "lucide-react";
+import {AlertTriangle,Check,ChevronDown,Clock3,Plus,RefreshCw,Upload,X} from "lucide-react";
 import {useAuth} from "@/lib/auth/AuthProvider";
 import {loadWorkRecords} from "@/lib/work-records.mjs";
 import {
@@ -229,7 +229,6 @@ function Board(){
      <div className="min-w-0">
        <p className="eyebrow mb-2 flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-gold"/>RISE PRIORITY · TU ENFOQUE</p>
        <h2 className="font-display text-3xl font-medium tracking-tight text-foreground sm:text-4xl">Mis prioridades<span className="text-gold">.</span></h2>
-       <p className="mt-2 max-w-xl text-sm leading-relaxed text-platinum/75">Lo importante primero. Cada tarea completada te acerca a un objetivo.</p>
      </div>
      <button type="button" className="btn-ghost min-h-11" aria-label="Actualizar prioridades"
        disabled={records.isFetching||!canWrite} onClick={()=>void records.refetch()}><RefreshCw className={"h-4 w-4 "+(records.isFetching?"animate-spin":"")}/> Actualizar</button>
@@ -269,7 +268,6 @@ function Board(){
          </p>
        </div>
      </div>
-     <p className="mt-4 text-[11px] text-muted-foreground">Primera de la lista según prioridad y vencimiento. Márcala abajo cuando realmente la termines.</p>
    </div>}
    {truncated&&<p role="note" className="rounded-xl border border-amber-500/40 p-3 text-xs text-amber-200">
      Se muestran las {WORK_LOAD_LIMIT} tareas modificadas más recientemente. Los contadores se refieren solo a ellas; las más antiguas siguen en Work.</p>}
@@ -354,9 +352,5 @@ function Board(){
      </div>}
      {review&&review.length===0&&<p className="text-xs text-muted-foreground">Has descartado todas las propuestas. No se ha guardado nada.</p>}
    </div>}
-   <footer className="flex items-start gap-2 border-t border-hairline pt-3 text-xs text-muted-foreground">
-     <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0"/> Los cambios hechos aquí se guardan en los mismos registros privados de Work.
-     ChatGPT y Claude no leen ni escriben esta lista automáticamente; pueden proponerte cambios para revisar.
-   </footer>
  </section>;
 }

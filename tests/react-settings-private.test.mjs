@@ -15,6 +15,7 @@ test('Private Settings parses and uses real Supabase authentication',()=>{
 test('Settings contains no fictitious personal data or demo reset controls',()=>{
  assert.doesNotMatch(src,/clearDemoStorage|DemoDataBadge|useLocalStorage|Restablecer datos de ejemplo/);
  assert.doesNotMatch(src,/sin cuentas, servidores|todas las cifras son ficticias|guiones locales/);
- assert.match(src,/no se ha hecho ninguna migración destructiva/);
- assert.match(src,/PWA|progresiva/i);
+ // 6-11-2026: la privacidad se explica una sola vez aquí; el estado de migración y las notas PWA se retiraron.
+ assert.match(src,/es privado y está vinculado a tu cuenta en Supabase/);
+ assert.match(src,/nunca un ejemplo/);
 });

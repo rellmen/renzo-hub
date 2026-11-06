@@ -36,8 +36,8 @@ export const HUBS: Hub[] = [
   { id: "body", label: "Body", short: "Body", blurb: "Gym, comida, piel y medidas", icon: Activity, accent: "var(--gym)",
     sections: [
       { appId: "gym", label: "Gym" },
-      { appId: "food", label: "Food" },
-      { appId: "piel", label: "Skin" },
+      { appId: "food", label: "Comida" },
+      { appId: "piel", label: "Piel" },
       { appId: "body", label: "Medidas" },
     ] },
   { id: "money", label: "Money", short: "Money", blurb: "Resumen, gastos (con el coche) y nóminas", icon: Wallet, accent: "var(--money)",

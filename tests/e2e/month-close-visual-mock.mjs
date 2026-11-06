@@ -58,7 +58,7 @@ try{
   await page.getByLabel('Contraseña').fill('qa-mock-only-password');
   await page.getByRole('button',{name:'Entrar'}).click();
   await page.getByRole('heading',{name:'Tu espacio privado.'}).waitFor({state:'hidden',timeout:20000});
-  await page.goto(origin+'/dinero',{waitUntil:'domcontentloaded'});
+  await page.goto(origin+'/dinero#cierre',{waitUntil:'domcontentloaded'});
   const panel=page.getByTestId('month-close'); await panel.waitFor({timeout:30000});
   const txt=await panel.innerText();
   assert.match(txt,/Extracto de ING/); assert.match(txt,/2026-W42, 2026-W43/); assert.match(txt,/neto anómalo: 2026-W43/);

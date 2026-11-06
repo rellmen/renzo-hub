@@ -39,7 +39,7 @@ export function BankStatementImport(){
    setPhase("preview");setError(e instanceof Error?e.message:"No se pudo guardar el extracto.");
   }
  }
- return <SectionCard eyebrow="MY FINANCE · BANCOS" title="Importar movimientos bancarios" accent="var(--money)">
+ return <SectionCard eyebrow="BANCOS" title="Importar movimientos bancarios" accent="var(--money)">
   <p className="text-sm text-platinum/80">Importa CSV de ING o Revolut, o PDF de Revolut. El fichero se analiza en tu dispositivo; ningún movimiento se guarda antes de confirmarlo.</p>
   <div className="mt-4 space-y-4">
    <label className="flex min-h-14 cursor-pointer items-center gap-3 rounded-xl border border-dashed border-money/40 bg-raised px-4 py-3 text-sm">

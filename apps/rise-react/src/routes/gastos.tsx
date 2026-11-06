@@ -1,7 +1,7 @@
 import {createFileRoute,Link} from "@tanstack/react-router";
 import {useMutation,useQuery,useQueryClient} from "@tanstack/react-query";
 import {useEffect,useState} from "react";
-import {ChevronDown,Pencil,RefreshCw,ShieldCheck} from "lucide-react";
+import {ChevronDown,Pencil,RefreshCw} from "lucide-react";
 import {pageHead} from "@/lib/seo";
 import {useAuth} from "@/lib/auth/AuthProvider";
 import {PageHeader,SectionCard} from "@/components/rise/primitives";
@@ -67,11 +67,10 @@ function Expenses(){
  const groups=groupByCategory(monthItems);
  return <div className="space-y-6">
   
-  <PageHeader eyebrow="MY FINANCE · GASTOS" title="Categoriza tus movimientos"
+  <PageHeader eyebrow="MONEY · GASTOS" title="Categoriza tus movimientos"
    subtitle="Tus movimientos de ING y Revolut agrupados por categoría. Toca una categoría para desplegarla y un movimiento para cambiarlo."/>
-  <div className="flex flex-wrap items-center justify-between gap-3">
-   <p className="text-xs text-muted-foreground"><ShieldCheck className="mr-1 inline h-4 w-4"/>Solo datos de tu sesión, protegidos por Supabase</p>
-   <button className="btn-ghost min-h-11" type="button" disabled={query.isFetching||mutation.isPending} onClick={()=>void query.refetch()}><RefreshCw className="h-4 w-4"/>Actualizar</button>
+  <div className="flex flex-wrap items-center justify-end gap-3">
+    <button className="btn-ghost min-h-11" type="button" disabled={query.isFetching||mutation.isPending} onClick={()=>void query.refetch()}><RefreshCw className="h-4 w-4"/>Actualizar</button>
   </div>
   {query.isLoading&&<p role="status" className="surface p-4">Cargando movimientos…</p>}
   {query.error&&<p role="alert" className="surface border border-gym/40 p-4 text-sm text-gym">No se pudo cargar el historial; no mostraremos cifras parciales.</p>}
