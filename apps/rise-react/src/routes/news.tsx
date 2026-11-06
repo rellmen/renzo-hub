@@ -25,7 +25,7 @@ function News(){
  const submit=(e:FormEvent<HTMLFormElement>)=>{e.preventDefault();save.mutate(Object.fromEntries(new FormData(e.currentTarget)) as Record<string,string>);};
  const rows=q.data?filterBriefs(q.data,{source,text}):[];
  return <div className="space-y-6">
-  <PageHeader eyebrow="INFORMACIÓN · HISTORIAL PRIVADO" title="News"
+  <PageHeader eyebrow="ACADEMY · BIBLIOTECA" title="News"
    subtitle="Resumen de noticias registrado en tu cuenta de Rise. No se muestran titulares ni acontecimientos inventados."/>
   <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-platinum/75">
    <span><ShieldCheck className="mr-2 inline h-4 w-4 text-gold"/>Datos guardados en Supabase</span>
@@ -35,7 +35,7 @@ function News(){
      <RefreshCw className={"h-4 w-4 "+(q.isFetching?"animate-spin":"")}/>Actualizar</button>
    </div>
   </div>
-  {adding&&<SectionCard eyebrow="Nuevo" title="Guardar resumen privado" accent="var(--gold)">
+  {adding&&<SectionCard eyebrow="Nuevo" title="Guardar resumen" accent="var(--gold)">
    <form className="space-y-3" onSubmit={submit}>
     <div className="grid gap-3 sm:grid-cols-2">
      <label className="block text-xs text-muted-foreground">Fuente<select name="source" className={field} defaultValue="Claude">{NEWS_SOURCES.map(s=><option key={s}>{s}</option>)}</select></label>
@@ -44,7 +44,7 @@ function News(){
     <label className="block text-xs text-muted-foreground">Título<input name="title" required maxLength={160} className={field}/></label>
     <label className="block text-xs text-muted-foreground">Contenido<textarea name="content" required maxLength={60000} rows={10} className={field+" py-2"}/></label>
     <label className="block text-xs text-muted-foreground">Enlace original (opcional, https)<input name="source_url" type="url" className={field}/></label>
-    <button type="submit" className="btn-gold min-h-11" disabled={save.isPending}>{save.isPending?"Guardando…":"Guardar privado"}</button>
+    <button type="submit" className="btn-gold min-h-11" disabled={save.isPending}>{save.isPending?"Guardando…":"Guardar"}</button>
     {save.error&&<p role="alert" className="text-sm text-gym">{save.error instanceof Error?save.error.message:"No se pudo guardar."}</p>}
    </form>
   </SectionCard>}

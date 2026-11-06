@@ -1,7 +1,7 @@
 import {createFileRoute,Link} from "@tanstack/react-router";
 import {useMutation,useQuery,useQueryClient} from "@tanstack/react-query";
 import {useState,type FormEvent} from "react";
-import {RefreshCw,ShieldCheck,UtensilsCrossed} from "lucide-react";
+import {RefreshCw,UtensilsCrossed} from "lucide-react";
 import {pageHead} from "@/lib/seo";
 import {useAuth} from "@/lib/auth/AuthProvider";
 import {PageHeader,SectionCard,EmptyState,Bar} from "@/components/rise/primitives";
@@ -27,10 +27,10 @@ function Food(){
  const q=useQuery({queryKey:["body-food",uid],enabled:!!client&&!!user,queryFn:()=>loadBodyFoodSnapshot(client!,user!),staleTime:30000});
  const d=q.data;
  return <div className="space-y-6">
- <PageHeader eyebrow="FOOD · NUTRICIÓN PRIVADA" title="Alimentación consciente."
-  subtitle="Tus comidas y objetivos reales, sin generar cantidades de demostración."
+ <PageHeader eyebrow="BODY · COMIDA" title="Alimentación consciente."
+  subtitle="Tus comidas y objetivos."
   action={<button type="button" className="btn-ghost" disabled={q.isFetching} onClick={()=>void q.refetch()}><RefreshCw className="h-4 w-4"/> Actualizar</button>}/>
- <p className="flex items-center gap-2 text-xs text-muted-foreground"><ShieldCheck className="h-4 w-4 text-gold"/> Consulta privada Supabase con RLS.</p>
+ 
  {q.isLoading&&<p role="status" className="surface p-5">Cargando comidas registradas…</p>}
  {q.error&&<p role="alert" className="surface border border-gym/40 p-4 text-sm text-gym">Error: {q.error instanceof Error?q.error.message:"No se pudieron recuperar tus comidas"}</p>}
  {d&&<><div className="grid gap-6 md:grid-cols-2">

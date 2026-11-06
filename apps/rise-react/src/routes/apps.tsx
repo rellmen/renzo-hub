@@ -1,6 +1,5 @@
 import {createFileRoute,Link} from "@tanstack/react-router";
 import {useState} from "react";
-import {ShieldCheck} from "lucide-react";
 import {PageHeader} from "@/components/rise/primitives";
 import {pageHead} from "@/lib/seo";
 import {HUBS} from "@/lib/hubs";
@@ -35,6 +34,6 @@ function AllApps(){
     </Link>}</li>)}</ul>
   </section>)}
   {!shown.length&&<p className="surface p-5 text-sm">No hay ninguna app con ese nombre. Prueba con otra palabra.</p>}
-  <p className="flex gap-2 text-xs text-muted-foreground"><ShieldCheck className="h-4 w-4 shrink-0"/>Classic sigue solo como respaldo. No se crean datos de demostración.</p>
+  
  </div>;
 }

@@ -1,18 +1,24 @@
 import {createFileRoute,Link} from "@tanstack/react-router";
 import {useMutation,useQuery,useQueryClient} from "@tanstack/react-query";
 import {useState} from "react";
-import {CalendarDays,RefreshCw,Save,ShieldCheck} from "lucide-react";
+import {CalendarDays,RefreshCw,Save} from "lucide-react";
 import {useAuth} from "@/lib/auth/AuthProvider";
 import {PageHeader,SectionCard} from "@/components/rise/primitives";
 import {pageHead} from "@/lib/seo";
 import {SHIFT_MODES,loadShiftState,saveShiftState,nextShiftState,nextTemplateState,shiftPreview} from "@/lib/shift-state.mjs";
 import {ShiftPayrollReport} from "@/components/rise/ShiftPayrollReport";
 import {ShiftTrackerEditor} from "@/components/rise/ShiftTrackerEditor";
+import {SubTabs,useSubTab} from "@/components/rise/SubTabs";
+import {loadPayrollRecords} from "@/lib/payroll-records.mjs";
 
 export const Route=createFileRoute("/turnos")({
  head:()=>pageHead("Turnos","Calendario laboral con el mismo estado que la aplicación clásica."),
  component:Shifts
 });
+/** Turnos en cuatro pestañas (6-11-2026). «Contratos» viene de Nóminas: es información de trabajo, no de sueldo. */
+const TABS=[{id:"calendario",label:"Calendario"},{id:"registro",label:"Registro"},{id:"informe",label:"Informe"},{id:"contratos",label:"Contratos"}] as const;
+const eur=new Intl.NumberFormat("es-ES",{style:"currency",currency:"EUR"});
+const money=(v:number|null|undefined)=>typeof v==="number"?eur.format(v):"—";
 const DAYS=["Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"];
 function dateToday(){const d=new Date();return [d.getFullYear(),String(d.getMonth()+1).padStart(2,"0"),String(d.getDate()).padStart(2,"0")].join("-");}
 function nextDays(){const now=new Date();return Array.from({length:14},(_,i)=>{
@@ -29,6 +35,9 @@ function ShiftSelect({value,onChange,disabled=false}:{value:string;onChange:(v:s
 function Shifts(){
  const {client,user}=useAuth(),uid=user?.id||"";
  const qc=useQueryClient();
+ const [tab,go]=useSubTab(TABS,"calendario");
+ const historical=useQuery({queryKey:["payroll-contracts-shifts",uid],enabled:!!client&&!!uid,
+  queryFn:()=>loadPayrollRecords(client!,uid),staleTime:30000,refetchOnWindowFocus:true});
  const [date,setDate]=useState(dateToday());
  const [mode,setMode]=useState("");
  const [day,setDay]=useState("1");
@@ -55,14 +64,11 @@ function Shifts(){
  const calendar=nextDays(),data=query.data;
  return <div className="space-y-6">
   
-  <PageHeader eyebrow="TRABAJO · CALENDARIO" title="Mis turnos"
-   subtitle="Los turnos y excepciones se guardan en el estado original de Rise. No se inventan horas trabajadas ni suplementos de salario."/>
-  <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-platinum/75">
-   <p><ShieldCheck className="mr-2 inline h-4 w-4 text-gold"/>Calendario privado de la cuenta y el entorno actuales</p>
-   <button type="button" className="btn-ghost" disabled={query.isFetching} onClick={()=>void query.refetch()}>
-    <RefreshCw className={"h-4 w-4 "+(query.isFetching?"animate-spin":"")}/> Actualizar
-   </button>
-  </div>
+  <PageHeader eyebrow="TRABAJO · TURNOS" title="Mis turnos"
+   action={<button type="button" className="btn-ghost" disabled={query.isFetching} aria-label="Actualizar turnos" onClick={()=>void query.refetch()}>
+    <RefreshCw className={"h-4 w-4 "+(query.isFetching?"animate-spin":"")}/></button>}/>
+  <SubTabs tabs={TABS} value={tab} onChange={go} label="Apartados de Turnos" accent="var(--projects)"/>
+  {tab==="calendario"&&<>
   {query.isLoading&&<p role="status" className="surface p-4">Buscando turnos…</p>}
   {query.error&&<p role="alert" className="rounded-xl border border-gym/40 p-4 text-sm text-gym">No se pudo consultar el estado del calendario.</p>}
   {data&&<div className="grid gap-5 lg:grid-cols-2">
@@ -102,8 +108,28 @@ function Shifts(){
   {save.error&&<p role="alert" className="rounded-xl border border-gym/40 p-4 text-sm text-gym">
    {save.error instanceof Error?save.error.message:"No se guardó. Actualiza antes de reintentar."}
   </p>}
-  <ShiftTrackerEditor/>
-  <div className="flex flex-wrap gap-2"><Link to="/nominas" className="btn-ghost inline-flex min-h-11 items-center"><CalendarDays className="h-4 w-4"/> Comparar con nóminas</Link></div>
-  <ShiftPayrollReport/>
+  </>}
+  {tab==="registro"&&<ShiftTrackerEditor/>}
+  {tab==="informe"&&<>
+   <ShiftPayrollReport/>
+   <Link to="/nominas" className="btn-ghost inline-flex min-h-11 items-center"><CalendarDays className="h-4 w-4"/> Ver nóminas</Link>
+  </>}
+  {tab==="contratos"&&<SectionCard eyebrow="Importados de nóminas" title="Contratos y turnos importados" accent="var(--projects)">
+   {historical.isLoading&&<p role="status" className="text-sm">Consultando contratos y turnos…</p>}
+   {historical.error&&<p role="alert" className="text-sm text-gym">No se pudo recuperar la información contractual completa.</p>}
+   {historical.data&&<div className="space-y-4">
+     <p className="text-sm text-platinum/80">{historical.data.contracts.length} contratos · {historical.data.shifts.length} turnos guardados. No se calculan complementos sin reglas contractuales verificadas.</p>
+     <details><summary className="cursor-pointer text-sm font-medium">Ver contratos registrados</summary>
+       <ul className="mt-3 space-y-2">{historical.data.contracts.map(c=><li key={c.id} className="rounded-xl border border-hairline p-3 text-sm">
+         <strong>{c.title||"Contrato sin título"}</strong><p className="mt-1 text-xs text-muted-foreground">Tarifa base registrada: {typeof c.payload?.hourlyRate==="number"?money(c.payload.hourlyRate)+"/h":"No verificada"}</p>
+       </li>)}</ul>
+     </details>
+     <details><summary className="cursor-pointer text-sm font-medium">Ver historial de turnos</summary>
+       <ul className="mt-3 space-y-2">{historical.data.shifts.slice(0,100).map(t=><li key={t.id} className="rounded-xl border border-hairline p-3 text-sm">
+         <strong>{t.title||String(t.payload?.date||"Fecha pendiente")}</strong><p className="mt-1 text-xs text-muted-foreground">{String(t.payload?.start||"—")}–{String(t.payload?.end||"—")}</p>
+       </li>)}</ul>
+     </details>
+   </div>}
+  </SectionCard>}
  </div>;
 }

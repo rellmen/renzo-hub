@@ -73,19 +73,19 @@ function AresPage(){
       <img src={orb} alt="" width={1600} height={912} className="absolute inset-0 h-full w-full object-cover object-center opacity-80 sm:object-[70%_center]"/>
       <div className="absolute inset-0 bg-hero-side"/>
       <div className="relative p-6 sm:p-10 lg:p-12">
-        <div className="eyebrow mb-3 text-ares">Ares Center · Acceso privado</div>
+        <div className="eyebrow mb-3 text-ares">Ares · Chat</div>
         <h1 className="max-w-lg font-display text-5xl font-medium leading-[0.95] sm:text-6xl">Piensa contigo, <em className="text-gold-gradient">no por ti.</em></h1>
-        <p className="mt-4 max-w-md text-sm text-platinum/80">Consulta tus proyectos, tareas y revisiones guardados de forma privada. Respuestas basadas exclusivamente en registros verificables.</p>
+        <p className="mt-4 max-w-md text-sm text-platinum/80">Pregunta por tus proyectos, tareas y revisiones.</p>
         <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-hairline bg-ink/50 px-3 py-1.5 text-xs text-platinum/80 backdrop-blur">
           <ShieldCheck className="h-3.5 w-3.5 text-gold"/> Consultas de datos reales · sin acciones automáticas
         </div>
       </div>
     </section>
 
-    {error&&<p role="alert" className="surface border border-gym/40 p-4 text-sm text-gym">{message(error)}. No se mostrarán valores ficticios.</p>}
+    {error&&<p role="alert" className="surface border border-gym/40 p-4 text-sm text-gym">{message(error)}.</p>}
 
     <div className="grid gap-6 lg:grid-cols-[1.7fr_1fr]">
-      <SectionCard eyebrow={<span className="text-ares">Conversación privada</span>} title="Consultar Ares" accent="var(--ares)"
+      <SectionCard eyebrow={<span className="text-ares">Conversación</span>} title="Consultar Ares" accent="var(--ares)"
         action={<button className="btn-ghost min-h-9 px-3 text-xs" type="button" disabled={isFetching}
           onClick={()=>void refetch()}><RefreshCw className={"h-4 w-4 "+(isFetching?"animate-spin":"")}/> Actualizar</button>}>
         <div className="grid gap-2 sm:grid-cols-2">
@@ -97,7 +97,7 @@ function AresPage(){
           </button>)}
         </div>
         <div aria-live="polite" className="my-5 max-h-[440px] min-h-[210px] space-y-4 overflow-y-auto rounded-xl border border-hairline bg-ink/40 p-4">
-          {!data&&!error&&<p role="status" className="text-sm text-muted-foreground">Cargando registros privados…</p>}
+          {!data&&!error&&<p role="status" className="text-sm text-muted-foreground">Cargando…</p>}
           {messages.length===0&&data&&<EmptyState icon={<MessageCircle className="h-5 w-5"/>}
             title="Empieza una consulta" text="Por defecto, las respuestas usan solo tus registros privados; el proveedor externo es opcional."/>}
           {messages.map(m=><div key={m.id} className={m.role==="user"?"ml-8 rounded-2xl bg-wine-gradient p-4 text-sm":"mr-5 rounded-2xl border border-hairline bg-raised p-4 text-sm"}>

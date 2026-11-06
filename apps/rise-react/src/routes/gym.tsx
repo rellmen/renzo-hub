@@ -64,7 +64,7 @@ function Gym(){
   const summary=d?.lastCompleted?sessionSummary(d.lastCompleted,history):null;
   const recent=d?.completed.slice(0,8)||[];
   return <div className="space-y-6">
-    <PageHero image={img} eyebrow="GYM · REGISTROS PRIVADOS"
+    <PageHero image={img} eyebrow="BODY · GYM"
       title="Más fuerte cada día."
       subtitle="Entrenamientos y progreso registrados en tu cuenta real, sin repeticiones ni cargas inventadas."
       color="var(--gym)" priority />
@@ -99,7 +99,7 @@ function Gym(){
           <button type="button" disabled={start.isPending} className="btn-gold"
             onClick={()=>start.mutate()}>{start.isPending?"Iniciando…":"Iniciar entrenamiento"}</button>
         </div>}
-        {!current&&!d.plan.length&&<p className="text-sm text-muted-foreground">Primero guarda una rutina desde la aplicación Gym existente. Aquí se utilizará el plan real, sin ejercicios de demostración.</p>}
+        {!current&&!d.plan.length&&<p className="text-sm text-muted-foreground">Primero guarda una rutina desde la aplicación Gym existente.</p>}
         {current&&<div className="space-y-5">
           <p className="text-sm text-platinum/80">
             Marca únicamente las series realizadas. Una serie completada necesita peso, repeticiones y RIR. Las sugerencias de progresión son orientativas (doble progresión con RIR del sistema original). Usa «Guardar borrador» antes de salir.
