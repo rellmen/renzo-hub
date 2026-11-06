@@ -37,6 +37,23 @@ Preguntas: 561 (505 de salida + 56 del banco del kit). 342 claves numéricas o a
 
 M10, C07, T06 y E06 usan el formato de referencia 2026 de `exam-profiles.json` (Matemáticas: 4 de 6 cuestiones a 1,5 y 1 de 2 problemas a 4; Castellano: −0,16 por fallo en cuatro opciones y −0,1 por error; Comentario: 6 + 4 puntos; Inglés: −0,33 y −0,05). **Revalidar con la convocatoria 2027**; la duración oficial no está incluida porque no se pudo verificar (la página oficial bloquea la lectura automática).
 
+## Economía ampliada · 6 noviembre 2026
+
+Desde el 01-11 Economía es la segunda específica y tenía 10 lecciones frente a 56 de Matemáticas. Se añaden **8 lecciones en `draft`** (todas al estándar automático, 40 preguntas de salida con claves verificadas por cálculo en `verify_keys.py`):
+
+| ID | Tema |
+|---|---|
+| B02-L02 | Cuenta de pérdidas y ganancias paso a paso (BAII, resultado financiero, BAI, BN; gasto, pago e inversión) |
+| B03-L02 | Rentabilidad económica y financiera, margen × rotación, apalancamiento |
+| B05-L02 | Inversiones tipo examen: valor residual, TIR de dos periodos, sensibilidad del VAN |
+| B07-L02 | Marketing: cuota, segmentación, ciclo de vida, precio por coste + margen, canales |
+| B10-L01 | **Nuevo módulo Producción:** productividad y eficiencia |
+| B10-L02 | Costes, umbral de rentabilidad y fabricar o comprar |
+| B10-L03 | Gestión de inventarios: stock de seguridad, punto de pedido, rotación, ABC, Wilson |
+| B11-L01 | **Nuevo módulo Organización y RR. HH.:** dirección, estructuras, motivación, nómina simplificada |
+
+Pendiente: (1) cargar `supabase/seed/academy_question_keys.sql` en staging y, con OK de Renzo, en producción (sin las claves, las mini evaluaciones nuevas no corrigen); (2) contrastar el temario oficial +25 de Economía de l'Empresa 2027 cuando se publique (B10 y B11 siguen el temario de Bachillerato; no se pudo leer la web de la Generalitat desde esta sesión); (3) revisión humana; (4) simulacro de Economía con los bloques nuevos.
+
 ## Infraestructura
 
 - Migración `supabase/pending/20261024090000_academy_foundation.sql`: aplicada **solo en staging** (`20261024000925`). Producción: no aplicada.

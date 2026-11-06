@@ -8,7 +8,9 @@ const read=p=>readFileSync(new URL(p,root),'utf8');
 
 test('Academia: contenido válido y salidas generadas al día (build --check)',()=>{
   const out=execFileSync(process.execPath,['tools/academy/build.mjs','--check'],{cwd:root,encoding:'utf8'});
-  assert.match(out,/^OK · 131 lecciones/);
+  assert.match(out,/^OK · 139 lecciones/);
+  // 06-11-2026: Economía ampliada a 18 lecciones (B02-L02, B03-L02, B05-L02, B07-L02, B10 Producción, B11 Organización).
+  assert.match(out,/economia: 18\/18 con contenido, 18 al estándar/);
   assert.match(out,/catalan: 11\/11 con contenido, 11 al estándar/);
 });
 

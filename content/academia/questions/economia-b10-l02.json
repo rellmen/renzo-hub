@@ -1,0 +1,36 @@
+{
+  "lesson_id": "economia-b10-l02",
+  "questions": [
+    {
+      "id": "b10l02-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["costs"],
+      "prompt_md": "Costes fijos 15.000 €, coste variable unitario 3 € y producción de 4.000 unidades. ¿Coste total en euros?", "unit": "€",
+      "key": {"value": 27000, "tolerance": 0.5},
+      "explanation_md": "$15.000+3\\cdot4.000=27.000$ €."
+    },
+    {
+      "id": "b10l02-x2", "kind": "numeric", "difficulty": 1, "skill_ids": ["costs"],
+      "prompt_md": "Con los datos anteriores (CT de 27.000 € para 4.000 unidades), ¿coste medio por unidad en euros?", "unit": "€",
+      "key": {"value": 6.75, "tolerance": 0.005},
+      "explanation_md": "$\\dfrac{27.000}{4.000}=6{,}75$ €."
+    },
+    {
+      "id": "b10l02-x3", "kind": "numeric", "difficulty": 2, "skill_ids": ["break_even"],
+      "prompt_md": "Costes fijos 18.000 €, precio 30 € y coste variable unitario 21 €. ¿Punto muerto en unidades?", "unit": "unidades",
+      "key": {"value": 2000, "tolerance": 0.5},
+      "explanation_md": "$\\dfrac{18.000}{30-21}=2.000$ unidades."
+    },
+    {
+      "id": "b10l02-x4", "kind": "numeric", "difficulty": 2, "skill_ids": ["make_or_buy"],
+      "prompt_md": "Comprar una pieza cuesta 10 €. Fabricarla supone costes fijos de 12.000 € y un coste variable de 7 €. ¿Volumen de indiferencia en unidades?", "unit": "unidades",
+      "key": {"value": 4000, "tolerance": 0.5},
+      "explanation_md": "$\\dfrac{12.000}{10-7}=4.000$ unidades."
+    },
+    {
+      "id": "b10l02-x5", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["make_or_buy"],
+      "prompt_md": "Con el volumen de indiferencia de 4.000 unidades del ejercicio anterior, la empresa necesita 6.000 piezas. ¿Qué le conviene en términos de coste?",
+      "choices": [{"id": "a", "text": "Comprar, porque 10 € es menos que los costes fijos"}, {"id": "b", "text": "Fabricar, porque supera el volumen de indiferencia"}, {"id": "c", "text": "Es indiferente"}, {"id": "d", "text": "Comprar, porque necesita más de 4.000 piezas"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Fabricar: $12.000+7\\cdot6.000=54.000$ €; comprar: $60.000$ €. Por encima de $Q_I$ fabricar es más barato."
+    }
+  ]
+}

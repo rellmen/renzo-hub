@@ -1,0 +1,36 @@
+{
+  "lesson_id": "economia-b02-l02",
+  "questions": [
+    {
+      "id": "b02l02-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["ebit"],
+      "prompt_md": "Una empresa tiene 200.000 € de ingresos de explotación y 150.000 € de gastos de explotación (amortización incluida). ¿Cuál es su BAII en euros?", "unit": "€",
+      "key": {"value": 50000, "tolerance": 0.5},
+      "explanation_md": "$200.000-150.000=50.000$ €."
+    },
+    {
+      "id": "b02l02-x2", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["income_statement"],
+      "prompt_md": "¿Cuál de estas operaciones **no** aparece como gasto en la cuenta de pérdidas y ganancias?",
+      "choices": [{"id": "a", "text": "Los intereses de un préstamo"}, {"id": "b", "text": "La amortización anual de una carretilla"}, {"id": "c", "text": "La devolución del principal de un préstamo"}, {"id": "d", "text": "El alquiler de la nave"}],
+      "key": {"correct_choice_id": "c"},
+      "explanation_md": "Devolver el principal es un pago que reduce la deuda (pasivo); no es gasto. Intereses, amortización y alquiler sí lo son."
+    },
+    {
+      "id": "b02l02-x3", "kind": "numeric", "difficulty": 2, "skill_ids": ["income_statement"],
+      "prompt_md": "BAII de 60.000 €, gastos financieros de 8.000 €, sin ingresos financieros e impuesto del 25 %. ¿Cuál es el beneficio neto en euros?", "unit": "€",
+      "key": {"value": 39000, "tolerance": 0.5},
+      "explanation_md": "BAI $=52.000$ €; BN $=52.000\\cdot0{,}75=39.000$ €."
+    },
+    {
+      "id": "b02l02-x4", "kind": "numeric", "difficulty": 1, "skill_ids": ["depreciation"],
+      "prompt_md": "Una máquina de 25.000 € con valor residual de 5.000 € se amortiza linealmente en 4 años. ¿Cuota anual en euros?", "unit": "€",
+      "key": {"value": 5000, "tolerance": 0.5},
+      "explanation_md": "$\\dfrac{25.000-5.000}{4}=5.000$ € al año."
+    },
+    {
+      "id": "b02l02-x5", "kind": "numeric", "difficulty": 2, "skill_ids": ["income_statement"],
+      "prompt_md": "Ingresos financieros 3.000 € y gastos financieros 11.000 €. ¿Cuál es el resultado financiero en euros (con signo)?", "unit": "€",
+      "key": {"value": -8000, "tolerance": 0.5},
+      "explanation_md": "$3.000-11.000=-8.000$ €: resta 8.000 € al BAII."
+    }
+  ]
+}

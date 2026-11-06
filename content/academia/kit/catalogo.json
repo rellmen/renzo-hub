@@ -1781,6 +1781,19 @@
        "prerequisites": [],
        "source_kind": "original",
        "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/economia_empresa/"
+      },
+      {
+       "id": "economia-b02-l02",
+       "title": "Cuenta de pérdidas y ganancias paso a paso",
+       "topic_scope": "BAII, resultado financiero, BAI, impuesto, beneficio neto, amortización; gasto, pago e inversión",
+       "level": "N1",
+       "editorial_status": "draft",
+       "estimated_minutes": 45,
+       "prerequisites": [
+        "economia-b02-l01"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/economia_empresa/"
       }
      ]
     },
@@ -1797,6 +1810,20 @@
        "editorial_status": "planned",
        "estimated_minutes": 35,
        "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/economia_empresa/"
+      },
+      {
+       "id": "economia-b03-l02",
+       "title": "Rentabilidad económica, financiera y apalancamiento",
+       "topic_scope": "rentabilidad económica y financiera, margen y rotación, apalancamiento financiero",
+       "level": "N2",
+       "editorial_status": "draft",
+       "estimated_minutes": 45,
+       "prerequisites": [
+        "economia-b02-l02",
+        "economia-b03-l01"
+       ],
        "source_kind": "original",
        "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/economia_empresa/"
       }
@@ -1835,6 +1862,19 @@
        "prerequisites": [],
        "source_kind": "original",
        "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/economia_empresa/"
+      },
+      {
+       "id": "economia-b05-l02",
+       "title": "Inversiones tipo examen: valor residual, TIR a mano y sensibilidad del VAN",
+       "topic_scope": "valor residual, TIR de dos periodos, VAN frente al tipo de descuento, payback frente a VAN",
+       "level": "N2",
+       "editorial_status": "draft",
+       "estimated_minutes": 50,
+       "prerequisites": [
+        "economia-b05-l01"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/economia_empresa/"
       }
      ]
     },
@@ -1869,6 +1909,86 @@
        "editorial_status": "planned",
        "estimated_minutes": 35,
        "prerequisites": [],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/economia_empresa/"
+      },
+      {
+       "id": "economia-b07-l02",
+       "title": "Marketing: mercado, cuota, segmentación, ciclo de vida y precio",
+       "topic_scope": "mercado, cuota de mercado, segmentación, ciclo de vida del producto, fijación de precios, canales",
+       "level": "N2",
+       "editorial_status": "draft",
+       "estimated_minutes": 45,
+       "prerequisites": [
+        "economia-b07-l01"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/economia_empresa/"
+      }
+     ]
+    },
+    {
+     "id": "B10",
+     "title": "Producción",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "economia-b10-l01",
+       "title": "Productividad y eficiencia",
+       "topic_scope": "productividad del trabajo y global, tasa de variación, eficiencia técnica y económica",
+       "level": "N2",
+       "editorial_status": "draft",
+       "estimated_minutes": 40,
+       "prerequisites": [
+        "economia-b00-l01"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/economia_empresa/"
+      },
+      {
+       "id": "economia-b10-l02",
+       "title": "Costes, umbral de rentabilidad y decisión de fabricar o comprar",
+       "topic_scope": "costes fijos, variables, totales y medios; punto muerto; fabricar o comprar",
+       "level": "N2",
+       "editorial_status": "draft",
+       "estimated_minutes": 45,
+       "prerequisites": [
+        "economia-b10-l01",
+        "economia-b07-l01"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/economia_empresa/"
+      },
+      {
+       "id": "economia-b10-l03",
+       "title": "Gestión de inventarios",
+       "topic_scope": "tipos y costes de existencias, stock de seguridad, punto de pedido, stock medio, rotación, ABC, modelo de Wilson",
+       "level": "N2",
+       "editorial_status": "draft",
+       "estimated_minutes": 45,
+       "prerequisites": [
+        "economia-b10-l02"
+       ],
+       "source_kind": "original",
+       "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/economia_empresa/"
+      }
+     ]
+    },
+    {
+     "id": "B11",
+     "title": "Organización y recursos humanos",
+     "level": "N2",
+     "lessons": [
+      {
+       "id": "economia-b11-l01",
+       "title": "Dirección, estructura organizativa y recursos humanos",
+       "topic_scope": "funciones directivas, principios de organización, estructuras, organigrama, reclutamiento, selección, motivación y nómina",
+       "level": "N2",
+       "editorial_status": "draft",
+       "estimated_minutes": 45,
+       "prerequisites": [
+        "economia-b01-l01"
+       ],
        "source_kind": "original",
        "aligned_source_url": "https://universitats.gencat.cat/es/proves-majors/25-anys/temaris-estructura/fase-especifica/economia_empresa/"
       }

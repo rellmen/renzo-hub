@@ -1,0 +1,36 @@
+{
+  "lesson_id": "economia-b10-l03",
+  "questions": [
+    {
+      "id": "b10l03-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["reorder_point"],
+      "prompt_md": "Demanda diaria de 20 unidades, plazo de entrega de 7 días y stock de seguridad de 40 unidades. ¿Punto de pedido en unidades?", "unit": "unidades",
+      "key": {"value": 180, "tolerance": 0.5},
+      "explanation_md": "$40+20\\cdot7=180$ unidades."
+    },
+    {
+      "id": "b10l03-x2", "kind": "numeric", "difficulty": 1, "skill_ids": ["stock_turnover"],
+      "prompt_md": "Se piden 600 unidades cada vez y el stock de seguridad es de 50 unidades. ¿Stock medio en unidades?", "unit": "unidades",
+      "key": {"value": 350, "tolerance": 0.5},
+      "explanation_md": "$\\dfrac{600}{2}+50=350$ unidades."
+    },
+    {
+      "id": "b10l03-x3", "kind": "numeric", "difficulty": 2, "skill_ids": ["stock_turnover"],
+      "prompt_md": "Consumo anual de 7.000 unidades y stock medio de 350 unidades. ¿Rotación de existencias (veces al año)?",
+      "key": {"value": 20, "tolerance": 0.01},
+      "explanation_md": "$\\dfrac{7.000}{350}=20$ veces al año; $PMA=\\dfrac{365}{20}=18{,}25$ días."
+    },
+    {
+      "id": "b10l03-x4", "kind": "numeric", "difficulty": 3, "skill_ids": ["eoq"],
+      "prompt_md": "Demanda anual 5.000 unidades, coste de cada pedido 20 € y coste anual de almacenar una unidad 2 €. ¿Volumen óptimo de pedido (modelo de Wilson), con dos decimales?", "unit": "unidades",
+      "key": {"value": 316.23, "tolerance": 0.05},
+      "explanation_md": "$Q^{*}=\\sqrt{\\dfrac{2\\cdot5.000\\cdot20}{2}}=\\sqrt{100.000}\\approx316{,}23$ unidades."
+    },
+    {
+      "id": "b10l03-x5", "kind": "multiple_choice", "difficulty": 1, "skill_ids": ["inventory_costs"],
+      "prompt_md": "¿Qué es el stock de seguridad?",
+      "choices": [{"id": "a", "text": "El nivel de existencias al que se lanza un pedido"}, {"id": "b", "text": "La cantidad que se pide cada vez al proveedor"}, {"id": "c", "text": "Una reserva mínima para cubrir retrasos o picos de demanda"}, {"id": "d", "text": "El stock medio del año"}],
+      "key": {"correct_choice_id": "c"},
+      "explanation_md": "El stock de seguridad es el colchón; el nivel al que se pide es el punto de pedido."
+    }
+  ]
+}

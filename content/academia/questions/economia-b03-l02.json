@@ -1,0 +1,36 @@
+{
+  "lesson_id": "economia-b03-l02",
+  "questions": [
+    {
+      "id": "b03l02-x1", "kind": "numeric", "difficulty": 1, "skill_ids": ["profitability"],
+      "prompt_md": "BAII de 45.000 € y activo total de 300.000 €. ¿Rentabilidad económica en %?", "unit": "%",
+      "key": {"value": 15, "tolerance": 0.01},
+      "explanation_md": "$\\dfrac{45.000}{300.000}=0{,}15=15\\,\\%$."
+    },
+    {
+      "id": "b03l02-x2", "kind": "numeric", "difficulty": 1, "skill_ids": ["profitability"],
+      "prompt_md": "Beneficio neto de 27.000 € y patrimonio neto de 180.000 €. ¿Rentabilidad financiera en %?", "unit": "%",
+      "key": {"value": 15, "tolerance": 0.01},
+      "explanation_md": "$\\dfrac{27.000}{180.000}=15\\,\\%$."
+    },
+    {
+      "id": "b03l02-x3", "kind": "multiple_choice", "difficulty": 2, "skill_ids": ["leverage"],
+      "prompt_md": "¿Cuándo aumenta la rentabilidad financiera al financiar una inversión con deuda?",
+      "choices": [{"id": "a", "text": "Siempre, porque los socios aportan menos dinero"}, {"id": "b", "text": "Cuando la rentabilidad económica es mayor que el coste de la deuda"}, {"id": "c", "text": "Cuando el coste de la deuda es mayor que la rentabilidad económica"}, {"id": "d", "text": "Nunca, porque los intereses reducen el beneficio"}],
+      "key": {"correct_choice_id": "b"},
+      "explanation_md": "Cada euro prestado rinde la RE y cuesta el tipo de interés: si RE > coste, la diferencia queda para los socios (apalancamiento positivo)."
+    },
+    {
+      "id": "b03l02-x4", "kind": "numeric", "difficulty": 2, "skill_ids": ["leverage"],
+      "prompt_md": "Sin impuestos: activo 100.000 € financiado con 50.000 € propios y 50.000 € de deuda al 4 %. BAII 10.000 €. ¿Rentabilidad financiera en %?", "unit": "%",
+      "key": {"value": 16, "tolerance": 0.01},
+      "explanation_md": "Intereses $2.000$ €; RF $=\\dfrac{10.000-2.000}{50.000}=16\\,\\%$."
+    },
+    {
+      "id": "b03l02-x5", "kind": "numeric", "difficulty": 2, "skill_ids": ["margin_turnover"],
+      "prompt_md": "Una empresa tiene un margen (BAII/ventas) del 5 % y una rotación del activo de 2. ¿Rentabilidad económica en %?", "unit": "%",
+      "key": {"value": 10, "tolerance": 0.01},
+      "explanation_md": "RE $=$ margen $\\times$ rotación $=5\\,\\%\\cdot2=10\\,\\%$."
+    }
+  ]
+}
