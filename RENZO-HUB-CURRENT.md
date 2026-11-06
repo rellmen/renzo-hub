@@ -16,7 +16,7 @@ Release React 2.62.0. **Decisión de Renzo (06-11-2026): opción C** de la audit
 | Global | Fuera los avisos «espacio privado / acceso privado» del marco y el sello «CONCEPTO VISUAL»; cabeceras con foto más bajas; eyebrows con el hub real (MONEY · GASTOS, BODY · GYM…); Food → Comida, Skin → Piel; textos tipo «sin cifras de demostración» retirados. |
 
 - Componente nuevo `components/rise/SubTabs.tsx` (pestañas internas con #hash, mismo estilo que Gastos).
-- Pruebas: raíz 721/721, vitest 128/128, tsc OK, build OK; e2e con sesión simulada: authenticated-ui (27 vistas, Chromium + WebKit), priority, payroll-outlier y academia OK. Tests actualizados: importador ahora en Gastos, Ajustes sin estado de migración, academia espera «Estado del contenido».
+- Pruebas: raíz 721/721, vitest 128/128, tsc OK, build OK; e2e con sesión simulada: authenticated-ui (27 vistas, Chromium + WebKit), priority, payroll-outlier y academia, month-close, receipts, notifications y auth-smoke OK. Tests actualizados: importador ahora en Gastos, Ajustes sin estado de migración, academia espera «Estado del contenido», month-close abre `/dinero#cierre`.
 - No verificado: con datos reales en el móvil de Renzo (staging).
 
 ## Gastos ordenado e importación clara · 4 noviembre 2026
