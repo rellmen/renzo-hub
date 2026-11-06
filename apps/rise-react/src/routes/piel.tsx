@@ -77,11 +77,11 @@ function Skin(){
   const percent=steps.length&&state.data?Math.round(completed.length/steps.length*100):0;
   const week=weekSkinProgress(state.data?.logs||[],dayDate,state.data?.barrierFirst??true);
   return <div className="space-y-6">
-    <PageHero image={img} eyebrow="SKIN ROUTINE · PRIVADO"
+    <PageHero image={img} eyebrow="BODY · SKIN"
       title="Tu ritual, cada día."
-      subtitle="Constancia antes que intensidad. Tu plan personal existente, sincronizado sin inventar productos."
+      subtitle="Constancia antes que intensidad."
       color="var(--skin)" priority/>
-    {state.error&&<p role="alert" className="surface border border-gym/40 p-5 text-sm text-gym">Error al recuperar la rutina: {errText(state.error)}. No se han cargado productos ficticios.</p>}
+    {state.error&&<p role="alert" className="surface border border-gym/40 p-5 text-sm text-gym">Error al recuperar la rutina: {errText(state.error)}.</p>}
     {state.isLoading&&<p role="status" className="surface p-5">Cargando los registros de tu piel…</p>}
     {!state.isLoading&&!state.error&&state.data&&<>
       <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-muted-foreground">
@@ -133,7 +133,7 @@ function Skin(){
             </ul>
             <p className="mt-4 text-xs text-muted-foreground">Se muestran únicamente pasos registrados en tu historial, sin porcentajes inventados.</p>
           </SectionCard>
-          <SectionCard eyebrow="Notas privadas" title="Observaciones de hoy" accent="var(--skin)">
+          <SectionCard eyebrow="Notas" title="Observaciones de hoy" accent="var(--skin)">
             <form onSubmit={e=>{e.preventDefault();saveNote.mutate();}} className="space-y-3">
               <label htmlFor="skin-note-real" className="text-xs text-muted-foreground">Cómo se encuentra tu piel</label>
               <textarea id="skin-note-real" value={note} onChange={e=>setNote(e.target.value)}

@@ -1,8 +1,8 @@
 {
-  "release": "2.61.0",
-  "name": "Rise · Gastos ordenado e importación clara",
+  "release": "2.62.0",
+  "name": "Rise · Orden y estructura limpia",
   "production": "https://renzo-hub.vercel.app",
   "preview": "https://renzo-hub-2-1-staging.vercel.app",
   "source": "github:rellmen/renzo-hub (local: ~/Projects/RENZO-HUB/repo)",
-  "updated": "2026-11-04"
+  "updated": "2026-11-06"
 }

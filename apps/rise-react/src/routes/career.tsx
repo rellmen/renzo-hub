@@ -1,10 +1,14 @@
 import {createFileRoute,Link} from "@tanstack/react-router";
 import {useQuery} from "@tanstack/react-query";
-import {Briefcase,BookOpen,Map,RefreshCw,ShieldCheck} from "lucide-react";
+import {ArrowRight,Map,RefreshCw} from "lucide-react";
 import {useAuth} from "@/lib/auth/AuthProvider";
 import {PageHeader,SectionCard} from "@/components/rise/primitives";
 import {pageHead} from "@/lib/seo";
 import {CareerTracker} from "@/components/rise/CareerTracker";
+import {SubTabs,useSubTab} from "@/components/rise/SubTabs";
+
+/** Dos pestañas (6-11-2026): la ruta y el tracker primero; el perfil confirmado, aparte. */
+const TABS=[{id:"ruta",label:"Ruta y skills"},{id:"perfil",label:"Perfil"}] as const;
 
 export const Route=createFileRoute("/career")({
  head:()=>pageHead("Career y Data Lab","Trayectoria, habilidades y objetivos profesionales confirmados."),
@@ -15,6 +19,7 @@ type SettingFact={value:string;confirmed?:boolean;confirmedAt?:string;source?:st
 const KEY_LABELS:Record<string,string>={career:"Dirección profesional",dutchGoal:"Objetivo neerlandés",englishGoal:"Objetivo inglés",workShifts:"Turnos confirmados",nativeLanguages:"Idiomas nativos"};
 function Career(){
  const {client,user}=useAuth(),uid=user?.id||"";
+ const [tab,go]=useSubTab(TABS,"ruta");
  const q=useQuery({queryKey:["career-confirmed",uid],enabled:!!uid&&!!client,
   queryFn:async()=>{
    const [r,s]=await Promise.all([
@@ -41,16 +46,23 @@ function Career(){
     .map(([key,f])=>({label:KEY_LABELS[key],value:f.value,asOf:f.confirmedAt||"",provenance:f.source||"Confirmado en Rise"}));
    return{facts,context};
   },staleTime:60000,refetchOnWindowFocus:true});
- return <div className="space-y-6">
-  <PageHeader eyebrow="CARRERA · DATOS PROFESIONALES" title="Career / Data Lab"
-   subtitle="Un espacio independiente de SelfLearn para carrera, SQL, Python y analítica logística. No añade conocimientos ni certificados sin confirmación."/>
-  <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-platinum/75">
-   <p><ShieldCheck className="mr-2 inline h-4 w-4 text-gold"/>Solo datos confirmados del perfil privado</p>
-   <button type="button" className="btn-ghost" disabled={q.isFetching} onClick={()=>void q.refetch()}>
-    <RefreshCw className={"h-4 w-4 "+(q.isFetching?"animate-spin":"")}/>Actualizar</button>
-  </div>
+ return <div className="space-y-5">
+  <PageHeader eyebrow="ACADEMY · DATA & CARRERA" title="Data Lab"
+   subtitle="SQL, Python, Power BI, certificados y portfolio."
+   action={<button type="button" className="btn-ghost" disabled={q.isFetching} aria-label="Actualizar" onClick={()=>void q.refetch()}>
+    <RefreshCw className={"h-4 w-4 "+(q.isFetching?"animate-spin":"")}/></button>}/>
+  <SubTabs tabs={TABS} value={tab} onChange={go} label="Apartados de Data & Carrera" accent="var(--learn)"/>
+  {tab==="ruta"&&<>
+   <Link to="/roadmap" className="surface rim flex min-h-11 items-center gap-3 p-4 hover:border-gold/40">
+    <Map className="h-5 w-5 shrink-0 text-gold"/>
+    <span className="min-w-0 flex-1"><span className="block text-sm font-semibold">Roadmap 2026–2032</span>
+     <span className="block truncate text-xs text-muted-foreground">Operaciones → Data Analyst → Data Engineer → AI Systems</span></span>
+    <ArrowRight className="h-4 w-4 shrink-0"/></Link>
+   <CareerTracker/>
+  </>}
+  {tab==="perfil"&&<>
   {q.isLoading&&<p role="status" className="surface p-4">Consultando trayectoria confirmada…</p>}
-  {q.error&&<p role="alert" className="surface border border-gym/40 p-4 text-sm text-gym">No se pudo recuperar Career; no se han generado datos de demostración.</p>}
+  {q.error&&<p role="alert" className="surface border border-gym/40 p-4 text-sm text-gym">No se pudo cargar Data & Carrera.</p>}
   {q.data&&<>
    <SectionCard eyebrow="Perfil verificado" title="Dirección profesional" accent="var(--projects)">
     {!q.data.context.length?<p className="text-sm text-muted-foreground">No hay datos de carrera confirmados en los ajustes de esta cuenta.</p>:
@@ -68,17 +80,6 @@ function Career(){
      </div>)}</dl>}
    </SectionCard>
   </>}
-  <SectionCard eyebrow="Roadmap 2026–2032" title="Tu ruta en tareas y subtareas" accent="var(--gold)"
-   action={<Link to="/roadmap" className="btn-gold min-h-11"><Map className="h-4 w-4"/>Abrir</Link>}>
-   <p className="text-sm text-platinum/80">Operaciones → Logistics Data Analyst → Data Engineer → AI Systems → Nodalys. La tarea de hoy también aparece en Inicio.</p>
-  </SectionCard>
-  <CareerTracker/>
-  <SectionCard eyebrow="Aprendizaje separado" title="Career frente a SelfLearn" accent="var(--learn)">
-   <p className="text-sm text-platinum/80">Career es para herramientas de datos, trabajo y portafolio. SelfLearn es exclusivamente para neerlandés e inglés. La formación técnica, las skills y el portfolio se registran arriba.</p>
-   <div className="mt-4 flex flex-wrap gap-2">
-    <Link to="/proyectos" className="btn-gold inline-flex min-h-11 items-center"><Briefcase className="h-4 w-4"/>Proyectos</Link>
-    <Link to="/aprender" className="btn-ghost inline-flex min-h-11 items-center"><BookOpen className="h-4 w-4"/>Idiomas</Link>
-   </div>
-  </SectionCard>
+  </>}
  </div>;
 }

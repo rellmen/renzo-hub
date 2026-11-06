@@ -1,5 +1,24 @@
 # RISE HUB (antes Renzo Hub) · versión vigente
 
+## Orden y estructura limpia · 6 noviembre 2026 · PR hacia staging
+
+Release React 2.62.0. **Decisión de Renzo (06-11-2026): opción C** de la auditoría `renzo-hub/audits/RISE-AUDITORIA-ESTRUCTURA-UI-2026-11-06.md` (bóveda), **manteniendo la interfaz Nocturne** (colores, tipografía, tarjetas, fotos). Solo cambia orden, estructura y cantidad de información. Sin migraciones ni cambios de datos; no se ha quitado ninguna función, solo se ha movido.
+
+| Pantalla | Cambio |
+| --- | --- |
+| Inicio | Cabecera compacta con la fecha → 4 cifras (sin duplicados) → Prioridades → Roadmap de hoy (resumen; subtareas del día siguiente plegadas) → accesos a los hubs. Tarjeta Ares duplicada, Pomodoro, «Estado de tareas» y «Compromisos recientes» salen de Inicio. Alto en móvil (mock vacío): 5495 → 2304 px. |
+| Money › Resumen | Pestañas internas Mes · Cierre · Patrimonio · Presupuesto. El importador ya no se duplica: enlace a Gastos › Importar. |
+| Nóminas | Pestañas Nóminas · Mes a mes · Subir. «Contratos y turnos importados» pasa a Trabajo › Turnos › Contratos. |
+| Turnos | Pestañas Calendario · Registro · Informe · Contratos. |
+| Proyectos | Resumen en una línea; Pomodoro plegable al final. |
+| Academy | UOC +25: preferencias plegables y «Estado del contenido» plegable en Resultados. Data & Carrera: pestañas Ruta y skills · Perfil; fuera la tarjeta «Career frente a SelfLearn». |
+| Ajustes | Cuenta · Notificaciones · Copia · Privacidad (única explicación de privacidad). Fuera «Migración Nocturne», «Microapps disponibles» y notas PWA. |
+| Global | Fuera los avisos «espacio privado / acceso privado» del marco y el sello «CONCEPTO VISUAL»; cabeceras con foto más bajas; eyebrows con el hub real (MONEY · GASTOS, BODY · GYM…); Food → Comida, Skin → Piel; textos tipo «sin cifras de demostración» retirados. |
+
+- Componente nuevo `components/rise/SubTabs.tsx` (pestañas internas con #hash, mismo estilo que Gastos).
+- Pruebas: raíz 721/721, vitest 128/128, tsc OK, build OK; e2e con sesión simulada: authenticated-ui (27 vistas, Chromium + WebKit), priority, payroll-outlier y academia OK. Tests actualizados: importador ahora en Gastos, Ajustes sin estado de migración, academia espera «Estado del contenido».
+- No verificado: con datos reales en el móvil de Renzo (staging).
+
 ## Gastos ordenado e importación clara · 4 noviembre 2026
 
 Release React 2.61.0. Petición de Renzo (04-11-2026): no podía subir los extractos mensuales de ING y Revolut y la lista de Gastos era interminable.

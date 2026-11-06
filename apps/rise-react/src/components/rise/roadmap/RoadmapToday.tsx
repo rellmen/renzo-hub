@@ -26,18 +26,18 @@ export function RoadmapToday({compact=false}:{compact?:boolean}){
     {r.ready&&<>
       {!v.todayItems.length&&v.nextDay&&<p className="mt-3 text-sm">Lo siguiente es el <strong>{fmt(v.nextDay)}</strong>:</p>}
       <ul className="mt-1 divide-y divide-hairline">{items.map(t=><RoadmapItem key={t.id} item={t} busy={busy} disabled={!r.ready}
-        open={!compact||v.todayItems.length<=2} onStep={(s,d)=>r.toggleStep(t,s,d)} onAll={d=>r.toggleAll(t,d)}/>)}</ul>
+        open={!compact||(v.todayItems.length>0&&v.todayItems.length<=2)} onStep={(s,d)=>r.toggleStep(t,s,d)} onAll={d=>r.toggleAll(t,d)}/>)}</ul>
       {v.overdue.length>0&&<div className="mt-3 rounded-xl border border-gym/30 bg-gym/[0.05] p-3">
         <p className="flex items-center gap-2 text-xs font-semibold text-gym"><AlertTriangle className="h-4 w-4"/>{v.overdue.length} pendiente{v.overdue.length===1?"":"s"} de esta semana</p>
-        {compact?<p className="mt-1 text-xs text-muted-foreground">El roadmap pide no acumular deuda: recupera una si te sobra energía o déjala y sigue.</p>
+        {compact?<Link to="/roadmap" className="mt-1 inline-block text-xs text-gold underline">Ver pendientes en el roadmap</Link>
           :<ul className="divide-y divide-hairline">{v.overdue.map(t=><RoadmapItem key={t.id} item={t} busy={busy} disabled={!r.ready} showDay onStep={(s,d)=>r.toggleStep(t,s,d)} onAll={d=>r.toggleAll(t,d)}/>)}</ul>}
       </div>}
-      <div className="mt-4 grid gap-3 sm:grid-cols-3">
+      {!compact&&<><div className="mt-4 grid gap-3 sm:grid-cols-3">
         <Kpi label="Esta semana" value={v.weekTotal?`${v.weekDone}/${v.weekTotal}`:"—"} sub="tareas"/>
         <Kpi label="Sesiones cumplidas" value={r.metrics.sessionRate===null?"—":r.metrics.sessionRate+"%"} sub="objetivo ≥80 %"/>
         <Kpi label={`Fase ${v.chapter+1} · ${chapter.name}`} value={r.metrics.chapters[v.chapter]?.pct+"%"} sub={chapter.subtitle}/>
       </div>
-      <div className="mt-3"><Bar value={r.metrics.chapters[v.chapter]?.pct??0} color="var(--gold)"/></div>
+      <div className="mt-3"><Bar value={r.metrics.chapters[v.chapter]?.pct??0} color="var(--gold)"/></div></>}
       {v.nextMilestone&&<Link to="/roadmap" hash="hitos" className="mt-4 flex min-h-11 items-center gap-3 rounded-xl border border-hairline p-3 hover:border-gold/40">
         <Flag className="h-4 w-4 shrink-0 text-gold"/>
         <span className="min-w-0 flex-1 text-sm"><span className="block truncate font-medium">{v.nextMilestone.title}</span>

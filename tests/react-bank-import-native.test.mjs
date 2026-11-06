@@ -30,7 +30,11 @@ test("Money UI keeps bank importer behind explicit confirmation and refreshes re
  assert.match(src,/onClick=\{\(\)=>void confirm\(\)\}/);
  assert.match(src,/previewBankStatement\(client,uid,file\)/);
  assert.match(src,/saveBankStatement\(client,uid,preview\)/);
- assert.match(money,/<BankStatementImport\/>/);
+ // 6-11-2026: el importador vive solo en Gastos › Importar; Resumen enlaza ahí en vez de duplicarlo.
+ const gastos=readFileSync(new URL("../apps/rise-react/src/routes/gastos.tsx",import.meta.url),"utf8");
+ assert.match(gastos,/<BankStatementImport\/>/);
+ assert.doesNotMatch(money,/<BankStatementImport\/>/);
+ assert.match(money,/to="\/gastos" hash="importar"/);
 });
 test("Import explains wrong formats instead of failing silently (ING PDF, Excel, empty)",async()=>{
  const {bankFileKind,looksLikeIngPdf,ING_PDF_HELP,EXCEL_HELP}=await import("../apps/rise-react/src/lib/bank-import-client.mjs");

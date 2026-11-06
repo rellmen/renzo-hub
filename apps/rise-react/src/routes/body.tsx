@@ -20,7 +20,7 @@ function Body(){
  const query=useQuery({queryKey:["body-food",uid],enabled:!!client&&!!user,queryFn:()=>loadBodyFoodSnapshot(client!,user!),staleTime:30000});
  const data=query.data?.body;
  return <div className="space-y-6">
- <PageHeader eyebrow="BODY · EVOLUCIÓN PRIVADA" title="Tu progreso, sin suposiciones."
+ <PageHeader eyebrow="BODY · MEDIDAS" title="Tu progreso, sin suposiciones."
    subtitle="Peso, actividad, alimentación y cuidado personal desde tus registros de Rise."
    action={<button type="button" className="btn-ghost" disabled={query.isFetching} onClick={()=>void query.refetch()}><RefreshCw className="h-4 w-4"/> Actualizar</button>}/>
  <p className="flex items-center gap-2 text-xs text-muted-foreground"><ShieldCheck className="h-4 w-4 text-gold"/> Datos protegidos por Supabase y RLS. Sin objetivos ni estadísticas inventadas.</p>

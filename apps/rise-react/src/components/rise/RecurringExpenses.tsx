@@ -28,8 +28,8 @@ export function RecurringExpenses({data}:{data:MoneySummary}){
    await qc.invalidateQueries({queryKey:["money-real",uid]});}
  });
  function change(key:string,value:boolean){setNotice("");update.mutate({key,fixed:value});}
- return <SectionCard eyebrow="MY FINANCE · GASTOS RECURRENTES" title="Fijos y suscripciones" accent="var(--money)">
-  <p className="text-xs text-muted-foreground">Estimación calculada desde el historial bancario y reglas de Classic. No son cargos futuros confirmados.</p>
+ return <SectionCard eyebrow="GASTOS RECURRENTES" title="Fijos y suscripciones" accent="var(--money)">
+  <p className="text-xs text-muted-foreground">Estimación a partir de tu historial bancario.</p>
   {fixed?.items.length?<div className="mt-4 space-y-3">
    <div className="grid grid-cols-2 gap-3 text-xs">
     <div className="rounded-xl border border-hairline p-3"><p className="text-muted-foreground">Fijos netos estimados</p>

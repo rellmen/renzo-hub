@@ -18,7 +18,7 @@ export function PayrollMonthly({rows}:{rows:Array<Record<string,any>>}){
  const [selected,setSelected]=useState("");
  if(!months.length)return null;
  const current=months.find(m=>m.month===selected)||months[0]!;
- return <SectionCard eyebrow="MY FINANCE · MES DE COBRO" title={"Nóminas de "+monthName(current.month)} accent="var(--gold)">
+ return <SectionCard eyebrow="MES DE COBRO" title={"Nóminas de "+monthName(current.month)} accent="var(--gold)">
   <div className="flex flex-wrap items-center justify-between gap-3">
    <label className="text-xs text-muted-foreground">Mes
     <select className="ml-2 min-h-11 rounded-xl border border-hairline bg-raised px-3 text-sm text-foreground"

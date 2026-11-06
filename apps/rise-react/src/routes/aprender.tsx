@@ -65,7 +65,7 @@ function SelfLearn(){
       </div>
     </PageHero>
     {tab!=="uoc"&&snapshot.error&&<p role="alert" className="surface border border-gym/40 p-4 text-sm text-gym">
-      {err(snapshot.error)}. No mostraré progreso ficticio.
+      {err(snapshot.error)}.
     </p>}
     {tab!=="uoc"&&snapshot.isLoading&&<p role="status" className="surface p-5">Cargando tu historial de idiomas…</p>}
     <div className="flex flex-wrap items-center justify-between gap-3">

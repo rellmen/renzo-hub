@@ -37,7 +37,7 @@ export function FinancialGoals({data}:{data:MoneySummary|null|undefined}){
   },
   onSuccess:async()=>{setNotice("Objetivo archivado; no se han borrado datos.");await qc.invalidateQueries({queryKey:["money-real",uid]});}
  });
- return <SectionCard eyebrow="MY FINANCE · OBJETIVOS" title="Metas financieras" accent="var(--gold)">
+ return <SectionCard eyebrow="OBJETIVOS" title="Metas financieras" accent="var(--gold)">
   <p className="text-sm text-platinum/80">Las metas usan tus extractos, saldos y gastos registrados. No crean ahorros ni rendimientos ficticios.</p>
   {data?.goals.length?<ul className="mt-4 space-y-3">{data.goals.map(goal=>
    <li key={goal.id} className="rounded-xl border border-hairline bg-raised p-4">
