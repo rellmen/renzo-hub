@@ -1,5 +1,15 @@
 # RISE HUB · Nocturne staging único / Classic solo consulta
 
+## Retirada de Classic · 6 noviembre 2026 (autorizada por Renzo: «Retira el Classic»)
+
+Estado tras la operación:
+- Proyecto Vercel `rise-hub` (Classic, `prj_G7Rzu7cpQuKo3wnByqNVgQ6gpjDd`): **no vuelve a construir** (`commandForIgnoringBuildStep = exit 0`) y **no se asigna dominios solo** (`autoAssignCustomDomains = false`). Un push a `main` ya no puede publicar Classic ni quitarle el dominio a Nocturne. Sus URLs ya pedían inicio de sesión en Vercel (SSO).
+- **Bloqueo:** el dominio de producción `renzo-hub.vercel.app` sigue registrado en el proyecto `rise-hub`, aunque apunta al despliegue Nocturne de `rise-hub-nocturne-qa`. Pausar `rise-hub` dejó producción en **503** (21:14–21:15, 06-11-2026); se reanudó en el acto y `verify prod 2.62.0 --smoke` volvió a pasar. **No pausar ni borrar `rise-hub` hasta mover el dominio.**
+- Paso pendiente (requiere a Renzo en el panel de Vercel; los cambios de dominio no se hacen desde Claude): quitar `renzo-hub.vercel.app` de `rise-hub` → añadirlo a `rise-hub-nocturne-qa` (producción) → comprobar `./scripts/renzo-hub verify prod <versión> --smoke` → entonces pausar `rise-hub` (reversible con «Resume»). Corte esperado: segundos.
+- Código: las carpetas de Classic siguen en el repositorio porque Nocturne reutiliza parte de ellas en servidor (`api/deployment-info.js`, manejadores de `server/`, analizadores de bancos y nóminas) y en pruebas. Retirarlas es un trabajo aparte: portar esas piezas a `apps/rise-react` y después borrar el resto.
+- Rollback: en `rise-hub`, poner `commandForIgnoringBuildStep` a vacío y `autoAssignCustomDomains` a true.
+
+
 Decisión explícita de Renzo, 23 octubre 2026: «Haz staging con nocturne y el classic de respaldo no quiero que trabajes en el solo saques información de ahí. Empieza el proceso y deja constancia para cuando trabaje Claude.»
 
 ## Regla vigente para Claude y Work

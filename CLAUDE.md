@@ -2,6 +2,8 @@
 
 Lee `AGENTS.md` y `docs/NOCTURNE-STAGING-CLASSIC-READONLY.md` antes de trabajar.
 
+**Classic retirado (06-11-2026):** el proyecto `rise-hub` ya no construye ni asigna dominios. ¡Ojo! `renzo-hub.vercel.app` sigue registrado en `rise-hub`: **no pausarlo ni borrarlo** hasta que Renzo mueva el dominio a `rise-hub-nocturne-qa` (pausarlo deja producción en 503). Detalle en el documento anterior.
+
 Actualización funcional Work 23 octubre: leer `docs/NOCTURNE-FUNCTIONAL-COMPLETION-2026-10-23.md`. Car y AI Inbox ya tienen rutas nativas; revisión de capturas instalada solo en staging (historial `20261023160009`), flags XP/FSRS activados solo preview con contrato autenticado obligatorio. No reaplicar migración ni afirmar QA de navegador completa. Renzo omitió segunda cuenta QA real; aislamiento queda pendiente, no PASS. Payroll upload sigue bloqueado por credencial backend staging y revisión salarial sigue apagada.
 
 Decisión explícita de Renzo, 23 octubre 2026: **Nocturne es el único desarrollo activo y staging. Classic queda exclusivamente como respaldo y fuente de información de lectura.** No implementar cambios, rediseños ni nuevas versiones Classic. Adaptar dentro de la UI Nocturne aprobada.
