@@ -77,7 +77,7 @@ try{
     assert.ok(await page.locator('.katex-display').count()>=1,`${label}: falta la fórmula en bloque (cases) en M08`);
     await snap('/academia?leccion=castellano-c06-l01','leccion-c06','Comprender un texto');
     await snap('/academia?v=examenes','examenes','Simulacros entregados');
-    await snap('/academia?v=resultados','resultados','Cobertura real del contenido');
+    await snap('/academia?v=resultados','resultados','Estado del contenido');
     await snap('/academia?v=practicar','practicar','Diagnóstico completo');
     await ctx.close();
   }

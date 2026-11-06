@@ -73,7 +73,7 @@ export function PayrollUpload(){
    setMode("preview");setError(e instanceof Error?e.message:"No fue posible subir la nómina.");
   }
  }
- return <SectionCard eyebrow="MY FINANCE · DOCUMENTOS" title="Subir nómina" accent="var(--money)">
+ return <SectionCard eyebrow="DOCUMENTOS" title="Subir nómina" accent="var(--money)">
   <p className="text-sm text-platinum/80">Importación privada de PDF semanales de SD Worx. Se analizan en tu dispositivo antes de confirmar y nunca se aprueban automáticamente.</p>
   <div className="mt-4 space-y-4">
    <label className="flex min-h-14 cursor-pointer items-center gap-3 rounded-xl border border-dashed border-gold/40 bg-raised px-4 py-3 text-sm">

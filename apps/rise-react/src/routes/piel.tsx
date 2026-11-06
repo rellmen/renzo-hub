@@ -9,6 +9,7 @@ import {PageHero} from "@/components/rise/PageHero";
 import {SectionCard,EmptyState} from "@/components/rise/primitives";
 import {ProgressRing} from "@/components/rise/ProgressRing";
 import {useAuth} from "@/lib/auth/AuthProvider";
+import {SubTabs,useSubTab} from "@/components/rise/SubTabs";
 import {PRODUCTS,stepsFor,dateKeyLocal,skinRoutineDay} from "@/lib/skin-catalog.mjs";
 import {loadSkinState,setSkinSteps,setSkinNote,setSkinInventoryStatus,weekSkinProgress,type SkinSession} from "@/lib/skin-records.mjs";
 
@@ -40,7 +41,11 @@ function useSkinDay(){
   return {today:day,dayDate:new Date(y,m-1,d,12)};
 }
 
+/** Piel en cuatro pestañas (6-11-2026): Hoy para marcar, el resto para consultar. */
+const TABS=[{id:"hoy",label:"Hoy"},{id:"plan",label:"Plan"},{id:"productos",label:"Productos"},{id:"historial",label:"Historial"}] as const;
+
 function Skin(){
+  const [tab,go]=useSubTab(TABS,"hoy");
   const {client,user}=useAuth();
   const uid=user?.id||"";
   const qc=useQueryClient();
@@ -77,18 +82,18 @@ function Skin(){
   const percent=steps.length&&state.data?Math.round(completed.length/steps.length*100):0;
   const week=weekSkinProgress(state.data?.logs||[],dayDate,state.data?.barrierFirst??true);
   return <div className="space-y-6">
-    <PageHero image={img} eyebrow="SKIN ROUTINE · PRIVADO"
+    <PageHero image={img} eyebrow="BODY · PIEL"
       title="Tu ritual, cada día."
-      subtitle="Constancia antes que intensidad. Tu plan personal existente, sincronizado sin inventar productos."
+      subtitle="Constancia antes que intensidad."
       color="var(--skin)" priority/>
-    {state.error&&<p role="alert" className="surface border border-gym/40 p-5 text-sm text-gym">Error al recuperar la rutina: {errText(state.error)}. No se han cargado productos ficticios.</p>}
+    {state.error&&<p role="alert" className="surface border border-gym/40 p-5 text-sm text-gym">Error al recuperar la rutina: {errText(state.error)}.</p>}
     {state.isLoading&&<p role="status" className="surface p-5">Cargando los registros de tu piel…</p>}
     {!state.isLoading&&!state.error&&state.data&&<>
-      <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-muted-foreground">
-        <span className="inline-flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-skin"/> Datos de tu cuenta · {today}</span>
-        <button type="button" className="btn-ghost" onClick={()=>void state.refetch()} disabled={state.isFetching}><RefreshCcw className={"h-4 w-4 "+(state.isFetching?"animate-spin":"")}/> Actualizar</button>
+      <div className="flex items-center gap-2">
+        <div className="min-w-0 flex-1"><SubTabs tabs={TABS} value={tab} onChange={go} label="Apartados de Piel" accent="var(--skin)"/></div>
+        <button type="button" className="btn-ghost shrink-0" aria-label="Actualizar rutina" onClick={()=>void state.refetch()} disabled={state.isFetching}><RefreshCcw className={"h-4 w-4 "+(state.isFetching?"animate-spin":"")}/></button>
       </div>
-      <div className="grid gap-6 lg:grid-cols-[1.5fr_1fr]">
+      {tab==="hoy"&&<div className="grid gap-6 lg:grid-cols-[1.5fr_1fr]">
         <SectionCard eyebrow={<span className="text-skin">Rutina de hoy</span>}
           title={mode==="am"?"Mañana":"Noche"} accent="var(--skin)"
           action={<div role="tablist" aria-label="Rutina diaria" className="inline-flex rounded-full border border-hairline p-1">
@@ -118,10 +123,10 @@ function Skin(){
           </div>
           {state.data.barrierFirst&&<p className="mt-4 text-xs text-platinum/75">Fase de recuperación de barrera cutánea: los activos irritantes permanecen en pausa según tu planificación original.</p>}
           {routine.error&&<p role="alert" className="mt-3 text-sm text-gym">No se guardó el cambio: {errText(routine.error)}</p>}
-          {routine.isPending&&<p role="status" className="mt-3 text-xs text-muted-foreground">Guardando en Supabase…</p>}
+          {routine.isPending&&<p role="status" className="mt-3 text-xs text-muted-foreground">Guardando…</p>}
         </SectionCard>
         <div className="space-y-6">
-          <SectionCard eyebrow="Constancia real" title="Últimos siete días" accent="var(--skin)">
+          <SectionCard eyebrow="Constancia" title="Últimos siete días" accent="var(--skin)">
             <ul className="space-y-3">
               {week.map(d=><li key={d.day} className="flex items-center gap-3 text-xs">
                 <span className="w-12 shrink-0 uppercase text-muted-foreground">{d.display}</span>
@@ -131,9 +136,8 @@ function Skin(){
                 <span className="w-12 text-right text-platinum/75">{d.done}/{d.total}</span>
               </li>)}
             </ul>
-            <p className="mt-4 text-xs text-muted-foreground">Se muestran únicamente pasos registrados en tu historial, sin porcentajes inventados.</p>
           </SectionCard>
-          <SectionCard eyebrow="Notas privadas" title="Observaciones de hoy" accent="var(--skin)">
+          <SectionCard eyebrow="Notas" title="Observaciones de hoy" accent="var(--skin)">
             <form onSubmit={e=>{e.preventDefault();saveNote.mutate();}} className="space-y-3">
               <label htmlFor="skin-note-real" className="text-xs text-muted-foreground">Cómo se encuentra tu piel</label>
               <textarea id="skin-note-real" value={note} onChange={e=>setNote(e.target.value)}
@@ -146,7 +150,8 @@ function Skin(){
             </form>
           </SectionCard>
         </div>
-      </div>
+      </div>}
+      {tab==="plan"&&<>
       <SectionCard eyebrow="Plan semanal · manchas y apariencia" title="Constancia con pocos activos" accent="var(--skin)">
         <p className="text-sm text-muted-foreground">Primeras dos semanas: Numbuzin lunes, miércoles y sábado. Después, cada mañana si lo toleras. Retinal solo el viernes, tras comprobar tolerancia al sérum; no introducir ambos a la vez.</p>
         <div className="mt-4 overflow-x-auto"><table className="w-full text-left text-sm"><caption className="sr-only">Calendario inicial de siete días</caption><thead><tr><th className="p-2">Día</th><th className="p-2">AM · terminar siempre con SPF</th><th className="p-2">PM · terminar con ILLIYOON</th></tr></thead><tbody>
@@ -157,7 +162,10 @@ function Skin(){
         <p className="mt-3 text-sm">SPF: cantidad generosa y reaplicar cada 2 h al aire libre y tras sudar o bañarte. Si aparece ardor persistente, rojez o descamación, pausa Numbuzin y retinoides: limpieza suave, crema y SPF. Evitar retinoides en embarazo o búsqueda de embarazo. Revisar evolución en 8–12 semanas; consultar dermatología si persiste o empeora.</p>
         <p className="mt-3 text-xs text-muted-foreground">El historial conserva las posiciones que marcaste; no acredita qué fórmula utilizaste. Los productos alternativos permanecen en el inventario y no es necesario usarlos todos.</p>
       </SectionCard>
-      <SectionCard eyebrow="Tu inventario" title="Productos ya identificados" accent="var(--skin)">
+      </>}
+      {tab==="productos"&&<>
+      <SkinCompatibility inventory={state.data.inventory as Record<string,string>} barrierFirst={state.data.barrierFirst}/>
+      <SectionCard eyebrow="Tu inventario" title="Productos" accent="var(--skin)">
         {PRODUCTS.length?<div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {PRODUCTS.slice(0,showAll?PRODUCTS.length:6).map(([name,kind,precaution],i)=>{
             const status=state.data.inventory["p"+i]||"unknown";
@@ -177,11 +185,10 @@ function Skin(){
         </div>:<EmptyState icon={<ShieldCheck className="h-5 w-5"/>} title="Sin productos" text="Todavía no hay productos catalogados."/>}
         {PRODUCTS.length>6&&<button type="button" className="btn-ghost mt-5" onClick={()=>setShowAll(x=>!x)}>{showAll?"Mostrar menos":"Ver todos los productos"} ({PRODUCTS.length})</button>}
         {inventoryEdit.error&&<p role="alert" className="mt-3 text-sm text-gym">{errText(inventoryEdit.error)}</p>}
-        {inventoryEdit.isPending&&<p role="status" className="mt-3 text-sm text-muted-foreground">Guardando inventario en Supabase…</p>}
-        <p className="mt-3 text-xs text-muted-foreground">Cambios privados guardados en los ajustes originales de Rise. Si otro dispositivo editó el inventario, actualiza antes de reintentar.</p>
+        {inventoryEdit.isPending&&<p role="status" className="mt-3 text-sm text-muted-foreground">Guardando…</p>}
       </SectionCard>
-      <SkinCompatibility inventory={state.data.inventory as Record<string,string>} barrierFirst={state.data.barrierFirst}/>
-      <SkinHistoryAndPhotos/>
+      </>}
+      {tab==="historial"&&<SkinHistoryAndPhotos/>}
     </>}
   </div>;
 }

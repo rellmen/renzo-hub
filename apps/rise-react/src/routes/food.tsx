@@ -1,14 +1,17 @@
 import {createFileRoute,Link} from "@tanstack/react-router";
 import {useMutation,useQuery,useQueryClient} from "@tanstack/react-query";
 import {useState,type FormEvent} from "react";
-import {RefreshCw,ShieldCheck,UtensilsCrossed} from "lucide-react";
+import {RefreshCw,UtensilsCrossed} from "lucide-react";
 import {pageHead} from "@/lib/seo";
 import {useAuth} from "@/lib/auth/AuthProvider";
 import {PageHeader,SectionCard,EmptyState,Bar} from "@/components/rise/primitives";
 import {loadBodyFoodSnapshot,type NutritionProgress} from "@/lib/body-food-snapshot.mjs";
 import {saveFoodMeal} from "@/lib/body-food-entry.mjs";
 import {FoodMealEditor,FoodShopping} from "@/components/rise/FoodPlanning";
+import {SubTabs,useSubTab} from "@/components/rise/SubTabs";
 export const Route=createFileRoute("/food")({head:()=>pageHead("Food","Alimentación registrada sin datos ficticios."),component:Food});
+/** Comida (6-11-2026): Hoy para registrar; corregir y la compra en su pestaña. */
+const TABS=[{id:"hoy",label:"Hoy"},{id:"corregir",label:"Corregir"},{id:"compra",label:"Compra"}] as const;
 function FoodMetric({title,value,unit,progress}:{title:string;value:number;unit:string;progress:NutritionProgress}){
  return <SectionCard eyebrow="Registro de hoy" title={title} accent="var(--gold)">
  <p className="font-display text-4xl">{Math.round(value).toLocaleString("es-ES")} <span className="text-lg text-muted-foreground">{unit}</span></p>
@@ -18,6 +21,7 @@ function FoodMetric({title,value,unit,progress}:{title:string;value:number;unit:
 function Food(){
  const {client,user}=useAuth(),uid=user?.id||"";
  const qc=useQueryClient();
+ const [tab,go]=useSubTab(TABS,"hoy");
  const [meal,setMeal]=useState("");
  const [kcal,setKcal]=useState("");
  const [protein,setProtein]=useState("");
@@ -27,13 +31,12 @@ function Food(){
  const q=useQuery({queryKey:["body-food",uid],enabled:!!client&&!!user,queryFn:()=>loadBodyFoodSnapshot(client!,user!),staleTime:30000});
  const d=q.data;
  return <div className="space-y-6">
- <PageHeader eyebrow="FOOD · NUTRICIÓN PRIVADA" title="Alimentación consciente."
-  subtitle="Tus comidas y objetivos reales, sin generar cantidades de demostración."
-  action={<button type="button" className="btn-ghost" disabled={q.isFetching} onClick={()=>void q.refetch()}><RefreshCw className="h-4 w-4"/> Actualizar</button>}/>
- <p className="flex items-center gap-2 text-xs text-muted-foreground"><ShieldCheck className="h-4 w-4 text-gold"/> Consulta privada Supabase con RLS.</p>
+ <PageHeader eyebrow="BODY · COMIDA" title="Comida"
+  action={<button type="button" className="btn-ghost" aria-label="Actualizar" disabled={q.isFetching} onClick={()=>void q.refetch()}><RefreshCw className={"h-4 w-4 "+(q.isFetching?"animate-spin":"")}/></button>}/>
+ <SubTabs tabs={TABS} value={tab} onChange={go} label="Apartados de Comida" accent="var(--gold)"/>
  {q.isLoading&&<p role="status" className="surface p-5">Cargando comidas registradas…</p>}
  {q.error&&<p role="alert" className="surface border border-gym/40 p-4 text-sm text-gym">Error: {q.error instanceof Error?q.error.message:"No se pudieron recuperar tus comidas"}</p>}
- {d&&<><div className="grid gap-6 md:grid-cols-2">
+ {d&&tab==="hoy"&&<><div className="grid grid-cols-2 gap-3 md:gap-6">
  <FoodMetric title="Calorías" value={d.nutrition.kcal} unit="kcal" progress={d.kcalProgress}/>
  <FoodMetric title="Proteína" value={d.nutrition.protein} unit="g" progress={d.proteinProgress}/>
  </div><SectionCard eyebrow={d.today} title="Comidas registradas" accent="var(--gold)">
@@ -42,12 +45,12 @@ function Food(){
  <p className="shrink-0 text-right text-xs text-platinum/80">{m.kcal===null?"Calorías sin dato":m.kcal+" kcal"}<span className="block mt-1">{m.protein===null?"Proteína sin dato":m.protein+" g proteína"}</span></p>
  </li>)}</ul>:<EmptyState icon={<UtensilsCrossed className="h-5 w-5"/>} title="Sin comidas registradas" text="Todavía no constan comidas para la fecha actual."/>}
  </SectionCard>
- <SectionCard eyebrow="Nueva entrada" title="Registrar una comida real" accent="var(--gold)">
+ <SectionCard eyebrow="Nueva entrada" title="Registrar una comida" accent="var(--gold)">
    <form onSubmit={submit} className="grid gap-3 sm:grid-cols-3">
      <label className="space-y-2 text-xs text-muted-foreground sm:col-span-3">Comida o alimento
        <input type="text" required maxLength={140} value={meal}
          onChange={e=>setMeal(e.target.value)}
-         placeholder="Nombre real del alimento o plato"
+         placeholder="Ej. Pollo con arroz"
          className="min-h-12 w-full rounded-xl border border-input bg-obsidian px-3 text-sm text-foreground"/>
      </label>
      <label className="space-y-2 text-xs text-muted-foreground">Calorías registradas (opcional)
@@ -68,12 +71,12 @@ function Food(){
    {saving.error&&<p role="alert" className="mt-3 text-sm text-gym">
      {saving.error instanceof Error?saving.error.message:"No se pudo guardar la comida."}
    </p>}
-   {saving.isSuccess&&<p role="status" className="mt-3 text-xs text-muted-foreground">Comida guardada en Supabase.</p>}
-   <p className="mt-3 text-xs text-muted-foreground">Solo utiliza valores nutricionales que conozcas; los campos vacíos no se convierten en mediciones ficticias. Puedes corregir o eliminar las comidas de hoy más abajo.</p>
+   {saving.isSuccess&&<p role="status" className="mt-3 text-xs text-muted-foreground">Comida guardada.</p>}
+   <p className="mt-3 text-xs text-muted-foreground">Para corregir o borrar, ve a la pestaña Corregir.</p>
  </SectionCard>
- <FoodMealEditor day={d.today}/>
- <FoodShopping budget={{min:Number(d.profile['budgetMin']),max:Number(d.profile['budgetMax'])}}/>
- <p className="text-xs text-muted-foreground">Los rangos de kcal, proteína y presupuesto se configuran en <Link to="/body" className="text-gold underline">Body</Link>.</p>
+ <p className="text-xs text-muted-foreground">Los rangos de kcal y proteína se configuran en <Link to="/body" hash="objetivos" className="text-gold underline">Medidas › Objetivos</Link>.</p>
  </>}
+ {d&&tab==="corregir"&&<FoodMealEditor day={d.today}/>}
+ {d&&tab==="compra"&&<FoodShopping budget={{min:Number(d.profile['budgetMin']),max:Number(d.profile['budgetMax'])}}/>}
  </div>;
 }

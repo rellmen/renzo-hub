@@ -84,10 +84,6 @@ function DesktopSidebar() {
           })}
         </div>
       </nav>
-      <div className="m-3 rounded-2xl border border-gold/20 bg-wine-gradient px-4 py-3">
-        <div className="eyebrow mb-0.5">Acceso privado</div>
-        <p className="text-[0.7rem] leading-relaxed text-platinum/80">Tus microapps y accesos favoritos en un solo lugar.</p>
-      </div>
     </aside>
   );
 }
@@ -170,9 +166,6 @@ function TopBar() {
           <span className="truncate">Buscar apps…</span>
           <kbd className="ml-auto hidden items-center gap-1 rounded-md border border-input px-1.5 py-0.5 text-[0.65rem] sm:inline-flex"><Command className="h-3 w-3" />K</kbd>
         </button>
-        <div role="status" className="hidden items-center gap-2 rounded-full border border-gold/20 px-3 py-1.5 text-[0.7rem] text-gold md:flex">
-          <span className="h-1.5 w-1.5 rounded-full bg-gold" />Rise · espacio privado
-        </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button type="button" aria-label="Cuenta y cerrar sesión" className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-wine-gradient font-display text-base text-gold ring-1 ring-gold/30 transition hover:ring-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold">
@@ -190,9 +183,6 @@ function TopBar() {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      </div>
-      <div role="status" className="border-t border-hairline px-4 py-1 text-center text-[0.62rem] tracking-wide text-gold/80 md:hidden">
-        Rise · espacio privado
       </div>
     </header>
   );

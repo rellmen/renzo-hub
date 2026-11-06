@@ -18,7 +18,7 @@ export function PayrollMonthToDate({rows,anomalies}:{rows:Parameters<typeof payr
   if(!m)return null;
   const diff=m.previous?.samePoint!=null?Math.round((m.net-m.previous.samePoint)*100)/100:null;
   const missing=m.weeks.filter(w=>w.state==="missing");
-  return <SectionCard eyebrow="MONEY · NÓMINAS DEL MES" title={<span>Acumulado de {monthName(m.month)}</span>} accent="var(--money)"
+  return <SectionCard eyebrow="Nóminas del mes" title={<span>Acumulado de {monthName(m.month)}</span>} accent="var(--money)"
     action={<Link to="/nominas" className="btn-ghost min-h-11">Nóminas</Link>}>
     <p className="font-display text-5xl tabular-nums text-money" aria-live="polite">{money(m.net)}</p>
     <p className="mt-1 text-xs text-muted-foreground">Neto cobrado · {m.paidWeeks} de {m.totalWeeks} miércoles{m.nextPayday?` · próximo cobro ${short(m.nextPayday)}`:""}</p>

@@ -1,7 +1,7 @@
 import {useRef,useState,type FormEvent} from "react";
 import {Link} from "@tanstack/react-router";
 import {useMutation,useQuery,useQueryClient} from "@tanstack/react-query";
-import {AlertTriangle,Check,CheckCircle2,ChevronDown,Clock3,Plus,RefreshCw,Upload,X} from "lucide-react";
+import {AlertTriangle,Check,ChevronDown,Clock3,Plus,RefreshCw,Upload,X} from "lucide-react";
 import {useAuth} from "@/lib/auth/AuthProvider";
 import {loadWorkRecords} from "@/lib/work-records.mjs";
 import {
@@ -224,7 +224,6 @@ function Board(){
    <header className="flex flex-wrap items-start justify-between gap-3">
     <div><div className="eyebrow mb-1">RISE PRIORITY · EJECUCIÓN</div>
       <h2 className="font-display text-3xl text-foreground">Mis prioridades</h2>
-      <p className="mt-1 text-sm text-platinum/75">Una lista. Fechas claras. Progreso guardado en tu cuenta.</p>
     </div>
     <button type="button" className="btn-ghost" aria-label="Actualizar prioridades"
       disabled={records.isFetching||!canWrite} onClick={()=>void records.refetch()}><RefreshCw className={"h-4 w-4 "+(records.isFetching?"animate-spin":"")}/> Actualizar</button>
@@ -312,9 +311,5 @@ function Board(){
      </div>}
      {review&&review.length===0&&<p className="text-xs text-muted-foreground">Has descartado todas las propuestas. No se ha guardado nada.</p>}
    </div>}
-   <footer className="flex items-start gap-2 border-t border-hairline pt-3 text-xs text-muted-foreground">
-     <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0"/> Los cambios hechos aquí se guardan en los mismos registros privados de Work.
-     ChatGPT y Claude no leen ni escriben esta lista automáticamente; pueden proponerte cambios para revisar.
-   </footer>
  </section>;
 }

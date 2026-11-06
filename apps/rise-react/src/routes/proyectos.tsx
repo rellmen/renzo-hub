@@ -1,7 +1,7 @@
 import {createFileRoute} from "@tanstack/react-router";
 import {useMutation,useQuery,useQueryClient} from "@tanstack/react-query";
 import {useState,type DragEvent,type FormEvent} from "react";
-import {GripVertical,Plus,RefreshCw} from "lucide-react";
+import {ChevronDown,GripVertical,Plus,RefreshCw} from "lucide-react";
 import img from "@/assets/projects.jpg";
 import {pageHead} from "@/lib/seo";
 import {PageHero} from "@/components/rise/PageHero";
@@ -10,6 +10,7 @@ import {ProgressRing} from "@/components/rise/ProgressRing";
 import {Dialog,DialogContent,DialogDescription,DialogHeader,DialogTitle} from "@/components/ui/dialog";
 import {useAuth} from "@/lib/auth/AuthProvider";
 import {WorkPlanning} from "@/components/rise/WorkPlanning";
+import {FocusTimer} from "@/components/rise/FocusTimer";
 import {
   WORK_STATUSES,WORK_PRIORITIES,loadWorkRecords,createWorkTask,
   updateWorkTaskStatus,statusColumn,columnTargetStatus,
@@ -72,35 +73,26 @@ function Projects(){
     add.mutate();
   };
   return <div className="space-y-6">
-    <PageHero image={img} eyebrow="PROYECTOS / ESPACIO PRIVADO"
-      title="Trabajo profundo." subtitle="Tus compromisos reales, sin cifras inventadas."
+    <PageHero image={img} eyebrow="TRABAJO · PROYECTOS"
+      title="Trabajo profundo." subtitle="Tus tareas y proyectos en un tablero."
       color="var(--projects)" priority>
       <button type="button" className="btn-gold" disabled={add.isPending} onClick={()=>setCreateOpen(true)}>
         <Plus className="h-4 w-4"/> Nueva tarea
       </button>
     </PageHero>
 
-    <div className="flex flex-wrap items-center justify-between gap-3">
-      <p className="text-xs text-platinum/75">Conectado a los registros de tu cuenta. Los cambios se guardan en Supabase.</p>
-      <button type="button" className="btn-ghost" onClick={()=>void records.refetch()} disabled={records.isFetching}>
-        <RefreshCw className={"h-4 w-4 "+(records.isFetching?"animate-spin":"")}/>
-        Actualizar
-      </button>
-    </div>
     {records.isLoading&&<p role="status" className="surface p-6">Cargando tus tareas y proyectos…</p>}
     {records.error&&<p role="alert" className="surface border border-gym/40 p-5 text-sm text-gym">No se pudieron cargar tus tareas: {humanError(records.error)}. No se mostrará información de ejemplo.</p>}
     {saveStatus.error&&<p role="alert" className="surface border border-gym/40 p-4 text-gym">{humanError(saveStatus.error)}. Recarga antes de volver a intentarlo.</p>}
 
     {!records.isLoading&&!records.error&&<>
-      <section aria-label="Resumen de tareas" className="grid gap-3 sm:grid-cols-[auto_repeat(3,minmax(0,1fr))]">
-        <div className="surface rim flex items-center gap-4 p-5">
-          <ProgressRing value={percent} size={65} stroke={5} color="var(--projects)"/>
-          <div><p className="text-sm font-semibold">Progreso</p><p className="text-xs text-muted-foreground">{done} de {tasks.length}</p></div>
-        </div>
-        {COLUMNS.map(c=><div key={c.id} className="surface rim flex items-center justify-between gap-4 p-5">
-          <span className="text-xs text-muted-foreground">{c.label}</span>
-          <span className="font-display text-4xl">{tasks.filter(t=>statusColumn(t.status)===c.id).length}</span>
-        </div>)}
+      <section aria-label="Resumen de tareas" className="surface rim flex flex-wrap items-center gap-4 p-4 sm:p-5">
+        <ProgressRing value={percent} size={56} stroke={5} color="var(--projects)"/>
+        <div className="min-w-0 flex-1"><p className="text-sm font-semibold">{percent}% completado</p>
+          <p className="text-xs text-muted-foreground">{done} de {tasks.length} tareas · {COLUMNS.map(c=>c.label+" "+tasks.filter(t=>statusColumn(t.status)===c.id).length).join(" · ")}</p></div>
+        <button type="button" className="btn-ghost" onClick={()=>void records.refetch()} disabled={records.isFetching} aria-label="Actualizar tareas">
+          <RefreshCw className={"h-4 w-4 "+(records.isFetching?"animate-spin":"")}/>
+        </button>
       </section>
 
       <div className="grid gap-4 md:grid-cols-3">
@@ -146,6 +138,13 @@ function Projects(){
           </li>)}
         </ul>:<p className="text-sm text-muted-foreground">Todavía no hay proyectos registrados en tu cuenta.</p>}
       </SectionCard>
+      <details className="surface rim group p-5">
+        <summary className="flex cursor-pointer list-none items-center justify-between gap-3 [&::-webkit-details-marker]:hidden">
+          <span><span className="eyebrow block">Foco</span><span className="text-base font-semibold">Temporizador Pomodoro</span></span>
+          <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform group-open:rotate-180"/>
+        </summary>
+        <div className="flex justify-center py-5"><FocusTimer/></div>
+      </details>
     </>}
 
     <Dialog open={createOpen} onOpenChange={setCreateOpen}>

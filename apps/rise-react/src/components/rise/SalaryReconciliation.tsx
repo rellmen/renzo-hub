@@ -18,7 +18,7 @@ export function SalaryReconciliation({moneyData,payrollData,month}:{moneyData:Mo
  },[moneyData,payrollData,month]);
  if(!result)return null;
  const names:{[key:string]:string}={confirmed:"Confirmado",review:"Revisar nómina",difference:"Diferencia",unlinked:"Sin vínculo"};
- return <SectionCard eyebrow="MY FINANCE · CONCILIACIÓN" title={"Nóminas y banco · "+month} accent="var(--money)">
+ return <SectionCard eyebrow="CONCILIACIÓN" title={"Nóminas y banco · "+month} accent="var(--money)">
   <p className="text-sm text-platinum/80">Compara únicamente ingresos salariales detectados en el extracto y nóminas registradas. Los importes se contabilizan una sola vez en el flujo bancario.</p>
   <dl className="mt-3 grid grid-cols-2 gap-3 text-xs sm:grid-cols-4">
    <div><dt className="text-muted-foreground">Cobros de nómina</dt><dd className="mt-1 text-base font-semibold">{money(result.salary)}</dd></div>

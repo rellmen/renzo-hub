@@ -1,7 +1,7 @@
 import {createFileRoute,Link} from "@tanstack/react-router";
 import {useQuery} from "@tanstack/react-query";
 import {useMemo} from "react";
-import {ArrowRight,BookOpen,CalendarClock,ChevronRight,Clock,GraduationCap,Languages,LineChart,Newspaper,Repeat} from "lucide-react";
+import {ArrowRight,CalendarClock,ChevronRight,Clock,GraduationCap,Languages} from "lucide-react";
 import {pageHead} from "@/lib/seo";
 import {useAuth} from "@/lib/auth/AuthProvider";
 import {PageHeader,SectionCard,Bar} from "@/components/rise/primitives";
@@ -52,7 +52,7 @@ function Academy(){
 
   return <div className="space-y-6">
     <PageHeader eyebrow="ACADEMY · HOY" title="Lo que toca estudiar"
-      subtitle="PAU +25 primero hasta los exámenes de abril; idiomas, data y lecturas alrededor. Cada curso guarda su progreso donde siempre."/>
+      subtitle="Prueba +25 primero hasta abril; idiomas y data alrededor."/>
 
     <SectionCard eyebrow="Siguiente paso" title={loading?"Preparando tu día…":step.title} accent="var(--learn)">
       {!loading&&<>
@@ -102,15 +102,6 @@ function Academy(){
       </SectionCard>
     </div>
 
-    <SectionCard eyebrow="Apartados" title="Todo lo que estudias" accent="var(--learn)">
-      <ul className="grid gap-2 sm:grid-cols-2">
-        <Shortcut to="/academia" icon={<GraduationCap className="h-5 w-5 text-learn"/>} title="UOC +25" text="Matemáticas, Economía, Catalán, Castellano, Comentario, Inglés"/>
-        <Shortcut to="/aprender" icon={<Languages className="h-5 w-5 text-learn"/>} title="Idiomas" text="Neerlandés B2 · Inglés C1 · Inglés del examen UOC"/>
-        <Shortcut to="/career" icon={<LineChart className="h-5 w-5 text-learn"/>} title="Data & Carrera" text="Power BI, SQL, Python y certificados"/>
-        <Shortcut to="/news" icon={<Newspaper className="h-5 w-5 text-learn"/>} title="Biblioteca" text="News y lecturas guardadas"/>
-      </ul>
-    </SectionCard>
-    <p className="text-xs text-muted-foreground"><Repeat className="mr-1 inline h-3 w-3"/>Los contadores salen de tus registros reales. Si una fuente falla se muestra «—». <BookOpen className="ml-1 inline h-3 w-3"/> El turno sale de Turnos.</p>
   </div>;
 }
 
@@ -119,9 +110,4 @@ function MinRow({label,value}:{label:string;value:number|null}){
 }
 function ProgressRow({label,text}:{label:string;text:string}){
   return <li className="flex items-baseline justify-between gap-2 text-sm"><span className="min-w-0 truncate">{label}</span><span className="tabular-nums text-muted-foreground">{text}</span></li>;
-}
-function Shortcut({to,icon,title,text}:{to:"/aprender"|"/academia"|"/career"|"/news";icon:React.ReactNode;title:string;text:string}){
-  return <li className="min-w-0"><Link to={to} className="flex min-h-14 min-w-0 items-center gap-3 rounded-2xl border border-hairline p-3 hover:border-learn/40">
-    {icon}<span className="min-w-0 flex-1"><span className="block text-sm font-semibold text-foreground">{title}</span><span className="block truncate text-xs text-muted-foreground">{text}</span></span><ChevronRight className="h-4 w-4 shrink-0"/>
-  </Link></li>;
 }

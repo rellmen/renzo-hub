@@ -19,7 +19,7 @@ export function AssetValuationEditor(){
   setMessage("Valoración guardada como un nuevo registro histórico. Ninguna valoración anterior se ha modificado.");
   setValue("");await qc.invalidateQueries({queryKey:["money-real",uid]});
  }});
- return <SectionCard eyebrow="MY FINANCE · PATRIMONIO" title="Registrar inversión o deuda" accent="var(--money)">
+ return <SectionCard eyebrow="PATRIMONIO" title="Registrar inversión o deuda" accent="var(--money)">
   <p className="text-sm text-platinum/80">Registra el valor actual de una inversión o lo que queda pendiente de una deuda. Cada actualización crea un dato histórico y nunca modifica tus movimientos bancarios.</p>
   <form className="mt-4 grid gap-3 sm:grid-cols-2" onSubmit={e=>{e.preventDefault();setMessage("");mutation.mutate();}}>
    <label className="text-xs text-muted-foreground">Tipo
