@@ -2,6 +2,10 @@
 
 ## Retirada de Classic · 6 noviembre 2026 (autorizada por Renzo: «Retira el Classic»)
 
+**Completada (23:31, 06-11-2026).** Renzo movió `renzo-hub.vercel.app` al proyecto `rise-hub-nocturne-qa`. Comprobado: el dominio está solo en Nocturne, `rise-hub` no tiene dominios ni despliegue de producción activo (Vercel no permite pausarlo porque ya no sirve nada) y `verify prod 2.62.1 --smoke` pasa (15/15). Las URLs antiguas de despliegue de Classic solo se abren con sesión de Vercel. Ya se puede pausar o borrar `rise-hub` sin afectar a producción; el código de Classic sigue en el repo porque Nocturne reutiliza piezas suyas.
+
+Historial de la operación:
+
 Estado tras la operación:
 - Proyecto Vercel `rise-hub` (Classic, `prj_G7Rzu7cpQuKo3wnByqNVgQ6gpjDd`): **no vuelve a construir** (`commandForIgnoringBuildStep = exit 0`) y **no se asigna dominios solo** (`autoAssignCustomDomains = false`). Un push a `main` ya no puede publicar Classic ni quitarle el dominio a Nocturne. Sus URLs ya pedían inicio de sesión en Vercel (SSO).
 - **Bloqueo:** el dominio de producción `renzo-hub.vercel.app` sigue registrado en el proyecto `rise-hub`, aunque apunta al despliegue Nocturne de `rise-hub-nocturne-qa`. Pausar `rise-hub` dejó producción en **503** (21:14–21:15, 06-11-2026); se reanudó en el acto y `verify prod 2.62.0 --smoke` volvió a pasar. **No pausar ni borrar `rise-hub` hasta mover el dominio.**
